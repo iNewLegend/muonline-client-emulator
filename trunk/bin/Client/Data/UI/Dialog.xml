@@ -1,0 +1,1587 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<dialog id="scrollbar" style="null">
+		<element type="slider" id="IDC_SLIDER" scale="0,0,100,100" offset="0,16,0,-16" tip="slider">=</element>
+		<element type="button" id="IDC_BTN_UP" scale="0,0,100,0" offset="0,0,0,16" tip="Up.">=</element>
+		<element type="button" id="IDC_BTN_DOWN" scale="0,100,100,100" offset="0,-16,0,0" tip="Down.">=</element>
+	</dialog>
+	<dialog id="listbox" style="null">
+		<element type="scrollbar" id="IDC_SCROLLBAR_LEFT" scale="100,0,100,100" offset="-23,3,-3,-3" tip="scrollbar"></element>
+	</dialog>
+	<dialog id="combobox" style="null">
+		<element type="listbox" id="IDC_LISTBOX" scale="0,100,100,100" offset="0,1,0,100" tip="combobox"></element>
+	</dialog>
+	<dialog id="numeditbox" style="null">
+		<element type="editbox" id="IDC_EDIT_BOX" scale="0,50,100,50" offset="0,-8,-22,8"/>
+		<element type="button" id="IDC_BTN_UP" scale="100,50,100,50" offset="-20,-8,0,0" tip="Up.">+</element>
+		<element type="button" id="IDC_BTN_DOWN" scale="100,50,100,50" offset="-20,0,0,8" tip="Down.">-</element>
+	</dialog>
+	<dialog id="color" style="null">
+		<element type="static" rect="0,0,0,10">R:</element>
+		<element type="slider" id="IDC_SLIDER_R" scale="0,0,100,0" offset="16,2,0,12"/>
+		<element type="static" rect="0,12,0,10">G:</element>
+		<element type="slider" id="IDC_SLIDER_G" scale="0,0,100,0" offset="16,14,0,24"/>
+		<element type="static" rect="0,24,0,10">B:</element>
+		<element type="slider" id="IDC_SLIDER_B" scale="0,0,100,0" offset="16,26,0,36"/>
+	</dialog>
+	<dialog id="vec3d" style="null">
+		<element type="static" id="IDC_STATIC_X" offset="0,0,0,20">X:</element>
+		<element type="static" id="IDC_STATIC_Y" offset="0,20,0,40">Y:</element>
+		<element type="static" id="IDC_STATIC_Z" offset="0,40,0,60">Z:</element>
+		<element type="numeditbox" id="IDC_NUM_X" scale="0,0,100,0" offset="20,0,0,16"/>
+		<element type="numeditbox" id="IDC_NUM_Y" scale="0,0,100,0" offset="20,20,0,36"/>
+		<element type="numeditbox" id="IDC_NUM_Z" scale="0,0,100,0" offset="20,40,0,56"/>
+	</dialog>
+
+	<dialog id="IDD_MAIN" scale="0,0,100,100" style="null">
+		<element type="display" id="IDC_DISPLAY_WORLD" scale="0,0,100,100"/>
+		<element type="image" id="IDC_IMAGE_BG" scale="50,50,50,50" offset="-512,-384,511,383" filename="Data/Textures/Title/1.jpg"/>
+		<element type="static" id="IDC_GAME_VERSIONS" scale="100,100,100,100" offset="-120,-30,0,0" text="Versions 0.1.0"/>
+	</dialog>
+	<dialog id="IDD_MESSAGE_BOX" scale="50,50,50,50" offset="-200,-50,200,50" exclusive="true">
+		<element type="static" id="IDC_STATIC_INFO" offset="10,10,380,60">NULL</element>
+		<element type="button" id="IDC_BTN_OK" rect="160,70,80,18">确定</element>
+	</dialog>
+	<dialog id="IDD_MESSAGE_BOX1" scale="50,50,50,50" offset="-200,-50,200,50" exclusive="true">
+		<element type="static" id="IDC_STATIC_INFO" offset="0,10,400,40"></element>
+		<element type="button" id="IDC_BTN_OK" rect="118,45,64,18">确定</element>
+		<element type="button" id="IDC_BTN_CANCEL" rect="218,45,64,18">取消</element>
+	</dialog>
+	<dialog id="IDD_SERVER_LIST" scale="50,50,50,50" offset="-100,-220,100,250" canmove="false">
+		<caption height="20">ServerList</caption>
+		<element type="listbox" id="IDC_LISTBOX_SERVER" scale="0,0,100,100" offset="10,10,-10,-40"/>
+		<element type="button" id="IDC_BTN_OK" scale="50,100,50,100" offset="-30,-30,30,-10">OK</element>
+	</dialog>
+	<dialog id="IDD_LOGIN" scale="50,50,50,50" offset="-120,120,120,240" canmove="false">
+		<caption height="20">Login</caption>
+		<element type="static" id="IDC_STATIC_USER" rect="15,15,0,25">User</element>
+		<element type="static" id="IDC_STATIC_PASSWORD" rect="15,45,0,25">Password</element>
+		<element type="editbox" id="IDC_EDIT_BOX_USER" rect="75,15,90,18">test</element>
+		<element type="checkbox" id="IDC_CHECK_BOX_SAVE" rect="180,18,60,14" tip="Save user name.">Save</element>
+		<element type="editbox" id="IDC_EDIT_BOX_PASSWORD" rect="75,45,90,18" password="true">123</element>
+		<element type="button" id="IDC_BTN_LOGIN" rect="40,75,70,20">Login</element>
+		<element type="button" id="IDC_BTN_BACK" rect="130,75,70,20">Back</element>
+		<element type="static" id="IDC_STATIC_INFO"  scale="50,0,50,0" offset="-90,-20,90,0"></element>
+	</dialog>
+	<dialog id="IDD_ROLE_CHOOSE" scale="0,0,100,100" style="null">
+		<element type="button" id="IDC_DISPLAY_BACKGROUND" scale="0,0,100,100" style="null"></element>
+		<element type="button" id="IDC_BTN_CREATE_ROLE" scale="0,100,0,100" offset="10,-34,70,-10">创建角色</element>
+		<element type="button" id="IDC_BTN_BACK" scale="0,100,0,100" offset="80,-34,140,-10">退出</element>
+		<element type="button" id="IDC_BTN_OK" scale="100,100,100,100" offset="-70,-34,-10,-10">确定</element>
+		<element type="button" id="IDC_BTN_HELP" scale="100,0,100,0" offset="-70,10,-10,34">帮助</element>
+	</dialog>
+
+	<dialog id="IDD_ROLE_CREATE" scale="50,50,50,50" offset="-230,-190,230,190" style="null">
+		<element type="button" id="IDC_DISPLAY_ROLE" rect="0,-10,400,310" style="null"></element>
+
+		<element type="button" id="IDC_BTN_ROLE1" rect="340,110,120,24">魔法师</element>
+		<element type="button" id="IDC_BTN_ROLE2" rect="340,135,120,24">剑士</element>
+		<element type="button" id="IDC_BTN_ROLE3" rect="340,160,120,24">弓箭手</element>
+		<element type="button" id="IDC_BTN_OK" rect="340,300,60,24">确定</element>
+		<element type="button" id="IDC_BTN_EXIT" rect="400,300,60,24">取消</element>
+		<element type="button" id="IDC_BTN_RESET" rect="375,280,51,15">reset</element>
+		<element type="static" rect="10,300,40,20">ID:</element>
+		<element type="editbox" id="IDC_EDT_NAME" rect="50,300,200,20"></element>
+		<element type="static" id="IDC_STA_INFO" rect="10,320,440,40">AAAAA</element>
+	</dialog>
+	<dialog id="IDD_CREATE_ROLE" scale="0,0,100,100" canmove="false" style="dialog02">
+		<element type="static" id="IDC_STATIC_NAME" rect="10,12,40,16" style="static01">昵称</element>
+		<element type="static" id="IDC_STATIC_SEX" rect="10,42,40,16" style="static01">性别</element>
+		<element type="editbox" id="IDC_EDIT_BOX_NAME" rect="60,5,115,30"></element>
+		<element type="radiobutton" id="IDC_RADIO_SEX_MAN" rect="60,43,60,14">男</element>
+		<element type="radiobutton" id="IDC_RADIO_SEX_WOMAN" rect="100,43,60,14">女</element>
+		<element type="static" id="IDC_STATIC_PROFESSION" rect="10,72,40,16" style="static01">职业</element>
+		<element type="combobox" id="IDC_COMBO_BOX_PROFESSION" rect="60,70,115,20"/>
+		
+		<element type="static" id="IDC_STATIC_HEAD" rect="10,102,40,16" style="static01">头部</element>
+		<element type="button" id="IDC_BTN_HEAD_LEFT" rect="60,100,19,19" style="button_left"/>
+		<element type="static" id="IDC_STATIC_HEAD_INDEX" rect="80,95,40,30" style="static02">1/17</element>
+		<element type="button" id="IDC_BTN_HEAD_RIGHT" rect="120,100,19,19" style="button_right"/>
+		
+		<element type="static" id="IDC_STATIC_HAIR" rect="10,132,40,16" style="static01">发色</element>
+		<element type="button" id="IDC_BTN_HAIR_LEFT" rect="60,130,19,19" style="button_left"/>
+		<element type="static" id="IDC_STATIC_HAIR_INDEX" rect="80,125,40,30" style="static02">1/8</element>
+		<element type="button" id="IDC_BTN_HAIR_RIGHT" rect="120,130,19,19" style="button_right"/>
+		
+		<element type="static" id="IDC_STATIC_SKIN" rect="10,162,40,16" style="static01">肤色</element>
+		<element type="button" id="IDC_BTN_SKIN_LEFT" rect="60,160,19,19" style="button_left"/>
+		<element type="static" id="IDC_STATIC_SKIN_INDEX" rect="80,155,40,30" style="static02">1/8</element>
+		<element type="button" id="IDC_BTN_SKIN_RIGHT" rect="120,160,19,19" style="button_right"/>
+		
+		<element type="static" id="IDC_STATIC_EYE" rect="10,192,40,16" style="static01">眼睛</element>
+		<element type="button" id="IDC_BTN_EYE_LEFT" rect="60,190,19,19" style="button_left"/>
+		<element type="static" id="IDC_STATIC_EYE_INDEX" rect="80,185,40,30" style="static02">1/5</element>
+		<element type="button" id="IDC_BTN_EYE_RIGHT" rect="120,190,19,19" style="button_right"/>
+		
+		<element type="static" id="IDC_STATIC_MOUTH" rect="10,222,40,16" style="static01">嘴型</element>
+		<element type="button" id="IDC_BTN_MOUTH_LEFT" rect="60,220,19,19" style="button_left"/>
+		<element type="static" id="IDC_STATIC_MOUTH_INDEX" rect="80,215,40,30" style="static02">1/5</element>
+		<element type="button" id="IDC_BTN_MOUTH_RIGHT" rect="120,220,19,19" style="button_right"/>
+		
+		<element type="button" id="IDC_BTN_CREATE" rect="15,250,60,20">创建</element>
+		<element type="button" id="IDC_BTN_CANCEL" rect="90,250,60,20">取消</element>
+		<element type="static" id="IDC_STATIC_INFO" scale="50,0,50,0" offset="-250,0,250,30"></element>
+	</dialog>
+
+  <dialog id="IDD_MAIN_DIALOG" scale="50,100,50,100" offset="-457,-63,457,0" style="main_dialog">
+    <element type="button" id="IDC_MAIN_CHAR" rect="495,21,32,38" style="main_btn_state" hotkey="C" tip="Char Info(C)"></element>
+    <element type="button" id="IDC_MAIN_GOOD" rect="527,21,32,38" style="main_btn_good" tip="物品栏$（I）"></element>
+    <element type="button" id="IDC_MAIN_MONSTER" rect="559,21,32,38" style="main_btn_pet" tip="幻兽$（P）"></element>
+    <element type="button" id="IDC_MAIN_MAGIC" rect="591,21,32,38" style="main_btn_skill" tip="技能$（T）"></element>
+    <element type="button" id="IDC_MAIN_FACTION" rect="623,21,32,38" style="main_btn_faction" tip="公会$（A）"></element>
+    <element type="button" id="IDC_MAIN_TEAM" rect="655,21,32,38" style="main_btn_team" tip="队伍"></element>
+    <element type="button" id="IDC_MAIN_FRIEND" rect="687,21,32,38" style="main_btn_friend" tip="师徒/好友/敌人"></element>
+    <element type="button" id="IDC_MAIN_TRADE" rect="719,21,32,38" style="main_btn_trade" tip="交易$（B）"></element>
+    <element type="button" id="IDC_MAIN_SETUP" rect="751,21,32,38" style="main_btn_setup" tip="系统设置"></element>
+    <element type="button" id="IDC_MAIN_MOVE" rect="783,21,32,38" style="main_btn_setup" hotkey="M" tip="移动"></element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_QUERY" scale="0,50,0,50" offset="0,-100,154,100">
+    <element type="button" id="IDC_QUERY_CLOSE" rect="139,188,11,11">C</element>
+    <element type="static" id="IDC_QUERY_NAME" rect="53,14,57,8">姓名</element>
+    <element type="static" id="IDC_QUERY_FACTION" rect="53,4,57,8">帮派</element>
+    <element type="button" id="IDC_CHK_ROLE" rect="2,44,12,12" tip="基本属性">R</element>
+    <element type="button" id="IDC_CHK_EQUIP" rect="2,73,12,12" tip="人物装备$（W）">E</element>
+    <element type="button" id="IDC_CHK_SKILL" rect="2,102,12,12" tip="人物技能">SKILL</element>
+    <element type="button" id="IDC_CHK_TSKILL" rect="2,131,12,12" tip="结界技能">TSKILL</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_QUERY_ROLE" rect=" 0, 0, 149, 203">
+    <element type="static" id="IDC_STA_TITLE" rect="58,87,36,8">""</element>
+    <element type="static" id="IDC_STA_LEV" rect="58,40,36,8">""</element>
+    <element type="static" id="IDC_STA_PK" rect="58,64,36,8">""</element>
+    <element type="static" id="IDC_STA_STRONG" rect="58,121,36,8">""</element>
+    <element type="static" id="IDC_STA_FERE" rect="58,75,36,8">""</element>
+    <element type="static" id="IDC_STA_FAMOR" rect="58,52,36,8">""</element>
+    <element type="static" id="IDC_STA_ENERGY" rect="58,133,36,8">""</element>
+    <element type="static" id="IDC_STA_SMART" rect="58,144,36,8">""</element>
+    <element type="static" id="IDC_STA_HA" rect="58,109,36,8">""</element>
+    <element type="static" id="IDC_STA_POTENTIAL" rect="58,156,36,8">""</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_QUERY_WEAPON" rect=" 0, 0, 128, 158">
+    <element type="button" id="IDC_IMG_HONORB" rect="30,0,65,65">人物勋章</element>
+    <element type="button" id="IDC_IMG_HONOR1" rect="9,80,32,32">人物勋章</element>
+    <element type="button" id="IDC_IMG_HONOR2" rect="43,80,32,32">人物勋章</element>
+    <element type="button" id="IDC_IMG_HONOR3" rect="78,80,32,32">人物勋章</element>
+    <element type="button" id="IDC_IMG_HONOR4" rect="9,115,32,32">人物勋章</element>
+    <element type="button" id="IDC_IMG_HONOR5" rect="43,115,32,32">人物勋章</element>
+    <element type="button" id="IDC_IMG_HONOR6" rect="78,115,32,32">人物勋章</element>
+    <element type="button" id="IDC_BTN_CHOOSE" rect="44,67,41,11">选择显示</element>
+    <element type="button" id="IDC_BTN_UP" rect="114,80,7,7">U</element>
+    <element type="button" id="IDC_BTN_DOWN" rect="114,140,7,7">D</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_QUERY_MISSION" rect=" 0, 0, 128, 158">
+    <element type="static" id="IDC_STA_POWER" rect="36,6,8,8">力量</element>
+    <element type="static" id="IDC_STA_RES" rect="36,32,8,8">耐力</element>
+    <element type="static" id="IDC_STA_CEL" rect="36,55,8,8">敏捷</element>
+    <element type="static" id="IDC_STA_ENE" rect="36,81,8,8">精神</element>
+    <element type="static" id="IDC_STA_LEFTPNT" rect="42,105,8,8">剩余点数</element>
+    <element type="static" id="IDC_STA_HP" rect="89,31,24,8">生命值</element>
+    <element type="static" id="IDC_STA_MAIN" rect="89,111,25,8">体力值</element>
+    <element type="static" id="IDC_STA_MAGATK" rect="89,88,34,8">魔法攻击</element>
+    <element type="static" id="IDC_STA_ATK" rect="89,6,33,8">物理攻击</element>
+    <element type="static" id="IDC_STA_MAGIC" rect="89,79,25,8">魔法值</element>
+    <element type="static" id="IDC_STA_BURDEN" rect="88,39,35,8">最大负重</element>
+    <element type="static" id="IDC_STA_MAGDEF" rect="89,118,31,8">魔法防御</element>
+    <element type="static" id="IDC_STA_DEF" rect="89,47,34,8">物理防御</element>
+    <element type="button" id="IDC_BTN_OK" rect="72,145,35,11">确定</element>
+    <element type="button" id="IDC_BTN_UP1" rect="49,11,6,6">U</element>
+    <element type="button" id="IDC_BTN_DOWN1" rect="49,17,6,6">D</element>
+    <element type="button" id="IDC_BTN_UP2" rect="49,37,6,6">U</element>
+    <element type="button" id="IDC_BTN_DOWN2" rect="49,43,6,6">D</element>
+    <element type="button" id="IDC_BTN_UP3" rect="49,60,6,6">U</element>
+    <element type="button" id="IDC_BTN_DOWN3" rect="49,66,6,6">D</element>
+    <element type="button" id="IDC_BTN_UP4" rect="49,86,6,6">U</element>
+    <element type="button" id="IDC_BTN_DOWN4" rect="49,92,6,6">D</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_SKILL" rect=" 0, 0, 326, 406">
+    <caption height="42">技能</caption>
+	<element type="image" id="IDC_SKILL_IMG_ICON" rect="0,-55,86,57" filename="Data/UI/Texture/Skill.tga"></element>
+    <element type="button" id="IDC_SKILL_BTN_UP" rect="280,80,21,21">^</element>
+    <element type="button" id="IDC_SKILL_BTN_DOWN" rect="280,210,21,21">v</element>
+    <element type="button" id="IDC_SKILL_IMG_1" rect="30,10,40,40">技能一</element>
+    <element type="button" id="IDC_SKILL_IMG_2" rect="30,60,40,40">技能二</element>
+    <element type="button" id="IDC_SKILL_IMG_3" rect="30,110,40,40">技能三</element>
+    <element type="button" id="IDC_SKILL_IMG_4" rect="30,160,40,40">技能四</element>
+    <element type="button" id="IDC_SKILL_IMG_5" rect="30,210,40,40">技能五</element>
+    <element type="button" id="IDC_SKILL_IMG_6" rect="30,260,40,40">技能六</element>
+    <element type="static" id="IDC_STA_NAME1" rect="90,39,56,16">技能一</element>
+    <element type="static" id="IDC_STA_EXP1" rect="86,50,56,16">经验值</element>
+    <element type="static" id="IDC_STA_NAME2" rect="90,64,56,16">技能二</element>
+    <element type="static" id="IDC_STA_EXP2" rect="86,75,56,16">经验值</element>
+    <element type="static" id="IDC_STA_NAME3" rect="90,89,56,16">技能三</element>
+    <element type="static" id="IDC_STA_EXP3" rect="86,99,56,16">经验值</element>
+    <element type="static" id="IDC_STA_NAME4" rect="90,113,56,16">技能四</element>
+    <element type="static" id="IDC_STA_EXP4" rect="86,123,56,16">经验值</element>
+    <element type="static" id="IDC_STA_NAME5" rect="90,138,56,16">技能五</element>
+    <element type="static" id="IDC_STA_EXP5" rect="86,148,56,16">经验值</element>
+    <element type="static" id="IDC_STA_NAME6" rect="90,163,56,16">技能六</element>
+    <element type="static" id="IDC_STA_EXP6" rect="86,173,56,16">经验值</element>
+    <element type="static" id="IDC_STA_DESC1" rect="90,50,56,16">等级</element>
+    <element type="static" id="IDC_STA_DESC2" rect="90,75,56,16">等级</element>
+    <element type="static" id="IDC_STA_DESC3" rect="90,99,56,16">等级</element>
+    <element type="static" id="IDC_STA_DESC4" rect="90,123,56,16">等级</element>
+    <element type="static" id="IDC_STA_DESC5" rect="90,148,56,16">等级</element>
+    <element type="static" id="IDC_STA_DESC6" rect="90,173,56,16">等级</element>
+    <element type="button" id="IDC_SKILLKEY_IMG1" rect="116,39,36,34">HOT</element>
+    <element type="button" id="IDC_SKILLKEY_IMG2" rect="116,64,36,34">HOT</element>
+    <element type="button" id="IDC_SKILLKEY_IMG3" rect="116,89,36,34">HOT</element>
+    <element type="button" id="IDC_SKILLKEY_IMG4" rect="116,113,36,34">HOT</element>
+    <element type="button" id="IDC_SKILLKEY_IMG5" rect="116,138,36,34">HOT</element>
+    <element type="button" id="IDC_SKILLKEY_IMG6" rect="116,163,36,34">HOT</element>
+    <element type="button" id="IDC_BUTTON1" rect="90,10,164,38">Button1</element>
+    <element type="button" id="IDC_BUTTON2" rect="90,60,164,38">Button1</element>
+    <element type="button" id="IDC_BUTTON3" rect="90,110,164,38">Button1</element>
+    <element type="button" id="IDC_BUTTON4" rect="90,160,164,38">Button1</element>
+    <element type="button" id="IDC_BUTTON5" rect="90,210,164,38">Button1</element>
+    <element type="button" id="IDC_BUTTON6" rect="90,260,164,38">Button1</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_TRADE" rect=" 0, 0, 248, 468">
+    <element type="button" id="IDC_TRADE_BTN_MPCAGREE" rect="192,409,38,23">同意</element>
+    <element type="button" id="IDC_TRADE_GRI_NPC" rect="38,55,174,139">对方交易物品栏</element>
+    <element type="button" id="IDC_TRADE_GRI_MPC" rect="38,263,174,139">己方交易物品栏</element>
+    <element type="static" id="IDC_TRADE_STA_NPCMONEY" rect="64,203,71,19">0</element>
+    <element type="button" id="IDC_TRADE_BTN_MONEYMPCOK" rect="140,409,38,23">确定金</element>
+    <element type="static" id="IDC_TRADE_STA_NPCNAME" rect="76,33,69,11">对方姓名</element>
+    <element type="editbox" id="IDC_TRADE_EDT_MPCMONEY" rect="64,417,71,19">""</element>
+    <element type="button" id="IDC_TRADE_CLOSEB" rect="222,441,22,22">关闭</element>
+    <element type="button" id="IDC_TRADE_BTN_MONEYNPCOK" rect="144,199,38,23">确定金</element>
+    <element type="static" id="IDC_TRADE_STA_MPCNAME" rect="76,241,69,11">姓名</element>
+    <element type="button" id="IDC_TRADE_BTN_NPCOK" rect="192,199,38,23">确定</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_SETUP" scale="50,50,50,50" offset="-200,-130,200,130">
+  	<element type="static" id="IDC_STATIC_BG" style="static02" rect="5,40,380,160"></element>
+    <element type="radiobutton" id="IDC_SETUP_BTN_GRAPH" facetype="button" style="pushbutton" rect="20,20,80,23">图形选项</element>
+    <element type="radiobutton" id="IDC_SETUP_BTN_MUSIC" facetype="button" style="pushbutton" rect="110,20,80,23">音乐音效</element>
+    <element type="radiobutton" id="IDC_SETUP_BTN_HOTKEY" facetype="button" style="pushbutton" rect="200,20,80,23">热键设定</element>
+    <element type="radiobutton" id="IDC_SETUP_BTN_OTHER" facetype="button" style="pushbutton" rect="290,20,80,23">CHAT功能</element>
+	
+    <element type="button" id="IDC_SETUP_BTN_RELOGIN" rect="60,211,80,24">重新登陆</element>
+    <element type="button" id="IDC_SETUP_BTN_DELETE" rect="150,211,80,24">删除人物</element>
+    <element type="button" id="IDC_SETUP_BTN_EXIT" rect="240,211,80,24">退出游戏</element>
+    <element type="button" id="IDC_SETUP_BTN_RETURN" rect="346,223,24,23">x</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_ACT" rect="0, 0, 190, 25">
+    <element type="button" id="IDC_ACT_BTN1" rect="10,5,15,15">扮酷</element>
+    <element type="button" id="IDC_ACT_BTN2" rect="27,5,15,15">半跪</element>
+    <element type="button" id="IDC_ACT_BTN3" rect="44,5,15,15">悲哀</element>
+    <element type="button" id="IDC_ACT_BTN4" rect="61,5,15,15">高兴</element>
+    <element type="button" id="IDC_ACT_BTN5" rect="78,5,15,15">生气</element>
+    <element type="button" id="IDC_ACT_BTN6" rect="95,5,15,15">躺下</element>
+    <element type="button" id="IDC_ACT_BTN7" rect="112,5,15,15">舞蹈</element>
+    <element type="button" id="IDC_ACT_BTN8" rect="129,5,15,15">招呼</element>
+    <element type="button" id="IDC_ACT_BTN9" rect="146,5,15,15">作揖</element>
+    <element type="button" id="IDC_ACT_BTN10" rect="163,5,15,15">坐下</element>
+    <element type="button" id="IDC_BTN_CLOSE" rect="179,1,10,10">C</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_GROUP" rect=" 0, 0, 55, 173">
+    <element type="button" id="IDC_GROUP_BTN_1" rect="2,140,23,10">1</element>
+    <element type="button" id="IDC_GROUP_BTN_2" rect="28,140,23,10">2</element>
+    <element type="button" id="IDC_GROUP_BTN_CLOSE" rect="44,156,9,9">C</element>
+    <element type="button" id="IDC_GROUP_CHK_3" rect="2,151,23,10">3</element>
+    <element type="button" id="IDC_GROUP_BTN_4" rect="28,151,23,10">4</element>
+    <element type="button" id="IDC_GROUP_IMG1" rect="27,3,28,30">1</element>
+    <element type="button" id="IDC_GROUP_IMG2" rect="27,35,28,30">2</element>
+    <element type="button" id="IDC_GROUP_IMG3" rect="27,67,28,30">3</element>
+    <element type="button" id="IDC_GROUP_IMG4" rect="27,99,28,30">4</element>
+    <element type="button" id="IDC_GROUP_BTN_5" rect="2,161,23,10">结界</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_TALK" rect=" 0, 0, 687, 85">
+    <element type="editbox" id="IDC_TALK_EDT_NAME" rect="76,63,60,18">""</element>
+    <element type="editbox" id="IDC_TALK_EDT_DATA" rect="176,63,429,18">""</element>
+    <element type="button" id="IDC_TALK_BTN_SEND" rect="663,68,21,14">SEND</element>
+    <element type="button" id="IDC_TALK_IMG_MODE" rect="13,58,46,21">C</element>
+    <element type="progress" id="IDC_PRG_EXP" rect="110,45,501,6">Progress3</element>
+    <element type="button" id="IDC_TALK_CHK_PK" rect="12,33,18,18">PK</element>
+    <element type="button" id="IDC_TALK_CHK_RUN" rect="58,32,18,18">RUN</element>
+    <element type="button" id="IDC_TALK_BTN_MIPMAP" rect="35,32,18,18">MAP</element>
+    <element type="button" id="IDC_TALK_BTN_HELP" rect="81,33,18,18">HELP</element>
+    <element type="button" id="IDC_TALK_CLEARBTN" rect="630,69,30,14">CLEAR</element>
+    <element type="button" id="IDC_BTN_HIDEGOODS" rect="666,48,15,15">V</element>
+    <element type="button" id="IDC_GRI_GOODBOX" rect="199,8,419,34">""</element>
+    <element type="button" id="IDC_TALK_MYCHAT" rect="628,23,30,14">MYCHAT</element>
+    <element type="button" id="IDC_TALK_BTN_VIEWEQUIP" rect="98,15,18,18">VIEW</element>
+    <element type="button" id="IDC_TALK_BTN_TARGETLIST" rect="138,61,18,18">TARGET</element>
+    <element type="button" id="IDC_TALK_BTN_EMOTIONLIST" rect="633,46,24,21">EMOTION</element>
+    <element type="static" id="IDC_STATIC_TXTACTION" rect="610,64,11,16">""</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_LISTBOX" rect=" 0, 0, 40, 150">
+    <element type="listbox" id="IDC_LISTBOX" rect="0,0,40,150">""</element>
+  </dialog>
+
+
+
+  <dialog id="IDD_DIALOG_NPCBUY" rect=" 0, 0, 331, 235">
+    <element type="button" id="IDC_NPCBUY_GRI_SALE" rect="49,38,212,136">出售物品栏</element>
+    <element type="button" id="IDC_NPCBUY_BTN_CLOSE" rect="303,203,22,22">CLOSE</element>
+    <element type="button" id="IDC_NPCBUY_BTN_FIX" rect="248,189,42,23">FIX</element>
+    <element type="button" id="IDC_NPCBUY_BTN_UP" rect="264,58,25,24">U</element>
+    <element type="button" id="IDC_NPCBUY_BTN_DOWN" rect="264,130,25,24">D</element>
+    <element type="button" id="IDC_NPCBUY_BTN_TALK" rect="118,190,42,23">TALK</element>
+    <element type="button" id="IDC_NPCBUY_BTN_ASK" rect="186,189,42,23">ASK</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_MPCGOODS" scale="100,50,100,50" offset="-357,-118,0,118">
+    <element type="button" id="IDC_MPCGOODS_GOODBOX" rect="40,24,271,169">MPC物品栏</element>
+    <element type="static" id="IDC_MPCGOODS_STA_MONEY" rect="100,205,100,20">0</element>
+    <element type="button" id="IDC_MPCGOODS_BTN_CLOSE" rect="314,208,22,22">关闭</element>
+    <element type="button" id="IDC_MPCGOODS_BTN_MONEY" rect="48,199,43,26" tip="丢弃金币">M</element>
+    <element type="button" id="IDC_MPCGOODS_STONEBOX" rect="39,24,271,169">MPC宝石栏</element>
+    <element type="button" id="IDC_CHK_GOODS" rect="216,196,29,29" tip="物品栏$（I）">GOODS</element>
+    <element type="button" id="IDC_CHK_STONES" rect="260,196,29,29" tip="魔魂宝石栏$（G）">STONES</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_CONFIRM" rect=" 0, 0, 128, 103">
+    <element type="editbox" id="IDC_CONFIRM_EDT_DATA" rect="20,31,86,15">""</element>
+    <element type="button" id="IDC_CONFIRM_BTN_OK" rect="21,63,42,18">确定</element>
+    <element type="button" id="IDC_CONFIRM_BTN_CANCEL" rect="67,63,42,18">取消</element>
+    <element type="editbox" id="IDC_CONFIRM_EDT_NAME" rect="19,31,86,15">""</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_DEPOT" rect=" 0, 0, 298, 406">
+    <element type="button" id="IDC_DEPOT_BTN_ADD" rect="165,62,52,26">存</element>
+    <element type="button" id="IDC_DEPOT_BTN_GET" rect="83,62,52,26">取</element>
+    <element type="editbox" id="IDC_DEPOT_EDT_MONEY" rect="130,113,98,18">""</element>
+    <element type="static" id="IDC_DEPOT_STA_LAY" rect="130,159,98,12">0</element>
+    <element type="button" id="IDC_DEPOT_GRI_LAY" rect="50,235,174,139">存储物品栏</element>
+    <element type="button" id="IDC_DEPOT_CLOSEB" rect="265,376,24,23">关闭</element>
+    <element type="static" id="IDC_DEPOT_NAME" rect="93,30,110,16">姓名</element>
+    <element type="static" id="IDC_DEPOT_FACTION" rect="93,9,110,16">帮派</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_QUERY_SKILL" rect=" 0, 0, 128, 158">
+    <element type="button" id="IDC_IMG_HEADB" rect="30,0,65,65">人物头像</element>
+    <element type="button" id="IDC_IMG_HEAD1" rect="9,80,32,32">人物头像</element>
+    <element type="button" id="IDC_IMG_HEAD2" rect="43,80,32,32">人物头像</element>
+    <element type="button" id="IDC_IMG_HEAD3" rect="78,80,32,32">人物头像</element>
+    <element type="button" id="IDC_IMG_HEAD4" rect="9,115,32,32">人物头像</element>
+    <element type="button" id="IDC_IMG_HEAD5" rect="43,115,32,32">人物头像</element>
+    <element type="button" id="IDC_IMG_HEAD6" rect="78,115,32,32">人物头像</element>
+    <element type="button" id="IDC_BTN_CHOOSE" rect="44,67,41,11">选择显示</element>
+    <element type="button" id="IDC_BTN_UP" rect="114,80,7,7">U</element>
+    <element type="button" id="IDC_BTN_DOWN" rect="114,140,7,7">D</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_TASK" rect=" 0, 0, 256, 115">
+    <element type="editbox" id="IDC_TASK_EDT_ANSWER" rect="19,16,54,12">""</element>
+    <element type="button" id="IDC_BTN_CLOSE" rect="122,102,13,13">C</element>
+    <element type="button" id="IDC_TASK_BTN_ANSWER" rect="80,16,10,10">A</element>
+  </dialog>
+
+  <dialog id="IDD_MENU_TALK" rect=" 0, 0, 23, 90">
+    <element type="button" id="IDC_TALK_BTN_G" rect="0,0,23,11">公聊</element>
+    <element type="button" id="IDC_TALK_BTN_S" rect="0,13,23,11">私聊</element>
+    <element type="button" id="IDC_TALK_BTN_D" rect="0,39,23,11">队伍</element>
+    <element type="button" id="IDC_TALK_BTN_B" rect="0,52,23,11">帮派</element>
+    <element type="button" id="IDC_TALK_BTN_H" rect="0,26,23,11">好友</element>
+    <element type="button" id="IDC_TALK_BTN_GM" rect="0,79,23,11">GM</element>
+    <element type="button" id="IDC_TALK_BTN_W" rect="0,65,23,11">世界</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_XP" scale="100,100,100,100" offset="-117,-20,0,0">
+    <element type="button" id="IDC_XP_IMG1" rect="0,0,21,20">XP1</element>
+    <element type="button" id="IDC_XP_IMG2" rect="24,0,21,20">XP2</element>
+    <element type="button" id="IDC_XP_IMG3" rect="48,0,21,20">XP3</element>
+    <element type="button" id="IDC_XP_IMG4" rect="72,0,21,20">XP4</element>
+    <element type="button" id="IDC_XP_IMG5" rect="96,0,21,20">XP5</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_PK" rect=" 0, 0, 100, 13">
+    <element type="button" id="IDC_PK_FREE" rect="0,0,25,13">PK</element>
+    <element type="button" id="IDC_PK_GROUP" rect="25,0,25,13">组队</element>
+    <element type="button" id="IDC_PK_SAFE" rect="50,0,25,13">安全</element>
+    <element type="button" id="IDC_PK_ARRESTMENT" rect="75,0,25,13">捕杀</element>
+  </dialog>
+  
+  <dialog id="IDD_DIALOG_IMPROVE" rect=" 0, 0, 228, 200">
+    <element type="button" id="IDC_IMPROVE_IMA_GOOD" rect="42,45,67,63">物品</element>
+    <element type="button" id="IDC_IMPROVE_IMA_GEM" rect="149,79,30,28">宝石</element>
+    <element type="button" id="IDC_IMPROVE_BTN_IMP" rect="52,148,55,24">改良</element>
+    <element type="button" id="IDC_IMPROVE_BTN_CLOSE" rect="127,148,55,24">C</element>
+    <element type="button" id="IDC_IMPROVE_BTN_CLOSEB" rect="197,168,24,23">关闭</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_NPCFACE" rect=" 0, 0, 128, 120">
+    <element type="button" id="IDC_NPCFACE_BTN_CLOSE" rect="111,5,10,10">C</element>
+    <element type="button" id="IDC_NPCFACE_IMA1" rect="11,19,32,32">1</element>
+    <element type="button" id="IDC_NPCFACE_IMA2" rect="48,19,32,32">2</element>
+    <element type="button" id="IDC_NPCFACE_IMA3" rect="85,19,32,32">3</element>
+    <element type="button" id="IDC_NPCFACE_IMA4" rect="11,57,32,32">4</element>
+    <element type="button" id="IDC_NPCFACE_IMA5" rect="48,57,32,32">5</element>
+    <element type="button" id="IDC_NPCFACE_IMA6" rect="85,57,32,32">6</element>
+    <element type="button" id="IDC_NPCFACE_BTN_AGREE" rect="49,106,30,13">确定</element>
+    <element type="button" id="IDC_NPCFACE_BTN_UP" rect="19,93,29,10">上一页</element>
+    <element type="button" id="IDC_NPCFACE_BTN_DOWN" rect="80,93,29,10">下一页</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_HELP" rect=" 0, 0, 357, 229">
+    <element type="button" id="IDC_BUTTON_CLOSE" rect="347,3,8,8">X</element>
+    <element type="button" id="IDC_HELP_MORE" rect="317,29,33,10">MORE</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_LOG" rect=" 0, 0, 660, 255">
+    <element type="combobox" id="IDC_LOG_FILE" rect="20,11,73,20"></element>
+    <element type="button" id="IDC_LOG_CLOSE" rect="640,4,14,15">X</element>
+    <element type="button" id="IDC_LOG_RECORD" rect="440,14,8,8">""</element>
+    <element type="button" id="IDC_LOG_DEL" rect="460,10,80,20">删除当前纪录</element>
+    <element type="button" id="IDC_LOG_DELALL" rect="540,10,80,20">删除全部记录</element>
+
+
+    <element type="button" id="IDC_LOG_LOGMY" rect="10,40,80,20">MYCHAT</element>
+	<element type="button" id="IDC_LOG_LOGSYS" rect="90,40,80,20">SYSTEM</element>
+    <element type="button" id="IDC_LOG_LOGG" rect="170,40,80,20">察看公聊记录</element>
+    <element type="button" id="IDC_LOG_LOGS" rect="250,40,80,20">察看私聊记录</element>
+    <element type="button" id="IDC_LOG_LOGFAC" rect="330,40,80,20">察看帮派记录</element>
+    <element type="button" id="IDC_LOG_LOGFRD" rect="410,40,80,20">察看好友记录</element>
+    <element type="button" id="IDC_LOG_LOGTEAM" rect="490,40,80,20">察看队伍记录</element>
+    <element type="button" id="IDC_LOG_LOGALL" rect="570,40,80,20">察看全部记录</element>
+
+    <element type="editbox" id="IDC_LOG_DATA" rect="15,65,630,181">""</element>
+
+  </dialog>
+
+  <dialog id="IDD_DIALOG_EMBED" rect=" 0, 0, 231, 205">
+    <element type="button" id="IDC_EMBED_IMA_GOOD" rect="44,47,67,63">物品</element>
+    <element type="button" id="IDC_EMBED_IMA_GEM1" rect="150,99,30,30">宝石</element>
+    <element type="button" id="IDC_EMBED_IMA_MONSTER" rect="150,36,30,30">幻兽</element>
+    <element type="button" id="IDC_EMBED_BTN_EMBED" rect="52,145,50,24">镶嵌</element>
+    <element type="button" id="IDC_EMBED_BTN_CANCEL" rect="128,146,50,24">CANCEL</element>
+    <element type="button" id="IDC_EMBED_CLOSE" rect="197,169,24,22">关闭</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_HOTKEY" rect=" 0, 0, 200, 145">
+    <element type="button" id="IDC_HOTKEY_BTN_CHANGE" rect="138,78,29,10">更改</element>
+    <element type="button" id="IDC_HOTKEY_BTN_REVERT" rect="138,93,29,10">还原</element>
+    <element type="button" id="IDC_HOTKEY_CLOSE" rect="187,5,10,10">C</element>
+    <element type="button" id="IDC_BTN_HELP" rect="32,126,23,12">H</element>
+    <element type="button" id="IDC_HOTKEY_CLOSEB" rect="145,126,23,12">关闭</element>
+    <element type="static" id="IDC_HOTKEY_LST_PARENT" rect="23,37,43,81">""</element>
+    <element type="static" id="IDC_HOTKEY_LST_CHILD" rect="71,37,43,81">""</element>
+    <element type="static" id="IDC_HOTKEY_STA_OLD" rect="122,39,8,8">""</element>
+    <msctls_hotkey32 id="IDC_HOTKEY" rect="0,0,6,6">HotKey8</msctls_hotkey32>
+    <element type="button" id="IDC_HOTKEY_BTN_SET" rect="122,60,66,11">触发</element>
+    <element type="button" id="IDC_HOTKEY_BTN_DEL" rect="138,108,29,10">删除</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_MSGSEND" rect=" 0, 0, 409, 257">
+    <element type="button" id="IDC_MSGSEND_CLOSEB" rect="367,224,25,24">关闭</element>
+    <element type="button" id="IDC_MSGSEND_SEND" rect="237,206,49,26">发送</element>
+    <element type="static" id="IDC_MSGSEND_NAME" rect="89,49,26,8">姓名</element>
+    <element type="editbox" id="IDC_MSGSEND_DATA" rect="27,75,345,117">""</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_MPCBOOTH" rect=" 0, 0, 368, 315">
+    <element type="button" id="IDC_MPCBOOTH_BTN_CLOSES" rect="330,284,27,26">C</element>
+    <element type="button" id="IDC_MPCBOOTH_BTN_UP" rect="331,100,18,19">U</element>
+    <element type="button" id="IDC_MPCBOOTH_BTN_DOWN" rect="331,194,18,19">D</element>
+    <element type="button" id="IDC_MPCBOOTH_BTN_HAWK" rect="192,272,53,26">设置叫卖</element>
+    <element type="button" id="IDC_MPCBOOTH_BTN_GETBACK1" rect="80,100,47,25">取回1</element>
+    <element type="button" id="IDC_MPCBOOTH_BTN_GETBACK2" rect="235,100,47,25">取回2</element>
+    <element type="button" id="IDC_MPCBOOTH_BTN_GETBACK3" rect="80,169,47,25">取回3</element>
+    <element type="button" id="IDC_MPCBOOTH_BTN_GETBACK4" rect="235,170,47,25">取回4</element>
+    <element type="button" id="IDC_MPCBOOTH_BTN_GETBACK5" rect="80,242,47,25">取回5</element>
+    <element type="button" id="IDC_MPCBOOTH_BTN_GETBACK6" rect="235,241,47,25">取回6</element>
+    <element type="button" id="IDC_MPCBOOTH_IMA_GOOD1" rect="28,78,36,36">物品1</element>
+    <element type="button" id="IDC_MPCBOOTH_IMA_GOOD2" rect="182,78,36,36">物品2</element>
+    <element type="button" id="IDC_MPCBOOTH_IMA_GOOD3" rect="28,149,36,36">物品3</element>
+    <element type="button" id="IDC_MPCBOOTH_IMA_GOOD4" rect="182,149,36,36">物品4</element>
+    <element type="button" id="IDC_MPCBOOTH_IMA_GOOD5" rect="28,220,36,36">物品5</element>
+    <element type="button" id="IDC_MPCBOOTH_IMA_GOOD6" rect="182,220,36,36">物品6</element>
+    <element type="static" id="IDC_STA_PRICE1" rect="80,77,85,18">""</element>
+    <element type="static" id="IDC_STA_PRICE2" rect="235,77,85,18">""</element>
+    <element type="static" id="IDC_STA_PRICE3" rect="80,146,85,18">""</element>
+    <element type="static" id="IDC_STA_PRICE4" rect="235,146,85,18">""</element>
+    <element type="static" id="IDC_STA_PRICE5" rect="80,219,85,18">""</element>
+    <element type="static" id="IDC_STA_PRICE6" rect="235,218,85,18">""</element>
+    <element type="button" id="IDC_BTN_CLOSEBOOTH" rect="118,272,53,26">CBOOTH</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_NPCBOOTH" rect=" 0, 0, 365, 318">
+
+
+    <element type="button" id="IDC_NPCBOOTH_BTN_BUY1" rect="80,101,47,25">购买</element>
+    <element type="button" id="IDC_NPCBOOTH_BTN_BUY2" rect="234,101,47,25">购买</element>
+    <element type="button" id="IDC_NPCBOOTH_BTN_BUY3" rect="80,171,47,25">购买</element>
+    <element type="button" id="IDC_NPCBOOTH_BTN_BUY4" rect="234,171,47,25">购买</element>
+    <element type="button" id="IDC_NPCBOOTH_BTN_BUY5" rect="80,242,47,25">购买</element>
+    <element type="button" id="IDC_NPCBOOTH_BTN_BUY6" rect="234,242,47,25">购买</element>
+    <element type="button" id="IDC_NPCBOOTH_BTN_UP" rect="334,97,20,21">U</element>
+    <element type="button" id="IDC_NPCBOOTH_BTN_DOWN" rect="336,181,20,21">D</element>
+    <element type="button" id="IDC_NPCBOOTH_BTN_CLOSE" rect="331,284,26,27">C</element>
+    <element type="button" id="IDC_NPCBOOTH_IMA_GOOD1" rect="28,78,36,36">物品1</element>
+    <element type="button" id="IDC_NPCBOOTH_IMA_GOOD2" rect="182,78,36,36">物品2</element>
+    <element type="button" id="IDC_NPCBOOTH_IMA_GOOD3" rect="28,149,36,36">物品3</element>
+    <element type="button" id="IDC_NPCBOOTH_IMA_GOOD4" rect="182,149,36,36">物品4</element>
+    <element type="button" id="IDC_NPCBOOTH_IMA_GOOD5" rect="28,220,36,36">物品5</element>
+    <element type="button" id="IDC_NPCBOOTH_IMA_GOOD6" rect="182,220,36,36">物品6</element>
+    <element type="static" id="IDC_STA_PRICE11" rect="80,76,95,18">""</element>
+    <element type="static" id="IDC_STA_PRICE22" rect="234,76,95,18">""</element>
+    <element type="static" id="IDC_STA_PRICE33" rect="80,146,95,18">""</element>
+    <element type="static" id="IDC_STA_PRICE44" rect="234,146,95,18">""</element>
+    <element type="static" id="IDC_STA_PRICE55" rect="80,218,95,18">""</element>
+    <element type="static" id="IDC_STA_PRICE66" rect="234,218,95,18">""</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_HAWK" rect=" 0, 0, 189, 75">
+
+
+    <element type="button" id="IDC_HAWK_BTN_AGREE" rect="124,55,30,13">确定</element>
+    <element type="button" id="IDC_HAWK_BTN_CLOSES" rect="170,61,10,10">C</element>
+    <element type="editbox" id="IDC_HAWK_EDT_DATA" rect="15,20,158,32">""</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_MSGRECEIVE" rect=" 0, 0, 402, 256">
+
+
+    <element type="button" id="IDC_MSGRECEIVE_CLOSEB" rect="367,224,24,25">关闭</element>
+    <element type="static" id="IDC_MSGRECEIVE_NAME" rect="87,51,39,8">""</element>
+    <element type="button" id="IDC_MSGRECEIVE_REVERT" rect="228,210,47,24">回复</element>
+    <element type="button" id="IDC_BTN_UP" rect="156,210,55,24">U</element>
+    <element type="button" id="IDC_BTN_DOWN" rect="292,210,55,24">D</element>
+    <element type="static" id="IDC_MSGRECEIVE_TIME" rect="307,51,39,8">""</element>
+    <element type="static" id="IDC_STATIC_MSG" rect="32,77,339,114">""</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_LEVWORD" rect=" 0, 0, 330, 153">
+
+
+    <element type="button" id="IDC_LEVWORD_BTN_CLOSES" rect="317,5,10,10">C</element>
+    <element type="button" id="IDC_BTN_HELP" rect="267,137,23,12">H</element>
+    <element type="button" id="IDC_LEVWORD_CLOSEB" rect="293,137,23,12">关闭</element>
+    <element type="button" id="IDC_LEVWORD_BTN_SEND" rect="14,124,29,10">发布</element>
+    <element type="button" id="IDC_LEVWORD_BTN_WATCH" rect="46,124,29,10">查看</element>
+    <element type="button" id="IDC_LEVWORD_BTN_UP" rect="222,124,29,10">上一页</element>
+    <element type="button" id="IDC_LEVWORD_BTN_DOWN" rect="254,124,29,10">下一页</element>
+    <element type="button" id="IDC_LEVWORD_BTN_DEL" rect="190,124,29,10">删除</element>
+    <element type="button" id="IDC_LEVWORD_BTN_FLASH" rect="287,124,29,10">刷新</element>
+    <element type="button" id="IDC_LEVWORD_BTN_TRADE" rect="14,137,23,12">交易</element>
+    <element type="button" id="IDC_LEVWORD_BTN_FRIEND" rect="47,137,23,12">交友</element>
+    <element type="button" id="IDC_LEVWORD_BTN_GROUP" rect="80,137,23,12">组队</element>
+    <element type="button" id="IDC_LEVWORD_BTN_FACTION" rect="113,137,23,12">帮派</element>
+    <element type="button" id="IDC_LEVWORD_BTN_OTHER" rect="146,137,23,12">其他</element>
+    <element type="editbox" id="IDC_LEVWORD_EDT_DATA" rect="27,29,279,72">""</element>
+    <element type="static" id="IDC_LEVWORD_LST_LIST" rect="15,24,298,85">""</element>
+    <element type="button" id="IDC_BTN_OK" rect="256,111,23,12">确定</element>
+    <element type="button" id="IDC_BTN_CANCEL" rect="282,111,23,12">取消</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_OTHER" rect=" 0, 0, 184, 118">
+
+
+    <element type="button" id="IDC_BTN_CLOSE" rect="171,3,10,10">C</element>
+    <element type="button" id="IDC_BTN_HELP" rect="31,103,23,12">H</element>
+    <element type="button" id="IDC_BTN_CLOSEB" rect="129,103,23,12">关闭</element>
+    <element type="button" id="IDC_OTHER_BTN_LAY" rect="70,24,35,11">摆放物品</element>
+    <element type="button" id="IDC_OTHER_BTN_DEL" rect="119,24,35,11">删除物品</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_DICE" rect=" 0, 0, 158, 184">
+
+
+    <element type="button" id="IDC_DICE_IMA_ALL1" rect="4,5,25,25">全1</element>
+    <element type="button" id="IDC_DICE_IMA_ALL2" rect="29,5,25,25">全2</element>
+    <element type="button" id="IDC_DICE_IMA_ALL3" rect="54,5,25,25">全3</element>
+    <element type="button" id="IDC_DICE_IMA_ALL4" rect="79,5,25,25">全4</element>
+    <element type="button" id="IDC_DICE_IMA_ALL5" rect="104,5,25,25">全5</element>
+    <element type="button" id="IDC_DICE_IMA_ALL6" rect="129,5,25,25">全6</element>
+    <element type="button" id="IDC_DICE_IMA_4" rect="4,30,25,25">4</element>
+    <element type="button" id="IDC_DICE_IMA_5" rect="4,55,25,25">5</element>
+    <element type="button" id="IDC_DICE_IMA_6" rect="4,80,25,25">6</element>
+    <element type="button" id="IDC_DICE_IMA_7" rect="4,105,25,25">7</element>
+    <element type="button" id="IDC_DICE_IMA_8" rect="4,130,25,25">8</element>
+    <element type="button" id="IDC_DICE_IMA_9" rect="29,130,25,25">9</element>
+    <element type="button" id="IDC_DICE_IMA_10" rect="54,130,25,25">10</element>
+    <element type="button" id="IDC_DICE_IMA_11" rect="79,130,25,25">11</element>
+    <element type="button" id="IDC_DICE_IMA_12" rect="104,130,25,25">12</element>
+    <element type="button" id="IDC_DICE_IMA_13" rect="129,130,25,25">13</element>
+    <element type="button" id="IDC_DICE_IMA_14" rect="129,105,25,25">14</element>
+    <element type="button" id="IDC_DICE_IMA_15" rect="129,80,25,25">15</element>
+    <element type="button" id="IDC_DICE_IMA_16" rect="129,55,25,25">16</element>
+    <element type="button" id="IDC_DICE_IMA_17" rect="129,30,25,25">17</element>
+    <element type="button" id="IDC_DICE_IMA_SMALL" rect="29,30,50,100">小</element>
+    <element type="button" id="IDC_DICE_IMA_BIG" rect="79,30,50,100">大</element>
+    <element type="button" id="IDC_DICE_BTN_CHIPIN" rect="126,158,20,10">下注</element>
+    <element type="button" id="IDC_DICE_BTN_HIDE" rect="126,169,20,10">" 隐藏"</element>
+    <element type="button" id="IDC_DICE_BTN_CHIP100" rect="16,162,12,12">100元</element>
+    <element type="button" id="IDC_DICE_BTN_CHIP1000" rect="37,162,12,12">1000元</element>
+    <element type="button" id="IDC_DICE_BTN_CHIP10000" rect="58,162,12,12">10000元</element>
+    <element type="static" id="IDC_DICE_STA_MPC" rect="98,158,8,8">玩家赌注</element>
+    <element type="static" id="IDC_DICE_STA_ALL" rect="98,169,8,8">全部赌注</element>
+    <element type="button" id="IDC_DICE_BTN_DICELIST" rect="5,168,10,10">列表</element>
+    <element type="static" id="IDC_DICE_STA_CHIP" rect="4,155,8,8">赌注</element>
+    <element type="button" id="IDC_DICE_BTN_RESUME" rect="1,169,37,15">恢复</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_DICELIST" rect=" 0, 0, 80, 184">
+
+
+    <element type="static" id="IDC_DICELIST_LIST" rect="5,5,70,174">""</element>
+  </dialog>
+
+  <dialog id="IDD_MENU_GROUP" rect=" 0, 0, 68, 35">
+
+
+    <element type="button" id="IDC_GROUP_CHK_STOP" rect="58,7,9,10">STOP</element>
+    <element type="button" id="IDC_GROUP_CHK_MONEY" rect="26,7,9,10">MONEY</element>
+    <element type="button" id="IDC_GROUP_CHK_ITEM" rect="26,20,9,10">ITEM</element>
+    <element type="button" id="IDC_GROUP_CHK_JION" rect="58,20,9,10">JOI</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_ENEMY" rect=" 0, 0, 97, 172">
+
+
+    <element type="listbox" id="IDC_ENEMY_LST_DATA" rect="16,37,67,105">""</element>
+    <element type="button" id="IDC_ENEMY_BTN_CLOSE" rect="82,156,11,11">C</element>
+    <element type="button" id="IDC_BTN_HELP" rect="87,3,8,8">H</element>
+    <element type="button" id="IDC_ENEMY_BTN_ADD" rect="16,147,31,12">添加好友</element>
+    <element type="button" id="IDC_ENEMY_BTN_FRIEND" rect="38,21,23,12">好友</element>
+    <element type="button" id="IDC_ENEMY_BTN_ENEMY" rect="62,21,23,12">敌人</element>
+    <element type="button" id="IDC_ENEMY_BTN_TEACHER" rect="14,21,23,12">师门</element>
+    <element type="button" id="IDC_BTN_DELSTUDENT" rect="52,147,22,12">DELSTU</element>
+    <element type="button" id="IDC_BTN_TEACHER" rect="17,147,22,12">TEACHER</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_ENMSTATE" rect=" 0, 0, 97, 171">
+
+
+    <element type="button" id="IDC_ENMSTATE_BTN_CLOSE" rect="82,157,12,11">C</element>
+    <element type="static" id="IDC_STA1" rect="35,69,53,8">姓名</element>
+    <element type="static" id="IDC_STA2" rect="35,98,36,8">等级</element>
+    <element type="static" id="IDC_STA3" rect="35,89,36,8">职业</element>
+    <element type="static" id="IDC_STA4" rect="35,117,36,8">PK值</element>
+    <element type="static" id="IDC_STA5" rect="35,127,36,8">帮派</element>
+    <element type="static" id="IDC_STA6" rect="35,137,36,8">帮派职务</element>
+    <element type="static" id="IDC_STA7" rect="35,79,53,8">配偶</element>
+    <element type="button" id="IDC_ENMSTATE_IMAFACE" rect="34,27,32,32">FACE</element>
+    <element type="static" id="IDC_STA_NOBILITY" rect="35,108,36,8">身份</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_PROINTRO" rect=" 0, 0, 252, 82">
+
+
+    <element type="static" id="IDC_STA_1" rect="10,27,21,8">0</element>
+    <element type="static" id="IDC_STA_2" rect="10,40,21,8">0</element>
+    <element type="static" id="IDC_STA_3" rect="10,53,21,8">0</element>
+    <element type="button" id="IDC_BTN_CLOSE" rect="239,3,10,10">0</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_INSHELP" rect=" 0, 0, 245, 161">
+
+
+    <element type="button" id="IDC_INSHELP_BTN_CLOSES" rect="230,146,10,10">C</element>
+    <element type="button" id="IDC_INSHELP_BTN_MORE" rect="46,139,31,11">更多帮助</element>
+    <element type="button" id="IDC_INSHELP_BTN_TIP" rect="84,139,31,11">技巧</element>
+    <element type="button" id="IDC_INSHELP_BTN_PAGEUP" rect="122,139,31,11">上页</element>
+    <element type="button" id="IDC_INSHELP_BTN_PAGEDOWN" rect="160,139,31,11">下页</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_LOGO" rect=" 0, 0, 617, 433">
+    <element type="button" id="IDC_BTN_STARTGAME" rect="519,103,58,31">START</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_TALKACT" rect=" 0, 0, 113, 59">
+    <element type="button" id="IDC_TALKACT_BTN_CLOSEB" rect="84,41,23,12">关闭</element>
+    <element type="button" id="IDC_TALKACT_BTN_HELP" rect="6,41,23,12">帮助</element>
+    <element type="button" id="IDC_TALKACT_BTN_PAGEUP" rect="32,41,23,12">上翻</element>
+    <element type="button" id="IDC_TALKACT_BTN_PAGEDOWN" rect="58,41,23,12">下翻</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_QUERY_TITLE" rect=" 0, 0, 128, 158">
+    <element type="button" id="IDC_BTN_SHOW" rect="43,48,41,11">选择显示</element>
+    <element type="button" id="IDC_BTN_UP" rect="116,61,7,7">U</element>
+    <element type="button" id="IDC_BTN_DOWN" rect="116,129,7,7">D</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_HEAD" rect=" 0, 0, 66, 75">
+
+
+    <element type="button" id="IDC_IMG_HEADB" rect="1,10,65,65">人物头象</element>
+    <element type="button" id="IDC_IMG_HEADS" rect="33,43,32,32">人物头象</element>
+    <element type="static" id="IDC_STA_TITLE" rect="48,2,18,8">称号</element>
+    <element type="static" id="IDC_STA_DUKE" rect="15,2,18,8">公爵</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_MIPMAP" rect=" 0, 0, 131, 178">
+
+
+    <element type="button" id="IDC_BTN_VIEWCHG" rect="89,4,17,18" tip="缩放地图">VIEW</element>
+    <element type="button" id="IDC_BTN_BIGOUT" rect="105,20,20,20" tip="地图全貌$（M）">BIG</element>
+    <element type="static" id="IDC_STA_NAME" rect="27,6,53,17">""</element>
+    <element type="static" id="IDC_STA_POSX" rect="14,24,31,17">""</element>
+    <element type="static" id="IDC_STA_POSY" rect="49,24,31,17">""</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_EQUIP" rect=" 0, 0, 280, 330">
+    <caption height="42">装备</caption>
+	<element type="static" id="IDC_STATIC_EQUIP_BG" rect="10,2,260,260" style="static02"></element>
+	
+    <element type="button" id="IDC_IMG_HEAD" rect="20,10,38,38">头盔</element>
+	<element type="button" id="IDC_IMG_MANTLE" rect="20,50,38,38">披风</element>
+	<element type="button" id="IDC_IMG_WEAPON" rect="20,90,38,38">武器</element>
+	    <element type="button" id="IDC_IMG_SHOE" rect="20,130,38,38">鞋子</element>
+    <element type="button" id="IDC_IMG_NECK" rect="220,10,38,38">项链</element>
+	<element type="button" id="IDC_IMG_BODY" rect="220,50,38,38">盔甲</element>
+    <element type="button" id="IDC_IMG_GEAR" rect="220,90,38,38">手镯</element>
+    <element type="button" id="IDC_IMG_MOUNT" rect="220,130,38,38">坐骑</element>
+	
+	<element type="static" id="IDC_STATIC_ROLE_HP" rect="15,180,55,16">HP</element>
+    <element type="static" id="IDC_STATIC_ROLE_XP" rect="15,200,55,16">XP</element>
+    <element type="static" id="IDC_STATIC_ROLE_FIGHT" rect="15,220,55,16">物理攻击</element>
+    <element type="static" id="IDC_STATIC_ROLE_MAGIC" rect="15,240,55,16">魔法攻击</element>
+    <element type="static" id="IDC_STATIC_ROLE_MP" rect="140,180,55,16">MP</element>
+    <element type="static" id="IDC_STATIC_ROLE_AVOID" rect="140,200,55,16">回避率</element>
+    <element type="static" id="IDC_STATIC_ROLE_FIGHTDEF" rect="140,220,55,16">物理防御</element>
+    <element type="static" id="IDC_STATIC_ROLE_MAGICDEF" rect="140,240,55,16">魔法防御</element>
+	
+    <element type="static" id="IDC_ROLE_HP" rect="75,180,60,16" style="static01">130/200</element>
+    <element type="static" id="IDC_ROLE_XP" rect="75,200,60,16" style="static01">100/100</element>
+    <element type="static" id="IDC_ROLE_FIGHT" rect="75,220,60,16" style="static01">52</element>
+    <element type="static" id="IDC_ROLE_MAGIC" rect="75,240,60,16" style="static01">10</element>
+    <element type="static" id="IDC_ROLE_MP" rect="200,180,60,16" style="static01">50/66</element>
+    <element type="static" id="IDC_ROLE_AVOID" rect="200,200,60,16" style="static01">8%</element>
+    <element type="static" id="IDC_ROLE_FIGHTDEF" rect="200,220,60,16" style="static01">30</element>
+    <element type="static" id="IDC_ROLE_MAGICDEF" rect="200,240,60,16" style="static01">10</element>
+
+  </dialog>
+
+  <dialog id="IDD_DIALOG_MSG" rect=" 0, 0, 256, 139">
+
+
+    <element type="button" id="IDC_BTN_UPALL" rect="55,128,10,10">U</element>
+    <element type="button" id="IDC_BTN_UPCUR" rect="85,128,10,10">U</element>
+    <element type="button" id="IDC_BTN_UPEND" rect="115,128,10,10">U</element>
+    <element type="button" id="IDC_BTN_UPTEAM" rect="145,128,10,10">U</element>
+    <element type="button" id="IDC_BTN_UPPRIVATE" rect="175,128,10,10">U</element>
+    <element type="button" id="IDC_BTN_UPKNIGHT" rect="205,128,10,10">U</element>
+    <element type="button" id="IDC_BTN_ALL" rect="37,128,18,10">全部</element>
+    <element type="button" id="IDC_BTN_CUR" rect="67,128,18,10">当前</element>
+    <element type="button" id="IDC_BTN_FRIEND" rect="97,128,18,10">好友</element>
+    <element type="button" id="IDC_BTN_TEAM" rect="127,128,18,10">队伍</element>
+    <element type="button" id="IDC_BTN_PRIVATE" rect="157,128,18,10">私聊</element>
+    <element type="button" id="IDC_BTN_KNIGHT" rect="187,128,18,10">骑士团</element>
+    <element type="button" id="IDC_BTN_CLEAR" rect="231,128,25,10">清屏</element>
+    <element type="button" id="IDC_BTN_UP" rect="249,0,7,7">U</element>
+    <element type="button" id="IDC_BTN_DOWN" rect="249,120,7,7">D</element>
+    <element type="button" id="IDC_BTN_RESUME" rect="0,0,14,14">恢复</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_PROGRESS" rect=" 0, 0, 93, 120">
+
+
+    <element type="progress" id="IDC_PRG_HERO_HP" rect="10,36,35,74"></element>
+    <element type="progress" id="IDC_PRG_HERO_MP" rect="52,36,36,74"></element>
+    <element type="progress" id="IDC_PRG_HERO_FORCE" rect="47,88,6,22"></element>
+    <element type="progress" id="IDC_PRG_HERO_XP" rect="4,28,89,90"></element>
+    <element type="progress" id="IDC_PRG_HERO_FORCE2" rect="47,36,6,22"></element>
+    <element type="static" id="IDC_STA_MP" rect="54,59,34,14">"1/100"</element>
+    <element type="static" id="IDC_STA_HP" rect="12,59,31,14">"1/100"</element>
+    <element type="button" id="IDC_IMG_MSGFLASH" rect="62,0,30,30">IMG</element>
+    <element type="progress" id="IDC_PRG_HERO_XP2" rect="4,28,89,90"></element>
+    <element type="button" id="IDC_IMG_BADSTATUS" rect="44,0,16,18">Button2</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_MONSTER" rect=" 0, 0, 296, 406">
+
+
+    <element type="static" id="IDC_MONSTER_LEVEL" rect="85,201,57,16">""</element>
+    <element type="static" id="IDC_MONSTER_MASTER" rect="85,223,56,16">master</element>
+    <element type="static" id="IDC_MONSTER_EXP" rect="85,245,56,16">exp</element>
+    <element type="static" id="IDC_MONSTER_HP" rect="85,267,56,16">hp</element>
+    <element type="static" id="IDC_MONSTER_FIGHT" rect="85,292,56,16">fight</element>
+    <element type="static" id="IDC_MONSTER_MAGIC" rect="85,315,56,16">magic</element>
+    <element type="static" id="IDC_MONSTER_SMART" rect="189,247,56,16">smart</element>
+    <element type="static" id="IDC_MONSTER_FIGHTDEF" rect="189,269,56,16">fightdef</element>
+    <element type="static" id="IDC_MONSTER_MAGICDEF" rect="189,291,56,16">magicdef</element>
+    <element type="button" id="IDC_BTN_CALL" rect="34,148,27,44">CALL</element>
+    <element type="button" id="IDC_BTN_MAGIC" rect="136,148,27,44">MAGIC</element>
+    <element type="button" id="IDC_BTN_DROP" rect="234,148,27,44">DROP</element>
+    <element type="button" id="IDC_IMG_MONSTER" rect="28,42,129,128">IMG</element>
+    <element type="button" id="IDC_GRI_EGGS" rect="47,333,212,32">EGGS</element>
+    <element type="button" id="IDC_BTN_CLOSE" rect="267,377,22,22">CLOSE</element>
+    <element type="button" id="IDC_BTN_RIDEON" rect="185,148,27,44">RIDE</element>
+    <element type="static" id="IDC_MONSTER_GROW" rect="189,225,56,16">grow</element>
+    <element type="static" id="IDC_MONSTER_POTENTIAL" rect="189,203,56,16">潜力</element>
+    <element type="editbox" id="IDC_EDIT_NAME1" rect="142,52,96,17">""</element>
+    <element type="editbox" id="IDC_EDIT_NAME2" rect="142,88,96,17">""</element>
+    <element type="editbox" id="IDC_EDIT_NAME3" rect="142,124,96,17">""</element>
+    <element type="editbox" id="IDC_EDIT_NAME4" rect="61,387,96,17">""</element>
+    <element type="button" id="IDC_BTN_ATKSTATUS1" rect="248,51,39,17">ATK1</element>
+    <element type="button" id="IDC_BTN_ATKSTATUS2" rect="248,88,39,17">ATK1</element>
+    <element type="button" id="IDC_BTN_ATKSTATUS3" rect="248,123,39,17">ATK1</element>
+    <element type="button" id="IDC_BTN_ATKSTATUS4" rect="162,387,39,17">ATK1</element>
+    <element type="button" id="IDC_BTN_CALLOUT" rect="84,148,27,44">CALL</element>
+    <element type="editbox" id="IDC_EDIT_NAME" rect="155,86,91,19">""</element>
+    <element type="button" id="IDC_BTN_RENAMEOK" rect="161,115,39,18">OK</element>
+    <element type="button" id="IDC_BTN_RENAMECANCEL" rect="213,115,39,18">CANCEL</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_QGOOD" rect=" 0, 0, 517, 36">
+
+
+    <element type="button" id="IDC_GRI_STONEQ" rect="2,2,513,32">STONEQ</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_STONEGOODS" rect=" 0, 0, 274, 250">
+
+
+    <element type="button" id="IDC_BTN_CLOSE" rect="248,223,22,22">C</element>
+    <element type="button" id="IDC_BTN_STONE1" rect="79,213,25,24">STONE1</element>
+    <element type="button" id="IDC_BTN_STONE2" rect="125,213,25,24">STONE2</element>
+    <element type="button" id="IDC_BTN_STONE3" rect="170,213,25,24">STONE3</element>
+    <element type="button" id="IDC_STONE_GRI0" rect="50,57,183,66">GRID0</element>
+    <element type="button" id="IDC_STONE_GRI1" rect="50,138,183,66">GRID1</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_SETUP_GRAPH" bg="false" rect=" 0, 0, 340, 240">
+    <element type="checkbox" id="IDC_CHK_SHADOW" rect="192,64,50,15">阴影</element>
+    <element type="checkbox" id="IDC_CHK_ROLENAME" rect="192,109,50,15">角色名字</element>
+    <element type="checkbox" id="IDC_CHK_WEATHER" rect="192,153,50,15">天气</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_SETUP_CHAT" bg="false" rect=" 0, 0, 340, 240">
+    <element type="button" id="IDC_BTN_COLOR1" rect="196,147,20,20">C1</element>
+    <element type="button" id="IDC_BTN_COLOR2" rect="217,147,20,20">C1</element>
+    <element type="button" id="IDC_BTN_COLOR3" rect="238,147,20,20">C1</element>
+    <element type="button" id="IDC_BTN_COLOR4" rect="259,147,20,20">C1</element>
+    <element type="button" id="IDC_BTN_COLOR5" rect="280,147,20,20">C1</element>
+    <element type="button" id="IDC_BTN_COLOR6" rect="196,168,20,20">C1</element>
+    <element type="button" id="IDC_BTN_COLOR7" rect="217,168,20,20">C1</element>
+    <element type="button" id="IDC_BTN_COLOR8" rect="238,168,20,20">C1</element>
+    <element type="button" id="IDC_BTN_COLOR9" rect="259,168,20,20">C1</element>
+    <element type="button" id="IDC_BTN_COLOR10" rect="280,168,20,20">C1</element>
+    <element type="button" id="IDC_BTN_PUB" rect="129,85,20,20">PUB</element>
+    <element type="button" id="IDC_BTN_SEC" rect="129,119,20,20">SEC</element>
+    <element type="button" id="IDC_BTN_TEAM" rect="129,154,20,20">TEAM</element>
+    <element type="button" id="IDC_BTN_FRIEND" rect="267,84,20,20">FRIEND</element>
+    <element type="button" id="IDC_BTN_BAN" rect="267,119,20,20">BAN</element>
+    <element type="button" id="IDC_BTN_CHANNELSET" rect="141,52,58,25">CHANNEL</element>
+    <element type="button" id="IDC_BTN_COLORSET" rect="47,52,58,25">COLOR</element>
+    <element type="button" id="IDC_CHK_PUB" rect="132,88,20,20">PUB</element>
+    <element type="button" id="IDC_CHK_SEC" rect="132,122,20,20">SEC</element>
+    <element type="button" id="IDC_CHK_TEAM" rect="132,157,20,20">TEAM</element>
+    <element type="button" id="IDC_CHK_FRIEND" rect="270,87,20,20">FRIEND</element>
+    <element type="button" id="IDC_CHK_BAN" rect="270,122,20,20">BAN</element>
+    <element type="button" id="IDC_BTN_BLACKNAME" rect="237,52,58,25">BLACKNAME</element>
+    <element type="button" id="IDC_BTN_CHATLOG" rect="47,171,68,22">CHATLOG</element>
+    <element type="editbox" id="IDC_EDIT_BLACKNAME" rect="159,149,87,17">""</element>
+    <element type="button" id="IDC_BTN_ADDBLACKNAME" rect="153,171,52,22">ADD</element>
+    <element type="button" id="IDC_BTN_DELBLACKNAME" rect="218,171,52,22">DEL</element>
+    <element type="button" id="IDC_CHK_NAME1" rect="54,88,68,16">""</element>
+    <element type="button" id="IDC_CHK_NAME2" rect="184,88,68,16">""</element>
+    <element type="button" id="IDC_CHK_NAME3" rect="54,106,68,16">""</element>
+    <element type="button" id="IDC_CHK_NAME4" rect="184,106,68,16">""</element>
+    <element type="button" id="IDC_CHK_NAME5" rect="54,124,68,16">""</element>
+    <element type="button" id="IDC_CHK_NAME6" rect="184,124,68,16">""</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_SETUP_HOTKEY" bg="false" rect=" 0, 0, 340, 240">
+    <element type="static" id="IDC_STA_KEY" rect="241,75,73,19">""</element>
+    <element type="button" id="IDC_BTN_SETKEY" rect="249,110,45,24">SET</element>
+    <element type="button" id="IDC_BTN_RESETKEYS" rect="238,152,66,24">RESET</element>
+    <element type="listbox" id="IDC_LIST_HOTKEYM" rect="42,80,68,142">""</element>
+    <element type="listbox" id="IDC_LIST_HOTKEYN" rect="149,80,78,141">""</element>
+    <element type="button" id="IDC_BTN_UP" rect="113,79,16,20">UP</element>
+    <element type="button" id="IDC_BTN_DOWN" rect="113,182,16,20">DOWN</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_SETUP_MUSIC" bg="false" rect=" 0, 0, 340, 240">
+    <element type="button" id="IDC_CHK_SOUND" rect="151,69,20,20">音效</element>
+    <element type="button" id="IDC_CHK_MUSIC" rect="152,134,20,20">音乐</element>
+    <element type="button" id="IDC_BTN_SOUNDLEFT" rect="103,101,16,12">"《"</element>
+    <element type="button" id="IDC_BTN_SOUNDRIGHT" rect="237,101,16,12">"》"</element>
+    <element type="button" id="IDC_BTN_MUSICLEFT" rect="103,169,16,12">"《"</element>
+    <element type="button" id="IDC_BTN_MUSICRIGHT" rect="237,169,16,12">"》"</element>
+    <element type="static" id="IDC_STA_SOUND" rect="268,102,32,12">0</element>
+    <element type="static" id="IDC_STA_MUSIC" rect="268,170,35,12">0</element>
+    <element type="button" id="IDC_SLIDER_SOUND" rect="123,92,106,28">SOUND</element>
+    <element type="button" id="IDC_SLIDER_MUSIC" rect="123,161,106,28">MUSIC</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_KNIGHTAGE" rect=" 0, 0, 320, 418">
+    <element type="button" id="IDC_CHK_BASE" rect="289,98,24,53">BASE</element>
+    <element type="button" id="IDC_CHK_MEMBER" rect="289,154,24,53">MEMBER</element>
+    <element type="button" id="IDC_CHK_BILLBOARD" rect="289,210,24,53">BILLBOARD</element>
+    <element type="button" id="IDC_CHK_ENEMY" rect="289,266,24,53">ENEMY</element>
+    <element type="button" id="IDC_BTN_CLOSE" rect="276,383,21,21">CLOSE</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_KNIGHTAGE_BASE" rect=" 0, 0, 293, 400">
+
+
+    <element type="button" id="IDC_IMG_KNIGHTMARK" rect="31,81,80,75">MARK</element>
+    <element type="static" id="IDC_STA_JOB" rect="86,260,91,17">""</element>
+    <element type="static" id="IDC_STA_OFFER" rect="86,320,91,17">""</element>
+    <element type="static" id="IDC_STA_KNIGHTNAME" rect="102,19,91,17">""</element>
+    <element type="static" id="IDC_STA_HEADNAME" rect="190,62,79,17">""</element>
+    <element type="static" id="IDC_STA_KNIGHTNUM" rect="190,83,79,17">""</element>
+    <element type="static" id="IDC_STA_KNIGHTLEV" rect="45,165,56,17">""</element>
+    <element type="static" id="IDC_STA_KNIGHTFAMOR" rect="190,104,79,17">""</element>
+    <element type="static" id="IDC_STA_KNIGHTMONEY" rect="190,125,79,17">""</element>
+    <element type="button" id="IDC_BTN_ADD" rect="191,356,53,26">ADD</element>
+    <element type="button" id="IDC_BTN_GIVE" rect="125,143,45,23" tip="点击可输入捐献金钱金额">GIVE</element>
+    <element type="static" id="IDC_STA_HERONAME" rect="26,232,91,17">""</element>
+    <element type="static" id="IDC_STA_HEROLEV" rect="86,280,91,17">""</element>
+    <element type="static" id="IDC_STA_HEROTEAM" rect="86,300,91,17">""</element>
+    <element type="editbox" id="IDC_EDIT_MONEY" rect="185,147,90,19">""</element>
+    <element type="button" id="IDC_BTN_GIVEOK" rect="185,172,38,19">OK</element>
+    <element type="button" id="IDC_BTN_GIVECANCEL" rect="237,172,38,19">CANCEL</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_KNIGHTAGE_MEMBER" rect=" 0, 0, 292, 415">
+
+
+    <element type="static" id="IDC_STA_TEAMHEAD1" rect="198,370,26,13">""</element>
+    <element type="button" id="IDC_BTN_LEFT" rect="227,369,23,23" tip="点击查看上一页信息0xffff00">L</element>
+    <element type="button" id="IDC_BTN_RIGHT" rect="251,369,23,23" tip="点击查看下一页信息0xffff00">R</element>
+    <element type="listbox" id="IDC_LIST_MEMBER" rect="47,68,225,291">""</element>
+    <element type="button" id="IDC_BTN_ADD" rect="39,369,39,28">ADD</element>
+    <element type="button" id="IDC_BTN_KICKOUT" rect="84,369,39,28">KICKOUT</element>
+    <element type="button" id="IDC_BTN_LEADERNEXT" rect="129,369,39,28">LEADER</element>
+    <element type="static" id="IDC_STA_HEADNAME" rect="102,19,91,17">""</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_KNIGHTAGE_ENEMY" rect=" 0, 0, 318, 416">
+
+
+    <element type="listbox" id="IDC_LIST_ENEMY" rect="42,65,222,265">""</element>
+    <element type="button" id="IDC_CHK_ENEMYLIST" rect="14,117,26,55">E</element>
+    <element type="button" id="IDC_BTN_ADDENEMY" rect="47,370,47,26">ADD</element>
+    <element type="button" id="IDC_BTN_DELENEMY" rect="104,370,47,26">DEL</element>
+    <element type="button" id="IDC_CHK_FRIENDLIST" rect="14,62,26,55">F</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_KNIGHTAGE_BILLBOARD" rect=" 0, 0, 296, 413">
+
+
+    <element type="editbox" id="IDC_EDT_BILLBOARD" rect="43,72,212,230">""</element>
+    <element type="button" id="IDC_BTN_BILLBOARD" rect="47,366,41,27">EDITOK</element>
+    <element type="button" id="IDC_BTN_CANCEL" rect="113,366,41,27">CANCEL</element>
+    <element type="static" id="IDC_STA_WRITER" rect="152,308,93,13">""</element>
+    <element type="static" id="IDC_STA_TIME" rect="159,327,73,13">""</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_KNIGHTAGE_STATE" rect=" 0, 0, 200, 409">
+
+
+    <element type="button" id="IDC_IMG_MARK" rect="56,80,87,90">MARK</element>
+    <element type="static" id="IDC_STA_NAME" rect="45,28,105,19">NAME</element>
+    <element type="static" id="IDC_STA_HEADNAME" rect="92,243,76,19">HEADNAME</element>
+    <element type="static" id="IDC_STA_NUMBER" rect="92,271,76,19">NUMBER</element>
+    <element type="static" id="IDC_STA_FAMOR" rect="92,299,76,19">FAMOR</element>
+    <element type="static" id="IDC_STA_LEVEL" rect="92,327,76,19">LEVEL</element>
+    <element type="button" id="IDC_BTN_CLOSE" rect="167,380,23,23">CLOSE</element>
+    <element type="static" id="IDC_STA_SYNLEV" rect="54,187,88,19">SYNLEV</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_SERVER" rect=" 0, 0, 336, 343">
+
+
+    <element type="button" id="IDC_BTN_SERVER1" rect="104,40,127,21">SERVER1</element>
+    <element type="button" id="IDC_STA_SERVER1" rect="104,64,127,9">""</element>
+    <element type="button" id="IDC_STA_SERVER2" rect="104,122,127,9">""</element>
+    <element type="button" id="IDC_STA_SERVER3" rect="104,177,127,9">""</element>
+    <element type="button" id="IDC_STA_SERVER4" rect="104,229,127,9">""</element>
+    <element type="button" id="IDC_STA_SERVER5" rect="104,282,127,9">""</element>
+    <element type="button" id="IDC_BTN_SERVER2" rect="104,98,127,21">SERVER2</element>
+    <element type="button" id="IDC_BTN_SERVER3" rect="104,152,127,21">SERVER3</element>
+    <element type="button" id="IDC_BTN_SERVER4" rect="104,204,127,21">SERVER4</element>
+    <element type="button" id="IDC_BTN_SERVER5" rect="104,257,127,21">SERVER5</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_SKILL_HOTKEYS" rect=" 0, 0, 429, 128">
+
+
+    <element type="button" id="IDC_CHK_HOTKEYF1" rect="22,41,35,33">F1</element>
+    <element type="button" id="IDC_CHK_HOTKEYF2" rect="62,41,35,33">F2</element>
+    <element type="button" id="IDC_CHK_HOTKEYF3" rect="102,41,35,33">F3</element>
+    <element type="button" id="IDC_CHK_HOTKEYF4" rect="142,41,35,33">F4</element>
+    <element type="button" id="IDC_CHK_HOTKEYF5" rect="182,41,35,33">F5</element>
+    <element type="button" id="IDC_CHK_HOTKEYF6" rect="222,41,35,33">F6</element>
+    <element type="button" id="IDC_CHK_HOTKEYF7" rect="262,41,35,33">F7</element>
+    <element type="button" id="IDC_CHK_HOTKEYF8" rect="302,41,35,33">F8</element>
+    <element type="button" id="IDC_CHK_NONE" rect="352,41,50,33">NONE</element>
+    <element type="button" id="IDC_BTN_OK" rect="315,85,44,26">OK</element>
+    <element type="button" id="IDC_BTN_CLOSE" rect="389,98,22,21">C</element>
+    <element type="static" id="IDC_STA_MAGICNAME" rect="54,11,146,13">A</element>
+    <element type="static" id="IDC_STATIC_MAGICDEC" rect="62,88,236,22">""</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_BIGMAP" rect=" 0, 0, 531, 388">
+
+
+    <element type="button" id="IDC_BTN_CLOSE" rect="253,357,24,24">CLOSE</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_NORMSG" rect=" 0, 0, 16, 117">
+    <element type="button" id="IDC_BUTTON_CHANGESIZE" rect="1,1,15,11">高度</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_PLAYERTASKVIEW" rect=" 0, 0, 363, 416">
+
+
+    <element type="static" id="IDC_STATIC_TASKTITLE" rect="108,37,115,17">TITLE</element>
+    <element type="static" id="IDC_STATIC_REQLEV" rect="139,69,59,15">REQLEV</element>
+    <element type="static" id="IDC_STATIC_TASKINFO" rect="107,108,208,68">TASKINFO</element>
+    <element type="button" id="IDC_TASK_ITEMGRID" rect="101,194,179,34">ITEMGRID</element>
+    <element type="static" id="IDC_STATIC_TASKMONEY" rect="141,244,93,12">TASKMONEY</element>
+    <element type="static" id="IDC_STATIC_TASKREQINFO" rect="106,277,208,71">TASKREQINFO</element>
+    <element type="button" id="IDC_BTN_TASKOK" rect="39,369,64,23">TASKOK</element>
+    <element type="button" id="IDC_BTN_TASKCANCEL" rect="110,369,64,23">TASKCANCEL</element>
+    <element type="button" id="IDC_BTN_TASKBACK" rect="181,369,64,23">BACK</element>
+    <element type="button" id="IDC_BTN_TASKEXIT" rect="252,369,64,23">EXIT</element>
+    <element type="button" id="IDC_BTN_CLOSE" rect="328,388,21,19">C</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_PLAYERTASKLIST" rect=" 0, 0, 246, 337">
+
+
+    <element type="listbox" id="IDC_LIST_PLAYERTASK" rect="35,55,162,250">""</element>
+    <element type="button" id="IDC_BTN_LISTCLOSE" rect="212,310,23,22">CLOSE</element>
+    <element type="button" id="IDC_BTN_LISTUP" rect="205,129,22,22">U</element>
+    <element type="button" id="IDC_BTN_LISDOWN" rect="205,190,22,22">D</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_PLAYERTASKGET" rect=" 0, 0, 180, 209">
+
+
+    <element type="button" id="IDC_TASK_ITEMGRID" rect="51,100,91,16">ITEMGRID</element>
+    <element type="button" id="IDC_BTN_REQLEV" rect="69,34,13,13">REQLEV</element>
+    <element type="button" id="IDC_BTN_TASKGETOK" rect="44,182,26,14">OK</element>
+    <element type="button" id="IDC_BTN_CLOSE" rect="111,182,26,14">CLOSE</element>
+    <element type="editbox" id="IDC_EDIT_TASKNAME" rect="55,18,69,12">""</element>
+    <element type="editbox" id="IDC_EDIT_TASKINFO" rect="52,52,111,43">""</element>
+    <element type="button" id="IDC_BTN_SETKILLER" rect="46,155,31,14">SETKILLER</element>
+    <element type="button" id="IDC_BTN_SETITEM" rect="87,155,31,14">SETITEM</element>
+    <element type="button" id="IDC_BTN_SETMONSTER" rect="128,155,31,14">SETMONSTER</element>
+    <element type="button" id="IDC_BTN_CLOSED" rect="164,194,12,12">CLOSED</element>
+    <element type="editbox" id="IDC_EDIT_MONEY" rect="70,125,59,12">""</element>
+    <element type="static" id="IDC_STA_REQLEV" rect="52,39,17,8">LEV</element>
+    <element type="listbox" id="IDC_LIST_REQLEV" rect="51,49,20,43">""</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_TASKKILLER" rect=" 0, 0, 240, 123">
+
+
+    <element type="button" id="IDC_BTN_CLOSE" rect="207,97,24,22">CLOSE</element>
+    <element type="editbox" id="IDC_EDIT_KILLNAME" rect="98,53,117,22">""</element>
+    <element type="button" id="IDC_BTN_SETOK" rect="47,86,55,24">OK</element>
+    <element type="button" id="IDC_BTN_SETCANCEL" rect="131,86,55,24">CANCEL</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_TASKITEM" rect=" 0, 0, 441, 178">
+
+
+    <element type="button" id="IDC_BTN_CLOSE" rect="408,137,22,22">CLOSE</element>
+    <element type="button" id="IDC_BTN_SETOK" rect="132,130,55,24">OK</element>
+    <element type="button" id="IDC_BTN_SETCANCEL" rect="226,130,55,24">CANCEL</element>
+    <element type="editbox" id="IDC_EDIT_ITEMAMOUNT" rect="336,55,41,17">""</element>
+    <element type="editbox" id="IDC_EDIT_ITEMNAME" rect="121,55,98,17">""</element>
+    <element type="editbox" id="IDC_EDIT_ITEMMARK" rect="122,92,56,17">""</element>
+    <element type="editbox" id="IDC_EDIT_ITEMSOUL" rect="313,92,51,17">""</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_TASKMONSTER" rect=" 0, 0, 419, 146">
+
+
+    <element type="button" id="IDC_BTN_CLOSE" rect="389,111,23,23">CLOSE</element>
+    <element type="button" id="IDC_BTN_SETOK" rect="135,108,55,24">OK</element>
+    <element type="button" id="IDC_BTN_SETCANCEL" rect="229,108,55,24">CANCEL</element>
+    <element type="editbox" id="IDC_EDIT_MONSTERLEV" rect="104,74,39,14">""</element>
+    <element type="editbox" id="IDC_EDIT_MONSTERGROW" rect="319,44,39,14">""</element>
+    <element type="editbox" id="IDC_EDIT_MONSTERTYPE" rect="104,44,83,14">""</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_UPTASKITEM" rect=" 0, 0, 191, 169">
+
+
+    <element type="button" id="IDC_IMG_TASKITEM" rect="61,24,64,65">TASKITEM</element>
+    <element type="button" id="IDC_BTN_UPOK" rect="29,117,51,24">OK</element>
+    <element type="button" id="IDC_BTN_UPCANCEL" rect="111,117,51,24">CANCEL</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_TEACHERBOARD" rect=" 0, 0, 244, 417">
+
+
+    <element type="editbox" id="IDC_EDIT_INFO" rect="38,143,171,151">""</element>
+    <element type="editbox" id="IDC_EDIT_TITLE" rect="77,88,115,16">""</element>
+    <element type="button" id="IDC_BTN_UPBOARD" rect="64,328,121,34">UP</element>
+    <element type="button" id="IDC_BTN_HELP" rect="47,373,50,25">HELP</element>
+    <element type="button" id="IDC_BTN_CLOSE" rect="210,387,25,25">C</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_TBOARDLIST" rect=" 0, 0, 251, 419">
+
+
+    <element type="listbox" id="IDC_LIST_TBOARD" rect="38,78,150,299">""</element>
+    <element type="button" id="IDC_BTN_CLOSE" rect="210,387,23,22">C</element>
+    <element type="button" id="IDC_BTN_UPPAGE" rect="205,109,23,22">U</element>
+    <element type="button" id="IDC_BTN_DOWNPAGE" rect="205,326,23,22">D</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_TBOARDDETIAL" rect=" 0, 0, 247, 397">
+
+
+    <element type="static" id="IDC_STA_NAME" rect="79,66,83,11">""</element>
+    <element type="static" id="IDC_STA_LEVEL" rect="79,89,83,11">""</element>
+    <element type="static" id="IDC_STA_JOB" rect="79,112,83,11">""</element>
+    <element type="static" id="IDC_STA_TDEGREE" rect="106,135,56,11">""</element>
+    <element type="static" id="IDC_STA_INFO" rect="39,188,182,94">""</element>
+    <element type="button" id="IDC_BTN_CANCELBOARD" rect="63,309,120,31">CANCEL</element>
+    <element type="button" id="IDC_BTN_HELP" rect="47,356,47,22">HELP</element>
+    <element type="button" id="IDC_BTN_CLOSE" rect="210,368,24,22">C</element>
+    <element type="static" id="IDC_STA_TITLE" rect="40,161,181,23">""</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_SCHOOLLIST" rect=" 0, 0, 194, 349">
+
+
+    <element type="listbox" id="IDC_LIST_SECSCHOOL" rect="30,46,137,246">""</element>
+    <element type="button" id="IDC_BTN_CLOSE" rect="164,314,22,21">C</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_MONSTERHATCH" rect=" 0, 0, 514, 304">
+
+
+    <element type="button" id="IDC_IMG_NPCFACE" rect="34,47,78,72">FACE</element>
+    <element type="static" id="IDC_STA_NPCINFO" rect="130,52,329,53">""</element>
+    <element type="button" id="IDC_GRID_EGGS" rect="57,146,400,62">EGGS</element>
+    <element type="button" id="IDC_BTN_CLOSE" rect="245,275,23,24">C</element>
+    <element type="button" id="IDC_BTN_CHECKOK" rect="176,228,54,26">OK</element>
+    <element type="button" id="IDC_BTN_CANCEL" rect="282,228,54,26">CANCEL</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_MONSTERIMPROVE" rect=" 0, 0, 521, 305">
+	<caption height="42">强化</caption>
+    <element type="button" id="IDC_IMG_NPCFACE" rect="42,50,64,64">FACE</element>
+    <element type="static" id="IDC_STA_NPCINFO_PETRELIVE" rect="128,48,392,66">请放入需要强化的幻兽和需要的“吸魂”宝石。</element>
+	<element type="static" id="IDC_STA_NPCINFO_PETIMPROVE" rect="128,48,392,66">请放入死亡的幻兽和需要的“招魂”宝石。</element>
+	<element type="button" id="IDC_IMG_MONSTER"  rect="169,146,60,60">MONSTER</element>
+    <element type="button" id="IDC_IMG_SOULSTONE"  rect="279,146,60,60">SOULSTONE</element>
+    <element type="button" id="IDC_BTN_CLOSE" rect="244,274,27,25">X</element>
+    <element type="button" id="IDC_BTN_ALIVEIMP" rect="227,220,55,26">确定</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_MONSTERDEPOT" rect=" 0, 0, 301, 417">
+
+
+    <element type="button" id="IDC_GRID_MONSTER" rect="37,64,32,280">MONSTER</element>
+    <element type="static" id="IDC_STA_NAME1" rect="121,69,69,13">""</element>
+    <element type="static" id="IDC_STA_LEVEL1" rect="121,85,43,13">""</element>
+    <element type="static" id="IDC_STA_ATTACT1" rect="187,85,43,13">""</element>
+    <element type="button" id="IDC_BTN_PAGEUP" rect="270,156,19,20">U</element>
+    <element type="button" id="IDC_BTN_PAGEDOWN" rect="269,240,19,20">D</element>
+    <element type="static" id="IDC_STA_MAGICATTACT1" rect="121,101,43,13">""</element>
+    <element type="static" id="IDC_STA_NAME2" rect="121,131,69,13">""</element>
+    <element type="static" id="IDC_STA_LEVEL2" rect="121,147,43,13">""</element>
+    <element type="static" id="IDC_STA_ATTACT2" rect="187,148,43,13">""</element>
+    <element type="static" id="IDC_STA_MAGICATTACT2" rect="121,163,43,13">""</element>
+    <element type="static" id="IDC_STA_NAME3" rect="121,192,69,13">""</element>
+    <element type="static" id="IDC_STA_LEVEL3" rect="121,208,43,13">""</element>
+    <element type="static" id="IDC_STA_ATTACT3" rect="187,209,43,13">""</element>
+    <element type="static" id="IDC_STA_MAGICATTACT3" rect="121,224,43,13">""</element>
+    <element type="static" id="IDC_STA_NAME4" rect="121,254,69,13">""</element>
+    <element type="static" id="IDC_STA_LEVEL4" rect="121,270,43,13">""</element>
+    <element type="static" id="IDC_STA_ATTACT4" rect="187,270,43,13">""</element>
+    <element type="static" id="IDC_STA_MAGICATTACT4" rect="121,286,43,13">""</element>
+    <element type="static" id="IDC_STA_NAME5" rect="121,314,69,13">""</element>
+    <element type="static" id="IDC_STA_LEVEL5" rect="121,331,43,13">""</element>
+    <element type="static" id="IDC_STA_ATTACT5" rect="187,331,43,13">""</element>
+    <element type="static" id="IDC_STA_MAGICATTACT5" rect="121,347,43,13">""</element>
+    <element type="button" id="IDC_BTN_CLOSE" rect="265,376,24,24">C</element>
+    <element type="button" id="IDC_MONSTER1" rect="92,64,169,302">Button2</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_MONSTERNPC" rect=" 0, 0, 268, 302">
+
+
+    <element type="button" id="IDC_BTN_CLOSE" rect="122,276,24,23">C</element>
+    <element type="button" id="IDC_BTN_OPENHATCH" rect="102,73,63,25">HATCH</element>
+    <element type="button" id="IDC_BTN_OPENDEPOT" rect="102,116,63,25">DEPOT</element>
+    <element type="button" id="IDC_BTN_IMPROVE" rect="102,159,63,25">IMPROVE</element>
+    <element type="button" id="IDC_BTN_ALIVE" rect="102,202,63,25">ALIVE</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_FACSTATE" rect=" 0, 0, 227, 419">
+
+
+    <element type="button" id="IDC_FACSTATE_BTN_CLOSE" rect="169,381,22,24">C</element>
+    <element type="static" id="IDC_STA_NAME" rect="74,196,49,11">姓名</element>
+    <element type="static" id="IDC_STA_SYNJOB" rect="74,316,49,11">帮派职务</element>
+    <element type="static" id="IDC_STA_LEVEL" rect="74,256,49,11">等级</element>
+    <element type="static" id="IDC_STA_PROSITION" rect="74,236,49,11">职业</element>
+    <element type="static" id="IDC_STA_PK" rect="74,296,49,11">PK值</element>
+    <element type="static" id="IDC_STA_MATE" rect="74,216,49,11">配偶</element>
+    <element type="button" id="IDC_STATE_IMAFACE" rect="65,75,64,64">FACE</element>
+    <element type="static" id="IDC_STA_NOBILITY" rect="74,276,49,11">身份</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_IDENTIFY" rect=" 0, 0, 242, 139">
+
+
+    <element type="button" id="IDC_BTN_OK" rect="115,97,46,21">确定</element>
+    <element type="button" id="IDC_BTN_CANCEL" rect="187,97,46,21">取消</element>
+    <element type="button" id="IDC_IMG_GOOD" rect="36,47,64,64">物品</element>
+    <element type="static" id="IDC_STA_IDENTMONEY" rect="168,54,45,15">""</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_NPCEQUIP" rect=" 0, 0, 294, 342">
+
+
+    <element type="static" id="IDC_QUERY_NAME" rect="110,28,84,16">姓名</element>
+    <element type="static" id="IDC_QUERY_FACTION" rect="110,8,84,16">帮派</element>
+    <element type="button" id="IDC_NPCEQUIP_CLOSE" rect="264,309,22,22">C</element>
+    <element type="button" id="IDC_IMG_MANTLE" rect="42,147,34,34">披风</element>
+    <element type="button" id="IDC_IMG_HEAD" rect="42,88,34,34">头盔</element>
+    <element type="button" id="IDC_IMG_NECK" rect="221,87,34,34">项链</element>
+    <element type="button" id="IDC_IMG_GEAR" rect="221,207,34,34">手镯</element>
+    <element type="button" id="IDC_IMG_BODY" rect="221,147,34,34">盔甲</element>
+    <element type="button" id="IDC_IMG_WEAPON" rect="42,208,34,34">武器</element>
+    <element type="button" id="IDC_IMG_SHOE" rect="131,261,34,34">鞋子</element>
+    <element type="button" id="IDC_IMG_MOUNT" rect="221,261,34,34">坐骑</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_TXTACTION" rect=" 0, 0, 49, 225">
+
+
+    <element type="listbox" id="IDC_LIST_TXTACTION" rect="0,0,48,225">""</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_TALKTARGET" rect=" 0, 0, 81, 224">
+
+
+    <element type="listbox" id="IDC_LIST_TALKTARGET" rect="0,1,81,223">""</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_BIDAUCTION" rect=" 0, 0, 274, 262">
+
+
+    <element type="button" id="IDC_IMG_AUCTIONITEM" rect="105,38,67,65">ITEM</element>
+    <element type="button" id="IDC_BTN_BID" rect="151,192,48,25">BID</element>
+    <element type="editbox" id="IDC_EDIT_BIDVALUE" rect="38,197,87,18">""</element>
+    <element type="static" id="IDC_STATIC_NAME" rect="111,157,54,14">""</element>
+    <element type="static" id="IDC_STATIC_VALUE" rect="119,127,54,14">""</element>
+    <element type="button" id="IDC_BTN_CLOSE" rect="248,235,21,21">CLOSE</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_AUCPACKAGE" rect=" 0, 0, 248, 87">
+
+
+    <element type="button" id="IDC_AUCITEM_GRID" rect="65,17,167,31">GRID</element>
+    <element type="button" id="IDC_IMG_MONEYITEM" rect="18,17,31,31">MONEY</element>
+    <element type="button" id="IDC_BTN_CLOSE" rect="118,63,21,21">CLOSE</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_ADDAUCITEM" rect=" 0, 0, 277, 266">
+
+
+    <element type="button" id="IDC_IMG_AUCITEM" rect="107,41,65,66">ITEM</element>
+    <element type="button" id="IDC_BTN_ADDOK" rect="81,199,44,23">OK</element>
+    <element type="button" id="IDC_BTN_ADDCANCEL" rect="160,199,44,23">CANCEL</element>
+    <element type="button" id="IDC_BTN_CLOSE" rect="248,236,23,23">CLOSE</element>
+    <element type="editbox" id="IDC_EDIT_AUCMONEY" rect="102,143,92,18">""</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_MAGIC" rect=" 0, 0, 169, 16">
+
+
+    <element type="button" id="IDC_MAGIC_IMG1" rect="9,0,16,16">魔法1</element>
+    <element type="button" id="IDC_MAGIC_IMG2" rect="25,0,16,16">魔法2</element>
+    <element type="button" id="IDC_MAGIC_IMG3" rect="41,0,16,16">魔法3</element>
+    <element type="button" id="IDC_MAGIC_IMG4" rect="57,0,16,16">魔法4</element>
+    <element type="button" id="IDC_MAGIC_IMG5" rect="73,0,16,16">魔法5</element>
+    <element type="button" id="IDC_MAGIC_IMG6" rect="89,0,16,16">魔法6</element>
+    <element type="button" id="IDC_MAGIC_IMG7" rect="105,0,16,16">魔法7</element>
+    <element type="button" id="IDC_MAGIC_IMG8" rect="121,0,16,16">魔法8</element>
+    <element type="button" id="IDC_MAGIC_IMG9" rect="137,0,16,16">魔法9</element>
+    <element type="button" id="IDC_MAGIC_IMG10" rect="153,0,16,16">魔法10</element>
+    <element type="button" id="IDC_MAGIC_BTN_UP" rect="0,0,9,8">U</element>
+    <element type="button" id="IDC_MAGIC_BTN_DOWN" rect="0,8,9,8">D</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_KONGFU" rect=" 0, 0, 259, 25">
+
+
+    <element type="button" id="IDC_KONGFU_IMG1" rect="9,0,25,25">功夫1</element>
+    <element type="button" id="IDC_KONGFU_IMG2" rect="34,0,25,25">功夫2</element>
+    <element type="button" id="IDC_KONGFU_IMG3" rect="59,0,25,25">功夫3</element>
+    <element type="button" id="IDC_KONGFU_IMG4" rect="84,0,25,25">功夫4</element>
+    <element type="button" id="IDC_KONGFU_IMG5" rect="109,0,25,25">功夫5</element>
+    <element type="button" id="IDC_KONGFU_IMG6" rect="134,0,25,25">功夫6</element>
+    <element type="button" id="IDC_KONGFU_IMG7" rect="159,0,25,25">功夫7</element>
+    <element type="button" id="IDC_KONGFU_IMG8" rect="184,0,25,25">功夫8</element>
+    <element type="button" id="IDC_KONGFU_IMG9" rect="209,0,25,25">功夫9</element>
+    <element type="button" id="IDC_KONGFU_IMG10" rect="234,0,25,25">功夫10</element>
+    <element type="button" id="IDC_KONGFU_BTN_UP" rect="0,0,9,9">U</element>
+    <element type="button" id="IDC_KONGFU_BTN_DOWN" rect="0,16,9,9">D</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_LAY" rect=" 0, 0, 124, 104">
+
+
+    <element type="button" id="IDC_LAY_BTN_CLOSES" rect="111,4,10,10">C</element>
+    <element type="button" id="IDC_BTN_HELP" rect="17,87,23,12">H</element>
+    <element type="button" id="IDC_LAY_CLOSEB" rect="83,87,23,12">关闭</element>
+    <element type="button" id="IDC_BTN_OK" rect="24,66,23,12">确定</element>
+    <element type="button" id="IDC_BTN_CANCEL" rect="77,67,23,12">取消</element>
+    <element type="button" id="IDC_LAY_LEFT" rect="28,33,10,10">左转</element>
+    <element type="button" id="IDC_LAY_RIGHT" rect="81,33,10,10">右转</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_FRIEND" rect=" 0, 0, 178, 220">
+
+
+    <element type="button" id="IDC_FRIEND_BTN_ADD" rect="5,189,41,12">添加</element>
+    <element type="button" id="IDC_FRIEND_BTN_CLOSE" rect="150,192,15,15">C</element>
+    <element type="button" id="IDC_FRIEND_BTN_RESUME" rect="0,0,29,10">仇人</element>
+    <element type="button" id="IDC_BTN_LEFT" rect="58,167,16,16">L</element>
+    <element type="button" id="IDC_BTN_RIGHT" rect="103,167,16,16">R</element>
+    <element type="button" id="IDC_BTN_SORTONLINE" rect="94,183,41,12">在线</element>
+    <element type="button" id="IDC_BTN_SORTNAME" rect="94,195,41,12">名称</element>
+    <element type="button" id="IDC_BTN_SORT" rect="51,189,26,12">排序</element>
+    <element type="button" id="IDC_IMG_HEAD1" rect="13,26,32,32">人物头象</element>
+    <element type="button" id="IDC_BTN_MSG1" rect="137,29,26,12">消息</element>
+    <element type="button" id="IDC_BTN_DEL1" rect="137,45,26,12">删除</element>
+    <element type="static" id="IDC_STA_NAME1" rect="71,27,18,8">""</element>
+    <element type="static" id="IDC_STA_LEV1" rect="71,39,18,8">等级</element>
+    <element type="static" id="IDC_STA_SEX1" rect="71,52,18,8">性别</element>
+    <element type="static" id="IDC_STA_PRO1" rect="107,39,18,8">职业</element>
+    <element type="static" id="IDC_STA_STIRPS1" rect="107,52,18,8">种族</element>
+    <element type="button" id="IDC_IMG_HEAD2" rect="13,74,32,32">人物头象</element>
+    <element type="button" id="IDC_BTN_MSG2" rect="137,77,26,12">消息</element>
+    <element type="button" id="IDC_BTN_DEL2" rect="137,93,26,12">删除</element>
+    <element type="static" id="IDC_STA_NAME2" rect="71,75,18,8">""</element>
+    <element type="static" id="IDC_STA_LEV2" rect="71,87,18,8">等级</element>
+    <element type="static" id="IDC_STA_SEX2" rect="71,100,18,8">性别</element>
+    <element type="static" id="IDC_STA_PRO2" rect="107,87,18,8">职业</element>
+    <element type="static" id="IDC_STA_STIRPS2" rect="107,100,18,8">种族</element>
+    <element type="button" id="IDC_IMG_HEAD3" rect="13,122,32,32">人物头象</element>
+    <element type="button" id="IDC_BTN_MSG3" rect="137,125,26,12">消息</element>
+    <element type="button" id="IDC_BTN_DEL3" rect="137,141,26,12">删除</element>
+    <element type="static" id="IDC_STA_NAME3" rect="71,123,18,8">""</element>
+    <element type="static" id="IDC_STA_LEV3" rect="71,135,18,8">等级</element>
+    <element type="static" id="IDC_STA_SEX3" rect="71,148,18,8">性别</element>
+    <element type="static" id="IDC_STA_PRO3" rect="107,135,18,8">职业</element>
+    <element type="static" id="IDC_STA_STIRPS3" rect="107,148,18,8">种族</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_FRDSTATE" rect=" 0, 0, 69, 162">
+
+
+    <element type="button" id="IDC_FRDSTATE_BTN_CLOSE" rect="56,5,10,10">C</element>
+    <element type="static" id="IDC_STA1" rect="8,57,53,8">姓名</element>
+    <element type="static" id="IDC_STA2" rect="30,77,36,8">等级</element>
+    <element type="static" id="IDC_STA3" rect="30,88,36,8">职业</element>
+    <element type="static" id="IDC_STA4" rect="30,98,36,8">PK值</element>
+    <element type="button" id="IDC_FRDSTATE_BTN_DEL" rect="18,132,29,10">删除</element>
+    <element type="static" id="IDC_STA5" rect="8,108,36,8">帮派</element>
+    <element type="static" id="IDC_STA6" rect="8,118,36,8">帮派职务</element>
+    <element type="static" id="IDC_STA7" rect="8,68,53,8">配偶</element>
+    <element type="button" id="IDC_FRDSTATE_IMAFACE" rect="19,20,30,30">FACE</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_EMBLEMBUY" rect=" 0, 0, 176, 161">
+
+
+    <element type="button" id="IDC_IMG_EMBLEM1" rect="29,60,32,32">帮派徽章</element>
+    <element type="button" id="IDC_IMG_EMBLEM2" rect="63,60,32,32">帮派徽章</element>
+    <element type="button" id="IDC_IMG_EMBLEM3" rect="98,60,32,32">帮派徽章</element>
+    <element type="button" id="IDC_IMG_EMBLEM4" rect="29,96,32,32">帮派徽章</element>
+    <element type="button" id="IDC_IMG_EMBLEM5" rect="63,96,32,32">帮派徽章</element>
+    <element type="button" id="IDC_IMG_EMBLEM6" rect="98,96,32,32">帮派徽章</element>
+    <element type="button" id="IDC_BTN_CLOSE" rect="160,145,13,13">关闭</element>
+    <element type="button" id="IDC_BTN_UP" rect="139,108,27,10">U</element>
+    <element type="button" id="IDC_BTN_DOWN" rect="139,125,27,10">D</element>
+    <element type="button" id="IDC_BTN_OK" rect="105,142,25,11">确定</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_EFFIGY" rect=" 0, 0, 120, 190">
+
+
+    <element type="button" id="IDC_BTN_HELP" rect="6,171,23,12">H</element>
+    <element type="button" id="IDC_EFFIGY_CLOSE" rect="90,171,23,12">关闭</element>
+    <element type="button" id="IDC_EFFIGY_CLOSES" rect="106,4,10,10">C</element>
+    <element type="button" id="IDC_EFFIGY_OK" rect="48,171,23,12">确定</element>
+    <element type="button" id="IDC_ACT_BTN1" rect="93,19,15,15">扮酷</element>
+    <element type="button" id="IDC_ACT_BTN2" rect="93,34,15,15">半跪</element>
+    <element type="button" id="IDC_ACT_BTN3" rect="93,50,15,15">悲哀</element>
+    <element type="button" id="IDC_ACT_BTN4" rect="93,65,15,15">高兴</element>
+    <element type="button" id="IDC_ACT_BTN5" rect="93,81,15,15">生气</element>
+    <element type="button" id="IDC_ACT_BTN6" rect="93,96,15,15">舞蹈</element>
+    <element type="button" id="IDC_ACT_BTN7" rect="93,112,15,15">招呼</element>
+    <element type="button" id="IDC_ACT_BTN8" rect="93,127,15,15">作揖</element>
+    <element type="button" id="IDC_EFFIGY_PANDP" rect="34,152,29,10">播放</element>
+    <element type="button" id="IDC_EFFIGY_LEFT" rect="17,152,10,10">左转</element>
+    <element type="button" id="IDC_EFFIGY_RIGHT" rect="70,152,10,10">右转</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_CHAT" rect=" 0, 0, 124, 104">
+
+
+    <element type="button" id="IDC_CHAT_BTN_CLOSES" rect="111,4,10,10">C</element>
+    <element type="button" id="IDC_BTN_HELP" rect="17,87,23,12">H</element>
+    <element type="button" id="IDC_CHAT_CLOSEB" rect="83,87,23,12">关闭</element>
+    <element type="button" id="IDC_CHAT_BTN_RECORD" rect="19,74,28,11">聊天纪录</element>
+    <element type="button" id="IDC_CHAT_BTN_SIFT" rect="76,74,28,11">聊天过滤</element>
+    <element type="button" id="IDC_CHAT_CHK_G" rect="15,21,27,11">公聊</element>
+    <element type="button" id="IDC_CHAT_CHK_B" rect="71,21,27,11">帮派</element>
+    <element type="button" id="IDC_CHAT_CHK_D" rect="15,33,27,11">队伍</element>
+    <element type="button" id="IDC_CHAT_CHK_H" rect="71,33,27,11">好友</element>
+    <element type="button" id="IDC_CHAT_CHK_S" rect="15,45,27,11">私聊</element>
+    <element type="button" id="IDC_CHAT_CHK_SF" rect="15,57,27,11">禁止非好友私聊</element>
+    <element type="button" id="IDC_CHAT_IMG_GC" rect="43,22,8,8">G</element>
+    <element type="button" id="IDC_CHAT_IMG_DC" rect="43,34,8,8">D</element>
+    <element type="button" id="IDC_CHAT_IMG_SC" rect="43,46,8,8">S</element>
+    <element type="button" id="IDC_CHAT_IMG_BC" rect="99,22,8,8">B</element>
+    <element type="button" id="IDC_CHAT_IMG_HC" rect="99,34,8,8">H</element>
+    <element type="button" id="IDC_CHAT_IMG_CC1" rect="58,19,8,8">C1</element>
+    <element type="button" id="IDC_CHAT_IMG_CC2" rect="58,27,8,8">C2</element>
+    <element type="button" id="IDC_CHAT_IMG_CC3" rect="58,35,8,8">C3</element>
+    <element type="button" id="IDC_CHAT_IMG_CC4" rect="58,43,8,8">C4</element>
+    <element type="button" id="IDC_CHAT_IMG_CC5" rect="58,51,8,8">C5</element>
+    <element type="button" id="IDC_CHAT_IMG_CC6" rect="58,59,8,8">C6</element>
+    <element type="button" id="IDC_CHAT_IMG_CC7" rect="58,67,8,8">C7</element>
+    <element type="button" id="IDC_CHAT_IMG_CC8" rect="58,75,8,8">C8</element>
+    <element type="button" id="IDC_CHAT_CHK_Z" rect="71,45,27,11">动作</element>
+    <element type="button" id="IDC_CHAT_IMG_ZC" rect="99,46,8,8">Z</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_BLACK" rect=" 0, 0, 124, 104">
+
+
+    <element type="button" id="IDC_BLACK_BTN_CLOSES" rect="111,4,10,10">C</element>
+    <element type="button" id="IDC_BTN_HELP" rect="17,87,23,12">H</element>
+    <element type="button" id="IDC_BLACK_CLOSEB" rect="83,87,23,12">关闭</element>
+    <element type="button" id="IDC_BLACK_BTN_DEL" rect="15,74,28,11">删除</element>
+    <element type="button" id="IDC_BLACK_BTN_ADD" rect="78,74,28,11">添加</element>
+    <element type="static" id="IDC_BLACK_LST_DATA" rect="10,18,98,41">""</element>
+    <element type="editbox" id="IDC_BLACK_EDT_NAME" rect="54,60,56,12">""</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_MONSTERSKILL" rect=" 0, 0, 296, 310">
+
+
+    <element type="static" id="IDC_STA_NAME" rect="105,10,85,12">NAME</element>
+    <element type="button" id="IDC_BTN_PAGEUP" rect="268,82,18,21">UP</element>
+    <element type="button" id="IDC_BTN_PAGEDOWN" rect="268,204,18,21">DOWN</element>
+    <element type="button" id="IDC_IMG_SKILL1" rect="36,72,40,40">SKILL1</element>
+    <element type="button" id="IDC_IMG_SKILL2" rect="36,121,40,40">SKILL2</element>
+    <element type="button" id="IDC_IMG_SKILL3" rect="36,170,40,40">SKILL3</element>
+    <element type="button" id="IDC_IMG_SKILL4" rect="36,221,40,40">SKILL4</element>
+    <element type="static" id="IDC_STA_NAME1" rect="85,75,56,15">技能一</element>
+    <element type="static" id="IDC_STA_DESCM1" rect="85,96,56,15">等级</element>
+    <element type="static" id="IDC_STA_NAME2" rect="85,123,56,15">技能一</element>
+    <element type="static" id="IDC_STA_DESCM2" rect="85,145,56,15">等级</element>
+    <element type="static" id="IDC_STA_NAME3" rect="85,173,56,15">技能一</element>
+    <element type="static" id="IDC_STA_DESCM3" rect="85,194,56,15">等级</element>
+    <element type="static" id="IDC_STA_NAME4" rect="85,224,56,15">技能一</element>
+    <element type="static" id="IDC_STA_DESCM4" rect="85,245,56,15">等级</element>
+    <element type="button" id="IDC_BTN_CLOSE" rect="264,276,24,24">close</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_PET_HEADS" scale="50,0,50,0" offset="-324,0,324,68">
+    <element type="button" id="IDC_BTN_CALL1" rect="6,52,30,15">CALL</element>
+    <element type="button" id="IDC_BTN_ATTACH1" rect="40,52,30,15">ATTACH</element>
+    <element type="button" id="IDC_IMG_HEAD1" rect="6,2,146,48">""</element>
+    <element type="static" id="IDC_IMG_HEADBACK1" rect="0,0,15,13">""</element>
+    <element type="progress" id="IDC_PROGRESS_HP1" rect="60,20,91,9">Progress1</element>
+    <element type="static" id="IDC_STA_NAME1" rect="66,5,75,12">name</element>
+    <element type="progress" id="IDC_PROGRESS_EXP1" rect="60,38,91,9">Progress1</element>
+    <element type="progress" id="IDC_PROGRESS_XP1" rect="60,29,91,9">Progress1</element>
+    <element type="button" id="IDC_BTN_CALL2" rect="168,52,30,15">CALL</element>
+    <element type="button" id="IDC_BTN_ATTACH2" rect="203,52,30,15">ATTACH</element>
+    <element type="button" id="IDC_IMG_HEAD2" rect="168,2,146,48">""</element>
+    <element type="static" id="IDC_IMG_HEADBACK2" rect="162,0,15,13">""</element>
+    <element type="progress" id="IDC_PROGRESS_HP2" rect="222,20,91,9">Progress1</element>
+    <element type="static" id="IDC_STA_NAME2" rect="229,5,75,12">name</element>
+    <element type="progress" id="IDC_PROGRESS_EXP2" rect="222,38,91,9">Progress1</element>
+    <element type="progress" id="IDC_PROGRESS_XP2" rect="222,29,91,9">Progress1</element>
+    <element type="button" id="IDC_BTN_CALL3" rect="330,52,30,15">CALL</element>
+    <element type="button" id="IDC_BTN_ATTACH3" rect="365,52,30,15">ATTACH</element>
+    <element type="button" id="IDC_IMG_HEAD3" rect="330,2,146,48">""</element>
+    <element type="static" id="IDC_IMG_HEADBACK3" rect="324,0,15,13">""</element>
+    <element type="progress" id="IDC_PROGRESS_HP3" rect="384,20,91,9">Progress1</element>
+    <element type="static" id="IDC_STA_NAME3" rect="390,5,75,12">name</element>
+    <element type="progress" id="IDC_PROGRESS_EXP3" rect="384,38,91,9">Progress1</element>
+    <element type="progress" id="IDC_PROGRESS_XP3" rect="384,29,91,9">Progress1</element>
+    <element type="button" id="IDC_BTN_CALL4" rect="492,52,30,15">CALL</element>
+    <element type="button" id="IDC_BTN_ATTACH4" rect="526,52,30,15">ATTACH</element>
+    <element type="button" id="IDC_IMG_HEAD4" rect="492,2,146,48">""</element>
+    <element type="static" id="IDC_IMG_HEADBACK4" rect="486,0,15,13">""</element>
+    <element type="progress" id="IDC_PROGRESS_HP4" rect="546,20,91,9">Progress1</element>
+    <element type="static" id="IDC_STA_NAME8" rect="552,5,75,12">name</element>
+    <element type="progress" id="IDC_PROGRESS_EXP4" rect="546,38,91,9">Progress1</element>
+    <element type="progress" id="IDC_PROGRESS_XP4" rect="546,29,91,9">Progress1</element>
+    <element type="static" id="IDC_STA_HP1" rect="60,18,91,9">""</element>
+    <element type="static" id="IDC_STA_HP2" rect="222,18,91,9">""</element>
+    <element type="static" id="IDC_STA_HP3" rect="384,18,91,9">""</element>
+    <element type="static" id="IDC_STA_HP4" rect="546,18,91,9">""</element>
+    <element type="static" id="IDC_STA_XP1" rect="60,27,91,9">""</element>
+    <element type="static" id="IDC_STA_XP2" rect="222,27,91,9">""</element>
+    <element type="static" id="IDC_STA_XP3" rect="384,27,91,9">""</element>
+    <element type="static" id="IDC_STA_XP4" rect="546,27,91,9">""</element>
+    <element type="static" id="IDC_STA_EXP1" rect="60,36,91,9">""</element>
+    <element type="static" id="IDC_STA_EXP2" rect="222,36,91,9">""</element>
+    <element type="static" id="IDC_STA_EXP3" rect="384,36,91,9">""</element>
+    <element type="static" id="IDC_STA_EXP4" rect="546,36,91,9">""</element>
+  </dialog>
+
+  <dialog id="IDD_MENU_PETATK" rect=" 0, 0, 98, 19">
+    <element type="button" id="IDC_BTN_ATKSTATUS1" rect="1,0,42,18">STATUS1</element>
+    <element type="button" id="IDC_BTN_ATKSTATUS2" rect="56,1,42,18">STATUS2</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_EMOTION" rect=" 0, 0, 235, 127">
+    <element type="button" id="IDC_BTN_PAGELEFT" rect="150,103,25,18">LEFT</element>
+    <element type="button" id="IDC_BTN_PAGERIGHT" rect="193,103,25,18">RIGHT</element>
+    <element type="static" id="IDC_STA_PAGE" rect="18,105,41,13">""</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_MONSTEREVOLVE" rect=" 0, 0, 468, 301">
+    <element type="static" id="IDC_MONSTEREVOLVE_STA_NAME" rect="61,44,104,24">幻兽名字</element>
+    <element type="button" id="IDC_IMG_BEFOREEVOLVED" rect="45,53,136,204">BEFOREEVOLVE</element>
+    <element type="button" id="IDC_IMG_AFTEREVOLVE" rect="299,67,136,190">AFTEREVOLVE</element>
+    <element type="button" id="IDC_BTN_EVOLVE" rect="200,152,31,46">EVOLVE</element>
+    <element type="button" id="IDC_BTN_CANCEL" rect="246,152,31,46">CANCEL</element>
+    <element type="button" id="IDC_BTN_CLOSE" rect="221,276,24,24">C</element>
+    <element type="button" id="IDC_IMG_MONSTER" rect="200,58,81,82">MONSTER</element>
+  </dialog>
+
+  <dialog id="IDD_DIALOG_ROOMLG" rect=" 0, 0, 187, 99">
+    <element type="button" id="IDC_ROOMLG_BTN_RETURN" rect="63,71,42,21">Button1</element>
+    <element type="listbox" id="IDC_LIST_ROOMINFO" rect="29,16,124,45">""</element>
+  </dialog>
+
+  <dialog id="IDD_CHAR_INFO" scale="100,50,100,50" offset="-240,-240,0,240">
+    <element type="static" id="IDC_STA_NAME" rect="105,10,85,12">NAME</element>
+    <element type="button" id="IDC_BTN_ADD1" rect="36,72,40,40">+</element>
+    <element type="button" id="IDC_BTN_ADD2" rect="36,121,40,40">+</element>
+    <element type="button" id="IDC_BTN_ADD3" rect="36,170,40,40">+</element>
+    <element type="button" id="IDC_BTN_ADD4" rect="36,221,40,40">+</element>
+    <element type="button" id="IDC_BTN_CLOSE" rect="264,276,24,24">close</element>
+  </dialog>
+  
+  <dialog id="IDD_CHAT_MESSAGE" scale="0,100,0,100" offset="10,-263,300,-93">
+    <element type="listbox" id="IDC_LIST_CHAT_MESSAGE" scale="0,0,100,100" offset="10,10,-10,-10"></element>
+  </dialog>
+  
+  <dialog id="IDD_CHAT" scale="0,100,0,100" offset="10,-93,300,-63">
+    <element type="editbox" id="IDC_EDIT_BOX_CHAT" scale="0,0,100,100" offset="10,5,-10,-5"></element>
+  </dialog>
+  
+  <dialog id="IDD_MOVE" scale="0,0,0,0" offset="0,0,300,600">
+	<caption height="20">Move List</caption>
+    <element type="static" id="IDC_STA_MAPNAME" rect="10,5,85,12">Map Name</element>
+    <element type="static" id="IDC_STA_LEVEL" rect="100,5,85,12">Level</element>
+    <element type="static" id="IDC_STA_MONEY" rect="200,5,85,12">Money</element>
+	<element type="listbox" id="IDC_LISTBOX_MOVE" scale="0,0,100,100" offset="10,25,-10,-10"/>
+  </dialog>
+</root>

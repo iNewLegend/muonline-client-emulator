@@ -1,0 +1,425 @@
+index,rate,name,name_cn,Level,HP,scale,model,weaponBone,weapon,soundIdle1,soundIdle2,soundAttack1,soundAttack2,soundDie
+//Lorencia,,,,,,,,,,,,,,
+3,1,Spider,,2,30,0.5,Data\Monster\Monster10.bmd,,,data\sound\mSpider1.wav,,,,
+2,1,Budge Dragon,,4,60,0.7,Data\Monster\Monster03.bmd,,,data\sound\mBudge1.wav,,data\sound\mBudgeAttack1.wav,data\sound\mBudgeAttack1.wav,data\sound\mBudgeDie.wav
+0,1,Bull Fighter,,6,100,1,Data\Monster\Monster01.bmd,left_bone,Data\Item\Sword22.bmd,data\sound\mBull1.wav,data\sound\mBull2.wav,data\sound\mBullAttack1.wav,data\sound\mBullAttack2.wav,data\sound\mBullDie.wav
+1,1,Hound,,9,140,1,Data\Monster\Monster02.bmd,,,data\sound\mHound1.wav,data\sound\mHound2.wav,data\sound\mHoundAttack1.wav,data\sound\mHoundAttack2.wav,data\sound\mHoundDie.wav
+4,1,Elite Bull Fighter,,12,190,1.2,Data\Monster\Monster01.bmd,left_bone,Data\Item\Sword21.bmd,data\sound\mBull1.wav,data\sound\mBull2.wav,data\sound\mBullAttack1.wav,data\sound\mBullAttack2.wav,data\sound\mBullDie.wav
+6,1,Lich,,14,255,1,Data\Monster\Monster05.bmd,,,,,,,
+7,1,Giant,,17,400,1.5,Data\Monster\Monster06.bmd,,,data\sound\mGiant1.wav,data\sound\mGiant2.wav,data\sound\mGiantAttack1.wav,data\sound\mGiantAttack2.wav,data\sound\mGiantDie.wav
+14,1,Skeleton Warrior,,19,525,1,Data\Monster\Monster08.bmd,,,,,,,
+//Noria,,,,,,1,,,,,,,,
+26,1,Goblin,,3,45,1,Data\Monster\Monster09.bmd,,,,,,,
+27,1,Chain Scorpion,,5,80,1,Data\Monster\Monster02.bmd,,,,,,,
+33,1,Elite Goblin,,8,120,1,Data\Monster\Monster11.bmd,,,,,,,
+28,1,Beetle Monster,,10,165,1,Data\Monster\Monster12.bmd,,,,,,,
+29,1,Hunter,,13,220,1,Data\Monster\Monster13.bmd,,,,,,,
+30,1,Forest Monster,,15,295,1,Data\Monster\Monster14.bmd
+31,1,Agon,,16,340,1,Data\Monster\Monster15.bmd
+32,1,Stone Golem,,18,465,1,Data\Monster\Monster16.bmd
+//Devias,,,,,,1,
+24,1,Worm,,20,600,1,Data\Monster\Monster17.bmd
+22,1,Ice Monster,,22,650,1,Data\Monster\Monster18.bmd
+23,1,Hommerd,,24,700,1,Data\Monster\Monster19.bmd
+21,1,Assassin,,26,800,1,Data\Monster\Monster20.bmd
+19,1,Yeti,,30,900,1,Data\Monster\Monster21.bmd
+20,1,Elite Yeti,,36,1200,1,Data\Monster\Monster22.bmd
+25,1,Ice Queen,,52,4000,1,Data\Monster\Monster23.bmd
+//Dungeon,,,,,,1,
+12,1,Larva,,25,750,1,Data\Monster\Monster24.bmd
+17,1,Cyclops,,28,850,1,Data\Monster\Monster25.bmd
+11,1,Ghost,,32,1000,1,Data\Monster\Monster26.bmd
+15,1,Skeleton Archer,,34,1100,1,Data\Monster\Monster27.bmd
+5,1,Hell Hound,,38,1400,1,Data\Monster\Monster28.bmd
+13,1,Hell Spider,,40,1600,1,Data\Monster\Monster29.bmd
+16,1,Elike Skeleton,,42,1800,1,Data\Monster\Monster30.bmd
+9,1,Thunder Lich,,44,2000,1,Data\Monster\Monster31.bmd
+8,1,Poison Bull,,46,2500,1,Data\Monster\Monster32.bmd
+10,1,Dark Knight,,48,3000,1,Data\Monster\Monster33.bmd
+18,1,Gorgon,,55,6000,1,Data\Monster\Monster34.bmd
+//Losttower,,,,,,1,
+36,1,Shadow,,47,2800,1,Data\Monster\Monster35.bmd
+39,1,Poison Shadow,,50,3500,1,Data\Monster\Monster36.bmd
+34,1,Cursed Wizard,,54,4000,1,Data\Monster\Monster37.bmd
+41,1,Death Cow,,57,4500,1,Data\Monster\Monster38.bmd
+37,1,Devil,,60,5000,1,Data\Monster\Monster39.bmd
+40,1,Death Knight,,62,5500,1,Data\Monster\Monster40.bmd
+35,1,Death Gorgon,,64,6000,1,Data\Monster\Monster41.bmd
+38,1,Balrog,,66,9000,1,Data\Monster\Monster42.bmd
+//Atlans,,,,,,1,
+45,1,Bahamut,,43,2500,1,Data\Monster\Monster43.bmd
+46,1,Vepar,,45,2800,1,Data\Monster\Monster44.bmd
+47,1,Valkyrie,,46,3200,1,Data\Monster\Monster45.bmd
+51,1,Great Bahamut,,66,7000,1,Data\Monster\Monster46.bmd
+52,1,Silver Valyrie,,68,8000,1,Data\Monster\Monster47.bmd
+48,1,Lizard King,,70,9000,1,Data\Monster\Monster48.bmd
+49,1,Hydra,,74,19000,1,Data\Monster\Monster49.bmd
+//Tarkan,,,,,,1,
+62,1,Mutant,,72,10000,1,Data\Monster\Monster50.bmd
+60,1,Bloody Wolf,,76,13500,1,Data\Monster\Monster51.bmd
+57,1,Iron Wheel,,80,17500,1,Data\Monster\Monster52.bmd
+58,1,Tantallos,,82,23500,1,Data\Monster\Monster53.bmd
+61,1,Vim Knight,,84,26500,1,Data\Monster\Monster54.bmd
+59,1,Zaikan,,90,200000,1,Data\Monster\Monster55.bmd
+63,1,DeathVim Knight,,93,40000,1,Data\Monster\Monster56.bmd
+//Exile,,,,,,1,
+50,1,Sea Worm,,80,30000,1,Data\Monster\Monster57.bmd
+68,1,Molt,,78,16000,1,Data\Monster\Monster58.bmd
+//Icarus,,,,,,1,
+69,1,Alquamos,,75,11500,1,Data\Monster\Monster58.bmd
+71,1,Mega Crust,,78,15000,1,Data\Monster\Monster59.bmd
+70,1,Queen Rainer,,83,20000,1,Data\Monster\Monster60.bmd
+73,1,Drakan,,86,31000,1,Data\Monster\Monster61.bmd
+74,1,Alpha Crust,,95,37000,1,Data\Monster\Monster62.bmd
+72,1,Phantom Knight,,96,46500,1,Data\Monster\Monster63.bmd
+75,1,Giant Drakan,,100,57000,1,Data\Monster\Monster64.bmd
+76,1,Dark Phoenix Shield,,106,95000,1,Data\Monster\Monster65.bmd
+77,1,Dark Phoenix,,190,150000,1,Data\Monster\Monster66.bmd
+//Kalima 1 (40 ~ 129),,,,,,1,Data\Monster\Monster67.bmd
+147,1,Aegis,,17,440,1,Data\Monster\Monster68.bmd
+148,1,Lord Centurion,,19,500,1,Data\Monster\Monster69.bmd
+146,1,Bloody Soldier,,21,600,1,Data\Monster\Monster70.bmd
+144,1,Death Angel,,24,740,1,Data\Monster\Monster71.bmd
+149,1,Necron,,28,900,1,Data\Monster\Monster72.bmd
+145,1,Death Centurion,,33,1250,1,Data\Monster\Monster73.bmd
+160,1,Schriker,,40,1800,1,Data\Monster\Monster74.bmd
+161,1,Shadow of Kundum,,52,3000,1,Data\Monster\Monster75.bmd
+//Kalima2 (131 ~ 180),,,,,,1,Data\Monster\Monster76.bmd
+177,1,Aegis,,32,1000,1,Data\Monster\Monster77.bmd
+178,1,Lord Centurion,,34,1200,1,Data\Monster\Monster78.bmd
+176,1,Bloody Soldier,,37,1400,1,Data\Monster\Monster79.bmd
+174,1,Death Angel,,40,1800,1,Data\Monster\Monster80.bmd
+179,1,Necron,,44,2300,1,Data\Monster\Monster81.bmd
+175,1,Death Centurion,,48,3000,1,Data\Monster\Monster82.bmd
+180,1,Schriker,,53,3900,1,Data\Monster\Monster83.bmd
+181,1,Shadow of Kundum,,65,6000,1,Data\Monster\Monster84.bmd
+//Kalima3 (181 ~ 230),,,,,,1,Data\Monster\Monster85.bmd
+185,1,Aegis,,46,2700,1,Data\Monster\Monster86.bmd
+186,1,Lord Centurion,,48,3100,1,Data\Monster\Monster87.bmd
+184,1,Bloody Soldier,,50,3650,1,Data\Monster\Monster88.bmd
+182,1,Death Angel,,53,4400,1,Data\Monster\Monster89.bmd
+187,1,Necron,,58,5300,1,Data\Monster\Monster90.bmd
+183,1,Death Centurion,,63,6600,1,Data\Monster\Monster91.bmd
+188,1,Schriker,,69,8400,1,Data\Monster\Monster92.bmd
+189,1,Shadow of Kundum,,81,14000,1,Data\Monster\Monster93.bmd
+//Kalima4 (231 ~ 280),,,,,,1,Data\Monster\Monster94.bmd
+193,1,Aegis,,62,8000,1,Data\Monster\Monster95.bmd
+194,1,Lord Centurion,,66,8900,1,Data\Monster\Monster96.bmd
+192,1,Bloody Soldier,,70,8800,1,Data\Monster\Monster97.bmd
+190,1,Death Angel,,74,12000,1,Data\Monster\Monster98.bmd
+195,1,Necron,,78,16000,1,Data\Monster\Monster99.bmd
+191,1,Death Centurion,,83,22500,1,Data\Monster\Monster100.bmd
+196,1,Schriker,,88,30000,1,Data\Monster\Monster101.bmd
+197,1,Shadow of Kundum,,100,50000,1,Data\Monster\Monster102.bmd
+//Kalima5 (281 ~ 330),,,,,,1,Data\Monster\Monster103.bmd
+263,1,Aegis,,79,28000,1,Data\Monster\Monster104.bmd
+264,1,Lord Centurion,,82,31000,1,Data\Monster\Monster105.bmd
+262,1,Bloody Soldier,,85,26000,1,Data\Monster\Monster106.bmd
+260,1,Death Angel,,88,31000,1,Data\Monster\Monster107.bmd
+265,1,Necron,,93,38500,1,Data\Monster\Monster108.bmd
+261,1,Death Centurion,,98,48000,1,Data\Monster\Monster109.bmd
+266,1,Schriker,,105,60000,1,Data\Monster\Monster110.bmd
+267,1,Shadow of Kundum,,117,100000,1,Data\Monster\Monster111.bmd
+//Kalima6 (331 ~ 349),,,,,,1,Data\Monster\Monster112.bmd
+271,1,Aegis,,95,42000,1,Data\Monster\Monster113.bmd
+272,1,Lord Centurion,,98,48500,1,Data\Monster\Monster114.bmd
+270,1,Bloody Soldier,,101,56000,1,Data\Monster\Monster115.bmd
+268,1,Death Angel,,105,65000,1,Data\Monster\Monster116.bmd
+273,1,Necron,,109,75500,1,Data\Monster\Monster117.bmd
+269,1,Death Centurion,,114,87500,1,Data\Monster\Monster118.bmd
+274,1,Schriker ,,119,105000,1,Data\Monster\Monster119.bmd
+275,1,Lord of Kundun,,147,9000000,1,Data\Monster\Monster120.bmd
+//Kalima7 (350 ~ 400),,,,,,1,Data\Monster\Monster121.bmd
+331,1,Aegis   ,,111,72000,1,Data\Monster\Monster122.bmd
+332,1,Lord Centurion     ,,114,78000,1,Data\Monster\Monster123.bmd
+333,1,Bloody Soldier ,,117,97300,1,Data\Monster\Monster124.bmd
+334,1,Death Angel ,,121,110000  0 ,1,Data\Monster\Monster125.bmd
+335,1,Necron ,,125,125000  0 ,1,Data\Monster\Monster126.bmd
+336,1,Death Centurion   ,,130,145000  0 ,1,Data\Monster\Monster127.bmd
+337,1,Schriker ,,135,170000  0 ,1,Data\Monster\Monster128.bmd
+338,1,Illusion of Kundun,,193,4000000,1,Data\Monster\Monster129.bmd
+//Kalima Gates,,,,,,1,Data\Monster\Monster130.bmd
+152,1,Magic stone of %s,,10,50,1,Data\Monster\Monster131.bmd
+153,1,Magic stone of %s,,10,50,1,Data\Monster\Monster132.bmd
+154,1,Magic stone of %s,,10,50,1,Data\Monster\Monster133.bmd
+155,1,Magic stone of %s,,10,50,1,Data\Monster\Monster134.bmd
+156,1,Magic stone of %s,,10,50,1,Data\Monster\Monster135.bmd
+157,1,Magic stone of %s,,10,50,1,Data\Monster\Monster136.bmd
+158,1,Magic stone of %s,,10,50,1,Data\Monster\Monster137.bmd
+//Castle Siege,,,,,,1,Data\Monster\Monster138.bmd
+277,1,Castle Gate ,,1,500000,1,Data\Monster\Monster139.bmd
+278,1,Life Stone ,,1,2000,1,Data\Monster\Monster140.bmd
+283,1,Guardian Statue ,,1,600000,1,Data\Monster\Monster141.bmd
+286,1,Battle Guard 1 ,,2,50,1,Data\Monster\Monster142.bmd
+287,1,Battle Guard 2 ,,2,50,1,Data\Monster\Monster143.bmd
+288,1,Canon Tower ,,0,20000,1,Data\Monster\Monster144.bmd
+//Land Of Trials,,,,,,1,Data\Monster\Monster145.bmd
+294,1,Axe Warrior,,75,11500,1,Data\Monster\Monster146.bmd
+290,1,Lizard Warrior,,78,15000,1,Data\Monster\Monster147.bmd
+293,1,Poison Golem,,84,25000,1,Data\Monster\Monster148.bmd
+292,1,Queen Bee,,92,34500,1,Data\Monster\Monster149.bmd
+291,1,Mighty Mo,,102,4000000,1,Data\Monster\Monster150.bmd
+295,1,Erohim,,128,60000,1,Data\Monster\Monster151.bmd
+//Aida (130 ~ ),,,,,,1,Data\Monster\Monster152.bmd
+308,1,Death Tree,,66,6000,1,Data\Monster\Monster153.bmd
+307,1,Forest Orc,,67,6500,1,Data\Monster\Monster154.bmd
+306,1,Death Rider,,68,8000,1,Data\Monster\Monster155.bmd
+305,1,Blue Golem,,72,12500,1,Data\Monster\Monster156.bmd
+304,1,Witch Queen,,85,42500,1,Data\Monster\Monster157.bmd
+309,1,Hell Maine,,105,150000,1,Data\Monster\Monster158.bmd
+//Special,,,,,,1,Data\Monster\Monster159.bmd
+64,1,Orc Archer,,70,10000,1,Data\Monster\Monster160.bmd
+65,1,Elite Orc,,74,14000,1,Data\Monster\Monster161.bmd
+67,1,Metal Balrog,,77,26000,1,Data\Monster\Monster162.bmd
+66,1,Cursed King,,86,38000,1,Data\Monster\Monster163.bmd
+//Blood Castle1 (15 ~ 80),,,,,,1,Data\Monster\Monster164.bmd
+84,1,Orc Warrior1,,43,1100,1,Data\Monster\Monster165.bmd
+85,1,Orc Archer1,,47,1400,1,Data\Monster\Monster166.bmd
+86,1,Elite Orc1,,51,1700,1,Data\Monster\Monster167.bmd
+87,1,Spirit Beast1,,54,2100,1,Data\Monster\Monster168.bmd
+88,1,Spirit Knight1,,57,2800,1,Data\Monster\Monster169.bmd
+89,1,Spirit Sorcerer1,,61,3700,1,Data\Monster\Monster170.bmd
+//Blood Castle2 (81 ~ 130),,,,,,1,Data\Monster\Monster171.bmd
+90,1,Orc Warrior2,,59,3500,1,Data\Monster\Monster172.bmd
+91,1,Orc Archer2,,63,4100,1,Data\Monster\Monster173.bmd
+92,1,Elite Orc2,,66,5000,1,Data\Monster\Monster174.bmd
+93,1,Spirit Beast2,,70,6000,1,Data\Monster\Monster175.bmd
+94,1,Spirit Knight2,,74,7000,1,Data\Monster\Monster176.bmd
+95,1,Spirit Sorcerer2,,79,8000,1,Data\Monster\Monster177.bmd
+//Blood Castle3 (131 ~ 180),,,,,,1,Data\Monster\Monster178.bmd
+96,1,Orc Warrior3,,66,5000,1,Data\Monster\Monster179.bmd
+97,1,Orc Archer3,,71,6500,1,Data\Monster\Monster180.bmd
+98,1,Elite Orc3,,76,8000,1,Data\Monster\Monster181.bmd
+99,1,Spirit Beast3,,80,9500,1,Data\Monster\Monster182.bmd
+111,1,Spirit Knight3,,84,12000,1,Data\Monster\Monster183.bmd
+112,1,Spirit Sorcerer3,,89,15000,1,Data\Monster\Monster184.bmd
+//Blood Castle4 (181 ~ 230),,,,,,1,Data\Monster\Monster185.bmd
+113,1,Orc Warrior4,,74,7500,1,Data\Monster\Monster186.bmd
+114,1,Orc Archer4,,79,9500,1,Data\Monster\Monster187.bmd
+115,1,Elite Orc4,,85,12000,1,Data\Monster\Monster188.bmd
+116,1,Spirit Beast4,,89,15000,1,Data\Monster\Monster189.bmd
+117,1,Spirit Knight4,,92,18000,1,Data\Monster\Monster190.bmd
+118,1,Spirit Sorcerer4,,94,24000,1,Data\Monster\Monster191.bmd
+//Blood Castle5 (231 ~ 280),,,,,,1,Data\Monster\Monster192.bmd
+119,1,Orc Warrior5,,80,12000,1,Data\Monster\Monster193.bmd
+120,1,Orc Archer5,,85,15000,1,Data\Monster\Monster194.bmd
+121,1,Elite Orc5,,100,19000,1,Data\Monster\Monster195.bmd
+122,1,Spirit Beast5,,105,23000,1,Data\Monster\Monster196.bmd
+123,1,Spirit Knight5,,107,26000,1,Data\Monster\Monster197.bmd
+124,1,Spirit Sorcerer5,,110,32000,1,Data\Monster\Monster198.bmd
+//Blood Castle6 (281 ~ 330),,,,,,1,Data\Monster\Monster199.bmd
+125,1,Orc Warrior6,,96,17000,1,Data\Monster\Monster200.bmd
+126,1,Orc Archer6,,105,20000,1,Data\Monster\Monster201.bmd
+127,1,Elite Orc6,,109,25000,1,Data\Monster\Monster202.bmd
+128,1,Spirit Beast6,,113,32000,1,Data\Monster\Monster203.bmd
+129,1,Spirit Knight6,,115,38000,1,Data\Monster\Monster204.bmd
+130,1,Spirit Sorcerer6,,120,47000,1,Data\Monster\Monster205.bmd
+//Blood Castle7 (331 ~ 400),,,,,,1,Data\Monster\Monster206.bmd
+138,1,Orc Warrior7,,115,53000,1,Data\Monster\Monster207.bmd
+139,1,Orc Archer7,,118,56000,1,Data\Monster\Monster208.bmd
+140,1,Elite Orc7,,121,62000,1,Data\Monster\Monster209.bmd
+141,1,Spirit Beast7,,128,187000,1,Data\Monster\Monster210.bmd
+142,1,Spirit Knight7,,130,195000,1,Data\Monster\Monster211.bmd
+143,1,Spirit Sorcerer7,,135,550000,1,Data\Monster\Monster212.bmd
+//Blood Castle NPC,,,,,,1,Data\Monster\Monster213.bmd
+131,1,Gate 1,,0,2000,1,Data\Monster\Monster214.bmd
+132,1,Gate 2,,0,3000,1,Data\Monster\Monster215.bmd
+133,1,Gate 3,,0,3000,1,Data\Monster\Monster216.bmd
+134,1,Gate 4,,0,3000,1,Data\Monster\Monster217.bmd
+//Chaos Castle 1~6,,,,,,1,Data\Monster\Monster218.bmd
+162,1,Chaos Castle 1,,50,700,1,Data\Monster\Monster219.bmd
+163,1,Chaos Castle 1,,52,800,1,Data\Monster\Monster220.bmd
+164,1,Chaos Castle 2,,60,1600,1,Data\Monster\Monster221.bmd
+165,1,Chaos Castle 2,,65,2700,1,Data\Monster\Monster222.bmd
+166,1,Chaos Castle 3,,84,4000,1,Data\Monster\Monster223.bmd
+167,1,Chaos Castle 3,,80,5000,1,Data\Monster\Monster224.bmd
+168,1,Chaos Castle 4,,115,6500,1,Data\Monster\Monster225.bmd
+169,1,Chaos Castle 4,,118,8000,1,Data\Monster\Monster226.bmd
+170,1,Chaos Castle 5,,150,10000,1,Data\Monster\Monster227.bmd
+171,1,Chaos Castle 5,,150,12500,1,Data\Monster\Monster228.bmd
+172,1,Chaos Castle 6,,170,15000,1,Data\Monster\Monster229.bmd
+173,1,Chaos Castle 6,,170,18000,1,Data\Monster\Monster230.bmd
+//Golden Event I,,,,,,1,Data\Monster\Monster231.bmd
+//Index,Rate,Name,,Level,HP,1,Data\Monster\Monster232.bmd
+42,1,Red Dragon,,193,500000,1,Data\Monster\Monster233.bmd
+43,1,Golden Budge Dragon,,15,4400,1,Data\Monster\Monster234.bmd
+44,1,Golden Dragon,,100,30000,1,Data\Monster\Monster235.bmd
+55,1,Death King,,30,7900,1,Data\Monster\Monster236.bmd
+56,1,Death Bone,,24,1400,1,Data\Monster\Monster237.bmd
+//Golden Event II,,,,,,1,Data\Monster\Monster238.bmd
+//Index,Rate,Name,,Level,HP,1,Data\Monster\Monster239.bmd
+78,1,Golden Goblin,,90,92000,1,Data\Monster\Monster240.bmd
+54,1,Golden Soldier,,46,7000,1,Data\Monster\Monster241.bmd
+53,1,Golden Titan,,100,200000,1,Data\Monster\Monster242.bmd
+81,1,Golden Vepar,,61,52600,1,Data\Monster\Monster243.bmd
+83,1,Golden Wheel,,77,80000,1,Data\Monster\Monster244.bmd
+79,1,Golden Dragon,,110,350000,1,Data\Monster\Monster245.bmd
+80,1,Golden Lizard King,,120,500000,1,Data\Monster\Monster246.bmd
+82,1,Golden Tantallos,,140,1000000,1,Data\Monster\Monster247.bmd
+//summons mobs,,,,,,1,Data\Monster\Monster248.bmd
+150,1,Bali,,52,500000,1,Data\Monster\Monster249.bmd
+151,1,Soldier,,58,8000,1,Data\Monster\Monster250.bmd
+//Battle of ring,,,,,,1,Data\Monster\Monster251.bmd
+136,1,Orc Soldier of Doom,,70,9500,1,Data\Monster\Monster252.bmd
+137,1,Orc Archer of Doom,,74,12000,1,Data\Monster\Monster253.bmd
+135,1,White Wizard,,87,26000,1,Data\Monster\Monster254.bmd
+//Other Monsters,,,,,,1,Data\Monster\Monster255.bmd
+297,1,PK Dark Knight,,54,4000,1,Data\Monster\Monster256.bmd
+42,1,Red Dragon,,149,83000,1,Data\Monster\Monster257.bmd
+//Traps,,,,,,1,Data\Monster\Monster258.bmd
+100,1,Lance,,80,1000,1,Data\Monster\Monster259.bmd
+101,1,Iron Stick,,80,1000,1,Data\Monster\Monster260.bmd
+102,1,Fire,,80,1000,1,Data\Monster\Monster261.bmd
+103,1,Meteorite,,90,1000,1,Data\Monster\Monster262.bmd
+//Trap CastleSiege,,,,,,1,Data\Monster\Monster263.bmd
+104,1,Trap       ,,2,50,1,Data\Monster\Monster264.bmd
+//Kantru Trap,,,,,,1,Data\Monster\Monster265.bmd
+105,1,Kay,,80,1000,1,Data\Monster\Monster266.bmd
+106,1,Laser,,80,1000,1,Data\Monster\Monster267.bmd
+200,1,Soccer Ball,,12,1000,1,Data\Monster\Monster268.bmd
+//NPC,,,,,,1,Data\Monster\Monster269.bmd
+215,1,Shield,,2,50,1,Data\Monster\Monster270.bmd
+216,1,Crown,,2,50,1,Data\Monster\Monster271.bmd
+217,1,Crown Switch 1,,2,50,1,Data\Monster\Monster272.bmd
+218,1,Crown Switch 2,,2,50,1,Data\Monster\Monster273.bmd
+219,1,Castle Gate Switch,,2,50,1,Data\Monster\Monster274.bmd
+220,1,Guard,,2,50,1,Data\Monster\Monster275.bmd
+221,1,Slingshot Attack,,2,50,1,Data\Monster\Monster276.bmd
+222,1,Slingshot Defend,,2,50,1,Data\Monster\Monster277.bmd
+223,1,Senior,,2,50,1,Data\Monster\Monster278.bmd
+224,1,Guardsman,,2,50,1,Data\Npc\Breeder.bmd
+226,1,Trainer,,2,50,1,Data\Npc\Breeder.bmd
+229,1,Malron,,2,50,1,Data\Npc\Breeder.bmd
+230,1,Alex,,2,50,1,Data\Npc\Breeder.bmd
+231,1,Thomson Cannel,,2,50,1,Data\Npc\DeviasTrader01.bmd
+232,1,Archangel,,2,50,1,Data\Npc\DeviasTrader01.bmd
+233,1,Spirit of Archangel,,2,50,1,Data\Npc\DeviasTrader01.bmd
+234,1,Goblin Gate,,2,50,1,Data\Npc\DeviasTrader01.bmd
+235,1,Priest Sevina,,2,50,1,Data\Npc\DeviasTrader01.bmd
+236,1,Golden Archer,,2,50,1,Data\Npc\DeviasTrader01.bmd
+237,1,Charon,,2,50,1,Data\Npc\DeviasTrader01.bmd
+238,1,Chaos Goblin,,2,50,1,Data\Npc\DeviasTrader01.bmd
+239,1,Stadium Guard,,2,50,1,Data\Npc\DeviasTrader01.bmd
+240,1,Storage Guard,,2,50,1,Data\Npc\Storage01.bmd
+241,1,Guild Master,,2,50,1,Data\Npc\Master01.bmd
+242,1,Elf lala,,2,50,1,Data\Npc\Master01.bmd
+243,1,Crafts Man,,2,50,1,Data\Npc\Master01.bmd
+244,1,Barmaid,,2,50,1,Data\Npc\Master01.bmd
+245,1,Wizard,,2,50,1,Data\Npc\Master01.bmd
+246,1,Weapon Merchant,,20,1000,1,Data\Npc\Master01.bmd
+247,1,Crossbow Guard,,50,10000,1,Data\Npc\Master01.bmd
+248,1,Florence Peddler,,20,1000,1,Data\Npc\Master01.bmd
+249,1,Berdysh Guard,,50,10000,1,Data\Npc\Master01.bmd
+250,1,Peddler,,20,1000,1,Data\Npc\Master01.bmd
+251,1,Black Smith Hans,,20,1000,1,Data\Npc\Smith01.bmd
+252,1,Ukn Shop,,2,50,1,Data\Npc\Master01.bmd
+253,1,Potion Girl,,2,50,1,Data\Npc\Master01.bmd
+254,1,Wizard Pasi,,2,50,1,Data\Npc\Wizard01.bmd
+255,1,Barmaid Liaman,,2,50,1,Data\Npc\Wizard02.bmd
+256,1,Lahap,,2,50,1,Data\Npc\Wizard03.bmd
+257,1,Elf Soilder,,2,50,1,Data\Npc\Wizard04.bmd
+258,1,Guarda,,90,10000,1,Data\Npc\Wizard05.bmd
+259,1,Lima,,2,50,1,Data\Npc\Wizard06.bmd
+//Kantru NPC,,,,,,1,
+367,1,Equipment,,2,50,1,Data\Monster\Monster313.bmd
+368,1,Elpis,,2,50,1,Data\NPC\Elpis.bmd
+369,1,Osbon,,2,50,1,Data\Monster\Monster315.bmd
+370,1,Jebiden,,2,50,1,Data\Monster\Monster316.bmd
+371,1,Elite Soldier,,2,50,1,Data\Monster\Monster317.bmd
+//,,,,,,1,Data\Monster\Monster318.bmd
+365,1,Fortune Pouch,,2,50,1,Data\Monster\Monster319.bmd
+372,1,Silver Skeleton,,54,4000,1,Data\Monster\Monster320.bmd
+373,1,Halloween,,2,50,1,Data\Monster\Monster321.bmd
+374,1,Santa Girl,,2,50,1,Data\Monster\Monster322.bmd
+375,1,Chaos Card Master,,2,50,1,Data\Monster\Monster323.bmd
+376,1,Drink Seller Hillary,,2,50,1,Data\Monster\Monster324.bmd
+377,1,Drink Seller Lindsay,,2,50,1,Data\Monster\Monster325.bmd
+378,1,GameMaster,,2,50,1,Data\Monster\Monster326.bmd
+379,1,Fireworks Girl,,2,50,1,Data\Monster\Monster327.bmd
+//Castle Siege,,,,,,1,Data\Monster\Monster328.bmd
+300,1,Mutant Hero,,82,20000,1,Data\Monster\Monster329.bmd
+301,1,Omega Wing,,102,69000,1,Data\Monster\Monster330.bmd
+302,1,Axe Warrior Hero,,85,23000,1,Data\Monster\Monster331.bmd
+303,1,Gigas Golem,,94,50000,1,Data\Monster\Monster332.bmd
+//CryWolf,,,,,,1,Data\Monster\Monster333.bmd
+340,1,Dark Elf,,135,1000000,1,Data\Monster\Monster334.bmd
+341,1,Soram,,134,80000,1,Data\Monster\Monster335.bmd
+344,1,Balram,,132,75000,1,Data\Monster\Monster336.bmd
+345,1,Death Spirit,,134,65000,1,Data\Monster\Monster337.bmd
+348,1,Ballista,,133,500000,1,Data\Monster\Monster338.bmd
+349,1,Balgass,,135,400000,1,Data\Monster\Monster339.bmd
+310,1,Hammer Scout,,97,45000,1,Data\Monster\Monster340.bmd
+311,1,Lance Scout,,97,45000,1,Data\Monster\Monster341.bmd
+312,1,Bow Scout,,97,45000,1,Data\Monster\Monster342.bmd
+313,1,Werewolf,,118,110000,1,Data\Monster\Monster343.bmd
+314,1,Scout Hero,,123,120000,1,Data\Monster\Monster344.bmd
+315,1,Werewolf Hero,,127,123000,1,Data\Monster\Monster345.bmd
+316,1,Valam,,132,140000,1,Data\Monster\Monster346.bmd
+317,1,Solam,,134,164000,1,Data\Monster\Monster347.bmd
+318,1,ºö³ªÀÌÆ®(¿µ¿õ),,140,200000,1,Data\Monster\Monster348.bmd
+319,1,Å©·Òµå¶ó°ï,,145,3500000,1,Data\Monster\Monster349.bmd
+// CrywolfAltar,,,,,,1,Data\Monster\Monster350.bmd
+204,1,Wolf Status,,2,50,1,Data\Monster\Monster351.bmd
+205,1,Wolf Status1,,2,50,1,Data\Monster\Monster352.bmd
+206,1,Wolf Status2,,2,50,1,Data\Monster\Monster353.bmd
+207,1,Wolf Status3,,2,50,1,Data\Monster\Monster354.bmd
+208,1,Wolf Status4,,2,50,1,Data\Monster\Monster355.bmd
+209,1,Wolf Status5,,2,50,1,Data\Monster\Monster356.bmd
+//kantur,,,,,,1,Data\Monster\Monster357.bmd
+350,1,Berserk,,103,70000,1,Data\Monster\Monster358.bmd
+351,1,Sprinter Wolf,,85,45000,1,Data\Monster\Monster359.bmd
+352,1,Iron Rider,,87,50000,1,Data\Monster\Monster360.bmd
+353,1,Satyros,,89,55000,1,Data\Monster\Monster361.bmd
+354,1,Blade Hunter,,91,60000,1,Data\Monster\Monster362.bmd
+355,1,Kentauros,,93,65500,1,Data\Monster\Monster363.bmd
+356,1,Gigantis,,98,60000,1,Data\Monster\Monster364.bmd
+357,1,Genocider,,107,80500,1,Data\Monster\Monster365.bmd
+358,1,Persona,,130,190000,1,Data\Monster\Monster366.bmd
+359,1,Twin Tail,,132,200500,1,Data\Monster\Monster367.bmd
+360,1,Dreadfear,,135,230000,1,Data\Monster\Monster368.bmd
+361,1,Nightmare,,135,1500000,1,Data\Monster\Monster369.bmd
+362,1,Hands of Maya,,135,400000,1,Data\Monster\Monster370.bmd
+363,1,Maya Head,,135,350000,1,Data\Monster\Monster371.bmd
+364,1,Maya,,111,300,1,Data\Monster\Monster372.bmd
+380,1,Stone Henge,,2,50,1,Data\Monster\Monster373.bmd
+381,1,SwordGuardNPC,,2,50,1,Data\Monster\Monster374.bmd
+382,1,IllusionGuardNPC,,2,50,1,Data\Monster\Monster375.bmd
+383,1,PedestralSpiral,,2,50,1,Data\Monster\Monster376.bmd
+384,1,Pedestral,,2,50,1,Data\Monster\Monster377.bmd
+385,1,Mummy,,2,50,1,Data\Monster\Monster378.bmd
+//Illusion Temple I,,,,,,1,Data\Monster\Monster379.bmd
+386,1,Spector of Illusion,,33,1250,1,Data\Monster\Monster380.bmd
+387,1,Spector of Illusion,,40,1800,1,Data\Monster\Monster381.bmd
+388,1,Spector of Illusion,,52,3000,1,Data\Monster\Monster382.bmd
+//Illusion Temple II,,,,,,1,Data\Monster\Monster383.bmd
+389,1,Spector of Illusion,,48,3000,1,Data\Monster\Monster384.bmd
+390,1,Spector of Illusion,,53,3900,1,Data\Monster\Monster385.bmd
+391,1,Spector of Illusion,,65,6000,1,Data\Monster\Monster386.bmd
+//Illusion Temple III,,,,,,1,Data\Monster\Monster387.bmd
+392,1,Spector of Illusion,,63,6600,1,Data\Monster\Monster388.bmd
+393,1,Spector of Illusion,,69,8400,1,Data\Monster\Monster389.bmd
+394,1,Spector of Illusion,,81,14000,1,Data\Monster\Monster390.bmd
+//Illusion Temple IV,,,,,,1,Data\Monster\Monster391.bmd
+395,1,Spector of Illusion,,83,22500,1,Data\Monster\Monster392.bmd
+396,1,Spector of Illusion,,88,30000,1,Data\Monster\Monster393.bmd
+397,1,Spector of Illusion,,100,50000,1,Data\Monster\Monster394.bmd
+//Illusion Temple V,,,,,,1,Data\Monster\Monster395.bmd
+398,1,Spector of Illusion,,98,48000,1,Data\Monster\Monster396.bmd
+399,1,Spector of Illusion,,105,60000,1,Data\Monster\Monster397.bmd
+400,1,Spector of Illusion,,117,100000,1,Data\Monster\Monster398.bmd
+//Illusion Temple VI,,,,,,1,Data\Monster\Monster399.bmd
+401,1,Spector of Illusion,,114,87500,1,Data\Monster\Monster400.bmd
+402,1,Spector of Illusion,,119,105000,1,Data\Monster\Monster401.bmd
+403,1,Spector of Illusion,,140,140000,1,Data\Monster\Monster402.bmd
+//Illusion Temple Transformation,,,,,,1,Data\Monster\Monster403.bmd
+404,1,Illusion Blue,,2,50,1,Data\Monster\Monster404.bmd
+405,1,Illusion Yellow,,2,50,1,Data\Monster\Monster405.bmd
+406,1,Priest Devin,,3,50,1,Data\Monster\Monster406.bmd
+407,1,Werewolf Quarrel,,2,50,1,Data\Monster\Monster407.bmd
+408,1,Gatekeeper,,2,50,1,Data\Monster\Monster408.bmd
+409,1,Balram(Hero),,128,290000,1,Data\Monster\Monster409.bmd
+410,1,Death Spirit(Hero),,128,295000,1,Data\Monster\Monster410.bmd
+411,1,Soram(Hero),,128,290000,1,Data\Monster\Monster411.bmd
+412,1,Dark Elf(Hero),,137,1500000,1,Data\Monster\Monster412.bmd
+413,1,Month Rabbit,,34,1100,1,Data\Monster\Monster413.bmd
+414,1,Elegance Allen,,2,50,1,Data\Monster\Monster414.bmd
