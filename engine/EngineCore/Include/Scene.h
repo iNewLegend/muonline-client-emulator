@@ -6,7 +6,7 @@
 #include "ObjectTree.h"
 #include "FocusNode.h"
 
-class CScene:public iScene, public CRenderNode
+class CScene: public CRenderNode
 {
 public:
 	CScene();
