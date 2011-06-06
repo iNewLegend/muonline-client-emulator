@@ -1,0 +1,83 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Model", "Model\Model.vcxproj", "{9C205B68-B380-418C-8422-50BEE76017CF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EngineCore", "EngineCore\EngineCore.vcxproj", "{207B1BF3-3503-4C5F-A8B7-7378C61CA0A1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RenderSystem", "RenderSystem\RenderSystem.vcxproj", "{67E8BE2E-F68E-473E-AECB-1A6DA07E7AB6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Audio", "Media\Audio\Audio.vcxproj", "{F1194937-24A6-425B-BDFA-E4B47B6CA385}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug Multithreaded|Win32 = Debug Multithreaded|Win32
+		Debug Singlethreaded|Win32 = Debug Singlethreaded|Win32
+		Debug|Win32 = Debug|Win32
+		Release Multithreaded|Win32 = Release Multithreaded|Win32
+		Release Singlethreaded|Win32 = Release Singlethreaded|Win32
+		Release|Win32 = Release|Win32
+		除ServerGuid外全Release|Win32 = 除ServerGuid外全Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9C205B68-B380-418C-8422-50BEE76017CF}.Debug Multithreaded|Win32.ActiveCfg = Debug|Win32
+		{9C205B68-B380-418C-8422-50BEE76017CF}.Debug Multithreaded|Win32.Build.0 = Debug|Win32
+		{9C205B68-B380-418C-8422-50BEE76017CF}.Debug Singlethreaded|Win32.ActiveCfg = Debug|Win32
+		{9C205B68-B380-418C-8422-50BEE76017CF}.Debug Singlethreaded|Win32.Build.0 = Debug|Win32
+		{9C205B68-B380-418C-8422-50BEE76017CF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9C205B68-B380-418C-8422-50BEE76017CF}.Debug|Win32.Build.0 = Debug|Win32
+		{9C205B68-B380-418C-8422-50BEE76017CF}.Release Multithreaded|Win32.ActiveCfg = Release|Win32
+		{9C205B68-B380-418C-8422-50BEE76017CF}.Release Multithreaded|Win32.Build.0 = Release|Win32
+		{9C205B68-B380-418C-8422-50BEE76017CF}.Release Singlethreaded|Win32.ActiveCfg = Release|Win32
+		{9C205B68-B380-418C-8422-50BEE76017CF}.Release Singlethreaded|Win32.Build.0 = Release|Win32
+		{9C205B68-B380-418C-8422-50BEE76017CF}.Release|Win32.ActiveCfg = Release|Win32
+		{9C205B68-B380-418C-8422-50BEE76017CF}.Release|Win32.Build.0 = Release|Win32
+		{9C205B68-B380-418C-8422-50BEE76017CF}.除ServerGuid外全Release|Win32.ActiveCfg = Release|Win32
+		{9C205B68-B380-418C-8422-50BEE76017CF}.除ServerGuid外全Release|Win32.Build.0 = Release|Win32
+		{207B1BF3-3503-4C5F-A8B7-7378C61CA0A1}.Debug Multithreaded|Win32.ActiveCfg = Debug|Win32
+		{207B1BF3-3503-4C5F-A8B7-7378C61CA0A1}.Debug Multithreaded|Win32.Build.0 = Debug|Win32
+		{207B1BF3-3503-4C5F-A8B7-7378C61CA0A1}.Debug Singlethreaded|Win32.ActiveCfg = Debug|Win32
+		{207B1BF3-3503-4C5F-A8B7-7378C61CA0A1}.Debug Singlethreaded|Win32.Build.0 = Debug|Win32
+		{207B1BF3-3503-4C5F-A8B7-7378C61CA0A1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{207B1BF3-3503-4C5F-A8B7-7378C61CA0A1}.Debug|Win32.Build.0 = Debug|Win32
+		{207B1BF3-3503-4C5F-A8B7-7378C61CA0A1}.Release Multithreaded|Win32.ActiveCfg = Release|Win32
+		{207B1BF3-3503-4C5F-A8B7-7378C61CA0A1}.Release Multithreaded|Win32.Build.0 = Release|Win32
+		{207B1BF3-3503-4C5F-A8B7-7378C61CA0A1}.Release Singlethreaded|Win32.ActiveCfg = Release|Win32
+		{207B1BF3-3503-4C5F-A8B7-7378C61CA0A1}.Release Singlethreaded|Win32.Build.0 = Release|Win32
+		{207B1BF3-3503-4C5F-A8B7-7378C61CA0A1}.Release|Win32.ActiveCfg = Release|Win32
+		{207B1BF3-3503-4C5F-A8B7-7378C61CA0A1}.Release|Win32.Build.0 = Release|Win32
+		{207B1BF3-3503-4C5F-A8B7-7378C61CA0A1}.除ServerGuid外全Release|Win32.ActiveCfg = Release|Win32
+		{207B1BF3-3503-4C5F-A8B7-7378C61CA0A1}.除ServerGuid外全Release|Win32.Build.0 = Release|Win32
+		{67E8BE2E-F68E-473E-AECB-1A6DA07E7AB6}.Debug Multithreaded|Win32.ActiveCfg = Debug|Win32
+		{67E8BE2E-F68E-473E-AECB-1A6DA07E7AB6}.Debug Multithreaded|Win32.Build.0 = Debug|Win32
+		{67E8BE2E-F68E-473E-AECB-1A6DA07E7AB6}.Debug Singlethreaded|Win32.ActiveCfg = Debug|Win32
+		{67E8BE2E-F68E-473E-AECB-1A6DA07E7AB6}.Debug Singlethreaded|Win32.Build.0 = Debug|Win32
+		{67E8BE2E-F68E-473E-AECB-1A6DA07E7AB6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{67E8BE2E-F68E-473E-AECB-1A6DA07E7AB6}.Debug|Win32.Build.0 = Debug|Win32
+		{67E8BE2E-F68E-473E-AECB-1A6DA07E7AB6}.Release Multithreaded|Win32.ActiveCfg = Release|Win32
+		{67E8BE2E-F68E-473E-AECB-1A6DA07E7AB6}.Release Multithreaded|Win32.Build.0 = Release|Win32
+		{67E8BE2E-F68E-473E-AECB-1A6DA07E7AB6}.Release Singlethreaded|Win32.ActiveCfg = Release|Win32
+		{67E8BE2E-F68E-473E-AECB-1A6DA07E7AB6}.Release Singlethreaded|Win32.Build.0 = Release|Win32
+		{67E8BE2E-F68E-473E-AECB-1A6DA07E7AB6}.Release|Win32.ActiveCfg = Release|Win32
+		{67E8BE2E-F68E-473E-AECB-1A6DA07E7AB6}.Release|Win32.Build.0 = Release|Win32
+		{67E8BE2E-F68E-473E-AECB-1A6DA07E7AB6}.除ServerGuid外全Release|Win32.ActiveCfg = Release|Win32
+		{67E8BE2E-F68E-473E-AECB-1A6DA07E7AB6}.除ServerGuid外全Release|Win32.Build.0 = Release|Win32
+		{F1194937-24A6-425B-BDFA-E4B47B6CA385}.Debug Multithreaded|Win32.ActiveCfg = Debug|Win32
+		{F1194937-24A6-425B-BDFA-E4B47B6CA385}.Debug Multithreaded|Win32.Build.0 = Debug|Win32
+		{F1194937-24A6-425B-BDFA-E4B47B6CA385}.Debug Singlethreaded|Win32.ActiveCfg = Debug|Win32
+		{F1194937-24A6-425B-BDFA-E4B47B6CA385}.Debug Singlethreaded|Win32.Build.0 = Debug|Win32
+		{F1194937-24A6-425B-BDFA-E4B47B6CA385}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F1194937-24A6-425B-BDFA-E4B47B6CA385}.Debug|Win32.Build.0 = Debug|Win32
+		{F1194937-24A6-425B-BDFA-E4B47B6CA385}.Release Multithreaded|Win32.ActiveCfg = Release|Win32
+		{F1194937-24A6-425B-BDFA-E4B47B6CA385}.Release Multithreaded|Win32.Build.0 = Release|Win32
+		{F1194937-24A6-425B-BDFA-E4B47B6CA385}.Release Singlethreaded|Win32.ActiveCfg = Release|Win32
+		{F1194937-24A6-425B-BDFA-E4B47B6CA385}.Release Singlethreaded|Win32.Build.0 = Release|Win32
+		{F1194937-24A6-425B-BDFA-E4B47B6CA385}.Release|Win32.ActiveCfg = Release|Win32
+		{F1194937-24A6-425B-BDFA-E4B47B6CA385}.Release|Win32.Build.0 = Release|Win32
+		{F1194937-24A6-425B-BDFA-E4B47B6CA385}.除ServerGuid外全Release|Win32.ActiveCfg = Release|Win32
+		{F1194937-24A6-425B-BDFA-E4B47B6CA385}.除ServerGuid外全Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
