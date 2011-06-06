@@ -13,9 +13,7 @@ public:
 	CRenderNodeMgr();
 	virtual ~CRenderNodeMgr(){};
 	virtual iRenderNode*	loadRenderNode(const char* szFilename);
-	virtual iRenderNode*	createRenderNode(iSkeletonData* pData);
-	virtual iRenderNode*	createRenderNode(ParticleData* pData);
-	virtual iRenderNode*	createRenderNode(iLodMesh* pData);
+	virtual iRenderNode*	createRenderNode(const char* szClassName);
 	virtual iSkeletonData*	getSkeletonData(const char* szName);
 	virtual ParticleData*	getParticleData(const char* szName);
 	virtual iLodMesh*		getLodMesh(const char* szName);
