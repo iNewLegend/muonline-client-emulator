@@ -1,0 +1,6 @@
+; MuWorldMapPlug.def : Declares the module parameters for the DLL.
+
+LIBRARY      "SoulScenePlug"
+
+EXPORTS
+    Data_Plug_CreateObject	@1
