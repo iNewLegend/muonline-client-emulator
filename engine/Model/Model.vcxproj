@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9C205B68-B380-418C-8422-50BEE76017CF}</ProjectGuid>
     <RootNamespace>EngineCode</RootNamespace>
+    <ProjectName>EngineCore</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -83,31 +84,67 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Include\3DMapEffect.h" />
+    <ClInclude Include="Include\3DMapObj.h" />
+    <ClInclude Include="Include\3DMapSceneObj.h" />
     <ClInclude Include="include\Animated.h" />
     <ClInclude Include="Include\AnimMgr.h" />
+    <ClInclude Include="Include\BaseCamera.h" />
+    <ClInclude Include="Include\Camera.h" />
+    <ClInclude Include="Include\FocusNode.h" />
     <ClInclude Include="Include\iMesh.h" />
     <ClInclude Include="Include\InterfaceModel.h" />
+    <ClInclude Include="Include\InterfaceScene.h" />
     <ClInclude Include="Include\iParticle.h" />
     <ClInclude Include="Include\iSkeleton.h" />
+    <ClInclude Include="Include\LightMap.h" />
     <ClInclude Include="include\LodMesh.h" />
+    <ClInclude Include="Include\Log.h" />
+    <ClInclude Include="Include\MapObj.h" />
+    <ClInclude Include="Include\MapSound.h" />
     <ClInclude Include="Include\MeshCoordinate.h" />
+    <ClInclude Include="Include\ObjectTree.h" />
     <ClInclude Include="Include\RenderNodeMgr.h" />
     <ClInclude Include="include\Particle.h" />
     <ClInclude Include="Include\RenderNode.h" />
+    <ClInclude Include="Include\Scene.h" />
+    <ClInclude Include="Include\SceneEffect.h" />
+    <ClInclude Include="Include\Singleton.h" />
     <ClInclude Include="include\SkeletonData.h" />
     <ClInclude Include="Include\SkeletonNode.h" />
     <ClInclude Include="Include\SkinModel.h" />
+    <ClInclude Include="Include\SkyBox.h" />
+    <ClInclude Include="Include\Terrain.h" />
+    <ClInclude Include="Include\TerrainData.h" />
+    <ClInclude Include="Include\TerrainDecal.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\3DMapEffect.cpp" />
+    <ClCompile Include="src\3DMapObj.cpp" />
+    <ClCompile Include="src\3DMapSceneObj.cpp" />
     <ClCompile Include="src\AnimMgr.cpp" />
+    <ClCompile Include="src\BaseCamera.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\FocusNode.cpp" />
+    <ClCompile Include="src\HDRFormats.cpp" />
+    <ClCompile Include="src\LightMap.cpp" />
     <ClCompile Include="src\LodMesh.cpp" />
+    <ClCompile Include="src\Log.cpp" />
+    <ClCompile Include="src\MapSound.cpp" />
     <ClCompile Include="src\MeshCoordinate.cpp" />
+    <ClCompile Include="src\ObjectTree.cpp" />
     <ClCompile Include="src\RenderNodeMgr.cpp" />
     <ClCompile Include="src\Particle.cpp" />
     <ClCompile Include="src\RenderNode.cpp" />
+    <ClCompile Include="src\Scene.cpp" />
+    <ClCompile Include="src\SceneEffect.cpp" />
     <ClCompile Include="src\SkeletonData.cpp" />
     <ClCompile Include="src\SkeletonNode.cpp" />
     <ClCompile Include="src\SkinModel.cpp" />
+    <ClCompile Include="src\SkyBox.cpp" />
+    <ClCompile Include="src\Terrain.cpp" />
+    <ClCompile Include="src\TerrainData.cpp" />
+    <ClCompile Include="src\TerrainDecal.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
