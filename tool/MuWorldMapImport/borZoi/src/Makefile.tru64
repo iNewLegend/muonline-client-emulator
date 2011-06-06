@@ -1,0 +1,17 @@
+# Alternative Makefile for Tru64 Unix systems
+# Usage:
+#        make -f Makefile.tru64
+
+# Replace borzoi with your application's name
+APPLICATION=borzoi
+
+# Replace test.o with your application's object file(s)
+OBJECT_FILES=test.o
+
+$(APPLICATION): $(OBJECT_FILES) rijndael-alg-fst.o aes.o asn.o curve.o ec_key_pair.o ecdsa.o ecies.o eckas_dh1.o ec_primitives.o hash.o mpi.o rng.o utilities.o math_mpi.o
+	g++ -o $(APPLICATION) -O2 -DUSE_MPI -DSTDC_HEADERS=1 $(OBJECT_FILES) rijndael-alg-fst.o aes.o asn.o curve.o ec_key_pair.o ecdsa.o ecies.o eckas_dh1.o ec_primitives.o hash.o mpi.o rng.o utilities.o math_mpi.o
+
+.c.o:
+	gcc -c -O2 -DUSE_MPI -DSTDC_HEADERS=1 $<
+.cpp.o:
+	g++ -c -O2 -DUSE_MPI -DSTDC_HEADERS=1 $<
