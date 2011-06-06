@@ -1,0 +1,9 @@
+LightingEnabled(true);
+CullingMode(NONE);
+AlphaTestFunc(true,GREATER_EQUAL,64);
+BlendFunc(false);
+DepthBufferFunc(true, false);
+TextureColorOP(0, MODULATE, CURRENT, TEXTURE);
+TextureAlphaOP(0, MODULATE, CURRENT, TEXTURE);
+TextureColorOP(1, DISABLE);
+TextureAlphaOP(1, DISABLE);

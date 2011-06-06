@@ -1,0 +1,4 @@
+Name,Diffuse,pass
+grid,WorldEditorRes/Textures/grid.tga,tile
+BrushHardness,WorldEditorRes/Textures/Brush01.dds,alphaPlane
+BrushRandius,WorldEditorRes/Textures/Brush00.dds,alphaPlane

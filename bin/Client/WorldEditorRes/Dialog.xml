@@ -1,0 +1,392 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<dialog id="scrollbar" style="null">
+		<element type="slider" id="IDC_SLIDER" scale="0,0,100,100" offset="0,10,0,-10"  style="scrollbar.slider" tip="slider">=</element>
+		<element type="button" id="IDC_BTN_UP" scale="0,0,100,0" offset="0,0,0,10" tip="Up." style="scrollbar.button.up"/>
+		<element type="button" id="IDC_BTN_DOWN" scale="0,100,100,100" offset="0,-10,0,0" style="scrollbar.button.down" tip="Down."/>
+	</dialog>
+	<dialog id="listbox" style="null">
+		<element type="scrollbar" id="IDC_SCROLLBAR_LEFT" scale="100,0,100,100" offset="-8,0,-1,-0" tip="scrollbar"></element>
+	</dialog>
+	<dialog id="combobox" style="null">
+		<element type="listbox" id="IDC_LISTBOX" scale="0,100,100,100" offset="0,1,0,100" tip="combobox"></element>
+	</dialog>
+	<dialog id="numeditbox" style="null">
+		<element type="editbox" id="IDC_EDIT_BOX" scale="0,50,100,50" offset="0,-8,-22,8"/>
+		<element type="button" id="IDC_BTN_UP" scale="100,50,100,50" offset="-20,-8,0,0" tip="Up.">+</element>
+		<element type="button" id="IDC_BTN_DOWN" scale="100,50,100,50" offset="-20,0,0,8" tip="Down.">-</element>
+	</dialog>
+	<dialog id="color" style="null">
+		<element type="static" rect="0,0,0,10">R:</element>
+		<element type="slider" id="IDC_SLIDER_R" scale="0,0,100,0" offset="16,2,0,12"/>
+		<element type="static" rect="0,12,0,10">G:</element>
+		<element type="slider" id="IDC_SLIDER_G" scale="0,0,100,0" offset="16,14,0,24"/>
+		<element type="static" rect="0,24,0,10">B:</element>
+		<element type="slider" id="IDC_SLIDER_B" scale="0,0,100,0" offset="16,26,0,36"/>
+	</dialog>
+	<dialog id="vec3d" style="null">
+		<element type="static" id="IDC_STATIC_X" offset="0,0,0,20">X:</element>
+		<element type="static" id="IDC_STATIC_Y" offset="0,20,0,40">Y:</element>
+		<element type="static" id="IDC_STATIC_Z" offset="0,40,0,60">Z:</element>
+		<element type="numeditbox" id="IDC_NUM_X" scale="0,0,100,0" offset="20,0,0,16"/>
+		<element type="numeditbox" id="IDC_NUM_Y" scale="0,0,100,0" offset="20,20,0,36"/>
+		<element type="numeditbox" id="IDC_NUM_Z" scale="0,0,100,0" offset="20,40,0,56"/>
+	</dialog>
+	<dialog id="IDCC_OBJLIST" style="null">
+		<element type="listbox" id="IDC_LIST_BOX_DISPLAY" scale="0,0,100,0" offset="0,0,0,160">Display</element>
+		<element type="button" id="IDC_BTN_RELOAD" rect="5,162,40,20" tip="Reload the object list.">Reload</element>
+		<element type="button" id="IDC_BTN_EDIT" rect="50,162,40,20" tip="Edit the objet list.">Edit</element>
+		<element type="listbox" id="IDC_LIST_BOX" scale="0,0,100,100" offset="0,185,0,0"/>
+	</dialog>
+
+	<dialog id="IDD_DIALOG_BACK_GROUND" layer="bottom" scale="0,0,100,100">
+		<element type="image" id="IDC_IMAGE_BG" offset="0,0,800,600"  filename="Data/Textures/Title/1.jpg"></element>
+		<element type="static" id="IDC_GAME_VERSIONS" scale="100,100,100,100" offset="-140,-20,-140,-20" >Game Versions 0.01</element>
+		<element type="button" id="IDC_BTN_FULL_SCREEN" scale="100,0,100,0" offset="-35,5,-5,35">o</element>
+	</dialog>
+	<dialog id="IDD_MAIN" scale="0,0,100,100" style="null">
+
+		<element type="display" id="IDC_DISPLAY_MODEL" scale="0,0,100,100" offset="0,30,0,0"></element>
+		<element type="display" id="IDC_DISPLAY_WORLDEDITOR" scale="0,0,100,100" offset="0,30,0,0"></element>
+
+		<element type="button" id="IDC_BTN_SHOW" offset="10,50,60,75" tip="Resource Panel">Res</element>
+		<element type="button" id = "IDC_BTN_FACE_DETECT" offset="10,80,60,105">AR</element>
+		<element type="button" id="IDC_BTN_TOOLBAR" scale="100,0,100,0"offset="-70,50,-10,75" tip="Tool Panel">Tool</element>
+				
+		<element type="button" id="IDC_BTN_NEW_FILE" offset="5,5,40,30" tip="New map">New</element>
+		<element type="button" id="IDC_BTN_OPEN_FILE" offset="40,5,75,30" tip="[color=0,255,0]Open[/color] a map">Open</element>
+		<element type="button" id="IDC_BTN_SAVE_FILE" offset="75,5,110,30" tip="Save the map">Save</element>
+		<element type="button" id="IDC_BTN_HELP" offset="110,5,145,30" tip="Help">Help</element>
+		
+		<element type="radiobutton" id="IDC_RADIO_MODEL" offset="150,5,185,30" style="radiobutton_btn" tip="Model Viewer">Model</element>
+		<element type="radiobutton" id="IDC_RADIO_WORLD" offset="185,5,220,30" checked="true" style="radiobutton_btn" tip="World Viewer">World</element>
+
+		<element type="checkbox" id="IDC_CHECKBOX_BONES" rect="80,50,120,15">Bone</element>
+		<element type="checkbox" id="IDC_CHECKBOX_BOUNDS" rect="80,70,120,15">BoundBox</element>
+		<element type="checkbox" id="IDC_CHECKBOX_MODEL" rect="80,90,120,15" checked="true">Model</element>
+		<element type="checkbox" id="IDC_CHECKBOX_WIREFRAME" rect="80,110,120,15">Wireframe</element>
+		<element type="checkbox" id="IDC_CHECKBOX_MATERIAL" rect="80,130,120,15" checked="true">Material</element>
+		<element type="checkbox" id="IDC_CHECKBOX_PARTICLES" rect="80,150,120,15" checked="true">Particles</element>
+		
+		<element type="static" rect="290,5,20,25">X:</element>
+		<element type="static" id="IDC_STATIC_POS_X" rect="310,5,40,25"></element>
+		<element type="static" rect="350,5,20,25">Y:</element>
+		<element type="static" id="IDC_STATIC_POS_Y" rect="370,5,40,25"></element>
+		<element type="static" rect="410,5,40,25">Height:</element>
+		<element type="static" id="IDC_STATIC_POS_HEIGHT" rect="450,5,40,25"></element>
+		<element type="static" rect="490,5,40,25">FPS:</element>
+		<element type="static" id="IDC_STATIC_FPS" rect="515,5,60,25"></element>
+		<element type="static" id="IDC_STATIC_INFO" scale="100,0,100,0" offset="-300,5,0,25">RPGSkyEditor is powered by RPGSky.com</element>
+	</dialog>
+	<dialog id="IDD_FPS" scale="0,100,0,100" offset="0,-100,160,0">
+		<element type="display" id="IDC_DISPLAY_COORD" rect="5,30,64,64"></element>
+		<element type="static" id="IDC_STATIC_FPS" rect="5,5,150,20"></element>
+		<element type="static" id="IDC_STATIC_INFO" rect="5,30,150,20"></element>
+		<element1 type="imeeditbox" id="IDC_IMEEDITBOX_1" rect="5,5,160,100"></element1>
+		
+		<element type="button" id="IDC_BTN_CLOSE" scale="100,0,100,0" offset="-11,2,-2,11" style="button_close" tip="Close">X</element>
+	</dialog>
+	<dialog id="IDD_TOOLBAR" scale="100,0,100,100" offset="-200,30,0,0">
+		<element type="button" id="IDC_BTN_CLOSE" scale="100,0,100,0" offset="-11,2,-2,11" style="button_close" tip="Close">X</element>
+		<element type="radiobutton" id="IDC_BTN_SETTING" rect="5,5,55,20" checked="true" style="radiobutton_btn" tip="Show and resize.">Setting</element>
+		<element type="radiobutton" id="IDC_BTN_TERRAIN" rect="60,5,55,20" style="radiobutton_btn" tip=
+		"[color=255,128,128][align=center]Terrain Editor[/align][/color][br]
+[color=64,128,255]Ctrl+Z :[/color] Reback.[br]
+[color=64,128,255]Ctrl+Y :[/color] Redo."
+		>Terrain</element>
+		<element type="radiobutton" id="IDC_BTN_OBJECT" rect="115,5,55,20" style="radiobutton_btn" tip=
+			"[color=255,128,128][align=center]Object [1flipv]Editor[/1flipv][/align][/color][br]
+[color=0,255,0]Ctrl+Up/Down :[/color] Moving object up or down.[br]
+[color=0,255,0]Ctrl+Left/Right :[/color] Rotating objects Left or Right.[br]
+[color=0,255,0]Up/Down/Left/Right :[/color] Moving objects pos.[br]
+[color=0,255,0]Ctrl+LeftBotton :[/color] Select more objects.[br]
+[color=99,99,99]Shift+LeftBotton : Copy objects.[/color][br]
+[color=0,255,0]Alt+LeftBotton :[/color] Add a new object.[br]
+[color=0,255,0]Delete :[/color] Deleting object."
+			>Object</element>
+	</dialog>
+	<dialog id="IDD_EDITOR_SETTING" scale="0,0,100,100" offset="0,30,0,0" style="null">
+		<element type="checkbox" id="IDC_CHECKBOX_TERRAIN_LAYER1" rect="10,0,180,14" checked="true" tip="Show the first layer of the terrain.">Layer1</element>
+		<element type="checkbox" id="IDC_CHECKBOX_TERRAIN_LAYER2" rect="10,18,180,14" checked="true" tip="Show the second layer of the terrain.">Layer2</element>
+		<element type="checkbox" id="IDC_CHECKBOX_TERRAIN_GRID" rect="10,36,180,14" tip="Show tile grid.">Terrain grid</element>
+		<element type="checkbox" id="IDC_CHECKBOX_TERRAIN_BBOX" rect="10,54,180,14" tip="Show bbox for terrain.">Terrain bbox</element>
+		<element type="checkbox" id="IDC_CHECKBOX_STATIC_OBJECT" rect="10,72,180,14" checked="true" tip="Show the scene object.">Static object</element>
+		<element type="checkbox" id="IDC_CHECKBOX_ANIM_OBJECT" rect="10,90,180,14" checked="true" tip="Show the scene animation object.">Animation object</element>
+		<element type="checkbox" id="IDC_CHECKBOX_OBJECT_BBOX" rect="10,108,180,14" tip="Show the scene object's boundingbox.">Object bbox</element>
+
+		<element type="static" id="IDC_STATIC_WIDTH" rect="10,130,60,10">Width:</element>
+		<element type="static" id="IDC_STATIC_HEIGHT" rect="10,150,60,10">Height:</element>
+		<element type="editbox" id="IDC_EDITBOX_TERRAIN_WIDTH" rect="75,130,30,16"/>
+		<element type="editbox" id="IDC_EDITBOX_TERRAIN_HEIGHT" rect="75,150,30,16"/>
+		<element type="button" id="IDC_BTN_TERRAIN_RESIZE" rect="120,140,60,20" tip="Resize the terrain.">Resize</element>
+		<element type="button" id="IDC_BTN_LIGHTMAP" rect="10,180,80,20" tip="Calculate the lightmap of scene.">Lightmap</element>
+
+
+		<element type="static" id="IDC_STATIC_CAMERA" rect="5,205,70,20">Camera:</element>
+		<element type="static" id="IDC_STATIC_ANGLE" offset="10,220,70,240">Angle:</element>
+		<element type="static" id="IDC_STATIC_FAR" offset="10,240,70,260">Far:</element>
+		<element type="numeditbox" id="IDC_NUM_CAMERA_ANGLE" scale="0,0,100,0" offset="70,220,-10,240" extent="5"/>
+		<element type="numeditbox" id="IDC_NUM_CAMERA_FAR" scale="0,0,100,0" offset="70,240,-10,260" extent="10"/>
+		
+		<element type="static" id="IDC_STATIC_FOG" rect="5,265,70,20">Fog:</element>	
+		<element type="static" id="IDC_STATIC_START" offset="10,280,70,300">Start:</element>
+		<element type="static" id="IDC_STATIC_END" offset="10,300,70,320">End:</element>
+		<element type="static" id="IDC_STATIC_DENSITY" offset="10,320,70,340">Density:</element>
+		<element type="slider" id="IDC_SLIDER_FOG_START" scale="0,0,100,0" offset="70,280,-10,300" extent="5"/>
+		<element type="slider" id="IDC_SLIDER_FOG_END" scale="0,0,100,0" offset="70,300,-10,320" extent="5"/>
+		<element type="numeditbox" id="IDC_NUM_FOG_DENSITY" scale="0,0,100,0" offset="70,320,-10,340" extent="5"/>
+
+		<element type="static" id="IDC_STATIC_FOG_COLOR" rect="5,340,70,20">Fog Color:</element>		
+		<element type="color" id="IDC_COLOR_FOG" scale="0,0,100,0" offset="5,360,-5,420"/>
+		
+		<element type="static" id="IDC_STATIC_AMBIENT" rect="5,400,70,20">Ambient:</element>
+		<element type="color" id="IDC_COLOR_AMBIENT" scale="0,0,100,0" offset="5,420,-5,480"/>
+		
+		<element type="static" id="IDC_STATIC_DIFFUSE" rect="5,460,70,20">Diffuse:</element>		
+		<element type="color" id="IDC_COLOR_DIFFUSE" scale="0,0,100,0" offset="5,480,-5,540"/>
+	</dialog>
+	<dialog id="IDD_EDITOR_TERRAIN" scale="0,0,100,100" offset="0,30,0,0" style="null">
+		<element type="radiobutton" id="IDC_BTN_HEIGHT" rect="0,0,50,20" style="radiobutton_btn" checked="true" tip=
+		"[color=255,128,128][align=center]Change the height of the terrain.[/align][/color][br]
+[color=64,128,255]LeftBotton :[/color] Lifting the height.[br]
+[color=64,128,255]Shift+LeftBotton :[/color] Dropping the height.">Height</element>
+		<element type="radiobutton" id="IDC_BTN_TEXTURE_PAINT" rect="50,0,50,20" style="radiobutton_btn" tip=
+		"[color=255,128,128][align=center]Change the tiles.[/align][/color][br]
+[color=64,128,255]LeftBotton :[/color] Painting the tiles.[br]
+[color=64,128,255]Shift+LeftBotton :[/color] Clearing the tiles.[br]
+[color=64,128,255]Ctrl+LeftBotton :[/color] Select the tile.">Tile</element>
+		<element type="radiobutton" id="IDC_BTN_COLOR_PAINT" rect="100,0,50,20" style="radiobutton_btn" tip=
+		"[color=255,128,128][align=center]Change the colormap of the terrain.[/align][/color][br]
+[color=64,128,255]LeftBotton :[/color] Painting the color.">Color</element>
+		<element type="radiobutton" id="IDC_BTN_ATTRIBUTE" rect="150,0,50,20" style="radiobutton_btn" tip=
+		"[color=255,128,128][align=center]Change the attributes of the grid.[/align][/color][br]
+[color=64,128,255]LeftBotton :[/color] Painting the attributes.">Att</element>
+
+	</dialog>
+	<dialog id="IDD_TERRAIN_BRUSH_HEIGHT" scale="0,0,100,100" offset="0,30,0,0" style="null">
+		<element type="static" id="IDC_STATIC_RANDIUS" rect="5,0,70,15">Randius:</element>
+		<element type="static" id="IDC_STATIC_HARDNESS" rect="5,16,70,15">Hardness:</element>
+		<element type="static" id="IDC_STATIC_STRENGTH" rect="5,32,70,15">Strength:</element>
+		<element type="slider" id="IDC_SLIDER_BRUSH_RANDIUS" scale="0,0,100,0" offset="80,0,-10,15"/>
+		<element type="slider" id="IDC_SLIDER_BRUSH_HARDNESS" scale="0,0,100,0" offset="80,16,-10,31"/>
+		<element type="slider" id="IDC_SLIDER_BRUSH_STRENGTH" scale="0,0,100,0" offset="80,32,-10,47"/>
+		
+		<element type="radiobutton" id="IDC_RADIO_BTN_NORMAL" rect="5,55,60,20" style="radiobutton_btn" checked="true" tip="Normal.">Normal</element>
+		<element type="radiobutton" id="IDC_RADIO_BTN_SMOOTH" rect="70,55,60,20" style="radiobutton_btn" tip="Smooth.">Smooth</element>
+		
+		<element type="static" id="IDC_STATIC_MIN" offset="5,80,50,100">Min:</element>
+		<element type="static" id="IDC_STATIC_MAX" offset="5,100,50,120">Max:</element>
+		<element type="numeditbox" id="IDC_NUM_MIN" scale="0,0,100,0" offset="50,80,-5,100" extent="0.5">0.00</element>
+		<element type="numeditbox" id="IDC_NUM_MAX" scale="0,0,100,0" offset="50,100,-5,120" extent="0.5">8.00</element>
+	</dialog>
+	<dialog id="IDD_TERRAIN_BRUSH_ATT" scale="0,0,100,100" offset="0,30,0,0" style="null">
+		<element type="static" id="IDC_STATIC_RANDIUS" rect="5,0,70,15">Randius:</element>
+		<element type="static" id="IDC_STATIC_HARDNESS" rect="5,16,70,15">Hardness:</element>
+		<element type="static" id="IDC_STATIC_STRENGTH" rect="5,32,70,15">Strength:</element>
+		<element type="slider" id="IDC_SLIDER_BRUSH_RANDIUS" scale="0,0,100,0" offset="80,0,-10,15"/>
+		<element type="slider" id="IDC_SLIDER_BRUSH_HARDNESS" scale="0,0,100,0" offset="80,16,-10,31"/>
+		<element type="slider" id="IDC_SLIDER_BRUSH_STRENGTH" scale="0,0,100,0" offset="80,32,-10,47"/>
+		
+		<element type="static" rect="5,60,80,20">Att:</element>
+		<element type="checkbox" id="IDC_RADIO_BTN_SAFE" rect="20,80,40,14" style="radiobutton_btn" tip="Safe.">Safe</element>
+		<element type="checkbox" id="IDC_RADIO_BTN_BALK" rect="80,80,40,14" style="radiobutton_btn" tip="Balk.">Balk</element>
+		<element type="checkbox" id="IDC_RADIO_BTN_CLEAR" rect="140,80,40,14" style="radiobutton_btn" tip="Clear.">Clear</element>
+	</dialog>
+	<dialog id="IDD_TERRAIN_BRUSH_TILE" scale="0,0,100,100" offset="0,30,0,0" style="null">
+		<element type="static" id="IDC_STATIC_RANDIUS" rect="5,0,70,15">Randius:</element>
+		<element type="static" id="IDC_STATIC_HARDNESS" rect="5,16,70,15">Hardness:</element>
+		<element type="static" id="IDC_STATIC_STRENGTH" rect="5,32,70,15">Strength:</element>
+		<element type="slider" id="IDC_SLIDER_BRUSH_RANDIUS" scale="0,0,100,0" offset="80,0,-10,15"/>
+		<element type="slider" id="IDC_SLIDER_BRUSH_HARDNESS" scale="0,0,100,0" offset="80,16,-10,31"/>
+		<element type="slider" id="IDC_SLIDER_BRUSH_STRENGTH" scale="0,0,100,0" offset="80,32,-10,47"/>
+		
+		<element type="static" rect="5,60,80,20">Layer:</element>
+		<element type="radiobutton" id="IDC_RADIO_BTN_FIRST_LAYER" style="radiobutton_btn" rect="10,80,90,14" checked="true">First</element>
+		<element type="radiobutton" id="IDC_RADIO_BTN_SECOND_LAYER" style="radiobutton_btn" rect="100,80,90,14">Second</element>
+		<element type="static" rect="5,105,100,20">Tile list:</element>
+
+		<element type="IDCC_OBJLIST" id="IDC_OBJLIST_TILES" scale="0,0,100,100" offset="5,130,-5,-10"></element>
+	</dialog>
+	<dialog id="IDD_TERRAIN_BRUSH_COLOR" scale="0,0,100,100" offset="0,30,0,0" style="null">
+		<element type="static" id="IDC_STATIC_RANDIUS" rect="5,0,70,15">Randius:</element>
+		<element type="static" id="IDC_STATIC_HARDNESS" rect="5,16,70,15">Hardness:</element>
+		<element type="static" id="IDC_STATIC_STRENGTH" rect="5,32,70,15">Strength:</element>
+		<element type="slider" id="IDC_SLIDER_BRUSH_RANDIUS" scale="0,0,100,0" offset="80,0,-10,15"/>
+		<element type="slider" id="IDC_SLIDER_BRUSH_HARDNESS" scale="0,0,100,0" offset="80,16,-10,31"/>
+		<element type="slider" id="IDC_SLIDER_BRUSH_STRENGTH" scale="0,0,100,0" offset="80,32,-10,47"/>
+		
+		<element type="color" id="IDC_COLOR_PAINT" scale="0,0,100,0" offset="10,60,-10,100"/>
+	</dialog>
+
+	<dialog id="IDD_OBJECT_BRUSH" scale="0,0,100,100" offset="0,30,0,0" style="null">
+		<element1 type="radiobutton" id="IDC_BTN_SCENE_OBJECT" rect="5,0,60,20" style="radiobutton_btn" tip="Scene object.">Scene Object</element1>
+		<element1 type="radiobutton" id="IDC_BTN_SOUND" rect="70,0,60,20" style="radiobutton_btn" tip="Sound.">Sound</element1>
+		<element1 type="radiobutton" id="IDC_BTN_LIGHT" rect="135,0,60,20" style="radiobutton_btn" tip="Light.">Light</element1>
+		
+		<element type="static" id="IDC_STATIC_FLOOR_SNAP" offset="5,5,80,25">Floor Snap:</element>
+		<element type="static" id="IDC_STATIC_GRID_SNAP" offset="5,30,80,55">Grid Snap:</element>
+		<element type="numeditbox" id="IDC_NUM_FLOOR_SNAP" scale="0,0,100,0" offset="80,5,-10,25" extent="0.1">0.20</element>
+		<element type="numeditbox" id="IDC_NUM_GRID_SNAP" scale="0,0,100,0" offset="80,30,-10,55" extent="0.25">0.5</element>
+			
+		<element type="static" id="IDC_STATIC_POSITION" rect="5,70,0,0">Position:</element>
+		<element type="vec3d" id="IDC_VEC3D_POS" rect="5,90,90,60" extent="0.5"/>
+		<element type="static" id="IDC_STATIC_ROTATION" rect="105,70,0,0">Rotation:</element>
+		<element type="vec3d" id="IDC_VEC3D_ROTATE" rect="105,90,90,60" extent="45"/>
+		<element type="static" id="IDC_STATIC_SCALE" offset="5,155,80,180">Scale:</element>
+		<element type="numeditbox" id="IDC_NUM_SCALE" scale="0,0,100,0" offset="80,155,-10,180" extent="0.1">1.00</element>
+		<element type="static" id="IDC_STATIC_OBJECT_LIST" rect="5,180,100,20">Object list:</element>
+		<element type="IDCC_OBJLIST" id="IDC_OBJLIST_SCENE_OBJECTS" scale="0,0,100,100" offset="5,200,-5,-10"></element>
+	</dialog>
+	<dialog id="IDD_FILE" scale="50,50,50,50" offset="-260,-165,260,165">
+		<caption>File list</caption>
+		<element type="button" id="IDC_BTN_DESKTOP" rect="10,10,50,50">Desktop</element>
+		<element type="button" id="IDC_BTN_MY_DOCUMENT" rect="10,60,50,50">My Doc</element>
+		<element type="button" id="IDC_BTN_MY_COMPUTER" rect="10,110,50,50">My PC</element>
+		<element type="button" id="IDC_BTN_UP" rect="10,170,50,50">UP</element>
+		<element type="button" id="IDC_BTN_BACK" rect="10,220,50,50">Back</element>
+		<element type="listbox" id="IDC_LIST_BOX_FOLDER" rect="65,5,440,250"/>
+		<element type="static" id="IDC_STATIC_FILENAME" rect="70,265,0,0">Filename:</element>
+		<element type="static" id="IDC_STATIC_FILE_TYPE" rect="70,285,0,0">File type:</element>
+		<element type="editbox" id="IDC_EDIT_BOX_FILE" rect="140,265,240,15"/>
+		<element type="combobox" id="IDC_CMB_FILE_TYPE" rect="140,285,240,18"/>
+		
+		<element type="button" id="IDC_BTN_NEW" rect="420,260,80,20">New</element>
+		<element type="button" id="IDC_BTN_OPEN" rect="420,260,80,20">Open</element>
+		<element type="button" id="IDC_BTN_SAVE" rect="420,260,80,20">Save</element>
+		<element type="button" id="IDC_BTN_CANCEL" rect="420,285,80,20">Cancel</element>
+	</dialog>
+	<dialog id="IDD_REGISTER" scale="50,50,50,50" offset="-150,-60,150,60">
+		<caption>Enter your key!</caption>
+		<element type="static" rect="10,10,0,0">Hardware ID:</element>
+		<element type="editbox" id="IDC_EDIT_BOX_HARDWARE_ID" rect="85,10,200,14"></element>
+		<element type="static" rect="10,30,0,0">E-mail:</element>
+		<element type="editbox" id="IDC_EDIT_BOX_EMAIL" rect="85,30,200,14">abc@123.com</element>
+		<element type="static" rect="10,50,0,0">Key:</element>
+		<element type="editbox" id="IDC_EDIT_BOX_KEY" rect="85,50,200,14"></element>
+		<element type="button" id="IDC_BTN_OK" rect="100,75,40,20">OK</element>
+		<element type="button" id="IDC_BTN_CANCEL" rect="160,75,40,20">Cancel</element>
+	</dialog>
+
+	<dialog id="IDD_FACE_DETECT" scale="100,100,100,100" offset="-176,-30,0,0" style="null">
+	</dialog>
+	
+	<dialog id="IDD_CONTROLLER" scale="0,0,0,100" offset="0,30,200,0">
+		<element type="button" id="IDC_BTN_CLOSE" scale="100,0,100,0" offset="-11,2,-2,11" style="button_close" tip="Close">X</element>
+
+		<element type="radiobutton" id="IDC_TAB_OBJECT_FILE" rect="10,5,48,20" style="radiobutton_btn" checked="true" group="1" tip="File Browser">File</element>
+		<element type="radiobutton" id="IDC_TAB_OBJECT_AVATAR" rect="60,5,48,20" style="radiobutton_btn" group="1" tip="Avatar System">Avatar</element>
+	
+		<element type="listbox" id="IDC_LISTBOX_FILE" scale="0,0,100,100" offset="10,35,-10,-10" hotkey="A"></element>
+	</dialog>
+	
+	<dialog id="IDD_MODEL_CONTROLLER" scale="100,0,100,100" offset="-200,30,0,0">
+		<element type="button" id="IDC_BTN_CLOSE" scale="100,0,100,0" offset="-11,2,-2,11" style="button_close" tip="Close">X</element>
+		<element type="radiobutton" id="IDC_TAB_ANIM" rect="50,5,40,20" style="radiobutton_btn">Anim</element>
+	</dialog>
+	<dialog id="IDD_AVATAR" scale="0,0,100,100" offset="5,25,-5,-5" style="null">
+		<element type="static" rect="10,10,100,20">Skeleton:</element>
+		<element type="static" rect="10,30,100,20">Head:</element>
+		<element type="static" rect="10,50,100,20">Set:</element>
+		<element type="static" rect="10,70,100,20">Helm:</element>
+		<element type="static" rect="10,90,100,20">Armor:</element>
+		<element type="static" rect="10,110,100,20">Glove:</element>
+		<element type="static" rect="10,130,100,20">Pants:</element>
+		<element type="static" rect="10,150,100,20">Boot:</element>
+		<element type="static" rect="10,170,100,20">LeftHand:</element>
+		<element type="static" rect="10,190,100,20">RightHand:</element>
+		<element type="static" rect="10,210,100,20">Back:</element>
+		<element type="combobox" id="IDC_CMB_SKELETON" scale="0,0,100,0" offset="70,10,-10,30"></element>
+		<element type="combobox" id="IDC_CMB_HEAD" scale="0,0,100,0" offset="70,30,-10,50"></element>
+		<element type="combobox" id="IDC_CMB_SET" scale="0,0,100,0" offset="70,50,-10,70"></element>
+		<element type="combobox" id="IDC_CMB_HELM" scale="0,0,100,0" offset="70,70,-10,90"></element>
+		<element type="combobox" id="IDC_CMB_ARMOR" scale="0,0,100,0" offset="70,90,-10,110"></element>
+		<element type="combobox" id="IDC_CMB_GLOVE" scale="0,0,100,0" offset="70,110,-10,130"></element>
+		<element type="combobox" id="IDC_CMB_PANTS" scale="0,0,100,0" offset="70,130,-10,150"></element>
+		<element type="combobox" id="IDC_CMB_BOOT" scale="0,0,100,0" offset="70,150,-10,170"></element>
+		<element type="combobox" id="IDC_CMB_LEFTHAND" scale="0,0,100,0" offset="70,170,-10,190"></element>
+		<element type="combobox" id="IDC_CMB_RIGHTHAND" scale="0,0,100,0" offset="70,190,-10,210"></element>
+		<element type="combobox" id="IDC_CMB_BACK" scale="0,0,100,0" offset="70,210,-10,230"></element>
+	</dialog>
+	<dialog id="IDD_MODEL_ANIM" rect="5,25,190,180"  style="null">
+		<element type="static" rect="10,10,100,20">ID:</element>
+		<element type="combobox" id="IDC_COMBOBOX_ANIM" rect="85,12,90,16" hotkey="A"></element>
+		<element type="static" rect="10,35,50,20">Speed:</element>
+		<element type="static" rect="10,85,50,20">Frame:</element>
+		<element type="static" id="IDC_STATIC_SPEED" rect="70,35,100,20"></element>
+		<element type="static" id="IDC_STATIC_FRAME" rect="70,85,100,20"></element>
+		<element type="slider" id="IDC_SLIDER_SPEED" rect="20,60,160,20"></element>
+		<element type="slider" id="IDC_SLIDER_FRAME" rect="20,110,160,20"></element>
+		<element type="button" id = "IDC_BTN_PLAY" rect = "10,140,50,24">Play</element>
+		<element type="button" id = "IDC_BTN_PREV" rect = "75,140,50,24">Prev</element>
+		<element type="button" id = "IDC_BTN_NEXT" rect = "135,140,50,24">Next</element>
+	</dialog>
+	<dialog id="IDD_MATERIAL" rect="210,5,200,450">
+		<caption height="20">Material</caption>
+		<element type="button" id="IDC_BTN_CLOSE" scale="100,0,100,0" offset="-11,2,-2,11" style="button_close" tip="Close">X</element>
+		<element type="static" rect="10,10,100,20">s0:</element>
+		<element type="static" rect="10,30,100,20">s1:</element>
+		<element type="static" rect="10,50,100,20">s2:</element>
+		<element type="static" rect="10,70,100,20">s3:</element>
+		<element type="static" rect="10,90,100,20">s4:</element>
+		<element type="static" rect="10,110,100,20">s5:</element>
+		<element type="static" rect="10,130,100,20">s6:</element>
+		<element type="static" rect="10,150,100,20">s7:</element>
+		<element type="static" rect="10,170,100,20">Pass:</element>
+
+
+		<element type="editbox" id="IDC_EDITBOX_S0"	rect="70,10,100,20"/>
+		<element type="editbox" id="IDC_EDITBOX_S1"	rect="70,30,100,20"/>
+		<element type="editbox" id="IDC_EDITBOX_S2"	rect="70,50,100,20"/>
+		<element type="editbox" id="IDC_EDITBOX_S3"	rect="70,70,100,20"/>
+		<element type="editbox" id="IDC_EDITBOX_S4" rect="70,90,100,20"/>
+		<element type="editbox" id="IDC_EDITBOX_S5"	rect="70,110,100,20"/>
+		<element type="editbox" id="IDC_EDITBOX_S6"	rect="70,130,100,20"/>
+		<element type="editbox" id="IDC_EDITBOX_S7"	rect="70,150,100,20"/>
+		
+		<element type="combobox" id="IDC_COMBOBOX_PASS"	rect="70,170,100,20"/>
+	</dialog>
+	<dialog id="IDD_HELP" scale="50,50,50,50" offset="-300,-200,300,240">
+		<caption height="20">Help</caption>
+		<element1 type="static" rect="10,10,0,0" style="ubbstatic">
+[color=64,128,255]MSN :[/color] [color=0,0,255]huihui27@126.com[/color][br]
+[color=64,128,255]Website :[/color] [color=0,0,255]www.RPGSky.com[/color][br]
+</element1>
+
+<element type="static" rect="10,10,580,460" style="ubbstatic">
+[size=12][color=255,64,0][size=12] [align=center]「UBB」の考察[/align][/size][/color][br]
+[color=255,64,0][size=12][align=RIGHT]rpgsky.com[/align][/size][/color][br]
+　　“[color=255,0,0][size=16]初[/size][/color][color=255,128,128]见惊艳，再见依然[/color]”，
+[FLIPH]在[FLIPV]我[/FLIPV]看来[/FLIPH]，这只是一种美好的愿望。初见，惊艳。
+   蓦然回首，曾经沧海。只怕早已换了人间。[br] 
+　　“[I][color=255,0,0][size=16]人[/size][/color][color=128,255,128]生若只如初见，何事秋风悲画扇？等闲变却故人心，却道故人心易变。 
+ 骊山语罢清宵半，夜雨霖铃终不怨。
+ 何如薄幸锦衣儿，比翼连枝当日愿。[/I][/color]”纳兰长于情深于情，他的词清新婉约，
+ 可以直抒胸臆，给人很深的人生感悟。[br] 
+ 　　[size=12][color=255,0,0][size=17]是[/size][/color]的，人生若只如初见那该多好，每一个人当最初和你相遇，
+   那种美好的感觉一直就象春天初放的花，那种温馨、那种自然
+   、那种真诚、那种回忆，因此就一直弥漫在了你的生命中。为什么
+   在人的交往中会有误会、费解、猜测和非议呢？只有淡淡的如
+   水的情怀不就足够了吗？就象从未谋面的网友，每次在网上遇到时候
+   互相打个招呼，心中存有彼此的牵挂，不也是一件很美的事情吗？[br]
+　　我想君子之交淡如水也就是这个道理吧？[/size][br]
+ 　　[color=255,0,0][size=16]再[/size][/color]读席幕容的《[color=255,128,128]初相遇[/color]》，她说：[color=255,255,128]美丽的梦和美丽的诗一样，都
+ 是可遇而不可求的，常常在最没能料到的时刻里出现。[/color][br]
+ 　　[color=255,128,128][size=16]我[/size][color=255,128,128]喜欢那样的梦，在梦里，一切都可以重新开始，一切都可以慢慢
+   解释，心里甚至还能感觉到，所有被浪费的
+   时光竟然都能重回时的狂喜与感激。胸怀中满溢着幸福，只因你就在我眼前，对我微笑，一如当年。[/color][/size]
+</element>
+
+	</dialog>
+
+	<dialog id="IDD_COLEDIT" width="150" height="550" x="200" style="null">
+		<element type="display" align="RIGHT" id="IDC_DISPLAY_MODEL" x="200" height="100%"></element>
+		<element type="button" id = "IDC_BTN_Clear" rect = "10,10,50,24">Clear</element>
+		<element type="button" id = "IDC_BTN_Update" rect = "10,50,50,24">Update</element>
+		<element type="button" id="IDC_BTN_CAMERA" rect="10,100,50,24">Camera</element>
+		<element type="button" id="IIDC_BTN_SAVE" rect="10,150,50,24">Save</element>
+		<element type="checkbox" id = "IDC_BTN_ShowEdit" rect = "10,200,100,24">show_edit</element>
+		<element type="checkbox" id = "IDC_BTN_ShowFrame" rect = "10,250,100,24">show_frame</element>
+		<element type="combobox" id="IDC_CMB_COLTYPE" rect="70,10,105,20"></element>
+		<element type="editbox" id="IDC_CMB_COLID" rect="70,50,75,20"></element>
+	</dialog>
+</root>

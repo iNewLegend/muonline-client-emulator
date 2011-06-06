@@ -1,0 +1,10 @@
+LightingEnabled(false);
+CullingMode(NONE);
+AlphaTestFunc(true,GREATER_EQUAL,64);
+BlendFunc(true, ADD, SOURCE_ALPHA, ONE_MINUS_SOURCE_ALPHA);
+DepthBufferFunc(true, true);
+TextureColorOP(0, MODULATE, CURRENT, TEXTURE);
+TextureAlphaOP(0, MODULATE, CURRENT, TEXTURE);
+TextureColorOP(1, DISABLE);
+TextureAlphaOP(1, DISABLE);
+Shader("EngineRes/fx/muwater.fx")
