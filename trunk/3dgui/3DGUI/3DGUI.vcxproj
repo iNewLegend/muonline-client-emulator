@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F604143C-01E8-4DDC-A06D-C577F2CA7052}</ProjectGuid>
+    <RootNamespace>3DGUI</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>../TextRender/include/;..\tinyxml;Include;..\lua;..\..\Shared\Math\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>
+      </AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)vc90.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0804</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>..\lib\$(ProjectName).lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>$(OutDir)$(ProjectName).bsc</OutputFile>
+    </Bscmake>
+    <PostBuildEvent>
+      <Command>xcopy $(ProjectDir)\include\*.h $(ProjectDir)\..\include\ /y</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../TextRender/include/;..\tinyxml;Include;..\lua;..\..\Shared\Math\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>
+      </AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)vc90.pdb</ProgramDataBaseFileName>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0804</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>..\lib\$(ProjectName)d.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>$(OutDir)$(ProjectName).bsc</OutputFile>
+    </Bscmake>
+    <PostBuildEvent>
+      <Command>xcopy $(ProjectDir)\include\*.h $(ProjectDir)\..\include\ /y</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="include\IME.h" />
+    <ClInclude Include="include\lua_tinker.h" />
+    <ClInclude Include="include\UIButton.h" />
+    <ClInclude Include="include\UICheckBox.h" />
+    <ClInclude Include="include\UICombo.h" />
+    <ClInclude Include="include\UIComboBox.h" />
+    <ClInclude Include="include\UIComboColor.h" />
+    <ClInclude Include="include\UIComboNumber.h" />
+    <ClInclude Include="include\UIComboVec3D.h" />
+    <ClInclude Include="include\UIControl.h" />
+    <ClInclude Include="include\UIDialog.h" />
+    <ClInclude Include="include\UIDisplay.h" />
+    <ClInclude Include="include\UIEditBox.h" />
+    <ClInclude Include="include\UIImage.h" />
+    <ClInclude Include="include\UIIMEEditBox.h" />
+    <ClInclude Include="include\UIListBox.h" />
+    <ClInclude Include="include\UIMainDialog.h" />
+    <ClInclude Include="include\UIProgress.h" />
+    <ClInclude Include="include\UIRadioButton.h" />
+    <ClInclude Include="include\UIRollup.h" />
+    <ClInclude Include="include\UIScrollBar.h" />
+    <ClInclude Include="include\UISlider.h" />
+    <ClInclude Include="include\UIStatic.h" />
+    <ClInclude Include="include\UIStyle.h" />
+    <ClInclude Include="include\UniBuffer.h" />
+    <ClInclude Include="include\UIGraph.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\IME.cpp" />
+    <ClCompile Include="src\lua_tinker.cpp" />
+    <ClCompile Include="src\UIButton.cpp" />
+    <ClCompile Include="src\UICheckBox.cpp" />
+    <ClCompile Include="src\UICombo.cpp" />
+    <ClCompile Include="src\UIComboBox.cpp" />
+    <ClCompile Include="src\UIComboColor.cpp" />
+    <ClCompile Include="src\UIComboNumber.cpp" />
+    <ClCompile Include="src\UIComboVec3D.cpp" />
+    <ClCompile Include="src\UIControl.cpp" />
+    <ClCompile Include="src\UIDialog.cpp" />
+    <ClCompile Include="src\UIDisplay.cpp" />
+    <ClCompile Include="src\UIEditBox.cpp" />
+    <ClCompile Include="src\UIImage.cpp" />
+    <ClCompile Include="src\UIIMEEditBox.cpp" />
+    <ClCompile Include="src\UIListBox.cpp" />
+    <ClCompile Include="src\UIMainDialog.cpp" />
+    <ClCompile Include="src\UIProgress.cpp" />
+    <ClCompile Include="src\UIRadioButton.cpp" />
+    <ClCompile Include="src\UIRollup.cpp" />
+    <ClCompile Include="src\UIScrollBar.cpp" />
+    <ClCompile Include="src\UISlider.cpp" />
+    <ClCompile Include="src\UIStatic.cpp" />
+    <ClCompile Include="src\UIStyle.cpp" />
+    <ClCompile Include="src\UniBuffer.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
