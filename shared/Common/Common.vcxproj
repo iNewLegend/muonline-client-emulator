@@ -125,7 +125,6 @@
     <ClCompile Include="src\RegData.cpp" />
     <ClCompile Include="src\ThreadBase.cpp" />
     <ClCompile Include="src\Timer.cpp" />
-    <ClCompile Include="src\DataPlugsMgr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\common.h" />
@@ -140,8 +139,6 @@
     <ClInclude Include="Include\TickOver.h" />
     <ClInclude Include="Include\Timer.h" />
     <ClInclude Include="Include\TSingleton.h" />
-    <ClInclude Include="Include\DataPlugsMgr.h" />
-    <ClInclude Include="Include\InterfaceDataPlugsBase.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
