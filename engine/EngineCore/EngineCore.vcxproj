@@ -50,7 +50,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\Shared\Math\Include;..\..\Shared\Common\Include;..\..\Shared\IO\FileIO\Include;..\RenderSystem\Include;..\..\3dgui\TextRender\include;Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Shared\Math\Include;..\..\Shared\Common\Include;..\..\Shared\IO\FileIO\Include;..\Media\Audio\Include;..\RenderSystem\Include;..\..\3dgui\TextRender\include;Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -72,7 +72,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>..\..\Shared\Math\Include;..\..\Shared\Common\Include;..\..\Shared\IO\FileIO\Include;..\RenderSystem\Include;..\..\3dgui\TextRender\include;Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Shared\Math\Include;..\..\Shared\Common\Include;..\..\Shared\IO\FileIO\Include;..\Media\Audio\Include;..\RenderSystem\Include;..\..\3dgui\TextRender\include;Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
@@ -126,7 +126,6 @@
     <ClCompile Include="src\BaseCamera.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\FocusNode.cpp" />
-    <ClCompile Include="src\HDRFormats.cpp" />
     <ClCompile Include="src\LightMap.cpp" />
     <ClCompile Include="src\LodMesh.cpp" />
     <ClCompile Include="src\Log.cpp" />
