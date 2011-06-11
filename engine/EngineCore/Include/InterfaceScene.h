@@ -233,8 +233,6 @@ public:
 class iSceneData
 {
 public:
-	virtual iTerrainData*			getTerrainData			()=0;
-	virtual const iTerrainData*		getTerrainData			()const=0;
 	virtual void					createObjectTree		(const BBox& box, size_t size)=0;
 	// ----
 	virtual void					setFog					(const Fog& fog)=0;

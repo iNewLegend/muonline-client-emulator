@@ -274,7 +274,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 	}
 }
 
-void CScene::createObjectTree(const BBox& box, size_t size)
+bool CScene::init(void* pData)
 {
 	m_ObjectTree.create(box,size);
 }
