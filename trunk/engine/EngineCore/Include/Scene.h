@@ -26,7 +26,7 @@ public:
 	virtual void		clearChildren				();
 	// ----
 	// load
-	virtual void		createObjectTree		(const BBox& box, size_t size);
+	virtual bool		init					(void* pData);
 	bool				removeRenderObj			(CRenderNode* pObj);
 	// ----
 	// # shit
