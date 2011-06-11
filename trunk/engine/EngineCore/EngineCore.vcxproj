@@ -91,8 +91,10 @@
     <ClInclude Include="Include\AnimMgr.h" />
     <ClInclude Include="Include\BaseCamera.h" />
     <ClInclude Include="Include\Camera.h" />
+    <ClInclude Include="Include\DataPlugsMgr.h" />
     <ClInclude Include="Include\FocusNode.h" />
     <ClInclude Include="Include\iMesh.h" />
+    <ClInclude Include="Include\InterfaceDataPlugsBase.h" />
     <ClInclude Include="Include\InterfaceModel.h" />
     <ClInclude Include="Include\InterfaceScene.h" />
     <ClInclude Include="Include\iParticle.h" />
@@ -125,6 +127,7 @@
     <ClCompile Include="src\AnimMgr.cpp" />
     <ClCompile Include="src\BaseCamera.cpp" />
     <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\DataPlugsMgr.cpp" />
     <ClCompile Include="src\FocusNode.cpp" />
     <ClCompile Include="src\LightMap.cpp" />
     <ClCompile Include="src\LodMesh.cpp" />

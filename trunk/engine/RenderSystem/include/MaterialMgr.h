@@ -1,5 +1,4 @@
 #pragma once
-#include "TMapDataMgr.h"
 #include "Material.h"
 
 class CMaterialMgr
