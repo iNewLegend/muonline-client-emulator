@@ -131,7 +131,6 @@
     <ClInclude Include="include\Root.h" />
     <ClInclude Include="include\Shader.h" />
     <ClInclude Include="include\Texture.h" />
-    <ClInclude Include="include\TMapDataMgr.h" />
     <ClInclude Include="include\VertexDeclaration.h" />
     <ClInclude Include="include\HardwareBufferMgr.h" />
     <ClInclude Include="include\ShaderMgr.h" />
