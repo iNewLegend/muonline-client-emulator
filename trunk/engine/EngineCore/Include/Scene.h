@@ -6,6 +6,20 @@
 #include "ObjectTree.h"
 #include "FocusNode.h"
 
+class SceneData: public iSceneData
+{
+public:
+	virtual CONST_GET_SET_VARIABLE	(BBox&,				m_,BBox);
+	virtual CONST_GET_SET_VARIABLE	(size_t,			m_,size);
+	virtual CONST_GET_SET_VARIABLE	(Fog&,				m_,fog);
+	virtual CONST_GET_SET_VARIABLE	(DirectionalLight&,	m_,light);
+private:
+	BBox				m_BBox;
+	size_t				m_size;
+	Fog					m_fog;
+	DirectionalLight	m_light;
+};
+
 class CScene: public CRenderNode
 {
 public:
@@ -66,6 +80,7 @@ public:
 	CONST_GET_SET_VARIABLE	(Vec3D&,			m_v,TargetPos);
 	// ----
 protected:
+	SceneData*				m_pSceneData;
 	CTerrain*				m_pTerrain;
 	ObjectTree				m_ObjectTree;
 	LIST_RENDER_NODE		m_setRenderSceneObj;

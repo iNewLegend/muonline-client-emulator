@@ -4,14 +4,15 @@
 #include <algorithm>
 #include "RenderNodeMgr.h"
 
-CScene::CScene():
-m_bShowObject(true),
-m_bShowObjectBBox(false),
-m_Fog(32.0f,48.0f,0.01f,0xFF223344),
-m_Light(Vec4D(1.0f,1.0f,1.0f,1.0f),Vec4D(1.0f,1.0f,1.0f,1.0f),Vec4D(1.0f,1.0f,1.0f,1.0f),Vec3D(-1.0f,-1.0f,-1.0f))
+CScene::CScene()
+	:m_bShowObject(true)
+	,m_bShowObjectBBox(false)
+	,m_Fog(32.0f,48.0f,0.01f,0xFF223344)
+	,m_Light(Vec4D(1.0f,1.0f,1.0f,1.0f),Vec4D(1.0f,1.0f,1.0f,1.0f),Vec4D(1.0f,1.0f,1.0f,1.0f),Vec3D(-1.0f,-1.0f,-1.0f))
+	,m_pSceneData(NULL)
+	,m_pTerrain(NULL)
+	,m_bRefreshViewport(NULL)
 {
-	m_bRefreshViewport = true;
-	m_pTerrain = NULL;
 }
 
 CScene::~CScene()
@@ -276,7 +277,9 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 
 bool CScene::init(void* pData)
 {
-	m_ObjectTree.create(box,size);
+	m_pSceneData = (SceneData*)pData;
+	m_ObjectTree.create(m_pSceneData->getBBox(),m_pSceneData->getObjectTreeSize());
+	return true;
 }
 
 void CScene::addChild(CRenderNode* pChild)
