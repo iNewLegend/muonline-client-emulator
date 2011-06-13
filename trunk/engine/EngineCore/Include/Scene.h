@@ -26,7 +26,6 @@ public:
 	CScene();
 	~CScene();
 public:
-	virtual iRenderNodeMgr*	getRenderNodeMgr	();
 	virtual int			getType					(){return NODE_BASE;}
 	virtual void		GetRenderObject			(const CFrustum& frustum, LIST_RENDER_NODE& ObjectList);
 	void				UpdateRender			(const CFrustum& frustum);
@@ -37,7 +36,7 @@ public:
 	// ----
 	virtual void		addChild				(CRenderNode* pChild);
 	virtual bool		removeChild				(CRenderNode* pChild);
-	virtual void		clearChildren				();
+	virtual void		clearChildren			();
 	// ----
 	// load
 	virtual bool		init					(void* pData);

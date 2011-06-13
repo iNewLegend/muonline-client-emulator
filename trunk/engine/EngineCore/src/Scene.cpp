@@ -20,11 +20,6 @@ CScene::~CScene()
 	clearChildren();
 }
 
-iRenderNodeMgr* CScene::getRenderNodeMgr()
-{
-	return (iRenderNodeMgr*)&CRenderNodeMgr::getInstance();
-}
-
 static Vec3D vEyeForObjectSort;
 bool sortObject(CRenderNode* p1, CRenderNode* p2)
 {
