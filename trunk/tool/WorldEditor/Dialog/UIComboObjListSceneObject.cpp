@@ -16,24 +16,24 @@ void CUIComboObjListSceneObject::OnListBoxObjectSelection()
 	{
 		return;
 	}
-	CScene::MAP_OBJECT_INFO& sceneObjectInfo = m_pScene->GetObjectInfo();
+	/*CScene::MAP_OBJECT_INFO& sceneObjectInfo = m_pScene->GetObjectInfo();
 	if (sceneObjectInfo.find(getSelectedObjectID())!=sceneObjectInfo.end())
 	{
 		const CScene::ObjectInfo& objectInfo = sceneObjectInfo[getSelectedObjectID()];
 		m_pRenderNode = (CRenderNode *)CRenderNodeMgr::getInstance().loadRenderNode(objectInfo.strFilename.c_str());
-	}
+	}*/
 }
 
 void CUIComboObjListSceneObject::initObject(CScene& scene)
 {
 	m_pScene=&scene;
 	m_ListBoxObject.RemoveAllItems();
-	CScene::MAP_OBJECT_INFO& sceneObjectInfo = scene.GetObjectInfo();
+	/*CScene::MAP_OBJECT_INFO& sceneObjectInfo = scene.GetObjectInfo();
 	for (CScene::MAP_OBJECT_INFO::iterator it = sceneObjectInfo.begin();
 		it!=sceneObjectInfo.end(); it++)
 	{
 		m_ListBoxObject.AddItem(s2ws(it->second.strName).c_str(),(LPVOID)it->first);
-	}
+	}*/
 }
 
 void CUIComboObjListSceneObject::SelectObjectByObjectID(__int64 id)
@@ -43,12 +43,12 @@ void CUIComboObjListSceneObject::SelectObjectByObjectID(__int64 id)
 		return;
 	}
 	{
-		CScene::MAP_OBJECT_INFO& sceneObjectInfo = m_pScene->GetObjectInfo();
+	/*	CScene::MAP_OBJECT_INFO& sceneObjectInfo = m_pScene->GetObjectInfo();
 		if (sceneObjectInfo.find(id)!=sceneObjectInfo.end())
 		{
 			const CScene::ObjectInfo& objectInfo = sceneObjectInfo[id];
 			m_pRenderNode = (CRenderNode *)CRenderNodeMgr::getInstance().loadRenderNode(objectInfo.strFilename.c_str());
-		}
+		}*/
 	}
 	int nIndex = m_ListBoxObject.getItemIndexByData((void*)(id));
 	m_ListBoxObject.SelectItem(nIndex);

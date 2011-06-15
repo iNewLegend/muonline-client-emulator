@@ -2,7 +2,7 @@
 #include "UIDisplay.h"
 #include "Camera.h"
 #include "SkyBox.h"
-#include "TerrainEditor.h"
+#include "..\TerrainEditor.h"
 #include "SceneEffect.h"
 #include "Scene.h"
 #include "MeshCoordinate.h"
