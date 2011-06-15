@@ -1,7 +1,7 @@
 #include "UIComboObjListTile.h"
 #include "Scene.h"
 #include "Terrain.h"
-#include "TerrainEditor.h"
+#include "..\TerrainEditor.h"
 #include "Graphics.h"
 
 CUIComboObjListTile::CUIComboObjListTile()
