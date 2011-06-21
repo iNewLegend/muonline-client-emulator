@@ -1171,11 +1171,6 @@ inline void encrypt(char* buffer, size_t size)
 	}
 }
 
-int CMyPlug::Execute(iScene * pScene, bool bShowDlg, bool bSpecifyFileName)
-{
-	return -1;
-}
-
 bool CMyPlug::importTerrainData(iTerrainData * pTerrainData, const std::string& strFilename)
 {
 	pTerrainData->clear();
