@@ -1,0 +1,37 @@
+// Heart of Love
+// eventitembag5
+////////////////////////////////////////////////////////////////////////////////
+// | type | index | level | skill | option |
+7	8	11	0	0	0 // Brass
+8	8	11	0	0	0 // Brass
+9	8	11	0	0	0 // Brass
+10	8	11	0	0	0 // Brass
+11	8	11	0	0	0 // Brass
+
+7	7	11	0	0	0 // Sphinx
+8	7	11	0	0	0 // Sphinx
+9	7	11	0	0	0 // Sphinx
+10	7	11	0	0	0 // Sphinx
+11	7	11	0	0	0 // Sphinx
+
+7	13	11	0	0	0 // Spirit
+8	13	11	0	0	0 // Spirit
+9	13	11	0	0	0 // Spirit
+10	13	11	0	0	0 // Spirit
+11	13	11	0	0	0 // Spirit
+
+7	25	11	0	0	0 // Light Plate
+8	25	11	0	0	0 // Light Plate
+9	25	11	0	0	0 // Light Plate
+10	25	11	0	0	0 // Light Plate
+11	25	11	0	0	0 // Light Plate
+
+6	8	11	0	0	0 // Tower Shield
+
+5	3	11	0	0	0 // Thunder Staff
+4	12	11	0	0	0 // Serpent Crossbow
+3	4	11	0	0	0 // Serpent Spear
+1	7	11	0	0	0 // Larkan Axe
+0	13	11	0	0	0 // Double Blade
+
+end

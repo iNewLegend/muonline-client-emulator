@@ -1,0 +1,30 @@
+////////////////////////////////////////////////////////////////////////////////
+// Text GS 1.00.18
+// Version 1.04
+// Translated - by Endi
+// Eventitembag10
+// BOK+3
+////////////////////////////////////////////////////////////////////////////////
+// | type | index | level | skill | option |
+
+	7	12	0	0	1	0	//Excellent Wind Helm
+	8	12	0	0	1	0	//Excellent Wind Armor
+	9	12	0	0	1	0	//Excellent Wind Pants
+	10	12	0	0	1	0	//Excellent Wind Gloves
+	11	12	0	0	1	0	//Excellent Wind Boots
+	7	8	0	0	1	0	//Excellent Brass Helm
+	8	8	0	0	1	0	//Excellent Brass Armor
+	9	8	0	0	1	0	//Excellent Brass Pants
+	10	8	0	0	1	0	//Excellent Brass Gloves
+	11	8	0	0	1	0	//Excellent Brass Boots
+	7	7	0	0	1	0	//Excellent Sphinx Helm
+	8	7	0	0	1	0	//Excellent Sphinx Armor
+	9	7	0	0	1	0	//Excellent Sphinx Pants
+	10	7	0	0	1	0	//Excellent Sphinx Gloves
+	11	7	0	0	1	0	//Excellent Sphinx Boots
+	5	3	0	0	1	0	//Excellent Lightning Staff
+	0	11	0	0	1	0	//Excellent Legendary Sword
+	0	15	0	0	1	0	//Excellent Giant Sword
+	1	8	0	0	1	0	//Excellent Crescent Axe
+	4	12	0	0	1	0	//Excellent Serpent Crossbow
+end

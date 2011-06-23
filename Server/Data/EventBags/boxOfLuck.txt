@@ -1,0 +1,20 @@
+////////////////////////////////////////////////////////////////////////////////
+// Text GS 1.00.18
+// Version 1.04
+// Translated - by Endi
+// Eventitembag1
+// box lof luck
+////////////////////////////////////////////////////////////////////////////////
+// | type | index | level | skill | option |
+13 0 0 0 0 0 //Guardian Angel
+13 1 0 0 0 0 //Satan
+13 2 0 0 0 0 //Horn of Unilia
+13 8 0 0 0 2 //Ring of Ice+2%
+13 9 0 0 0 2 //Ring of Poison+2%
+13 12 0 0 0 2 //Lightning Pendant+2%
+13 13 0 0 0 2 //Fire Pendant+2%
+
+14 13 0 0 0 0 //Jewel of Bless
+14 14 0 0 0 0 //Jewel of Soul
+12 15 0 0 0 0 //Jewel of Chao
+end

@@ -1,0 +1,11 @@
+﻿<PKCLEAR>
+  <Loactions>
+    <Loaction Map = "2" X="255" Y="255" Dir="4"/>
+  </Loactions>
+  <Requirements>
+    <level value = "20" />
+    <zen value = "20000" />
+    <item value = "14" SubValue="0" count = "3"/> <!--Rena-->
+    <pk value = "1" />
+  </Requirements>
+</PKCLEAR>

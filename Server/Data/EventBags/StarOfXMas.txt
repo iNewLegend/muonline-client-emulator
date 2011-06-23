@@ -1,0 +1,34 @@
+////////////////////////////////////////////////////////////////////////////////
+// Text GS 1.00.18
+// Version 1.04
+// Translated - by Endi
+// Eventitembag4
+// Star Of XMas
+////////////////////////////////////////////////////////////////////////////////
+
+// MapIndex Drop Flag Min Monster Level Max MonsterLevel
+0
+	0	0	0	1000
+	1	0	0	1000
+	2	0	0	1000
+	3	0	0	1000
+	4	0	0	1000
+	5	0	0	1000
+	6	0	0	1000
+	7	0	0	1000
+	8	0	0	1000
+	9	0	0	1000
+	10	0	0	1000
+end
+
+// |EventItemDropRate/1000 |
+// |ItemDropRate/100 | ExItemDropRate/1000 |
+// | EventName | DropZen | EventItemType | EventItemIndex | EventItemLevel | EventItemDropRate | ItemDropRate | ExItemDropRate |
+1
+	"StarOfXMas"	50000	14	11	1	2	30	0
+end
+
+// type index minLevel maxLevel skill luck addoption exitemflag
+2
+
+end

@@ -1,0 +1,35 @@
+////////////////////////////////////////////////////////////////////////////////
+// Text GS 1.00.18
+// Version 1.04
+// Translated - by Endi
+// Eventitembag31
+// CryWolf Boss Monster
+////////////////////////////////////////////////////////////////////////////////																	
+0																	
+//	MapIndex	Drop Flag	Min Monster Level	Max MonsterLevel													
+	0	0	0	1000	//로랜시아												
+	1	0	0	1000	//던전												
+	2	0	0	1000	//데비아스												
+	3	0	0	1000	//노리아												
+	4	0	0	1000	//로스트타워												
+	5	0	0	1000	//빈공간												
+	6	0	0	1000	//경기장(배틀사커)												
+	7	0	0	1000	//아틀란스												
+	8	0	0	1000	//타르칸												
+	9	0	0	1000	//악마의광장												
+	10	0	0	1000	//이카루스												
+end																	
+																	
+//드롭젠 및 아이템드롭 확률																	
+//이벤트아이템 드롭 확률은 EventItemDropRate/1000																	
+//아이템드롭 확률은 ItemDropRate/100, ExItemDropRate/1000																	
+1																	
+//	EventName	DropZen	EventItemType	EventItemIndex	EventItemLevel	EventItemDropRate	ItemDropRate	ExItemDropRate									
+	"Boss Monster"	1000000	0	0	0	0	100	1									
+end																	
+																	
+//skill, luck, addtoption 의 값이 1이면 랜덤으로 적용, 0이면 적용안함																	
+2																	
+//	type	index	minLevel	maxLevel	skill	luck	addoption	exitemflag									
+//엑설런트 무기류																	
+

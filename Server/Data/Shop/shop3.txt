@@ -1,0 +1,27 @@
+//Lorencia Peddlar (Harold The Merchant)
+7 25 0 255 0 0 0 1 //Light Plate Mask
+8 25 0 255 0 0 0 1 //Light Plate Armor
+9 25 0 255 0 0 0 1 //Light Plate Pants
+10 25 0 255 0 0 0 1 //Light Plate Gloves
+11 25 0 255 0 0 0 1 //Light Plate Boots
+7 26 0 255 0 0 0 1 //Adamantine Mask
+8 26 0 255 0 0 0 1 //Adamantine Armor
+9 26 0 255 0 0 0 1 //Adamantine Pants
+10 26 0 255 0 0 0 1 //Adamantine Gloves
+11 26 0 255 0 0 0 1 //Adamantine Boots
+7 27 0 255 0 0 0 1 //Dark Steel Mask
+8 27 0 255 0 0 0 1 //Dark Steel Armor
+9 27 0 255 0 0 0 1 //Dark Steel Pants
+10 27 0 255 0 0 0 1 //Dark Steel Gloves
+11 27 0 255 0 0 0 1 //Dark Steel Boots
+7 28 0 255 0 0 0 1 //Dark Master Mask
+8 28 0 255 0 0 0 1 //Dark Master Armor
+9 28 0 255 0 0 0 1 //Dark Master Pants
+10 28 0 255 0 0 0 1 //Dark Master Gloves
+11 28 0 255 0 0 0 1 //Dark Master Boots
+12 21 0 255 0 0 0 0 //FireBrust Spell
+12 23 0 255 0 0 0 0 //Critical Damage Spell
+12 24 0 255 0 0 0 0 //Electric Spark Spell
+12 22 0 255 0 0 0 0 //Summon Spell
+12 35 0 255 0 0 0 0 //Fire Scream Scroll
+end

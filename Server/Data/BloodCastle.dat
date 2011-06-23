@@ -1,0 +1,29 @@
+////////////////////////////////////////////////////////////////////////////////
+// Text GS 1.00.18
+// Version 1.04
+// Translated - by Endi
+// BloodCastle.dat
+////////////////////////////////////////////////////////////////////////////////
+//Blood Castle time settings
+//Time to enter BC/ time BC lasts/ Time to complete quest
+0
+5	15	1
+end
+
+// BC mobs dropped item time interval until item disappeares
+// item drop rate(gItemDropPer(10)/n) / exc item drop rate(1/n) / time for items to disappear
+1
+100	1	0
+end
+
+// castle door health
+// castle number(0~6), crystal statue health, castle door health
+2
+0	250000	250000		// BC 1
+1	105000	205000		// BC 2
+2	145000	260000		// BC 3
+3	185000	325000		// BC 4
+4	225000	400000		// BC 5
+5	265000	480000		// BC 6
+6	405000	565000		// BC 7
+end

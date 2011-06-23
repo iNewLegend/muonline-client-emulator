@@ -1,0 +1,31 @@
+//Wizard Shop Devias (Isabel The Wizard)
+8 22 0 255 0 0 0 1 //Dark Soul Armor
+9 22 0 255 0 0 0 1 //Dark Soul Pants
+10 22 0 255 0 0 0 1 //Dark Soul Gloves
+11 22 0 255 0 0 0 1 //Dark Soul Boots
+5 11 0 255 0 0 0 1 //Kundun Staff
+5 10 0 255 0 0 0 1 //Divine Archangel Staff
+5 8 0 255 0 0 0 1 //Staff of Destruction
+5 9 0 255 0 0 0 1 //Dragon Soul Staff
+5 6 0 255 0 0 0 1 //Resurrection Staff
+5 7 0 255 0 0 0 1 //Chaos Lightning Staff
+5 5 0 255 0 0 0 1 //Legendary Staff
+5 4 0 255 0 0 0 1 //Gorgon Staff
+5 3 0 255 0 0 0 1 //Lightning Staff
+5 2 0 255 0 0 0 1 //Serpent Staff
+5 1 0 255 0 0 0 1 //Angelic Staff
+5 0 0 255 0 0 0 1 //Skull Staff
+15 3 0 255 0 0 0 0 //Fireball Spell
+15 10 0 255 0 0 0 0 //Power Wave Spell
+15 1 0 255 0 0 0 0 //Meteorite Spell
+15 2 0 255 0 0 0 0 //Lightning Spell
+15 6 0 255 0 0 0 0 //Ice Spell
+15 0 0 255 0 0 0 0 //Poison Spell
+15 7 0 255 0 0 0 0 //Twister Spell
+15 9 0 255 0 0 0 0 //Hell Fire Spell
+15 11 0 255 0 0 0 0 //Aqua Beam Spell
+15 14 0 255 0 0 0 0 //Mass Teleport Spell
+15 12 0 255 0 0 0 0 //Blast Spell
+15 13 0 255 0 0 0 0 //Inferno Spell
+15 5 0 255 0 0 0 0 //Teleport Spell
+end

@@ -1,0 +1,66 @@
+//Silver Medal
+// EventItemBag7
+0	5	7	0	0	0 // Blade
+1	6	7	0	0	0 // Nikkea Axe
+2	3	7	0	0	0 // Great Hammer
+3	0	7	0	0	0 // Light Spear
+4	4	7	0	0	0 // Tiger Bow
+5	3	7	0	0	0 // Thunder Staff
+6	5	7	0	0	0 // Dragon Slayer Shiled
+6	6	7	0	0	0 // Skull Shield
+6	3	7	0	0	0 // Elven Shield
+6	4	7	0	0	0 // Buckler
+
+7	0	7	0	0	0 // Bronze
+8	0	7	0	0	0 // Bronze
+9	0	7	0	0	0 // Bronze
+10	0	7	0	0	0 // Bronze
+11	0	7	0	0	0 // Bronze
+
+7	2	7	0	0	0 // Pad
+9	2	7	0	0	0 // Pad
+9	2	7	0	0	0 // Pad
+10	2	7	0	0	0 // Pad
+11	2	7	0	0	0 // Pad
+
+7	4	7	0	0	0 // Bone
+8	4	7	0	0	0 // Bone
+9	4	7	0	0	0 // Bone
+10	4	7	0	0	0 // Bone
+11	4	7	0	0	0 // Bone
+
+7	6	7	0	0	0 // Scale
+8	6	7	0	0	0 // Scale
+9	6	7	0	0	0 // Scale
+10	6	7	0	0	0 // Scale
+11	6	7	0	0	0 // Scale
+
+7	11	7	0	0	0 // Silk
+8	11	7	0	0	0 // Silk
+9	11	7	0	0	0 // Silk
+10	11	7	0	0	0 // Silk
+11	11	7	0	0	0 // Silk
+
+7	12	7	0	0	0 // Wind
+8	12	7	0	0	0 // Wind
+9	12	7	0	0	0 // Wind
+10	12	7	0	0	0 // Wind
+11	12	7	0	0	0 // Wind
+
+7	5	7	0	0	0 // Leather
+8	5	7	0	0	0 // Leather
+9	5	7	0	0	0 // Leather
+10	5	7	0	0	0 // Leather
+11	5	7	0	0	0 // Leather
+
+7	10	7	0	0	0 // Vine
+8	10	7	0	0	0 // Vine
+9	10	7	0	0	0 // Vine
+10	10	7	0	0	0 // Vine
+11	10	7	0	0	0 // Vine
+
+14	13	0	0	0	0 // Bless
+14	14	0	0	0	0 // Soul
+14	13	0	0	0	0 // Bless
+14	14	0	0	0	0 // Soul
+end
