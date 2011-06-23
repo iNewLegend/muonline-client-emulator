@@ -18,18 +18,18 @@ void CStrRes::load(const char* szFilename)
 	// ----
 	CCsvFile csvStrRes;
 	// ----
-	if (csvStrRes.Open(szFilename))
+	if (csvStrRes.open(szFilename))
 	{
 		// ----
-		while (csvStrRes.SeekNextLine())
+		while (csvStrRes.seekNextLine())
 		{
-			const char* szSign		= csvStrRes.GetStr("index");
-			const char* szText		= csvStrRes.GetStr("text");
+			const char* szSign		= csvStrRes.getStr("index","NULL");
+			const char* szText		= csvStrRes.getStr("text","NULL");
 			// ----
 			m_mapStr[szSign] = szText;
 		}
 		// ----
-		csvStrRes.Close();
+		csvStrRes.close();
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
