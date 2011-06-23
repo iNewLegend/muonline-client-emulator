@@ -38,7 +38,7 @@ const std::string& CStrRes::getStr(const char* szIndex)const
 {
 	static const std::string s_strStrResError = "ERROR";
 	// ----
-	std::map<std::string, std::string>::const_iterator it = m_mapStr.find(szIndex);
+	auto it = m_mapStr.find(szIndex);
 	// ----
 	if (it!=m_mapStr.end())
 		return it->second;
