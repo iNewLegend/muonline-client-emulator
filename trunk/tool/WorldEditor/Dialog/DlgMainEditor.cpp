@@ -268,11 +268,11 @@ void CDlgMainEditor::OnFileSave()
 {
 	std::string strFilename = ws2s(m_DlgFile.GetFilename());
 
-	CScenePlugBase* pScenePlug = (CScenePlugBase*)m_DataPlugsMgr.getPlugByExtension(ws2s(m_DlgFile.getFileType()).c_str());
-	if (pScenePlug)
-	{
-		pScenePlug->exportData(&getDisplay().getScene(),strFilename);
-	}
+	//CScenePlugBase* pScenePlug = (CScenePlugBase*)m_DataPlugsMgr.getPlugByExtension(ws2s(m_DlgFile.getFileType()).c_str());
+	//if (pScenePlug)
+	//{
+	//	pScenePlug->exportData(&getDisplay().getScene(),strFilename);
+	//}
 }
 
 void CDlgMainEditor::OnFileCancel()

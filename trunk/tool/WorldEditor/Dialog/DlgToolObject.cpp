@@ -109,7 +109,7 @@ void CDlgToolObject::OnAddObject()
 		m_NumScale.setFloat(fScale,0,2);
 	}
 	Vec3D vScale=Vec3D(fScale,fScale,fScale);
-	CRenderNode * pObject = WE_SCENE.add3DMapSceneObj(m_ObjListSceneObject.getSelectedObjectID(),WE_SCENE.getTargetPos(),vRotate,vScale);
-	WE_SCENE.getFocusObjects().addChild(pObject);
-	OnFocusObjectUpdate();
+	//CRenderNode * pObject = WE_SCENE.add3DMapSceneObj(m_ObjListSceneObject.getSelectedObjectID(),WE_SCENE.getTargetPos(),vRotate,vScale);
+	//WE_SCENE.getFocusObjects().addChild(pObject);
+	//OnFocusObjectUpdate();
 }
