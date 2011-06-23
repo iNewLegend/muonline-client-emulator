@@ -22,7 +22,8 @@ public:
 	void Render();
 
 	CTerrainEditor& getTerrain(){return m_Terrain;}
-	CScene&	getScene(){return m_Scene;}
+	CScene*	getScene(){return m_pSceneNode;}
+	void	setScene(CScene* pSceneNode){m_pSceneNode = pSceneNode;}
 	//CQuake3BSP			g_SceneBsp;
 virtual bool CanHaveFocus() { return (m_bVisible && m_bEnabled); }
 	virtual bool HandleKeyboard(UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -54,7 +55,7 @@ protected:
 	CCamera				m_Camera;
 	CSkyBox				m_SkyBox;
 	CTerrainEditor		m_Terrain;
-	CScene				m_Scene;
+	CScene*				m_pSceneNode;
 	CSceneEffect		m_SceneEffect;
 	CMeshCoordinate		m_MeshCoordinate;
 	Vec3D				m_vPosPressed;
