@@ -3,31 +3,37 @@
 #include "FileSystem.h"
 #include "RenderSystem.h"
 
+iRenderNode* _createSkeleton()	{return new CSkeletonNode;}
+iRenderNode* _createParticle()	{return new CParticleEmitter;}
+iRenderNode* _createMesh()		{return new CSkinModel;}
+
+void* _createSkeletonData()	{return new CSkeletonData;}
+void* _createParticleData()	{return new ParticleData;}
+void* _createMeshData()		{return new CLodMesh;}
+
 CRenderNodeMgr::CRenderNodeMgr()
 {
 	m_DataPlugsMgr.loadPlugs("Plugins\\*.dll");
+
+	registerRenderNode("skeleton",	(P_FUNC_NEW_RENDER_NODE)&_createSkeleton);
+	registerRenderNode("particle",	(P_FUNC_NEW_RENDER_NODE)&_createParticle);
+	registerRenderNode("mesh",		(P_FUNC_NEW_RENDER_NODE)&_createMesh);
+
+	registerRenderData("skeleton",	(P_FUNC_NEW_RENDER_DATA)&_createSkeletonData);
+	registerRenderData("particle",	(P_FUNC_NEW_RENDER_DATA)&_createParticleData);
+	registerRenderData("mesh",		(P_FUNC_NEW_RENDER_DATA)&_createMeshData);
 }
-/*
-unsigned long CModelDataMgr::RegisterModel(const std::string& strFilename)
+
+void CRenderNodeMgr::registerRenderNode(const char* szClassName, P_FUNC_NEW_RENDER_NODE pfn)
 {
-	if (strFilename.length()==0)
-	{
-		return 0;
-	}
-	if(!IOReadBase::Exists(strFilename))// Check the filename
-	{
-		return 0;
-	}
-	if (find(strFilename))// Has the same model.
-	{
-		return addRef(strFilename);
-	}
-
-	CSkinModel* pModel = new CSkinModel();
-
-	return add(strFilename, pModel);&CRenderNodeMgr::getInstance()
+	m_mapRenderNodeFunc[szClassName] = pfn;
 }
-*/
+
+void CRenderNodeMgr::registerRenderData(const char* szClassName, P_FUNC_NEW_RENDER_DATA pfn)
+{
+	m_mapRenderDataFunc[szClassName] = pfn;
+}
+
 iRenderNode* CRenderNodeMgr::loadRenderNode(const char* szFilename)
 {
 	// 判断格式--根据文件后缀名
@@ -40,73 +46,58 @@ iRenderNode* CRenderNodeMgr::loadRenderNode(const char* szFilename)
 	return false;
 }
 
-iRenderNode * CRenderNodeMgr::createRenderNode(const char* szClassName)
+iRenderNode* CRenderNodeMgr::createRenderNode(const char* szClassName)
 {
-	if (strcmp(szClassName,"skeleton"))
+	std::map<std::string, P_FUNC_NEW_RENDER_NODE>::iterator it = m_mapRenderNodeFunc.find(szClassName);
+	if (it!=m_mapRenderNodeFunc.end())
 	{
-		return new CSkeletonNode;
-	}
-	else if (strcmp(szClassName,"particle"))
-	{
-		return new CParticleEmitter;
-	}
-	else if (strcmp(szClassName,"mesh"))
-	{
-		return new CSkinModel;
-	}
-}
-
-iSkeletonData* CRenderNodeMgr::getSkeletonData(const char* szName)
-{
-	std::map<std::string, CSkeletonData>::iterator it = m_mapSkeletonData.find(szName);
-	if (it!=m_mapSkeletonData.end())
-	{
-		return (iSkeletonData*)&it->second;
+		return it->second();
 	}
 	return NULL;
 }
 
-ParticleData* CRenderNodeMgr::getParticleData(const char* szName)
+void* CRenderNodeMgr::createRenderData(const char* szClassName)
 {
-	std::map<std::string, ParticleData>::iterator it = m_mapParticleData.find(szName);
-	if (it!=m_mapParticleData.end())
+	std::map<std::string, P_FUNC_NEW_RENDER_DATA>::iterator it = m_mapRenderDataFunc.find(szClassName);
+	if (it!=m_mapRenderDataFunc.end())
 	{
-		return (ParticleData*)&it->second;
+		return it->second();
 	}
 	return NULL;
 }
 
-iLodMesh* CRenderNodeMgr::getLodMesh(const char* szName)
+void* CRenderNodeMgr::getRenderData(const char* szClassName, const char* szName)
 {
-	std::map<std::string, CLodMesh>::iterator it = m_mapLodMesh.find(szName);
-	if (it!=m_mapLodMesh.end())
+	if(strcmp(szClassName,"material")==0)
 	{
-		return (iLodMesh*)&it->second;
+		return &GetRenderSystem().getMaterialMgr().getItem(szName);
+	}
+	std::map<std::string, std::map<std::string, void*>>::iterator it = m_mapRenderData.find(szClassName);
+	if (it!=m_mapRenderData.end())
+	{
+		std::map<std::string, void*>::iterator it2 = it->second.find(szName);
+		if (it2!=it->second.end())
+		{
+			return it2->second;
+		}
 	}
 	return NULL;
 }
 
-CMaterial* CRenderNodeMgr::getMaterial(const char* szName)
+void* CRenderNodeMgr::createRenderData(const char* szClassName, const char* szName)
 {
-	return &GetRenderSystem().getMaterialMgr().getItem(szName);
-}
-
-iSkeletonData* CRenderNodeMgr::createSkeletonData(const char* szName)
-{
-	return (iSkeletonData*)&m_mapSkeletonData[szName];
-}
-
-ParticleData* CRenderNodeMgr::createParticleData(const char* szName)
-{
-	return (ParticleData*)&m_mapParticleData[szName];
-}
-
-iLodMesh* CRenderNodeMgr::createLodMesh(const char* szName)
-{
-	return (iLodMesh*)&m_mapLodMesh[szName];
-}
-
-CMaterial* CRenderNodeMgr::createMaterial(const char* szName)
-{
-	return &GetRenderSystem().getMaterialMgr().getItem(szName);
+	if(strcmp(szClassName,"material")==0)
+	{
+		return &GetRenderSystem().getMaterialMgr().getItem(szName);
+	}
+	if(getRenderData(szClassName,szName))
+	{
+		return NULL;
+	}
+	void* pData = createRenderData(szClassName);
+	if(pData)
+	{
+		m_mapRenderData[szClassName][szName] = pData;
+	}
+	return pData;
 }
