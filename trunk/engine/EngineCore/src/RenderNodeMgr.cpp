@@ -48,7 +48,7 @@ iRenderNode* CRenderNodeMgr::loadRenderNode(const char* szFilename)
 
 iRenderNode* CRenderNodeMgr::createRenderNode(const char* szClassName)
 {
-	std::map<std::string, P_FUNC_NEW_RENDER_NODE>::iterator it = m_mapRenderNodeFunc.find(szClassName);
+	auto it = m_mapRenderNodeFunc.find(szClassName);
 	if (it!=m_mapRenderNodeFunc.end())
 	{
 		return it->second();
@@ -58,7 +58,7 @@ iRenderNode* CRenderNodeMgr::createRenderNode(const char* szClassName)
 
 void* CRenderNodeMgr::createRenderData(const char* szClassName)
 {
-	std::map<std::string, P_FUNC_NEW_RENDER_DATA>::iterator it = m_mapRenderDataFunc.find(szClassName);
+	auto it = m_mapRenderDataFunc.find(szClassName);
 	if (it!=m_mapRenderDataFunc.end())
 	{
 		return it->second();
@@ -72,10 +72,10 @@ void* CRenderNodeMgr::getRenderData(const char* szClassName, const char* szName)
 	{
 		return &GetRenderSystem().getMaterialMgr().getItem(szName);
 	}
-	std::map<std::string, std::map<std::string, void*>>::iterator it = m_mapRenderData.find(szClassName);
+	auto it = m_mapRenderData.find(szClassName);
 	if (it!=m_mapRenderData.end())
 	{
-		std::map<std::string, void*>::iterator it2 = it->second.find(szName);
+		auto it2 = it->second.find(szName);
 		if (it2!=it->second.end())
 		{
 			return it2->second;

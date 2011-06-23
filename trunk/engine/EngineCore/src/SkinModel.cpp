@@ -117,7 +117,7 @@ bool CSkinModel::init(void* pData)
 		}
 	}
 	m_nOrder=0;
-	for (std::vector<ModelRenderPass>::iterator it=m_vecPasses.begin();it!=m_vecPasses.end();it++)
+	for (auto it=m_vecPasses.begin();it!=m_vecPasses.end();it++)
 	{
 		CMaterial& material = GetRenderSystem().getMaterialMgr().getItem(it->strMaterial.c_str());
 		m_nOrder+=material.getOrder();
@@ -268,7 +268,7 @@ void CSkinModel::renderMesh(E_MATERIAL_RENDER_TYPE eModelRenderType, size_t uLod
 		{
 			m_pMesh->draw();
 		}
-		else for (std::vector<ModelRenderPass>::const_iterator it = m_vecPasses.begin(); it != m_vecPasses.end(); ++it)
+		else for (auto it = m_vecPasses.begin(); it != m_vecPasses.end(); ++it)
 		{
 			E_MATERIAL_RENDER_TYPE RenderType = GetRenderSystem().getMaterialMgr().getItem(it->strMaterial.c_str()).getRenderType();
 			if (RenderType&eModelRenderType)

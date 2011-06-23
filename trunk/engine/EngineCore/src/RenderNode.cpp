@@ -71,7 +71,7 @@ const CRenderNode* CRenderNode::getChild(const char* szName)const
 
 bool CRenderNode::removeChild(CRenderNode* pChild)
 {
-	LIST_RENDER_NODE::iterator it = std::find(m_mapChildObj.begin(),m_mapChildObj.end(),pChild);
+	auto it = std::find(m_mapChildObj.begin(),m_mapChildObj.end(),pChild);
 	// ----
 	if (it != m_mapChildObj.end())
 	{
@@ -93,7 +93,7 @@ bool CRenderNode::delChild(CRenderNode* pChild)
 
 bool CRenderNode::contain(const CRenderNode* pChild)const
 {
-	LIST_RENDER_NODE::const_iterator it = std::find(m_mapChildObj.begin(),m_mapChildObj.end(),pChild);
+	auto it = std::find(m_mapChildObj.begin(),m_mapChildObj.end(),pChild);
 	if (it != m_mapChildObj.end())
 	{
 		return true;

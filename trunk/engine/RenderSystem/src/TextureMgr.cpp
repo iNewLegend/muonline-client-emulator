@@ -194,7 +194,7 @@ void CTextureMgr::Update()
 
 void CTextureMgr::remove(CTexture* pTexture)
 {
-	for (std::set<CTexture*>::iterator it=m_setTextureList.begin(); it!=m_setTextureList.end(); it++)
+	for (auto it=m_setTextureList.begin(); it!=m_setTextureList.end(); it++)
 	{
 		if (*it==pTexture)
 		{

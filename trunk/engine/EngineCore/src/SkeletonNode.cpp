@@ -136,7 +136,7 @@ void CSkeletonNode::drawSkeleton(CTextRender* pTextRender)const
 	}
 
 	// ----
-	for (LIST_RENDER_NODE::const_iterator it=m_mapChildObj.begin();it!=m_mapChildObj.end();it++)
+	for (auto it=m_mapChildObj.begin();it!=m_mapChildObj.end();it++)
 	{
 		//it->second.pChildObj->drawSkeleton(pTextRender);
 	}

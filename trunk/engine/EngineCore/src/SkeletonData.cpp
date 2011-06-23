@@ -21,7 +21,7 @@ void CSkeletonData::calcBonesTree(int nBoneID,std::vector<Matrix>& setBonesMatri
 void CSkeletonData::CalcBonesMatrix(const std::string& strAnim, int time, std::vector<Matrix>& setBonesMatrix)
 {
 	// 默认的骨骼动画运算
-	std::map<std::string,SkeletonAnim>::const_iterator it = m_Anims.find(strAnim);
+	auto it = m_Anims.find(strAnim);
 	if (it==m_Anims.end())
 	{
 		//return;
@@ -134,7 +134,7 @@ iSkeletonAnim* CSkeletonData::allotAnimation(const std::string& strName)
 
 iSkeletonAnim* CSkeletonData::getAnimation(const std::string& strName)
 {
-	std::map<std::string,SkeletonAnim>::const_iterator it = m_Anims.find(strName);
+	auto it = m_Anims.find(strName);
 	if (it==m_Anims.end())
 	{
 		return (iSkeletonAnim*)&it->second;
@@ -148,14 +148,14 @@ iSkeletonAnim* CSkeletonData::getAnimation(size_t index)
 	{
 		return NULL;
 	}
-	std::map<std::string,SkeletonAnim>::const_iterator it = m_Anims.begin();
+	auto it = m_Anims.begin();
 	advance(it,index);
 	return (iSkeletonAnim*)&it->second;
 }
 
 bool CSkeletonData::delAnimation(const std::string& strName)
 {
-	std::map<std::string,SkeletonAnim>::iterator it=m_Anims.find(strName);
+	auto it=m_Anims.find(strName);
 	if(it!=m_Anims.end())
 	{
 		m_Anims.erase(it);
