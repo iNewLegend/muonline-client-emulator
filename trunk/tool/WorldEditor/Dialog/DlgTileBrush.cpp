@@ -37,7 +37,7 @@ void CDlgTileBrush::OnRadioBtnLayerChanged()
 
 void CDlgTileBrush::initTiles()
 {
-	m_ObjListTiles.initObject(WE_SCENE);
+	//m_ObjListTiles.initObject(WE_SCENE);
 }
 
 void CDlgTileBrush::OnBtnTileEdit()

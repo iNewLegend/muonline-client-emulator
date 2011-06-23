@@ -37,7 +37,7 @@ void CDlgToolObject::OnControlRegister()
 
 void CDlgToolObject::initObject()
 {
-	m_ObjListSceneObject.initObject(WE_SCENE);
+	//m_ObjListSceneObject.initObject(WE_SCENE);
 }
 
 void CDlgToolObject::OnNumFloorSnapChanged()
@@ -52,7 +52,12 @@ void CDlgToolObject::OnNumGridSnapChanged()
 
 void CDlgToolObject::OnFocusObjectValueChanged()
 {
-	CFocusNode& focusNode  = WE_SCENE.getFocusObjects();
+	CScene* pSceneNode = WE_SCENE;
+	if(pSceneNode==NULL)
+	{
+		return;
+	}
+	CFocusNode& focusNode  = pSceneNode->getFocusObjects();
 	if (focusNode.getChildObj().size()>0)
 	{
 		Vec3D vPos=m_Vec3DPos.getVec3D();
@@ -69,14 +74,19 @@ void CDlgToolObject::OnFocusObjectValueChanged()
 		focusNode.setCenterRotate(vRotate);
 		focusNode.setCenterScale(vScale);
 		// ----
-		WE_SCENE.updateObjTreeByFocus();
+		pSceneNode->updateObjTreeByFocus();
 	}
 	OnFocusObjectUpdate();
 }
 
 void CDlgToolObject::OnFocusObjectUpdate()
 {
-	CFocusNode& focusNode  = WE_SCENE.getFocusObjects();
+	CScene* pSceneNode = WE_SCENE;
+	if(pSceneNode==NULL)
+	{
+		return;
+	}
+	CFocusNode& focusNode  = pSceneNode->getFocusObjects();
 	LIST_RENDER_NODE& listRenderNode = focusNode.getChildObj();
 	if (listRenderNode.size()>0)
 	{
