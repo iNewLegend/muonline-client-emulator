@@ -95,12 +95,12 @@ void CDlgSetting::OnBtnTerrainBBoxVisible()
 
 void CDlgSetting::OnBtnObjectVisible()
 {
-	WE_SCENE.setShowObject(!WE_SCENE.getShowObject());
+	//WE_SCENE.setShowObject(!WE_SCENE.getShowObject());
 }
 
 void CDlgSetting::OnBtnObjectBBoxVisible()
 {
-	WE_SCENE.setShowObjectBBox(!WE_SCENE.getShowObjectBBox());
+	//WE_SCENE.setShowObjectBBox(!WE_SCENE.getShowObjectBBox());
 }
 
 void CDlgSetting::OnBtnTerrainResize()
@@ -110,7 +110,7 @@ void CDlgSetting::OnBtnTerrainResize()
 
 void CDlgSetting::OnBtnCalcLightMap()
 {
-	WE_SCENE.CalcLightMap();
+	//WE_SCENE.CalcLightMap();
 }
 
 void CDlgSetting::OnCameraChanged()
@@ -119,33 +119,42 @@ void CDlgSetting::OnCameraChanged()
 
 void CDlgSetting::OnFogChanged()
 {
+	if(WE_SCENE)
+	{
 	Fog fog;
 	fog.fStart		= (float)m_SliderFogEnd.GetValue()*0.01f*m_SliderFogStart.GetValue();
 	fog.fEnd		= (float)m_SliderFogEnd.GetValue();
 	fog.fDensity	= m_NumFogDensity.getFloat();
 	fog.color		= m_ColorFog.getColor();
-	WE_SCENE.setFog(fog);
+	WE_SCENE->setFog(fog);
+	}
 }
 
 void CDlgSetting::OnMaterialChanged()
 {
+		if(WE_SCENE)
+	{
 	DirectionalLight light;
 	light.vAmbient = Vec4D(m_ColorAmbient.getColor());
 	light.vDiffuse = Vec4D(m_ColorDiffuse.getColor());
 	light.vSpecular = Vec4D(1.0f,1.0f,1.0f,1.0f);
 	light.vDirection = Vec3D(-1.0f,-1.0f,1.0f);
-	WE_SCENE.setLight(light);
+	WE_SCENE->setLight(light);
+	}
 }
 
 void CDlgSetting::init()
 {
-	const Fog& fog = WE_SCENE.getFog();
+			if(WE_SCENE)
+	{
+	const Fog& fog = WE_SCENE->getFog();
 	m_SliderFogStart.SetValue((int)(fog.fStart*100/fog.fEnd));
 	m_SliderFogEnd.SetValue((int)fog.fEnd);
 	m_NumFogDensity.setFloat(fog.fDensity,0,2);
 	m_ColorFog.setColor(fog.color);
 
-	const DirectionalLight& light = WE_SCENE.getLight();
+	const DirectionalLight& light = WE_SCENE->getLight();
 	m_ColorAmbient.setColor(light.vAmbient);
 	m_ColorDiffuse.setColor(light.vDiffuse);
+	}
 }
