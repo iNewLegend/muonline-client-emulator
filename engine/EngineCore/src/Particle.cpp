@@ -184,7 +184,7 @@ void CParticleEmitter::update(const Matrix& mWorld, ParticleData& particleData, 
 	float mspeed	= 1.0f;
 	float fGrav		= particleData.m_Gravity.getValue(m_nTime);
 	float fDeaccel	= particleData.m_Deacceleration.getValue(m_nTime);
-	for (std::list<Particle>::iterator it = m_Particles.begin(); it != m_Particles.end();)
+	for (auto it = m_Particles.begin(); it != m_Particles.end();)
 	{
 		Particle &p = *it;
 		// 计算出当前速度
@@ -283,7 +283,7 @@ void CParticleEmitter::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRend
 
 				CGraphics& bg = GetGraphics();
 				bg.begin(VROT_TRIANGLE_LIST, m_Particles.size()*4);
-				for (std::list<Particle>::const_iterator it = m_Particles.begin(); it != m_Particles.end(); ++it)
+				for (auto it = m_Particles.begin(); it != m_Particles.end(); ++it)
 				{
 					bg.c(it->color);
 
@@ -308,7 +308,7 @@ void CParticleEmitter::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRend
 
 				CGraphics& bg = GetGraphics();
 				bg.begin(VROT_TRIANGLE_LIST, m_Particles.size()*4);
-				for (std::list<Particle>::const_iterator it = m_Particles.begin(); it != m_Particles.end(); ++it)
+				for (auto it = m_Particles.begin(); it != m_Particles.end(); ++it)
 				{
 					Vec3D P,O;
 					P=it->vPos;

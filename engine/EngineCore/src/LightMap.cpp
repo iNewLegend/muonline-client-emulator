@@ -144,7 +144,7 @@ void CLightMap::CalcLightMapByShader(int nCalcCount)
 		// Îï¼þ
 		{
 			//CScene::DEQUE_MAPOBJ&	setSceneObj;/// = GetSceneMgr().GetSceneObject();
-			//for (CScene::DEQUE_MAPOBJ::iterator it = setSceneObj.begin();
+			//for (auto it = setSceneObj.begin();
 			//	it != setSceneObj.end(); ++it)
 			//{
 			//	ClearLightMap();

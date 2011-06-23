@@ -61,7 +61,7 @@ void ObjectTree::clearObjects()
 //		{
 //			bboxObject=m_setObjet[0]->GetBBox();
 //		}
-//		for (std::vector<CRenderNode*>::iterator it=m_setObjet.begin();it!=m_setObjet.end();it++)
+//		for (auto it=m_setObjet.begin();it!=m_setObjet.end();it++)
 //		{
 //			BBox box = (*it)->GetBBox();
 //			bboxObject+=box;
@@ -224,7 +224,7 @@ bool ObjectTree::addObject(CRenderNode* pObject)
 
 bool ObjectTree::eraseObject(CRenderNode* pObject)
 {
-	LIST_RENDER_NODE::iterator it = std::find( m_setObjet.begin( ), m_setObjet.end( ), pObject );
+	auto it = std::find( m_setObjet.begin( ), m_setObjet.end( ), pObject );
 	if(it!=m_setObjet.end())
 	{
 		m_setObjet.erase(it);
@@ -255,7 +255,7 @@ bool ObjectTree::updateObject(CRenderNode* pObject)
 
 ObjectTree* ObjectTree::find(CRenderNode* pObject)
 {
-	LIST_RENDER_NODE::iterator it = std::find( m_setObjet.begin( ), m_setObjet.end( ), pObject );
+	auto it = std::find( m_setObjet.begin( ), m_setObjet.end( ), pObject );
 	if(it!=m_setObjet.end())
 	{
 		return this;

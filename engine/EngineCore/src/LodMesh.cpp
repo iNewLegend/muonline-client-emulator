@@ -24,18 +24,18 @@ void  transformRedundance(const std::vector<_T>& setIn, std::vector<_T>& setOut,
 {
 	std::map<_T,int> mapSort;
 	size_t start = setOut.size();
-	for (std::vector<_T>::const_iterator it=setIn.begin();it!=setIn.end();it++)
+	for (auto it=setIn.begin();it!=setIn.end();it++)
 	{
 		mapSort[*it];
 	}
 	int id = setOut.size();
-	for (std::map<_T,int>::iterator it=mapSort.begin();it!=mapSort.end();it++)
+	for (auto it=mapSort.begin();it!=mapSort.end();it++)
 	{
 		setOut.push_back(it->first);
 		it->second=id;
 		id++;
 	}
-	for (std::vector<_T>::const_iterator it=setIn.begin();it!=setIn.end();it++)
+	for (auto it=setIn.begin();it!=setIn.end();it++)
 	{
 		index.push_back(mapSort[*it]);
 	}
@@ -302,7 +302,7 @@ void CLodMesh::init()
 	}
 
 	// ÃÓ»ÎIB
-	for(std::vector<ModelLod>::iterator it = m_Lods.begin(); it!=m_Lods.end(); it++)
+	for(auto it = m_Lods.begin(); it!=m_Lods.end(); it++)
 	{
 		size_t indexSize = it->Indices.size();
 		if (indexSize>0)
@@ -389,7 +389,7 @@ void CLodMesh::draw(size_t uLodLevel)const
 	{
 		CRenderSystem& R = GetRenderSystem();
 		const std::vector<IndexedSubset>& setSubset = m_Lods[ uLodLevel ].setSubset;
-		for (std::vector<IndexedSubset>::const_iterator it=setSubset.begin(); it!=setSubset.end(); it++)
+		for (auto it=setSubset.begin(); it!=setSubset.end(); it++)
 		{
 			R.drawIndexedSubset(*it);
 		}

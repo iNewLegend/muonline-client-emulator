@@ -310,7 +310,7 @@ bool CScene::removeChild(CRenderNode* pChild)
 bool CScene::removeRenderObj(CRenderNode* pObj)
 {
 	// del from render
-	LIST_RENDER_NODE::iterator it = find( m_setRenderSceneObj.begin( ), m_setRenderSceneObj.end( ), pObj );
+	auto it = find( m_setRenderSceneObj.begin( ), m_setRenderSceneObj.end( ), pObj );
 	if(it!=m_setRenderSceneObj.end())
 	{
 		m_setRenderSceneObj.erase(it);
