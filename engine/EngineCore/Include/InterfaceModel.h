@@ -27,14 +27,9 @@ public:
 
 	virtual iRenderNode*	loadRenderNode(const char* szFilename)=0;
 	virtual iRenderNode*	createRenderNode(const char* szClassName)=0;
-	virtual iSkeletonData*	getSkeletonData(const char* szName)=0;
-	virtual ParticleData*	getParticleData(const char* szName)=0;
-	virtual iLodMesh*		getLodMesh(const char* szName)=0;
-	virtual CMaterial*		getMaterial(const char* szName)=0;
-	virtual iSkeletonData*	createSkeletonData(const char* szName)=0;
-	virtual ParticleData*	createParticleData(const char* szName)=0;
-	virtual iLodMesh*		createLodMesh(const char* szName)=0;
-	virtual CMaterial*		createMaterial(const char* szName)=0;
+	virtual void*			createRenderData(const char* szClassName)=0;
+	virtual void*			getRenderData(const char* szClassName, const char* szName)=0;
+	virtual void*			createRenderData(const char* szClassName, const char* szName)=0;
 };
 
 //////////////////////////////////////////////////////////////////////////
