@@ -212,42 +212,44 @@ iRenderNode* CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, const char* szF
 	while (csv.seekNextLine())
 	{
 		const char* szMaterial	= csv.getStr("Name","");
-		CMaterial& material		= *pRenderNodeMgr->createMaterial(szMaterial);
-
-		material.setTexture(0,getRealFilename(szParentDir,csv.getStr("Diffuse","")).c_str());
-		//material.m_fOpacity		=csv.getFloat("Opacity");
-		const char* szPass		=csv.getStr("pass",NULL);
-		if (szPass)
+		CMaterial* pMaterial	= (CMaterial*)pRenderNodeMgr->createRenderData("material",szMaterial);
+		if(pMaterial)
 		{
-			char szPassFilename[255];
-			sprintf(szPassFilename,"EngineRes\\pass\\%s.pass",szPass);
-			loadMaterialPass(material, szPassFilename);
-		}
-		else
-		{
-			material.bLightingEnabled = false;
-			// ----
-			material.uCull			= CULL_NONE;
-			// ----
-			material.bAlphaTest		= false;
-			// ----
-			material.bBlend			= false;
-			// ----
-			material.bDepthTest		= true;
-			material.bDepthWrite	= true;
-			// ----
-			CMaterial::TextureOP& texOP0	= material.textureOP[0];
-			CMaterial::TextureOP& texOP1	= material.textureOP[1];
-			// ----
-			texOP0.nColorOP			= TBOP_MODULATE;
-			texOP0.nColorSrc1		= TBS_CURRENT;
-			texOP0.nColorSrc2		= TBS_TEXTURE;
-			texOP0.nAlphaOP			= TBOP_MODULATE;
-			texOP0.nAlphaSrc1		= TBS_CURRENT;
-			texOP0.nAlphaSrc2		= TBS_TEXTURE;
-			// ----
-			texOP1.nColorOP			= TBOP_DISABLE;
-			texOP1.nAlphaOP			= TBOP_DISABLE;
+			pMaterial->setTexture(0,getRealFilename(szParentDir,csv.getStr("Diffuse","")).c_str());
+			//material.m_fOpacity		=csv.getFloat("Opacity");
+			const char* szPass		=csv.getStr("pass",NULL);
+			if (szPass)
+			{
+				char szPassFilename[255];
+				sprintf(szPassFilename,"EngineRes\\pass\\%s.pass",szPass);
+				loadMaterialPass(*pMaterial, szPassFilename);
+			}
+			else
+			{
+				pMaterial->bLightingEnabled	 = false;
+				// ----
+				pMaterial->uCull				= CULL_NONE;
+				// ----
+				pMaterial->bAlphaTest			= false;
+				// ----
+				pMaterial->bBlend				= false;
+				// ----
+				pMaterial->bDepthTest			= true;
+				pMaterial->bDepthWrite			= true;
+				// ----
+				CMaterial::TextureOP& texOP0	= pMaterial->textureOP[0];
+				CMaterial::TextureOP& texOP1	= pMaterial->textureOP[1];
+				// ----
+				texOP0.nColorOP					= TBOP_MODULATE;
+				texOP0.nColorSrc1				= TBS_CURRENT;
+				texOP0.nColorSrc2				= TBS_TEXTURE;
+				texOP0.nAlphaOP					= TBOP_MODULATE;
+				texOP0.nAlphaSrc1				= TBS_CURRENT;
+				texOP0.nAlphaSrc2				= TBS_TEXTURE;
+				// ----
+				texOP1.nColorOP					= TBOP_DISABLE;
+				texOP1.nAlphaOP					= TBOP_DISABLE;
+			}
 		}
 	}
 	csv.close();

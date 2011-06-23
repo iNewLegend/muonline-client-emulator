@@ -1355,7 +1355,7 @@ bool CMyPlug::importTerrainData(iTerrainData * pTerrainData, const std::string& 
 	return true;
 }
 #include "CsvFile.h"
-bool CMyPlug::importObjectResources(iScene * pScene, const char* szFilename, const std::string& strPath)
+bool CMyPlug::importObjectResources(const char* szFilename, const std::string& strPath)
 {
 	m_mapObjectName.clear();
 	CCsvFile csvObject;
@@ -1370,7 +1370,7 @@ bool CMyPlug::importObjectResources(iScene * pScene, const char* szFilename, con
 	return true;
 }
 
-bool CMyPlug::importObjectResourcesFormDir(iScene * pScene,const std::string& strPath)
+bool CMyPlug::importObjectResourcesFormDir(const std::string& strPath)
 {
 	m_mapObjectName.clear();
 	for (size_t i=0; i<256; i++)
@@ -1398,45 +1398,6 @@ struct ObjInfo
 	float fScale;
 };
 #pragma pack(pop)
-
-bool CMyPlug::importObject(iScene * pScene, const char* szFilename)
-{
-	pScene->clearAllObjects();
-	IOReadBase* pRead = IOReadBase::autoOpen(szFilename);
-	if (pRead)
-	{
-		size_t fileSize = pRead->GetSize();
-		char* buffer = new char[fileSize];
-		pRead->Read(buffer, fileSize);
-		decrypt(buffer,fileSize);
-
-		unsigned short uMapID = *((unsigned short*)(buffer));
-		unsigned short uObjCount = *((unsigned short*)(buffer+2));
-		ObjInfo* pObjInfo = (ObjInfo*)(buffer+4);
-		for (int i=0; i<uObjCount;++i)
-		{
-			Vec3D vPos = Vec3D(pObjInfo->p.x,pObjInfo->p.z,pObjInfo->p.y)*0.01f;
-			Vec3D vRotate = Vec3D(pObjInfo->rotate.x,pObjInfo->rotate.z,pObjInfo->rotate.y)*PI/180.0f;
-			Vec3D vScale= Vec3D(pObjInfo->fScale,pObjInfo->fScale,pObjInfo->fScale);
-			iRenderNode* pRenderNode = pScene->getRenderNodeMgr()->loadRenderNode(m_mapObjectName[pObjInfo->id].c_str());
-			if(pRenderNode)
-			{
-				pRenderNode->setPos(vPos);
-				pRenderNode->setRotate(vRotate);
-				pRenderNode->setScale(vScale);
-				pScene->addChild(pRenderNode);
-			}
-			else
-			{
-				//MessageBoxA(NULL,"cannot find ID!","Error",0);
-			}
-			pObjInfo++;
-		}
-		delete buffer;
-		IOReadBase::autoClose(pRead);
-	}
-	return true;
-}
 
 int getMapIDFromFilename(const std::string& strFilename)
 {
@@ -1684,44 +1645,81 @@ VMBEGIN
 	VMEND
 }
 
-int CMyPlug::importData(iScene * pScene, const std::string& strFilename)
+iRenderNode* CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, const char* szFilename)
 {
-	importTerrainData(pScene->getTerrainData(),strFilename);
+	//importTerrainData(pScene->getTerrainData(),szFilename);
 	// tiles
-	std::string strTileFile = GetParentPath(strFilename)+"Tile.csv";
-	if (!IOReadBase::Exists(strTileFile))
-	{
-		strTileFile="Plugins\\Data\\default\\Tile.csv";
-	}
-	pScene->getTerrainData()->loadTilesMaterial(strTileFile.c_str(),GetParentPath(strFilename).c_str());
+	//std::string strTileFile = GetParentPath(szFilename)+"Tile.csv";
+	//if (!IOReadBase::Exists(strTileFile))
+	//{
+	//	strTileFile="Plugins\\Data\\default\\Tile.csv";
+	//}
+	//pScene->getTerrainData()->loadTilesMaterial(strTileFile.c_str(),GetParentPath(szFilename).c_str());
+	//pScene->getTerrainData()->create();
 
-	//importTiles(pScene->getTerrainData(),strTileFile.c_str(),GetParentPath(strFilename));
-	//
-	//pScene->getTerrain()->setLightMapTexture(strFilename+"TerrainLight.OZJ");
-	pScene->getTerrainData()->create();
+	// calc the map object filename
+	int nMapID = getMapIDFromFilename(szFilename);
+	std::string strObjectPath = Format("%s%s%d\\",GetParentPath(GetParentPath(szFilename)).c_str(),"Object",nMapID);
 
-	// calc MU's filename
-	int nMapID = getMapIDFromFilename(strFilename);
-	std::string strObjectPath = Format("%s%s%d\\",GetParentPath(GetParentPath(strFilename)).c_str(),"Object",nMapID);
+	// Loading the object list.
 	if (nMapID==1)
 	{
-		importObjectResources(pScene,"Plugins\\Data\\World1\\Object.csv",strObjectPath); 
+		importObjectResources("Plugins\\Data\\World1\\Object.csv",strObjectPath); 
 	}
-	else if (IOReadBase::Exists(GetParentPath(strFilename)+"Object.csv"))
+	else if (IOReadBase::Exists(GetParentPath(szFilename)+"Object.csv"))
 	{
-		importObjectResources(pScene,(GetParentPath(strFilename)+"Object.csv").c_str(),GetParentPath(strFilename)); 
+		importObjectResources((GetParentPath(szFilename)+"Object.csv").c_str(),GetParentPath(szFilename)); 
 	}
 	else
 	{
-		importObjectResourcesFormDir(pScene,strObjectPath);
+		importObjectResourcesFormDir(strObjectPath);
 	}
+	// object data filename
+	std::string strObjectFilename = ChangeExtension(szFilename,".obj");
+	iSceneData* pSceneData = (iSceneData*)pRenderNodeMgr->createRenderData("scene",strObjectFilename.c_str());
 	BBox bboxObject;
-	float fLength = max(pScene->getTerrainData()->GetWidth(),pScene->getTerrainData()->GetHeight());
+	float fLength = 256;//max(pScene->getTerrainData()->GetWidth(),pScene->getTerrainData()->GetHeight());
 	bboxObject.vMin = Vec3D(-10.0f,-fLength*0.5f-10.0f,-10.0f);
 	bboxObject.vMax = Vec3D(fLength+10.0f,fLength*0.5f+10.0f,fLength+10.0f);
-	pScene->createObjectTree(bboxObject,6);
-	importObject(pScene,ChangeExtension(strFilename,".obj").c_str());
-	return true;
+	pSceneData->setBBox(bboxObject);
+	pSceneData->setObjectTreeSize(6);
+	// Loading the object.
+	iRenderNode* pSceneNode = (iRenderNode*)pRenderNodeMgr->createRenderNode("scene");
+	IOReadBase* pRead = IOReadBase::autoOpen(strObjectFilename.c_str());
+	if (pRead)
+	{
+		size_t fileSize = pRead->GetSize();
+		char* buffer = new char[fileSize];
+		pRead->Read(buffer, fileSize);
+		decrypt(buffer,fileSize);
+
+		unsigned short uMapID = *((unsigned short*)(buffer));
+		unsigned short uObjCount = *((unsigned short*)(buffer+2));
+		ObjInfo* pObjInfo = (ObjInfo*)(buffer+4);
+		for (int i=0; i<uObjCount;++i)
+		{
+			Vec3D vPos = Vec3D(pObjInfo->p.x,pObjInfo->p.z,pObjInfo->p.y)*0.01f;
+			Vec3D vRotate = Vec3D(pObjInfo->rotate.x,pObjInfo->rotate.z,pObjInfo->rotate.y)*PI/180.0f;
+			Vec3D vScale= Vec3D(pObjInfo->fScale,pObjInfo->fScale,pObjInfo->fScale);
+			iRenderNode* pRenderNode = pRenderNodeMgr->loadRenderNode(m_mapObjectName[pObjInfo->id].c_str());
+			if(pRenderNode)
+			{
+				pRenderNode->setPos(vPos);
+				pRenderNode->setRotate(vRotate);
+				pRenderNode->setScale(vScale);
+				pSceneNode->addChild(pRenderNode);
+			}
+			else
+			{
+				//MessageBoxA(NULL,"cannot find ID!","Error",0);
+			}
+			pObjInfo++;
+		}
+		delete buffer;
+		IOReadBase::autoClose(pRead);
+	}
+	pSceneNode->init(pSceneData);
+	return pSceneNode;
 }
 
 bool CMyPlug::exportTerrainAtt(iTerrainData * pTerrainData, const std::string& strFilename)
@@ -2295,17 +2293,17 @@ bool CMyPlug::exportTiles(iTerrainData * pTerrain, const std::string& strFilenam
 	return true;
 }
 
-bool CMyPlug::exportObjectResources(iScene * pScene, const std::string& strFilename, const std::string& strPath)
-{
-	return true;
-}
+//bool CMyPlug::exportObjectResources(iScene * pScene, const std::string& strFilename, const std::string& strPath)
+//{
+//	return true;
+//}
 
-bool CMyPlug::exportObjectResourcesFormDir(iScene * pScene,const std::string& strPath)
-{
-	return true;
-}
+//bool CMyPlug::exportObjectResourcesFormDir(iScene * pScene,const std::string& strPath)
+//{
+//	return true;
+//}
 
-bool CMyPlug::exportObject(iScene * pScene, const std::string& strFilename)
+bool CMyPlug::exportObject(iRenderNode * pScene, const std::string& strFilename)
 {
 	VMBEGIN
 	//////////////////////////////////////////////////////////////////////////
@@ -2548,13 +2546,13 @@ bool CMyPlug::exportObject(iScene * pScene, const std::string& strFilename)
 	return true;
 }
 
-int CMyPlug::exportData(iScene * pScene, const std::string& strFilename)
-{
-	checkKey();
-	exportTerrainData(pScene->getTerrainData(),strFilename);
-	exportObject(pScene,ChangeExtension(strFilename,".obj"));
-	return true;
-}
+//int CMyPlug::exportData(iScene * pScene, const std::string& strFilename)
+//{
+//	checkKey();
+//	exportTerrainData(pScene->getTerrainData(),strFilename);
+//	exportObject(pScene,ChangeExtension(strFilename,".obj"));
+//	return true;
+//}
 
 void CMyPlug::release()
 {
