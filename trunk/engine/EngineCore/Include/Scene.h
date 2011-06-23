@@ -78,6 +78,7 @@ public:
 	CONST_GET_SET_VARIABLE	(Fog&,				m_,Fog);
 	CONST_GET_SET_VARIABLE	(Vec3D&,			m_v,TargetPos);
 	// ----
+	SceneData*				getSceneData(){return m_pSceneData;}
 protected:
 	SceneData*				m_pSceneData;
 	CTerrain*				m_pTerrain;
