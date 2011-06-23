@@ -3,6 +3,7 @@
 #include "FileSystem.h"
 #include "Camera.h"
 #include "RegData.h"
+#include "RenderNodeMgr.h"
 
 CDlgMainEditor::CDlgMainEditor()
 {
@@ -177,7 +178,11 @@ bool CDlgMainEditor::OnInitDialog()
 void CDlgMainEditor::OnFrameMove(double fTime, float fElapsedTime)
 {
 	CUIMainDialog::OnFrameMove(fTime,fElapsedTime);
-	const Vec3D& vPos = getDisplay().getScene().getTargetPos();
+	Vec3D vPos(0.0f,0.0f,0.0f);
+	if(getDisplay().getScene())
+	{
+		vPos = getDisplay().getScene()->getTargetPos();
+	}
 	m_StaticPosX.SetFloat(vPos.x,0,2);
 	m_StaticPosY.SetFloat(vPos.z,0,2);
 	m_StaticPosHeight.SetFloat(vPos.y,0,2);
@@ -255,11 +260,8 @@ void CDlgMainEditor::OnFileOpen()
 {
 	std::string strFilename = ws2s(m_DlgFile.GetFilename());
 	SetRegStr(L"software\\rpgsky\\worldeditor\\",L"recentpath",GetParentPath(m_DlgFile.GetFilename()).c_str());
-	CScenePlugBase* pScenePlug = (CScenePlugBase*)m_DataPlugsMgr.getPlugByExtension(ws2s(m_DlgFile.getFileType()).c_str());
-	if (pScenePlug)
-	{
-		pScenePlug->importData(&getDisplay().getScene(),strFilename);
-	}
+	CScene * pSceneNode = (CScene *)CRenderNodeMgr::getInstance().loadRenderNode(strFilename.c_str());
+	getDisplay().setScene(pSceneNode);
 	// Update UI
 	m_DlgToolbar.reset();
 }
