@@ -7,6 +7,8 @@
 class iRenderNode
 {
 public:
+	virtual void			frameMove	(const Matrix& mWorld, double fTime, float fElapsedTime)=0;
+	virtual void			render		(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType=MATERIAL_NORMAL)const=0;
 	virtual void			setPos		(const Vec3D& vPos)=0;
 	virtual void			setRotate	(const Vec3D& vRotate)=0;
 	virtual void			setScale	(const Vec3D& vScale)=0;
