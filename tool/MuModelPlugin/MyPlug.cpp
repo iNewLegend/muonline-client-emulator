@@ -157,8 +157,8 @@ void importSkeletonAnims(iSkeletonData& skeletonData, CMUBmd& bmd)
 
 iRenderNode* CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, const char* szFilename)
 {
-	iSkeletonData* pSkeletonData = pRenderNodeMgr->getSkeletonData(szFilename);
-	iLodMesh* pMesh = pRenderNodeMgr->getLodMesh(szFilename);
+	iSkeletonData*	pSkeletonData	= (iSkeletonData*)	pRenderNodeMgr->getRenderData("skeleton",szFilename);
+	iLodMesh*		pMesh			= (iLodMesh*)		pRenderNodeMgr->getRenderData("mesh",szFilename);
 	// ----
 	if (pSkeletonData==NULL || pMesh==NULL)
 	{
@@ -170,7 +170,7 @@ iRenderNode* CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, const char* szF
 		// ----
 		if (pMesh==NULL)
 		{
-			pMesh = pRenderNodeMgr->createLodMesh(szFilename);
+			pMesh = (iLodMesh*)pRenderNodeMgr->createRenderData("mesh",szFilename);
 			if (pMesh)
 			{
 				bool bIsPlayerPart = false;
@@ -270,7 +270,7 @@ iRenderNode* CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, const char* szF
 					char szMaterialName[255];
 					{
 						sprintf(szMaterialName,"%s%d",ChangeExtension(GetFilename(szFilename),".sub").c_str(),i);
-						CMaterial& material = *pRenderNodeMgr->createMaterial(szMaterialName);
+						CMaterial* pMaterial = (CMaterial*)pRenderNodeMgr->createRenderData("material",szMaterialName);
 						std::string strTexFileName = GetParentPath(szFilename) + bmdSub.szTexture;
 						{
 							std::string strExt = GetExtension(bmdSub.szTexture); 
@@ -279,23 +279,23 @@ iRenderNode* CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, const char* szF
 							else if (".bmp"==strExt)	strExt = ".ozb";
 							strTexFileName = ChangeExtension(strTexFileName,strExt);
 						}
-						material.setTexture(0,strTexFileName.c_str());
+						pMaterial->setTexture(0,strTexFileName.c_str());
 
-						material.bLightingEnabled = true;
+						pMaterial->bLightingEnabled		= true;
 						// ----
-						material.uCull					= CULL_NONE;
+						pMaterial->uCull				= CULL_NONE;
 						// ----
-						material.bBlend					= false;
+						pMaterial->bBlend				= false;
 						// ----
-						material.bAlphaTest				= true;
-						material.nAlphaTestCompare		= CMPF_GREATER_EQUAL;
-						material.uAlphaTestValue		= 0x80;
+						pMaterial->bAlphaTest			= true;
+						pMaterial->nAlphaTestCompare	= CMPF_GREATER_EQUAL;
+						pMaterial->uAlphaTestValue		= 0x80;
 						// ----
-						material.bDepthTest				= true;
-						material.bDepthWrite			= true;
+						pMaterial->bDepthTest			= true;
+						pMaterial->bDepthWrite			= true;
 						// ----
-						CMaterial::TextureOP& texOP0	= material.textureOP[0];
-						CMaterial::TextureOP& texOP1	= material.textureOP[1];
+						CMaterial::TextureOP& texOP0	= pMaterial->textureOP[0];
+						CMaterial::TextureOP& texOP1	= pMaterial->textureOP[1];
 						// ----
 						texOP0.nColorOP					= TBOP_MODULATE;
 						texOP0.nColorSrc1				= TBS_CURRENT;
@@ -320,7 +320,7 @@ iRenderNode* CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, const char* szF
 		// ----
 		if (pSkeletonData==NULL)
 		{
-			pSkeletonData = pRenderNodeMgr->createSkeletonData(szFilename);
+			pSkeletonData = (iSkeletonData*)pRenderNodeMgr->createRenderData("skeleton",szFilename);
 			if (pSkeletonData)
 			{
 				//m_Mesh.m_Lods.resize(1);

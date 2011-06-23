@@ -13,18 +13,17 @@ public:
 	virtual void release();
 private:
 	bool importTerrainData(iTerrainData * pTerrainData, const std::string& strFilename);
-	bool importObjectResources(iScene * pScene, const char* szFilename, const std::string& strPath);
-	bool importObjectResourcesFormDir(iScene * pScene,const std::string& strPath);
-	bool importObject(iScene * pScene, const char* szFilename);
+	bool importObjectResources(const char* szFilename, const std::string& strPath);
+	bool importObjectResourcesFormDir(const std::string& strPath);
 
 	bool exportTerrainAtt(iTerrainData * pTerrainData, const std::string& strFilename);
 	bool exportTerrainLightmap(iTerrainData * pTerrainData, const std::string& strFilename);
 	bool exportTerrainHeight(iTerrainData * pTerrainData, const std::string& strFilename);
 	bool exportTerrainData(iTerrainData * pTerrainData, const std::string& strFilename);
 	bool exportTiles(iTerrainData * pTerrain, const std::string& strFilename, const std::string& strPath);
-	bool exportObjectResources(iScene * pScene, const std::string& strFilename, const std::string& strPath);
-	bool exportObjectResourcesFormDir(iScene * pScene,const std::string& strPath);
-	bool exportObject(iScene * pScene, const std::string& strFilename);
+	//bool exportObjectResources(iScene * pScene, const std::string& strFilename, const std::string& strPath);
+	//bool exportObjectResourcesFormDir(iScene * pScene,const std::string& strPath);
+	bool exportObject(iRenderNode * pScene, const std::string& strFilename);
 
 	std::map<int,std::string>	m_mapObjectName;
 };
