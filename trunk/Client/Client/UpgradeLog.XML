@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="Client">
+</Property><Property Name="Solution File" Value="D:\MU2\GS 97J old\Client\Client\Client.sln">
+</Property><Property Name="Date" Value="יום שישי 08 אוקטובר 2010">
+</Property><Property Name="Time" Value="16:30:21">
+</Property></Properties><Event ErrorLevel="0" Project="Client" Source="Client.vcproj" Description="Converting project file 'D:\MU2\GS 97J old\Client\Client\Client.vcproj'.">
+</Event><Event ErrorLevel="2" Project="D:\MU2\GS 97J old\Client\Client\Client.vcxproj" Source="Client.vcxproj.filters" Description="Project file 'D:\MU2\GS 97J old\Client\Client\Client.vcxproj' or filters file 'D:\MU2\GS 97J old\Client\Client\Client.vcxproj.filters' already exist and will not attempt to overwrite them.">
+</Event><Event ErrorLevel="2" Project="Client" Source="Client.vcproj" Description="Project upgrade failed.">
+</Event><Event ErrorLevel="3" Project="Client" Source="Client.vcproj" Description="Not Converted">
+</Event><Event ErrorLevel="2" Project="" Source="Client.vcproj" Description="Project upgrade failed.">
+</Event></UpgradeLog>
