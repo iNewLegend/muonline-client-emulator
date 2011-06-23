@@ -79,7 +79,7 @@ CRole * CWorld::getFocusRole()
 
 CRole* CWorld::getRole(ULONG uID)
 {
-	std::map<ULONG,CRole*>::iterator it = m_mapRole.find(uID);
+	auto it = m_mapRole.find(uID);
 	// ----
 	if(it != m_mapRole.end())
 	{
@@ -98,7 +98,7 @@ CRole* CWorld::pickRole(const Vec3D & vRayPos , const Vec3D & vRayDir)
 	float fMin		= 0.00;
 	float fMax		= 0.00;
 	// ----
-	for(DEQUE_MAPOBJ::iterator it = m_setRenderSceneObj.begin(); it != m_setRenderSceneObj.end() ; it++)
+	for(auto it = m_setRenderSceneObj.begin(); it != m_setRenderSceneObj.end() ; it++)
 	{
 		if((*it)->GetObjType() != MAP_ROLE)
 		{
@@ -144,7 +144,7 @@ bool CWorld::delRole(ULONG uID)
 	// ----
 	if(CPlayerMe::getInstance().getID() != uID)
 	{
-		std::map<ULONG,CRole*>::iterator it = m_mapRole.find(uID);
+		auto it = m_mapRole.find(uID);
 		// ----
 		if(it != m_mapRole.end())
 		{
@@ -181,7 +181,7 @@ void CWorld::renderDamageInfo(double fTime, float fElapsedTime)
 	// ----
 	RPGSkyUIGraph::getInstance().initDrawText();
 	// ----
-	for (std::map<ULONG,CRole*>::iterator it=m_mapRole.begin();it!=m_mapRole.end();it++)
+	for (auto it=m_mapRole.begin();it!=m_mapRole.end();it++)
 	{
 		it->second->drawName();
 	}
@@ -224,7 +224,7 @@ void CWorld::addDamageInfo(Vec3D vPos,const std::wstring & wcsInfo)
 
 void CWorld::OnFrameMove(double fTime, float fElapsedTime)
 {
-	for(DEQUE_MAPOBJ::iterator it = m_setRenderSceneObj.begin() ; it != m_setRenderSceneObj.end(); it++)
+	for(auto it = m_setRenderSceneObj.begin() ; it != m_setRenderSceneObj.end(); it++)
 	{
 		if((*it)->GetObjType() != MAP_ROLE)
 		{
@@ -232,14 +232,14 @@ void CWorld::OnFrameMove(double fTime, float fElapsedTime)
 		}
 	}
 	// ----
-	for(std::map<ULONG,CRole*>::iterator it = m_mapRole.begin() ; it != m_mapRole.end() ; it++)
+	for(auto it = m_mapRole.begin() ; it != m_mapRole.end() ; it++)
 	{
 		it->second->OnFrameMove(fElapsedTime);
 	}
 	// ----
 	// # Delete the old roles
 	// ----
-	for(std::map<ULONG,CRole*>::iterator it = m_mapRole.begin() ; it != m_mapRole.end() ; it++)
+	for(auto it = m_mapRole.begin() ; it != m_mapRole.end() ; it++)
 	{
 		if((it->second->getActionState() == CRole::DEATH) ||
 			((CPlayerMe::getInstance().getPos()-it->second->getPos()).length() > PLAYER_VIEW_RANGE))
@@ -254,7 +254,7 @@ void CWorld::OnFrameMove(double fTime, float fElapsedTime)
 	// ----
 	m_setLightObj.clear();
 	// ----
-	for(DEQUE_MAPOBJ::iterator it = m_setRenderSceneObj.begin() ; it != m_setRenderSceneObj.end() ; it++)
+	for(auto it = m_setRenderSceneObj.begin() ; it != m_setRenderSceneObj.end() ; it++)
 	{
 		if(((C3DMapObj*)(*it))->m_setParticleGroup.size() > 0)
 		{
@@ -284,7 +284,7 @@ void CWorld::GetRenderObject(const CFrustum& frustum, DEQUE_MAPOBJ& ObjectList)
 {
 	CrossRet crossRet;
 	// ----
-	for(std::map<ULONG,CRole*>::iterator it = m_mapRole.begin() ; it != m_mapRole.end() ; it++)
+	for(auto it = m_mapRole.begin() ; it != m_mapRole.end() ; it++)
 	{
 		crossRet = frustum.CheckAABBVisible(it->second->getBBox());
 		// ----
