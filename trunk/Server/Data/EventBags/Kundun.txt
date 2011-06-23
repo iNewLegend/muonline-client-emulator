@@ -1,0 +1,37 @@
+//=========================================================================================
+// Kundun Drop v2.0 By Matthew Smith
+// Eventitembag17
+//=========================================================================================
+0
+//	Map Drop	Min Lvl		Max Lvl		Drop Rate
+	0		0		0		1000	//
+	1		0		0		1000	//
+	2		0		0		1000	//
+	3		0		0		1000	//
+	4		0		0		1000	//
+	5		0		0		1000	//
+	6		0		0		1000	//
+	7		0		0		1000	//
+	8		0		0		1000	//
+	9		0		0		1000	//
+	10		0		0		1000	//
+end
+
+
+1
+//	Monster Name	Zen Drop		Type		Index		Level		Event Drop Rate		Drop Rate	Exc Drop Rate
+	"Kundun"		1000000		0		0		0		0			100		1
+end
+
+
+2
+//	Type	Index	Min Lvl	Max Lvl  	Skill	Luck	Option  	Exc Option	Name
+
+	5	13	0	13	1	1	7	1		// Platina Wing Staff
+	0	24	0	13	1	1	7	1		// DayBreak
+	4	22	0	13	1	1	7	1		// Albatross Bow
+	0	25	0	13	1	1	7	1		// Sword Dancer
+	2	15	0	13	1	1	7	1		// Shining Scepter
+
+
+end

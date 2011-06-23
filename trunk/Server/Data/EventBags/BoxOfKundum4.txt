@@ -1,0 +1,33 @@
+////////////////////////////////////////////////////////////////////////////////
+// Text GS 1.00.18
+// Version 1.04
+// Translated - by Endi
+// Eventitembag10
+// BOK+4
+////////////////////////////////////////////////////////////////////////////////
+// | type | index | level | skill | option |
+	13	8	0	0	1	0	//Excellent Ring of Ice
+	13	9	0	0	1	0	//Excellent Ring of Poison
+	13	12	0	0	1	0	//Excellent Lightning Pendant
+	13	13	0	0	1	0	//Excellent Fire Pendant
+	7	9	0	0	1	0	//Excellent Iron Helm
+	8	9	0	0	1	0	//Excellent Iron Armor
+	9	9	0	0	1	0	//Excellent Iron Pants
+	10	9	0	0	1	0	//Excellent Iron Gloves
+	11	9	0	0	1	0	//Excellent Iron Boots
+	7	13	0	0	1	0	//Excellent Spirit Helm
+	8	13	0	0	1	0	//Excellent Spirit Armor
+	9	13	0	0	1	0	//Excellent Spirit Pants
+	10	13	0	0	1	0	//Excellent Spirit Gloves
+	11	13	0	0	1	0	//Excellent Spirit Boots
+	0	12	0	0	1	0	//Excellent Helliceal Sword
+	0	14	0	0	1	0	//Excellent Lightning Sword
+	4	5	0	0	1	0	//Excellent Light Bow
+	5	4	0	0	1	0	//Excellent Gorgon Staff
+	7	 26	 0	0	 1	 0	 //Dark Steel Mask
+	8	 26	 0	0	 1	 0	 //Dark Steel Armor
+	9	 26	 0	0	 1	 0	 //Dark Steel Pants
+	10	 26	 0	0	 1	 0	 //Dark Steel Gloves
+	11	 26	 0	0	 1	 0 	 //Dark Steel Boots
+	2	 9	 0	1	 1	 0	 //Lord Scepter
+end

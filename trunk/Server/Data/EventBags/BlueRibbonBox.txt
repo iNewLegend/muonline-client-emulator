@@ -1,0 +1,41 @@
+////////////////////////////////////////////////////////////////////////////////
+// Text GS 1.00.18
+// Version 1.04
+// Translated - by Endi
+// Eventitembag23
+// Blue Ribbon Box Sacred box Chaos
+////////////////////////////////////////////////////////////////////////////////
+
+// MapIndex Drop Flag Min Monster Level Max MonsterLevel
+0
+	0	0	0	1000
+	1	0	0	1000
+	2	0	0	1000
+	3	0	0	1000
+	4	0	0	1000
+	5	0	0	1000
+	6	0	0	1000
+	7	0	0	1000
+	8	0	0	1000
+	9	0	0	1000
+	10	0	0	1000
+end
+
+// EventName DropZen EventItemType EventItemIndex EventItemLevel EventItemDropRate ItemDropRate ExItemDropRate
+1
+	"Blue Ribbon Box"	90000	0	0	0	0	100	1
+end
+
+// type index minLevel maxLevel skill luck addoption exitemflag
+2
+	14 	13 	0    0 	 0 	0       0       0	//Jewel of Bless
+	14 	13 	0    0 	 0 	0       0       0	//Jewel of Bless
+	14 	13 	0    0 	 0 	0       0       0	//Jewel of Bless
+	14 	13 	0    0 	 0 	0       0       0	//Jewel of Bless
+	14 	13 	0    0 	 0 	0       0       0	//Jewel of Bless
+	12 	30 	0    0 	 0 	0       0       0	//Bundled Bless
+	12 	31 	0    0 	 0 	0       0       0	//Bundled Soul
+	12 	30 	0    0 	 0 	0       0       0	//Bundled Bless
+	12 	31 	0    0 	 0 	0       0       0	//Bundled Soul
+	12 	31 	0    0 	 0 	0       0       0	//Bundled Soul
+end

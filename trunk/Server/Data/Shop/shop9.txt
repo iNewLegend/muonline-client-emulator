@@ -1,0 +1,31 @@
+//Noria Weapon Shop
+4 15 0 255 0 0 0 0 //Arrows
+4 0 0 255 1 0 0 1 //Short Bow
+4 2 0 255 1 0 0 1 //Elven Bow
+4 3 0 255 1 0 0 1 //Battle Bow
+4 4 0 255 1 0 0 1 //Tiger Bow
+4 5 0 255 1 0 0 1 //Silver Bow
+4 6 0 255 1 0 0 1 //Chaos Nature Bow
+4 20 0 255 1 0 0 1 //Arrow Viper Bow
+12 8 0 255 0 0 0 1 //Healing Orb
+12 9 0 255 0 0 0 0 //Greater Defense Orb
+12 10 0 255 0 0 0 0 //Greater Damage Orb
+12 17 0 255 0 0 0 0 //Penetration Orb
+12 11 0 255 0 0 0 0 //Goblin Summon Orb
+12 11 1 255 0 0 0 0 //Golem Summon Orb
+12 11 2 255 0 0 0 0 //Assassin Summon Orb
+12 11 3 255 0 0 0 0 //Elite Yeti Summon Orb
+12 11 4 255 0 0 0 0 //Dark Knight Summon Orb
+12 11 5 255 0 0 0 0 //Bali Summon Orb
+12 11 6 255 0 0 0 0 //Soldier Summon Orb
+12 18 0 255 0 0 0 0 //Ice Arrow Orb
+4 19 0 255 0 0 0 1 //Great Reign Crossbow
+4 7 0 255 0 0 0 0 //Bolts
+4 8 0 255 0 0 0 1 //Crossbow
+4 9 0 255 0 0 0 1 //Golden Crossbow
+4 10 0 255 0 0 0 1 //Arquebus
+4 11 0 255 0 0 0 1 //Light Crossbow
+4 12 0 255 0 0 0 1 //Serpent Crossbow
+4 13 0 255 0 0 0 1 //Blue Wing Crossbow
+4 14 0 255 0 0 0 1 //Aqua Crossbow
+end

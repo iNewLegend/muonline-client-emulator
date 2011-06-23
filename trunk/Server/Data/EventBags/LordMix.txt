@@ -1,0 +1,82 @@
+////////////////////////////////////////////////////////////////////////////////
+// Text GS 1.00.18
+// Version 1.04
+// Translated - by Endi
+// Eventitembag19
+// Senior - LordMix
+////////////////////////////////////////////////////////////////////////////////
+
+// | Index | MapIndex | Drop Flag | Min Monster Level | Max MonsterLevel |
+0
+	0	0	0	1000
+	1	0	0	1000
+	2	0	0	1000
+	3	0	0	1000
+	4	0	0	1000
+	5	0	0	1000
+	6	0	0	1000
+	7	0	0	1000
+	8	0	0	1000
+	9	0	0	1000
+	10	0	0	1000
+end
+
+// |EventItemDropRate/1000 |
+// |ItemDropRate/100 | ExItemDropRate/1000 |
+// | EventName | DropZen | EventItemType | EventItemIndex | EventItemLevel | EventItemDropRate | ItemDropRate | ExItemDropRate |
+1
+	"LordMix"	1000000	0	0	0	0	100	1
+end
+
+// | type | index | minLevel | maxLevel | skill | luck | addoption | exitemflag |
+2
+	0	20	5	0	1	1	//Excellent Blade of Devourer+5+4
+	0	21	5	0	1	1	//Excellent Double Blunt Sword+5+4
+	3	12	5	0	1	1	//Excellent Light Spear+5+4
+	4	20	5	0	1	1	//Excellent Short Bow+5+4
+
+	0	16	12	0	1	1	//Excellent Destruction Sword+12+4
+	0	31	12	0	1	1	//Excellent DeathBroad+12+4
+	2	11	12	0	1	1	//Excellent Mace of Gimli+12+4
+	3	10	12	0	1	1	//Excellent Dragon Spear+12+4
+	4	19	12	0	1	1	//Excellent GreatRain Crossbow+12+4
+	5	6	12	0	1	1	//Excellent Resurrection Staff+12+4
+	5	9	12	0	1	1	//Excellent Crystal Staff+12+4
+
+	5	11	12	0	1	1	//Excellent Kundun Staff+12+4
+	0	20	12	0	1	1	//Excellent Blade of Devourer+12+4
+	0	21	12	0	1	1	//Excellent Double Blunt Sword+12+4
+	3	12	12	0	1	1	//Excellent Light Spear+12+4
+	4	20	12	0	1	1	//Excellent Short Bow+12+4
+
+	7	21	12	0	0	1	//Red Phoenix Helm+12+4
+	8	21	12	0	0	1	//Red Phoenix Armor+12+4
+	9	21	12	0	0	1	//Red Phoenix Pants+12+4
+	10	21	12	0	0	1	//Red Phoenix Gloves+12+4
+	11	21	12	0	0	1	//Red Phoenix Boots+12+4
+	7	24	12	0	0	1	//Nature Helmet+12+4
+	8	24	12	0	0	1	//Nature Armor+12+4
+	9	24	12	0	0	1	//Nature Pants+12+4
+	10	24	12	0	0	1	//Nature Gloves+12+4
+	11	24	12	0	0	1	//Nature Boots+12+4
+	7	22	12	0	0	1	//DaRK Side Helm+12+4
+	8	22	12	0	0	1	//DaRK Side Armor+12+4
+	9	22	12	0	0	1	//DaRK Side Pants+12+4
+	10	22	12	0	0	1	//DaRK Side Gloves+12+4
+	11	22	12	0	0	1	//DaRK Side Boots+12+4
+	7	28	12	0	0	1	//Adamantine Mask+12+4
+	8	28	12	0	0	1	//Adamantine Armor+12+4
+	9	28	12	0	0	1	//Adamantine Pants+12+4
+	10	28	12	0	0	1	//Adamantine Gloves+12+4
+	11	28	12	0	0	1	//Adamantine Boots+12+4
+	8	23	12	0	0	1	//Hurricane Armor+12+4
+	9	23	12	0	0	1	//Hurricane Pants+12+4
+	10	23	12	0	0	1	//Hurricane Gloves+12+4
+	11	23	12	0	0	1	//Hurricane Boots+12+4
+
+	8	21	12	0	0	1	//Red Phoenix Armor+12+4
+	8	24	12	0	0	1	//Nature Armor+12+4
+	8	22	12	0	0	1	//DaRK Side Armor+12+4
+	8	28	12	0	0	1	//Adamantine Armor+12+4
+	8	23	12	0	0	1	//Hurricane Armor+12+4
+end

@@ -1,0 +1,126 @@
+//{{NO_DEPENDENCIES}}
+// Microsoft Developer Studio generated include file.
+// Used by GameServer.rc
+//
+#define IDV_GAMESERVER                  1
+#define IDC_MYICON                      2
+#define IDD_MAIN3D2_DIALOG              102
+#define IDS_APP_TITLE                   103
+#define IDD_ABOUT_BOX                   103
+#define IDM_ABOUT                       104
+#define IDM_EXIT                        105
+#define IDS_HELLO                       106
+#define IDI_NORMAL_V1                   107
+#define IDI_ICON_MINIMIZED              108
+#define IDS_GAMESERVER                  109
+#define IDA_GAMESERVER                  109
+#define IDR_MENU                        109
+#define IDR_MAINFRAME                   128
+#define IDD_GUILD_LIST_STATE            141
+#define IDD_CASTLE_SIEGE_LOG            146
+#define IDB_BITMAP                      152
+#define IDB_BITMAP1                     159
+#define IDB_BITMAP2                     160
+#define IDD_CHAT                        161
+#define IDP_PROGRESS_BAR                1000
+#define IDS_CURRENT_GUILD_NAME          1001
+#define IDC_MESSAGE                     1002
+#define IDC_USER                        1003
+#define IDSEND                          1004
+#define IDC_NOTICE                      1005
+#define IDSENDNOTICE                    1006
+#define IDTOUSER                        1007
+#define IDEXIT                          1009
+#define IDM_LORENCIA                    4000
+#define IDM_DUNGEON                     4001
+#define IDM_DEVIAS                      4002
+#define IDM_NORIA                       4003
+#define IDM_LOSTTOWER                   4004
+#define IDM_RESERVED                    4005
+#define IDM_BATTLESOCCER                4006
+#define IDM_ATHLANSE                    4007
+#define IDM_TARKAN                      4008
+#define IDM_DEVILSQUARE                 4009
+#define ID_CONTROL_CHAT                 32771
+#define IDM_MONSTER_POSITION_RELOAD     32772
+#define IDM_MAP1                        32773
+#define IDM_MAP2                        32774
+#define IDM_SHOP_RELOAD                 32775
+#define IDM_MAP3                        32778
+#define IDM_LOG_PAINT                   32780
+#define IDM_CLOSE_PLAYER                32781
+#define IDM_ALL_USER_CLOSE              32782
+#define IDM_ALL_USER_LOGOUT             32783
+#define IDM_5_MINUTE_CLOSE              32785
+#define IDM_3_MINUTE_CLOSE              32786
+#define IDM_1_MINUTE_CLOSE              32787
+#define IDM_MAP4                        32788
+#define IDM_IP_LOAD                     32789
+#define IDM_OPTION_RELOAD               32790
+#define IDM_DRAGON_EVENT                32791
+#define IDM_FIRECRACKER                 32792
+#define IDM_STARTOFXMAS_EVENT           32793
+#define IDM_RELOAD_ALL_EVENT            32794
+#define IDM_RELOAD_DEVILSQUARE          32795
+#define IDM_RELOAD_BLOODCASTLE          32796
+#define IDM_RELOAD_UNDERWORLD_ATTACK    32798
+#define IDM_RELOAD_GOLDENTROOP_ATTACK   32799
+#define IDM_RELOAD_WHITEMAGE_ATTACK     32800
+#define IDM_RELOAD_LOVE_PANGPANG        32802
+#define IDM_RELOAD_FIRECRACKER          32803
+#define IDM_RELOAD_XMAS_STAR            32804
+#define IDM_RELOAD_HEART_OF_LOVE        32805
+#define IDM_RELOAD_NPC_SAY_HAPPY_NEW_YEAR 32806
+#define IDM_RELOAD_NPC_SAY_MERRY_XMAS   32807
+#define IDM_RELOAD_ALL_ETC_OPTION       32808
+#define IDM_RELOAD_CREATE_CHARACTER     32809
+#define IDM_RELOAD_GUILD                32810
+#define IDM_RELOAD_TRADE                32811
+#define IDM_RELOAD_PERSONAL_SHOP        32812
+#define IDM_RELOAD_PK_ITEM_DROP         32813
+#define IDM_RELOAD_ITEM_DROP_RATE       32814
+#define IDM_RELOAD_CHAOSBOX             32815
+#define IDM_RELOAD_SPEEDHACK            32816
+#define IDM_RELOAD_GAMEGUARD_CHECKSUM_CHECK 32817
+#define IDM_RELOAD_CHAOSCASTLE          32818
+#define IDM_CASTLE_SIEGE_RELOAD         32819
+#define IDM_MAP_SERVER_INFO_RELOAD      32820
+#define IDM_LOG_CASTLESIEGE             32821
+#define IDM_ALL_CLEAR                   32822
+#define IDM_CRYWOLF                     32823
+#define IDM_RELOAD_CHRISTMAS_RIBBONBOX  32824
+#define IDM_RELOAD_VALENTINE_DAY_CHOCOLATE_BOX 32825
+#define IDM_RELOAD_WHITE_DAY_CANDY_BOX  32826
+#define IDM_GAMEGUARD_INFO_RELOAD       32827
+#define IDM_ICARUS                      40010
+#define IDM_BLOODCASTLE6                40010
+#define IDM_BLOODCASTLE7                40011
+#define IDM_CHAOSCASTLE1                40012
+#define IDM_CHAOSCASTLE2                40013
+#define IDM_CHAOSCASTLE3                40014
+#define IDM_CHAOSCASTLE4                40015
+#define IDM_CHAOSCASTLE5                40016
+#define IDM_CHAOSCASTLE6                40017
+#define IDM_KALIMA1                     40018
+#define IDM_KALIMA2                     40019
+#define IDM_DEVILSQUARE2                40020
+#define IDM_AIDA                        40021
+#define IDM_CRYWOLF_FIRSTZONE           40022
+#define IDM_CRYWOLF_SECONDZONE          40023
+#define IDM_KALIMA7                     40024
+#define IDM_KANTURU1                    40025
+#define IDM_KANTURU2                    40026
+#define IDM_KANTURU_BOSS                40027
+#define IDM_GS_CLOSE_BUG                40050
+#define IDC_STATIC                      -1
+
+// Next default values for new objects
+// 
+#ifdef APSTUDIO_INVOKED
+#ifndef APSTUDIO_READONLY_SYMBOLS
+#define _APS_NEXT_RESOURCE_VALUE        165
+#define _APS_NEXT_COMMAND_VALUE         32772
+#define _APS_NEXT_CONTROL_VALUE         1005
+#define _APS_NEXT_SYMED_VALUE           110
+#endif
+#endif

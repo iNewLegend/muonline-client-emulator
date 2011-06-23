@@ -1,0 +1,43 @@
+////////////////////////////////////////////////////////////////////////////////
+// Text GS 1.00.18
+// Version 1.04
+// Translated - by Endi
+// Eventitembag10
+// BOK+5
+////////////////////////////////////////////////////////////////////////////////
+// | type | index | level | skill | option |
+	13	8	0	0	1	0	//Excellent Ring of Ice
+	13	9	0	0	1	0	//Excellent Ring of Poison
+	13	12	0	0	1	0	//Excellent Lightning Pendant
+	13	13	0	0	1	0	//Excellent Fire Pendant
+	7	1	0	0	1	0	//Excellent Dragon Helm
+	8	1	0	0	1	0	//Excellent Dragon Armor
+	9	1	0	0	1	0	//Excellent Dragon Pants
+	10	1	0	0	1	0	//Excellent Dragon Gloves
+	11	1	0	0	1	0	//Excellent Dragon Boots
+	7	14	0	0	1	0	//Excellent Guardian Helm
+	8	14	0	0	1	0	//Excellent Guardian Armor
+	9	14	0	0	1	0	//Excellent Guardian Pants
+	10	14	0	0	1	0	//Excellent Guardian Gloves
+	11	14	0	0	1	0	//Excellent Guardian Boots
+	7	3	0	0	1	0	//Excellent Legendary Helm
+	8	3	0	0	1	0	//Excellent Legendary Armor
+	9	3	0	0	1	0	//Excellent Legendary Pants
+	10	3	0	0	1	0	//Excellent Legendary Gloves
+	11	3	0	0	1	0	//Excellent Legendary Boots
+	5	5	0	0	1	0	//Excellent Legendary Staff
+	4	14	0	1	1	0	//Excellent Dragon Crossbow
+	4	13	0	1	1	0	//Excellent Legendary Crossbow
+	2	5	0	1	1	0	//Excellent Crystal Sword
+	2	4	0	1	1	0	//Excellent Crystal Mace
+	3	9	0	0	1	0	//Excellent Bill of Balrog
+	7	 26	 0	0	 1	 0	 //Dark Steel Mask
+	8	 26	 0	0	 1	 0	 //Dark Steel Armor
+	9	 26	 0	0	 1	 0	 //Dark Steel Pants
+	10	 26	 0	0	 1	 0	 //Dark Steel Gloves
+	11	 26	 0	0	 1	 0 	 //Dark Steel Boots
+	2	 9	 0	1	 1	 0	 //Master
+	6	14	0	0	0	0	// Legendary SHield
+	6	12	0	0	0	0	// Bronce
+
+end

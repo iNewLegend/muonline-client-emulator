@@ -1,0 +1,374 @@
+////////////////////////////////////////////////////////////////////////////////
+// Text GS 1.00.18
+// Version 1.04
+// Translated - by Endi
+// MonsterSetBase_CS.txt
+////////////////////////////////////////////////////////////////////////////////
+//Loren
+0
+216	30	0	176	212	1 // NPC_Crown => Loren_Canyon
+217	30	0	165	192	7 // NPC_CrownSwitch1 => Loren_Canyon
+218	30	0	187	192	7 // NPC_CrownSwitch2 => Loren_Canyon
+220	30	0	139	101	3 // NPC_Guard => Loren_Canyon
+221	30	0	83	84	3 // NPC_SlingshotAttack => Loren_Canyon
+222	30	0	99	99	1 // NPC_SlingshotDefend => Loren_Canyon
+223	30	0	179	214	1 // NPC_Senior => Loren_Canyon
+224	30	0	86	61	1 // NPC_Guardsman => Loren_Canyon
+224	30	0	99	61	1 // NPC_Guardsman => Loren_Canyon
+253	30	0	89	218	3 // NPC_PotionGirl => Loren_Canyon
+253	30	0	90	44	1 // NPC_PotionGirl => Loren_Canyon
+407     	34      	0       	231    	47	2 // WareWolf Teleport to barracks
+
+end
+
+0
+ 226	34	0	135	47	2
+ 248	34	0	99	40	2
+ 256	34	0	96	25	2
+ 251	34	0	145	14	1
+ 240	34	0	113	56	2
+ 224	34	0	118	11	4
+ 406	34	0	228	48	2
+ 407	34	0	62	239	2
+ 204	34	0	121	31	2
+ 205	34	0	125	27	2
+ 206	34	0	126	35	2
+ 207	34	0	120	38	2
+ 208	34	0	115	35	2
+ 209	34 	0	117	27	2
+end
+
+2
+290	31	30	103	91	-1 // Lizard_Warrior => Land_Of_Trials
+290	31	30	122	81	-1 // Lizard_Warrior => Land_Of_Trials
+290	31	30	139	50	-1 // Lizard_Warrior => Land_Of_Trials
+290	31	30	142	66	-1 // Lizard_Warrior => Land_Of_Trials
+290	31	30	144	77	-1 // Lizard_Warrior => Land_Of_Trials
+290	31	30	153	59	-1 // Lizard_Warrior => Land_Of_Trials
+290	31	30	155	70	-1 // Lizard_Warrior => Land_Of_Trials
+290	31	30	156	89	-1 // Lizard_Warrior => Land_Of_Trials
+290	31	30	157	34	-1 // Lizard_Warrior => Land_Of_Trials
+290	31	30	162	61	-1 // Lizard_Warrior => Land_Of_Trials
+290	31	30	165	70	-1 // Lizard_Warrior => Land_Of_Trials
+290	31	30	167	82	-1 // Lizard_Warrior => Land_Of_Trials
+290	31	30	170	55	-1 // Lizard_Warrior => Land_Of_Trials
+290	31	30	170	74	-1 // Lizard_Warrior => Land_Of_Trials
+290	31	30	172	62	-1 // Lizard_Warrior => Land_Of_Trials
+290	31	30	50	60	-1 // Lizard_Warrior => Land_Of_Trials
+290	31	30	54	65	-1 // Lizard_Warrior => Land_Of_Trials
+290	31	30	59	59	-1 // Lizard_Warrior => Land_Of_Trials
+290	31	30	67	85	-1 // Lizard_Warrior => Land_Of_Trials
+290	31	30	69	103	-1 // Lizard_Warrior => Land_Of_Trials
+290	31	30	69	75	-1 // Lizard_Warrior => Land_Of_Trials
+290	31	30	70	65	-1 // Lizard_Warrior => Land_Of_Trials
+290	31	30	77	102	-1 // Lizard_Warrior => Land_Of_Trials
+290	31	30	82	74	-1 // Lizard_Warrior => Land_Of_Trials
+290	31	30	87	77	-1 // Lizard_Warrior => Land_Of_Trials
+290	31	30	92	83	-1 // Lizard_Warrior => Land_Of_Trials
+290	31	30	94	92	-1 // Lizard_Warrior => Land_Of_Trials
+291	31	30	120	225	-1 // Fire_Golem => Land_Of_Trials
+291	31	30	131	215	-1 // Fire_Golem => Land_Of_Trials
+291	31	30	134	229	-1 // Fire_Golem => Land_Of_Trials
+291	31	30	138	173	-1 // Fire_Golem => Land_Of_Trials
+291	31	30	144	198	-1 // Fire_Golem => Land_Of_Trials
+291	31	30	145	209	-1 // Fire_Golem => Land_Of_Trials
+291	31	30	155	227	-1 // Fire_Golem => Land_Of_Trials
+291	31	30	187	175	-1 // Fire_Golem => Land_Of_Trials
+291	31	30	193	167	-1 // Fire_Golem => Land_Of_Trials
+291	31	30	197	204	-1 // Fire_Golem => Land_Of_Trials
+291	31	30	198	192	-1 // Fire_Golem => Land_Of_Trials
+291	31	30	208	217	-1 // Fire_Golem => Land_Of_Trials
+291	31	30	216	183	-1 // Fire_Golem => Land_Of_Trials
+291	31	30	222	221	-1 // Fire_Golem => Land_Of_Trials
+291	31	30	231	211	-1 // Fire_Golem => Land_Of_Trials
+291	31	30	233	199	-1 // Fire_Golem => Land_Of_Trials
+292	31	30	120	132	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	123	146	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	128	136	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	128	224	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	133	145	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	133	168	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	138	133	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	141	182	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	141	221	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	144	169	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	146	126	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	152	112	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	155	218	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	159	121	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	163	225	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	175	127	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	182	177	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	183	140	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	187	159	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	191	120	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	191	182	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	196	173	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	198	151	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	208	208	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	223	204	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	224	191	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	227	180	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	229	227	-1 // Queen_Bee => Land_Of_Trials
+292	31	30	95	138	-1 // Queen_Bee => Land_Of_Trials
+293	31	30	103	133	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	111	138	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	114	88	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	117	143	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	124	88	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	131	79	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	137	83	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	150	106	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	151	121	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	152	98	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	155	79	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	163	89	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	166	122	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	180	117	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	180	86	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	182	129	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	186	92	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	188	105	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	188	99	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	189	138	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	191	112	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	192	127	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	58	124	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	63	134	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	66	120	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	67	95	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	70	149	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	71	113	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	76	140	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	80	111	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	81	150	-1 // Poison_Golem => Land_Of_Trials
+293	31	30	87	140	-1 // Poison_Golem => Land_Of_Trials
+294	31	30	102	28	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	103	36	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	127	36	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	130	29	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	132	46	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	133	37	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	137	29	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	14	43	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	143	37	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	143	56	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	150	33	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	163	37	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	170	45	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	38	35	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	41	41	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	43	62	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	50	37	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	52	43	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	53	52	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	57	12	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	58	19	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	59	40	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	59	71	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	62	11	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	64	53	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	67	17	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	72	39	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	72	50	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	73	69	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	78	45	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	93	35	-1 // Axe_Warrior => Land_Of_Trials
+294	31	30	97	39	-1 // Axe_Warrior => Land_Of_Trials
+295	31	30	220	211	-1 // Erohim => Land_Of_Trials
+295	31	30	139	218	-1 // Erohim => Land_Of_Trials
+end
+
+0
+104	30	0	35	43	3 // NPC_Trap => Loren_Canyon
+104	30	0	38	38	3 // NPC_Trap => Loren_Canyon
+104	30	0	32	38	3 // NPC_Trap => Loren_Canyon
+104	30	0	76	49	3 // NPC_Trap => Loren_Canyon
+104	30	0	76	37	3 // NPC_Trap => Loren_Canyon
+104	30	0	66	29	3 // NPC_Trap => Loren_Canyon
+104	30	0	130	96	3 // NPC_Trap => Loren_Canyon
+104	30	0	128	89	3 // NPC_Trap => Loren_Canyon
+104	30	0	135	88	3 // NPC_Trap => Loren_Canyon
+104	30	0	116	91	3 // NPC_Trap => Loren_Canyon
+104	30	0	108	103	3 // NPC_Trap => Loren_Canyon
+104	30	0	100	89	3 // NPC_Trap => Loren_Canyon
+104	30	0	88	97	3 // NPC_Trap => Loren_Canyon
+104	30	0	78	104	3 // NPC_Trap => Loren_Canyon
+104	30	0	64	109	3 // NPC_Trap => Loren_Canyon
+end
+
+2
+ 310   34 30   58   47 -1
+ 310   34 30   60   38 -1
+ 310   34 30   65   24 -1
+ 310   34 30   70   37 -1
+ 310   34 30   74   20 -1
+ 310   34 30   77   32 -1
+ 310   34 30   78   51 -1
+ 310   34 30   79   43 -1
+ 310   34 30   83   10 -1
+ 310   34 30   88   50 -1
+ 310   34 30   88   60 -1
+ 310   34 30   94   54 -1
+ 310   34 30   98   60 -1
+ 310   34 30  150   60 -1
+ 310   34 30  159   60 -1
+ 310   34 30  162   41 -1
+ 310   34 30  164   18 -1
+ 310   34 30  169   60 -1
+ 310   34 30  176   32 -1
+ 310   34 30  178   22 -1
+ 310   34 30  179   48 -1
+ 310   34 30  185   35 -1
+ 310   34 30  191   27 -1
+ 310   34 30  194   44 -1
+ 310   34 30  195   33 -1
+ 310   34 30  199   60 -1
+ 310   34 30  201   40 -1
+ 310   34 30  205   46 -1
+ 310   34 30  206   45 -1
+ 310   34 30  214   60 -1
+ 311   34 30   22  100 -1
+ 311   34 30   27  122 -1
+ 311   34 30   35   78 -1
+ 311   34 30   47   53 -1
+ 311   34 30   47   65 -1
+ 311   34 30   79   78 -1
+ 311   34 30   82   67 -1
+ 311   34 30   95   78 -1
+ 311   34 30  103   71 -1
+ 311   34 30  113   78 -1
+ 311   34 30  117   99 -1
+ 311   34 30  122   78 -1
+ 311   34 30  135   69 -1
+ 311   34 30  138   78 -1
+ 311   34 30  146   68 -1
+ 311   34 30  156   69 -1
+ 311   34 30  157   78 -1
+ 311   34 30  159   49 -1
+ 311   34 30  170   47 -1
+ 311   34 30  170   78 -1
+ 311   34 30  173   97 -1
+ 311   34 30  174   54 -1
+ 311   34 30  177   78 -1
+ 311   34 30  197   78 -1
+ 311   34 30  210   88 -1
+ 311   34 30  211   69 -1
+ 311   34 30  221   78 -1
+ 311   34 30  223  120 -1
+ 311   34 30  225   68 -1
+ 311   34 30  231   78 -1
+ 312   34 30   21   88 -1
+ 312   34 30   23  115 -1
+ 312   34 30   30   88 -1
+ 312   34 30   56  115 -1
+ 312   34 30   68  115 -1
+ 312   34 30   78   88 -1
+ 312   34 30   79  115 -1
+ 312   34 30   83  101 -1
+ 312   34 30   90   88 -1
+ 312   34 30  100   88 -1
+ 312   34 30  114   88 -1
+ 312   34 30  122  115 -1
+ 312   34 30  124   88 -1
+ 312   34 30  135   88 -1
+ 312   34 30  145   99 -1
+ 312   34 30  146   88 -1
+ 312   34 30  155  115 -1
+ 312   34 30  156   84 -1
+ 312   34 30  168   88 -1
+ 312   34 30  178   88 -1
+ 312   34 30  192   88 -1
+ 312   34 30  201   89 -1
+ 312   34 30  202   98 -1
+ 312   34 30  217   94 -1
+ 312   34 30  233  102 -1
+ 312   34 30  236   88 -1
+ 313   34 30   19  131 -1
+ 313   34 30   20  145 -1
+ 313   34 30   33  130 -1
+ 313   34 30   46  123 -1
+ 313   34 30   71  109 -1
+ 313   34 30   76  145 -1
+ 313   34 30   82  107 -1
+ 313   34 30   82  130 -1
+ 313   34 30   88  144 -1
+ 313   34 30  119  108 -1
+ 313   34 30  123  130 -1
+ 313   34 30  123  145 -1
+ 313   34 30  149  110 -1
+ 313   34 30  155   98 -1
+ 313   34 30  163  130 -1
+ 313   34 30  164  144 -1
+ 313   34 30  197  145 -1
+ 313   34 30  204  130 -1
+ 313   34 30  204  130 -1
+ 313   34 30  206  110 -1
+ 313   34 30  218  110 -1
+ 313   34 30  226  130 -1
+ 313   34 30  235  110 -1
+ 313   34 30  237  144 -1
+ 313   34 30  240  131 -1
+ 314   34 30   16  156 -1
+ 314   34 30   28  156 -1
+ 314   34 30   65  148 -1
+ 314   34 30   92  156 -1
+ 314   34 30  119  156 -1
+ 314   34 30  159  156 -1
+ 314   34 30  171  148 -1
+ 314   34 30  177  156 -1
+ 314   34 30  236  156 -1
+ 314   34 30  236  156 -1
+ 315   34 30   30  172 -1
+ 315   34 30   49  194 -1
+ 315   34 30   51  213 -1
+ 315   34 30   52  171 -1
+ 315   34 30   59  211 -1
+ 315   34 30   68  224 -1
+ 315   34 30   73  210 -1
+ 315   34 30   85  230 -1
+ 315   34 30   92  219 -1
+ 315   34 30  100  182 -1
+ 315   34 30  102  171 -1
+ 315   34 30  115  204 -1
+ 315   34 30  117  193 -1
+ 315   34 30  133  195 -1
+ 315   34 30  133  214 -1
+ 315   34 30  145  208 -1
+ 315   34 30  148  195 -1
+ 315   34 30  159  206 -1
+ 315   34 30  170  208 -1
+ 315   34 30  175  197 -1
+ 315   34 30  199  200 -1
+ 315   34 30  222  189 -1
+ 316   34 30   47  184 -1
+ 316   34 30   84  201 -1
+ 316   34 30  104  194 -1
+ 316   34 30  117  184 -1
+ 316   34 30  146  184 -1
+ 316   34 30  161  194 -1
+ 316   34 30  173  184 -1
+ 316   34 30  212  193 -1
+ 316   34 30  228  180 -1
+ 317   34 30   14  164 -1
+ 317   34 30   25  164 -1
+ 317   34 30   41  171 -1
+ 317   34 30   56  164 -1
+ 317   34 30   65  234 -1
+ 317   34 30   96  164 -1
+ 317   34 30  114  164 -1
+ 317   34 30  116  172 -1
+ 317   34 30  140  230 -1
+ 317   34 30  145  174 -1
+ 317   34 30  147  164 -1
+ 317   34 30  168  229 -1
+ 317   34 30  177  167 -1
+ 317   34 30  233  169 -1
+ 316   34 30   54  217 -1
+ 316   34 30   66  217 -1
+ 316   34 30   83  217 -1
+ 316   34 30  100  217 -1
+ 316   34 30  134  215 -1
+ 316   34 30  153  215 -1
+ 317   34 30  115  221 -1
+end

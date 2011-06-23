@@ -1,0 +1,9 @@
+[GameServerInfo]
+ServerName		= GameServer1-2
+ServerCode		= 1
+ConnectMemberLoad	= 0
+ChangeCharacterName	= 1
+NonPK			= 0
+PkLimitFree		= 1
+NewServer		= 1
+EventOff		= 0

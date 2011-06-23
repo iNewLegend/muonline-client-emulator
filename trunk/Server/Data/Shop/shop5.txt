@@ -1,0 +1,9 @@
+//Potion Girls (Devias FLying girl)
+2 8 0 255 1 0 0 1 //Battle Scepter
+2 9 0 255 1 0 0 1 //Master Scepter
+2 10 0 255 1 0 0 1 //Great Scepter
+2 11 0 255 1 0 0 1 //Lord Scepter
+2 15 0 255 1 0 0 1 //Shining Scepter
+2 14 0 255 0 0 0 1 //Solay Scepter
+2 13 0 255 0 0 0 1 //Divine Scepter of Archangel ???
+end

@@ -1,0 +1,28 @@
+//Lorencia Wizard Shop (Pasi the Mage)
+7 2 0 255 0 0 0 1 //Pad Helm
+8 2 0 255 0 0 0 1 //Pad Armor
+9 2 0 255 0 0 0 1 //Pad Pants
+10 2 0 255 0 0 0 1 //Pad Gloves
+11 2 0 255 0 0 0 1 //Pad Boots
+7 4 0 255 0 0 0 1 //Bone Helm
+8 4 0 255 0 0 0 1 //Bone Armor
+9 4 0 255 0 0 0 1 //Bone Pants
+10 4 0 255 0 0 0 1 //Bone Gloves
+11 4 0 255 0 0 0 1 //Bone Boots
+7 7 0 255 0 0 0 1 //Sphinx Helm
+8 7 0 255 0 0 0 1 //Sphinx Armor
+9 7 0 255 0 0 0 1 //Sphinx Pants
+10 7 0 255 0 0 0 1 //Sphinx Gloves
+11 7 0 255 0 0 0 1 //Sphinx Boots
+7 3 0 255 0 0 0 1 //Legendary Helm
+8 3 0 255 0 0 0 1 //Legendary Armor
+9 3 0 255 0 0 0 1 //Legendary Pants
+10 3 0 255 0 0 0 1 //Legendary Gloves
+11 3 0 255 0 0 0 1 //Legendary Boots
+7 18 0 255 0 0 0 1 //Grand Soul Helm
+8 18 0 255 0 0 0 1 //Grand Soul Armor
+9 18 0 255 0 0 0 1 //Grand Soul Pants
+10 18 0 255 0 0 0 1 //Grand Soul Gloves
+11 18 0 255 0 0 0 1 //Grand Soul Boots
+7 22 0 255 0 0 0 1 //Dark Soul Helm
+end

@@ -1,0 +1,7 @@
+//Devias Bar - MG Weapons
+0 18 0 255 1 0 0 1 //Thunder Blade
+0 31 0 255 1 0 0 1 //Rune Blade
+0 21 0 255 1 0 0 1 //Dark Reign Blade
+0 23 0 255 1 0 0 1 //Explosion Blade
+0 25 0 255 1 0 0 1 //Sword Dancer
+end

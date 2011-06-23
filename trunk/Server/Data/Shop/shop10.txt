@@ -1,0 +1,27 @@
+// Noria Potion Fairy
+7 12 0 255 0 0 0 1 //Wind Helm
+7 14 0 255 0 0 0 1 //Guardian Helm
+8 14 0 255 0 0 0 1 //Guardian Armor
+9 14 0 255 0 0 0 1 //Guardian Pants
+10 14 0 255 0 0 0 1 //Guardian Gloves
+11 14 0 255 0 0 0 1 //Guardian Boots
+8 12 0 255 0 0 0 1 //Wind Armor
+9 12 0 255 0 0 0 1 //Wind Pants
+10 12 0 255 0 0 0 1 //Wind Gloves
+11 12 0 255 0 0 0 1 //Wind Boots
+7 13 0 255 0 0 0 1 //Spirit Helm
+8 13 0 255 0 0 0 1 //Spirit Armor
+9 13 0 255 0 0 0 1 //Spirit Pants
+10 13 0 255 0 0 0 1 //Spirit Gloves
+11 13 0 255 0 0 0 1 //Spirit Boots
+7 19 0 255 0 0 0 1 //Divine Helm
+8 19 0 255 0 0 0 1 //Divine Armor
+9 19 0 255 0 0 0 1 //Divine Pants
+10 19 0 255 0 0 0 1 //Divine Gloves
+11 19 0 255 0 0 0 1 //Divine Boots
+7 24 0 255 0 0 0 1 //Red Spirit Helm
+8 24 0 255 0 0 0 1 //Red Spirit Armor
+9 24 0 255 0 0 0 1 //Red Spirit Pants
+10 24 0 255 0 0 0 1 //Red Spirit Gloves
+11 24 0 255 0 0 0 1 //Red Spirit Boots
+end

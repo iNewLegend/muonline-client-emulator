@@ -1,0 +1,31 @@
+////////////////////////////////////////////////////////////////////////////////
+// 1. IP and pot information of server (only official recognition IP and port number use possibility)
+//
+// P.S.> InitSetting (initial Maeb mobile information setting price) meaning of price 
+// -1  : Connection being not right - connection with the initial server which is possible connection
+// 0 : Connection being not right - connection random in the server which is possible it does, connection 
+// 1 : Connection possibility 
+//
+// ServerCode MapServerGroup InitSetting IpAddress PortNum
+//-----------------------------------------------------------------------------
+0
+ 0  0  1  "S84.95.241.48"  55901
+ 1  0  1  "S84.95.241.48"  55901
+ 19 0  0  "S84.95.241.48"  55919
+
+end
+// 2> . Maeb mobile impossible information of server (the server which is not to dignity server information the nil which could be register)
+//
+// ServerCode MoveAbleOption Map DestServerCode
+// (Server cord) (mobile yes or no option) (Maeb) (destination server cord)
+//-----------------------------------------------------------------------------
+1
+ 0  0  30  19
+ 0  0  31  19
+ 0  0  34  19
+
+ 19  1  30  -1
+ 19  1  31  -1
+ 19  1  34  -1
+
+end

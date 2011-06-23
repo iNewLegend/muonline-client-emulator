@@ -1,0 +1,27 @@
+//Weapon/Armor Shop Davias - BK ARMORS
+7 0 0 255 0 0 0 1 //Bronze Helm
+8 0 0 255 0 0 0 1 //Bronze Armor
+9 0 0 255 0 0 0 1 //Bronze Pants
+10 0 0 255 0 0 0 1 //Bronze Gloves
+11 0 0 255 0 0 0 1 //Bronze Boots
+7 8 0 255 0 0 0 1 //Brass Helm
+8 8 0 255 0 0 0 1 //Brass Armor
+9 8 0 255 0 0 0 1 //Brass Pants
+10 8 0 255 0 0 0 1 //Brass Gloves
+11 8 0 255 0 0 0 1 //Brass Boots
+7 1 0 255 0 0 0 1 //Dragon Helm
+8 1 0 255 0 0 0 1 //Dragon Armor
+9 1 0 255 0 0 0 1 //Dragon Pants
+10 1 0 255 0 0 0 1 //Dragon Gloves
+11 1 0 255 0 0 0 1 //Dragon Boots
+7 17 0 255 0 0 0 1 //Dark Phoenix Helm
+8 17 0 255 0 0 0 1 //Dark Phoenix Armor
+9 17 0 255 0 0 0 1 //Dark Phoenix Pants
+10 17 0 255 0 0 0 1 //Dark Phoenix Gloves
+11 17 0 255 0 0 0 1 //Dark Phoenix Boots
+7 21 0 255 0 0 0 1 //Great Dragon Helm
+8 21 0 255 0 0 0 1 //Great Dragon Armor
+9 21 0 255 0 0 0 1 //Great Dragon Pants
+10 21 0 255 0 0 0 1 //Great Dragon Gloves
+11 21 0 255 0 0 0 1 //Great Dragon Boots
+end

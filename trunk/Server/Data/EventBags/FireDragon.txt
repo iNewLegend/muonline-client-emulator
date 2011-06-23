@@ -1,0 +1,64 @@
+////////////////////////////////////////////////////////////////////////////////
+// Text GS 1.00.18
+// Version 1.04
+// Translated - by Endi
+// Eventitembag3
+// Fire Dragon
+////////////////////////////////////////////////////////////////////////////////
+// | type | index | level | skill | option |
+6 8 9 0 0 0 //Tower Shield+9
+6 11 9 0 0 0 //Serpent Shield+9
+5 6 9 0 0 0 //Staff of Resurrection+9
+2 8 8 0 0 0 //Battle Scepter+8
+4 5 9 0 0 0 //Silver Bow+9
+4 13 9 0 0 0 //Bluewing Crossbow+9
+3 8 9 0 0 0 //Great Scythe+9
+1 8 9 0 0 0 //Crescent Axe+9
+0 12 9 0 0 0 //Heliacal Sword+9
+0 14 9 0 0 0 //Lightning Sword+9
+7 1 9 0 0 0 //Dragon Helm+9
+8 1 9 0 0 0 //Dragon Armor+9
+9 1 9 0 0 0 //Dragon Pants+9
+10 1 9 0 0 0 //Dragon Gloves+9
+11 1 9 0 0 0 //Dragon Boots+9
+7 14 9 0 0 0 //Guardian Helm+9
+8 14 9 0 0 0 //Gaurdian Armor+9
+9 14 9 0 0 0 //Gaurdian Pants+9
+10 14 9 0 0 0 //Guardian Gloves+9
+11 14 9 0 0 0 //Gaurdian Boots+9
+7 3 9 0 0 0 //Legendary Helm+9
+8 3 9 0 0 0 //Legendary Armor+9
+9 3 9 0 0 0 //Legendary Pants+9
+10 3 9 0 0 0 //Legendary Gloves+9
+11 3 9 0 0 0 //Legendary Boots+9
+8 15 8 0 0 0 //Storm Crow Armor+8
+11 15 8 0 0 0 //Storm Crow Boots+8
+10 15 8 0 0 0 //Storm Crow Gloves+8
+9 15 8 0 0 0 //Storm Crow Pants+8
+7 25 8 0 0 0 //Light Plate Mask+8
+8 25 8 0 0 0 //Light Plate Armor+8
+9 25 8 0 0 0 //Light Plate Pants+8
+10 25 8 0 0 0 //Light Plate Gloves+8
+11 25 8 0 0 0 //Light Plate Boots+8
+//Pierscienie
+13 8 7 0 0 4 //Ring of Ice+7+4%
+13 9 7 0 0 4 //Ring of Poison+7+4%
+13 21 7 0 0 4 //Ring of Fire+7+16
+13 22 7 0 0 4 //Ring of Earth+7+16
+13 23 7 0 0 4 //Ring of Wind+7+16
+13 24 7 0 0 4 //Ring of Magic+7+16
+13 25 7 0 0 4 //Pedant of Ice+7+16
+13 26 7 0 0 4 //Pendant of Wind+7+16
+13 27 7 0 0 4 //Pendant of Water+7+16
+13 28 7 0 0 4 //Pendant of Ability+7+16
+
+//Kamienie
+14 13 0 0 0 0 //Jewel of Bless
+14 14 0 0 0 0 //Jewel of Soul
+14 16 0 0 0 0 //Jewel of Life
+14 22 0 0 0 0 //Jewel of Creation
+
+//Chaos
+12 15 0 0 0 0 //Jewel of Chaos
+end
+

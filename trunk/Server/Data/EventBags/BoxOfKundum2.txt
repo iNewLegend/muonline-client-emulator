@@ -1,0 +1,36 @@
+//-----------------------------------
+// BOX OF KUNDUM +2 by Akaruz
+// Eventitembag9
+//-----------------------------------
+
+//	Type	Index	Level	Skill	Exc	Option
+
+
+	7	6	0	0	1	0	//Excellent Scale Helm
+	8	6	0	0	1	0	//Excellent Scale Armor
+	9	6	0	0	1	0	//Excellent Scale Pants
+	10	6	0	0	1	0	//Excellent Scale Gloves
+	11	6	0	0	1	0	//Excellent Scale Boots
+	7	4	0	0	1	0	//Excellent Bone Helm
+	8	4	0	0	1	0	//Excellent Bone Armor
+	9	4	0	0	1	0	//Excellent Bone Pants
+	10	4	0	0	1	0	//Excellent Bone Gloves
+	11	4	0	0	1	0	//Excellent Bone Boots
+	7	11	0	0	1	0	//Excellent Silk Helm
+	8	11	0	0	1	0	//Excellent Silk Armor
+	9	11	0	0	1	0	//Excellent Silk Pants
+	10	11	0	0	1	0	//Excellent Silk Gloves
+	11	11	0	0	1	0	//Excellent Silk Boots
+	5	2	0	0	1	0	//Excellent Serpent Staff
+	0	10	0	0	1	0	//Excellent Light Saber
+	0	5	0	0	1	0	//Excellent Blade
+	0	13	0	0	1	0	//Excellent Double Blade
+	1	6	0	0	1	0	//Excellent Nikkea Axe
+	1	7	0	0	1	0	//Excellent Larkan Axe
+	2	3	0	0	1	0	//Excellent Great Hammer
+	3	7	0	0	1	0	//Excellent Bardiche
+	3	0	0	0	1	0	//Excellent Light Spear
+	4	11	0	0	1	0	//Excellent Light Crossbow
+	4	4	0	0	1	0	//Excellent Tiger Bow
+	4	12	0	0	1	0	//Excellent Serpent Crossbow
+end
