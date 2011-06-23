@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Dialog">
+      <UniqueIdentifier>{040a4fb3-0206-498c-9713-c1c9f0c6bc8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NetWork">
+      <UniqueIdentifier>{ef54e8af-6c5c-4a01-b361-c8109b2d49f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Role">
+      <UniqueIdentifier>{1be4e212-e7eb-4514-bf8a-d09732109b5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{072752e8-472a-4d37-b33b-7c15f80bf546}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{cece5af8-96b1-442d-9ebf-2ccaebbb85ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="World">
+      <UniqueIdentifier>{c3cb5772-456d-430e-9078-3a56264c992d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global Headers">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Global Sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Resouce">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GlobalFunction.cpp">
+      <Filter>Global Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Global Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="MainRoot.cpp">
+      <Filter>Global Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgMain.cpp">
+      <Filter>Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="UIDisplayModel.cpp">
+      <Filter>Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="UIDisplayRoleChoose.cpp">
+      <Filter>Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="UIDisplayWorld.cpp">
+      <Filter>Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientNetWork.cpp">
+      <Filter>NetWork</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol.cpp">
+      <Filter>NetWork</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>Role</Filter>
+    </ClCompile>
+    <ClCompile Include="Npc.cpp">
+      <Filter>Role</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerMe.cpp">
+      <Filter>Role</Filter>
+    </ClCompile>
+    <ClCompile Include="Role.cpp">
+      <Filter>Role</Filter>
+    </ClCompile>
+    <ClCompile Include="RPGSkyTextRender.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="RPGSkyUIGraph.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="StrRes.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GlobalFunction.h">
+      <Filter>Global Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="MainRoot.h">
+      <Filter>Global Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Global Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgMain.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="UIDisplayModel.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="UIDisplayRoleChoose.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="UIDisplayWorld.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientNetWork.h">
+      <Filter>NetWork</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol.h">
+      <Filter>NetWork</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>Role</Filter>
+    </ClInclude>
+    <ClInclude Include="Npc.h">
+      <Filter>Role</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerMe.h">
+      <Filter>Role</Filter>
+    </ClInclude>
+    <ClInclude Include="Role.h">
+      <Filter>Role</Filter>
+    </ClInclude>
+    <ClInclude Include="RPGSkyTextRender.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="RPGSkyUIGraph.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="StrRes.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>World</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="client.rc">
+      <Filter>Resouce</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="icon\icon.ico">
+      <Filter>Resouce</Filter>
+    </None>
+  </ItemGroup>
+</Project>
