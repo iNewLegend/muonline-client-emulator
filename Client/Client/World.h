@@ -28,8 +28,6 @@ protected:
 	std::map<ULONG, CRole*>			m_mapRole;
 	std::deque<DamageInfo>			m_dequeDamageInfo;
 	// ----
-	CDataPlugsMgr					m_DataPlugsMgr;
-	// ----
 	char							m_szTemp[CLASS_TEMP_SIZE];
 	// ----
 	UINT							m_CurMap;

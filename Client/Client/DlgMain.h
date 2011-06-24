@@ -11,7 +11,6 @@ class CDlgMain : public CUIMainDialog
 {
 private:
 	CUIDisplayWorld	m_DisplayWorld;
-	CDataPlugsMgr	m_DataPlugsMgr;
 public:
 	CDlgMain();
 	~CDlgMain();
