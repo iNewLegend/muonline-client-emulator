@@ -27,9 +27,6 @@ void CDlgMain::OnControlRegister()
 
 bool CDlgMain::OnInitDialog()
 {
-	// # create the dll of map data plugs
-	// ----
-	m_DataPlugsMgr.createPlugFromPath("Plugins\\", "Scene_Plug_CreateObject");
 	// ----
 	return CUIMainDialog::OnInitDialog();
 }

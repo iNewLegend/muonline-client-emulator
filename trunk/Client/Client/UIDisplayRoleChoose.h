@@ -4,7 +4,7 @@
 
 #include "UIDisplay.h"
 #include "Camera.h"
-#include "ModelComplex.h"
+#include "RenderNode.h"
 #include "SceneEffect.h"
 #include "Role.h"
 #include "TSingleton.h"
@@ -16,7 +16,7 @@
 class CUIDisplayRoleChoose : public CUIDisplay, public TSingleton<CUIDisplayRoleChoose>
 {
 private:
-	CModelObject*		m_pModelObject;
+	iRenderNode*		m_pModelObject;
 	Matrix				m_mProj;
 	Matrix				m_mView;
 	DirectionalLight	m_lightDir;
@@ -43,8 +43,7 @@ public:
 	// ----
 	virtual void	OnSize			(const CRect<int> & rc);
 	// ----
-	CModelObject*	getModelObject	();
-	CModelData*		getModelData	()const;
+	iRenderNode*	getModelObject	();
 	// ----
 	void			SetEye			(const Vec3D& vEye)		{ m_vEye = vEye; }
 	const Vec3D		GetEye			()						{ return m_vEye; }
