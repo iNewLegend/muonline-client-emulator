@@ -17,7 +17,7 @@ public:
 	void			walk			(int x, int y);
 	void			playWalkSound	();
 	// ----
-	virtual void	OnFrameMove		(float fElapsedTime);
+	virtual void	frameMove		(const Matrix& mWorld, double fTime, float fElapsedTime);
 	virtual void	renderFocus		()const;
 	virtual void	release			()								{;}
 	// ----

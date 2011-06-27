@@ -19,4 +19,15 @@ public:
 protected:
 	CTexture*	 m_pTextTexture;
 };
+
+class CRPGSkyTextRender3D : public CTextRender
+{
+public:
+	CRPGSkyTextRender3D();
+	// ----
+	virtual void updateTextureBuffer	(unsigned char * pBuffer, size_t size, size_t width, size_t height);
+	virtual void drawTextVertexBuffer	(int nVertexCount, void * pBuffer);
+protected:
+	CTexture*	 m_pTextTexture;
+};
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -3,6 +3,7 @@
 #include "iSkeleton.h"
 #include "iMesh.h"
 #include "iParticle.h"
+#include "Material.h"
 
 class iRenderNode
 {
@@ -27,7 +28,7 @@ public:
 	iRenderNodeMgr(){};
 	virtual ~iRenderNodeMgr(){};
 
-	virtual iRenderNode*	loadRenderNode(const char* szFilename)=0;
+	virtual iRenderNode*	loadRenderNode(const char* szFilename, iRenderNode* pRenderNode)=0;
 	virtual iRenderNode*	createRenderNode(const char* szClassName)=0;
 	virtual void*			createRenderData(const char* szClassName)=0;
 	virtual void*			getRenderData(const char* szClassName, const char* szName)=0;
@@ -40,5 +41,5 @@ class CModelPlugBase:public CDataPlugBase
 public:
 	CModelPlugBase(){};
 	virtual ~CModelPlugBase(){};
-	virtual iRenderNode* importData(iRenderNodeMgr* pRenderNodeMgr, const char* szFilename)=0;
+	virtual bool importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNode, const char* szFilename)=0;
 };

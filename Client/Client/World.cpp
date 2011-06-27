@@ -5,6 +5,7 @@
 #include "RenderSystem.h"
 #include "float.h"
 #include "intersect.h"
+#include "RenderNodeMgr.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // # (leo123) : i think here too need set patches in define
 // ... : void CWorld::create(UCHAR uMapID) : must take count of World% in data and dont use this kinda of switch
@@ -20,7 +21,7 @@ CWorld::CWorld()
 	// ----
 	// # create the dll of map data plugs
 	// ----
-	m_DataPlugsMgr.createPlugFromPath("Plugins\\", "Scene_Plug_CreateObject");
+	//m_DataPlugsMgr.createPlugFromPath("Plugins\\", "Scene_Plug_CreateObject");
 	// ----
 	// # Change the fog color.
 	// ----
@@ -30,7 +31,7 @@ CWorld::CWorld()
 	// ----
 	setFog(fog);
 	// ----
-	this->SetTerrain(& m_Terrain);
+	//this->SetTerrain(& m_Terrain);
 	// ----
 	m_DamageTextRender.load("Data\\Fonts\\fzl2jw.ttf");
 	m_DamageTextRender.setFontSize(18);
@@ -105,7 +106,7 @@ CRole* CWorld::pickRole(const Vec3D & vRayPos , const Vec3D & vRayDir)
 			continue;
 		}
 		// ----
-		if((*it)->intersect(vRayPos , vRayDir, fMin, fMax) == true)
+		if((*it)-intersect(vRayPos , vRayDir, fMin, fMax) == true)
 		{
 			if(fFocusMin > fMin)
 			{
@@ -228,7 +229,7 @@ void CWorld::OnFrameMove(double fTime, float fElapsedTime)
 	{
 		if((*it)->GetObjType() != MAP_ROLE)
 		{
-			(*it)->OnFrameMove(fElapsedTime);
+			(*it)->frameMove(fElapsedTime);
 		}
 	}
 	// ----
@@ -305,11 +306,6 @@ void CWorld::loadMap(const char* szFilename, ...)
 	vsprintf(m_szTemp, szFilename, pArguments);
 	va_end(pArguments);
 	// ----
-	CScenePlugBase * pScenePlug = (CScenePlugBase*)m_DataPlugsMgr.getPlugByExtension(".map");
-	// ----
-	if(pScenePlug != NULL)
-	{
-		pScenePlug->importData(&CWorld::getInstance(), m_szTemp);
-	}
+	CRenderNodeMgr::getInstance().loadRenderNode(m_szTemp,this);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

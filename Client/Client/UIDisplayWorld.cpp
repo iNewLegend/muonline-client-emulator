@@ -28,7 +28,7 @@ void CUIDisplayWorld::OnFrameMove(double fTime, float fElapsedTime)
 		// ----
 		CUIDisplay::OnFrameMove(fTime, fElapsedTime);
 		// ----
-		CWorld::getInstance().OnFrameMove(fTime, fElapsedTime);
+		CWorld::getInstance().frameMove(fTime, fElapsedTime);
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

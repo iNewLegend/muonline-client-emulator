@@ -9,7 +9,7 @@ public:
 
 	virtual const char * getTitle(){return "Mu Scene File";}
 	virtual const char * getFormat() {return ".map";}
-	virtual iRenderNode* importData(iRenderNodeMgr* pRenderNodeMgr, const char* szFilename);
+	virtual bool importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNode, const char* szFilename);
 	virtual void release();
 private:
 	bool importTerrainData(iTerrainData * pTerrainData, const std::string& strFilename);

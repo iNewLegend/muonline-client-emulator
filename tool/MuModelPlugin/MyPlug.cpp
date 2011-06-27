@@ -155,7 +155,7 @@ void importSkeletonAnims(iSkeletonData& skeletonData, CMUBmd& bmd)
 	}
 }
 
-iRenderNode* CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, const char* szFilename)
+bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNode, const char* szFilename)
 {
 	iSkeletonData*	pSkeletonData	= (iSkeletonData*)	pRenderNodeMgr->getRenderData("skeleton",szFilename);
 	iLodMesh*		pMesh			= (iLodMesh*)		pRenderNodeMgr->getRenderData("mesh",szFilename);
@@ -354,17 +354,17 @@ iRenderNode* CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, const char* szF
 	{
 		strParFilename=strMyPath+strParentDirName+".par.csv";
 	}
-	pRenderNodeMgr->loadRenderNode(strMatFilename.c_str());
-	pRenderNodeMgr->loadRenderNode(strParFilename.c_str());
+	pRenderNodeMgr->loadRenderNode(strMatFilename.c_str(),pRenderNode);
+	pRenderNodeMgr->loadRenderNode(strParFilename.c_str(),pRenderNode);
 	//////////////////////////////////////////////////////////////////////////
-	iRenderNode* pSkeletonNode = pRenderNodeMgr->createRenderNode("Skeleton");
-	pSkeletonNode->init(pSkeletonData);
+	//iRenderNode* pRenderNode = pRenderNodeMgr->createRenderNode("Skeleton");
+	pRenderNode->init(pSkeletonData);
 	//----
 	iRenderNode* pMeshNode = pRenderNodeMgr->createRenderNode("Mesh");
 	pMeshNode->init(pMesh);
 	//----
-	pSkeletonNode->addChild(pMeshNode);
-	return pSkeletonNode;
+	pRenderNode->addChild(pMeshNode);
+	return pRenderNode;
 }
 /*
 bool CMyPlug::exportData(iModelData * pModelData, const std::string& szFilename)
