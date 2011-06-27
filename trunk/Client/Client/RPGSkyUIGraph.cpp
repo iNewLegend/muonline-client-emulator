@@ -49,7 +49,7 @@ void RPGSkyUIGraph::FillRect(const CRect<float> & rcDest, Color32 color)
 	R.SetTextureColorOP(0, TBOP_SOURCE2);
 	R.SetTextureAlphaOP(0, TBOP_SOURCE2);
 	// ----
-	GetGraphics().FillRect3D(rcDest.left, rcDest.top, rcDest.right, rcDest.bottom, color.c);
+	GetGraphics().FillRect(rcDest.left, rcDest.top, rcDest.right, rcDest.bottom, color.c);
 	// ----
 	R.SetTextureColorOP(0, TBOP_MODULATE);
 	R.SetTextureAlphaOP(0, TBOP_MODULATE);
@@ -115,7 +115,7 @@ void RPGSkyUIGraph::DrawSprite3x3Grid(const CRect<float> & rcSrc, const CRect<fl
 {
 	if(color.a != 0)
 	{
-		GetGraphics().Draw3x3Grid3D(rcSrc, rcCenterSrc, rcDest, (int)pTexture, color);
+		GetGraphics().Draw3x3Grid(rcSrc, rcCenterSrc, rcDest, (int)pTexture, color);
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -124,7 +124,7 @@ void RPGSkyUIGraph::DrawSprite(const CRect<float> & rcSrc, const CRect<float> & 
 {
 	if(color.a != 0)
 	{
-		GetGraphics().DrawTex3D(rcSrc, rcDest, (int)pTexture, color);
+		GetGraphics().DrawTex(rcSrc, rcDest, (int)pTexture, color);
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -143,24 +143,11 @@ void RPGSkyUIGraph::CalcTextRect(const wchar_t* wcsText, CRect<float> & rcDest)
 	// ---
 	// # (leo123) Why rcDest = rect and not directly to rcDest ? unless memory use.
 	// ----
-	// # if is not empty 
+	RECT rect = rcDest.getRECT();
 	// ----
-	if(wcslen(wcsText) > 0) // not good
-	{
-		RECT rect = {0};
-		// ----
-		if(wcsText[0]==L'[')
-		{
-			rect	= getTextRender().CalcUBBRect(wcsText, rcDest.getRECT());
-			rcDest	= rect;
-		}
-		else
-		{
-			getTextRender().drawText(wcsText, -1, rcDest.getRECT(), DTL_CALCRECT, 0, & rect);
-			// ----
-			rcDest	= rect;
-		}
-	}
+	getTextRender().calcUBBRect(wcsText, rect);
+	// ----
+	rcDest	= rect;
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -206,7 +193,7 @@ void RPGSkyUIGraph::DrawText(const wchar_t* wcsText, CUIStyle & style, int nInde
 		// ----
 		// No need to draw fully transparent layers
 		// ----
-		getTextRender().drawText(wcsText, nCount, rcDest.getRECT(), uFormat, color.c);
+		getTextRender().drawText(wcsText, rcDest.getRECT(), nCount, uFormat, color.c);
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -220,20 +207,10 @@ void RPGSkyUIGraph::drawText(const wchar_t* wcsText, int cchText, const RECT & r
 	R.SetTextureColorOP(1, TBOP_MODULATE, TBS_CURRENT,TBS_TFACTOR);
 	R.SetTextureAlphaOP(1 ,TBOP_MODULATE, TBS_CURRENT,TBS_TFACTOR);
 	// ----
-	if(wcslen(wcsText) > 0) // not good
-	{
-		if(wcsText[0]==L'[')
-		{
-			getTextRender().DrawUBB(wcsText, rc);
-		}
-		else
-		{
-			getTextRender().drawText(wcsText, cchText,rc, format, color, prcRet);
-		}
-		// ----
-		R.SetTextureColorOP(1, TBOP_DISABLE);
-		R.SetTextureAlphaOP(1, TBOP_DISABLE);
-	}
+	getTextRender().drawText(wcsText,rc, cchText, format, color);
+	// ----
+	R.SetTextureColorOP(1, TBOP_DISABLE);
+	R.SetTextureAlphaOP(1, TBOP_DISABLE);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -309,7 +286,7 @@ void RPGSkyUIGraph::playSound(const char * szFilename)
 
 CTextRender & RPGSkyUIGraph::getTextRender()
 {
-	static CRPGSkyTextRender s_RPGSkyTextRender;
+	static CRPGSkyTextRender3D s_RPGSkyTextRender;
 	// ----
 	return s_RPGSkyTextRender;
 }

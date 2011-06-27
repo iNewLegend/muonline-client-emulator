@@ -60,13 +60,13 @@ public:
 	// ----
 	void			drawName		() const;
 	// ----
-	virtual void	render			(int flag) const;
 	virtual void	setActionState	(unsigned char uActionState);
 	virtual void	playWalkSound	();
 	// ----
 	virtual int		GetObjType		()							{ return MAP_ROLE; }
 	virtual bool	isDynamic		()							{ return true; }
-	virtual void	OnFrameMove		(float fElapsedTime);
+	virtual void	frameMove		(const Matrix& mWorld, double fTime, float fElapsedTime);
+	virtual void	render			(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType=MATERIAL_NORMAL)const;
 	// ----
 	void			setID			(ULONG uID)					{ m_uID = uID; };
 	void			setLevel		(int nLevel)				{ m_nLevel=nLevel; };

@@ -18,7 +18,7 @@ public:
 	// ----
 	void			setType			(unsigned long uType);
 	// ----
-	virtual void	OnFrameMove		(float fElapsedTime);
+	virtual void	frameMove		(const Matrix& mWorld, double fTime, float fElapsedTime);
 	virtual void	setActionState	(unsigned char uActionState);
 	virtual void	renderFocus		()const;
 	// ----

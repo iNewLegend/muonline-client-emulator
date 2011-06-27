@@ -1645,7 +1645,7 @@ VMBEGIN
 	VMEND
 }
 
-iRenderNode* CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, const char* szFilename)
+bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNode, const char* szFilename)
 {
 	//importTerrainData(pScene->getTerrainData(),szFilename);
 	// tiles
@@ -1684,7 +1684,7 @@ iRenderNode* CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, const char* szF
 	pSceneData->setBBox(bboxObject);
 	pSceneData->setObjectTreeSize(6);
 	// Loading the object.
-	iRenderNode* pSceneNode = (iRenderNode*)pRenderNodeMgr->createRenderNode("scene");
+	//iRenderNode* pSceneNode = (iRenderNode*)pRenderNodeMgr->createRenderNode("scene");
 	IOReadBase* pRead = IOReadBase::autoOpen(strObjectFilename.c_str());
 	if (pRead)
 	{
@@ -1701,13 +1701,13 @@ iRenderNode* CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, const char* szF
 			Vec3D vPos = Vec3D(pObjInfo->p.x,pObjInfo->p.z,pObjInfo->p.y)*0.01f;
 			Vec3D vRotate = Vec3D(pObjInfo->rotate.x,pObjInfo->rotate.z,pObjInfo->rotate.y)*PI/180.0f;
 			Vec3D vScale= Vec3D(pObjInfo->fScale,pObjInfo->fScale,pObjInfo->fScale);
-			iRenderNode* pRenderNode = pRenderNodeMgr->loadRenderNode(m_mapObjectName[pObjInfo->id].c_str());
-			if(pRenderNode)
+			iRenderNode* pObjectRenderNode = (iRenderNode*)pRenderNodeMgr->createRenderNode("sceneobject");
+			if(pRenderNodeMgr->loadRenderNode(m_mapObjectName[pObjInfo->id].c_str(),pObjectRenderNode))
 			{
-				pRenderNode->setPos(vPos);
-				pRenderNode->setRotate(vRotate);
-				pRenderNode->setScale(vScale);
-				pSceneNode->addChild(pRenderNode);
+				pObjectRenderNode->setPos(vPos);
+				pObjectRenderNode->setRotate(vRotate);
+				pObjectRenderNode->setScale(vScale);
+				pRenderNode->addChild(pObjectRenderNode);
 			}
 			else
 			{
@@ -1718,8 +1718,8 @@ iRenderNode* CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, const char* szF
 		delete buffer;
 		IOReadBase::autoClose(pRead);
 	}
-	pSceneNode->init(pSceneData);
-	return pSceneNode;
+	pRenderNode->init(pSceneData);
+	return pRenderNode;
 }
 
 bool CMyPlug::exportTerrainAtt(iTerrainData * pTerrainData, const std::string& strFilename)

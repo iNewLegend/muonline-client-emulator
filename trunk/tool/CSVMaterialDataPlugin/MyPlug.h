@@ -8,7 +8,7 @@ public:
 	~CMyPlug(void);
 	virtual const char * getTitle(){return "CSV Materila Data File";}
 	virtual const char * getFormat() {return ".csv";}
-	virtual iRenderNode* importData(iRenderNodeMgr* pRenderNodeMgr, const char* szFilename);
+	virtual bool importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNode, const char* szFilename);
 	virtual void release();
 private:
 };

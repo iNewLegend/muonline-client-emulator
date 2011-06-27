@@ -34,14 +34,14 @@ void CRenderNodeMgr::registerRenderData(const char* szClassName, P_FUNC_NEW_REND
 	m_mapRenderDataFunc[szClassName] = pfn;
 }
 
-iRenderNode* CRenderNodeMgr::loadRenderNode(const char* szFilename)
+iRenderNode* CRenderNodeMgr::loadRenderNode(const char* szFilename, iRenderNode* pRenderNode)
 {
 	// 判断格式--根据文件后缀名
 	std::string strExt = GetExtension(szFilename);
 	CModelPlugBase* pModelPlug = (CModelPlugBase*)m_DataPlugsMgr.getPlugByExtension(strExt.c_str());
 	if (pModelPlug)
 	{
-		return pModelPlug->importData(this,szFilename);
+		return (iRenderNode*)pModelPlug->importData(this, pRenderNode, szFilename);
 	}
 	return false;
 }

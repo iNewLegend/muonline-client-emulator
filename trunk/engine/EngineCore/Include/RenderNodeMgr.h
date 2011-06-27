@@ -17,7 +17,7 @@ public:
 	virtual ~CRenderNodeMgr(){};
 	void registerRenderNode(const char* szClassName, P_FUNC_NEW_RENDER_NODE pfn);
 	void registerRenderData(const char* szClassName, P_FUNC_NEW_RENDER_DATA pfn);
-	virtual iRenderNode*	loadRenderNode(const char* szFilename);
+	virtual iRenderNode*	loadRenderNode(const char* szFilename, iRenderNode* pRenderNode);
 	virtual iRenderNode*	createRenderNode(const char* szClassName);
 	virtual void*			createRenderData(const char* szClassName);
 	virtual void*			getRenderData(const char* szClassName, const char* szName);
