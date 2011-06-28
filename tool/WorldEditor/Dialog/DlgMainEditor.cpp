@@ -260,7 +260,8 @@ void CDlgMainEditor::OnFileOpen()
 {
 	std::string strFilename = ws2s(m_DlgFile.GetFilename());
 	SetRegStr(L"software\\rpgsky\\worldeditor\\",L"recentpath",GetParentPath(m_DlgFile.GetFilename()).c_str());
-	CScene * pSceneNode = (CScene *)CRenderNodeMgr::getInstance().loadRenderNode(strFilename.c_str());
+	CScene * pSceneNode = new CScene;
+	CRenderNodeMgr::getInstance().loadRenderNode(strFilename.c_str(),pSceneNode);
 	getDisplay().setScene(pSceneNode);
 	// Update UI
 	m_DlgToolbar.reset();

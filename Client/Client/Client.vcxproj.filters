@@ -84,6 +84,9 @@
     <ClCompile Include="World.cpp">
       <Filter>World</Filter>
     </ClCompile>
+    <ClCompile Include="Messages.cpp">
+      <Filter>Global Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GlobalFunction.h">
@@ -136,6 +139,9 @@
     </ClInclude>
     <ClInclude Include="World.h">
       <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="Messages.h">
+      <Filter>Global Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
