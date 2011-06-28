@@ -56,7 +56,7 @@ bool CScene::updateMapObj(CRenderNode* pMapObj)
 
 void CScene::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
-	FOR_IN(LIST_RENDER_NODE,it,m_mapChildObj)
+	FOR_IN(it,m_mapChildObj)
 	{
 		(*it)->frameMove(Matrix::UNIT,fTime,fElapsedTime);
 	}
@@ -97,7 +97,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 	{
 		R.SetDepthBufferFunc(true,true);
 		// ----
-		CONST_FOR_IN(LIST_RENDER_NODE,it,m_setRenderSceneObj)
+		FOR_IN(it,m_setRenderSceneObj)
 		{
 		//	(*it)->renderDebug();
 		}
@@ -135,7 +135,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 			{
 				R.SetBlendFunc(true,BLENDOP_ADD,SBF_DEST_COLOUR,SBF_ONE);
 				// ----
-				CONST_FOR_IN(LIST_RENDER_NODE,itLight,m_setLightObj)
+				FOR_IN(itLight,m_setLightObj)
 				{
 					const Vec3D& vLightPos = (*itLight)->getPos();
 					m_pTerrain->drawLightDecal(vLightPos.x,vLightPos.z,3.0f,0xFFFFFFFF);
@@ -158,7 +158,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 		R.SetTextureAlphaOP(1,TBOP_DISABLE);
 		R.SetStencilFunc(true,STENCILOP_INCR,CMPF_GREATER);
 		// ----
-		CONST_FOR_IN(LIST_RENDER_NODE,it,m_setRenderSceneObj)
+		FOR_IN(it,m_setRenderSceneObj)
 		{
 			try {
 				CMapObj* pObj = (CMapObj*)(*it);
@@ -170,7 +170,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 						float fHeight = getTerrainData()->GetHeight(p3DObj->getPos().x,p3DObj->getPos().z);
 						p3DObj->renderShadow(Matrix::UNIT,vLightDir,fHeight);
 						// ----
-						CONST_FOR_IN(LIST_RENDER_NODE,itLight,m_setLightObj)
+						FOR_IN(itLight,m_setLightObj)
 						{
 							Vec3D vDir = (*it)->getPos()-(*itLight)->getPos();
 							if (vDir.length()<3.0f)
@@ -191,7 +191,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 		// ----
 		R.SetStencilFunc(false);
 		// ----
-		CONST_FOR_IN(LIST_RENDER_NODE,it,m_setRenderSceneObj)
+		FOR_IN(it,m_setRenderSceneObj)
 		{
 			try {
 				CMapObj* pObj = (CMapObj*)(*it);
@@ -215,7 +215,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 						R.SetDirectionalLight(0,light);
 					}
 					// ----
-					CONST_FOR_IN(LIST_RENDER_NODE,itLight,m_setLightObj)
+					FOR_IN(itLight,m_setLightObj)
 					{
 						if (((*itLight)->getPos()-(*it)->getPos()).length()<3.0f)
 						{
@@ -234,11 +234,11 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 			}
 		}
 		//
-		CONST_FOR_IN(LIST_RENDER_NODE,it,m_FocusNodel.getChildObj())
+		FOR_IN(it,m_FocusNodel.getChildObj())
 		{
 			((C3DMapObj*)*it)->renderFocus();
 		}
-		CONST_FOR_IN(LIST_RENDER_NODE,it,m_FocusNodel.getChildObj())
+		FOR_IN(it,m_FocusNodel.getChildObj())
 		{
 			DirectionalLight light(Vec4D(0.4f,0.4f,0.4f,0.4f),Vec4D(1.0f,1.0f,1.0f,1.0f),
 				Vec4D(0.6f,0.6f,0.6f,0.6f),vLightDir);
@@ -259,11 +259,11 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 		fogForGlow.fEnd = m_Fog.fEnd*2.0f;
 		R.setFog(fogForGlow);
 		//
-		CONST_FOR_IN(LIST_RENDER_NODE,it,m_setRenderSceneObj)
+		FOR_IN(it,m_setRenderSceneObj)
 		{
 			(*it)->render(Matrix::UNIT,MATERIAL_ALPHA);
 		}
-		CONST_FOR_IN(LIST_RENDER_NODE,it,m_setRenderSceneObj)
+		FOR_IN(it,m_setRenderSceneObj)
 		{
 			(*it)->render(Matrix::UNIT,MATERIAL_GLOW);
 		}
@@ -337,7 +337,7 @@ void CScene::del3DMapEffect(const Vec3D& vWorldPos)
 {
 // 	LIST_RENDER_NODE setObject;
 // 	m_ObjectTree.getObjectsByPos(vWorldPos,setObject);
-// 	FOR_IN(LIST_RENDER_NODE,it,setObject)
+// 	FOR_IN(it,setObject)
 // 	{
 // 		if((*it) && ((*it)->GetObjType() == MAP_3DEFFECT || (*it)->GetObjType() == MAP_3DEFFECTNEW))
 // 		{
@@ -412,7 +412,7 @@ bool CScene::delChildByFocus()
 {
 	const LIST_RENDER_NODE& focusChild = m_FocusNodel.getChildObj();
 	// ----
-	CONST_FOR_IN(LIST_RENDER_NODE,it,focusChild)
+	FOR_IN(it,focusChild)
 	{
 		delChild(*it);
 	}
@@ -422,7 +422,7 @@ bool CScene::delChildByFocus()
 void CScene::updateObjTreeByFocus()
 {
 	LIST_RENDER_NODE& focusChild = m_FocusNodel.getChildObj();
-	FOR_IN(LIST_RENDER_NODE,it,focusChild)
+	FOR_IN(it,focusChild)
 	{
 		updateMapObj(*it);
 	}
@@ -435,7 +435,7 @@ CMapObj* CScene::pickObject(const Vec3D& vRayPos , const Vec3D& vRayDir)
 {
 	CMapObj* pObject = NULL;
 	float fFocusMin = FLT_MAX;
-	FOR_IN(LIST_RENDER_NODE,it,m_setRenderSceneObj)
+	FOR_IN(it,m_setRenderSceneObj)
 	{
 		float fMin, fMax;
 		if (((CMapObj*)(*it))->intersect(vRayPos , vRayDir, fMin, fMax))

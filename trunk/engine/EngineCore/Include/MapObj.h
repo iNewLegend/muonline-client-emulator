@@ -34,7 +34,7 @@ public:
 	virtual ~CMapObj(void)										{}
 
 public:
-	CONST_GET_SET_VARIABLE	(int,m_n,Order);
+	GSET_CONST_VAR	(int,m_n,Order);
 
 	virtual void			renderFocus	()const					{}
 	virtual void			renderDebug	()const					{}

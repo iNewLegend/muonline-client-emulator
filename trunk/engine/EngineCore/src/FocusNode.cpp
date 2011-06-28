@@ -3,7 +3,7 @@
 Vec3D CFocusNode::getCenterPos()
 {
 	Vec3D vPos(0.0f,0.0f,0.0f);
-	FOR_IN(LIST_RENDER_NODE,it,m_mapChildObj)
+	FOR_IN(it,m_mapChildObj)
 	{
 		vPos+=(*it)->getPos();
 	}
@@ -14,7 +14,7 @@ Vec3D CFocusNode::getCenterPos()
 void CFocusNode::setCenterPos(const Vec3D& vPos)
 {
 	Vec3D vMidPos = getCenterPos();
-	FOR_IN(LIST_RENDER_NODE,it,m_mapChildObj)
+	FOR_IN(it,m_mapChildObj)
 	{
 		Vec3D vObjectPos = (*it)->getPos();
 		vObjectPos+=vPos-vMidPos;
@@ -44,7 +44,7 @@ void CFocusNode::setCenterRotate(const Vec3D& vRotate)
 		Vec3D vMidPos = getCenterPos();
 		Matrix mRotate;
 		mRotate.rotate(vRotate);
-		FOR_IN(LIST_RENDER_NODE,it,m_mapChildObj)
+		FOR_IN(it,m_mapChildObj)
 		{
 			{
 				Vec3D vObjectPos = (*it)->getPos();
@@ -64,7 +64,7 @@ void CFocusNode::setCenterRotate(const Vec3D& vRotate)
 Vec3D CFocusNode::getCenterScale()
 {
 	Vec3D vScale(0.0f,0.0f,0.0f);
-	FOR_IN(LIST_RENDER_NODE,it,m_mapChildObj)
+	FOR_IN(it,m_mapChildObj)
 	{
 		vScale+=(*it)->getScale();
 	}
@@ -76,7 +76,7 @@ void CFocusNode::setCenterScale(const Vec3D& vScale)
 {
 	Vec3D vMidPos = getCenterPos();
 	Vec3D vMidScale = getCenterScale();
-	FOR_IN(LIST_RENDER_NODE,it,m_mapChildObj)
+	FOR_IN(it,m_mapChildObj)
 	{
 		{
 			Vec3D vObjectPos = (*it)->getPos();

@@ -253,7 +253,7 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 		}
 	}
 	csv.close();
-	return NULL;
+	return true;
 }
 
 void CMyPlug::release()

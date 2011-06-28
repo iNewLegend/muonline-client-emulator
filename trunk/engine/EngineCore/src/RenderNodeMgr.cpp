@@ -3,25 +3,17 @@
 #include "FileSystem.h"
 #include "RenderSystem.h"
 
-iRenderNode* _createSkeleton()	{return new CSkeletonNode;}
-iRenderNode* _createParticle()	{return new CParticleEmitter;}
-iRenderNode* _createMesh()		{return new CSkinModel;}
-
-void* _createSkeletonData()	{return new CSkeletonData;}
-void* _createParticleData()	{return new ParticleData;}
-void* _createMeshData()		{return new CLodMesh;}
-
 CRenderNodeMgr::CRenderNodeMgr()
 {
 	m_DataPlugsMgr.loadPlugs("Plugins\\*.dll");
 
-	registerRenderNode("skeleton",	(P_FUNC_NEW_RENDER_NODE)&_createSkeleton);
-	registerRenderNode("particle",	(P_FUNC_NEW_RENDER_NODE)&_createParticle);
-	registerRenderNode("mesh",		(P_FUNC_NEW_RENDER_NODE)&_createMesh);
+	registerRenderNode("skeleton",	(P_FUNC_NEW_RENDER_NODE)&[](){return new CSkeletonNode;});
+	registerRenderNode("particle",	(P_FUNC_NEW_RENDER_NODE)&[](){return new CParticleEmitter;});
+	registerRenderNode("mesh",		(P_FUNC_NEW_RENDER_NODE)&[](){return new CSkinModel;});
 
-	registerRenderData("skeleton",	(P_FUNC_NEW_RENDER_DATA)&_createSkeletonData);
-	registerRenderData("particle",	(P_FUNC_NEW_RENDER_DATA)&_createParticleData);
-	registerRenderData("mesh",		(P_FUNC_NEW_RENDER_DATA)&_createMeshData);
+	registerRenderData("skeleton",	(P_FUNC_NEW_RENDER_DATA)&[](){return new CSkeletonData;});
+	registerRenderData("particle",	(P_FUNC_NEW_RENDER_DATA)&[](){return new ParticleData;});
+	registerRenderData("mesh",		(P_FUNC_NEW_RENDER_DATA)&[](){return new CLodMesh;});
 }
 
 void CRenderNodeMgr::registerRenderNode(const char* szClassName, P_FUNC_NEW_RENDER_NODE pfn)
@@ -34,22 +26,22 @@ void CRenderNodeMgr::registerRenderData(const char* szClassName, P_FUNC_NEW_REND
 	m_mapRenderDataFunc[szClassName] = pfn;
 }
 
-iRenderNode* CRenderNodeMgr::loadRenderNode(const char* szFilename, iRenderNode* pRenderNode)
+bool CRenderNodeMgr::loadRenderNode(const char* szFilename, iRenderNode* pRenderNode)
 {
 	// 判断格式--根据文件后缀名
 	std::string strExt = GetExtension(szFilename);
 	CModelPlugBase* pModelPlug = (CModelPlugBase*)m_DataPlugsMgr.getPlugByExtension(strExt.c_str());
 	if (pModelPlug)
 	{
-		return (iRenderNode*)pModelPlug->importData(this, pRenderNode, szFilename);
+		return pModelPlug->importData(this, pRenderNode, szFilename);
 	}
 	return false;
 }
 
 iRenderNode* CRenderNodeMgr::createRenderNode(const char* szClassName)
 {
-	auto it = m_mapRenderNodeFunc.find(szClassName);
-	if (it!=m_mapRenderNodeFunc.end())
+	//auto it = m_mapRenderNodeFunc.find(szClassName);
+	if (auto it = m_mapRenderNodeFunc.find(szClassName)!=m_mapRenderNodeFunc.end())
 	{
 		return it->second();
 	}

@@ -20,24 +20,24 @@ public:
 	~CRenderNode();
 public:
 	//----
-	virtual CONST_GET_SET_VARIABLE	(Vec3D&,		m_v,Pos);
-	virtual CONST_GET_SET_VARIABLE	(Vec3D&,		m_v,Rotate);
-	virtual CONST_GET_SET_VARIABLE	(Vec3D&,		m_v,Scale);
-	CONST_GET_SET_VARIABLE	(BBox&,			m_,LocalBBox);
-	CONST_GET_SET_VARIABLE	(BBox&,			m_,WorldBBox);
-	CONST_GET_SET_VARIABLE	(Matrix&,		m_m,WorldMatrix);
+	virtual GSET_CONST_VAR	(Vec3D&,		m_v,Pos);
+	virtual GSET_CONST_VAR	(Vec3D&,		m_v,Rotate);
+	virtual GSET_CONST_VAR	(Vec3D&,		m_v,Scale);
+	GSET_CONST_VAR			(BBox&,			m_,LocalBBox);
+	GSET_CONST_VAR			(BBox&,			m_,WorldBBox);
+	GSET_CONST_VAR			(Matrix&,		m_m,WorldMatrix);
 	//----
 	void					updateWorldBBox		();
 	void					updateWorldMatrix	();
 public:
-	GET_SET_VARIABLE		(CRenderNode*,	m_p,Parent);
+	GSET_VAR				(CRenderNode*,	m_p,Parent);
 	//----
 	GET_VARIABLE			(LIST_RENDER_NODE&,ChildObj,m_mapChildObj);
 	CONST_GET_VARIABLE		(LIST_RENDER_NODE&,ChildObj,m_mapChildObj);
-	CONST_GET_SET_VARIABLE	(BBox&,m_,BBox);
+	GSET_CONST_VAR			(BBox&,m_,BBox);
 	//----
-	GET_SET_VARIABLE_STRING	(Name);
-	GET_SET_VARIABLE_STRING	(BindingBoneName);
+	GSET_STRING	(Name);
+	GSET_STRING	(BindingBoneName);
 	//----
 	virtual	int				getType				() = 0;
 	virtual void			frameMove			(const Matrix& mWorld, double fTime, float fElapsedTime);

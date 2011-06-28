@@ -20,7 +20,7 @@ CRenderNode::~CRenderNode()
 void CRenderNode::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
 	BBox bbox;
-	FOR_IN(LIST_RENDER_NODE,it,m_mapChildObj)
+	FOR_IN(it,m_mapChildObj)
 	{
 		(*it)->frameMove(mWorld, fTime, fElapsedTime);
 		// ----
@@ -33,7 +33,7 @@ void CRenderNode::frameMove(const Matrix& mWorld, double fTime, float fElapsedTi
 
 void CRenderNode::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)const
 {
-	CONST_FOR_IN(LIST_RENDER_NODE,it,m_mapChildObj)
+	FOR_IN(it,m_mapChildObj)
 	{
 		(*it)->render(mWorld, eRenderType);
 	}
@@ -47,7 +47,7 @@ void CRenderNode::addChild(iRenderNode* pChild)
 
 iRenderNode* CRenderNode::getChild(const char* szName)
 {
-	FOR_IN(LIST_RENDER_NODE,it,m_mapChildObj)
+	FOR_IN(it,m_mapChildObj)
 	{
 		if (strcmp( (*it)->getName(), szName ) == 0 )
 		{
@@ -59,7 +59,7 @@ iRenderNode* CRenderNode::getChild(const char* szName)
 
 const CRenderNode* CRenderNode::getChild(const char* szName)const
 {
-	CONST_FOR_IN(LIST_RENDER_NODE,it,m_mapChildObj)
+	FOR_IN(it,m_mapChildObj)
 	{
 		if (strcmp( (*it)->getName(), szName ) == 0 )
 		{
@@ -103,7 +103,7 @@ bool CRenderNode::contain(const CRenderNode* pChild)const
 
 void CRenderNode::clearChildren()
 {
-	CONST_FOR_IN(LIST_RENDER_NODE,it,m_mapChildObj)
+	FOR_IN(it,m_mapChildObj)
 		delete (*it);
 	// ----
 	removeChildren();
@@ -120,7 +120,7 @@ CRenderNode* CRenderNode::intersect(const Vec3D& vRayPos , const Vec3D& vRayDir,
 	{
 		return NULL;
 	}
-	CONST_FOR_IN(LIST_RENDER_NODE,it,m_mapChildObj)
+	FOR_IN(it,m_mapChildObj)
  	{
 		CRenderNode* pRenderNode = (*it)->intersect(vRayPos,vRayDir,tmin,tmax);
 		if(pRenderNode)

@@ -97,7 +97,7 @@ protected:
 	bool							m_bLightmap;
 
 	public:
-	virtual CONST_GET_SET_VARIABLE	(int,				m_n,Order);
+	virtual GSET_CONST_VAR	(int,				m_n,Order);
 	virtual std::vector<ModelRenderPass>&	getRenderPasses(){return m_vecPasses;}
 private:
 	bool				passBegin(const ModelRenderPass& pass, float fOpacity, int nAnimTime)const;

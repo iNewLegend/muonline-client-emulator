@@ -9,10 +9,10 @@
 class SceneData: public iSceneData
 {
 public:
-	virtual CONST_GET_SET_VARIABLE	(BBox&,				m_,BBox);
-	virtual CONST_GET_SET_VARIABLE	(size_t,			m_,size);
-	virtual CONST_GET_SET_VARIABLE	(Fog&,				m_,fog);
-	virtual CONST_GET_SET_VARIABLE	(DirectionalLight&,	m_,light);
+	virtual GSET_CONST_VAR	(BBox&,				m_,BBox);
+	virtual GSET_CONST_VAR	(size_t,			m_,size);
+	virtual GSET_CONST_VAR	(Fog&,				m_,fog);
+	virtual GSET_CONST_VAR	(DirectionalLight&,	m_,light);
 private:
 	BBox				m_BBox;
 	size_t				m_size;
@@ -69,14 +69,14 @@ public:
 	const iTerrainData*	getTerrainData			()const					{return m_pTerrain;}
 	void				CalcLightMap			();
 	// ----
-	GET_SET_VARIABLE		(bool,				m_b,ShowObject);
-	GET_SET_VARIABLE		(bool,				m_b,ShowObjectBBox);
-	GET_SET_VARIABLE		(bool,				m_b,ShowObjectTreeBox);
-	GET_SET_VARIABLE		(bool,				m_b,RefreshViewport);
-	GET_SET_VARIABLE		(CTerrain*,			m_p,Terrain );
-	CONST_GET_SET_VARIABLE	(DirectionalLight&,	m_,Light);
-	CONST_GET_SET_VARIABLE	(Fog&,				m_,Fog);
-	CONST_GET_SET_VARIABLE	(Vec3D&,			m_v,TargetPos);
+	GSET_VAR		(bool,				m_b,ShowObject);
+	GSET_VAR		(bool,				m_b,ShowObjectBBox);
+	GSET_VAR		(bool,				m_b,ShowObjectTreeBox);
+	GSET_VAR		(bool,				m_b,RefreshViewport);
+	GSET_VAR		(CTerrain*,			m_p,Terrain );
+	GSET_CONST_VAR	(DirectionalLight&,	m_,Light);
+	GSET_CONST_VAR	(Fog&,				m_,Fog);
+	GSET_CONST_VAR	(Vec3D&,			m_v,TargetPos);
 	// ----
 	SceneData*				getSceneData(){return m_pSceneData;}
 protected:
