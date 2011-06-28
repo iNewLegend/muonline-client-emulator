@@ -53,7 +53,7 @@ public:
 	// ----
 	virtual void	OnFrameMove			(double fTime, float fElapsedTime);
 	virtual void	OnFrameRender		(double fTime, float fElapsedTime);
-	virtual void	GetRenderObject		(const CFrustum & frustum, DEQUE_MAPOBJ & ObjectList);
+	virtual void	GetRenderObject		(const CFrustum& frustum, LIST_RENDER_NODE& ObjectList);
 	// ----
 	CTerrain&		getTerrain			(){ return m_Terrain; }
 protected:

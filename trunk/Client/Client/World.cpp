@@ -99,9 +99,9 @@ CRole* CWorld::pickRole(const Vec3D & vRayPos , const Vec3D & vRayDir)
 	float fMin		= 0.00;
 	float fMax		= 0.00;
 	// ----
-	for(auto it = m_setRenderSceneObj.begin(); it != m_setRenderSceneObj.end() ; it++)
+	FOR_IN(it,m_setRenderSceneObj)
 	{
-		if((*it)->GetObjType() != MAP_ROLE)
+		if((*it)->getType() != MAP_ROLE)
 		{
 			continue;
 		}
@@ -225,17 +225,17 @@ void CWorld::addDamageInfo(Vec3D vPos,const std::wstring & wcsInfo)
 
 void CWorld::OnFrameMove(double fTime, float fElapsedTime)
 {
-	for(auto it = m_setRenderSceneObj.begin() ; it != m_setRenderSceneObj.end(); it++)
+	FOR_IN(it,m_setRenderSceneObj)
 	{
-		if((*it)->GetObjType() != MAP_ROLE)
+		if((*it)->getType() != MAP_ROLE)
 		{
-			(*it)->frameMove(fElapsedTime);
+			(*it)->frameMove(Matrix::UNIT, fTime, fElapsedTime);
 		}
 	}
 	// ----
-	for(auto it = m_mapRole.begin() ; it != m_mapRole.end() ; it++)
+	FOR_IN(it,m_mapRole)
 	{
-		it->second->OnFrameMove(fElapsedTime);
+		it->second->frameMove(Matrix::UNIT, fTime, fElapsedTime);
 	}
 	// ----
 	// # Delete the old roles
@@ -255,15 +255,15 @@ void CWorld::OnFrameMove(double fTime, float fElapsedTime)
 	// ----
 	m_setLightObj.clear();
 	// ----
-	for(auto it = m_setRenderSceneObj.begin() ; it != m_setRenderSceneObj.end() ; it++)
+	FOR_IN(it,m_setRenderSceneObj)
 	{
-		if(((C3DMapObj*)(*it))->m_setParticleGroup.size() > 0)
-		{
-			if(rand() % 2)
-			{
-				m_setLightObj.push_back(*it);
-			}
-		}
+		//if(((C3DMapObj*)(*it))->m_setParticleGroup.size() > 0)
+		//{
+		//	if(rand() % 2)
+		//	{
+		//		m_setLightObj.push_back(*it);
+		//	}
+		//}
 	}
 	// ----
 	m_DamageTextRender.OnFrameMove();
@@ -274,14 +274,14 @@ void CWorld::OnFrameMove(double fTime, float fElapsedTime)
 
 void CWorld::OnFrameRender(double fTime, float fElapsedTime)
 {
-	CScene::OnFrameRender(fTime, fElapsedTime);
+	CScene::render(Matrix::UNIT, MATERIAL_NORMAL);
 	// ----
 	renderDamageInfo(fTime, fElapsedTime);
 	m_Messages.frameRender();
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void CWorld::GetRenderObject(const CFrustum& frustum, DEQUE_MAPOBJ& ObjectList)
+void CWorld::GetRenderObject(const CFrustum& frustum, LIST_RENDER_NODE& ObjectList)
 {
 	CrossRet crossRet;
 	// ----

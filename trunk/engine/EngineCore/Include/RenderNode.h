@@ -43,10 +43,10 @@ public:
 	virtual void			frameMove			(const Matrix& mWorld, double fTime, float fElapsedTime);
 	virtual void			render				(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType=MATERIAL_NORMAL)const;
 	iRenderNode*			getChild			(const char* szName);
-	const CRenderNode*		getChild			(const char* szName)const;
+	const iRenderNode*		getChild			(const char* szName)const;
 	virtual void			addChild			(iRenderNode* pChild);
-	virtual bool			removeChild			(CRenderNode* pChild);
-	virtual bool			delChild			(CRenderNode* pChild);
+	virtual bool			removeChild			(iRenderNode* pChild);
+	virtual bool			delChild			(iRenderNode* pChild);
 	virtual bool			contain				(const CRenderNode* pChild)const;
 	virtual void			clearChildren		();
 	virtual void			removeChildren		();
