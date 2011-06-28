@@ -40,8 +40,8 @@ bool CRenderNodeMgr::loadRenderNode(const char* szFilename, iRenderNode* pRender
 
 iRenderNode* CRenderNodeMgr::createRenderNode(const char* szClassName)
 {
-	//auto it = m_mapRenderNodeFunc.find(szClassName);
-	if (auto it = m_mapRenderNodeFunc.find(szClassName)!=m_mapRenderNodeFunc.end())
+	auto it = m_mapRenderNodeFunc.find(szClassName);
+	if (it!=m_mapRenderNodeFunc.end())
 	{
 		return it->second();
 	}

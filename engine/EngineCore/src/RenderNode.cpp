@@ -57,7 +57,7 @@ iRenderNode* CRenderNode::getChild(const char* szName)
 	return NULL;
 }
 
-const CRenderNode* CRenderNode::getChild(const char* szName)const
+const iRenderNode* CRenderNode::getChild(const char* szName)const
 {
 	FOR_IN(it,m_mapChildObj)
 	{
@@ -69,7 +69,7 @@ const CRenderNode* CRenderNode::getChild(const char* szName)const
 	return NULL;
 }
 
-bool CRenderNode::removeChild(CRenderNode* pChild)
+bool CRenderNode::removeChild(iRenderNode* pChild)
 {
 	auto it = std::find(m_mapChildObj.begin(),m_mapChildObj.end(),pChild);
 	// ----
@@ -81,7 +81,7 @@ bool CRenderNode::removeChild(CRenderNode* pChild)
 	return false;
 }
 
-bool CRenderNode::delChild(CRenderNode* pChild)
+bool CRenderNode::delChild(iRenderNode* pChild)
 {
 	if (removeChild(pChild))
 	{
