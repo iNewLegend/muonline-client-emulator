@@ -336,7 +336,7 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 	if (pSkeletonData==NULL || pMesh==NULL)
 	{
 		// big error , need delete data!!
-		return NULL;
+		return false;
 	}
 
 	// ----
@@ -364,7 +364,7 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 	pMeshNode->init(pMesh);
 	//----
 	pRenderNode->addChild(pMeshNode);
-	return pRenderNode;
+	return true;
 }
 /*
 bool CMyPlug::exportData(iModelData * pModelData, const std::string& szFilename)

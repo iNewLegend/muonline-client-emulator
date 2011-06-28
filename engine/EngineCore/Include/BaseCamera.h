@@ -5,6 +5,8 @@
 #include "Matrix.h"
 #include "Common.h"
 
+#define GET_VAR(y,z)				auto get##y()		{ return z; };
+
 class CBaseCamera
 {
 public:
@@ -21,16 +23,16 @@ public:
 	virtual void SetScalers(float fRotationScaler = 0.01f, float fMoveScaler = 5.0f)  { m_fRotationScaler = fRotationScaler; m_fMoveScaler = fMoveScaler; }
 
 	// Functions to get state
-	virtual CONST_GET_SET_VARIABLE(Matrix&, m_m,ViewMatrix);
-	virtual CONST_GET_SET_VARIABLE(Matrix&, m_m,ProjMatrix);
+	virtual GSET_CONST_VAR(Matrix&, m_m,ViewMatrix);
+	virtual GSET_CONST_VAR(Matrix&, m_m,ProjMatrix);
 
-	virtual CONST_GET_SET_VARIABLE(Vec3D&, m_v,EyePt);
-	virtual CONST_GET_SET_VARIABLE(Vec3D&, m_v,LookAt);
+	virtual GSET_CONST_VAR(Vec3D&, m_v,EyePt);
+	virtual GSET_CONST_VAR(Vec3D&, m_v,LookAt);
 
-	virtual CONST_GET_SET_VARIABLE(float, m_f,NearPlane);
-	virtual CONST_GET_SET_VARIABLE(float, m_f,FarPlane);
-	virtual CONST_GET_SET_VARIABLE(float, m_f,YawAngle);
-	virtual CONST_GET_SET_VARIABLE(float, m_f,PitchAngle);
+	virtual GSET_CONST_VAR(float, m_f,NearPlane);
+	virtual GSET_CONST_VAR(float, m_f,FarPlane);
+	virtual GSET_CONST_VAR(float, m_f,YawAngle);
+	virtual GSET_CONST_VAR(float, m_f,PitchAngle);
 
 	virtual void	addMouseDelta(Vec3D vMouseDelta){m_vMouseDelta+=vMouseDelta;}
 protected:

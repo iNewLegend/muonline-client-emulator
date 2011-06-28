@@ -21,7 +21,7 @@ const BBox& ObjectTree::getBBox()const
 
 void ObjectTree::clearObjects()
 {
-// 	FOR_IN(LIST_RENDER_NODE, it, m_setObjet)
+// 	FOR_IN(it, m_setObjet)
 // 	{
 // 		(*it)->release();
 // 	}
@@ -71,7 +71,7 @@ void ObjectTree::clearObjects()
 
 void ObjectTree::getObjectsByBBox(const BBox& box,const std::vector<CRenderNode*>& setSrcObject, std::vector<CRenderNode*>& setDestObject)
 {
-	CONST_FOR_IN(std::vector<CRenderNode*>, it, setSrcObject)
+	FOR_IN(it, setSrcObject)
 	{
 		if (box.crossVertex((*it)->getPos()))
 		{
@@ -118,7 +118,7 @@ void ObjectTree::getObjects(LIST_RENDER_NODE& setObject)
 }
 void ObjectTree::getObjectsByPos(Vec3D vPos, LIST_RENDER_NODE& setObject)
 {
-	FOR_IN(LIST_RENDER_NODE, it, m_setObjet)
+	FOR_IN(it, m_setObjet)
 	{
 		if ((*it)->getPos()==vPos)
 		{
@@ -136,7 +136,7 @@ void ObjectTree::getObjectsByPos(Vec3D vPos, LIST_RENDER_NODE& setObject)
 
 void ObjectTree::getObjectsByCell(Pos2D posCell, LIST_RENDER_NODE& setObject)
 {
-	FOR_IN(LIST_RENDER_NODE, it, m_setObjet)
+	FOR_IN(it, m_setObjet)
 	{
 		if ((*it)->getPos().x ==posCell.x&&
 			(*it)->getPos().z ==posCell.y)
@@ -162,7 +162,7 @@ void ObjectTree::getObjectsByFrustum(const CFrustum& frustum, LIST_RENDER_NODE& 
 	}
 	else if (cross_cross == crossRet)
 	{
-		FOR_IN(LIST_RENDER_NODE, it, m_setObjet)
+		FOR_IN(it, m_setObjet)
 		{
 			CrossRet crossRet = frustum.CheckAABBVisible((*it)->getWorldBBox());
 			if (cross_exclude != crossRet)
@@ -331,7 +331,7 @@ void ObjectTree::create(const BBox& box, size_t size)
 
 void ObjectTree::process()
 {
-	FOR_IN(LIST_RENDER_NODE, it, m_setObjet)
+	FOR_IN(it, m_setObjet)
 	{
 		//(*it)->Process(NULL);
 	}

@@ -1719,7 +1719,7 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 		IOReadBase::autoClose(pRead);
 	}
 	pRenderNode->init(pSceneData);
-	return pRenderNode;
+	return true;
 }
 
 bool CMyPlug::exportTerrainAtt(iTerrainData * pTerrainData, const std::string& strFilename)

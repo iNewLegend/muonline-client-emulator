@@ -28,7 +28,7 @@ public:
 	iRenderNodeMgr(){};
 	virtual ~iRenderNodeMgr(){};
 
-	virtual iRenderNode*	loadRenderNode(const char* szFilename, iRenderNode* pRenderNode)=0;
+	virtual bool			loadRenderNode(const char* szFilename, iRenderNode* pRenderNode)=0;
 	virtual iRenderNode*	createRenderNode(const char* szClassName)=0;
 	virtual void*			createRenderData(const char* szClassName)=0;
 	virtual void*			getRenderData(const char* szClassName, const char* szName)=0;

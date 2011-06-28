@@ -58,7 +58,7 @@ public:
 	CLodMesh();
 	~CLodMesh();
 public:
-	CONST_GET_SET_VARIABLE	(unsigned short,		m_u,SkinVertexSize);
+	GSET_CONST_VAR	(unsigned short,		m_u,SkinVertexSize);
 	virtual int			getSubCount(){return m_setSubMesh.size();}
 	virtual CSubMesh&	allotSubMesh();
 	virtual CSubMesh*	getSubMesh(size_t n);
