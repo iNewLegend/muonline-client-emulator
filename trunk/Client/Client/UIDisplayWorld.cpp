@@ -28,7 +28,7 @@ void CUIDisplayWorld::OnFrameMove(double fTime, float fElapsedTime)
 		// ----
 		CUIDisplay::OnFrameMove(fTime, fElapsedTime);
 		// ----
-		CWorld::getInstance().frameMove(fTime, fElapsedTime);
+		CWorld::getInstance().frameMove(Matrix::UNIT, fTime, fElapsedTime);
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -48,9 +48,9 @@ void CUIDisplayWorld::OnFrameRender(const Matrix& mTransform, double fTime, floa
 		// ----
 		pShader->setFloat("g_fTime", fTime);
 		pShader->setMatrix("g_mViewProj", m_Camera.GetProjXView());
-		pShader->setMatrix("g_mView", m_Camera.GetViewMatrix());
+		pShader->setMatrix("g_mView", m_Camera.getViewMatrix());
 		pShader->setVec3D("g_vLightDir", CWorld::getInstance().getTerrain().GetLightDir());
-		pShader->setVec3D("g_vEyePot", m_Camera.GetEyePt());
+		pShader->setVec3D("g_vEyePot", m_Camera.getEyePt());
 		// ----
 		R.SetupRenderState();
 		R.setWorldMatrix(Matrix::UNIT);
@@ -58,8 +58,8 @@ void CUIDisplayWorld::OnFrameRender(const Matrix& mTransform, double fTime, floa
 		R.SetSamplerFilter(0, TEXF_LINEAR, TEXF_LINEAR, TEXF_LINEAR);
 		R.SetSamplerFilter(1, TEXF_LINEAR, TEXF_LINEAR, TEXF_LINEAR);
 		// ----
-		R.setProjectionMatrix(m_Camera.GetProjMatrix());
-		R.setViewMatrix(m_Camera.GetViewMatrix());
+		R.setProjectionMatrix(m_Camera.getProjMatrix());
+		R.setViewMatrix(m_Camera.getViewMatrix());
 		// ----
 		if((bBloom == true) || (bCamma == true))
 		{
@@ -96,8 +96,8 @@ void CUIDisplayWorld::OnFrameRender(const Matrix& mTransform, double fTime, floa
 		{
 			// # Render World
 			// ----
-			R.setProjectionMatrix(m_Camera.GetProjMatrix());
-			R.setViewMatrix(m_Camera.GetViewMatrix());
+			R.setProjectionMatrix(m_Camera.getProjMatrix());
+			R.setViewMatrix(m_Camera.getViewMatrix());
 			R.setWorldMatrix(Matrix::UNIT);
 			// ----
 			CWorld::getInstance().UpdateRender(m_Camera.GetFrustum());
@@ -149,8 +149,8 @@ void CUIDisplayWorld::OnFrameRender(const Matrix& mTransform, double fTime, floa
 			//m_SceneEffect.renderTargetViewportBegin();
 			// ----
 			{
-				R.setProjectionMatrix(m_Camera.GetProjMatrix());
-				R.setViewMatrix(m_Camera.GetViewMatrix());
+				R.setProjectionMatrix(m_Camera.getProjMatrix());
+				R.setViewMatrix(m_Camera.getViewMatrix());
 				// ----
 				//CWorld::getInstance().renderGlow();
 			}
@@ -190,7 +190,7 @@ bool CUIDisplayWorld::HandleKeyboard(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 					case VK_DELETE:
 					{
-						CWorld::getInstance().delMapObjsByFocusObjects();
+						CWorld::getInstance().delChildByFocus();
 					}
 					break;
 
@@ -317,8 +317,8 @@ void CUIDisplayWorld::OnMouseMove(POINT point)
 	}
 	CRole* pRole	=	CWorld::getInstance().pickRole(vRayPos, vRayDir);
 	// ----
-	CWorld::getInstance().clearFocusObjects();
-	CWorld::getInstance().addFocusObject(pRole);
+	CWorld::getInstance().getFocusObjects().removeChildren();
+	CWorld::getInstance().getFocusObjects().addChild(pRole);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -373,7 +373,7 @@ void CUIDisplayWorld::OnLButtonDown(POINT point)
 		// ----
 		SetPressed(true);
 		// ----
-		if(CWorld::getInstance().getFocusObjects().size() > 0)
+		if(CWorld::getInstance().getFocusObjects().getChildObj().size() > 0)
 		{
 			m_ptLastMousePosition	=	point;
 		}

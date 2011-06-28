@@ -66,7 +66,7 @@ void CMessages::frameRender()
 		//m_TextRender.drawText(m_Msg.at(i).Text.c_str(), m_Rect.left, m_yPos, m_Msg.at(i).Color);
 		// more cool
 		RECT rc = {m_Rect.left, m_yPos,m_Rect.left+1000, m_yPos+MSG_FONT_HEIGHT};
-		m_TextRender.DrawUBB(m_Msg.at(i).Text.c_str(),rc);
+		m_TextRender.drawText(m_Msg.at(i).Text.c_str(),rc);
 		// ----
 		m_yPos += MSG_FONT_HEIGHT;
 	}

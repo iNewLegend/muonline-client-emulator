@@ -46,9 +46,9 @@ CWorld::~CWorld()
 
 CRole * CWorld::getFocusRole()
 {
-	CMapObj * pObj = NULL;
+	CRenderNode* pObj = NULL;
 	// ----
-	if(getFocusObjects().size() == 0)
+	if(getFocusObjects().getChildObj().size() == 0)
 	{
 		// ----
 		// # No focus objects.
@@ -57,11 +57,11 @@ CRole * CWorld::getFocusRole()
 	}
 	else
 	{
-		pObj = getFocusObjects()[0];
+		pObj = *getFocusObjects().getChildObj().begin();
 		// ----
 		if(pObj != NULL) 
 		{
-			if(pObj->GetObjType() != MAP_ROLE)
+			if(pObj->getType() != MAP_ROLE)
 			{
 				// ----
 				// # its not a role.

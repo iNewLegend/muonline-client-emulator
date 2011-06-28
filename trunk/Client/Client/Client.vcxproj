@@ -65,7 +65,7 @@
       <PreprocessorDefinitions>_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>winmm.lib;modeld.lib;enginecored.lib;3DGUId.lib;TextRenderd.lib;RenderSystemD.lib;FreeType.lib;fileiod.lib;Audiod.lib;lua51.lib;NetWorkd.lib;wsock32.lib;ws2_32.lib;SimpleModulusd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>winmm.lib;enginecored.lib;3DGUId.lib;TextRenderd.lib;RenderSystemD.lib;FreeTyped.lib;fileiod.lib;Audiod.lib;NetWorkd.lib;wsock32.lib;ws2_32.lib;SimpleModulusd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>..\..\bin\Client\$(ProjectName)D.exe</OutputFile>
       <AdditionalLibraryDirectories>..\..\shared\lib;..\..\engine\lib;..\..\3dgui\lib;..\..\3dgui\lua;..\..\engine\Media\FMOD\api\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMTD.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -89,7 +89,7 @@
       <AdditionalOptions>/w %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>winmm.lib;model.lib;rendersystem.lib;enginecore.lib;3DGUI.lib;TextRender.lib;RenderSystem.lib;fileio.lib;FreeType.lib;Audio.lib;lua51.lib;NetWork.lib;wsock32.lib;ws2_32.lib;SimpleModulus.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>winmm.lib;rendersystem.lib;enginecore.lib;3DGUI.lib;TextRender.lib;RenderSystem.lib;fileio.lib;FreeType.lib;Audio.lib;lua51.lib;NetWork.lib;wsock32.lib;ws2_32.lib;SimpleModulus.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>..\..\bin\Client\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>..\..\shared\lib;..\..\engine\lib;..\..\3dgui\lib;..\..\3dgui\lua;..\..\engine\Media\FMOD\api\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -108,6 +108,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainRoot.cpp" />
     <ClCompile Include="DlgMain.cpp" />
+    <ClCompile Include="Messages.cpp" />
     <ClCompile Include="UIDisplayModel.cpp" />
     <ClCompile Include="UIDisplayRoleChoose.cpp" />
     <ClCompile Include="UIDisplayWorld.cpp" />
@@ -125,6 +126,7 @@
   <ItemGroup>
     <ClInclude Include="GlobalFunction.h" />
     <ClInclude Include="MainRoot.h" />
+    <ClInclude Include="Messages.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="DlgMain.h" />
     <ClInclude Include="UIDisplayModel.h" />

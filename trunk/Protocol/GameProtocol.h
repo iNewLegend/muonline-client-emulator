@@ -487,6 +487,17 @@ struct PMSG_CLIENTMSG
 
 struct PMSG_CHARCREATE
 {
+	PMSG_CHARCREATE(const char* szName,unsigned char uClass)
+	{
+		this->h.set(0xF3, sizeof(*this));
+		this->subcode = 3;
+		memset(this->Name,0,10);
+		if (strlen(szName)<=10)
+		{
+			memcpy(this->Name,szName,strlen(szName));
+		}
+		ClassSkin = uClass;
+	}
 	PBMSG_HEAD h;
 	unsigned char subcode;	// 3
 	char Name[10];	// 4
