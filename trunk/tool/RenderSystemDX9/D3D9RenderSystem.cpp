@@ -410,10 +410,13 @@ void CD3D9RenderSystem::setWorldMatrix(const Matrix& m)
 {
 	Matrix mDx=m;mDx.transpose();
 	CD3D9Shader* shared = (CD3D9Shader*)m_ShaderMgr.getSharedShader();
-	shared->setMatrix("g_mWorld",m);
-	if (m_pOldShader)
+	if(shared)
 	{
-		((CD3D9Shader*)m_pOldShader)->getD3DXEffect()->CommitChanges();
+		shared->setMatrix("g_mWorld",m);
+		if (m_pOldShader)
+		{
+			((CD3D9Shader*)m_pOldShader)->getD3DXEffect()->CommitChanges();
+		}
 	}
 	D3D9HR( m_pD3D9Device->SetTransform(D3DTS_WORLD, (D3DXMATRIX*)&mDx) );
 }

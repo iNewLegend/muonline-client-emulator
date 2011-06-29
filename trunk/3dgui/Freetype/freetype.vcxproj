@@ -228,7 +228,7 @@
       <Culture>0x0409</Culture>
     </ResourceCompile>
     <Lib>
-      <OutputFile>..\lib\$(ProjectName)d.lib</OutputFile>
+      <OutputFile>..\lib\$(ProjectName).lib</OutputFile>
       <AdditionalLibraryDirectories>$(ProjectPath)\include;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
