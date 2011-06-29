@@ -46,11 +46,14 @@ void CUIDisplayWorld::OnFrameRender(const Matrix& mTransform, double fTime, floa
 		CRenderSystem & R		= GetRenderSystem();
 		CShader* pShader		= R.GetShaderMgr().getSharedShader();
 		// ----
-		pShader->setFloat("g_fTime", fTime);
-		pShader->setMatrix("g_mViewProj", m_Camera.GetProjXView());
-		pShader->setMatrix("g_mView", m_Camera.getViewMatrix());
-		pShader->setVec3D("g_vLightDir", CWorld::getInstance().getTerrain().GetLightDir());
-		pShader->setVec3D("g_vEyePot", m_Camera.getEyePt());
+		if (pShader)
+		{
+			pShader->setFloat("g_fTime", fTime);
+			pShader->setMatrix("g_mViewProj", m_Camera.GetProjXView());
+			pShader->setMatrix("g_mView", m_Camera.getViewMatrix());
+			pShader->setVec3D("g_vLightDir", CWorld::getInstance().getTerrain().GetLightDir());
+			pShader->setVec3D("g_vEyePot", m_Camera.getEyePt());
+		}
 		// ----
 		R.SetupRenderState();
 		R.setWorldMatrix(Matrix::UNIT);

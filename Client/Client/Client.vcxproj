@@ -65,7 +65,7 @@
       <PreprocessorDefinitions>_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>winmm.lib;enginecored.lib;3DGUId.lib;TextRenderd.lib;RenderSystemD.lib;FreeTyped.lib;fileiod.lib;Audiod.lib;NetWorkd.lib;wsock32.lib;ws2_32.lib;SimpleModulusd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>winmm.lib;enginecored.lib;3DGUId.lib;TextRenderd.lib;RenderSystemD.lib;FreeType.lib;fileiod.lib;Audiod.lib;NetWorkd.lib;wsock32.lib;ws2_32.lib;SimpleModulusd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>..\..\bin\Client\$(ProjectName)D.exe</OutputFile>
       <AdditionalLibraryDirectories>..\..\shared\lib;..\..\engine\lib;..\..\3dgui\lib;..\..\3dgui\lua;..\..\engine\Media\FMOD\api\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMTD.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
