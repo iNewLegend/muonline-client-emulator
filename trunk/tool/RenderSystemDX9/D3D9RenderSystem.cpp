@@ -25,7 +25,9 @@ CD3D9RenderSystem& GetD3D9RenderSystem()
 #define D3DSAMPLERSTATETYPE_NUM 14
 #define D3DTEXTURESTAGESTATETYPE_NUM 33
 
-CD3D9RenderSystem::CD3D9RenderSystem():m_TextureMgr(this)
+CD3D9RenderSystem::CD3D9RenderSystem()
+	:m_TextureMgr(this)
+	,m_pD3D9Device(NULL)
 {
 }
 
