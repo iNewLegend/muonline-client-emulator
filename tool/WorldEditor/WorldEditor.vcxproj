@@ -132,6 +132,8 @@
     <ClInclude Include="Dialog\DlgModelPlayer.h" />
     <ClInclude Include="Dialog\ModelDisplay.h" />
     <ClInclude Include="Dialog\DlgMaterial.h" />
+    <ClInclude Include="TerrainBrush.h" />
+    <ClInclude Include="TerrainEditor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="icon\icon.ico" />
@@ -169,6 +171,8 @@
     <ClCompile Include="MainRoot.cpp" />
     <ClCompile Include="RPGSkyTextRender.cpp" />
     <ClCompile Include="RPGSkyUIGraph.cpp" />
+    <ClCompile Include="TerrainBrush.cpp" />
+    <ClCompile Include="TerrainEditor.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
