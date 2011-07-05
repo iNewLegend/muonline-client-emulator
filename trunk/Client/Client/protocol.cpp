@@ -269,7 +269,7 @@ void SCCharList(const unsigned char * msg)
 	// ----
 	int	aIndex						= -1;
 	// ----
-	if(pCLCount->Count < MAX_VISUAL_ROLE)
+	if(pCLCount->Count <= MAX_VISUAL_ROLE)
 	{
 		for(size_t i = 0 ; i< pCLCount->Count ; i++)
 		{

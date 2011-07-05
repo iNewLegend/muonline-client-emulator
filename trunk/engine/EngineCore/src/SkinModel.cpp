@@ -6,6 +6,7 @@
 
 CSkinModel::CSkinModel()
 	:m_pVB(NULL)
+	,m_pMesh(NULL)
 	,m_uLightMapTex(0)
 	,m_bLightmap(false)
 	,m_uLodLevel(0)
