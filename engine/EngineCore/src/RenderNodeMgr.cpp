@@ -3,17 +3,24 @@
 #include "FileSystem.h"
 #include "RenderSystem.h"
 
+iRenderNode* newSkeletonNode(){return new CSkeletonNode;}
+iRenderNode* newParticleEmitter(){return new CParticleEmitter;}
+iRenderNode* newSkinModel(){return new CSkinModel;};
+
+void* newSkeletonData(){return new CSkeletonData;}
+void* newParticleData(){return new ParticleData;}
+void* newLodMesh(){return new CLodMesh;}
+
 CRenderNodeMgr::CRenderNodeMgr()
 {
 	m_DataPlugsMgr.loadPlugs("Plugins\\*.dll");
+	registerRenderNode("skeleton",	(P_FUNC_NEW_RENDER_NODE)newSkeletonNode/*(P_FUNC_NEW_RENDER_NODE)&[](){return new CSkeletonNode;}*/);
+	registerRenderNode("particle",	(P_FUNC_NEW_RENDER_NODE)newParticleEmitter);
+	registerRenderNode("mesh",		(P_FUNC_NEW_RENDER_NODE)newSkinModel);
 
-	registerRenderNode("skeleton",	(P_FUNC_NEW_RENDER_NODE)&[](){return new CSkeletonNode;});
-	registerRenderNode("particle",	(P_FUNC_NEW_RENDER_NODE)&[](){return new CParticleEmitter;});
-	registerRenderNode("mesh",		(P_FUNC_NEW_RENDER_NODE)&[](){return new CSkinModel;});
-
-	registerRenderData("skeleton",	(P_FUNC_NEW_RENDER_DATA)&[](){return new CSkeletonData;});
-	registerRenderData("particle",	(P_FUNC_NEW_RENDER_DATA)&[](){return new ParticleData;});
-	registerRenderData("mesh",		(P_FUNC_NEW_RENDER_DATA)&[](){return new CLodMesh;});
+	registerRenderData("skeleton",	(P_FUNC_NEW_RENDER_DATA)newSkeletonData);
+	registerRenderData("particle",	(P_FUNC_NEW_RENDER_DATA)newParticleData);
+	registerRenderData("mesh",		(P_FUNC_NEW_RENDER_DATA)newLodMesh);
 }
 
 void CRenderNodeMgr::registerRenderNode(const char* szClassName, P_FUNC_NEW_RENDER_NODE pfn)
