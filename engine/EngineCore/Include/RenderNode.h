@@ -14,7 +14,6 @@ typedef std::list<CRenderNode*>		LIST_RENDER_NODE;
 class CRenderNode:public iRenderNode
 {
 public:
-	enum{NODE_BASE,NODE_PARTICLE,NODE_SKELETON,NODE_MODEL,NODE_SKINE};
 public:
 	CRenderNode();
 	~CRenderNode();

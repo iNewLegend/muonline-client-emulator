@@ -157,10 +157,9 @@ void importSkeletonAnims(iSkeletonData& skeletonData, CMUBmd& bmd)
 
 bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNode, const char* szFilename)
 {
-	iSkeletonData*	pSkeletonData	= (iSkeletonData*)	pRenderNodeMgr->getRenderData("skeleton",szFilename);
 	iLodMesh*		pMesh			= (iLodMesh*)		pRenderNodeMgr->getRenderData("mesh",szFilename);
 	// ----
-	if (pSkeletonData==NULL || pMesh==NULL)
+	if (pMesh==NULL)
 	{
 		CMUBmd bmd;
 		if (!bmd.LoadFile(szFilename))
@@ -318,26 +317,51 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 			}
 		}
 		// ----
-		if (pSkeletonData==NULL)
+		if (pRenderNode->getType()==iRenderNode::NODE_SKELETON)
 		{
-			pSkeletonData = (iSkeletonData*)pRenderNodeMgr->createRenderData("skeleton",szFilename);
-			if (pSkeletonData)
+			iSkeletonData*	pSkeletonData	= (iSkeletonData*)	pRenderNodeMgr->getRenderData("skeleton",szFilename);
+			if (pSkeletonData==NULL)
 			{
-				//m_Mesh.m_Lods.resize(1);
-				importSkeletonBons(*pSkeletonData,bmd);
-				importSkeletonAnims(*pSkeletonData,bmd);
-			}
-			else
-			{
-				// createSkeletonData error!
+				pSkeletonData = (iSkeletonData*)pRenderNodeMgr->createRenderData("skeleton",szFilename);
+				if (pSkeletonData)
+				{
+					//m_Mesh.m_Lods.resize(1);
+					importSkeletonBons(*pSkeletonData,bmd);
+					importSkeletonAnims(*pSkeletonData,bmd);
+				}
+				else
+				{
+					// createSkeletonData error!
+				}
 			}
 		}
 	}
-	if (pSkeletonData==NULL || pMesh==NULL)
+	// ----
+	if (pRenderNode->getType()==iRenderNode::NODE_SKELETON)
 	{
-		// big error , need delete data!!
-		return false;
+		iSkeletonData*	pSkeletonData	= (iSkeletonData*)	pRenderNodeMgr->getRenderData("skeleton",szFilename);
+		if (pSkeletonData)
+		{
+			pRenderNode->init(pSkeletonData);
+			//----
+			iRenderNode* pMeshNode = pRenderNodeMgr->createRenderNode("mesh");
+			if (pMeshNode)
+			{
+				pMeshNode->init(pMesh);
+			}
+			//----
+			pRenderNode->addChild(pMeshNode);
+		}
 	}
+	else if (pRenderNode->getType()==iRenderNode::NODE_MODEL)
+	{
+		pRenderNode->init(pMesh);
+	}
+// 	if (pSkeletonData==NULL || pMesh==NULL)
+// 	{
+// 		// big error , need delete data!!
+// 		return false;
+// 	}
 
 	// ----
 	std::string strParentDir = GetParentPath(szFilename);
@@ -358,15 +382,7 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 	pRenderNodeMgr->loadRenderNode(strParFilename.c_str(),pRenderNode);
 	//////////////////////////////////////////////////////////////////////////
 	//iRenderNode* pRenderNode = pRenderNodeMgr->createRenderNode("Skeleton");
-	pRenderNode->init(pSkeletonData);
-	//----
-	iRenderNode* pMeshNode = pRenderNodeMgr->createRenderNode("mesh");
-	if (pMeshNode)
-	{
-		pMeshNode->init(pMesh);
-	}
-	//----
-	pRenderNode->addChild(pMeshNode);
+
 	return true;
 }
 /*

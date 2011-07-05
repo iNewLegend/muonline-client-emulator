@@ -8,6 +8,8 @@
 class iRenderNode
 {
 public:
+	enum{NODE_BASE,NODE_PARTICLE,NODE_SKELETON,NODE_MODEL,NODE_SKINE};
+	virtual	int				getType				() = 0;
 	virtual void			frameMove	(const Matrix& mWorld, double fTime, float fElapsedTime)=0;
 	virtual void			render		(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType=MATERIAL_NORMAL)const=0;
 	virtual void			setPos		(const Vec3D& vPos)=0;
