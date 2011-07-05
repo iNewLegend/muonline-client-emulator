@@ -360,8 +360,11 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 	//iRenderNode* pRenderNode = pRenderNodeMgr->createRenderNode("Skeleton");
 	pRenderNode->init(pSkeletonData);
 	//----
-	iRenderNode* pMeshNode = pRenderNodeMgr->createRenderNode("Mesh");
-	pMeshNode->init(pMesh);
+	iRenderNode* pMeshNode = pRenderNodeMgr->createRenderNode("mesh");
+	if (pMeshNode)
+	{
+		pMeshNode->init(pMesh);
+	}
 	//----
 	pRenderNode->addChild(pMeshNode);
 	return true;
