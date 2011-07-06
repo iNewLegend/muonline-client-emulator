@@ -70,7 +70,7 @@ void C3DMapObj::renderFocus(Color32 color)const
 		//if (pShaderFocus)
 		{
 		//	pShaderFocus->setVec4D("g_vColorFocus",Vec4D(color));
-			render(m_mWorldMatrix, E_MATERIAL_RENDER_TYPE(MATERIAL_GEOMETRY|MATERIAL_RENDER_ALPHA_TEST));
+			render(Matrix::UNIT, E_MATERIAL_RENDER_TYPE(MATERIAL_GEOMETRY|MATERIAL_RENDER_ALPHA_TEST));
 		}
 		GetRenderSystem().finishMaterial();
 	}

@@ -1,5 +1,6 @@
 #include "RenderNode.h"
 #include <algorithm>
+#include "Intersect.h"
 
 CRenderNode::CRenderNode()
 :m_pParent(NULL)
@@ -118,17 +119,24 @@ void CRenderNode::removeChildren()
 
 CRenderNode* CRenderNode::intersect(const Vec3D& vRayPos , const Vec3D& vRayDir, float &tmin ,float &tmax)
 {
-	if(!intersectSelf(vRayPos,vRayDir,tmin,tmax))
+	Vec3D vNewRayPos = vRayPos;
+	Vec3D vNewRayDir = vRayDir;
+	transformRay(vNewRayPos,vNewRayDir,m_mWorldMatrix);
+	if (!getLocalBBox().intersect(vNewRayPos , vNewRayDir, tmin, tmax))
 	{
 		return NULL;
 	}
 	FOR_IN(it,m_mapChildObj)
  	{
-		CRenderNode* pRenderNode = (*it)->intersect(vRayPos,vRayDir,tmin,tmax);
+		CRenderNode* pRenderNode = (*it)->intersect(vNewRayPos,vNewRayDir,tmin,tmax);
 		if(pRenderNode)
 		{
 			return pRenderNode;
 		}
+	}
+	if(!intersectSelf(vNewRayPos,vNewRayDir,tmin,tmax))
+	{
+		return NULL;
 	}
 	return this;
 }
