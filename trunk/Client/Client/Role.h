@@ -76,7 +76,7 @@ public:
 	void			setGlove		(int nID)					{ setEquip("glove",	10,	nID); };
 	void			setPant			(int nID)					{ setEquip("pant",	9,	nID); };
 	void			setBoot			(int nID)					{ setEquip("boot",	11,	nID); };
-	void			setName			(const wchar_t* wcsName)	{ m_wstrName = wcsName; };
+	void			setRoleName		(const wchar_t* wcsName)	{ m_wstrName = wcsName; };
 	void			setDir			(UCHAR uDir)				{ m_uDir = uDir; };
 	void			setTargetDir	(UCHAR uDir)				{ m_uTargetDir = uDir; };
 	// ----

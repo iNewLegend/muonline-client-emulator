@@ -286,11 +286,12 @@ void SCCharList(const unsigned char * msg)
 			// ----
 			CRole * pRole = new CRole();
 			// ----
-			pRole->setName(s2ws(pChar->Name).c_str());
+			pRole->setRoleName(s2ws(pChar->Name).c_str());
 			pRole->setLevel(pChar->Level);
 			pRole->setSet(pChar->charSet);
 			pRole->setPos(Vec3D(i,0,0));
 			pRole->setActionState(CRole::STAND);
+			pRole->updateWorldMatrix();
 			// ----
 			CUIDisplayRoleChoose::getInstance().m_pRole[aIndex] = pRole;
 		}
@@ -414,7 +415,7 @@ void SCPlayerViewportCreate(const unsigned char * msg)
 			// ---
 			pPlayer->setID(uID);
 			//pPlayer->setLevel(pChar->Level);
-			pPlayer->setName(s2ws(pPlayerViewport->Id).c_str());
+			pPlayer->setRoleName(s2ws(pPlayerViewport->Id).c_str());
 			pPlayer->setSet(pPlayerViewport->charSet);
 			pPlayer->setCellPos(pPlayerViewport->X ,pPlayerViewport->Y);
 			// ---- 
@@ -427,7 +428,7 @@ void SCPlayerViewportCreate(const unsigned char * msg)
 		}
 		else
 		{
-			pPlayer->setName(s2ws(pPlayerViewport->Id).c_str());
+			pPlayer->setRoleName(s2ws(pPlayerViewport->Id).c_str());
 			pPlayer->setSet(pPlayerViewport->charSet);
 			pPlayer->setCellPos(pPlayerViewport->X, pPlayerViewport->Y);
 			// ---- 
