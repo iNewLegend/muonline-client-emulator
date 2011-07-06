@@ -59,7 +59,7 @@ void C3DMapObj::renderFocus()const
 #include "Graphics.h"
 void C3DMapObj::renderDebug()const
 {
-	GetGraphics().drawBBox(getBBox(),0xFFFF4400);
+	GetGraphics().drawBBox(getLocalBBox(),0xFFFF4400);
 }
 
 void C3DMapObj::renderFocus(Color32 color)const

@@ -157,166 +157,17 @@ void importSkeletonAnims(iSkeletonData& skeletonData, CMUBmd& bmd)
 
 bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNode, const char* szFilename)
 {
-	iLodMesh*		pMesh			= (iLodMesh*)		pRenderNodeMgr->getRenderData("mesh",szFilename);
-	// ----
-	if (pMesh==NULL)
+	static CMUBmd* pPlayerBmd;
+	if (GetFilename(szFilename)=="player.bmd")
 	{
-		CMUBmd bmd;
-		if (!bmd.LoadFile(szFilename))
+		if (pPlayerBmd==NULL)
 		{
-			return false;
-		}
-		// ----
-		if (pMesh==NULL)
-		{
-			pMesh = (iLodMesh*)pRenderNodeMgr->createRenderData("mesh",szFilename);
-			if (pMesh)
+			pPlayerBmd = new CMUBmd;
+			if (!pPlayerBmd->LoadFile(szFilename))
 			{
-				bool bIsPlayerPart = false;
-				if (GetFilename(szFilename)!="player.bmd")
-				{
-					if (GetFilename(GetParentPath(szFilename))=="player")
-					{
-						bIsPlayerPart= true;
-					}
-				}
-				static CMUBmd* pPlayerBmd;
-				if (bIsPlayerPart&&pPlayerBmd==NULL)
-				{
-					pPlayerBmd = new CMUBmd;
-					bIsPlayerPart = pPlayerBmd->LoadFile(GetParentPath(szFilename)+"player.bmd");
-				}
-				// ----
-				// # Mesh
-				// ----
-				BBox bbox;
-				for (size_t i=0;  i<bmd.setBmdSub.size(); ++i)
-				{
-					CMUBmd::BmdSub& bmdSub = bmd.setBmdSub[i];
-					CSubMesh& subMesh=pMesh->allotSubMesh();
-					// ----
-					// # Vertex Index
-					// ----
-					VertexIndex vertexIndex;
-					for(std::vector<CMUBmd::BmdSub::BmdTriangle>::iterator it=bmdSub.setTriangle.begin(); it!=bmdSub.setTriangle.end(); it++)
-					{
-						for (size_t j=0; j<3; ++j)
-						{
-							vertexIndex.p	= it->indexVertex[2-j];
-							vertexIndex.b	= it->indexVertex[2-j];
-							vertexIndex.w	= it->indexVertex[2-j];
-							vertexIndex.n	= it->indexNormal[2-j];
-							vertexIndex.uv1	= it->indexUV[2-j];
-							subMesh.m_setVertexIndex.push_back(vertexIndex);
-						}
-					}
-					// ----
-					// # Pos
-					// ----
-					for(std::vector<CMUBmd::BmdSub::BmdPos>::iterator it=bmdSub.setVertex.begin(); it!=bmdSub.setVertex.end(); it++)
-					{
-						Vec3D vPos = fixCoordSystemPos(it->vPos);
-						if (bIsPlayerPart)
-						{
-							vPos = pPlayerBmd->bmdSkeleton.getLocalMatrix(it->uBones)*vPos;
-						}
-						else
-						{
-							vPos = bmd.bmdSkeleton.getLocalMatrix(it->uBones)*vPos;
-						}
-						bbox.vMin.x = min(vPos.x,bbox.vMin.x);
-						bbox.vMin.y = min(vPos.y,bbox.vMin.y);
-						bbox.vMin.z = min(vPos.z,bbox.vMin.z);
-
-						bbox.vMax.x = max(vPos.x,bbox.vMax.x);
-						bbox.vMax.y = max(vPos.y,bbox.vMax.y);
-						bbox.vMax.z = max(vPos.z,bbox.vMax.z);
-						if (1<bmd.nFrameCount||bIsPlayerPart)
-						{
-							unsigned char uBone = it->uBones&0xFF;
-							if (bmd.bmdSkeleton.setBmdBone.size()<=uBone||bmd.bmdSkeleton.setBmdBone[uBone].bEmpty)
-							{
-								subMesh.addBone(0);// 想办法把bmd的骨骼ID都设置为0的去掉
-							}
-							else
-							{
-								subMesh.addBone(it->uBones);
-							}
-							//assert((it->uBones&0xFFFFFF00)==0);
-							subMesh.addWeight(0x000000FF);
-						}
-						subMesh.addPos(vPos);
-					}
-					// ----
-					// # Normal
-					// ----
-					for(std::vector<CMUBmd::BmdSub::BmdNormal>::iterator it=bmdSub.setNormal.begin(); it!=bmdSub.setNormal.end(); it++)
-					{
-						Vec3D n = fixCoordSystemNormal(it->vNormal);
-						n = bmd.bmdSkeleton.getRotateMatrix(it->uBones)*n;
-						subMesh.addNormal(n);
-					}
-					// ----
-					// # Texcoord
-					// ----
-					for(std::vector<Vec2D>::iterator it=bmdSub.setUV.begin(); it!=bmdSub.setUV.end(); it++)
-					{
-						subMesh.addTexcoord(*it);
-					}
-					// ----
-					// # Material
-					// ----
-					char szMaterialName[255];
-					{
-						sprintf(szMaterialName,"%s%d",ChangeExtension(GetFilename(szFilename),".sub").c_str(),i);
-						CMaterial* pMaterial = (CMaterial*)pRenderNodeMgr->createRenderData("material",szMaterialName);
-						std::string strTexFileName = GetParentPath(szFilename) + bmdSub.szTexture;
-						{
-							std::string strExt = GetExtension(bmdSub.szTexture); 
-							if (".jpg"==strExt)			strExt = ".ozj";
-							else if (".tga"==strExt)	strExt = ".ozt";
-							else if (".bmp"==strExt)	strExt = ".ozb";
-							strTexFileName = ChangeExtension(strTexFileName,strExt);
-						}
-						pMaterial->setTexture(0,strTexFileName.c_str());
-
-						pMaterial->bLightingEnabled		= true;
-						// ----
-						pMaterial->uCull				= CULL_NONE;
-						// ----
-						pMaterial->bBlend				= false;
-						// ----
-						pMaterial->bAlphaTest			= true;
-						pMaterial->nAlphaTestCompare	= CMPF_GREATER_EQUAL;
-						pMaterial->uAlphaTestValue		= 0x80;
-						// ----
-						pMaterial->bDepthTest			= true;
-						pMaterial->bDepthWrite			= true;
-						// ----
-						CMaterial::TextureOP& texOP0	= pMaterial->textureOP[0];
-						CMaterial::TextureOP& texOP1	= pMaterial->textureOP[1];
-						// ----
-						texOP0.nColorOP					= TBOP_MODULATE;
-						texOP0.nColorSrc1				= TBS_CURRENT;
-						texOP0.nColorSrc2				= TBS_TEXTURE;
-						texOP0.nAlphaOP					= TBOP_MODULATE;
-						texOP0.nAlphaSrc1				= TBS_CURRENT;
-						texOP0.nAlphaSrc2				= TBS_TEXTURE;
-						// ----
-						texOP1.nColorOP					= TBOP_DISABLE;
-						texOP1.nAlphaOP					= TBOP_DISABLE;
-					}
-					subMesh.setMaterial(szMaterialName);
-				}
-				pMesh->setBBox(bbox);
-				pMesh->init();
-			}
-			else
-			{
-				// createLodMesh error!
+				return false;
 			}
 		}
-		// ----
 		if (pRenderNode->getType()==iRenderNode::NODE_SKELETON)
 		{
 			iSkeletonData*	pSkeletonData	= (iSkeletonData*)	pRenderNodeMgr->getRenderData("skeleton",szFilename);
@@ -326,63 +177,247 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 				if (pSkeletonData)
 				{
 					//m_Mesh.m_Lods.resize(1);
-					importSkeletonBons(*pSkeletonData,bmd);
-					importSkeletonAnims(*pSkeletonData,bmd);
+					importSkeletonBons(*pSkeletonData,*pPlayerBmd);
+					importSkeletonAnims(*pSkeletonData,*pPlayerBmd);
 				}
 				else
 				{
 					// createSkeletonData error!
 				}
 			}
-		}
-	}
-	// ----
-	if (pRenderNode->getType()==iRenderNode::NODE_SKELETON)
-	{
-		iSkeletonData*	pSkeletonData	= (iSkeletonData*)	pRenderNodeMgr->getRenderData("skeleton",szFilename);
-		if (pSkeletonData)
-		{
 			pRenderNode->init(pSkeletonData);
-			//----
-			iRenderNode* pMeshNode = pRenderNodeMgr->createRenderNode("mesh");
-			if (pMeshNode)
-			{
-				pMeshNode->init(pMesh);
-			}
-			//----
-			pRenderNode->addChild(pMeshNode);
 		}
 	}
-	else if (pRenderNode->getType()==iRenderNode::NODE_MODEL)
+	else
 	{
-		pRenderNode->init(pMesh);
-	}
-// 	if (pSkeletonData==NULL || pMesh==NULL)
-// 	{
-// 		// big error , need delete data!!
-// 		return false;
-// 	}
+		iLodMesh* pMesh = (iLodMesh*)pRenderNodeMgr->getRenderData("mesh",szFilename);
+		// ----
+		if (pMesh==NULL)
+		{
+			CMUBmd bmd;
+			if (!bmd.LoadFile(szFilename))
+			{
+				return false;
+			}
+			// ----
+			if (pMesh==NULL)
+			{
+				pMesh = (iLodMesh*)pRenderNodeMgr->createRenderData("mesh",szFilename);
+				if (pMesh)
+				{
+					bool bIsPlayerPart = false;
+					if (GetFilename(szFilename)!="player.bmd")
+					{
+						if (GetFilename(GetParentPath(szFilename))=="player")
+						{
+							bIsPlayerPart= true;
+						}
+					}
+					if (bIsPlayerPart&&pPlayerBmd==NULL)
+					{
+						pPlayerBmd = new CMUBmd;
+						bIsPlayerPart = pPlayerBmd->LoadFile(GetParentPath(szFilename)+"player.bmd");
+					}
+					// ----
+					// # Mesh
+					// ----
+					BBox bbox;
+					for (size_t i=0;  i<bmd.setBmdSub.size(); ++i)
+					{
+						CMUBmd::BmdSub& bmdSub = bmd.setBmdSub[i];
+						CSubMesh& subMesh=pMesh->allotSubMesh();
+						// ----
+						// # Vertex Index
+						// ----
+						VertexIndex vertexIndex;
+						for(std::vector<CMUBmd::BmdSub::BmdTriangle>::iterator it=bmdSub.setTriangle.begin(); it!=bmdSub.setTriangle.end(); it++)
+						{
+							for (size_t j=0; j<3; ++j)
+							{
+								vertexIndex.p	= it->indexVertex[2-j];
+								vertexIndex.b	= it->indexVertex[2-j];
+								vertexIndex.w	= it->indexVertex[2-j];
+								vertexIndex.n	= it->indexNormal[2-j];
+								vertexIndex.uv1	= it->indexUV[2-j];
+								subMesh.m_setVertexIndex.push_back(vertexIndex);
+							}
+						}
+						// ----
+						// # Pos
+						// ----
+						for(std::vector<CMUBmd::BmdSub::BmdPos>::iterator it=bmdSub.setVertex.begin(); it!=bmdSub.setVertex.end(); it++)
+						{
+							Vec3D vPos = fixCoordSystemPos(it->vPos);
+							if (bIsPlayerPart)
+							{
+								vPos = pPlayerBmd->bmdSkeleton.getLocalMatrix(it->uBones)*vPos;
+							}
+							else
+							{
+								vPos = bmd.bmdSkeleton.getLocalMatrix(it->uBones)*vPos;
+							}
+							bbox.vMin.x = min(vPos.x,bbox.vMin.x);
+							bbox.vMin.y = min(vPos.y,bbox.vMin.y);
+							bbox.vMin.z = min(vPos.z,bbox.vMin.z);
 
-	// ----
-	std::string strParentDir = GetParentPath(szFilename);
-	std::string strParentDirName = GetFilename(strParentDir);
-	
-	std::string strMyPath ="Plugins\\Data\\"+strParentDirName+"\\";
-	std::string strMatFilename = strMyPath+GetFilename(ChangeExtension(szFilename,".mat.csv"));
-	std::string strParFilename = strMyPath+GetFilename(ChangeExtension(szFilename,".par.csv"));
-	if (!IOReadBase::Exists(strMatFilename))
-	{
-		strMatFilename=strMyPath+strParentDirName+".mat.csv";
-	}
-	if (!IOReadBase::Exists(strParFilename))
-	{
-		strParFilename=strMyPath+strParentDirName+".par.csv";
-	}
-	pRenderNodeMgr->loadRenderNode(strMatFilename.c_str(),pRenderNode);
-	pRenderNodeMgr->loadRenderNode(strParFilename.c_str(),pRenderNode);
-	//////////////////////////////////////////////////////////////////////////
-	//iRenderNode* pRenderNode = pRenderNodeMgr->createRenderNode("Skeleton");
+							bbox.vMax.x = max(vPos.x,bbox.vMax.x);
+							bbox.vMax.y = max(vPos.y,bbox.vMax.y);
+							bbox.vMax.z = max(vPos.z,bbox.vMax.z);
+							if (1<bmd.nFrameCount||bIsPlayerPart)
+							{
+								unsigned char uBone = it->uBones&0xFF;
+								if (bmd.bmdSkeleton.setBmdBone.size()<=uBone||bmd.bmdSkeleton.setBmdBone[uBone].bEmpty)
+								{
+									subMesh.addBone(0);// 想办法把bmd的骨骼ID都设置为0的去掉
+								}
+								else
+								{
+									subMesh.addBone(it->uBones);
+								}
+								//assert((it->uBones&0xFFFFFF00)==0);
+								subMesh.addWeight(0x000000FF);
+							}
+							subMesh.addPos(vPos);
+						}
+						// ----
+						// # Normal
+						// ----
+						for(std::vector<CMUBmd::BmdSub::BmdNormal>::iterator it=bmdSub.setNormal.begin(); it!=bmdSub.setNormal.end(); it++)
+						{
+							Vec3D n = fixCoordSystemNormal(it->vNormal);
+							n = bmd.bmdSkeleton.getRotateMatrix(it->uBones)*n;
+							subMesh.addNormal(n);
+						}
+						// ----
+						// # Texcoord
+						// ----
+						for(std::vector<Vec2D>::iterator it=bmdSub.setUV.begin(); it!=bmdSub.setUV.end(); it++)
+						{
+							subMesh.addTexcoord(*it);
+						}
+						// ----
+						// # Material
+						// ----
+						char szMaterialName[255];
+						{
+							sprintf(szMaterialName,"%s%d",ChangeExtension(GetFilename(szFilename),".sub").c_str(),i);
+							CMaterial* pMaterial = (CMaterial*)pRenderNodeMgr->createRenderData("material",szMaterialName);
+							std::string strTexFileName = GetParentPath(szFilename) + bmdSub.szTexture;
+							{
+								std::string strExt = GetExtension(bmdSub.szTexture); 
+								if (".jpg"==strExt)			strExt = ".ozj";
+								else if (".tga"==strExt)	strExt = ".ozt";
+								else if (".bmp"==strExt)	strExt = ".ozb";
+								strTexFileName = ChangeExtension(strTexFileName,strExt);
+							}
+							pMaterial->setTexture(0,strTexFileName.c_str());
 
+							pMaterial->bLightingEnabled		= true;
+							// ----
+							pMaterial->uCull				= CULL_NONE;
+							// ----
+							pMaterial->bBlend				= false;
+							// ----
+							pMaterial->bAlphaTest			= true;
+							pMaterial->nAlphaTestCompare	= CMPF_GREATER_EQUAL;
+							pMaterial->uAlphaTestValue		= 0x80;
+							// ----
+							pMaterial->bDepthTest			= true;
+							pMaterial->bDepthWrite			= true;
+							// ----
+							CMaterial::TextureOP& texOP0	= pMaterial->textureOP[0];
+							CMaterial::TextureOP& texOP1	= pMaterial->textureOP[1];
+							// ----
+							texOP0.nColorOP					= TBOP_MODULATE;
+							texOP0.nColorSrc1				= TBS_CURRENT;
+							texOP0.nColorSrc2				= TBS_TEXTURE;
+							texOP0.nAlphaOP					= TBOP_MODULATE;
+							texOP0.nAlphaSrc1				= TBS_CURRENT;
+							texOP0.nAlphaSrc2				= TBS_TEXTURE;
+							// ----
+							texOP1.nColorOP					= TBOP_DISABLE;
+							texOP1.nAlphaOP					= TBOP_DISABLE;
+						}
+						subMesh.setMaterial(szMaterialName);
+					}
+					pMesh->setBBox(bbox);
+					pMesh->init();
+				}
+				else
+				{
+					// createLodMesh error!
+				}
+			}
+			// ----
+			if (pRenderNode->getType()==iRenderNode::NODE_SKELETON)
+			{
+				iSkeletonData*	pSkeletonData	= (iSkeletonData*)	pRenderNodeMgr->getRenderData("skeleton",szFilename);
+				if (pSkeletonData==NULL)
+				{
+					pSkeletonData = (iSkeletonData*)pRenderNodeMgr->createRenderData("skeleton",szFilename);
+					if (pSkeletonData)
+					{
+						//m_Mesh.m_Lods.resize(1);
+						importSkeletonBons(*pSkeletonData,bmd);
+						importSkeletonAnims(*pSkeletonData,bmd);
+					}
+					else
+					{
+						// createSkeletonData error!
+					}
+				}
+			}
+		}
+		// ----
+		if (pRenderNode->getType()==iRenderNode::NODE_SKELETON)
+		{
+			iSkeletonData*	pSkeletonData	= (iSkeletonData*)	pRenderNodeMgr->getRenderData("skeleton",szFilename);
+			if (pSkeletonData)
+			{
+				pRenderNode->init(pSkeletonData);
+				//----
+				iRenderNode* pMeshNode = pRenderNodeMgr->createRenderNode("mesh");
+				if (pMeshNode)
+				{
+					pMeshNode->init(pMesh);
+				}
+				//----
+				pRenderNode->addChild(pMeshNode);
+			}
+		}
+		else if (pRenderNode->getType()==iRenderNode::NODE_MODEL)
+		{
+			pRenderNode->init(pMesh);
+		}
+		else
+		{
+			// ----error type
+		}
+		// 	if (pSkeletonData==NULL || pMesh==NULL)
+		// 	{
+		// 		// big error , need delete data!!
+		// 		return false;
+		// 	}
+		// ----
+		std::string strParentDir = GetParentPath(szFilename);
+		std::string strParentDirName = GetFilename(strParentDir);
+
+		std::string strMyPath ="Plugins\\Data\\"+strParentDirName+"\\";
+		std::string strMatFilename = strMyPath+GetFilename(ChangeExtension(szFilename,".mat.csv"));
+		std::string strParFilename = strMyPath+GetFilename(ChangeExtension(szFilename,".par.csv"));
+		if (!IOReadBase::Exists(strMatFilename))
+		{
+			strMatFilename=strMyPath+strParentDirName+".mat.csv";
+		}
+		if (!IOReadBase::Exists(strParFilename))
+		{
+			strParFilename=strMyPath+strParentDirName+".par.csv";
+		}
+		pRenderNodeMgr->loadRenderNode(strMatFilename.c_str(),pRenderNode);
+		pRenderNodeMgr->loadRenderNode(strParFilename.c_str(),pRenderNode);
+		//////////////////////////////////////////////////////////////////////////
+		//iRenderNode* pRenderNode = pRenderNodeMgr->createRenderNode("Skeleton");
+	}
 	return true;
 }
 /*

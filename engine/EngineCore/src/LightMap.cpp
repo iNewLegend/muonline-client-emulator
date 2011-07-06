@@ -322,7 +322,7 @@ void CLightMap::CalcChunkLightMap(const Vec3D& vLightDir, const Cube& cube)
 
 void CLightMap::CalcObjectLightMap(const Vec3D& vLightDir, const C3DMapSceneObj& object)
 {
-	const BBox& bbox = object.getBBox();
+	const BBox& bbox = object.getLocalBBox();
 	Matrix mLight = CalcLightMatrix(bbox, vLightDir);
 	RenderDepthToTex(mLight);
 	RenderObjectLightMapToTex(mLight, object);

@@ -33,7 +33,6 @@ public:
 	//----
 	GET_VARIABLE			(LIST_RENDER_NODE&,ChildObj,m_mapChildObj);
 	CONST_GET_VARIABLE		(LIST_RENDER_NODE&,ChildObj,m_mapChildObj);
-	GSET_CONST_VAR			(BBox&,m_,BBox);
 	//----
 	GSET_STRING	(Name);
 	GSET_STRING	(BindingBoneName);
@@ -61,7 +60,6 @@ protected:
 	std::string				m_strName;
 	std::string				m_strBindingBoneName;
 	int						m_nBindingBoneID;
-	BBox					m_BBox;
 protected:
 	Vec3D					m_vPos;
 	Vec3D					m_vRotate;

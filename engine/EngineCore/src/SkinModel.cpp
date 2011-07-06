@@ -37,7 +37,8 @@ void CSkinModel::frameMove(const Matrix& mWorld, double fTime, float fElapsedTim
 	// ----
 	CRenderNode::frameMove(mWorld,fTime,fElapsedTime);
 	// ----
-	m_BBox += m_pMesh->getBBox();
+	m_LocalBBox += m_pMesh->getBBox();
+	updateWorldBBox();
 }
 
 void CSkinModel::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)const
@@ -62,7 +63,7 @@ void CSkinModel::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType
 
 bool CSkinModel::intersectSelf(const Vec3D& vRayPos , const Vec3D& vRayDir, float &tmin ,float &tmax)const
 {
-	if (!getBBox().intersect(vRayPos , vRayDir, tmin, tmax))
+	if (!getLocalBBox().intersect(vRayPos , vRayDir, tmin, tmax))
 	{
 		return false;
 	}

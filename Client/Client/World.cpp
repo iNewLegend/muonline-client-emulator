@@ -287,7 +287,7 @@ void CWorld::GetRenderObject(const CFrustum& frustum, LIST_RENDER_NODE& ObjectLi
 	// ----
 	for(auto it = m_mapRole.begin() ; it != m_mapRole.end() ; it++)
 	{
-		crossRet = frustum.CheckAABBVisible(it->second->getBBox());
+		crossRet = frustum.CheckAABBVisible(it->second->getLocalBBox());
 		// ----
 		if(cross_exclude != crossRet)
 		{

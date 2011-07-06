@@ -26,16 +26,18 @@ void CRenderNode::frameMove(const Matrix& mWorld, double fTime, float fElapsedTi
 		// ----
 		// # Update BBox
 		// ----
-		bbox += (*it)->getBBox();
+		bbox += (*it)->getWorldBBox();
 	}
-	m_BBox = bbox;
+	m_LocalBBox = bbox;
+	updateWorldBBox();
 }
 
 void CRenderNode::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)const
 {
+	Matrix mNewWorld = mWorld*m_mWorldMatrix;
 	FOR_IN(it,m_mapChildObj)
 	{
-		(*it)->render(mWorld, eRenderType);
+		(*it)->render(mNewWorld, eRenderType);
 	}
 }
 
