@@ -197,11 +197,11 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 				CMapObj* pObj = (CMapObj*)(*it);
 				if(pObj)
 				{
-					if(pObj->GetObjType() != MAP_ROLE &&
-						pObj->GetObjType() != MAP_HERO &&
-						pObj->GetObjType() != MAP_PLAYER &&
-						pObj->GetObjType() != MAP_3DEFFECT &&
-						pObj->GetObjType() != MAP_3DEFFECTNEW)
+					if(pObj->getObjType() != MAP_ROLE &&
+						pObj->getObjType() != MAP_HERO &&
+						pObj->getObjType() != MAP_PLAYER &&
+						pObj->getObjType() != MAP_3DEFFECT &&
+						pObj->getObjType() != MAP_3DEFFECTNEW)
 					{
 						Vec4D vColor = m_pTerrain->GetColor((*it)->getPos().x,(*it)->getPos().z);
 						vColor.w=1.0f;
@@ -354,7 +354,7 @@ void CScene::del3DMapEffect(C3DMapEffect* pEffect)
 {
 	if (m_ObjectTree.find(pEffect))
 	{
-		if(pEffect->GetObjType() == MAP_3DEFFECT || pEffect->GetObjType() == MAP_3DEFFECTNEW)
+		if(pEffect->getObjType() == MAP_3DEFFECT || pEffect->getObjType() == MAP_3DEFFECTNEW)
 		{
 			pEffect->Die();
 		}

@@ -39,7 +39,7 @@ public:
 	virtual void			renderFocus	()const					{}
 	virtual void			renderDebug	()const					{}
 
-	virtual int				GetObjType	()						{return m_nType;}
+	virtual int				getObjType	()						{return m_nType;}
 	virtual void			release		()						{delete this;}
 
 	virtual Pos2D			getCellPos	()						{return Pos2D();}
