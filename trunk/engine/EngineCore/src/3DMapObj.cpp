@@ -4,14 +4,6 @@
 
 C3DMapObj::C3DMapObj()
 {
-	CMaterial& materialFocus = GetRenderSystem().getMaterialMgr().getItem("ObjectFocus");
-	materialFocus.setShader("Data\\fx\\ObjectFocus.fx");
-	materialFocus.bAlphaTest			= false;
-	materialFocus.bBlend				= false;
-	materialFocus.bDepthTest			= true;
-	materialFocus.bDepthWrite			= false;
-	materialFocus.uCull				= CULL_NONE;
-	materialFocus.bLightingEnabled	= false;
 	// ----
 	m_vScale=Vec3D(1.0f,1.0f,1.0f);
 }
