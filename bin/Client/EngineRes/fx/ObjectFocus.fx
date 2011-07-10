@@ -20,10 +20,12 @@ VS_OBJECT_OUTPUT VS(VS_OBJECT_INPUT i)
 	i.Pos = mul(i.Pos,g_mWorld);
 	o.Pos = mul(i.Pos,g_mViewProj);
 	
-	g_mView._41=0;g_mView._42=0;g_mView._43=0;
-	g_mWorld._41=0;g_mWorld._42=0;g_mWorld._43=0;
-	float3 normal = mul(i.Normal,g_mWorld);
-	normal = normalize(mul(normal,g_mView));
+	float4x4 mViewProj = g_mViewProj;
+	float4x4 mView = g_mView;
+	mView._41=0;mView._42=0;mView._43=0;
+	mViewProj._41=0;mViewProj._42=0;mViewProj._43=0;
+	float3 normal = mul(i.Normal,mViewProj);
+	normal = normalize(mul(normal,mView));
 
 	o.Pos.xy+=normal.xy*o.Pos.w*0.005;
 	
@@ -33,7 +35,7 @@ VS_OBJECT_OUTPUT VS(VS_OBJECT_INPUT i)
 
 float4 PS(VS_OBJECT_OUTPUT i) : COLOR0
 {
-	float4 color = g_vColorFocus;
+	float4 color = 0xFFFF4000;//g_vColorFocus;
 	//color.a	*= tex2D(g_samDiffuse, i.UV0).a;
 	return color;
 }
@@ -42,8 +44,8 @@ technique Render
 {
     pass P0
     {
-				CullMode = CW;
-				VertexShader = compile vs_1_1 VS();
+		CullMode = CW;
+		VertexShader = compile vs_2_0 VS();
         PixelShader  = compile ps_2_0 PS();
     }
 }

@@ -5,3 +5,4 @@ Coordinate1,,line
 Coordinate2,,alphaPlane
 GammaCorrection,EngineRes/Textures/Camma.tga,GammaCorrection
 LightDecal,EngineRes/Textures/LightDecal.jpg,LightDecal
+ObjectFocus,,ObjectFocus

@@ -217,7 +217,7 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 		{
 			pMaterial->setTexture(0,getRealFilename(szParentDir,csv.getStr("Diffuse","")).c_str());
 			//material.m_fOpacity		=csv.getFloat("Opacity");
-			const char* szPass		=csv.getStr("pass",NULL);
+			const char* szPass		=csv.getStr("Pass",NULL);
 			if (szPass)
 			{
 				char szPassFilename[255];
