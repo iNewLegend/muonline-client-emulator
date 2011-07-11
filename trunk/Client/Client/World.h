@@ -51,8 +51,8 @@ public:
 	void			renderDamageInfo	(double fTime, float fElapsedTime);
 	void			addDamageInfo		(Vec3D vPos, const std::wstring& wcsInfo);
 	// ----
-	virtual void	OnFrameMove			(double fTime, float fElapsedTime);
-	virtual void	OnFrameRender		(double fTime, float fElapsedTime);
+	virtual void	frameMove			(const Matrix& mWorld, double fTime, float fElapsedTime);
+	virtual void	render				(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType=MATERIAL_NORMAL)const;
 	virtual void	GetRenderObject		(const CFrustum& frustum, LIST_RENDER_NODE& ObjectList);
 	// ----
 	CTerrain&		getTerrain			(){ return m_Terrain; }

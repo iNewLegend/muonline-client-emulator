@@ -2,14 +2,18 @@
 #include "IORead.h"
 #include "FileSystem.h"
 #include "RenderSystem.h"
+#include "Scene.h"
+#include "3DMapSceneObj.h"
 
 iRenderNode* newSkeletonNode(){return new CSkeletonNode;}
 iRenderNode* newParticleEmitter(){return new CParticleEmitter;}
 iRenderNode* newSkinModel(){return new CSkinModel;};
+iRenderNode* newMapSceneObj(){return new C3DMapSceneObj;};
 
 void* newSkeletonData(){return new CSkeletonData;}
 void* newParticleData(){return new ParticleData;}
 void* newLodMesh(){return new CLodMesh;}
+void* newSceneData(){return new SceneData;}
 
 CRenderNodeMgr::CRenderNodeMgr()
 {
@@ -17,10 +21,12 @@ CRenderNodeMgr::CRenderNodeMgr()
 	registerRenderNode("skeleton",	(P_FUNC_NEW_RENDER_NODE)newSkeletonNode/*(P_FUNC_NEW_RENDER_NODE)&[](){return new CSkeletonNode;}*/);
 	registerRenderNode("particle",	(P_FUNC_NEW_RENDER_NODE)newParticleEmitter);
 	registerRenderNode("mesh",		(P_FUNC_NEW_RENDER_NODE)newSkinModel);
-
+	registerRenderNode("sceneobject",(P_FUNC_NEW_RENDER_NODE)newMapSceneObj);
+	
 	registerRenderData("skeleton",	(P_FUNC_NEW_RENDER_DATA)newSkeletonData);
 	registerRenderData("particle",	(P_FUNC_NEW_RENDER_DATA)newParticleData);
 	registerRenderData("mesh",		(P_FUNC_NEW_RENDER_DATA)newLodMesh);
+	registerRenderData("scene",		(P_FUNC_NEW_RENDER_DATA)newSceneData);
 }
 
 void CRenderNodeMgr::registerRenderNode(const char* szClassName, P_FUNC_NEW_RENDER_NODE pfn)

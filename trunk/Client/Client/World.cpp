@@ -223,7 +223,7 @@ void CWorld::addDamageInfo(Vec3D vPos,const std::wstring & wcsInfo)
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void CWorld::OnFrameMove(double fTime, float fElapsedTime)
+void CWorld::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
 	FOR_IN(it,m_setRenderSceneObj)
 	{
@@ -272,12 +272,12 @@ void CWorld::OnFrameMove(double fTime, float fElapsedTime)
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void CWorld::OnFrameRender(double fTime, float fElapsedTime)
+void CWorld::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)const
 {
 	CScene::render(Matrix::UNIT, MATERIAL_NORMAL);
 	// ----
-	renderDamageInfo(fTime, fElapsedTime);
-	m_Messages.frameRender();
+	//renderDamageInfo(fTime, fElapsedTime);
+	//m_Messages.frameRender();
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -287,7 +287,7 @@ void CWorld::GetRenderObject(const CFrustum& frustum, LIST_RENDER_NODE& ObjectLi
 	// ----
 	for(auto it = m_mapRole.begin() ; it != m_mapRole.end() ; it++)
 	{
-		crossRet = frustum.CheckAABBVisible(it->second->getLocalBBox());
+		crossRet = frustum.CheckAABBVisible(it->second->getWorldBBox());
 		// ----
 		if(cross_exclude != crossRet)
 		{

@@ -104,7 +104,7 @@ void CUIDisplayWorld::OnFrameRender(const Matrix& mTransform, double fTime, floa
 			R.setWorldMatrix(Matrix::UNIT);
 			// ----
 			CWorld::getInstance().UpdateRender(m_Camera.GetFrustum());
-			CWorld::getInstance().OnFrameRender(fTime,fElapsedTime);
+			CWorld::getInstance().render(Matrix::UNIT,MATERIAL_NORMAL);
 		}
 		// ----
 		R.SetCullingMode(CULL_NONE);
@@ -320,8 +320,11 @@ void CUIDisplayWorld::OnMouseMove(POINT point)
 	}
 	CRole* pRole	=	CWorld::getInstance().pickRole(vRayPos, vRayDir);
 	// ----
-	CWorld::getInstance().getFocusObjects().removeChildren();
-	CWorld::getInstance().getFocusObjects().addChild(pRole);
+	if (pRole)
+	{
+		CWorld::getInstance().getFocusObjects().removeChildren();
+		CWorld::getInstance().getFocusObjects().addChild(pRole);
+	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
