@@ -10,14 +10,14 @@ class SceneData: public iSceneData
 {
 public:
 	virtual GSET_CONST_VAR	(BBox&,				m_,BBox);
-	virtual GSET_CONST_VAR	(size_t,			m_,size);
-	virtual GSET_CONST_VAR	(Fog&,				m_,fog);
-	virtual GSET_CONST_VAR	(DirectionalLight&,	m_,light);
+	virtual GSET_CONST_VAR	(size_t,			m_,ObjectTreeSize);
+	virtual GSET_CONST_VAR	(Fog&,				m_,Fog);
+	virtual GSET_CONST_VAR	(DirectionalLight&,	m_,Light);
 private:
 	BBox				m_BBox;
-	size_t				m_size;
-	Fog					m_fog;
-	DirectionalLight	m_light;
+	size_t				m_ObjectTreeSize;
+	Fog					m_Fog;
+	DirectionalLight	m_Light;
 };
 
 class CScene: public CRenderNode

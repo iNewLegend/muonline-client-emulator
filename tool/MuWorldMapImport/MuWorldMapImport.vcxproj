@@ -90,7 +90,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>mathd.lib;commond.lib;fileiod.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>..\..\bin\Client\Plugins\$(ProjectName)d.dsc</OutputFile>
+      <OutputFile>..\..\bin\Client\Plugins\$(ProjectName)d.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\shared\lib;..\..\engine\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>.\$(ProjectName).def</ModuleDefinitionFile>
@@ -142,7 +142,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>math.lib;common.lib;fileio.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>..\..\bin\Client\Plugins\$(ProjectName).dsc</OutputFile>
+      <OutputFile>..\..\bin\Client\Plugins\$(ProjectName).dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\shared\lib;..\..\engine\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>.\$(ProjectName).def</ModuleDefinitionFile>
