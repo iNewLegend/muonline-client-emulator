@@ -1702,7 +1702,7 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 			Vec3D vRotate = Vec3D(pObjInfo->rotate.x,pObjInfo->rotate.z,pObjInfo->rotate.y)*PI/180.0f;
 			Vec3D vScale= Vec3D(pObjInfo->fScale,pObjInfo->fScale,pObjInfo->fScale);
 			iRenderNode* pObjectRenderNode = (iRenderNode*)pRenderNodeMgr->createRenderNode("sceneobject");
-			if(pRenderNodeMgr->loadRenderNode(m_mapObjectName[pObjInfo->id].c_str(),pObjectRenderNode))
+			if(pObjectRenderNode->load(m_mapObjectName[pObjInfo->id].c_str()))
 			{
 				pObjectRenderNode->setPos(vPos);
 				pObjectRenderNode->setRotate(vRotate);

@@ -21,6 +21,8 @@ public:
 	virtual iRenderNode*	getChild	(const char* szName)=0;
 	virtual void			addChild	(iRenderNode* pChild)=0;
 	virtual bool			init		(void* pData)=0;
+	virtual bool			load		(const char* szFilename)=0;
+
 };
 
 class CMaterial;
