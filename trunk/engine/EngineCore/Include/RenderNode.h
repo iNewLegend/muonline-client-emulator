@@ -51,6 +51,7 @@ public:
 	virtual bool			intersectSelf		(const Vec3D& vRayPos , const Vec3D& vRayDir, float &tmin ,float &tmax)const{return false;}
 	virtual CRenderNode*	intersect			(const Vec3D& vRayPos , const Vec3D& vRayDir, float &tmin ,float &tmax);
 	virtual bool			init				(void* pData){return true;}
+	virtual bool			load				(const char* szFilename);
 	//----
 	void					setChildBindingBone	(const char* szName, const char* szBoneName);
 protected:
