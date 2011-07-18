@@ -151,7 +151,10 @@ void CRenderNode::setChildBindingBone(const char* szName, const char* szBoneName
 	}
 }
 
-
+bool CRenderNode::load(const char* szFilename)
+{
+	CRenderNodeMgr::getInstance().loadRenderNode(szFilename,this);
+}
 
 void CRenderNode::updateWorldMatrix()
 {
