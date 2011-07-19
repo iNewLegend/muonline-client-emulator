@@ -1683,6 +1683,7 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 	bboxObject.vMax = Vec3D(fLength+10.0f,fLength*0.5f+10.0f,fLength+10.0f);
 	pSceneData->setBBox(bboxObject);
 	pSceneData->setObjectTreeSize(6);
+	pRenderNode->init(pSceneData);
 	// Loading the object.
 	//iRenderNode* pSceneNode = (iRenderNode*)pRenderNodeMgr->createRenderNode("scene");
 	IOReadBase* pRead = IOReadBase::autoOpen(strObjectFilename.c_str());
@@ -1702,23 +1703,24 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 			Vec3D vRotate = Vec3D(pObjInfo->rotate.x,pObjInfo->rotate.z,pObjInfo->rotate.y)*PI/180.0f;
 			Vec3D vScale= Vec3D(pObjInfo->fScale,pObjInfo->fScale,pObjInfo->fScale);
 			iRenderNode* pObjectRenderNode = (iRenderNode*)pRenderNodeMgr->createRenderNode("sceneobject");
-			if(pObjectRenderNode->load(m_mapObjectName[pObjInfo->id].c_str()))
-			{
-				pObjectRenderNode->setPos(vPos);
-				pObjectRenderNode->setRotate(vRotate);
-				pObjectRenderNode->setScale(vScale);
-				pRenderNode->addChild(pObjectRenderNode);
-			}
-			else
-			{
-				//MessageBoxA(NULL,"cannot find ID!","Error",0);
-			}
+			char szTemp[256];
+			pObjectRenderNode->setName(itoa(i,szTemp,10));
+			pObjectRenderNode->setFilename(m_mapObjectName[pObjInfo->id].c_str());
+			pObjectRenderNode->setPos(vPos);
+			pObjectRenderNode->setRotate(vRotate);
+			pObjectRenderNode->setScale(vScale);
+			BBox localBox;
+			localBox.vMin=Vec3D(-2.0f,-2.0f,-2.0f);
+			localBox.vMax=Vec3D( 2.0f, 2.0f, 2.0f);
+			pObjectRenderNode->setLocalBBox(localBox);
+			pObjectRenderNode->updateWorldBBox();
+			pObjectRenderNode->updateWorldMatrix();
+			pRenderNode->addChild(pObjectRenderNode);
 			pObjInfo++;
 		}
 		delete buffer;
 		IOReadBase::autoClose(pRead);
 	}
-	pRenderNode->init(pSceneData);
 	return true;
 }
 

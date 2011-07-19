@@ -5,7 +5,6 @@
 #include "RenderSystem.h"
 #include "float.h"
 #include "intersect.h"
-#include "RenderNodeMgr.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // # (leo123) : i think here too need set patches in define
 // ... : void CWorld::create(UCHAR uMapID) : must take count of World% in data and dont use this kinda of switch
@@ -46,7 +45,7 @@ CWorld::~CWorld()
 
 CRole * CWorld::getFocusRole()
 {
-	CRenderNode* pObj = NULL;
+	iRenderNode* pObj = NULL;
 	// ----
 	if(getFocusObjects().getChildObj().size() == 0)
 	{
@@ -306,6 +305,6 @@ void CWorld::loadMap(const char* szFilename, ...)
 	vsprintf(m_szTemp, szFilename, pArguments);
 	va_end(pArguments);
 	// ----
-	CRenderNodeMgr::getInstance().loadRenderNode(m_szTemp,this);
+	load(m_szTemp);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -8,7 +8,7 @@
 #include "InterfaceModel.h"
 
 class CRenderNode;
-typedef std::list<CRenderNode*>		LIST_RENDER_NODE;
+typedef std::list<iRenderNode*>		LIST_RENDER_NODE;
 //----
 
 class CRenderNode:public iRenderNode
@@ -22,19 +22,20 @@ public:
 	virtual GSET_CONST_VAR	(Vec3D&,		m_v,Pos);
 	virtual GSET_CONST_VAR	(Vec3D&,		m_v,Rotate);
 	virtual GSET_CONST_VAR	(Vec3D&,		m_v,Scale);
-	GSET_CONST_VAR			(BBox&,			m_,LocalBBox);
-	GSET_CONST_VAR			(BBox&,			m_,WorldBBox);
-	GSET_CONST_VAR			(Matrix&,		m_m,WorldMatrix);
+	virtual GSET_CONST_VAR	(BBox&,			m_,LocalBBox);
+	virtual GSET_CONST_VAR	(BBox&,			m_,WorldBBox);
+	virtual GSET_CONST_VAR	(Matrix&,		m_m,WorldMatrix);
 	//----
-	void					updateWorldBBox		();
-	void					updateWorldMatrix	();
+	virtual void			updateWorldBBox		();
+	virtual void			updateWorldMatrix	();
 public:
 	GSET_VAR				(CRenderNode*,	m_p,Parent);
 	//----
 	GET_VARIABLE			(LIST_RENDER_NODE&,ChildObj,m_mapChildObj);
 	CONST_GET_VARIABLE		(LIST_RENDER_NODE&,ChildObj,m_mapChildObj);
 	//----
-	GSET_STRING	(Name);
+	virtual GSET_STRING	(Name);
+	virtual GSET_STRING	(Filename);
 	GSET_STRING	(BindingBoneName);
 	//----
 	virtual	int				getType				() = 0;
@@ -59,6 +60,7 @@ protected:
 	LIST_RENDER_NODE		m_mapChildObj;
 	//----
 	std::string				m_strName;
+	std::string				m_strFilename;
 	std::string				m_strBindingBoneName;
 	int						m_nBindingBoneID;
 protected:
@@ -68,4 +70,5 @@ protected:
 	BBox					m_LocalBBox;
 	BBox					m_WorldBBox;
 	Matrix					m_mWorldMatrix;
+	bool					m_bLoaded;
 };
