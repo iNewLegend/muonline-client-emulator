@@ -69,7 +69,7 @@ void ObjectTree::clearObjects()
 //	}
 //}
 
-void ObjectTree::getObjectsByBBox(const BBox& box,const std::vector<CRenderNode*>& setSrcObject, std::vector<CRenderNode*>& setDestObject)
+void ObjectTree::getObjectsByBBox(const BBox& box,const std::vector<iRenderNode*>& setSrcObject, std::vector<iRenderNode*>& setDestObject)
 {
 	FOR_IN(it, setSrcObject)
 	{
@@ -201,7 +201,7 @@ ObjectTree* ObjectTree::getNodeByAABB(const BBox& box)
 	return NULL;
 }
 
-bool ObjectTree::addObject(CRenderNode* pObject)
+bool ObjectTree::addObject(iRenderNode* pObject)
 {
 	ObjectTree* pNode = getNodeByAABB(pObject->getWorldBBox());
 	if (pNode)
@@ -212,7 +212,7 @@ bool ObjectTree::addObject(CRenderNode* pObject)
 	return false;
 }
 
-// bool ObjectTree::delObject(CRenderNode* pObject)
+// bool ObjectTree::delObject(iRenderNode* pObject)
 // {
 // 	if(eraseObject(pObject))
 // 	{
@@ -222,7 +222,7 @@ bool ObjectTree::addObject(CRenderNode* pObject)
 // 	return false;
 // }
 
-bool ObjectTree::eraseObject(CRenderNode* pObject)
+bool ObjectTree::eraseObject(iRenderNode* pObject)
 {
 	auto it = std::find( m_setObjet.begin( ), m_setObjet.end( ), pObject );
 	if(it!=m_setObjet.end())
@@ -243,7 +243,7 @@ bool ObjectTree::eraseObject(CRenderNode* pObject)
 	return false;
 }
 
-bool ObjectTree::updateObject(CRenderNode* pObject)
+bool ObjectTree::updateObject(iRenderNode* pObject)
 {
 	if(eraseObject(pObject))
 	{
@@ -253,7 +253,7 @@ bool ObjectTree::updateObject(CRenderNode* pObject)
 	return false;
 }
 
-ObjectTree* ObjectTree::find(CRenderNode* pObject)
+ObjectTree* ObjectTree::find(iRenderNode* pObject)
 {
 	auto it = std::find( m_setObjet.begin( ), m_setObjet.end( ), pObject );
 	if(it!=m_setObjet.end())

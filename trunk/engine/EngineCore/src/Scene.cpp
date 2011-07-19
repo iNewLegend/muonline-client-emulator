@@ -49,7 +49,7 @@ void CScene::GetRenderObject(const CFrustum& frustum, LIST_RENDER_NODE& ObjectLi
 	}
 }
 
-bool CScene::updateMapObj(CRenderNode* pMapObj)
+bool CScene::updateMapObj(iRenderNode* pMapObj)
 {
 	return m_ObjectTree.updateObject(pMapObj);
 }
@@ -83,6 +83,13 @@ void CScene::UpdateRender(const CFrustum& frustum)
 	if (m_bShowObject)
 	{
 		GetRenderObject(frustum, m_setRenderSceneObj);
+		FOR_IN(it,m_setRenderSceneObj)
+		{
+			if (1)
+			{
+				(*it)->load((*it)->getFilename());
+			}
+		}
 	}
 }
 
@@ -167,7 +174,11 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 					//if(pObj->GetObjType() == MAP_3DOBJ)
 					{
 						C3DMapObj* p3DObj = (C3DMapObj*)pObj;
-						float fHeight = getTerrainData()->GetHeight(p3DObj->getPos().x,p3DObj->getPos().z);
+						float fHeight = 0.0f;
+						if (getTerrainData())
+						{
+							fHeight = getTerrainData()->GetHeight(p3DObj->getPos().x,p3DObj->getPos().z);
+						}
 						p3DObj->renderShadow(Matrix::UNIT,vLightDir,fHeight);
 						// ----
 						FOR_IN(itLight,m_setLightObj)
@@ -203,7 +214,11 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 						pObj->getObjType() != MAP_3DEFFECT &&
 						pObj->getObjType() != MAP_3DEFFECTNEW)
 					{
-						Vec4D vColor = m_pTerrain->GetColor((*it)->getPos().x,(*it)->getPos().z);
+						Vec4D vColor(1.0f,1.0f,1.0f,1.0f);
+						if (m_pTerrain)
+						{
+							vColor = m_pTerrain->GetColor((*it)->getPos().x,(*it)->getPos().z);
+						}
 						vColor.w=1.0f;
 
 						DirectionalLight light(vColor*0.5f,vColor+0.3f,Vec4D(1.0f,1.0f,1.0f,1.0f),vLightDir);
@@ -277,7 +292,7 @@ bool CScene::init(void* pData)
 	return true;
 }
 
-void CScene::addChild(CRenderNode* pChild)
+void CScene::addChild(iRenderNode* pChild)
 {
 	CRenderNode::addChild(pChild);
 	// ----
@@ -292,7 +307,7 @@ void CScene::addChild(CRenderNode* pChild)
 	}
 }
 
-bool CScene::removeChild(CRenderNode* pChild)
+bool CScene::removeChild(iRenderNode* pChild)
 {
 	if (!CRenderNode::removeChild(pChild))
 	{
@@ -307,7 +322,7 @@ bool CScene::removeChild(CRenderNode* pChild)
 	return true;
 }
 
-bool CScene::removeRenderObj(CRenderNode* pObj)
+bool CScene::removeRenderObj(iRenderNode* pObj)
 {
 	// del from render
 	auto it = find( m_setRenderSceneObj.begin( ), m_setRenderSceneObj.end( ), pObj );

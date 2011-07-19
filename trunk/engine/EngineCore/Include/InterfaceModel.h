@@ -10,19 +10,30 @@ class iRenderNode
 public:
 	enum{NODE_BASE,NODE_PARTICLE,NODE_SKELETON,NODE_MODEL,NODE_SKINE};
 	virtual	int				getType				() = 0;
-	virtual void			frameMove	(const Matrix& mWorld, double fTime, float fElapsedTime)=0;
-	virtual void			render		(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType=MATERIAL_NORMAL)const=0;
-	virtual void			setPos		(const Vec3D& vPos)=0;
-	virtual void			setRotate	(const Vec3D& vRotate)=0;
-	virtual void			setScale	(const Vec3D& vScale)=0;
-	virtual const Vec3D&	getPos		()const=0;
-	virtual const Vec3D&	getRotate	()const=0;
-	virtual const Vec3D&	getScale	()const=0;
-	virtual iRenderNode*	getChild	(const char* szName)=0;
-	virtual void			addChild	(iRenderNode* pChild)=0;
-	virtual bool			init		(void* pData)=0;
-	virtual bool			load		(const char* szFilename)=0;
-
+	virtual void			frameMove			(const Matrix& mWorld, double fTime, float fElapsedTime)=0;
+	virtual void			render				(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType=MATERIAL_NORMAL)const=0;
+	virtual void			setPos				(const Vec3D& vPos)=0;
+	virtual void			setRotate			(const Vec3D& vRotate)=0;
+	virtual void			setScale			(const Vec3D& vScale)=0;
+	virtual void			setName				(const char* szName)=0;
+	virtual void			setFilename			(const char* szName)=0;
+	virtual void			setLocalBBox		(const BBox& LocalBBox)=0;
+	virtual void			setWorldBBox		(const BBox& WorldBBox)=0;
+	virtual void			setWorldMatrix		(const Matrix& mWorldMatrix)=0;
+	virtual const Vec3D&	getPos				()const=0;
+	virtual const Vec3D&	getRotate			()const=0;
+	virtual const Vec3D&	getScale			()const=0;
+	virtual const BBox&		getLocalBBox		()const=0;
+	virtual const BBox&		getWorldBBox		()const=0;
+	virtual const Matrix&	getWorldMatrix		()const=0;
+	virtual const char*		getName				()const=0;
+	virtual const char*		getFilename			()const=0;
+	virtual iRenderNode*	getChild			(const char* szName)=0;
+	virtual void			addChild			(iRenderNode* pChild)=0;
+	virtual bool			init				(void* pData)=0;
+	virtual bool			load				(const char* szFilename)=0;
+	virtual void			updateWorldBBox		()=0;
+	virtual void			updateWorldMatrix	()=0;
 };
 
 class CMaterial;

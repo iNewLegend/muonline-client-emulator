@@ -1,6 +1,7 @@
 #include "RenderNode.h"
 #include <algorithm>
 #include "Intersect.h"
+#include "RenderNodeMgr.h"
 
 CRenderNode::CRenderNode()
 :m_pParent(NULL)
@@ -8,6 +9,7 @@ CRenderNode::CRenderNode()
 ,m_vPos(0.0f,0.0f,0.0f)
 ,m_vRotate(0.0f,0.0f,0.0f)
 ,m_vScale(1.0f,1.0f,1.0f)
+,m_bLoaded(false)
 {
 	m_mWorldMatrix.unit();
 }
@@ -31,6 +33,7 @@ void CRenderNode::frameMove(const Matrix& mWorld, double fTime, float fElapsedTi
 	}
 	m_LocalBBox = bbox;
 	updateWorldBBox();
+	updateWorldMatrix();
 }
 
 void CRenderNode::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)const
@@ -128,7 +131,7 @@ CRenderNode* CRenderNode::intersect(const Vec3D& vRayPos , const Vec3D& vRayDir,
 	}
 	FOR_IN(it,m_mapChildObj)
  	{
-		CRenderNode* pRenderNode = (*it)->intersect(vNewRayPos,vNewRayDir,tmin,tmax);
+		CRenderNode* pRenderNode = ((CRenderNode*)(*it))->intersect(vNewRayPos,vNewRayDir,tmin,tmax);
 		if(pRenderNode)
 		{
 			return pRenderNode;
@@ -153,7 +156,19 @@ void CRenderNode::setChildBindingBone(const char* szName, const char* szBoneName
 
 bool CRenderNode::load(const char* szFilename)
 {
-	CRenderNodeMgr::getInstance().loadRenderNode(szFilename,this);
+	if (m_bLoaded)
+	{
+		return false;
+	}
+	// ----
+	m_strFilename = szFilename;
+	// ----
+	if (CRenderNodeMgr::getInstance().loadRenderNode(szFilename,this))
+	{
+		m_bLoaded = true;
+		return true;
+	}
+	return false;
 }
 
 void CRenderNode::updateWorldMatrix()

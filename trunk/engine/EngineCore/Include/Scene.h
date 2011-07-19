@@ -29,18 +29,18 @@ public:
 	virtual int			getType					(){return NODE_BASE;}
 	virtual void		GetRenderObject			(const CFrustum& frustum, LIST_RENDER_NODE& ObjectList);
 	void				UpdateRender			(const CFrustum& frustum);
-	bool				updateMapObj			(CRenderNode* pMapObj);
+	bool				updateMapObj			(iRenderNode* pMapObj);
 	// ----
 	virtual void		frameMove				(const Matrix& mWorld, double fTime, float fElapsedTime);
 	virtual void		render					(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType=MATERIAL_NORMAL)const;
 	// ----
-	virtual void		addChild				(CRenderNode* pChild);
-	virtual bool		removeChild				(CRenderNode* pChild);
+	virtual void		addChild				(iRenderNode* pChild);
+	virtual bool		removeChild				(iRenderNode* pChild);
 	virtual void		clearChildren			();
 	// ----
 	// load
 	virtual bool		init					(void* pData);
-	bool				removeRenderObj			(CRenderNode* pObj);
+	bool				removeRenderObj			(iRenderNode* pObj);
 	// ----
 	// # shit
 	// ----
