@@ -1682,7 +1682,7 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 	bboxObject.vMin = Vec3D(-10.0f,-fLength*0.5f-10.0f,-10.0f);
 	bboxObject.vMax = Vec3D(fLength+10.0f,fLength*0.5f+10.0f,fLength+10.0f);
 	pSceneData->setBBox(bboxObject);
-	pSceneData->setObjectTreeSize(6);
+	pSceneData->setOctreeSize(6);
 	pRenderNode->init(pSceneData);
 	// Loading the object.
 	//iRenderNode* pSceneNode = (iRenderNode*)pRenderNodeMgr->createRenderNode("scene");

@@ -40,7 +40,7 @@ bool sortObject(CRenderNode* p1, CRenderNode* p2)
 
 void CScene::GetRenderObject(const CFrustum& frustum, LIST_RENDER_NODE& ObjectList)
 {
-	m_ObjectTree.getObjectsByFrustum(frustum,ObjectList);
+	m_Octree.getObjectsByFrustum(frustum,ObjectList);
 	static bool bTest = true;
 	if (bTest)
 	{
@@ -51,7 +51,7 @@ void CScene::GetRenderObject(const CFrustum& frustum, LIST_RENDER_NODE& ObjectLi
 
 bool CScene::updateMapObj(iRenderNode* pMapObj)
 {
-	return m_ObjectTree.updateObject(pMapObj);
+	return m_Octree.updateObject(pMapObj);
 }
 
 void CScene::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
@@ -118,10 +118,10 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 		// The octree boxs of focus objects.
 // 		for(size_t i=0;i<m_setFocusObjects.size();++i)
 // 		{
-// 			ObjectTree* pParentObjectTree = m_ObjectTree.find(m_setFocusObjects[i]);
-// 			if (pParentObjectTree)
+// 			Octree* pParentOctree = m_Octree.find(m_setFocusObjects[i]);
+// 			if (pParentOctree)
 // 			{
-// 				GetGraphics().drawBBox(pParentObjectTree->getBBox(),0xFF00FF44);
+// 				GetGraphics().drawBBox(pParentOctree->getBBox(),0xFF00FF44);
 // 			}
 // 		}
 	}
@@ -288,7 +288,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 bool CScene::init(void* pData)
 {
 	m_pSceneData = (SceneData*)pData;
-	m_ObjectTree.create(m_pSceneData->getBBox(),m_pSceneData->getObjectTreeSize());
+	m_Octree.create(m_pSceneData->getBBox(),m_pSceneData->getOctreeSize());
 	return true;
 }
 
@@ -296,7 +296,7 @@ void CScene::addChild(iRenderNode* pChild)
 {
 	CRenderNode::addChild(pChild);
 	// ----
-	if (m_ObjectTree.addObject(pChild))
+	if (m_Octree.addObject(pChild))
 	{
 		m_bRefreshViewport = true;
 	}
@@ -314,7 +314,7 @@ bool CScene::removeChild(iRenderNode* pChild)
 		return false;
 	}
 	// ----
-	m_ObjectTree.eraseObject(pChild);
+	m_Octree.eraseObject(pChild);
 	// ----
 	removeRenderObj(pChild);
 	// ----
@@ -351,12 +351,12 @@ C3DMapEffect* CScene::add3DMapEffect(const Vec3D& vWorldPos, char* pszIndex, boo
 void CScene::del3DMapEffect(const Vec3D& vWorldPos)
 {
 // 	LIST_RENDER_NODE setObject;
-// 	m_ObjectTree.getObjectsByPos(vWorldPos,setObject);
+// 	m_Octree.getObjectsByPos(vWorldPos,setObject);
 // 	FOR_IN(it,setObject)
 // 	{
 // 		if((*it) && ((*it)->GetObjType() == MAP_3DEFFECT || (*it)->GetObjType() == MAP_3DEFFECTNEW))
 // 		{
-// 			if (m_ObjectTree.delObject(*it))
+// 			if (m_Octree.delObject(*it))
 // 			{
 // 				C3DMapEffect* pEffect = (C3DMapEffect*)(*it);
 // 				S_DEL(pEffect);
@@ -367,7 +367,7 @@ void CScene::del3DMapEffect(const Vec3D& vWorldPos)
 
 void CScene::del3DMapEffect(C3DMapEffect* pEffect)
 {
-	if (m_ObjectTree.find(pEffect))
+	if (m_Octree.find(pEffect))
 	{
 		if(pEffect->getObjType() == MAP_3DEFFECT || pEffect->getObjType() == MAP_3DEFFECTNEW)
 		{
@@ -468,7 +468,7 @@ CMapObj* CScene::pickObject(const Vec3D& vRayPos , const Vec3D& vRayDir)
 void CScene::clearChildren()
 {
 	CRenderNode::clearChildren();
-	m_ObjectTree.clearObjects();
+	m_Octree.clearObjects();
 	m_setRenderSceneObj.clear();
 	// ----
 	m_FocusNodel.removeChildren();

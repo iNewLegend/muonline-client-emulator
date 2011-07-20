@@ -105,7 +105,7 @@
     <ClInclude Include="Include\MapObj.h" />
     <ClInclude Include="Include\MapSound.h" />
     <ClInclude Include="Include\MeshCoordinate.h" />
-    <ClInclude Include="Include\ObjectTree.h" />
+    <ClInclude Include="Include\Octree.h" />
     <ClInclude Include="Include\RenderNodeMgr.h" />
     <ClInclude Include="include\Particle.h" />
     <ClInclude Include="Include\RenderNode.h" />
@@ -134,7 +134,7 @@
     <ClCompile Include="src\Log.cpp" />
     <ClCompile Include="src\MapSound.cpp" />
     <ClCompile Include="src\MeshCoordinate.cpp" />
-    <ClCompile Include="src\ObjectTree.cpp" />
+    <ClCompile Include="src\Octree.cpp" />
     <ClCompile Include="src\RenderNodeMgr.cpp" />
     <ClCompile Include="src\Particle.cpp" />
     <ClCompile Include="src\RenderNode.cpp" />
