@@ -121,7 +121,7 @@ void CLightMap::CalcLightMapByShader(int nCalcCount)
 
 	CRenderSystem& R = GetRenderSystem();
 	// ตฦนโ
-	Vec3D vLightDir = m_pScene->getTerrainData()->GetLightDir();
+	Vec3D vLightDir = m_pScene->getLight().vDirection;
 	//m_pShader->SetFloat("g_fScale",1.0f/nCalcCount);
 	//for (int i = 0; i < nCalcCount; i++)
 	{

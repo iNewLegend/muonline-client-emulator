@@ -110,10 +110,12 @@ void ObjectTree::getObjectsByBBox(const BBox& box,const std::vector<iRenderNode*
 void ObjectTree::getObjects(LIST_RENDER_NODE& setObject)
 {
 	setObject.insert(setObject.end(), m_setObjet.begin(), m_setObjet.end());
-	for (size_t i=0;i<8;++i)
+	if(pChild)
 	{
-		if(pChild != NULL)
+		for (size_t i=0;i<8;++i)
+		{
 			pChild[i].getObjects(setObject);
+		}
 	}
 }
 void ObjectTree::getObjectsByPos(Vec3D vPos, LIST_RENDER_NODE& setObject)
@@ -162,20 +164,16 @@ void ObjectTree::getObjectsByFrustum(const CFrustum& frustum, LIST_RENDER_NODE& 
 	}
 	else if (cross_cross == crossRet)
 	{
-		FOR_IN(it, m_setObjet)
-		{
-			CrossRet crossRet = frustum.CheckAABBVisible((*it)->getWorldBBox());
-			if (cross_exclude != crossRet)
-			{
-				setObject.push_back((*it));
-			}
-		}
 		if (pChild)
 		{
 			for (size_t i=0;i<8;++i)
 			{
 				pChild[i].getObjectsByFrustum(frustum, setObject);
 			}
+		}
+		else
+		{
+			getObjects(setObject);
 		}
 	}
 }
@@ -201,12 +199,22 @@ ObjectTree* ObjectTree::getNodeByAABB(const BBox& box)
 	return NULL;
 }
 
-bool ObjectTree::addObject(iRenderNode* pObject)
+bool ObjectTree::addObject(const BBox& box, iRenderNode* pObject)
 {
-	ObjectTree* pNode = getNodeByAABB(pObject->getWorldBBox());
-	if (pNode)
+	CrossRet crossRet = bbox.checkAABBVisible(box);
+	if (cross_exclude != crossRet)
 	{
-		pNode->m_setObjet.push_back(pObject);
+		if (pChild)
+		{
+			for (size_t i=0;i<8;++i)
+			{
+				pChild[i].addObject(box, pObject);
+			}
+		}
+		else
+		{
+			m_setObjet.push_back(pObject);
+		}
 		return true;
 	}
 	return false;
@@ -224,23 +232,27 @@ bool ObjectTree::addObject(iRenderNode* pObject)
 
 bool ObjectTree::eraseObject(iRenderNode* pObject)
 {
-	auto it = std::find( m_setObjet.begin( ), m_setObjet.end( ), pObject );
-	if(it!=m_setObjet.end())
-	{
-		m_setObjet.erase(it);
-		return true;
-	}
-	else if (pChild)
+	bool bRet = false;
+	if (pChild)
 	{
 		for (size_t i=0;i<8;++i)
 		{
 			if (pChild[i].eraseObject(pObject))
 			{
-				return true;
+				bRet = true;
 			}
 		}
 	}
-	return false;
+	else
+	{
+		auto it = std::find( m_setObjet.begin( ), m_setObjet.end( ), pObject );
+		if(it!=m_setObjet.end())
+		{
+			m_setObjet.erase(it);
+			bRet = true;
+		}
+	}
+	return bRet;
 }
 
 bool ObjectTree::updateObject(iRenderNode* pObject)
@@ -325,21 +337,6 @@ void ObjectTree::create(const BBox& box, size_t size)
 		for (size_t i=0;i<8;++i)
 		{
 			pChild[i].create(childBoxs[i], size);
-		}
-	}
-}
-
-void ObjectTree::process()
-{
-	FOR_IN(it, m_setObjet)
-	{
-		//(*it)->Process(NULL);
-	}
-	if (pChild)
-	{
-		for (size_t i=0;i<8;++i)
-		{
-			//pChild[i].process();
 		}
 	}
 }
