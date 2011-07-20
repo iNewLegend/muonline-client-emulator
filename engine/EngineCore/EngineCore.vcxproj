@@ -63,10 +63,10 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Lib>
-      <OutputFile>$(SolutionDir)lib\$(ProjectName)d.lib</OutputFile>
+      <OutputFile>$(ProjectDir)..\lib\$(ProjectName)d.lib</OutputFile>
     </Lib>
     <PostBuildEvent>
-      <Command>xcopy $(ProjectDir)include\*.h $(SolutionDir)include\ /y</Command>
+      <Command>xcopy $(ProjectDir)include\*.h $(ProjectDir)..\include\ /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -77,10 +77,10 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Lib>
-      <OutputFile>$(SolutionDir)lib\$(ProjectName).lib</OutputFile>
+      <OutputFile>$(ProjectDir)..\lib\$(ProjectName).lib</OutputFile>
     </Lib>
     <PostBuildEvent>
-      <Command>xcopy $(ProjectDir)include\*.h $(SolutionDir)include\ /y</Command>
+      <Command>xcopy $(ProjectDir)include\*.h $(ProjectDir)..\include\ /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
