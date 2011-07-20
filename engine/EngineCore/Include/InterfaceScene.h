@@ -232,11 +232,11 @@ class iSceneData
 {
 public:
 	virtual void					setBBox					(const BBox& box)=0;
-	virtual void					setOctreeSize			(const size_t size)=0;
+	virtual void					setOctreeDepth			(const size_t size)=0;
 	virtual void					setFog					(const Fog& fog)=0;
 	virtual void					setLight				(const DirectionalLight& light)=0;
 	virtual const BBox&				getBBox					()const=0;
-	virtual const size_t			getOctreeSize			()const=0;
+	virtual const size_t			getOctreeDepth			()const=0;
 	virtual const Fog&				getFog					()const=0;
 	virtual const DirectionalLight&	getLight				()const=0;
 };

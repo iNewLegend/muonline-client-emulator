@@ -40,7 +40,7 @@ bool sortNode(CRenderNode* p1, CRenderNode* p2)
 
 void CScene::getRenderNodes(const CFrustum& frustum, LIST_RENDER_NODE& NodeList)
 {
-	m_Octree.getNodesByFrustum(frustum,NodeList);
+	m_OctreeRoot.walkOctree(frustum,NodeList);
 	static bool bTest = true;
 	if (bTest)
 	{
@@ -51,9 +51,9 @@ void CScene::getRenderNodes(const CFrustum& frustum, LIST_RENDER_NODE& NodeList)
 
 bool CScene::updateNode(iRenderNode* pNode)
 {
-	if(m_Octree.eraseNode(pNode))
+	if(m_OctreeRoot.eraseNode(pNode))
 	{
-		m_Octree.addNode(pNode->getWorldBBox(), pNode);
+		m_OctreeRoot.addNode(pNode->getWorldBBox(), pNode);
 		return true;
 	}
 	return false;
@@ -293,7 +293,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 bool CScene::init(void* pData)
 {
 	m_pSceneData = (SceneData*)pData;
-	m_Octree.create(m_pSceneData->getBBox(),m_pSceneData->getOctreeSize());
+	m_OctreeRoot.create(m_pSceneData->getBBox(),m_pSceneData->getOctreeDepth());
 	return true;
 }
 
@@ -301,7 +301,7 @@ void CScene::addChild(iRenderNode* pChild)
 {
 	CRenderNode::addChild(pChild);
 	// ----
-	if (m_Octree.addNode(pChild->getWorldBBox(), pChild))
+	if (m_OctreeRoot.addNode(pChild->getWorldBBox(), pChild))
 	{
 		m_bRefreshViewport = true;
 	}
@@ -319,7 +319,7 @@ bool CScene::removeChild(iRenderNode* pChild)
 		return false;
 	}
 	// ----
-	m_Octree.eraseNode(pChild);
+	m_OctreeRoot.eraseNode(pChild);
 	// ----
 	removeRenderNode(pChild);
 	// ----
@@ -372,12 +372,10 @@ void CScene::del3DMapEffect(const Vec3D& vWorldPos)
 
 void CScene::del3DMapEffect(C3DMapEffect* pEffect)
 {
-	if (m_Octree.find(pEffect))
+	m_OctreeRoot.eraseNode(pEffect);
+	if(pEffect->getObjType() == MAP_3DEFFECT || pEffect->getObjType() == MAP_3DEFFECTNEW)
 	{
-		if(pEffect->getObjType() == MAP_3DEFFECT || pEffect->getObjType() == MAP_3DEFFECTNEW)
-		{
-			pEffect->Die();
-		}
+		pEffect->Die();
 	}
 }
 
@@ -473,7 +471,7 @@ CMapObj* CScene::pickNode(const Vec3D& vRayPos , const Vec3D& vRayDir)
 void CScene::clearChildren()
 {
 	CRenderNode::clearChildren();
-	m_Octree.clearNodes();
+	m_OctreeRoot.clearNodes();
 	m_setRenderSceneNode.clear();
 	// ----
 	m_FocusNode.removeChildren();
