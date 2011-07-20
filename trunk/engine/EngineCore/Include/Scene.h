@@ -10,12 +10,12 @@ class SceneData: public iSceneData
 {
 public:
 	virtual GSET_CONST_VAR	(BBox&,				m_,BBox);
-	virtual GSET_CONST_VAR	(size_t,			m_,OctreeSize);
+	virtual GSET_CONST_VAR	(size_t,			m_,OctreeDepth);
 	virtual GSET_CONST_VAR	(Fog&,				m_,Fog);
 	virtual GSET_CONST_VAR	(DirectionalLight&,	m_,Light);
 private:
 	BBox				m_BBox;
-	size_t				m_OctreeSize;
+	size_t				m_OctreeDepth;
 	Fog					m_Fog;
 	DirectionalLight	m_Light;
 };
@@ -63,10 +63,10 @@ public:
 	// ----
 	// # data
 	// ----
-	Octree&				getOctree				()						{return m_Octree;}
+	Octree<iRenderNode>&getOctree				(){return m_OctreeRoot;}
 	// ----
-	iTerrainData*		getTerrainData			()						{return m_pTerrain;}
-	const iTerrainData*	getTerrainData			()const					{return m_pTerrain;}
+	iTerrainData*		getTerrainData			(){return m_pTerrain;}
+	const iTerrainData*	getTerrainData			()const{return m_pTerrain;}
 	void				CalcLightMap			();
 	// ----
 	GSET_VAR		(bool,				m_b,ShowNode);
@@ -82,7 +82,7 @@ public:
 protected:
 	SceneData*				m_pSceneData;
 	CTerrain*				m_pTerrain;
-	Octree					m_Octree;
+	Octree<iRenderNode>		m_OctreeRoot;
 	LIST_RENDER_NODE		m_setRenderSceneNode;
 	LIST_RENDER_NODE		m_setLightObj;
 	bool					m_bRefreshViewport;
