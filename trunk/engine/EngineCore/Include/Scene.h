@@ -27,9 +27,9 @@ public:
 	~CScene();
 public:
 	virtual int			getType					(){return NODE_BASE;}
-	virtual void		GetRenderObject			(const CFrustum& frustum, LIST_RENDER_NODE& ObjectList);
+	virtual void		getRenderNodes			(const CFrustum& frustum, LIST_RENDER_NODE& NodeList);
 	void				UpdateRender			(const CFrustum& frustum);
-	bool				updateMapObj			(iRenderNode* pMapObj);
+	bool				updateNode				(iRenderNode* pNode);
 	// ----
 	virtual void		frameMove				(const Matrix& mWorld, double fTime, float fElapsedTime);
 	virtual void		render					(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType=MATERIAL_NORMAL)const;
@@ -40,7 +40,7 @@ public:
 	// ----
 	// load
 	virtual bool		init					(void* pData);
-	bool				removeRenderObj			(iRenderNode* pObj);
+	bool				removeRenderNode		(iRenderNode* pNode);
 	// ----
 	// # shit
 	// ----
@@ -50,27 +50,27 @@ public:
 	// ----
 	// # shit
 	// ----
-	virtual	void		clearAllObjects			();
-	virtual	void		getAllObjects			();
+	virtual	void		clearNodes				();
+	virtual	void		getNodes				();
 	// ----
-	// # Focus Objects
+	// # Focus Nodes
 	// ----
 	bool				delChildByFocus			();
-	void				updateObjTreeByFocus	();
-	CFocusNode&			getFocusObjects			(){return m_FocusNodel;}
+	void				updateOctreeByFocus		();
+	CFocusNode&			getFocusNodes			(){return m_FocusNode;}
 	// ----
-	CMapObj*			pickObject				(const Vec3D& vRayPos , const Vec3D& vRayDir);
+	CMapObj*			pickNode				(const Vec3D& vRayPos , const Vec3D& vRayDir);
 	// ----
 	// # data
 	// ----
-	Octree&			GetObject				()						{return m_Octree;}
+	Octree&				getOctree				()						{return m_Octree;}
 	// ----
 	iTerrainData*		getTerrainData			()						{return m_pTerrain;}
 	const iTerrainData*	getTerrainData			()const					{return m_pTerrain;}
 	void				CalcLightMap			();
 	// ----
-	GSET_VAR		(bool,				m_b,ShowObject);
-	GSET_VAR		(bool,				m_b,ShowObjectBBox);
+	GSET_VAR		(bool,				m_b,ShowNode);
+	GSET_VAR		(bool,				m_b,ShowNodeBBox);
 	GSET_VAR		(bool,				m_b,ShowOctreeBox);
 	GSET_VAR		(bool,				m_b,RefreshViewport);
 	GSET_VAR		(CTerrain*,			m_p,Terrain );
@@ -82,15 +82,15 @@ public:
 protected:
 	SceneData*				m_pSceneData;
 	CTerrain*				m_pTerrain;
-	Octree				m_Octree;
-	LIST_RENDER_NODE		m_setRenderSceneObj;
+	Octree					m_Octree;
+	LIST_RENDER_NODE		m_setRenderSceneNode;
 	LIST_RENDER_NODE		m_setLightObj;
 	bool					m_bRefreshViewport;
 protected:
-	CFocusNode				m_FocusNodel;        // The object which has focus
-	bool					m_bShowObject;
-	bool					m_bShowAnimObject;
-	bool					m_bShowObjectBBox;
+	CFocusNode				m_FocusNode;        // The node which has focus
+	bool					m_bShowNode;
+	bool					m_bShowAnimNode;
+	bool					m_bShowNodeBBox;
 	bool					m_bShowOctreeBox;
 
 	Fog						m_Fog;

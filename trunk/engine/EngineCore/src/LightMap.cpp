@@ -212,7 +212,7 @@ void CLightMap::RenderDepthToTex(const Matrix& mLight)
 		// Îï¼þ
 		{
 			LIST_RENDER_NODE	setRenderSceneObj;
-			m_pScene->GetRenderObject(frustum, setRenderSceneObj);
+			m_pScene->getRenderNodes(frustum, setRenderSceneObj);
 			FOR_IN(it,setRenderSceneObj)
 			{
 				//if ((*it)->GetObjType()==MAP_3DSIMPLE)

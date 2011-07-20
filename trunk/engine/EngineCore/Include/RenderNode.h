@@ -31,8 +31,8 @@ public:
 public:
 	GSET_VAR				(CRenderNode*,	m_p,Parent);
 	//----
-	GET_VARIABLE			(LIST_RENDER_NODE&,ChildObj,m_mapChildObj);
-	CONST_GET_VARIABLE		(LIST_RENDER_NODE&,ChildObj,m_mapChildObj);
+	GET_VARIABLE			(LIST_RENDER_NODE&,ChildObj,m_mapChildNode);
+	CONST_GET_VARIABLE		(LIST_RENDER_NODE&,ChildObj,m_mapChildNode);
 	//----
 	virtual GSET_STRING	(Name);
 	virtual GSET_STRING	(Filename);
@@ -57,7 +57,7 @@ public:
 	void					setChildBindingBone	(const char* szName, const char* szBoneName);
 protected:
 	CRenderNode*			m_pParent;
-	LIST_RENDER_NODE		m_mapChildObj;
+	LIST_RENDER_NODE		m_mapChildNode;
 	//----
 	std::string				m_strName;
 	std::string				m_strFilename;

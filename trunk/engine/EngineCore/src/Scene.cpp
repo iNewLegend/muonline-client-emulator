@@ -5,8 +5,8 @@
 #include "RenderNodeMgr.h"
 
 CScene::CScene()
-	:m_bShowObject(true)
-	,m_bShowObjectBBox(false)
+	:m_bShowNode(true)
+	,m_bShowNodeBBox(false)
 	,m_Fog(32.0f,48.0f,0.01f,0xFF223344)
 	,m_Light(Vec4D(1.0f,1.0f,1.0f,1.0f),Vec4D(1.0f,1.0f,1.0f,1.0f),Vec4D(1.0f,1.0f,1.0f,1.0f),Vec3D(-1.0f,-1.0f,-1.0f))
 	,m_pSceneData(NULL)
@@ -20,8 +20,8 @@ CScene::~CScene()
 	clearChildren();
 }
 
-static Vec3D vEyeForObjectSort;
-bool sortObject(CRenderNode* p1, CRenderNode* p2)
+static Vec3D vEyeForNodeSort;
+bool sortNode(CRenderNode* p1, CRenderNode* p2)
 {
 	CMapObj* p11 = (CMapObj*)p1;
 	CMapObj* p22 = (CMapObj*)p2;
@@ -30,7 +30,7 @@ bool sortObject(CRenderNode* p1, CRenderNode* p2)
 		return p11->getOrder()>p22->getOrder();
 	}
 	return p11>p22;
-//	//float fLength = (vEyeForObjectSort-p1->getPos()).lengthSquared()-(vEyeForObjectSort-p2->getPos()).lengthSquared();
+//	//float fLength = (vEyeForNodeSort-p1->getPos()).lengthSquared()-(vEyeForNodeSort-p2->getPos()).lengthSquared();
 //	//if (fLength!=0)
 //	//{
 //	//	return fLength>0;
@@ -38,25 +38,30 @@ bool sortObject(CRenderNode* p1, CRenderNode* p2)
 //	return p1->getModelFilename()>p2->getModelFilename();
 }
 
-void CScene::GetRenderObject(const CFrustum& frustum, LIST_RENDER_NODE& ObjectList)
+void CScene::getRenderNodes(const CFrustum& frustum, LIST_RENDER_NODE& NodeList)
 {
-	m_Octree.getObjectsByFrustum(frustum,ObjectList);
+	m_Octree.getNodesByFrustum(frustum,NodeList);
 	static bool bTest = true;
 	if (bTest)
 	{
-		vEyeForObjectSort= frustum.getEyePoint();
-		//std::sort(ObjectList.begin(),ObjectList.end(), sortObject);
+		vEyeForNodeSort= frustum.getEyePoint();
+		//std::sort(NodeList.begin(),NodeList.end(), sortNode);
 	}
 }
 
-bool CScene::updateMapObj(iRenderNode* pMapObj)
+bool CScene::updateNode(iRenderNode* pNode)
 {
-	return m_Octree.updateObject(pMapObj);
+	if(m_Octree.eraseNode(pNode))
+	{
+		m_Octree.addNode(pNode->getWorldBBox(), pNode);
+		return true;
+	}
+	return false;
 }
 
 void CScene::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
-	FOR_IN(it,m_mapChildObj)
+	FOR_IN(it,m_mapChildNode)
 	{
 		(*it)->frameMove(Matrix::UNIT,fTime,fElapsedTime);
 	}
@@ -79,11 +84,11 @@ void CScene::UpdateRender(const CFrustum& frustum)
 		m_pTerrain->UpdateRender(frustum);
 	}
 	//
-	m_setRenderSceneObj.clear();
-	if (m_bShowObject)
+	m_setRenderSceneNode.clear();
+	if (m_bShowNode)
 	{
-		GetRenderObject(frustum, m_setRenderSceneObj);
-		FOR_IN(it,m_setRenderSceneObj)
+		getRenderNodes(frustum, m_setRenderSceneNode);
+		FOR_IN(it,m_setRenderSceneNode)
 		{
 			if (1)
 			{
@@ -100,25 +105,25 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 	//R.setFogEnable(true);
 	R.ClearBuffer(true, true, m_Fog.color);
 	// 
-	if (m_bShowObjectBBox)
+	if (m_bShowNodeBBox)
 	{
 		R.SetDepthBufferFunc(true,true);
 		// ----
-		FOR_IN(it,m_setRenderSceneObj)
+		FOR_IN(it,m_setRenderSceneNode)
 		{
 		//	(*it)->renderDebug();
 		}
 	}
-	//if (m_setFocusObjects.size()>0)
+	//if (m_setFocusNodes.size()>0)
 	{
-// 		for(size_t i=0;i<m_setFocusObjects.size();++i)
+// 		for(size_t i=0;i<m_setFocusNodes.size();++i)
 // 		{
-// 			m_setFocusObjects[i]->renderDebug();
+// 			m_setFocusNodes[i]->renderDebug();
 // 		}
-		// The octree boxs of focus objects.
-// 		for(size_t i=0;i<m_setFocusObjects.size();++i)
+		// The octree boxs of focus Nodes.
+// 		for(size_t i=0;i<m_setFocusNodes.size();++i)
 // 		{
-// 			Octree* pParentOctree = m_Octree.find(m_setFocusObjects[i]);
+// 			Octree* pParentOctree = m_Octree.find(m_setFocusNodes[i]);
 // 			if (pParentOctree)
 // 			{
 // 				GetGraphics().drawBBox(pParentOctree->getBBox(),0xFF00FF44);
@@ -165,7 +170,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 		R.SetTextureAlphaOP(1,TBOP_DISABLE);
 		R.SetStencilFunc(true,STENCILOP_INCR,CMPF_GREATER);
 		// ----
-		FOR_IN(it,m_setRenderSceneObj)
+		FOR_IN(it,m_setRenderSceneNode)
 		{
 			try {
 				CMapObj* pObj = (CMapObj*)(*it);
@@ -202,7 +207,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 		// ----
 		R.SetStencilFunc(false);
 		// ----
-		FOR_IN(it,m_setRenderSceneObj)
+		FOR_IN(it,m_setRenderSceneNode)
 		{
 			try {
 				CMapObj* pObj = (CMapObj*)(*it);
@@ -249,11 +254,11 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 			}
 		}
 		//
-		FOR_IN(it,m_FocusNodel.getChildObj())
+		FOR_IN(it,m_FocusNode.getChildObj())
 		{
 			((C3DMapObj*)*it)->renderFocus();
 		}
-		FOR_IN(it,m_FocusNodel.getChildObj())
+		FOR_IN(it,m_FocusNode.getChildObj())
 		{
 			DirectionalLight light(Vec4D(0.4f,0.4f,0.4f,0.4f),Vec4D(1.0f,1.0f,1.0f,1.0f),
 				Vec4D(0.6f,0.6f,0.6f,0.6f),vLightDir);
@@ -274,11 +279,11 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 		fogForGlow.fEnd = m_Fog.fEnd*2.0f;
 		R.setFog(fogForGlow);
 		//
-		FOR_IN(it,m_setRenderSceneObj)
+		FOR_IN(it,m_setRenderSceneNode)
 		{
 			(*it)->render(Matrix::UNIT,MATERIAL_ALPHA);
 		}
-		FOR_IN(it,m_setRenderSceneObj)
+		FOR_IN(it,m_setRenderSceneNode)
 		{
 			(*it)->render(Matrix::UNIT,MATERIAL_GLOW);
 		}
@@ -296,7 +301,7 @@ void CScene::addChild(iRenderNode* pChild)
 {
 	CRenderNode::addChild(pChild);
 	// ----
-	if (m_Octree.addObject(pChild))
+	if (m_Octree.addNode(pChild->getWorldBBox(), pChild))
 	{
 		m_bRefreshViewport = true;
 	}
@@ -314,21 +319,21 @@ bool CScene::removeChild(iRenderNode* pChild)
 		return false;
 	}
 	// ----
-	m_Octree.eraseObject(pChild);
+	m_Octree.eraseNode(pChild);
 	// ----
-	removeRenderObj(pChild);
+	removeRenderNode(pChild);
 	// ----
-	m_FocusNodel.removeChild(pChild);
+	m_FocusNode.removeChild(pChild);
 	return true;
 }
 
-bool CScene::removeRenderObj(iRenderNode* pObj)
+bool CScene::removeRenderNode(iRenderNode* pNode)
 {
 	// del from render
-	auto it = find( m_setRenderSceneObj.begin( ), m_setRenderSceneObj.end( ), pObj );
-	if(it!=m_setRenderSceneObj.end())
+	auto it = find( m_setRenderSceneNode.begin( ), m_setRenderSceneNode.end( ), pNode );
+	if(it!=m_setRenderSceneNode.end())
 	{
-		m_setRenderSceneObj.erase(it);
+		m_setRenderSceneNode.erase(it);
 		return true;
 	}
 	return false;
@@ -350,13 +355,13 @@ C3DMapEffect* CScene::add3DMapEffect(const Vec3D& vWorldPos, char* pszIndex, boo
 
 void CScene::del3DMapEffect(const Vec3D& vWorldPos)
 {
-// 	LIST_RENDER_NODE setObject;
-// 	m_Octree.getObjectsByPos(vWorldPos,setObject);
-// 	FOR_IN(it,setObject)
+// 	LIST_RENDER_NODE setNode;
+// 	m_Octree.getNodesByPos(vWorldPos,setNode);
+// 	FOR_IN(it,setNode)
 // 	{
 // 		if((*it) && ((*it)->GetObjType() == MAP_3DEFFECT || (*it)->GetObjType() == MAP_3DEFFECTNEW))
 // 		{
-// 			if (m_Octree.delObject(*it))
+// 			if (m_Octree.delNode(*it))
 // 			{
 // 				C3DMapEffect* pEffect = (C3DMapEffect*)(*it);
 // 				S_DEL(pEffect);
@@ -376,56 +381,56 @@ void CScene::del3DMapEffect(C3DMapEffect* pEffect)
 	}
 }
 
-void CScene::clearAllObjects()
+void CScene::clearNodes()
 {
 
 }
 
-void CScene::getAllObjects()
+void CScene::getNodes()
 {
 
 }
 
 /*CRenderNode* CScene::add3DMapSceneObj(__int64 uID,const Vec3D& vPos,const Vec3D& vRotate,const Vec3D& vScale)
 {
- 	if (m_ObjectInfo.find(uID)==m_ObjectInfo.end())
+ 	if (m_NodeInfo.find(uID)==m_NodeInfo.end())
  	{
 		return NULL;
 	}
 	// ----
-	const ObjectInfo& objectInfo = m_ObjectInfo[uID];
+	const NodeInfo& NodeInfo = m_NodeInfo[uID];
 	// ----
 	BBox localBBox;
 	localBBox.vMin.set(-1,-1,-1);
 	localBBox.vMax.set( 1, 1, 1);
 	// ----
-	//C3DMapSceneObj* pObject = new C3DMapSceneObj;
-	//pObject->Register(objectInfo.strFilename.c_str());
-	C3DMapSceneObj* pObject = new C3DMapSceneObj;
-	pObject->setPos(vPos);
-	pObject->setRotate(vRotate);
-	pObject->setScale(vScale);
-	pObject->setLocalBBox(localBBox);
-	pObject->updateWorldMatrix();
-	pObject->updateWorldBBox();
+	//C3DMapSceneObj* pNode = new C3DMapSceneObj;
+	//pNode->Register(NodeInfo.strFilename.c_str());
+	C3DMapSceneObj* pNode = new C3DMapSceneObj;
+	pNode->setPos(vPos);
+	pNode->setRotate(vRotate);
+	pNode->setScale(vScale);
+	pNode->setLocalBBox(localBBox);
+	pNode->updateWorldMatrix();
+	pNode->updateWorldBBox();
 	// ----
-	pObject->setObjectID(uID);
+	pNode->setNodeID(uID);
 	// ----
 	char szNameID[255];
 	sprintf(szNameID,"%d",uID);
-	pObject->setName(szNameID);
+	pNode->setName(szNameID);
 	// ----
 	// 		//Vec4D vColor = m_pTerrain->GetData().GetColor(Vec2D(vPos.x,vPos.z));
 	// 		//vColor.w=1.0f;
-	// 		//pObject->SetMaterial(vColor*0.5f,vColor+0.3f);
+	// 		//pNode->SetMaterial(vColor*0.5f,vColor+0.3f);
 	// ----
-	addChild(pObject);
-	return pObject;
+	addChild(pNode);
+	return pNode;
 }*/
 
 bool CScene::delChildByFocus()
 {
-	const LIST_RENDER_NODE& focusChild = m_FocusNodel.getChildObj();
+	const LIST_RENDER_NODE& focusChild = m_FocusNode.getChildObj();
 	// ----
 	FOR_IN(it,focusChild)
 	{
@@ -434,44 +439,44 @@ bool CScene::delChildByFocus()
 	return true;
 }
 
-void CScene::updateObjTreeByFocus()
+void CScene::updateOctreeByFocus()
 {
-	LIST_RENDER_NODE& focusChild = m_FocusNodel.getChildObj();
+	LIST_RENDER_NODE& focusChild = m_FocusNode.getChildObj();
 	FOR_IN(it,focusChild)
 	{
-		updateMapObj(*it);
+		updateNode(*it);
 	}
 }
 
 #include "float.h"
 
 #include "intersect.h"
-CMapObj* CScene::pickObject(const Vec3D& vRayPos , const Vec3D& vRayDir)
+CMapObj* CScene::pickNode(const Vec3D& vRayPos , const Vec3D& vRayDir)
 {
-	CMapObj* pObject = NULL;
+	CMapObj* pNode = NULL;
 	float fFocusMin = FLT_MAX;
-	FOR_IN(it,m_setRenderSceneObj)
+	FOR_IN(it,m_setRenderSceneNode)
 	{
 		float fMin, fMax;
 		if (((CMapObj*)(*it))->intersect(vRayPos , vRayDir, fMin, fMax))
 		{
 			if (fFocusMin>fMin)
 			{
-				pObject = (CMapObj*)*it;
+				pNode = (CMapObj*)*it;
 				fFocusMin=fMax;
 			}
 		}
 	}
-	return pObject;
+	return pNode;
 }
 
 void CScene::clearChildren()
 {
 	CRenderNode::clearChildren();
-	m_Octree.clearObjects();
-	m_setRenderSceneObj.clear();
+	m_Octree.clearNodes();
+	m_setRenderSceneNode.clear();
 	// ----
-	m_FocusNodel.removeChildren();
+	m_FocusNode.removeChildren();
 	// ----
 	m_bRefreshViewport = true;
 }

@@ -7,7 +7,7 @@ Octree::Octree()
 
 Octree::~Octree()
 {
-	clearObjects();
+	clearNodes();
 	if (pChild)
 	{
 		delete[] pChild;
@@ -19,63 +19,63 @@ const BBox& Octree::getBBox()const
 	return bbox;
 }
 
-void Octree::clearObjects()
+void Octree::clearNodes()
 {
 // 	FOR_IN(it, m_setObjet)
 // 	{
 // 		(*it)->release();
 // 	}
-	m_setObjet.clear();
+	m_setNode.clear();
 	if (pChild)
 	{
 		for (size_t i=0;i<8;++i)
 		{
-			pChild[i].clearObjects();
+			pChild[i].clearNodes();
 		}
 	}
 }
 
-//void Octree::setupObjectBBox()
+//void Octree::setupNodeBBox()
 //{
 //	if (pChild)
 //	{
 //		if (pChild[0].m_setObjet.size()>0)
 //		{
-//			pChild[0].setupObjectBBox();
-//			bboxObject=pChild[0].bboxObject;
+//			pChild[0].setupNodeBBox();
+//			bboxNode=pChild[0].bboxNode;
 //			if (pChild[1].m_setObjet.size()>0)
 //			{
-//				pChild[1].setupObjectBBox();
-//				bboxObject+=pChild[1].bboxObject;
+//				pChild[1].setupNodeBBox();
+//				bboxNode+=pChild[1].bboxNode;
 //			}
 //		}
 //		else if (pChild[1].m_setObjet.size()>0)
 //		{
-//			pChild[1].setupObjectBBox();
-//			bboxObject=pChild[1].bboxObject;
+//			pChild[1].setupNodeBBox();
+//			bboxNode=pChild[1].bboxNode;
 //		}
 //	}
 //	else
 //	{
 //		if (m_setObjet.size()>0)
 //		{
-//			bboxObject=m_setObjet[0]->GetBBox();
+//			bboxNode=m_setObjet[0]->GetBBox();
 //		}
 //		for (auto it=m_setObjet.begin();it!=m_setObjet.end();it++)
 //		{
 //			BBox box = (*it)->GetBBox();
-//			bboxObject+=box;
+//			bboxNode+=box;
 //		}
 //	}
 //}
 
-void Octree::getObjectsByBBox(const BBox& box,const std::vector<iRenderNode*>& setSrcObject, std::vector<iRenderNode*>& setDestObject)
+void Octree::getNodesByBBox(const BBox& box,const std::vector<iRenderNode*>& setSrcNode, std::vector<iRenderNode*>& setDestNode)
 {
-	FOR_IN(it, setSrcObject)
+	FOR_IN(it, setSrcNode)
 	{
 		if (box.crossVertex((*it)->getPos()))
 		{
-			setDestObject.push_back(*it);
+			setDestNode.push_back(*it);
 		}
 	}
 }
@@ -86,7 +86,7 @@ void Octree::getObjectsByBBox(const BBox& box,const std::vector<iRenderNode*>& s
 //	{
 //		return;
 //	}
-//	CrossRet crossRet = frustum.CheckAABBVisible(bboxObject);
+//	CrossRet crossRet = frustum.CheckAABBVisible(bboxNode);
 //	if (cross_include == crossRet)
 //	{
 //		setOctree.push_back(this);
@@ -107,60 +107,60 @@ void Octree::getObjectsByBBox(const BBox& box,const std::vector<iRenderNode*>& s
 //	}
 //}
 
-void Octree::getObjects(LIST_RENDER_NODE& setObject)
+void Octree::getNodes(LIST_RENDER_NODE& setNode)
 {
-	setObject.insert(setObject.end(), m_setObjet.begin(), m_setObjet.end());
+	setNode.insert(setNode.end(), m_setNode.begin(), m_setNode.end());
 	if(pChild)
 	{
 		for (size_t i=0;i<8;++i)
 		{
-			pChild[i].getObjects(setObject);
+			pChild[i].getNodes(setNode);
 		}
 	}
 }
-void Octree::getObjectsByPos(Vec3D vPos, LIST_RENDER_NODE& setObject)
+void Octree::getNodesByPos(Vec3D vPos, LIST_RENDER_NODE& setNode)
 {
-	FOR_IN(it, m_setObjet)
+	FOR_IN(it, m_setNode)
 	{
 		if ((*it)->getPos()==vPos)
 		{
-			setObject.push_back(*it);
+			setNode.push_back(*it);
 		}
 	}
 	if (pChild)
 	{
 		for (size_t i=0;i<8;++i)
 		{
-			pChild[i].getObjectsByPos(vPos,setObject);
+			pChild[i].getNodesByPos(vPos,setNode);
 		}
 	}
 }
 
-void Octree::getObjectsByCell(Pos2D posCell, LIST_RENDER_NODE& setObject)
+void Octree::getNodesByCell(Pos2D posCell, LIST_RENDER_NODE& setNode)
 {
-	FOR_IN(it, m_setObjet)
+	FOR_IN(it, m_setNode)
 	{
 		if ((*it)->getPos().x ==posCell.x&&
 			(*it)->getPos().z ==posCell.y)
 		{
-			setObject.push_back(*it);
+			setNode.push_back(*it);
 		}
 	}
 	if (pChild)
 	{
 		for (size_t i=0;i<8;++i)
 		{
-			pChild[i].getObjectsByCell(posCell,setObject);
+			pChild[i].getNodesByCell(posCell,setNode);
 		}
 	}
 }
 
-void Octree::getObjectsByFrustum(const CFrustum& frustum, LIST_RENDER_NODE& setObject)
+void Octree::getNodesByFrustum(const CFrustum& frustum, LIST_RENDER_NODE& setNode)
 {
 	CrossRet crossRet = frustum.CheckAABBVisible(bbox);
 	if (cross_include == crossRet)
 	{
-		getObjects(setObject);
+		getNodes(setNode);
 	}
 	else if (cross_cross == crossRet)
 	{
@@ -168,12 +168,12 @@ void Octree::getObjectsByFrustum(const CFrustum& frustum, LIST_RENDER_NODE& setO
 		{
 			for (size_t i=0;i<8;++i)
 			{
-				pChild[i].getObjectsByFrustum(frustum, setObject);
+				pChild[i].getNodesByFrustum(frustum, setNode);
 			}
 		}
 		else
 		{
-			getObjects(setObject);
+			getNodes(setNode);
 		}
 	}
 }
@@ -199,7 +199,7 @@ Octree* Octree::getNodeByAABB(const BBox& box)
 	return NULL;
 }
 
-bool Octree::addObject(const BBox& box, iRenderNode* pObject)
+bool Octree::addNode(const BBox& box, iRenderNode* pNode)
 {
 	CrossRet crossRet = bbox.checkAABBVisible(box);
 	if (cross_exclude != crossRet)
@@ -208,36 +208,36 @@ bool Octree::addObject(const BBox& box, iRenderNode* pObject)
 		{
 			for (size_t i=0;i<8;++i)
 			{
-				pChild[i].addObject(box, pObject);
+				pChild[i].addNode(box, pNode);
 			}
 		}
 		else
 		{
-			m_setObjet.push_back(pObject);
+			m_setNode.push_back(pNode);
 		}
 		return true;
 	}
 	return false;
 }
 
-// bool Octree::delObject(iRenderNode* pObject)
+// bool Octree::delNode(iRenderNode* pNode)
 // {
-// 	if(eraseObject(pObject))
+// 	if(eraseNode(pNode))
 // 	{
-// 		pObject->release();	// del self
+// 		pNode->release();	// del self
 // 		return true;
 // 	}
 // 	return false;
 // }
 
-bool Octree::eraseObject(iRenderNode* pObject)
+bool Octree::eraseNode(iRenderNode* pNode)
 {
 	bool bRet = false;
 	if (pChild)
 	{
 		for (size_t i=0;i<8;++i)
 		{
-			if (pChild[i].eraseObject(pObject))
+			if (pChild[i].eraseNode(pNode))
 			{
 				bRet = true;
 			}
@@ -245,30 +245,20 @@ bool Octree::eraseObject(iRenderNode* pObject)
 	}
 	else
 	{
-		auto it = std::find( m_setObjet.begin( ), m_setObjet.end( ), pObject );
-		if(it!=m_setObjet.end())
+		auto it = std::find( m_setNode.begin( ), m_setNode.end( ), pNode );
+		if(it!=m_setNode.end())
 		{
-			m_setObjet.erase(it);
+			m_setNode.erase(it);
 			bRet = true;
 		}
 	}
 	return bRet;
 }
 
-bool Octree::updateObject(iRenderNode* pObject)
+Octree* Octree::find(iRenderNode* pNode)
 {
-	if(eraseObject(pObject))
-	{
-		addObject(pObject);
-		return true;
-	}
-	return false;
-}
-
-Octree* Octree::find(iRenderNode* pObject)
-{
-	auto it = std::find( m_setObjet.begin( ), m_setObjet.end( ), pObject );
-	if(it!=m_setObjet.end())
+	auto it = std::find( m_setNode.begin( ), m_setNode.end( ), pNode );
+	if(it!=m_setNode.end())
 	{
 		return this;
 	}
@@ -276,7 +266,7 @@ Octree* Octree::find(iRenderNode* pObject)
 	{
 		for (size_t i=0;i<8;++i)
 		{
-			Octree* pParentOctree = pChild[i].find(pObject);
+			Octree* pParentOctree = pChild[i].find(pNode);
 			if (pParentOctree)
 			{
 				return pParentOctree;

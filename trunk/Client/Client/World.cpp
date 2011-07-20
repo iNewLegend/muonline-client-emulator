@@ -47,7 +47,7 @@ CRole * CWorld::getFocusRole()
 {
 	iRenderNode* pObj = NULL;
 	// ----
-	if(getFocusObjects().getChildObj().size() == 0)
+	if(getFocusNodes().getChildObj().size() == 0)
 	{
 		// ----
 		// # No focus objects.
@@ -56,7 +56,7 @@ CRole * CWorld::getFocusRole()
 	}
 	else
 	{
-		pObj = *getFocusObjects().getChildObj().begin();
+		pObj = *getFocusNodes().getChildObj().begin();
 		// ----
 		if(pObj != NULL) 
 		{
@@ -98,7 +98,7 @@ CRole* CWorld::pickRole(const Vec3D & vRayPos , const Vec3D & vRayDir)
 	float fMin		= 0.00;
 	float fMax		= 0.00;
 	// ----
-	FOR_IN(it,m_setRenderSceneObj)
+	FOR_IN(it,m_setRenderSceneNode)
 	{
 		if((*it)->getType() != MAP_ROLE)
 		{
@@ -148,7 +148,7 @@ bool CWorld::delRole(ULONG uID)
 		// ----
 		if(it != m_mapRole.end())
 		{
-			removeRenderObj(it->second);
+			removeRenderNode(it->second);
 			// ----
 			m_mapRole.erase(it);
 			// ----
@@ -224,7 +224,7 @@ void CWorld::addDamageInfo(Vec3D vPos,const std::wstring & wcsInfo)
 
 void CWorld::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
-	FOR_IN(it,m_setRenderSceneObj)
+	FOR_IN(it,m_setRenderSceneNode)
 	{
 		if((*it)->getType() != MAP_ROLE)
 		{
@@ -254,7 +254,7 @@ void CWorld::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 	// ----
 	m_setLightObj.clear();
 	// ----
-	FOR_IN(it,m_setRenderSceneObj)
+	FOR_IN(it,m_setRenderSceneNode)
 	{
 		//if(((C3DMapObj*)(*it))->m_setParticleGroup.size() > 0)
 		//{
@@ -294,7 +294,7 @@ void CWorld::GetRenderObject(const CFrustum& frustum, LIST_RENDER_NODE& ObjectLi
 		}
 	}
 	// ----
-	CScene::GetRenderObject(frustum, ObjectList);
+	CScene::getRenderNodes(frustum, ObjectList);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

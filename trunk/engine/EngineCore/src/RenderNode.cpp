@@ -23,7 +23,7 @@ CRenderNode::~CRenderNode()
 void CRenderNode::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
 	BBox bbox;
-	FOR_IN(it,m_mapChildObj)
+	FOR_IN(it,m_mapChildNode)
 	{
 		(*it)->frameMove(mWorld, fTime, fElapsedTime);
 		// ----
@@ -39,7 +39,7 @@ void CRenderNode::frameMove(const Matrix& mWorld, double fTime, float fElapsedTi
 void CRenderNode::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)const
 {
 	Matrix mNewWorld = mWorld*m_mWorldMatrix;
-	FOR_IN(it,m_mapChildObj)
+	FOR_IN(it,m_mapChildNode)
 	{
 		(*it)->render(mNewWorld, eRenderType);
 	}
@@ -48,12 +48,12 @@ void CRenderNode::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderTyp
 void CRenderNode::addChild(iRenderNode* pChild)
 {
 	((CRenderNode*)pChild)->setParent(this);
-	m_mapChildObj.push_back((CRenderNode*)pChild);
+	m_mapChildNode.push_back((CRenderNode*)pChild);
 }
 
 iRenderNode* CRenderNode::getChild(const char* szName)
 {
-	FOR_IN(it,m_mapChildObj)
+	FOR_IN(it,m_mapChildNode)
 	{
 		if (strcmp( (*it)->getName(), szName ) == 0 )
 		{
@@ -65,7 +65,7 @@ iRenderNode* CRenderNode::getChild(const char* szName)
 
 const iRenderNode* CRenderNode::getChild(const char* szName)const
 {
-	FOR_IN(it,m_mapChildObj)
+	FOR_IN(it,m_mapChildNode)
 	{
 		if (strcmp( (*it)->getName(), szName ) == 0 )
 		{
@@ -77,11 +77,11 @@ const iRenderNode* CRenderNode::getChild(const char* szName)const
 
 bool CRenderNode::removeChild(iRenderNode* pChild)
 {
-	auto it = std::find(m_mapChildObj.begin(),m_mapChildObj.end(),pChild);
+	auto it = std::find(m_mapChildNode.begin(),m_mapChildNode.end(),pChild);
 	// ----
-	if (it != m_mapChildObj.end())
+	if (it != m_mapChildNode.end())
 	{
-		m_mapChildObj.erase(it);
+		m_mapChildNode.erase(it);
 		return true;
 	}
 	return false;
@@ -99,8 +99,8 @@ bool CRenderNode::delChild(iRenderNode* pChild)
 
 bool CRenderNode::contain(const CRenderNode* pChild)const
 {
-	auto it = std::find(m_mapChildObj.begin(),m_mapChildObj.end(),pChild);
-	if (it != m_mapChildObj.end())
+	auto it = std::find(m_mapChildNode.begin(),m_mapChildNode.end(),pChild);
+	if (it != m_mapChildNode.end())
 	{
 		return true;
 	}
@@ -109,7 +109,7 @@ bool CRenderNode::contain(const CRenderNode* pChild)const
 
 void CRenderNode::clearChildren()
 {
-	FOR_IN(it,m_mapChildObj)
+	FOR_IN(it,m_mapChildNode)
 		delete (*it);
 	// ----
 	removeChildren();
@@ -117,7 +117,7 @@ void CRenderNode::clearChildren()
 
 void CRenderNode::removeChildren()
 {
-	m_mapChildObj.clear();
+	m_mapChildNode.clear();
 }
 
 CRenderNode* CRenderNode::intersect(const Vec3D& vRayPos , const Vec3D& vRayDir, float &tmin ,float &tmax)
@@ -129,7 +129,7 @@ CRenderNode* CRenderNode::intersect(const Vec3D& vRayPos , const Vec3D& vRayDir,
 	{
 		return NULL;
 	}
-	FOR_IN(it,m_mapChildObj)
+	FOR_IN(it,m_mapChildNode)
  	{
 		CRenderNode* pRenderNode = ((CRenderNode*)(*it))->intersect(vNewRayPos,vNewRayDir,tmin,tmax);
 		if(pRenderNode)

@@ -322,8 +322,8 @@ void CUIDisplayWorld::OnMouseMove(POINT point)
 	// ----
 	if (pRole)
 	{
-		CWorld::getInstance().getFocusObjects().removeChildren();
-		CWorld::getInstance().getFocusObjects().addChild(pRole);
+		CWorld::getInstance().getFocusNodes().removeChildren();
+		CWorld::getInstance().getFocusNodes().addChild(pRole);
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -379,7 +379,7 @@ void CUIDisplayWorld::OnLButtonDown(POINT point)
 		// ----
 		SetPressed(true);
 		// ----
-		if(CWorld::getInstance().getFocusObjects().getChildObj().size() > 0)
+		if(CWorld::getInstance().getFocusNodes().getChildObj().size() > 0)
 		{
 			m_ptLastMousePosition	=	point;
 		}
