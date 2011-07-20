@@ -3,7 +3,6 @@
 #include "MapObj.h"
 #include "3DMapSceneObj.h"
 #include "3DMapEffect.h"
-#include "ObjectTree.h"
 
 class CFocusNode: public CRenderNode
 {

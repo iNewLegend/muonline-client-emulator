@@ -3,19 +3,19 @@
 #include "MapObj.h"
 #include "3DMapSceneObj.h"
 #include "3DMapEffect.h"
-#include "ObjectTree.h"
+#include "Octree.h"
 #include "FocusNode.h"
 
 class SceneData: public iSceneData
 {
 public:
 	virtual GSET_CONST_VAR	(BBox&,				m_,BBox);
-	virtual GSET_CONST_VAR	(size_t,			m_,ObjectTreeSize);
+	virtual GSET_CONST_VAR	(size_t,			m_,OctreeSize);
 	virtual GSET_CONST_VAR	(Fog&,				m_,Fog);
 	virtual GSET_CONST_VAR	(DirectionalLight&,	m_,Light);
 private:
 	BBox				m_BBox;
-	size_t				m_ObjectTreeSize;
+	size_t				m_OctreeSize;
 	Fog					m_Fog;
 	DirectionalLight	m_Light;
 };
@@ -63,7 +63,7 @@ public:
 	// ----
 	// # data
 	// ----
-	ObjectTree&			GetObject				()						{return m_ObjectTree;}
+	Octree&			GetObject				()						{return m_Octree;}
 	// ----
 	iTerrainData*		getTerrainData			()						{return m_pTerrain;}
 	const iTerrainData*	getTerrainData			()const					{return m_pTerrain;}
@@ -71,7 +71,7 @@ public:
 	// ----
 	GSET_VAR		(bool,				m_b,ShowObject);
 	GSET_VAR		(bool,				m_b,ShowObjectBBox);
-	GSET_VAR		(bool,				m_b,ShowObjectTreeBox);
+	GSET_VAR		(bool,				m_b,ShowOctreeBox);
 	GSET_VAR		(bool,				m_b,RefreshViewport);
 	GSET_VAR		(CTerrain*,			m_p,Terrain );
 	GSET_CONST_VAR	(DirectionalLight&,	m_,Light);
@@ -82,7 +82,7 @@ public:
 protected:
 	SceneData*				m_pSceneData;
 	CTerrain*				m_pTerrain;
-	ObjectTree				m_ObjectTree;
+	Octree				m_Octree;
 	LIST_RENDER_NODE		m_setRenderSceneObj;
 	LIST_RENDER_NODE		m_setLightObj;
 	bool					m_bRefreshViewport;
@@ -91,7 +91,7 @@ protected:
 	bool					m_bShowObject;
 	bool					m_bShowAnimObject;
 	bool					m_bShowObjectBBox;
-	bool					m_bShowObjectTreeBox;
+	bool					m_bShowOctreeBox;
 
 	Fog						m_Fog;
 	DirectionalLight		m_Light;
