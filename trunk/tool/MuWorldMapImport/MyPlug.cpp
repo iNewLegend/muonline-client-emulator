@@ -1192,7 +1192,7 @@ bool CMyPlug::importTerrainData(iTerrainData * pTerrainData, const std::string& 
 				{
 					for (int x=0; x<253; ++x)
 					{
-						pTerrainData->SetCellTileID(x,y,*p,0);
+						pTerrainData->setCellTileID(x,y,*p,0);
 						p++;
 					}
 					p+=3;
@@ -1202,7 +1202,7 @@ bool CMyPlug::importTerrainData(iTerrainData * pTerrainData, const std::string& 
 				{
 					for (int x=0; x<253; ++x)
 					{
-						pTerrainData->SetCellTileID(x,y,*p,1);
+						pTerrainData->setCellTileID(x,y,*p,1);
 						p++;
 					}
 					p+=3;
@@ -1682,7 +1682,7 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 	bboxObject.vMin = Vec3D(-10.0f,-fLength*0.5f-10.0f,-10.0f);
 	bboxObject.vMax = Vec3D(fLength+10.0f,fLength*0.5f+10.0f,fLength+10.0f);
 	pSceneData->setBBox(bboxObject);
-	pSceneData->setOctreeSize(6);
+	pSceneData->setOctreeDepth(6);
 	pRenderNode->init(pSceneData);
 	// Loading the object.
 	//iRenderNode* pSceneNode = (iRenderNode*)pRenderNodeMgr->createRenderNode("scene");
@@ -2250,7 +2250,7 @@ bool CMyPlug::exportTerrainData(iTerrainData * pTerrainData, const std::string& 
 					{
 						for (int x=0; x<253; ++x)
 						{
-							*p = pTerrainData->GetCellTileID(x,y,layer);
+							*p = pTerrainData->getCellTileID(x,y,layer);
 							p++;
 						}
 						*p =0;++p;

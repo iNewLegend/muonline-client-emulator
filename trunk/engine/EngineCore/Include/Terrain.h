@@ -1,8 +1,8 @@
 #pragma once
-
 #include "TerrainData.h"
 #include "TerrainDecal.h"
 #include "RenderSystem.h"
+#include "Octree.h"
 
 #define TERRAIN_VERTEX_FVF	(FVF_XYZ | FVF_NORMAL | FVF_DIFFUSE | FVF_TEX3)
 
@@ -66,6 +66,12 @@ struct TerrainSub:public IndexedSubset
 	}
 };
 
+struct TerrainChunk
+{
+	int x;
+	int y;
+};
+
 class CTerrain:public CTerrainData
 {
 public:
@@ -85,9 +91,6 @@ public:
 	// ‰÷»æ
 	//virtual void			GetRenderObject(const CFrustum& frustum, LIST_OBJECTPASS& ObjectList);
 
-	virtual void			getCubesByFrustum(const CFrustum& frustum, LIST_CUBES& CubeList)const;
-	virtual void			getCrunodeCubes(LIST_CUBES& CubeList)const;
-
 	virtual void			UpdateRender(const CFrustum& frustum);
 
 	virtual bool			LightMapPrepare();
@@ -103,10 +106,9 @@ public:
 	virtual void			draw();
 	void					brushLightColor(MAP_EDIT_RECORD& mapEditRecord, float fPosX, float fPosY, Color32 colorPaint, float fRadius, float fHardness, float fStrength);
 	void					drawLightDecal(float x, float y, float fSize, Color32 color);
-	virtual void			DrawChunk(const Cube& cube);
+	virtual void			DrawChunk(int x, int y);
 	//
 	MAP_TILES&				GetTiles(){return m_Tiles;}
-	Cube&					GetRootCube(){return m_RootCube;}
 	CHardwareVertexBuffer*	GetVB(){return m_pVB;}
 	CTerrainDecal&			GetLightMapDecal(){return m_LightMapDecal;}
 	std::string				getTileListFilename(){return m_strTileListFilename;}
@@ -124,8 +126,8 @@ protected:
 	//
 	virtual void			updateIB();
 	// Calculate
-	void					CalcChunkIB(Cube& cube);
-	void					UpdateCubeBBox(Cube& cube);
+	//void					CalcChunkIB(Cube& cube);
+	//void					UpdateCubeBBox(Cube& cube);
 protected:
 	//int						m_nVBID;
 	CHardwareVertexBuffer*	m_pVB;
@@ -134,7 +136,7 @@ protected:
 	CHardwareVertexBuffer*	m_pGrassVB;
 	CHardwareIndexBuffer*	m_pGrassIB;
 
-	Cube					m_RootCube;
+	Octree<BBox>			m_OctreeRoot;
 	bool					m_bShowBox;
 	//
 	// Ã˘ª®
@@ -148,8 +150,7 @@ protected:
 	std::map<unsigned char,TerrainSub>	m_RenderTileSubsLayer[2];
 	TerrainSub				m_GrassSub;
 	//
-	LIST_CUBES				m_RenderCubesList;
-	LIST_CUBES				m_RenderChunkCubesList;
+	std::set<BBox>			m_RenderCubesList;
 
 	std::string				m_strTileListFilename;
 };
