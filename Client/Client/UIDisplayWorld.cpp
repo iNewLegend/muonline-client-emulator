@@ -282,7 +282,7 @@ void CUIDisplayWorld::MoveCamera(int x, int y)
 	// ----
 	vPos	+= mCameraRot * Vec3D(x, 0, y) * 0.001f * m_Camera.GetRadius();
 	// ----
-	vPos.y	= CWorld::getInstance().getTerrain().GetHeight(vPos.x, vPos.z);
+	vPos.y	= CWorld::getInstance().getTerrain().getHeight(vPos.x, vPos.z);
 	// ----
 	m_Camera.setTargetPos(vPos);
 }
@@ -298,7 +298,7 @@ void CUIDisplayWorld::OnMouseMove(POINT point)
 	// ----
 	m_Camera.GetPickRay(vRayPos, vRayDir, point.x, point.y, m_rcBoundingBox.getRECT());
 	// ----
-	CWorld::getInstance().getTerrain().Pick(vRayPos, vRayDir, & vTargetPos);
+	CWorld::getInstance().getTerrain().pick(vRayPos, vRayDir, & vTargetPos);
 	CWorld::getInstance().setTargetPos(vTargetPos);
 	//CWorld::getInstance().getTerrain().GetBrushDecal().SetPos(vTargetPos.x, vTargetPos.z);
 	// ----
@@ -359,7 +359,7 @@ void CUIDisplayWorld::OnLButtonDown(POINT point)
 			// ---
 			m_Camera.GetPickRay(vRayPos, vRayDir, point.x, point.y, m_rcBoundingBox.getRECT());
 			// ---
-			CWorld::getInstance().getTerrain().Pick(vRayPos, vRayDir, & vTargetPos);
+			CWorld::getInstance().getTerrain().pick(vRayPos, vRayDir, & vTargetPos);
 			// ---
 			CPlayerMe::getInstance().walk(vTargetPos.x, vTargetPos.z);
 		}

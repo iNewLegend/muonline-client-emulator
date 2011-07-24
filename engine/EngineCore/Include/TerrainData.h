@@ -25,14 +25,14 @@ public:
 	void				create(size_t width, size_t height, size_t cubeSize);
 	bool				resize(size_t width, size_t height, size_t cubeSize);
 	//
-	int					GetVertexXCount()const{ return m_nVertexXCount; }
-	int					GetVertexYCount()const{ return m_nVertexYCount; }
-	int					GetVertexCount()const{ return m_nVertexCount; }
+	int					getVertexXCount()const{ return m_nVertexXCount; }
+	int					getVertexYCount()const{ return m_nVertexYCount; }
+	int					getVertexCount()const{ return m_nVertexCount; }
 	//
-	int					GetWidth()const{ return m_nWidth; }
-	int					GetHeight()const{ return m_nHeight; }
-	int					GetCubeSize()const{ return m_nCubeSize; }
-	int					GetCellCount()const{ return m_nCellCount; }
+	int					getWidth()const{ return m_nWidth; }
+	int					getHeight()const{ return m_nHeight; }
+	int					getCubeSize()const{ return m_nCubeSize; }
+	int					getCellCount()const{ return m_nCellCount; }
 	//
 	bool				isCellIn(int nCellX, int nCellY)const;
 	bool				isPointIn(int nCellX, int nCellY)const;
@@ -40,8 +40,8 @@ public:
 	TerrainCell*		getCell(int x, int y);
 	const TerrainCell*	getCell(int x, int y)const;
 	//
-	unsigned char		GetCellTileID(int nCellX, int nCellY, size_t layer = 0)const;
-	void				SetCellTileID(int nCellX, int nCellY, unsigned char uTileID, size_t layer = 0);
+	unsigned char		getCellTileID(int nCellX, int nCellY, size_t layer = 0)const;
+	void				setCellTileID(int nCellX, int nCellY, unsigned char uTileID, size_t layer = 0);
 	//
 	unsigned long		getVertexIndex(int nCellX, int nCellY)const;
 	int					getCellXByVertexIndex(unsigned long uVertexIndex)const;
@@ -59,11 +59,11 @@ public:
 	Color32				getVertexColor(int nCellX, int nCellY)const;
 	void				setVertexColor(int nCellX, int nCellY, Color32 color);
 	//
-	float				GetHeight(float fX, float fY)const;
+	float				getHeight(float fX, float fY)const;
 	Vec4D				GetColor(float fX, float fY)const;
 	// Åö×²¾«Ñ¡
-	virtual bool		PickCell(int nCellX, int nCellY, const Vec3D& vRayPos, const Vec3D& vRayDir, Vec3D* pPos = NULL)const;
-	virtual bool		Pick(const Vec3D& vRayPos, const Vec3D& vRayDir, Vec3D* pPos = NULL)const;
+	virtual bool		pickCell(int nCellX, int nCellY, const Vec3D& vRayPos, const Vec3D& vRayDir, Vec3D* pPos = NULL)const;
+	virtual bool		pick(const Vec3D& vRayPos, const Vec3D& vRayDir, Vec3D* pPos = NULL)const;
 	//
 	const std::string&	getFilename()const{return m_strFilename;}
 	//
@@ -102,7 +102,6 @@ public:
 	std::vector<bool> m_Searched;
 protected:
 	std::string					m_strFilename;
-	char						m_szName[32];
 	int							m_nWidth;
 	int							m_nHeight;
 	int							m_nCubeSize;
@@ -118,5 +117,4 @@ protected:
 
 	unsigned short				m_uMuFlgMap;
 	unsigned long				m_uMuFlgAtt;
-
 };

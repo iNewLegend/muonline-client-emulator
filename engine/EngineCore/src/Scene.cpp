@@ -38,9 +38,9 @@ bool sortNode(CRenderNode* p1, CRenderNode* p2)
 //	return p1->getModelFilename()>p2->getModelFilename();
 }
 
-void CScene::getRenderNodes(const CFrustum& frustum, LIST_RENDER_NODE& NodeList)
+void CScene::getRenderNodes(const CFrustum& frustum, std::set<iRenderNode*>& setNode)
 {
-	m_OctreeRoot.walkOctree(frustum,NodeList);
+	m_OctreeRoot.walkOctree(frustum,setNode);
 	static bool bTest = true;
 	if (bTest)
 	{
@@ -182,7 +182,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 						float fHeight = 0.0f;
 						if (getTerrainData())
 						{
-							fHeight = getTerrainData()->GetHeight(p3DObj->getPos().x,p3DObj->getPos().z);
+							fHeight = getTerrainData()->getHeight(p3DObj->getPos().x,p3DObj->getPos().z);
 						}
 						p3DObj->renderShadow(Matrix::UNIT,vLightDir,fHeight);
 						// ----
@@ -479,10 +479,10 @@ void CScene::clearChildren()
 	m_bRefreshViewport = true;
 }
 
-#include "LightMap.h"
+//#include "LightMap.h"
 void CScene::CalcLightMap()
 {
-	CLightMap lightMap;
-	lightMap.SetScene(this);
-	lightMap.CalcLightMap();
+	//CLightMap lightMap;
+	//lightMap.SetScene(this);
+	//lightMap.CalcLightMap();
 }

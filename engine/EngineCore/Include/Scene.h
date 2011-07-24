@@ -27,7 +27,7 @@ public:
 	~CScene();
 public:
 	virtual int			getType					(){return NODE_BASE;}
-	virtual void		getRenderNodes			(const CFrustum& frustum, LIST_RENDER_NODE& NodeList);
+	virtual void		getRenderNodes			(const CFrustum& frustum, std::set<iRenderNode*>& setNode);
 	void				UpdateRender			(const CFrustum& frustum);
 	bool				updateNode				(iRenderNode* pNode);
 	// ----
@@ -63,7 +63,7 @@ public:
 	// ----
 	// # data
 	// ----
-	Octree<iRenderNode>&getOctree				(){return m_OctreeRoot;}
+	Octree<iRenderNode*>&getOctree				(){return m_OctreeRoot;}
 	// ----
 	iTerrainData*		getTerrainData			(){return m_pTerrain;}
 	const iTerrainData*	getTerrainData			()const{return m_pTerrain;}
@@ -82,8 +82,8 @@ public:
 protected:
 	SceneData*				m_pSceneData;
 	CTerrain*				m_pTerrain;
-	Octree<iRenderNode>		m_OctreeRoot;
-	LIST_RENDER_NODE		m_setRenderSceneNode;
+	Octree<iRenderNode*>		m_OctreeRoot;
+	std::set<iRenderNode*>	m_setRenderSceneNode;
 	LIST_RENDER_NODE		m_setLightObj;
 	bool					m_bRefreshViewport;
 protected:

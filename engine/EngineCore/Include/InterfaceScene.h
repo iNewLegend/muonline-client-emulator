@@ -5,6 +5,8 @@
 #include "Color.h"
 #include "Pos2D.h"
 #include "Material.h"
+#include "vector"
+
 //////////////////////////////////////////////////////////////////////////
 // TerrainData
 //////////////////////////////////////////////////////////////////////////
@@ -31,114 +33,6 @@ struct TerrainCell
 //////////////////////////////////////////////////////////////////////////
 // Terrain
 //////////////////////////////////////////////////////////////////////////
-#include "Frustum.h"
-
-struct Cube
-{
-	typedef std::vector<const Cube*>		LIST_CUBES;
-	Cube()
-	{
-		pChildCube=NULL;
-	}
-	~Cube()
-	{
-		if (pChildCube)
-		{
-			delete[] pChildCube;
-		}
-	}
-	Cube* pChildCube;
-	BBox bbox;
-
-	void createChildCube(size_t size)
-	{
-		int nWidth = int((bbox.vMax.x-bbox.vMin.x)/size);
-		int nHeight = int((bbox.vMax.z-bbox.vMin.z)/size);
-		if (1<nWidth||1<nHeight)
-		{
-			pChildCube = new Cube[2];
-			pChildCube[0].bbox = bbox;
-			pChildCube[1].bbox = bbox;
-			if (nWidth>=nHeight)
-			{
-				float fX = bbox.vMin.x+(int(nWidth/2))*size;
-				pChildCube[0].bbox.vMax.x = fX;
-				pChildCube[1].bbox.vMin.x = fX;
-			}
-			else
-			{
-				float fZ = bbox.vMin.z+(int(nHeight/2))*size;
-				pChildCube[0].bbox.vMax.z = fZ;
-				pChildCube[1].bbox.vMin.z = fZ;
-			}
-			pChildCube[0].createChildCube(size);
-			pChildCube[1].createChildCube(size);
-		}
-	}
-
-	void getChildCubesByFrustum(const CFrustum& frustum, LIST_CUBES& CubeList)const
-	{
-		CrossRet crossRet = frustum.CheckAABBVisible(bbox);
-
-		if (cross_include == crossRet)
-		{
-			CubeList.push_back(this);
-		}
-		else if (cross_cross == crossRet)
-		{
-			if (pChildCube)
-			{
-				for (int i=0; i<2; ++i)
-				{
-					pChildCube[i].getChildCubesByFrustum(frustum, CubeList);
-				}
-			}
-			else
-			{
-				CubeList.push_back(this);
-			}
-		}
-	}
-
-	void getChildCrunodeCubes(LIST_CUBES& CubeList)const
-	{
-		if (pChildCube)
-		{
-			for (int i=0; i<2; ++i)
-			{
-				pChildCube[i].getChildCrunodeCubes(CubeList);
-			}
-		}
-		else
-		{
-			CubeList.push_back(this);
-		}
-	}
-
-	bool isPosIn(const Pos2D& posCell)
-	{
-		return posCell.x>=bbox.vMin.x&&
-			posCell.x<bbox.vMax.x&&
-			posCell.y>=bbox.vMin.y&&
-			posCell.y<bbox.vMax.y;
-	}
-
-	Cube* getCrunodeCubeByPos(const Pos2D& posCell)
-	{
-		if (pChildCube==NULL)
-		{
-			return this;
-		}
-		for (int i = 0; i<2; i++)
-		{
-			if (pChildCube[i].isPosIn(posCell))
-			{
-				return getCrunodeCubeByPos(posCell);
-			}
-		}
-		return NULL;
-	}
-};
 
 class CTerrainDecal;
 
@@ -146,18 +40,16 @@ class iTerrainData
 {
 public:
 	typedef std::map<int,std::string>		MAP_TILES;
-	typedef std::vector<const Cube*>		LIST_CUBES;
 
 	virtual void setTileMaterial(int nTileID, const std::string& strMaterialName)=0;
 	virtual CMaterial& getMaterial(const char* szMaterialName)=0;
 
 	virtual CTerrainDecal& GetLightMapDecal()=0;
 
-	virtual void getCubesByFrustum(const CFrustum& frustum, LIST_CUBES& CubeList)const=0;
-	virtual void getCrunodeCubes(LIST_CUBES& CubeList)const=0;
+	//virtual void getCubesByFrustum(const CFrustum& frustum, LIST_CUBES& CubeList)const=0;
 
 	virtual bool Prepare()=0;
-	virtual void DrawChunk(const Cube& cube)=0;
+	virtual void DrawChunk(int x, int y)=0;
 
 	virtual void loadTilesMaterial(const char* szFilename, const char* szParentDir)=0;
 	virtual void clearAllTiles()=0;
@@ -173,20 +65,20 @@ public:
 	virtual void create(size_t width, size_t height, size_t cubeSize)=0;
 	virtual bool resize(size_t width, size_t height, size_t cubeSize)=0;
 	//
-	virtual int	GetVertexXCount()const=0;
-	virtual int	GetVertexYCount()const=0;
-	virtual int	GetVertexCount()const=0;
+	virtual int	getVertexXCount()const=0;
+	virtual int	getVertexYCount()const=0;
+	virtual int	getVertexCount()const=0;
 	//
-	virtual int GetWidth()const=0;
-	virtual int GetHeight()const=0;
-	virtual int GetCubeSize()const=0;
-	virtual int GetCellCount()const=0;
+	virtual int getWidth()const=0;
+	virtual int getHeight()const=0;
+	virtual int getCubeSize()const=0;
+	virtual int getCellCount()const=0;
 	//
 	virtual bool			isCellIn(int nCellX, int nCellY)const=0;
 	virtual bool			isPointIn(int nCellX, int nCellY)const=0;
 	//
-	virtual unsigned char	GetCellTileID(int nCellX, int nCellY, size_t layer = 0)const=0;
-	virtual void			SetCellTileID(int nCellX, int nCellY, unsigned char uTileID, size_t layer = 0)=0;
+	virtual unsigned char	getCellTileID(int nCellX, int nCellY, size_t layer = 0)const=0;
+	virtual void			setCellTileID(int nCellX, int nCellY, unsigned char uTileID, size_t layer = 0)=0;
 	//
 	virtual unsigned long	getVertexIndex(int nCellX, int nCellY)const=0;
 	virtual int				getCellXByVertexIndex(unsigned long uVertexIndex)const=0;
@@ -204,11 +96,11 @@ public:
 	virtual Color32			getVertexColor(int nCellX, int nCellY)const=0;
 	virtual void			setVertexColor(int nCellX, int nCellY, Color32 color)=0;
 	//
-	virtual float			GetHeight(float fX, float fY)const=0;
+	virtual float			getHeight(float fX, float fY)const=0;
 	virtual Vec4D			GetColor(float fX, float fY)const=0;
 	//
-	virtual bool			PickCell(int nCellX, int nCellY, const Vec3D& vRayPos, const Vec3D& vRayDir, Vec3D* pPos = NULL)const=0;
-	virtual bool			Pick(const Vec3D& vRayPos, const Vec3D& vRayDir, Vec3D* pPos = NULL)const=0;
+	virtual bool			pickCell(int nCellX, int nCellY, const Vec3D& vRayPos, const Vec3D& vRayDir, Vec3D* pPos = NULL)const=0;
+	virtual bool			pick(const Vec3D& vRayPos, const Vec3D& vRayDir, Vec3D* pPos = NULL)const=0;
 	//
 	virtual const			std::string& getFilename()const=0;
 	//

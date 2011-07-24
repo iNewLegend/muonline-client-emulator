@@ -19,7 +19,7 @@ public:
 		}
 	}
 
-	bool addNode(const BBox& box, T* pNode)
+	bool addNode(const BBox& box, T node)
 	{
 		CrossRet crossRet = bbox.checkAABBVisible(box);
 		if (cross_exclude != crossRet)
@@ -28,12 +28,12 @@ public:
 			{
 				for (size_t i=0;i<8;++i)
 				{
-					pChild[i].addNode(box, pNode);
+					pChild[i].addNode(box, node);
 				}
 			}
 			else
 			{
-				m_setNode.push_back(pNode);
+				m_setNode.push_back(node);
 			}
 			return true;
 		}
@@ -107,14 +107,14 @@ public:
 		}
 	}
 
-	bool eraseNode(T* pNode)
+	bool eraseNode(const T& node)
 	{
 		bool bRet = false;
 		if (pChild)
 		{
 			for (size_t i=0;i<8;++i)
 			{
-				if (pChild[i].eraseNode(pNode))
+				if (pChild[i].eraseNode(node))
 				{
 					bRet = true;
 				}
@@ -122,7 +122,7 @@ public:
 		}
 		else
 		{
-			auto it = std::find( m_setNode.begin( ), m_setNode.end( ), pNode );
+			auto it = std::find( m_setNode.begin( ), m_setNode.end( ), node );
 			if(it!=m_setNode.end())
 			{
 				m_setNode.erase(it);
@@ -137,9 +137,9 @@ public:
 		return bbox;
 	}
 
-	void getNodes(std::list<T*>& setNode)
+	void getNodes(std::set<T>& setNode)
 	{
-		setNode.insert(setNode.end(), m_setNode.begin(), m_setNode.end());
+		setNode.insert(m_setNode.begin(), m_setNode.end());
 		if(pChild)
 		{
 			for (size_t i=0;i<8;++i)
@@ -149,7 +149,7 @@ public:
 		}
 	}
 
-	void walkOctree(const CFrustum& frustum, std::list<T*>& setNode)
+	void walkOctree(const CFrustum& frustum, std::set<T>& setNode)
 	{
 		CrossRet crossRet = frustum.CheckAABBVisible(bbox);
 		if (cross_include == crossRet)
@@ -179,6 +179,6 @@ public:
 protected:
 	Octree*			pChild;
 	BBox			bbox;
-	std::list<T*>	m_setNode;
+	std::list<T>	m_setNode;
 };
 

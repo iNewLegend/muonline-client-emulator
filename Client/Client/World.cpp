@@ -280,7 +280,7 @@ void CWorld::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void CWorld::getRenderNodes(const CFrustum& frustum, LIST_RENDER_NODE& NodeList)
+void CWorld::getRenderNodes(const CFrustum& frustum, std::set<iRenderNode*>& setNode)
 {
 	CrossRet crossRet;
 	// ----
@@ -290,11 +290,11 @@ void CWorld::getRenderNodes(const CFrustum& frustum, LIST_RENDER_NODE& NodeList)
 		// ----
 		if(cross_exclude != crossRet)
 		{
-			NodeList.push_back(it->second);
+			setNode.insert(it->second);
 		}
 	}
 	// ----
-	CScene::getRenderNodes(frustum, NodeList);
+	CScene::getRenderNodes(frustum, setNode);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

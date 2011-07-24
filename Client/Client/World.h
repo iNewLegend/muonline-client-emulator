@@ -53,7 +53,7 @@ public:
 	// ----
 	virtual void	frameMove			(const Matrix& mWorld, double fTime, float fElapsedTime);
 	virtual void	render				(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType=MATERIAL_NORMAL)const;
-	virtual void	getRenderNodes		(const CFrustum& frustum, LIST_RENDER_NODE& NodeList);
+	virtual void	getRenderNodes		(const CFrustum& frustum, std::set<iRenderNode*>& setNode);
 	// ----
 	CTerrain&		getTerrain			(){ return m_Terrain; }
 protected:

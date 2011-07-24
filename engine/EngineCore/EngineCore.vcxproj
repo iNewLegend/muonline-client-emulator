@@ -99,7 +99,6 @@
     <ClInclude Include="Include\InterfaceScene.h" />
     <ClInclude Include="Include\iParticle.h" />
     <ClInclude Include="Include\iSkeleton.h" />
-    <ClInclude Include="Include\LightMap.h" />
     <ClInclude Include="include\LodMesh.h" />
     <ClInclude Include="Include\Log.h" />
     <ClInclude Include="Include\MapObj.h" />
@@ -129,7 +128,6 @@
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\DataPlugsMgr.cpp" />
     <ClCompile Include="src\FocusNode.cpp" />
-    <ClCompile Include="src\LightMap.cpp" />
     <ClCompile Include="src\LodMesh.cpp" />
     <ClCompile Include="src\Log.cpp" />
     <ClCompile Include="src\MapSound.cpp" />
