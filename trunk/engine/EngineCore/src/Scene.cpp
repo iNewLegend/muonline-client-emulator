@@ -222,7 +222,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 						Vec4D vColor(1.0f,1.0f,1.0f,1.0f);
 						if (m_pTerrain)
 						{
-							vColor = m_pTerrain->GetColor((*it)->getPos().x,(*it)->getPos().z);
+							vColor = m_pTerrain->getColor((*it)->getPos().x,(*it)->getPos().z);
 						}
 						vColor.w=1.0f;
 
@@ -418,7 +418,7 @@ void CScene::getNodes()
 	sprintf(szNameID,"%d",uID);
 	pNode->setName(szNameID);
 	// ----
-	// 		//Vec4D vColor = m_pTerrain->GetData().GetColor(Vec2D(vPos.x,vPos.z));
+	// 		//Vec4D vColor = m_pTerrain->GetData().getColor(Vec2D(vPos.x,vPos.z));
 	// 		//vColor.w=1.0f;
 	// 		//pNode->SetMaterial(vColor*0.5f,vColor+0.3f);
 	// ----
