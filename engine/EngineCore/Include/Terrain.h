@@ -68,8 +68,7 @@ struct TerrainSub:public IndexedSubset
 
 struct TerrainChunk
 {
-	int x;
-	int y;
+	BBox box;
 };
 
 class CTerrain:public CTerrainData
@@ -129,14 +128,13 @@ protected:
 	//void					CalcChunkIB(Cube& cube);
 	//void					UpdateCubeBBox(Cube& cube);
 protected:
-	//int						m_nVBID;
 	CHardwareVertexBuffer*	m_pVB;
 	CHardwareIndexBuffer*	m_pIB;
 	// grass
 	CHardwareVertexBuffer*	m_pGrassVB;
 	CHardwareIndexBuffer*	m_pGrassIB;
 
-	Octree<BBox>			m_OctreeRoot;
+	Octree<TerrainChunk*>	m_OctreeRoot;
 	bool					m_bShowBox;
 	//
 	// Ìù»¨

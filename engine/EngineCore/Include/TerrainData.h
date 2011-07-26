@@ -25,42 +25,37 @@ public:
 	void				create(size_t width, size_t height, size_t cubeSize);
 	bool				resize(size_t width, size_t height, size_t cubeSize);
 	//
-	int					getVertexXCount()const{ return m_nVertexXCount; }
-	int					getVertexYCount()const{ return m_nVertexYCount; }
-	int					getVertexCount()const{ return m_nVertexCount; }
+	int					getWidth()const			{ return m_nWidth; }
+	int					getHeight()const		{ return m_nHeight; }
+	int					getChunkSize()const		{ return m_nChunkSize; }
+	int					getVertexCount()const	{ return m_Cells.size(); }
 	//
-	int					getWidth()const{ return m_nWidth; }
-	int					getHeight()const{ return m_nHeight; }
-	int					getCubeSize()const{ return m_nCubeSize; }
-	int					getCellCount()const{ return m_nCellCount; }
-	//
-	bool				isCellIn(int nCellX, int nCellY)const;
-	bool				isPointIn(int nCellX, int nCellY)const;
+	bool				isCellIn(int x, int y)const;
+	bool				isPointIn(int x, int y)const;
 	//
 	TerrainCell*		getCell(int x, int y);
 	const TerrainCell*	getCell(int x, int y)const;
 	//
-	unsigned char		getCellTileID(int nCellX, int nCellY, size_t layer = 0)const;
-	void				setCellTileID(int nCellX, int nCellY, unsigned char uTileID, size_t layer = 0);
+	unsigned char		getCellTileID(int x, int nCellY, size_t layer = 0)const;
+	void				setCellTileID(int x, int nCellY, unsigned char uTileID, size_t layer = 0);
 	//
 	unsigned long		getVertexIndex(int nCellX, int nCellY)const;
 	int					getCellXByVertexIndex(unsigned long uVertexIndex)const;
 	int					getCellYByVertexIndex(unsigned long uVertexIndex)const;
-	Pos2D				getCellPosByVertexIndex(unsigned long uVertexIndex)const;
 	//
-	float				getVertexHeight(int nCellX, int nCellY)const;
-	void				setVertexHeight(int nCellX, int nCellY, float fHeight);
+	float				getVertexHeight(int x, int y)const;
+	void				setVertexHeight(int x, int y, float fHeight);
 	//
-	Vec3D				getVertexNormal(int nCellX, int nCellY)const;
+	Vec3D				getVertexNormal(int x, int y)const;
 	//
-	unsigned char		getCellAttribute(int nCellX, int nCellY)const;
-	void				setCellAttribute(int nCellX, int nCellY, unsigned char uAtt);
+	unsigned char		getCellAttribute(int x, int y)const;
+	void				setCellAttribute(int x, int y, unsigned char uAtt);
 	//
-	Color32				getVertexColor(int nCellX, int nCellY)const;
-	void				setVertexColor(int nCellX, int nCellY, Color32 color);
+	Color32				getVertexColor(int x, int y)const;
+	void				setVertexColor(int x, int y, Color32 color);
 	//
 	float				getHeight(float fX, float fY)const;
-	Vec4D				GetColor(float fX, float fY)const;
+	Vec4D				getColor(float fX, float fY)const;
 	// Åö×²¾«Ñ¡
 	virtual bool		pickCell(int nCellX, int nCellY, const Vec3D& vRayPos, const Vec3D& vRayDir, Vec3D* pPos = NULL)const;
 	virtual bool		pick(const Vec3D& vRayPos, const Vec3D& vRayDir, Vec3D* pPos = NULL)const;
@@ -104,17 +99,10 @@ protected:
 	std::string					m_strFilename;
 	int							m_nWidth;
 	int							m_nHeight;
-	int							m_nCubeSize;
-	int							m_nCellCount;
-
-	Pos2D						m_posTileCount;
-
-	int							m_nVertexXCount;
-	int							m_nVertexYCount;
-	int							m_nVertexCount;
+	int							m_nChunkSize;
 
 	std::vector<TerrainCell>	m_Cells;
-
+	std::vector<TerrainChunk>	m_Chunks;
 	unsigned short				m_uMuFlgMap;
 	unsigned long				m_uMuFlgAtt;
 };

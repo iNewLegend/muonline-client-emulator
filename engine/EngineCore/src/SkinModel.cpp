@@ -201,7 +201,7 @@ bool CSkinModel::passBegin(const ModelRenderPass& pass, float fOpacity, int nAni
 	}
 	/*if (-1 != pass.nColorID)
 	{
-		Vec4D ecol = m_ColorAnims[pass.nColorID].GetColor(nAnimTime);
+		Vec4D ecol = m_ColorAnims[pass.nColorID].getColor(nAnimTime);
 		ecol.w = 1;
 		GetRenderSystem().getMaterialMgr().getItem(pass.strMaterial.c_str()).SetEmissiveColor(ocol.getColor());
 	}*/
