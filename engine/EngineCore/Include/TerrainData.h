@@ -22,8 +22,8 @@ public:
 	~CTerrainData();
 	//
 	void				clear();
-	void				create(size_t width, size_t height, size_t cubeSize);
-	bool				resize(size_t width, size_t height, size_t cubeSize);
+	void				create(size_t width, size_t height, size_t chunkSize);
+	bool				resize(size_t width, size_t height, size_t chunkSize);
 	//
 	int					getWidth()const			{ return m_nWidth; }
 	int					getHeight()const		{ return m_nHeight; }
@@ -36,8 +36,8 @@ public:
 	TerrainCell*		getCell(int x, int y);
 	const TerrainCell*	getCell(int x, int y)const;
 	//
-	unsigned char		getCellTileID(int x, int nCellY, size_t layer = 0)const;
-	void				setCellTileID(int x, int nCellY, unsigned char uTileID, size_t layer = 0);
+	unsigned char		getCellTileID(int x, int y, size_t layer = 0)const;
+	void				setCellTileID(int x, int y, unsigned char uTileID, size_t layer = 0);
 	//
 	unsigned long		getVertexIndex(int nCellX, int nCellY)const;
 	int					getCellXByVertexIndex(unsigned long uVertexIndex)const;
