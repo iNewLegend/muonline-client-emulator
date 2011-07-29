@@ -81,8 +81,8 @@ public:
 	virtual void			setTileMaterial(int nTileID, const std::string& strMaterialName);
 	virtual CMaterial&		getMaterial(const char* szMaterialName);
 	//
-	virtual void			create(size_t width, size_t height,  size_t cubeSize);
-	virtual bool			resize(size_t width, size_t height,  size_t cubeSize);
+	virtual void			create(size_t width, size_t height,  size_t chunkSize);
+	virtual bool			resize(size_t width, size_t height,  size_t chunkSize);
 	//
 	void					ShowBox(bool bShowBox){m_bShowBox = bShowBox;}
 	bool					IsShowBox(){return m_bShowBox;}
