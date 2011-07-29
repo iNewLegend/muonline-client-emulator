@@ -1,5 +1,6 @@
 #pragma once
 #include <algorithm>
+#include <set>
 
 template <typename T>
 class Octree
@@ -137,7 +138,7 @@ public:
 		return bbox;
 	}
 
-	void getNodes(std::set<T>& setNode)
+	void getNodes(std::set<T>& setNode)const
 	{
 		setNode.insert(m_setNode.begin(), m_setNode.end());
 		if(pChild)
@@ -149,7 +150,7 @@ public:
 		}
 	}
 
-	void walkOctree(const CFrustum& frustum, std::set<T>& setNode)
+	void walkOctree(const CFrustum& frustum, std::set<T>& setNode)const
 	{
 		CrossRet crossRet = frustum.CheckAABBVisible(bbox);
 		if (cross_include == crossRet)

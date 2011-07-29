@@ -39,8 +39,6 @@ class CTerrainDecal;
 class iTerrainData
 {
 public:
-	typedef std::map<int,std::string>		MAP_TILES;
-
 	virtual void setTileMaterial(int nTileID, const std::string& strMaterialName)=0;
 	virtual CMaterial& getMaterial(const char* szMaterialName)=0;
 
