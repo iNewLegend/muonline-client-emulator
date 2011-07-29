@@ -2,7 +2,6 @@
 #include "TerrainData.h"
 #include "TerrainDecal.h"
 #include "RenderSystem.h"
-#include "Octree.h"
 
 #define TERRAIN_VERTEX_FVF	(FVF_XYZ | FVF_NORMAL | FVF_DIFFUSE | FVF_TEX3)
 
@@ -66,12 +65,7 @@ struct TerrainSub:public IndexedSubset
 	}
 };
 
-struct TerrainChunk
-{
-	BBox box;
-};
-
-class CTerrain:public CTerrainData
+class CTerrain
 {
 public:
 	CTerrain(); 
@@ -80,15 +74,10 @@ public:
 	//
 	virtual void			setTileMaterial(int nTileID, const std::string& strMaterialName);
 	virtual CMaterial&		getMaterial(const char* szMaterialName);
-	//
-	virtual void			create(size_t width, size_t height,  size_t chunkSize);
-	virtual bool			resize(size_t width, size_t height,  size_t chunkSize);
+	virtual bool			init(void* pData);
 	//
 	void					ShowBox(bool bShowBox){m_bShowBox = bShowBox;}
 	bool					IsShowBox(){return m_bShowBox;}
-	//void FormMove();
-	// ‰÷»æ
-	//virtual void			GetRenderObject(const CFrustum& frustum, LIST_OBJECTPASS& ObjectList);
 
 	virtual void			UpdateRender(const CFrustum& frustum);
 
@@ -105,9 +94,9 @@ public:
 	virtual void			draw();
 	void					brushLightColor(MAP_EDIT_RECORD& mapEditRecord, float fPosX, float fPosY, Color32 colorPaint, float fRadius, float fHardness, float fStrength);
 	void					drawLightDecal(float x, float y, float fSize, Color32 color);
-	virtual void			DrawChunk(int x, int y);
+	virtual void			drawChunk(TerrainChunk* pChunk);
 	//
-	MAP_TILES&				GetTiles(){return m_Tiles;}
+	std::map<int,std::string>&	getTiles(){return m_Tiles;}
 	CHardwareVertexBuffer*	GetVB(){return m_pVB;}
 	CTerrainDecal&			GetLightMapDecal(){return m_LightMapDecal;}
 	std::string				getTileListFilename(){return m_strTileListFilename;}
@@ -118,37 +107,32 @@ public:
 protected:
 	//
 	virtual void			updateVB(int nBeginX, int nBeginY, int nEndX, int nEndY);
-	virtual void			CreateVB();
-	virtual void			CreateIB();
 	virtual void			CreateGrassVB(size_t uGrassCount);
 	virtual void			CreateGrassIB(size_t uGrassCount);
 	//
 	virtual void			updateIB();
-	// Calculate
-	//void					CalcChunkIB(Cube& cube);
-	//void					UpdateCubeBBox(Cube& cube);
 protected:
-	CHardwareVertexBuffer*	m_pVB;
-	CHardwareIndexBuffer*	m_pIB;
+	CTerrainData*						m_pTerrainData;
+	CHardwareVertexBuffer*				m_pVB;
+	CHardwareIndexBuffer*				m_pIB;
 	// grass
-	CHardwareVertexBuffer*	m_pGrassVB;
-	CHardwareIndexBuffer*	m_pGrassIB;
+	CHardwareVertexBuffer*				m_pGrassVB;
+	CHardwareIndexBuffer*				m_pGrassIB;
 
-	Octree<TerrainChunk*>	m_OctreeRoot;
-	bool					m_bShowBox;
+	bool								m_bShowBox;
 	//
 	// Ã˘ª®
-	CTerrainDecal			m_LightMapDecal;
-	CTerrainDecal			m_LightDecal;
+	CTerrainDecal						m_LightMapDecal;
+	CTerrainDecal						m_LightDecal;
 	// Œ∆¿ÌTile
-	MAP_TILES				m_Tiles;
-	int						m_nLightMap;
-	unsigned long			m_uShowTileIBCount;
+	std::map<int,std::string>			m_Tiles;
+	int									m_nLightMap;
+	unsigned long						m_uShowTileIBCount;
 	// For Render
 	std::map<unsigned char,TerrainSub>	m_RenderTileSubsLayer[2];
-	TerrainSub				m_GrassSub;
+	TerrainSub							m_GrassSub;
 	//
-	std::set<BBox>			m_RenderCubesList;
+	std::set<TerrainChunk*>				m_setRenderChunks;
 
-	std::string				m_strTileListFilename;
+	std::string							m_strTileListFilename;
 };
