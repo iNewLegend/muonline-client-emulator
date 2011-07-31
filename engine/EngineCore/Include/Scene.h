@@ -26,67 +26,69 @@ public:
 	CScene();
 	~CScene();
 public:
-	virtual int			getType					(){return NODE_BASE;}
-	virtual void		getRenderNodes			(const CFrustum& frustum, std::set<iRenderNode*>& setNode);
-	void				UpdateRender			(const CFrustum& frustum);
-	bool				updateNode				(iRenderNode* pNode);
+	virtual int				getType					(){return NODE_BASE;}
+	virtual void			getRenderNodes			(const CFrustum& frustum, std::set<iRenderNode*>& setNode);
+	void					updateRender			(const CFrustum& frustum);
+	bool					updateNode				(iRenderNode* pNode);
 	// ----
-	virtual void		frameMove				(const Matrix& mWorld, double fTime, float fElapsedTime);
-	virtual void		render					(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType=MATERIAL_NORMAL)const;
+	virtual void			frameMove				(const Matrix& mWorld, double fTime, float fElapsedTime);
+	virtual void			render					(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType=MATERIAL_NORMAL)const;
 	// ----
-	virtual void		addChild				(iRenderNode* pChild);
-	virtual bool		removeChild				(iRenderNode* pChild);
-	virtual void		clearChildren			();
+	virtual void			addChild				(iRenderNode* pChild);
+	virtual bool			removeChild				(iRenderNode* pChild);
+	virtual void			clearChildren			();
 	// ----
 	// load
-	virtual bool		init					(void* pData);
-	bool				removeRenderNode		(iRenderNode* pNode);
+	virtual bool			init					(void* pData);
+	bool					removeRenderNode		(iRenderNode* pNode);
 	// ----
 	// # shit
 	// ----
-	C3DMapEffect*		add3DMapEffect			(const Vec3D& vWorldPos, char* pszIndex, bool bDelself = true);
-	void				del3DMapEffect			(const Vec3D& vWorldPos);
-	void				del3DMapEffect			(C3DMapEffect* pEffect);
+	C3DMapEffect*			add3DMapEffect			(const Vec3D& vWorldPos, char* pszIndex, bool bDelself = true);
+	void					del3DMapEffect			(const Vec3D& vWorldPos);
+	void					del3DMapEffect			(C3DMapEffect* pEffect);
 	// ----
 	// # shit
 	// ----
-	virtual	void		clearNodes				();
-	virtual	void		getNodes				();
+	virtual	void			clearNodes				();
+	virtual	void			getNodes				();
 	// ----
 	// # Focus Nodes
 	// ----
-	bool				delChildByFocus			();
-	void				updateOctreeByFocus		();
-	CFocusNode&			getFocusNodes			(){return m_FocusNode;}
+	bool					delChildByFocus			();
+	void					updateOctreeByFocus		();
+	CFocusNode&				getFocusNodes			(){return m_FocusNode;}
 	// ----
-	CMapObj*			pickNode				(const Vec3D& vRayPos , const Vec3D& vRayDir);
+	// # Åö×²
+	// ----
+	CMapObj*				pickNode				(const Vec3D& vRayPos , const Vec3D& vRayDir);
+	bool					pick					(const Vec3D& vRayPos, const Vec3D& vRayDir, Vec3D* pPos)const;
+	float					getHeight				(float x, float y)const;
+	unsigned char			getPath					(int sx,int sy,int tx,int ty, std::vector<unsigned char>& path);
 	// ----
 	// # data
 	// ----
-	Octree<iRenderNode*>&getOctree				(){return m_OctreeRoot;}
+	Octree<iRenderNode*>&	getOctree				(){return m_OctreeRoot;}
 	// ----
-	iTerrainData*		getTerrainData			(){return m_pTerrain;}
-	const iTerrainData*	getTerrainData			()const{return m_pTerrain;}
-	void				CalcLightMap			();
+	void					CalcLightMap			();
 	// ----
-	GSET_VAR		(bool,				m_b,ShowNode);
-	GSET_VAR		(bool,				m_b,ShowNodeBBox);
-	GSET_VAR		(bool,				m_b,ShowOctreeBox);
-	GSET_VAR		(bool,				m_b,RefreshViewport);
-	GSET_VAR		(CTerrain*,			m_p,Terrain );
-	GSET_CONST_VAR	(DirectionalLight&,	m_,Light);
-	GSET_CONST_VAR	(Fog&,				m_,Fog);
-	GSET_CONST_VAR	(Vec3D&,			m_v,TargetPos);
+	GSET_VAR				(bool,				m_b,ShowNode);
+	GSET_VAR				(bool,				m_b,ShowNodeBBox);
+	GSET_VAR				(bool,				m_b,ShowOctreeBox);
+	GSET_VAR				(bool,				m_b,RefreshViewport);
+	GSET_VAR				(CTerrain*,			m_p,Terrain );
+	GSET_CONST_VAR			(DirectionalLight&,	m_,Light);
+	GSET_CONST_VAR			(Fog&,				m_,Fog);
+	GSET_CONST_VAR			(Vec3D&,			m_v,TargetPos);
 	// ----
-	SceneData*				getSceneData(){return m_pSceneData;}
+	SceneData*				getSceneData			(){return m_pSceneData;}
 protected:
 	SceneData*				m_pSceneData;
 	CTerrain*				m_pTerrain;
-	Octree<iRenderNode*>		m_OctreeRoot;
+	Octree<iRenderNode*>	m_OctreeRoot;
 	std::set<iRenderNode*>	m_setRenderSceneNode;
 	LIST_RENDER_NODE		m_setLightObj;
 	bool					m_bRefreshViewport;
-protected:
 	CFocusNode				m_FocusNode;        // The node which has focus
 	bool					m_bShowNode;
 	bool					m_bShowAnimNode;

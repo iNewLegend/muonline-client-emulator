@@ -67,7 +67,7 @@ void CScene::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 	}
 }
 
-void CScene::UpdateRender(const CFrustum& frustum)
+void CScene::updateRender(const CFrustum& frustum)
 {
 	if (!m_bRefreshViewport)
 	{
@@ -81,7 +81,7 @@ void CScene::UpdateRender(const CFrustum& frustum)
 	m_bRefreshViewport = false;
 	if (m_pTerrain)
 	{
-		m_pTerrain->UpdateRender(frustum);
+		m_pTerrain->updateRender(frustum);
 	}
 	//
 	m_setRenderSceneNode.clear();
@@ -137,11 +137,11 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 	Vec3D vLightDir = Vec3D(-0.8f,-1.0f,0.0f).normalize();
 	if (m_pTerrain)
 	{
-		m_pTerrain->Render();
+		m_pTerrain->render(mWorld,MATERIAL_GEOMETRY);
 	}
 	if (m_pTerrain)
 	{
-		if(m_pTerrain->Prepare())
+		if(m_pTerrain->prepare())
 		{
 			if(R.prepareMaterial("LightDecal"))
 			{
@@ -180,9 +180,9 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 					{
 						C3DMapObj* p3DObj = (C3DMapObj*)pObj;
 						float fHeight = 0.0f;
-						if (getTerrainData())
+						if (m_pTerrain && m_pTerrain->getTerrainData())
 						{
-							fHeight = getTerrainData()->getHeight(p3DObj->getPos().x,p3DObj->getPos().z);
+							fHeight = m_pTerrain->getTerrainData()->getHeight(p3DObj->getPos().x,p3DObj->getPos().z);
 						}
 						p3DObj->renderShadow(Matrix::UNIT,vLightDir,fHeight);
 						// ----
@@ -220,9 +220,9 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 						pObj->getObjType() != MAP_3DEFFECTNEW)
 					{
 						Vec4D vColor(1.0f,1.0f,1.0f,1.0f);
-						if (m_pTerrain)
+						if (m_pTerrain && m_pTerrain->getTerrainData())
 						{
-							vColor = m_pTerrain->getColor((*it)->getPos().x,(*it)->getPos().z);
+							vColor = m_pTerrain->getTerrainData()->getColor((*it)->getPos().x,(*it)->getPos().z);
 						}
 						vColor.w=1.0f;
 
@@ -268,7 +268,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 		//
 		if (m_pTerrain)
 		{
-			m_pTerrain->renderGrass();
+			m_pTerrain->render(Matrix::UNIT,MATERIAL_ALPHA);
 		}
 		DirectionalLight light(Vec4D(0.3f,0.3f,0.3f,0.3f),Vec4D(0.6f,0.6f,0.6f,0.6f),Vec4D(0.6f,0.6f,0.6f,0.6f),Vec3D(0.0f,-1.0f,1.0f));
 		R.SetDirectionalLight(0,light);
@@ -449,7 +449,7 @@ void CScene::updateOctreeByFocus()
 #include "float.h"
 
 #include "intersect.h"
-CMapObj* CScene::pickNode(const Vec3D& vRayPos , const Vec3D& vRayDir)
+CMapObj* CScene::pickNode(const Vec3D& vRayPos, const Vec3D& vRayDir)
 {
 	CMapObj* pNode = NULL;
 	float fFocusMin = FLT_MAX;
@@ -467,6 +467,34 @@ CMapObj* CScene::pickNode(const Vec3D& vRayPos , const Vec3D& vRayDir)
 	}
 	return pNode;
 }
+
+bool CScene::pick(const Vec3D& vRayPos, const Vec3D& vRayDir, Vec3D* pPos)const
+{
+	if (m_pTerrain && m_pTerrain->getTerrainData())
+	{
+		return m_pTerrain->getTerrainData()->pick(vRayPos, vRayDir, pPos);
+	}
+	return false;
+}
+
+float CScene::getHeight(float x, float y)const
+{
+	if (m_pTerrain && m_pTerrain->getTerrainData())
+	{
+		return m_pTerrain->getTerrainData()->getHeight(x, y);
+	}
+	return 0.0f;
+}
+
+unsigned char CScene::getPath(int sx,int sy,int tx,int ty, std::vector<unsigned char>& path)
+{
+	if (m_pTerrain && m_pTerrain->getTerrainData())
+	{
+		return m_pTerrain->getTerrainData()->getPath(sx, sy, tx, ty, path);
+	}
+	return 0;
+}
+
 
 void CScene::clearChildren()
 {
