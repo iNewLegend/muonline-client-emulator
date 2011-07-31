@@ -39,22 +39,22 @@ class CTerrainDecal;
 class iTerrainData
 {
 public:
-	virtual void setTileMaterial(int nTileID, const std::string& strMaterialName)=0;
-	virtual CMaterial& getMaterial(const char* szMaterialName)=0;
+	//virtual void setTileMaterial(int nTileID, const std::string& strMaterialName)=0;
+	//virtual CMaterial& getMaterial(const char* szMaterialName)=0;
 
-	virtual CTerrainDecal& GetLightMapDecal()=0;
+	//virtual CTerrainDecal& GetLightMapDecal()=0;
 
 	//virtual void getCubesByFrustum(const CFrustum& frustum, LIST_CUBES& CubeList)const=0;
 
-	virtual bool Prepare()=0;
-	virtual void DrawChunk(int x, int y)=0;
+	//virtual bool Prepare()=0;
+	//virtual void DrawChunk(int x, int y)=0;
 
-	virtual void loadTilesMaterial(const char* szFilename, const char* szParentDir)=0;
-	virtual void clearAllTiles()=0;
+	//virtual void loadTilesMaterial(const char* szFilename, const char* szParentDir)=0;
+	//virtual void clearAllTiles()=0;
 
-	virtual void setLightMapTexture(const std::string& strFilename)=0;
+	//virtual void setLightMapTexture(const std::string& strFilename)=0;
 
-	virtual bool create()=0;
+	//virtual bool create()=0;
 public:
 	iTerrainData(){};
 	virtual ~iTerrainData(){};

@@ -9,12 +9,10 @@ extern "C" {
 
 CMyPlug::CMyPlug(void)
 {
-
 }
 
 CMyPlug::~CMyPlug(void)
 {
-
 }
 
 #define MAP_FILE_SIZE 65536*3+2
@@ -273,7 +271,8 @@ int getMapIDFromFilename(const std::string& strFilename)
 
 bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNode, const char* szFilename)
 {
-	//importTerrainData(pScene->getTerrainData(),szFilename);
+	iTerrainData* pTerrainData = (iTerrainData*)pRenderNodeMgr->createRenderData("terrain",szFilename);
+	importTerrainData(pTerrainData,szFilename);
 	// tiles
 	//std::string strTileFile = GetParentPath(szFilename)+"Tile.csv";
 	//if (!IOReadBase::Exists(strTileFile))
@@ -282,21 +281,7 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 	//}
 	//pScene->getTerrainData()->loadTilesMaterial(strTileFile.c_str(),GetParentPath(szFilename).c_str());
 	//pScene->getTerrainData()->create();
-
-	// calc the map object filename
-	int nMapID = getMapIDFromFilename(szFilename);
-	std::string strObjectPath = Format("%s%s%d\\",GetParentPath(GetParentPath(szFilename)).c_str(),"Object",nMapID);
-
-	// object data filename
-	std::string strObjectFilename = ChangeExtension(szFilename,".obj");
-	iSceneData* pSceneData = (iSceneData*)pRenderNodeMgr->createRenderData("scene",strObjectFilename.c_str());
-	BBox bboxObject;
-	float fLength = 256;//max(pScene->getTerrainData()->GetWidth(),pScene->getTerrainData()->GetHeight());
-	bboxObject.vMin = Vec3D(-10.0f,-fLength*0.5f-10.0f,-10.0f);
-	bboxObject.vMax = Vec3D(fLength+10.0f,fLength*0.5f+10.0f,fLength+10.0f);
-	pSceneData->setBBox(bboxObject);
-	pSceneData->setOctreeDepth(6);
-	pRenderNode->init(pSceneData);
+	pRenderNode->init(pTerrainData);
 	return true;
 }
 

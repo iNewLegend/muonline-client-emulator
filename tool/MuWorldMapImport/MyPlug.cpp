@@ -1480,8 +1480,7 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 		importObjectResourcesFormDir(strObjectPath);
 	}
 	// object data filename
-	std::string strObjectFilename = ChangeExtension(szFilename,".obj");
-	iSceneData* pSceneData = (iSceneData*)pRenderNodeMgr->createRenderData("scene",strObjectFilename.c_str());
+	iSceneData* pSceneData = (iSceneData*)pRenderNodeMgr->createRenderData("scene",szFilename);
 	BBox bboxObject;
 	float fLength = 256;//max(pScene->getTerrainData()->GetWidth(),pScene->getTerrainData()->GetHeight());
 	bboxObject.vMin = Vec3D(-10.0f,-fLength*0.5f-10.0f,-10.0f);
@@ -1491,7 +1490,7 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 	pRenderNode->init(pSceneData);
 	// Loading the object.
 	//iRenderNode* pSceneNode = (iRenderNode*)pRenderNodeMgr->createRenderNode("scene");
-	IOReadBase* pRead = IOReadBase::autoOpen(strObjectFilename.c_str());
+	IOReadBase* pRead = IOReadBase::autoOpen(szFilename);
 	if (pRead)
 	{
 		size_t fileSize = pRead->GetSize();
