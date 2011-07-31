@@ -2,6 +2,7 @@
 #include "TerrainData.h"
 #include "TerrainDecal.h"
 #include "RenderSystem.h"
+#include "RenderNode.h"
 
 #define TERRAIN_VERTEX_FVF	(FVF_XYZ | FVF_NORMAL | FVF_DIFFUSE | FVF_TEX3)
 
@@ -65,52 +66,51 @@ struct TerrainSub:public IndexedSubset
 	}
 };
 
-class CTerrain
+class CTerrain:public CRenderNode
 {
 public:
 	CTerrain(); 
 	CTerrain(const std::string& strFilename); 
 	~CTerrain();
 	//
-	virtual void			setTileMaterial(int nTileID, const std::string& strMaterialName);
-	virtual CMaterial&		getMaterial(const char* szMaterialName);
-	virtual bool			init(void* pData);
+	virtual int					getType			() {return NODE_MODEL;}
+	virtual void				frameMove		(const Matrix& mWorld, double fTime, float fElapsedTime){;}
+	virtual void				render			(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType=MATERIAL_NORMAL)const;
+
+	CTerrainData*				getTerrainData	(){return m_pTerrainData;}
+	virtual bool				init			(void* pData);
+	virtual void				setTileMaterial	(int nTileID, const std::string& strMaterialName);
+	virtual CMaterial&			getMaterial		(const char* szMaterialName);
 	//
-	void					ShowBox(bool bShowBox){m_bShowBox = bShowBox;}
-	bool					IsShowBox(){return m_bShowBox;}
-
-	virtual void			UpdateRender(const CFrustum& frustum);
-
-	virtual bool			LightMapPrepare();
-	virtual void			LightMapFinish();
-	virtual bool			Prepare();
-	virtual void			DrawCubeBoxes(Color32 color=0xFF00FF00);
-	virtual void			drawLayer0();
-	virtual void			drawLayer1();
-
-	virtual void			renderGrass();
-
-	virtual void			Render();
-	virtual void			draw();
-	void					brushLightColor(MAP_EDIT_RECORD& mapEditRecord, float fPosX, float fPosY, Color32 colorPaint, float fRadius, float fHardness, float fStrength);
-	void					drawLightDecal(float x, float y, float fSize, Color32 color);
-	virtual void			drawChunk(TerrainChunk* pChunk);
+	GSET_VAR					(bool,	m_b,ShowBox);
 	//
-	std::map<int,std::string>&	getTiles(){return m_Tiles;}
-	CHardwareVertexBuffer*	GetVB(){return m_pVB;}
-	CTerrainDecal&			GetLightMapDecal(){return m_LightMapDecal;}
-	std::string				getTileListFilename(){return m_strTileListFilename;}
-	void					loadTilesMaterial(const char* szFilename, const char* szParentDir);
-	void					clearAllTiles();
-	void					setLightMapTexture(const std::string& strFilename);
-	virtual bool			create();// ³õÊ¼»¯
+	virtual void				updateRender	(const CFrustum& frustum);
+
+	virtual bool				LightMapPrepare	();
+	virtual void				LightMapFinish	();
+	virtual bool				prepare			()const;
+	virtual void				drawCubeBoxes	(Color32 color=0xFF00FF00)const;
+	virtual void				drawLayer0		()const;
+	virtual void				drawLayer1		()const;
+	virtual void				renderGrass		()const;
+
+	virtual void				draw();
+	void						brushLightColor	(MAP_EDIT_RECORD& mapEditRecord, float fPosX, float fPosY, Color32 colorPaint, float fRadius, float fHardness, float fStrength);
+	void						drawLightDecal	(float x, float y, float fSize, Color32 color);
+	virtual void				drawChunk		(TerrainChunk* pChunk);
+	//
+	std::map<int,std::string>&	getTiles		(){return m_Tiles;}
+	CTerrainDecal&				GetLightMapDecal(){return m_LightMapDecal;}
+	void						loadTilesMaterial(const char* szFilename, const char* szParentDir);
+	void						clearAllTiles();
+	void						setLightMapTexture(const std::string& strFilename);
 protected:
 	//
-	virtual void			updateVB(int nBeginX, int nBeginY, int nEndX, int nEndY);
-	virtual void			CreateGrassVB(size_t uGrassCount);
-	virtual void			CreateGrassIB(size_t uGrassCount);
+	virtual void				updateVB(int nBeginX, int nBeginY, int nEndX, int nEndY);
+	virtual void				CreateGrassVB(size_t uGrassCount);
+	virtual void				CreateGrassIB(size_t uGrassCount);
 	//
-	virtual void			updateIB();
+	virtual void				updateIB();
 protected:
 	CTerrainData*						m_pTerrainData;
 	CHardwareVertexBuffer*				m_pVB;
@@ -118,9 +118,6 @@ protected:
 	// grass
 	CHardwareVertexBuffer*				m_pGrassVB;
 	CHardwareIndexBuffer*				m_pGrassIB;
-
-	bool								m_bShowBox;
-	//
 	// Ìù»¨
 	CTerrainDecal						m_LightMapDecal;
 	CTerrainDecal						m_LightDecal;
@@ -133,6 +130,6 @@ protected:
 	TerrainSub							m_GrassSub;
 	//
 	std::set<TerrainChunk*>				m_setRenderChunks;
-
-	std::string							m_strTileListFilename;
+	//
+	bool								m_bShowBox;
 };
