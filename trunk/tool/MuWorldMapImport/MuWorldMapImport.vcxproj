@@ -66,7 +66,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\shared\include;..\..\engine\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\shared\include;..\..\engine\RenderSystem\include;..\..\engine\EngineCore\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -89,7 +89,7 @@
       <Culture>0x0804</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>mathd.lib;commond.lib;fileiod.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>borZoi.lib;jpeg.lib;mathd.lib;commond.lib;fileiod.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>..\..\bin\Client\Plugins\$(ProjectName)d.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\shared\lib;..\..\engine\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -174,16 +174,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyPlug.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="borZoi\borZoi.vcxproj">
-      <Project>{7f7baad4-c3da-45d6-a51f-2753e5a48e0a}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="jpeg\jpeg.vcxproj">
-      <Project>{4faa0db0-bc06-4265-b426-8d73d2bd15b8}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
