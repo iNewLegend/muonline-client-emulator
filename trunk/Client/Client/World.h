@@ -9,7 +9,6 @@
 #include "Messages.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#define CLASS_TEMP_SIZE		200
 #define PLAYER_VIEW_RANGE	16
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -23,12 +22,9 @@ struct DamageInfo
 class CWorld:public CScene, public TSingleton<CWorld>
 {
 protected:
-	CTerrain						m_Terrain;
 	// ----
 	std::map<ULONG, CRole*>			m_mapRole;
 	std::deque<DamageInfo>			m_dequeDamageInfo;
-	// ----
-	char							m_szTemp[CLASS_TEMP_SIZE];
 	// ----
 	UINT							m_CurMap;
 	// ----

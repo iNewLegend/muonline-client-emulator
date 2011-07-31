@@ -4,6 +4,7 @@
 #include "RenderSystem.h"
 #include "Scene.h"
 #include "3DMapSceneObj.h"
+#include "TerrainData.h"
 
 iRenderNode* newSkeletonNode(){return new CSkeletonNode;}
 iRenderNode* newParticleEmitter(){return new CParticleEmitter;}
@@ -14,6 +15,7 @@ void* newSkeletonData(){return new CSkeletonData;}
 void* newParticleData(){return new ParticleData;}
 void* newLodMesh(){return new CLodMesh;}
 void* newSceneData(){return new SceneData;}
+void* newTerrainData(){return new CTerrainData;}
 
 CRenderNodeMgr::CRenderNodeMgr()
 {
@@ -27,6 +29,7 @@ CRenderNodeMgr::CRenderNodeMgr()
 	registerRenderData("particle",	(P_FUNC_NEW_RENDER_DATA)newParticleData);
 	registerRenderData("mesh",		(P_FUNC_NEW_RENDER_DATA)newLodMesh);
 	registerRenderData("scene",		(P_FUNC_NEW_RENDER_DATA)newSceneData);
+	registerRenderData("terrain",	(P_FUNC_NEW_RENDER_DATA)newTerrainData);
 }
 
 void CRenderNodeMgr::registerRenderNode(const char* szClassName, P_FUNC_NEW_RENDER_NODE pfn)

@@ -16,8 +16,6 @@ CWorld::CWorld()
 {
 	m_CurMap = 0xFFFFFFFF;
 	// ----
-	memset(m_szTemp, 0x00 , sizeof(m_szTemp));
-	// ----
 	// # create the dll of map data plugs
 	// ----
 	//m_DataPlugsMgr.createPlugFromPath("Plugins\\", "Scene_Plug_CreateObject");
@@ -168,7 +166,14 @@ void CWorld::create(UCHAR uMapID)
 		// ----
 		UINT nJump	= (uMapID + 1);
 		// ----
-		loadMap("Data\\World%d\\EncTerrain%d.map", nJump, nJump);
+		char szMapFilname[256];
+		sprintf(szMapFilname,"Data\\World%d\\EncTerrain%d.obj", nJump, nJump);
+		//
+		load(szMapFilname);
+		//
+		sprintf(szMapFilname,"Data\\World%d\\EncTerrain%d.map", nJump, nJump);
+		m_pTerrain = new CTerrain;
+		m_pTerrain->load(szMapFilname);
 		// ----
 		//GetAudio().LoadMusic("Data\\Music\\main_theme.mp3");
 		//GetAudio().PlayMusic(true,20);
@@ -295,16 +300,5 @@ void CWorld::getRenderNodes(const CFrustum& frustum, std::set<iRenderNode*>& set
 	}
 	// ----
 	CScene::getRenderNodes(frustum, setNode);
-}
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-void CWorld::loadMap(const char* szFilename, ...)
-{
-	va_list pArguments;
-	va_start(pArguments, szFilename);
-	vsprintf(m_szTemp, szFilename, pArguments);
-	va_end(pArguments);
-	// ----
-	load(m_szTemp);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

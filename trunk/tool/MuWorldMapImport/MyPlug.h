@@ -8,7 +8,7 @@ public:
 	~CMyPlug(void);
 
 	virtual const char * getTitle(){return "Mu Scene File";}
-	virtual const char * getFormat() {return ".map";}
+	virtual const char * getFormat() {return ".obj";}
 	virtual bool importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNode, const char* szFilename);
 	virtual void release();
 private:
