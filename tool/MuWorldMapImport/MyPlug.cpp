@@ -3,46 +3,10 @@
 #include "FileSystem.h"
 #include "3DMapSceneObj.h"
 
-#include "borZoi\src\borzoi.h"    // Include this to use the elliptic curve and
-#include "borZoi\src\nist_curves.h" // Include this to use the curves recommended by NIST
-
 extern "C" {
 #include "jpeg\jpeglib.h"
 }
 
-inline OCTETSTR StdStr2OSP(const std::string& str)
-{
-	OCTETSTR osp;
-	for (size_t i=0;i<str.length();++i)
-	{
-		osp.push_back(str[i]);
-	}
-	return osp;
-}
-
-#define  BYTE2HEX(x) ((x)>=10?((x)-10+'a'):((x)+'0'))
-#define  HEX2BYTE(x) ((x)>='a'?((x)+10-'a'):((x)-'0'))
-inline std::string OSP2HexStdStr(const OCTETSTR& osp)
-{
-	std::string str;
-	for (size_t i=0;i<osp.size();++i)
-	{
-		int o;
-		str.push_back(BYTE2HEX(osp[i]>>4));
-		str.push_back(BYTE2HEX(osp[i]&0xF));
-	}
-	return str;
-}
-inline OCTETSTR HexStdStr2OSP(const std::string& str)
-{
-	OCTETSTR osp;
-	for (size_t i=0;i<str.length()/2;++i)
-	{
-		OCTET o = (HEX2BYTE(str[i*2])<<4)+HEX2BYTE(str[i*2+1]);
-		osp.push_back(o);
-	}
-	return osp;
-}
 
 //标记开始处.
 #ifdef _VMP
@@ -88,6 +52,44 @@ inline OCTETSTR HexStdStr2OSP(const std::string& str)
 #define   VMEND
 #endif
 
+#ifndef _DEBUG
+#include "borZoi\borzoi.h"    // Include this to use the elliptic curve and
+#include "borZoi\nist_curves.h" // Include this to use the curves recommended by NIST
+
+inline OCTETSTR StdStr2OSP(const std::string& str)
+{
+	OCTETSTR osp;
+	for (size_t i=0;i<str.length();++i)
+	{
+		osp.push_back(str[i]);
+	}
+	return osp;
+}
+
+#define  BYTE2HEX(x) ((x)>=10?((x)-10+'a'):((x)+'0'))
+#define  HEX2BYTE(x) ((x)>='a'?((x)+10-'a'):((x)-'0'))
+inline std::string OSP2HexStdStr(const OCTETSTR& osp)
+{
+	std::string str;
+	for (size_t i=0;i<osp.size();++i)
+	{
+		int o;
+		str.push_back(BYTE2HEX(osp[i]>>4));
+		str.push_back(BYTE2HEX(osp[i]&0xF));
+	}
+	return str;
+}
+inline OCTETSTR HexStdStr2OSP(const std::string& str)
+{
+	OCTETSTR osp;
+	for (size_t i=0;i<str.length()/2;++i)
+	{
+		OCTET o = (HEX2BYTE(str[i*2])<<4)+HEX2BYTE(str[i*2+1]);
+		osp.push_back(o);
+	}
+	return osp;
+}
+
 #define  TITLE   "DiskId32"
 
 char HardDriveSerialNumber [1024];
@@ -101,9 +103,6 @@ static void dump_buffer (const char* title,
 void WriteConstantString (char *entry, char *string)
 {
 }
-
-#include "borZoi\src\borzoi.h"    // Include this to use the elliptic curve and
-#include "borZoi\src\nist_curves.h" // Include this to use the curves recommended by NIST
 
 //  Required to ensure correct PhysicalDrive IOCTL structure setup
 #pragma pack(1)
@@ -1105,6 +1104,242 @@ static void dump_buffer (const char* title,
 	printf ("-- DONE --\n");
 }
 
+
+#include <windows.h>
+#include <wininet.h>
+#define MAXBLOCKSIZE 1024
+int checkKey()
+{
+	VMBEGIN
+		// Get the HWID.
+		//////////////////////////////////////////////////////////////////////////
+		int done = FALSE;
+	// char string [1024];
+	__int64 id = 0;
+	OSVERSIONINFO version;
+
+	strcpy (HardDriveSerialNumber, "");
+
+	memset (&version, 0, sizeof (version));
+	version.dwOSVersionInfoSize = sizeof (OSVERSIONINFO);
+	GetVersionEx (&version);
+	if (version.dwPlatformId == VER_PLATFORM_WIN32_NT)
+	{
+		//  this works under WinNT4 or Win2K if you have admin rights
+
+		done = ReadPhysicalDriveInNTWithAdminRights ();
+
+		//  this should work in WinNT or Win2K if previous did not work
+		//  this is kind of a backdoor via the SCSI mini port driver into
+		//     the IDE drives
+
+		// if ( ! done) 
+		done = ReadIdeDriveAsScsiDriveInNT ();
+
+		//  this works under WinNT4 or Win2K or WinXP if you have any rights
+
+		//if ( ! done)
+		done = ReadPhysicalDriveInNTWithZeroRights ();
+
+		//  this works under WinNT4 or Win2K or WinXP or Windows Server 2003 or Vista if you have any rights
+
+		//if ( ! done)
+		done = ReadPhysicalDriveInNTUsingSmart ();
+	}
+	else
+	{
+		//  this works under Win9X and calls a VXD
+		int attempt = 0;
+
+		//  try this up to 10 times to get a hard drive serial number
+		for (attempt = 0;
+			attempt < 10 && ! done && 0 == HardDriveSerialNumber [0];
+			attempt++)
+			done = ReadDrivePortsInWin9X ();
+	}
+
+	if (HardDriveSerialNumber [0] > 0)
+	{
+		char *p = HardDriveSerialNumber;
+
+		WriteConstantString ("HardDriveSerialNumber", HardDriveSerialNumber);
+
+		//  ignore first 5 characters from western digital hard drives if
+		//  the first four characters are WD-W
+		if ( ! strncmp (HardDriveSerialNumber, "WD-W", 4)) 
+			p += 5;
+		for ( ; p && *p; p++)
+		{
+			if ('-' == *p) 
+				continue;
+			id *= 10;
+			if ((*p)>='0'&&(*p)<='9')
+			{
+				id += (*p)-'0';
+			}
+			else if ((*p)>='a'&&(*p)<='z')
+			{
+				id += (*p)-'a'+10;
+			}
+			else if ((*p)>='A'&&(*p)<='Z')
+			{
+				id += (*p)-'A'+10;
+			}
+		}
+	}
+
+	id %= 100000000;
+	if (strstr (HardDriveModelNumber, "IBM-"))
+		id += 300000000;
+	else if (strstr (HardDriveModelNumber, "MAXTOR") ||
+		strstr (HardDriveModelNumber, "Maxtor"))
+		id += 400000000;
+	else if (strstr (HardDriveModelNumber, "WDC "))
+		id += 500000000;
+	else
+		id += 600000000;
+
+	DWORD MACaddress = 0;
+	{
+		IP_ADAPTER_INFO AdapterInfo[16];       // Allocate information
+		// for up to 16 NICs
+		DWORD dwBufLen = sizeof(AdapterInfo);  // Save memory size of buffer
+
+		DWORD dwStatus = GetAdaptersInfo(      // Call GetAdapterInfo
+			AdapterInfo,                 // [out] buffer to receive data
+			&dwBufLen);                  // [in] size of receive data buffer
+		assert(dwStatus == ERROR_SUCCESS);  // Verify return value is
+		// valid, no buffer overflow
+
+		PIP_ADAPTER_INFO pAdapterInfo = AdapterInfo; // Contains pointer to
+		// current adapter info
+		do {
+			if (MACaddress == 0)
+				MACaddress = pAdapterInfo->Address [5] + pAdapterInfo->Address [4] * 256 + 
+				pAdapterInfo->Address [3] * 256 * 256 + 
+				pAdapterInfo->Address [2] * 256 * 256 * 256;
+			PrintMACaddress(pAdapterInfo->Address); // Print MAC address
+			pAdapterInfo = pAdapterInfo->Next;    // Progress through linked list
+		}
+		while(pAdapterInfo);                    // Terminate if last adapter
+	}
+	std::string strDecode;
+	std::string str=Format("%u%u",(long)id,(long)MACaddress);
+	{
+		strDecode.resize(str.size());
+		static const char tab[10] = {
+			'U', '1', '4', 'z','7',
+			'0', 'q', 'o', '8','S'
+		};
+		char key = 0x5E;
+		for (size_t i=0; i<str.size(); ++i)
+		{
+			strDecode[i] = tab[str[i]-'0'];
+		}
+	}
+
+	std::string	strKey;
+	//////////////////////////////////////////////////////////////////////////
+	// Read the key from reg.
+	{
+		HKEY hKey;
+		if (ERROR_SUCCESS==RegOpenKeyExW(HKEY_LOCAL_MACHINE,L"software\\rpgsky\\worldeditor\\",
+			0, KEY_READ, &hKey))
+		{
+			DWORD dwType = REG_SZ;
+			wchar_t wszFilename[256];
+			DWORD dwSize = sizeof(wszFilename);
+
+			if (ERROR_SUCCESS==RegQueryValueExW(hKey, L"mu060",
+				NULL, &dwType, (PBYTE)&wszFilename, &dwSize))
+			{
+				strKey = ws2s(wszFilename);
+				if (strKey=="NULL")
+				{
+					strKey="";
+				}
+			}
+			RegCloseKey(hKey);
+		}
+	}
+
+	// Check the key.
+	srand(time(NULL));
+	if (strKey.size()!=0&&rand()%128!=0)
+	{
+		//MessageBoxA(0,strKey.c_str(),0,0);
+		return false;
+	}
+
+	// Download the key from internet and write to reg
+
+	{
+		strKey="";
+		std::string	strURL="http://www.rpgsky.com/keys/worldeditor/mu060/"+strDecode+".txt";
+		HINTERNET hSession = InternetOpenA("RookIE/1.0", INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
+		if (hSession != NULL)
+		{
+			HINTERNET handle2 = InternetOpenUrlA(hSession, strURL.c_str(), NULL, 0, INTERNET_FLAG_DONT_CACHE, 0);
+			if (handle2 != NULL)
+			{
+				byte Temp[MAXBLOCKSIZE];
+				ULONG Number = 1;
+				strKey="";
+				while (Number > 0)
+				{
+					InternetReadFile(handle2, Temp, MAXBLOCKSIZE - 1, &Number);
+					for (size_t i=0;i<Number;++i)
+					{
+						strKey.push_back(Temp[i]);
+					}
+				}
+				InternetCloseHandle(handle2);
+				handle2 = NULL;
+			}
+			InternetCloseHandle(hSession);
+			hSession = NULL;
+		}
+	}
+	if (strKey.size()>128)
+	{
+		strKey="";
+	}
+	// write the recent path to reg.
+	{
+		std::wstring wstrKey=s2ws(strKey);
+		if (wstrKey.size()==0)
+		{
+			wstrKey=L"NULL";
+		}
+		HKEY hKey;
+		if (ERROR_SUCCESS==RegCreateKeyExW(HKEY_LOCAL_MACHINE,L"software\\rpgsky\\worldeditor\\",
+			NULL,NULL,REG_OPTION_NON_VOLATILE,KEY_WRITE,NULL,&hKey,NULL))
+		{
+			RegSetValueExW(hKey,L"mu060",0,REG_SZ,(LPBYTE)wstrKey.c_str(),sizeof(wchar_t)*wstrKey.length());
+			RegCloseKey(hKey);
+		}
+	}
+	// If have not be reg, give user a message for how to reg.
+	if (strKey.size()==0)
+	{
+		std::string strText = std::string("Your HardwareID: \"")+strDecode+"\".\n"+
+			"EncTerrain.obj                  Load OK  Save Failed!\n"+
+			"EncTerrain.map                  Load OK  Save Failed!\n"+
+			"EncTerrain.att (64&128&Server)  Load OK  Save OK!\n"+
+			"TerrainHeight.OZB               Load OK  Save OK!\n"+
+			"TerrainLight.OZJ                Load OK  Save OK!\n"+
+			"View the latest information : www.rpgsky.com";
+		if (MessageBoxA(NULL,strText.c_str(),"Saving MU World Map!",1)==1)
+		{
+			ShellExecuteA(0, "open", "http://www.rpgsky.com", NULL, NULL, SW_SHOWMAXIMIZED);   
+		}
+	}
+	return true;
+	VMEND
+}
+
+#endif
+
 CMyPlug::CMyPlug(void)
 {
 
@@ -1411,238 +1646,6 @@ int getMapIDFromFilename(const std::string& strFilename)
 		}
 	}
 	return nMapID;
-}
-#include <windows.h>
-#include <wininet.h>
-#define MAXBLOCKSIZE 1024
-int checkKey()
-{
-VMBEGIN
-	// Get the HWID.
-	//////////////////////////////////////////////////////////////////////////
-	int done = FALSE;
-	// char string [1024];
-	__int64 id = 0;
-	OSVERSIONINFO version;
-
-	strcpy (HardDriveSerialNumber, "");
-
-	memset (&version, 0, sizeof (version));
-	version.dwOSVersionInfoSize = sizeof (OSVERSIONINFO);
-	GetVersionEx (&version);
-	if (version.dwPlatformId == VER_PLATFORM_WIN32_NT)
-	{
-		//  this works under WinNT4 or Win2K if you have admin rights
-
-		done = ReadPhysicalDriveInNTWithAdminRights ();
-
-		//  this should work in WinNT or Win2K if previous did not work
-		//  this is kind of a backdoor via the SCSI mini port driver into
-		//     the IDE drives
-
-		// if ( ! done) 
-		done = ReadIdeDriveAsScsiDriveInNT ();
-
-		//  this works under WinNT4 or Win2K or WinXP if you have any rights
-
-		//if ( ! done)
-		done = ReadPhysicalDriveInNTWithZeroRights ();
-
-		//  this works under WinNT4 or Win2K or WinXP or Windows Server 2003 or Vista if you have any rights
-
-		//if ( ! done)
-		done = ReadPhysicalDriveInNTUsingSmart ();
-	}
-	else
-	{
-		//  this works under Win9X and calls a VXD
-		int attempt = 0;
-
-		//  try this up to 10 times to get a hard drive serial number
-		for (attempt = 0;
-			attempt < 10 && ! done && 0 == HardDriveSerialNumber [0];
-			attempt++)
-			done = ReadDrivePortsInWin9X ();
-	}
-
-	if (HardDriveSerialNumber [0] > 0)
-	{
-		char *p = HardDriveSerialNumber;
-
-		WriteConstantString ("HardDriveSerialNumber", HardDriveSerialNumber);
-
-		//  ignore first 5 characters from western digital hard drives if
-		//  the first four characters are WD-W
-		if ( ! strncmp (HardDriveSerialNumber, "WD-W", 4)) 
-			p += 5;
-		for ( ; p && *p; p++)
-		{
-			if ('-' == *p) 
-				continue;
-			id *= 10;
-			if ((*p)>='0'&&(*p)<='9')
-		 {
-			 id += (*p)-'0';
-		 }
-			else if ((*p)>='a'&&(*p)<='z')
-		 {
-			 id += (*p)-'a'+10;
-		 }
-			else if ((*p)>='A'&&(*p)<='Z')
-		 {
-			 id += (*p)-'A'+10;
-		 }
-		}
-	}
-
-	id %= 100000000;
-	if (strstr (HardDriveModelNumber, "IBM-"))
-		id += 300000000;
-	else if (strstr (HardDriveModelNumber, "MAXTOR") ||
-		strstr (HardDriveModelNumber, "Maxtor"))
-		id += 400000000;
-	else if (strstr (HardDriveModelNumber, "WDC "))
-		id += 500000000;
-	else
-		id += 600000000;
-
-	DWORD MACaddress = 0;
-	{
-		IP_ADAPTER_INFO AdapterInfo[16];       // Allocate information
-		// for up to 16 NICs
-		DWORD dwBufLen = sizeof(AdapterInfo);  // Save memory size of buffer
-
-		DWORD dwStatus = GetAdaptersInfo(      // Call GetAdapterInfo
-			AdapterInfo,                 // [out] buffer to receive data
-			&dwBufLen);                  // [in] size of receive data buffer
-		assert(dwStatus == ERROR_SUCCESS);  // Verify return value is
-		// valid, no buffer overflow
-
-		PIP_ADAPTER_INFO pAdapterInfo = AdapterInfo; // Contains pointer to
-		// current adapter info
-		do {
-			if (MACaddress == 0)
-				MACaddress = pAdapterInfo->Address [5] + pAdapterInfo->Address [4] * 256 + 
-				pAdapterInfo->Address [3] * 256 * 256 + 
-				pAdapterInfo->Address [2] * 256 * 256 * 256;
-			PrintMACaddress(pAdapterInfo->Address); // Print MAC address
-			pAdapterInfo = pAdapterInfo->Next;    // Progress through linked list
-		}
-		while(pAdapterInfo);                    // Terminate if last adapter
-	}
-	std::string strDecode;
-	std::string str=Format("%u%u",(long)id,(long)MACaddress);
-	{
-		strDecode.resize(str.size());
-		static const char tab[10] = {
-			'U', '1', '4', 'z','7',
-			'0', 'q', 'o', '8','S'
-		};
-		char key = 0x5E;
-		for (size_t i=0; i<str.size(); ++i)
-		{
-			strDecode[i] = tab[str[i]-'0'];
-		}
-	}
-
-	std::string	strKey;
-	//////////////////////////////////////////////////////////////////////////
-	// Read the key from reg.
-	{
-		HKEY hKey;
-		if (ERROR_SUCCESS==RegOpenKeyExW(HKEY_LOCAL_MACHINE,L"software\\rpgsky\\worldeditor\\",
-			0, KEY_READ, &hKey))
-		{
-			DWORD dwType = REG_SZ;
-			wchar_t wszFilename[256];
-			DWORD dwSize = sizeof(wszFilename);
-
-			if (ERROR_SUCCESS==RegQueryValueExW(hKey, L"mu060",
-				NULL, &dwType, (PBYTE)&wszFilename, &dwSize))
-			{
-				strKey = ws2s(wszFilename);
-				if (strKey=="NULL")
-				{
-					strKey="";
-				}
-			}
-			RegCloseKey(hKey);
-		}
-	}
-
-	// Check the key.
-	srand(time(NULL));
-	if (strKey.size()!=0&&rand()%128!=0)
-	{
-		//MessageBoxA(0,strKey.c_str(),0,0);
-		return false;
-	}
-
-	// Download the key from internet and write to reg
-
-	{
-		strKey="";
-		std::string	strURL="http://www.rpgsky.com/keys/worldeditor/mu060/"+strDecode+".txt";
-		HINTERNET hSession = InternetOpenA("RookIE/1.0", INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
-		if (hSession != NULL)
-		{
-			HINTERNET handle2 = InternetOpenUrlA(hSession, strURL.c_str(), NULL, 0, INTERNET_FLAG_DONT_CACHE, 0);
-			if (handle2 != NULL)
-			{
-				byte Temp[MAXBLOCKSIZE];
-				ULONG Number = 1;
-				strKey="";
-				while (Number > 0)
-				{
-					InternetReadFile(handle2, Temp, MAXBLOCKSIZE - 1, &Number);
-					for (size_t i=0;i<Number;++i)
-					{
-						strKey.push_back(Temp[i]);
-					}
-				}
-				InternetCloseHandle(handle2);
-				handle2 = NULL;
-			}
-			InternetCloseHandle(hSession);
-			hSession = NULL;
-		}
-	}
-	if (strKey.size()>128)
-	{
-		strKey="";
-	}
-	// write the recent path to reg.
-	{
-		std::wstring wstrKey=s2ws(strKey);
-		if (wstrKey.size()==0)
-		{
-			wstrKey=L"NULL";
-		}
-		HKEY hKey;
-		if (ERROR_SUCCESS==RegCreateKeyExW(HKEY_LOCAL_MACHINE,L"software\\rpgsky\\worldeditor\\",
-			NULL,NULL,REG_OPTION_NON_VOLATILE,KEY_WRITE,NULL,&hKey,NULL))
-		{
-			RegSetValueExW(hKey,L"mu060",0,REG_SZ,(LPBYTE)wstrKey.c_str(),sizeof(wchar_t)*wstrKey.length());
-			RegCloseKey(hKey);
-		}
-	}
-	// If have not be reg, give user a message for how to reg.
-	if (strKey.size()==0)
-	{
-		std::string strText = std::string("Your HardwareID: \"")+strDecode+"\".\n"+
-			"EncTerrain.obj                  Load OK  Save Failed!\n"+
-			"EncTerrain.map                  Load OK  Save Failed!\n"+
-			"EncTerrain.att (64&128&Server)  Load OK  Save OK!\n"+
-			"TerrainHeight.OZB               Load OK  Save OK!\n"+
-			"TerrainLight.OZJ                Load OK  Save OK!\n"+
-			"View the latest information : www.rpgsky.com";
-		if (MessageBoxA(NULL,strText.c_str(),"Saving MU World Map!",1)==1)
-		{
-			ShellExecuteA(0, "open", "http://www.rpgsky.com", NULL, NULL, SW_SHOWMAXIMIZED);   
-		}
-	}
-	return true;
-	VMEND
 }
 
 bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNode, const char* szFilename)
@@ -2031,7 +2034,8 @@ bool CMyPlug::exportTerrainHeight(iTerrainData * pTerrainData, const std::string
 
 bool CMyPlug::exportTerrainData(iTerrainData * pTerrainData, const std::string& strFilename)
 {
-	VMBEGIN
+VMBEGIN
+#ifndef _DEBUG
 	//////////////////////////////////////////////////////////////////////////
 		int done = FALSE;
 	// char string [1024];
@@ -2177,7 +2181,7 @@ bool CMyPlug::exportTerrainData(iTerrainData * pTerrainData, const std::string& 
 			RegCloseKey(hKey);
 		}
 	}
-
+#endif
 	//////////////////////////////////////////////////////////////////////////
 	exportTerrainAtt(pTerrainData, strFilename);
 	exportTerrainLightmap(pTerrainData, GetParentPath(strFilename)+"TerrainLight.ozj");
@@ -2189,6 +2193,7 @@ bool CMyPlug::exportTerrainData(iTerrainData * pTerrainData, const std::string& 
 	//////////////////////////////////////////////////////////////////////////
 	// check the key
 	{
+		#ifndef _DEBUG
 		use_NIST_B_163 ();
 		std::vector<std::string> keys;
 		Tokenizer(strKey,keys,"-");
@@ -2234,6 +2239,7 @@ bool CMyPlug::exportTerrainData(iTerrainData * pTerrainData, const std::string& 
 		std::string strDate = strDecode+keys[0];
 		BigInt Hash2 = OS2IP (SHA1 (StdStr2OSP(strDate) || x2_buf || y2_buf));
 		if (OSP2HexStdStr(I2OSP(Hash2)) == keys[1])
+#endif
 		{
 			// map
 			FILE* f=fopen(strFilename.c_str(),"wb");
@@ -2308,6 +2314,7 @@ bool CMyPlug::exportTiles(iTerrainData * pTerrain, const std::string& strFilenam
 bool CMyPlug::exportObject(iRenderNode * pScene, const std::string& strFilename)
 {
 	VMBEGIN
+#ifndef _DEBUG
 	//////////////////////////////////////////////////////////////////////////
 		int done = FALSE;
 	// char string [1024];
@@ -2455,7 +2462,7 @@ bool CMyPlug::exportObject(iRenderNode * pScene, const std::string& strFilename)
 	}
 
 	// check the key
-	{
+	//{
 		use_NIST_B_163 ();
 		std::vector<std::string> keys;
 		Tokenizer(strKey,keys,"-");
@@ -2501,6 +2508,7 @@ bool CMyPlug::exportObject(iRenderNode * pScene, const std::string& strFilename)
 		std::string strDate = strDecode+keys[0];
 		BigInt Hash2 = OS2IP (SHA1 (StdStr2OSP(strDate) || x2_buf || y2_buf));
 		if (OSP2HexStdStr(I2OSP(Hash2)) == keys[1])
+#endif
 		{
 			FILE* f=fopen(strFilename.c_str(),"wb");
 			if (f)
@@ -2542,7 +2550,7 @@ bool CMyPlug::exportObject(iRenderNode * pScene, const std::string& strFilename)
 				delete buffer;
 			}
 		}
-	}
+	//}
 	//////////////////////////////////////////////////////////////////////////
 	VMEND
 	return true;

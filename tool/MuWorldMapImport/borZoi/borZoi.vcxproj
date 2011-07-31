@@ -10,6 +10,31 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="aes.cpp" />
+    <ClCompile Include="asn.cpp" />
+    <ClCompile Include="curve.cpp" />
+    <ClCompile Include="ecdsa.cpp" />
+    <ClCompile Include="ecies.cpp" />
+    <ClCompile Include="eckas_dh1.cpp" />
+    <ClCompile Include="ec_key_pair.cpp" />
+    <ClCompile Include="ec_primitives.cpp" />
+    <ClCompile Include="hash.cpp" />
+    <ClCompile Include="math_mpi.cpp" />
+    <ClCompile Include="mpi.c" />
+    <ClCompile Include="rijndael-alg-fst.c" />
+    <ClCompile Include="rng.c" />
+    <ClCompile Include="utilities.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="borzoi.h" />
+    <ClInclude Include="borzoi_math.h" />
+    <ClInclude Include="borzoi_util.h" />
+    <ClInclude Include="mpi.h" />
+    <ClInclude Include="nist_curves.h" />
+    <ClInclude Include="rijndael-alg-fst.h" />
+    <ClInclude Include="rng.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7F7BAAD4-C3DA-45D6-A51F-2753E5A48E0A}</ProjectGuid>
     <RootNamespace>borZoi</RootNamespace>
@@ -102,31 +127,6 @@
       </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="src\aes.cpp" />
-    <ClCompile Include="src\asn.cpp" />
-    <ClCompile Include="src\curve.cpp" />
-    <ClCompile Include="src\ec_key_pair.cpp" />
-    <ClCompile Include="src\ec_primitives.cpp" />
-    <ClCompile Include="src\ecdsa.cpp" />
-    <ClCompile Include="src\ecies.cpp" />
-    <ClCompile Include="src\eckas_dh1.cpp" />
-    <ClCompile Include="src\hash.cpp" />
-    <ClCompile Include="src\math_mpi.cpp" />
-    <ClCompile Include="src\mpi.c" />
-    <ClCompile Include="src\rijndael-alg-fst.c" />
-    <ClCompile Include="src\rng.c" />
-    <ClCompile Include="src\utilities.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\borzoi.h" />
-    <ClInclude Include="src\borzoi_math.h" />
-    <ClInclude Include="src\borzoi_util.h" />
-    <ClInclude Include="src\mpi.h" />
-    <ClInclude Include="src\nist_curves.h" />
-    <ClInclude Include="src\rijndael-alg-fst.h" />
-    <ClInclude Include="src\rng.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

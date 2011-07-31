@@ -78,7 +78,8 @@
       <OutputFile>.\../libR/Sound.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>xcopy $(ProjectDir)include\*.h $(SolutionDir)include\ /y</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -111,7 +112,8 @@
       <OutputFile>.\../lib/Sound.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>xcopy $(ProjectDir)include\*.h $(SolutionDir)include\ /y</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
