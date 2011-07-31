@@ -12,7 +12,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>MuTerrain</ProjectName>
-    <ProjectGuid>{257217AD-AAF5-461D-9327-03891BA604A1}</ProjectGuid>
+    <ProjectGuid>{47E419FE-422B-4F59-8FC3-39113F527554}</ProjectGuid>
     <RootNamespace>MuWorldMapImport</RootNamespace>
     <Keyword>MFCProj</Keyword>
   </PropertyGroup>
