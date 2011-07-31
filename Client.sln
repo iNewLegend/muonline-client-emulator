@@ -20,6 +20,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MuModelPlugin", "tool\MuMod
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MuWorldMapPlugin", "tool\MuWorldMapImport\MuWorldMapImport.vcxproj", "{257217AD-AAF5-461D-9327-03891BA604A1}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MuTerrain", "tool\MuTerrain\MuTerrain.vcxproj", "{47E419FE-422B-4F59-8FC3-39113F527554}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -46,6 +48,10 @@ Global
 		{257217AD-AAF5-461D-9327-03891BA604A1}.Debug|Win32.Build.0 = Debug|Win32
 		{257217AD-AAF5-461D-9327-03891BA604A1}.Release|Win32.ActiveCfg = Release|Win32
 		{257217AD-AAF5-461D-9327-03891BA604A1}.Release|Win32.Build.0 = Release|Win32
+		{47E419FE-422B-4F59-8FC3-39113F527554}.Debug|Win32.ActiveCfg = Debug|Win32
+		{47E419FE-422B-4F59-8FC3-39113F527554}.Debug|Win32.Build.0 = Debug|Win32
+		{47E419FE-422B-4F59-8FC3-39113F527554}.Release|Win32.ActiveCfg = Release|Win32
+		{47E419FE-422B-4F59-8FC3-39113F527554}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

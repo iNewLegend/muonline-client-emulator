@@ -89,7 +89,7 @@
       <Culture>0x0804</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>borZoi.lib;jpeg.lib;mathd.lib;commond.lib;fileiod.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>borZoi.lib;mathd.lib;commond.lib;fileiod.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>..\..\bin\Client\Plugins\$(ProjectName)d.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\shared\lib;..\..\engine\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
