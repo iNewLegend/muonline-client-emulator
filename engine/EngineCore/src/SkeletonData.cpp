@@ -135,7 +135,7 @@ iSkeletonAnim* CSkeletonData::allotAnimation(const std::string& strName)
 iSkeletonAnim* CSkeletonData::getAnimation(const std::string& strName)
 {
 	auto it = m_Anims.find(strName);
-	if (it==m_Anims.end())
+	if (it!=m_Anims.end())
 	{
 		return (iSkeletonAnim*)&it->second;
 	}
