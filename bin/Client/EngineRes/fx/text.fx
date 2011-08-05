@@ -33,7 +33,7 @@ technique Render
 {
     pass P0
     {
-	VertexShader = NULL;
+		VertexShader = NULL;
         PixelShader  = compile ps_2_0 PS();
     }
 }
