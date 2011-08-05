@@ -57,7 +57,7 @@ technique Render
 
 		ZEnable				= True;
 		ZFunc				= GREATEREQUAL;
-		ZWriteEnable		= True
+		ZWriteEnable		= True;
 
 		ColorOp[0]			= Modulate;
 		ColorArg1[0]		= Diffuse;
