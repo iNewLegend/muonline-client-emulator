@@ -96,7 +96,7 @@ technique Render
 		ColorOp[1]			= Disable;
 		AlphaOP[1]			= Disable;
 
-        VertexShader = compile vs_1_0 VS();
-        PixelShader  = compile ps_2_0 PS();
+        VertexShader		= compile vs_1_0 VS();
+        PixelShader			= compile ps_2_0 PS();
     }
 }
