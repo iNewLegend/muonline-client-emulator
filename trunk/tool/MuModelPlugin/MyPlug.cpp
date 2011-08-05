@@ -311,32 +311,7 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 								strTexFileName = ChangeExtension(strTexFileName,strExt);
 							}
 							pMaterial->setTexture(0,strTexFileName.c_str());
-
-							pMaterial->bLightingEnabled		= true;
-							// ----
-							pMaterial->uCull				= CULL_NONE;
-							// ----
-							pMaterial->bBlend				= false;
-							// ----
-							pMaterial->bAlphaTest			= true;
-							pMaterial->nAlphaTestCompare	= CMPF_GREATER_EQUAL;
-							pMaterial->uAlphaTestValue		= 0x80;
-							// ----
-							pMaterial->bDepthTest			= true;
-							pMaterial->bDepthWrite			= true;
-							// ----
-							CMaterial::TextureOP& texOP0	= pMaterial->textureOP[0];
-							CMaterial::TextureOP& texOP1	= pMaterial->textureOP[1];
-							// ----
-							texOP0.nColorOP					= TBOP_MODULATE;
-							texOP0.nColorSrc1				= TBS_CURRENT;
-							texOP0.nColorSrc2				= TBS_TEXTURE;
-							texOP0.nAlphaOP					= TBOP_MODULATE;
-							texOP0.nAlphaSrc1				= TBS_CURRENT;
-							texOP0.nAlphaSrc2				= TBS_TEXTURE;
-							// ----
-							texOP1.nColorOP					= TBOP_DISABLE;
-							texOP1.nAlphaOP					= TBOP_DISABLE;
+							pMaterial->setShader("EngineRes\\fx\\diffuseAlphaTest64.fx");
 						}
 						subMesh.setMaterial(szMaterialName);
 					}

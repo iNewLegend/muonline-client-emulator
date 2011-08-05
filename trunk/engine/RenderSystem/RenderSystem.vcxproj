@@ -144,7 +144,6 @@
     <ClCompile Include="src\Graphics.cpp" />
     <ClCompile Include="src\HardwareIndexBuffer.cpp" />
     <ClCompile Include="src\HardwareVertexBuffer.cpp" />
-    <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\RenderSystem.cpp" />
     <ClCompile Include="src\RenderWindow.cpp" />
     <ClCompile Include="src\Root.cpp" />

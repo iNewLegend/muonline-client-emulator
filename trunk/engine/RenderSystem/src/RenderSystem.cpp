@@ -79,27 +79,7 @@ bool CRenderSystem::prepareMaterial(/*const */CMaterial& material, float fOpacit
 		material.uShader = GetShaderMgr().registerItem(material.getShader());
 	}
 	// ----
-	SetLightingEnabled(material.bLightingEnabled);
-	SetCullingMode((CullingMode)material.uCull);
-	// ----
-	SetAlphaTestFunc(material.bAlphaTest, (CompareFunction)material.nAlphaTestCompare, material.uAlphaTestValue);
-	SetBlendFunc(material.bBlend, (SceneBlendOperation)material.nBlendOP, (SceneBlendFactor)material.nBlendSrc, (SceneBlendFactor)material.nBlendDest);
-	SetDepthBufferFunc(material.bDepthTest,material.bDepthWrite);
-	// ----
-	if (0==material.uShader)
-	{
-		for (size_t i=0;i<8;++i)
-		{
-			CMaterial::TextureOP& texOP = material.textureOP[i];
-			SetTextureColorOP(i, (TextureBlendOperation)texOP.nColorOP, (TextureBlendSource)texOP.nColorSrc1, (TextureBlendSource)texOP.nColorSrc2);
-			SetTextureColorOP(i, (TextureBlendOperation)texOP.nAlphaOP, (TextureBlendSource)texOP.nAlphaSrc1, (TextureBlendSource)texOP.nAlphaSrc2);
-			if (TBOP_DISABLE == texOP.nColorOP)
-			{
-				break;
-			}
-		}
-	}
-	else
+	if (material.uShader!=0)
 	{
 		CShader* pShader = GetShaderMgr().getSharedShader();
 		if (pShader)

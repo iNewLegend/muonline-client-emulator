@@ -22,14 +22,8 @@ class CMaterial
 public:
 	CMaterial():
 		uShader(-1),
-		bLightingEnabled(false),
 		vAmbient(0.6f,0.6f,0.6f,0.6f),
 		vDiffuse(1.0f,1.0f,1.0f,1.0f),
-		bDepthWrite(true),
-		bAlphaTest(false),
-		uAlphaTestValue(0x80),
-		bBlend(false),
-		uCull(0),
 		vTexAnim(0.0f,0.0f),
 		m_fOpacity(1.0f),
 		cEmissive(255,255,255,255),
@@ -43,7 +37,7 @@ public:
 
 	E_MATERIAL_RENDER_TYPE getRenderType()
 	{
-		if (bAlphaTest)
+		/*if (bAlphaTest)
 		{
 			return MATERIAL_GEOMETRY;
 		}
@@ -54,7 +48,7 @@ public:
 		else if (bBlend)
 		{
 			return MATERIAL_GLOW;
-		}
+		}*/
 		return MATERIAL_GEOMETRY;
 	}
 
@@ -65,7 +59,7 @@ public:
 		{
 			nOrder--;
 		}
-		if (bAlphaTest&&bBlend)
+		/*if (bAlphaTest&&bBlend)
 		{
 			nOrder--;
 		}
@@ -80,7 +74,7 @@ public:
 		if (!bDepthTest)
 		{
 			nOrder-=10;
-		}
+		}*/
 		return nOrder;
 	}
 
@@ -118,34 +112,6 @@ public:
 	unsigned long	uTexture[8];
 	// ----
 	unsigned long	uShader;
-	// ----
-	bool			bLightingEnabled;
-	// ----
-	unsigned char	uCull;
-	// ----
-	bool			bBlend;
-	int				nBlendOP;
-	int				nBlendSrc;
-	int				nBlendDest;
-	// ----
-	bool			bAlphaTest;
-	int				nAlphaTestCompare;
-	unsigned char	uAlphaTestValue;
-	// ----
-	bool			bDepthTest;
-	bool			bDepthWrite;
-	// ----
-	struct TextureOP 
-	{
-		int			nColorOP;
-		int			nColorSrc1;
-		int			nColorSrc2;
-		int			nAlphaOP;
-		int			nAlphaSrc1;
-		int			nAlphaSrc2;
-	};
-	// ----
-	TextureOP		textureOP[8];
 	// ----
 	// # color
 	// ----

@@ -268,213 +268,28 @@ int getMapIDFromFilename(const std::string& strFilename)
 	}
 	return nMapID;
 }
-//////////////////////////////////////////////////////////////////////////
 
-#include "FileSystem.h"
-
-std::string getLineCommand(IOReadBase* pRead, std::vector<std::string>& setWords)
-{
-	setWords.clear();
-	std::string str;
-	std::string strCommand;
-	char c;
-	bool bString = false;
-	while (!pRead->IsEof())
-	{
-		pRead->Read(&c,sizeof(char));
-		// ----
-		if ('"'==c)
-		{
-			if (bString)
-			{
-				setWords.push_back(str);
-			}
-			bString=!bString;
-		}
-		else if (bString)
-		{
-			str.push_back(c);
-		}
-		else if ( '('==c||')'==c||','==c||';'==c||'	'==c||' '==c||'\n'==c||char(13)==c )
-		{
-			if (strCommand.length()==0)
-			{
-				strCommand = str;
-				str.clear();
-			}
-			else if (','==c||')'==c)
-			{
-				setWords.push_back(str);
-				str.clear();
-			}
-		}
-		else
-		{
-			str.push_back(c);
-		}
-		// ----
-		if (';'==c||'\n'==c||char(13)==c)
-		{
-			if (strCommand.size()>0)
-			{
-				break;
-			}
-		}
-	}
-	if (pRead->IsEof())
-	{
-		if (strCommand.length()==0)
-		{
-			strCommand = str;
-		}
-		else
-		{
-			setWords.push_back(str);
-		}
-	}
-	return strCommand;
-}
-// ------------------------------------------------------------------------------------------
-
-bool loadMaterialPass(CMaterial& material, const char* szFilename)
-{
-	IOReadBase* pRead = IOReadBase::autoOpen(szFilename);
-	if (pRead==NULL)
-	{
-		return false;
-	}
-	std::string strCommand;
-	std::vector<std::string> setWords;
-	while (!pRead->IsEof())
-	{
-		strCommand = getLineCommand(pRead,setWords);
-		size_t	uParametersCount = setWords.size();
-		// ----
-		if ("LightingEnabled"==strCommand)
-		{
-			if (uParametersCount>0)
-			{
-				material.bLightingEnabled = setWords[0]=="true"?true:false;
-			}
-		}
-		// ----
-		else if ("CullingMode"==strCommand)
-		{
-			if (uParametersCount>0)
-			{
-				material.uCull	= ConvertStringToEnum<CullingMode>(setWords[0].c_str());
-			}
-		}
-		// ----
-		else if ("AlphaTestFunc"==strCommand)
-		{
-			if (uParametersCount>0)
-			{
-				material.bAlphaTest = setWords[0]=="true"?true:false;
-				// ----
-				if (uParametersCount>=3)
-				{
-					material.nAlphaTestCompare	= ConvertStringToEnum<CompareFunction>(setWords[1].c_str());
-					material.uAlphaTestValue	= atoi(setWords[2].c_str());
-				}
-			}
-		}
-		// ----
-		else if ("BlendFunc"==strCommand)
-		{
-			if (uParametersCount>0)
-			{
-				material.bBlend = setWords[0]=="true"?true:false;
-				// ----
-				if (uParametersCount>=4)
-				{
-					material.nBlendOP	= ConvertStringToEnum<SceneBlendOperation>(setWords[1].c_str());
-					material.nBlendSrc	= ConvertStringToEnum<SceneBlendFactor>(setWords[2].c_str());
-					material.nBlendDest	= ConvertStringToEnum<SceneBlendFactor>(setWords[3].c_str());
-				}
-			}
-		}
-		// ----
-		else if ("DepthBufferFunc"==strCommand)
-		{
-			if (uParametersCount>=2)
-			{
-				material.bDepthTest		= setWords[0]=="true"?true:false;
-				// ----
-				material.bDepthWrite	= setWords[1]=="true"?true:false;
-			}
-		}
-		// ----
-		else if ("TextureColorOP"==strCommand)
-		{
-			if (uParametersCount>=2)
-			{
-				int nID						= atoi(setWords[0].c_str());
-				if (nID>=0 && nID<8)
-				{
-					CMaterial::TextureOP& texOP	= material.textureOP[nID];
-					texOP.nColorOP				= ConvertStringToEnum<TextureBlendOperation>(setWords[1].c_str());
-					// ----
-					if (uParametersCount>=4)
-					{
-						texOP.nColorSrc1		= ConvertStringToEnum<TextureBlendSource>(setWords[2].c_str());
-						texOP.nColorSrc2		= ConvertStringToEnum<TextureBlendSource>(setWords[3].c_str());
-					}
-				}
-			}
-		}
-		// ----
-		else if ("TextureAlphaOP"==strCommand)
-		{
-			if (uParametersCount>=2)
-			{
-				int nID						= atoi(setWords[0].c_str());
-				if (nID>=0 && nID<8)
-				{
-					CMaterial::TextureOP& texOP	= material.textureOP[nID];
-					texOP.nAlphaOP			= ConvertStringToEnum<TextureBlendOperation>(setWords[1].c_str());
-					// ----
-					if (uParametersCount>=4)
-					{
-						texOP.nAlphaSrc1		= ConvertStringToEnum<TextureBlendSource>(setWords[2].c_str());
-						texOP.nAlphaSrc2		= ConvertStringToEnum<TextureBlendSource>(setWords[3].c_str());
-					}
-				}
-			}
-		}
-		// ----
-		else if ("Shader" == strCommand)
-		{
-			if (uParametersCount>0)
-			{
-				material.setShader(setWords[0].c_str());
-			}
-		}
-	}
-	IOReadBase::autoClose(pRead);
-}
-//////////////////////////////////////////////////////////////////////////
 bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNode, const char* szFilename)
 {
 	iTerrainData* pTerrainData = (iTerrainData*)pRenderNodeMgr->createRenderData("terrain",szFilename);
 	importTerrainData(pTerrainData,szFilename);
 	const char* szTerrainMaterial[17][3]={
-		{"Terrain.00","TileGrass01.ozj","tile4X4"},
-		{"Terrain.01","TileGrass02.ozj","tile2X2"},
-		{"Terrain.02","TileGround01.ozj","tile4X4"},
-		{"Terrain.03","TileGround02.ozj","tile2X2"},
-		{"Terrain.04","TileGround03.ozj","tile2X2"},
+		{"Terrain.00","TileGrass01.ozj","tileX4"},
+		{"Terrain.01","TileGrass02.ozj","tileX2"},
+		{"Terrain.02","TileGround01.ozj","tileX4"},
+		{"Terrain.03","TileGround02.ozj","tileX2"},
+		{"Terrain.04","TileGround03.ozj","tileX2"},
 		{"Terrain.05","TileWater01.ozj","water"},
-		{"Terrain.06","TileWood01.ozj","tile2X2"},
-		{"Terrain.07","TileRock01.ozj","tile2X2"},
-		{"Terrain.08","TileRock02.ozj","tile2X2"},
-		{"Terrain.09","TileRock03.ozj","tile2X2"},
-		{"Terrain.10","TileRock04.ozj","tile2X2"},
-		{"Terrain.11","TileRock05.ozj","tile2X2"},
-		{"Terrain.12","TileRock06.ozj","tile2X2"},
-		{"Terrain.13","TileRock07.ozj","tile2X2"},
-		{"Terrain.14","TileRock08.ozj","tile2X2"},
-		{"Terrain.15","mine_floor01.dds","tile2X2"},
+		{"Terrain.06","TileWood01.ozj","tileX2"},
+		{"Terrain.07","TileRock01.ozj","tileX2"},
+		{"Terrain.08","TileRock02.ozj","tileX2"},
+		{"Terrain.09","TileRock03.ozj","tileX2"},
+		{"Terrain.10","TileRock04.ozj","tileX2"},
+		{"Terrain.11","TileRock05.ozj","tileX2"},
+		{"Terrain.12","TileRock06.ozj","tileX2"},
+		{"Terrain.13","TileRock07.ozj","tileX2"},
+		{"Terrain.14","TileRock08.ozj","tileX2"},
+		{"Terrain.15","mine_floor01.dds","tileX2"},
 		{"Terrain.Grass","TileGrass01.OZT","grass"}
 	};
 	for (int i=0; i<17; ++i)
@@ -485,12 +300,9 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 			char szTexture[256];
 			sprintf(szTexture,"%s%s",GetParentPath(szFilename).c_str(),szTerrainMaterial[i][1]);
 			pMaterial->setTexture(0,szTexture);
-			if (1)
-			{
-				char szPassFilename[255];
-				sprintf(szPassFilename,"EngineRes\\pass\\%s.pass",szTerrainMaterial[i][2]);
-				loadMaterialPass(*pMaterial, szPassFilename);
-			}
+			char szShaderFilename[255];
+			sprintf(szShaderFilename,"EngineRes\\pass\\terrain%s.fx",szTerrainMaterial[i][2]);
+			pMaterial->setShader(szShaderFilename);
 		}
 	}
 	// tiles
