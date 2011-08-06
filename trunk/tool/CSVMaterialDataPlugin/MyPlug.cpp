@@ -42,7 +42,7 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 			{
 				char szShaderFilename[255];
 				sprintf(szShaderFilename,"EngineRes\\fx\\%s.fx",szPass);
-				pMaterial->setShader(szPass);
+				pMaterial->setShader(szShaderFilename);
 			}
 		}
 	}

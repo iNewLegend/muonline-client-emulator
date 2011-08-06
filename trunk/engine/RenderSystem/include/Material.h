@@ -20,14 +20,13 @@ enum E_MATERIAL_RENDER_TYPE
 class CMaterial
 {
 public:
-	CMaterial():
-		uShader(-1),
-		vAmbient(0.6f,0.6f,0.6f,0.6f),
-		vDiffuse(1.0f,1.0f,1.0f,1.0f),
-		vTexAnim(0.0f,0.0f),
-		m_fOpacity(1.0f),
-		cEmissive(255,255,255,255),
-		vUVScale(0.0f,0.0f)
+	CMaterial()
+		:uShader(-1)
+		,vAmbient(0.6f,0.6f,0.6f,0.6f)
+		,vDiffuse(1.0f,1.0f,1.0f,1.0f)
+		,vTexAnim(0.0f,0.0f)
+		,m_fOpacity(1.0f)
+		,cEmissive(255,255,255,255)
 	{
 		for (size_t i=0; i<8; ++i)
 		{
@@ -121,5 +120,4 @@ public:
 	Vec2D			vTexAnim;
 	float			m_fOpacity;
 	Color32			cEmissive;
-	Vec2D			vUVScale; // for terrain's tile, temp
 };
