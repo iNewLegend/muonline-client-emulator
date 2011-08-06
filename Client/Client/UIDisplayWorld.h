@@ -4,7 +4,6 @@
 
 #include "RenderSystem.h"
 #include "Scene.h"
-#include "SkyBox.h"
 #include "Shader.h"
 #include "UIDialog.h"
 #include "Graphics.h"
@@ -24,7 +23,6 @@ class CUIDisplayWorld: public CUIDisplay
 protected:
 	POINT				m_ptLastMousePosition;
 	CCamera				m_Camera;
-	CSkyBox				m_SkyBox;
 	CSceneEffect		m_SceneEffect;
 public:
 	CUIDisplayWorld();

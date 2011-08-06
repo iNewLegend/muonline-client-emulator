@@ -47,23 +47,13 @@ technique Render
 		Lighting			= False;
 		CullMode			= CW;
 
-		AlphaFunc			= NEVER;
+		AlphaTestEnable		= False;
 
 		AlphaBlendEnable	= False;
 
 		ZEnable				= True;
-		ZFunc				= GREATEREQUAL;
+		ZFunc				= LessEqual;
 		ZWriteEnable		= False;
-
-		ColorOp[0]			= Modulate;
-		ColorArg1[0]		= Diffuse;
-		ColorArg2[0]		= Texture;
-
-		AlphaOp[0]			= SelectArg1;
-		AlphaArg1[0]		= Diffuse;
-
-		ColorOp[1]			= Disable;
-		AlphaOP[1]			= Disable;
 		
 		VertexShader		= compile vs_2_0 VS();
         PixelShader			= compile ps_2_0 PS();
