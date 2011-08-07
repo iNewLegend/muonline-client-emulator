@@ -32,11 +32,10 @@ technique Render
 		Lighting			= False;
 		CullMode			= None;
 
-		AlphaFunc			= Never;
+		AlphaTestEnable		= False;
 		AlphaBlendEnable	= False;
 
 		ZEnable				= False;
-		ZFunc				= Never;
 		ZWriteEnable		= False
 
 		ColorOp[0]			= Modulate;
