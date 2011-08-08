@@ -71,7 +71,7 @@
       <Culture>0x0804</Culture>
     </ResourceCompile>
     <Lib>
-      <OutputFile>$(SolutionDir)lib\$(ProjectName).lib</OutputFile>
+      <OutputFile>$(ProjectDir)..\lib\$(ProjectName).lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
     <Bscmake>
@@ -105,7 +105,7 @@
       <Culture>0x0804</Culture>
     </ResourceCompile>
     <Lib>
-      <OutputFile>$(SolutionDir)lib\$(ProjectName)d.lib</OutputFile>
+      <OutputFile>$(ProjectDir)..\lib\$(ProjectName)d.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
     <Bscmake>
