@@ -97,9 +97,6 @@ HRESULT CD3D9RenderSystem::OnResetDevice()
 	// ----
 	myMgrTransform(m_ShaderMgr.m_Items, &CD3D9Shader::OnResetDevice);
 	// ----
-	m_mapChangeRenderState.clear();
-	m_mapChangeSamplerState.clear();
-	m_mapChangeTextureStage.clear();
 	m_mapChangeTexture.clear();
 	m_mapChangeStreamSource.clear();
 
@@ -115,11 +112,11 @@ HRESULT CD3D9RenderSystem::OnResetDevice()
 //////////////////////////////////////////////////////////////////////////
 	SetAlphaTestFunc(false);
 	SetStencilFunc(false);
-	SetRenderState(D3DRS_STENCILREF,       0x0);
-	SetRenderState(D3DRS_STENCILMASK,      0xffffffff);
-	SetRenderState(D3DRS_STENCILWRITEMASK, 0xffffffff);
-	SetRenderState(D3DRS_STENCILZFAIL,     D3DSTENCILOP_KEEP);
-	SetRenderState(D3DRS_STENCILFAIL,      D3DSTENCILOP_KEEP);
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_STENCILREF,       0x0) );
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_STENCILMASK,      0xffffffff) );
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_STENCILWRITEMASK, 0xffffffff) );
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_STENCILZFAIL,     D3DSTENCILOP_KEEP) );
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_STENCILFAIL,      D3DSTENCILOP_KEEP) );
 
 	// Define DEBUG_VS and/or DEBUG_PS to debug vertex and/or pixel shaders with the 
 	// shader debugger. Debugging vertex shaders requires either REF or software vertex 
@@ -168,15 +165,15 @@ HRESULT CD3D9RenderSystem::OnResetDevice()
 	SetSamplerFilter(2, TEXF_LINEAR, TEXF_LINEAR, TEXF_LINEAR);
 
 	//r->SetRenderStateFV(D3DRS_POINTSIZE_MAX, maxSize);
-	SetRenderState(D3DRS_POINTSIZE_MIN, static_cast<unsigned long>(0.0f));
-	SetRenderState(D3DRS_POINTSCALE_A, static_cast<unsigned long>(0.0f));
-	SetRenderState(D3DRS_POINTSCALE_B, static_cast<unsigned long>(0.0f));
-	SetRenderState(D3DRS_POINTSCALE_C, static_cast<unsigned long>(1.0f));
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_POINTSIZE_MIN, static_cast<unsigned long>(0.0f)) );
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_POINTSCALE_A, static_cast<unsigned long>(0.0f)) );
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_POINTSCALE_B, static_cast<unsigned long>(0.0f)) );
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_POINTSCALE_C, static_cast<unsigned long>(1.0f)) );
 
-	SetRenderState(D3DRS_SPECULARENABLE, false);
-	SetRenderState(D3DRS_LOCALVIEWER, true);
-	SetRenderState(D3DRS_NORMALIZENORMALS, true);
-	SetRenderState(D3DRS_LOCALVIEWER, false);
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_SPECULARENABLE, false) );
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_LOCALVIEWER, true) );
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_NORMALIZENORMALS, true) );
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_LOCALVIEWER, false) );
 	
 	unsigned long zFormat = D3DFMT_D16;//D3DFMT_D24S8;
 	//m_bitDepth = 24;
@@ -372,7 +369,7 @@ void CD3D9RenderSystem::ClearBuffer (bool bZBuffer, bool bTarget, Color32 color)
 {
 	unsigned long dwFlags = D3DCLEAR_STENCIL;
 	SetStencilFunc(false);
-	SetRenderState(D3DRS_STENCILREF,       0x1);
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_STENCILREF,       0x1) );
 	//SetRenderState(D3DRS_STENCILMASK,      0xffffffff);
 	//SetRenderState(D3DRS_STENCILWRITEMASK, 0xffffffff);
 	//SetRenderState(D3DRS_STENCILZFAIL,     D3DSTENCILOP_KEEP);
@@ -405,7 +402,7 @@ void CD3D9RenderSystem::SetFillMode(FillMode mode)
 	case FILL_SOLID:D3DMode = D3DFILL_SOLID;
 		break;
 	}
-	SetRenderState(D3DRS_FILLMODE, D3DMode);
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_FILLMODE, D3DMode) );
 }
 
 void CD3D9RenderSystem::setWorldMatrix(const Matrix& m)
@@ -520,18 +517,18 @@ inline unsigned long CompareFunctionForD3D9(CompareFunction cmpFunc)
 
 void CD3D9RenderSystem::SetDepthBufferFunc(bool bDepthTest, bool bDepthWrite, CompareFunction depthFunction)
 {
-	SetRenderState(D3DRS_ZENABLE, bDepthTest);
-	SetRenderState(D3DRS_ZWRITEENABLE, bDepthWrite);
-	SetRenderState(D3DRS_DEPTHBIAS, CompareFunctionForD3D9(depthFunction));
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_ZENABLE, bDepthTest) );
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_ZWRITEENABLE, bDepthWrite) );
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_DEPTHBIAS, CompareFunctionForD3D9(depthFunction)) );
 }
 
 void CD3D9RenderSystem::SetAlphaTestFunc(bool bAlphaTest, CompareFunction func, unsigned char value)
 {
-	SetRenderState(D3DRS_ALPHATESTENABLE, bAlphaTest);
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_ALPHATESTENABLE, bAlphaTest) );
 	if (bAlphaTest)
 	{
-		SetRenderState(D3DRS_ALPHAFUNC, CompareFunctionForD3D9(func));
-		SetRenderState(D3DRS_ALPHAREF, value);
+		D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_ALPHAFUNC, CompareFunctionForD3D9(func)) );
+		D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_ALPHAREF, value) );
 	}
 }
 
@@ -606,22 +603,22 @@ inline unsigned long BlendFactorForD3D9(SceneBlendFactor factor)
 
 void CD3D9RenderSystem::SetBlendFunc(bool bBlend, SceneBlendOperation op, SceneBlendFactor src, SceneBlendFactor dest)
 {
-	SetRenderState(D3DRS_ALPHABLENDENABLE, bBlend);
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_ALPHABLENDENABLE, bBlend) );
 	if (bBlend)
 	{
-		SetRenderState(D3DRS_BLENDOP, BlendOperationForD3D9(op));
-		SetRenderState(D3DRS_SRCBLEND, BlendFactorForD3D9(src));
-		SetRenderState(D3DRS_DESTBLEND, BlendFactorForD3D9(dest));
+		D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_BLENDOP, BlendOperationForD3D9(op)) );
+		D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_SRCBLEND, BlendFactorForD3D9(src)) );
+		D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_DESTBLEND, BlendFactorForD3D9(dest)) );
 	}
 }
 
 void CD3D9RenderSystem::SetStencilFunc(bool bStencil, StencilOP op, CompareFunction stencilFunction)
 {
-	SetRenderState(D3DRS_STENCILENABLE, bStencil);
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_STENCILENABLE, bStencil) );
 	if (bStencil)
 	{
-		SetRenderState(D3DRS_STENCILFUNC, CompareFunctionForD3D9(stencilFunction));
-		SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP(op));
+		D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_STENCILFUNC, CompareFunctionForD3D9(stencilFunction)) );
+		D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP(op)) );
 	}
 }
 
@@ -642,12 +639,12 @@ void CD3D9RenderSystem::SetCullingMode(CullingMode mode)
 	default:
 		uCullingMode = D3DCULL_CCW;
 	}
-	SetRenderState(D3DRS_CULLMODE, uCullingMode);
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_CULLMODE, uCullingMode) );
 }
 
 void CD3D9RenderSystem::SetTextureFactor(Color32 color)
 {
-	SetRenderState(D3DRS_TEXTUREFACTOR, color.c);
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_TEXTUREFACTOR, color.c) );
 }
 
 inline unsigned long  TextureBlendOperationForD3D9(TextureBlendOperation op)
@@ -763,26 +760,26 @@ inline unsigned long TextureBlendSourceForD3D9(TextureBlendSource src)
 
 void CD3D9RenderSystem::setResultARGToTemp(size_t unit, bool bResultARGToTemp)
 {
-	SetTextureStageState(unit, D3DTSS_RESULTARG, bResultARGToTemp?D3DTA_TEMP:D3DTA_CURRENT);
+	D3D9HR( m_pD3D9Device->SetTextureStageState(unit, D3DTSS_RESULTARG, bResultARGToTemp?D3DTA_TEMP:D3DTA_CURRENT));
 }
 
 void CD3D9RenderSystem::SetTextureColorOP(size_t unit, TextureBlendOperation op, TextureBlendSource src1, TextureBlendSource src2)
 {
-	SetTextureStageState(unit, D3DTSS_COLOROP, TextureBlendOperationForD3D9(op));
+	D3D9HR( m_pD3D9Device->SetTextureStageState(unit, D3DTSS_COLOROP, TextureBlendOperationForD3D9(op)) );
 	if (TBOP_DISABLE != op)
 	{
-		SetTextureStageState(unit, D3DTSS_COLORARG1, TextureBlendSourceForD3D9(src1));
-		SetTextureStageState(unit, D3DTSS_COLORARG2, TextureBlendSourceForD3D9(src2));
+		D3D9HR( m_pD3D9Device->SetTextureStageState(unit, D3DTSS_COLORARG1, TextureBlendSourceForD3D9(src1)) );
+		D3D9HR( m_pD3D9Device->SetTextureStageState(unit, D3DTSS_COLORARG2, TextureBlendSourceForD3D9(src2)) );
 	}
 }
 
 void CD3D9RenderSystem::SetTextureAlphaOP(size_t unit, TextureBlendOperation op, TextureBlendSource src1, TextureBlendSource src2)
 {
-	SetTextureStageState(unit, D3DTSS_ALPHAOP, TextureBlendOperationForD3D9(op));
+	D3D9HR( m_pD3D9Device->SetTextureStageState(unit, D3DTSS_ALPHAOP, TextureBlendOperationForD3D9(op)) );
 	if (TBOP_DISABLE != op)
 	{
-		SetTextureStageState(unit, D3DTSS_ALPHAARG1, TextureBlendSourceForD3D9(src1));
-		SetTextureStageState(unit, D3DTSS_ALPHAARG2, TextureBlendSourceForD3D9(src2));
+		D3D9HR( m_pD3D9Device->SetTextureStageState(unit, D3DTSS_ALPHAARG1, TextureBlendSourceForD3D9(src1)) );
+		D3D9HR( m_pD3D9Device->SetTextureStageState(unit, D3DTSS_ALPHAARG2, TextureBlendSourceForD3D9(src2)) );
 	}
 }
 
@@ -815,9 +812,9 @@ inline D3DTEXTUREFILTERTYPE TextureFilterTypeForD3D9(TextureFilterType filter)
 
 void CD3D9RenderSystem::SetSamplerFilter(size_t unit, TextureFilterType MagFilter, TextureFilterType MinFilter, TextureFilterType MipFilter)
 {
-	SetSamplerState(unit, D3DSAMP_MAGFILTER, TextureFilterTypeForD3D9(MagFilter));
-	SetSamplerState(unit, D3DSAMP_MINFILTER, TextureFilterTypeForD3D9(MinFilter));
-	SetSamplerState(unit, D3DSAMP_MIPFILTER, TextureFilterTypeForD3D9(MipFilter));
+	D3D9HR( m_pD3D9Device->SetSamplerState(unit, D3DSAMP_MAGFILTER, TextureFilterTypeForD3D9(MagFilter)) );
+	D3D9HR( m_pD3D9Device->SetSamplerState(unit, D3DSAMP_MINFILTER, TextureFilterTypeForD3D9(MinFilter)) );
+	D3D9HR( m_pD3D9Device->SetSamplerState(unit, D3DSAMP_MIPFILTER, TextureFilterTypeForD3D9(MipFilter)) );
 }
 
 inline unsigned long AddressUVForD3D9(AddressUV addressUV)
@@ -846,8 +843,8 @@ inline unsigned long AddressUVForD3D9(AddressUV addressUV)
 
 void CD3D9RenderSystem::SetSamplerAddressUV(size_t unit, AddressUV addressU, AddressUV addressV)
 {
-	SetSamplerState(0, D3DSAMP_ADDRESSU, AddressUVForD3D9(addressU));
-	SetSamplerState(0, D3DSAMP_ADDRESSV, AddressUVForD3D9(addressV));
+	D3D9HR( m_pD3D9Device->SetSamplerState(unit, D3DSAMP_ADDRESSU, AddressUVForD3D9(addressU)) );
+	D3D9HR( m_pD3D9Device->SetSamplerState(unit, D3DSAMP_ADDRESSV, AddressUVForD3D9(addressV)) );
 }
 
 void CD3D9RenderSystem::SetupRenderState()
@@ -873,10 +870,10 @@ void CD3D9RenderSystem::SetupRenderState()
 	SetSamplerFilter(2, TEXF_POINT, TEXF_POINT, TEXF_POINT);
 
 	//
-	SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, false);
-	SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_ALPHA|D3DCOLORWRITEENABLE_BLUE|D3DCOLORWRITEENABLE_GREEN|D3DCOLORWRITEENABLE_RED);
-	SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);
-	SetRenderState(D3DRS_FOGENABLE, false);
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, false) );
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_ALPHA|D3DCOLORWRITEENABLE_BLUE|D3DCOLORWRITEENABLE_GREEN|D3DCOLORWRITEENABLE_RED) );
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD) );
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_FOGENABLE, false) );
 
 
 	SetFillMode(FILL_SOLID);
@@ -884,50 +881,13 @@ void CD3D9RenderSystem::SetupRenderState()
 	SetSamplerAddressUV(0,ADDRESS_WRAP,ADDRESS_WRAP);
 	SetSamplerAddressUV(1,ADDRESS_WRAP,ADDRESS_WRAP);
 
-	SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_DISABLE);
-	SetTextureStageState(1, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_DISABLE);
+	D3D9HR( m_pD3D9Device->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_DISABLE) );
+	D3D9HR( m_pD3D9Device->SetTextureStageState(1, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_DISABLE) );
 
 	//SetVertexShader(NULL);
 	//SetPixelShader(NULL);
 }
 
-//void Font_Prepare (void)
-//{
-//	SetRenderState (D3DRS_ALPHABLENDENABLE, true);
-//	SetRenderState (D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-//	SetRenderState (D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-//	SetRenderState (D3DRS_ZENABLE, false);
-//	SetRenderState (D3DRS_ZWRITEENABLE, false);
-//	SetRenderState (D3DRS_SHADEMODE, D3DSHADE_FLAT);
-//	SetRenderState (D3DRS_DITHERENABLE, false);
-//	SetRenderState (D3DRS_CULLMODE, D3DCULL_NONE);
-//	SetRenderState (D3DRS_AMBIENTMATERIALSOURCE, D3DMCS_COLOR1);
-//	SetRenderState (D3DRS_DIFFUSEMATERIALSOURCE, D3DMCS_COLOR1);
-//
-//	SetTextureStageState (0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-//	SetTextureStageState (0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
-//	SetTextureStageState (0, D3DTSS_COLOROP, D3DTOP_MODULATE);
-//
-//	SetTextureStageState (0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-//	SetTextureStageState (0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
-//	SetTextureStageState (0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
-//
-//	SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
-//	SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
-//	SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
-//
-//	SetTextureStageState (1, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-//	SetTextureStageState (1, D3DTSS_COLORARG2, D3DTA_CURRENT);
-//	SetTextureStageState (1, D3DTSS_COLOROP, D3DTOP_DISABLE);
-//
-//	SetTextureStageState (1, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-//	SetTextureStageState (1, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
-//	SetTextureStageState (1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-//
-//	SetSamplerState(1, D3DSAMP_MINFILTER, D3DTEXF_NONE);
-//	SetSamplerState(1, D3DSAMP_MAGFILTER, D3DTEXF_NONE);
-//	SetSamplerState(1, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
-//}
 void CD3D9RenderSystem::SetTextureStageStateDecolor()
 {
 	//SetRenderState(D3DRS_ALPHABLENDENABLE, false);
@@ -941,21 +901,6 @@ void CD3D9RenderSystem::SetTextureStageStateDecolor()
 	SetTextureAlphaOP(1,TBOP_MODULATE, TBS_TEXTURE, TBS_DIFFUSE);
 	//SetTextureAlphaOP(1,TBOP_SOURCE1, TBS_DIFFUSE, TBS_DIFFUSE);
 	//SetTexture(1, GetTexture(0));
-}
-
-void CD3D9RenderSystem::SetRenderState(unsigned long State, unsigned long Value)
-{
-	m_mapChangeRenderState[State] = Value;
-}
-
-void CD3D9RenderSystem::SetSamplerState(unsigned long Sampler, unsigned long Type, unsigned long Value)
-{
-	m_mapChangeSamplerState[Sampler * D3DSAMPLERSTATETYPE_NUM + Type] = Value;
-}
-
-void CD3D9RenderSystem::SetTextureStageState(unsigned long Stage, unsigned long Type, unsigned long Value)
-{
-	m_mapChangeTextureStage[Stage * D3DTEXTURESTAGESTATETYPE_NUM + Type] = Value;
 }
 
 void CD3D9RenderSystem::SetTexture(unsigned long Stage, unsigned long TextureID)
@@ -1116,20 +1061,18 @@ void CD3D9RenderSystem::drawIndexedSubset(const IndexedSubset& subset)
 void CD3D9RenderSystem::setFog(const Fog& fog)
 {
 	#define FtoDW(x) *((DWORD*)(&x))
-	SetRenderState(D3DRS_FOGSTART,		FtoDW(fog.fStart));
-	SetRenderState(D3DRS_FOGEND,		FtoDW(fog.fEnd));
-	SetRenderState(D3DRS_FOGDENSITY,	FtoDW(fog.fDensity));
-	SetRenderState(D3DRS_FOGCOLOR,		fog.color.c);
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_FOGSTART,		FtoDW(fog.fStart)) );
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_FOGEND,			FtoDW(fog.fEnd)) );
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_FOGDENSITY,		FtoDW(fog.fDensity)) );
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_FOGCOLOR,		fog.color.c) );
 
-	SetRenderState(D3DRS_FOGVERTEXMODE,	D3DFOG_NONE);	
-	SetRenderState(D3DRS_FOGTABLEMODE,	D3DFOG_LINEAR);
-
-	//SetRenderState(D3DRS_FOGENABLE,	TRUE);
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_FOGVERTEXMODE,	D3DFOG_NONE) );	
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_FOGTABLEMODE,	D3DFOG_LINEAR) );
 }
 
 void CD3D9RenderSystem::setFogEnable(bool bEnable)
 {
-	SetRenderState(D3DRS_FOGENABLE,	bEnable);
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_FOGENABLE,	bEnable) );
 }
 
 void CD3D9RenderSystem::StretchRect(CTexture* pSourceTexture,const CRect<int>* pSourceRect,CTexture* pDestTexture,const CRect<int>* pDestRect,TextureFilterType filter)
@@ -1256,7 +1199,7 @@ void CD3D9RenderSystem::LightEnable(unsigned long Index, bool bEnable)
 
 void CD3D9RenderSystem::SetLightingEnabled(bool bEnable)
 {
-	SetRenderState(D3DRS_LIGHTING, bEnable);
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_LIGHTING, bEnable) );
 }
 
 void CD3D9RenderSystem::SetTexCoordIndex(unsigned long stage, unsigned long index)
@@ -1278,56 +1221,7 @@ void CD3D9RenderSystem::SetTexCoordIndex(unsigned long stage, unsigned long inde
 	{
 		uIndex|=D3DTSS_TCI_SPHEREMAP;
 	}
-	SetTextureStageState(stage, D3DTSS_TEXCOORDINDEX, uIndex);
-}
-
-bool CD3D9RenderSystem::commitRenderState()
-{
-	for (std::map<unsigned long,unsigned long>::iterator it=m_mapChangeRenderState.begin(); it!=m_mapChangeRenderState.end(); ++it)
-	{
-		DWORD dwOldValue = 0;
-		D3D9HR( m_pD3D9Device->GetRenderState(static_cast<D3DRENDERSTATETYPE>(it->first), &dwOldValue) );
-		if (dwOldValue != it->second)
-		{
-			D3D9HR( m_pD3D9Device->SetRenderState(static_cast<D3DRENDERSTATETYPE>(it->first), it->second) );
-		}
-	}
-	m_mapChangeRenderState.clear();
-	return true;
-}
-
-bool CD3D9RenderSystem::commitSamplerstate()
-{
-	for (std::map<unsigned long,unsigned long>::iterator it=m_mapChangeSamplerState.begin(); it!=m_mapChangeSamplerState.end(); ++it)
-	{
-		int nSamplerID			= it->first / D3DSAMPLERSTATETYPE_NUM;
-		int nTypeID				= it->first - D3DSAMPLERSTATETYPE_NUM * nSamplerID;
-		DWORD dwOldValue	= 0;
-		D3D9HR( m_pD3D9Device->GetSamplerState(nSamplerID,(D3DSAMPLERSTATETYPE)nTypeID, &dwOldValue) );
-		if (dwOldValue != it->second)
-		{
-			D3D9HR( m_pD3D9Device->SetSamplerState(nSamplerID,(D3DSAMPLERSTATETYPE)nTypeID, it->second) );
-		}	
-	}
-	m_mapChangeSamplerState.clear();
-	return true;
-}
-
-bool CD3D9RenderSystem::commitTextureStageState()
-{
-	for (std::map<unsigned long,unsigned long>::iterator it=m_mapChangeTextureStage.begin(); it!=m_mapChangeTextureStage.end(); ++it)
-	{
-		int nStageID			= it->first / D3DTEXTURESTAGESTATETYPE_NUM;
-		int nTypeID				= it->first - D3DTEXTURESTAGESTATETYPE_NUM * nStageID;
-		DWORD dwOldValue	= 0;
-		D3D9HR( m_pD3D9Device->GetTextureStageState(nStageID, (D3DTEXTURESTAGESTATETYPE)nTypeID, &dwOldValue) );
-		if (dwOldValue != it->second)
-		{
-			D3D9HR( m_pD3D9Device->SetTextureStageState(nStageID, (D3DTEXTURESTAGESTATETYPE)nTypeID, it->second) );
-		}
-	}
-	m_mapChangeTextureStage.clear();
-	return true;
+	D3D9HR( m_pD3D9Device->SetTextureStageState(stage, D3DTSS_TEXCOORDINDEX, uIndex) );
 }
 
 bool CD3D9RenderSystem::commitTexture()
@@ -1359,21 +1253,6 @@ bool CD3D9RenderSystem::commitStreamSource()
 		S_REL(d3D9StreamSource.pStreamData);
 	}
 	m_mapChangeStreamSource.clear();
-	return true;
-}
-
-bool CD3D9RenderSystem::commitLight()
-{
-	//for (std::map<unsigned long,D3DLIGHT9>::iterator it=m_mapChangeTexture.begin(); it!=m_mapChangeTexture.end(); ++it)
-	//{
-	//	int nIndex = it->first;
-	//	D3DLIGHT9& light = it->second;
-	//	if (m_nTexture[nIndex] != light)
-	//	{
-
-	//	}	
-	//}
-	//m_mapChangeTexture.clear();
 	return true;
 }
 
@@ -1426,9 +1305,6 @@ bool CD3D9RenderSystem::commitOther()
 
 bool CD3D9RenderSystem::commit()
 {
-	commitRenderState();
-	commitSamplerstate();
-	commitTextureStageState();
 	commitTexture();
 	if (m_nShaderID>0)
 	{
