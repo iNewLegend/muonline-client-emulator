@@ -169,26 +169,14 @@ public:
 	void StretchRect(CTexture* pSource,const CRect<int>* pSourceRect,CTexture* pDest,const CRect<int>* pDestRect,TextureFilterType filter);
 protected:
 	void SetTexture(unsigned long Stage, IDirect3DTexture9* pD3D9Texture);
-	// 设置顶点采样器状态
-	void SetSamplerState(unsigned long Sampler, unsigned long Type, unsigned long Value);
-	//
-	//void SetVertexShader(IDirect3DVertexShader9* pShader);
-	//void SetPixelShader(IDirect3DPixelShader9* pShader);
-	// 设置顶点纹理状态
-	void SetTextureStageState(unsigned long Stage, unsigned long Type, unsigned long Value);
 	// 提交
-	bool commitRenderState();
-	bool commitSamplerstate();
-	bool commitTextureStageState();
 	bool commitTexture();
-	bool commitLight();
 	bool commitOther();
 	bool commitStreamSource();
 	//
 	//void SetTransform(D3DTRANSFORMSTATETYPE State,const D3DMATRIX* pMatrix);
 	//void GetTransform(D3DTRANSFORMSTATETYPE State, D3DMATRIX* pMatrix);
 	bool commit();
-	void SetRenderState(unsigned long State, unsigned long Value);// 设置顶点渲染状态
 	//
 protected:
 	// ----
@@ -199,9 +187,6 @@ protected:
 	CShaderMgr					m_ShaderMgr;
 	// ----
 	IDirect3DDevice9*			m_pD3D9Device;
-
-	//D3DLIGHT9					m_Lights[8];
-	//bool						m_LightEnable[8];
 
 	struct D3D9StreamSource 
 	{
@@ -215,18 +200,12 @@ protected:
 				uStride != s.uStride;
 		}
 	};
-	std::map<unsigned long,unsigned long>						m_mapChangeRenderState;
-	std::map<unsigned long,unsigned long>						m_mapChangeSamplerState;
-	std::map<unsigned long,unsigned long>						m_mapChangeTextureStage;
-	std::map<unsigned long,IDirect3DTexture9*>			m_mapChangeTexture;
-	std::map<unsigned long,D3D9StreamSource>			m_mapChangeStreamSource;
-	unsigned long										m_uChangeFVF;
+	std::map<unsigned long,IDirect3DTexture9*>	m_mapChangeTexture;
+	std::map<unsigned long,D3D9StreamSource>	m_mapChangeStreamSource;
+	unsigned long								m_uChangeFVF;
 	IDirect3DIndexBuffer9*						m_pChangeIB;
 	CShader*									m_pChangeShader;
 	CShader*									m_pOldShader;
-
-	//std::map<unsigned long,D3DLIGHT9>					m_LightsChangeMap;
-	//std::map<unsigned long,bool>						m_LightEnableChangeMap;
 
 	//////////////////////////////////////////////////////////////////////////
 
