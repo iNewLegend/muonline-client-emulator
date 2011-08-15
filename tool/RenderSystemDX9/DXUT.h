@@ -83,7 +83,6 @@ HRESULT DXUTFindValidDeviceSettings(DXUTDeviceSettings* pOut, DXUTDeviceSettings
 
 // Common Tasks 
 HRESULT DXUTToggleFullScreen();
-HRESULT DXUTToggleREF();
 void    DXUTResetFrameworkState();
 void    DXUTShutdown(int nExitCode = 0);
 
@@ -138,7 +137,6 @@ protected:
 		bool  m_ShowMsgBoxOnError;          // if true, then msgboxes are displayed upon errors
 		bool  m_NoStats;                    // if true, then DXUTGetFrameStats() and DXUTGetDeviceStats() will return blank strings
 		bool  m_AutoChangeAdapter;          // if true, then the adapter will automatically change if the window is different monitor
-		bool  m_WindowCreatedWithDefaultPositions; // if true, then CW_USEDEFAULT was used and the window should be moved to the right adapter
 		int   m_ExitCode;                   // the exit code to be returned to the command line
 
 		bool  m_DXUTInited;                 // if true, then DXUTInit() has succeeded
@@ -154,22 +152,13 @@ protected:
 		bool  m_InsideMainloop;             // if true, then the framework is inside the main loop
 		bool  m_Active;                     // if true, then the app is the active top level window
 		bool  m_DeviceLost;                 // if true, then the device is lost and needs to be reset
-		bool  m_NotifyOnMouseMove;          // if true, include WM_MOUSEMOVE in mousecallback
-		bool  m_Automation;                 // if true, automation is enabled
 
 		int   m_OverrideAdapterOrdinal;     // if != -1, then override to use this adapter ordinal
 		bool  m_OverrideWindowed;           // if true, then force to start windowed
 		bool  m_OverrideFullScreen;         // if true, then force to start full screen
-		int   m_OverrideStartX;             // if != -1, then override to this X position of the window
-		int   m_OverrideStartY;             // if != -1, then override to this Y position of the window
 		int   m_OverrideWidth;              // if != 0, then override to this width
 		int   m_OverrideHeight;             // if != 0, then override to this height
-		bool  m_OverrideForceHAL;           // if true, then force to HAL device (failing if one doesn't exist)
-		bool  m_OverrideForceREF;           // if true, then force to REF device (failing if one doesn't exist)
 		bool  m_OverrideForcePureHWVP;      // if true, then force to use pure HWVP (failing if device doesn't support it)
-		bool  m_OverrideForceHWVP;          // if true, then force to use HWVP (failing if device doesn't support it)
-		bool  m_OverrideForceSWVP;          // if true, then force to use SWVP 
-		int   m_OverrideForceVsync;         // if == 0, then it will force the app to use D3DPRESENT_INTERVAL_IMMEDIATE, if == 1 force use of D3DPRESENT_INTERVAL_DEFAULT
 
 		WCHAR                        m_StaticFrameStats[256];           // static part of frames stats 
 		WCHAR                        m_DeviceStats[256];                // device stats (description, device type, etc)
@@ -215,7 +204,6 @@ public:
 	GET_SET_ACCESSOR(bool, ShowMsgBoxOnError);
 	GET_SET_ACCESSOR(bool, NoStats);
 	GET_SET_ACCESSOR(bool, AutoChangeAdapter);
-	GET_SET_ACCESSOR(bool, WindowCreatedWithDefaultPositions);
 	GET_SET_ACCESSOR(int, ExitCode);
 
 	GET_SET_ACCESSOR(bool, DXUTInited);
@@ -226,22 +214,13 @@ public:
 	GET_SET_ACCESSOR(bool, DeviceCreateCalled);
 	GET_SET_ACCESSOR(bool, InsideMainloop);
 	GET_SET_ACCESSOR(bool, DeviceLost);
-	GET_SET_ACCESSOR(bool, NotifyOnMouseMove);
-	GET_SET_ACCESSOR(bool, Automation);
 
 	GET_SET_ACCESSOR(int, OverrideAdapterOrdinal);
 	GET_SET_ACCESSOR(bool, OverrideWindowed);
 	GET_SET_ACCESSOR(bool, OverrideFullScreen);
-	GET_SET_ACCESSOR(int, OverrideStartX);
-	GET_SET_ACCESSOR(int, OverrideStartY);
 	GET_SET_ACCESSOR(int, OverrideWidth);
 	GET_SET_ACCESSOR(int, OverrideHeight);
-	GET_SET_ACCESSOR(bool, OverrideForceHAL);
-	GET_SET_ACCESSOR(bool, OverrideForceREF);
 	GET_SET_ACCESSOR(bool, OverrideForcePureHWVP);
-	GET_SET_ACCESSOR(bool, OverrideForceHWVP);
-	GET_SET_ACCESSOR(bool, OverrideForceSWVP);
-	GET_SET_ACCESSOR(int, OverrideForceVsync);
 
 	GET_ACCESSOR(WCHAR*, StaticFrameStats);
 	GET_ACCESSOR(WCHAR*, DeviceStats);    

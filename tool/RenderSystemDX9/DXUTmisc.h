@@ -17,9 +17,6 @@ LPCWSTR DXUTD3DFormatToString(D3DFORMAT format, bool bWithPrefix);
 void DXUTOutputDebugStringW(LPCWSTR strMsg, ...);
 void DXUTOutputDebugStringA(LPCSTR strMsg, ...);
 HRESULT WINAPI DXUTTrace(const CHAR* strFile, DWORD dwLine, HRESULT hr, const WCHAR* strMsg, bool bPopMsgBox);
-WCHAR* DXUTTraceD3DDECLUSAGEtoString(BYTE u);
-WCHAR* DXUTTraceD3DDECLMETHODtoString(BYTE m);
-WCHAR* DXUTTraceD3DDECLTYPEtoString(BYTE t);
 
 #ifdef UNICODE
 #define DXUTOutputDebugString DXUTOutputDebugStringW

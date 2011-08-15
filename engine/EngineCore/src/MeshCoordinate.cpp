@@ -246,9 +246,9 @@ void CMeshCoordinate::render(const Vec3D& vCoordShow)
 		R.finishMaterial();
 	}
 
-	R.SetBlendFunc(true);
-	R.SetTextureColorOP(0,TBOP_MODULATE);
-	R.SetTextureAlphaOP(0,TBOP_MODULATE);
+// 	R.SetBlendFunc(true);
+// 	R.SetTextureColorOP(0,TBOP_MODULATE);
+// 	R.SetTextureAlphaOP(0,TBOP_MODULATE);
 
 	//int nFontHeight = GetTextRender().GetCharHeight();
 	//Pos2D posScreen;
