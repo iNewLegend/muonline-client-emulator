@@ -507,12 +507,6 @@ LRESULT CD3D9RenderWindow::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM l
 			{
 				switch(wParam)
 				{
-				case VK_F3:
-					{
-						DXUTToggleREF();                     
-						break;
-					}
-
 				case VK_F8:
 					{
 						static bool bWireFrame = false;
