@@ -22,8 +22,7 @@ void DXUTState::Create()
 
 	ZeroMemory(&m_state, sizeof(STATE)); 
 	m_state.m_OverrideAdapterOrdinal = -1; 
-	m_state.m_AutoChangeAdapter = true; 
-	m_state.m_ShowMsgBoxOnError = true;
+	m_state.m_AutoChangeAdapter = true;
 	m_state.m_Active = true;
 }
 
@@ -126,7 +125,7 @@ bool CALLBACK ModifyDeviceSettings(DXUTDeviceSettings* pDeviceSettings, const D3
 //          F8                  toggle wire-frame mode
 //          Pause               pause time
 
-HRESULT DXUTInit(bool bParseCommandLine, bool bShowMsgBoxOnError, bool bHandleAltEnter)
+HRESULT DXUTInit(bool bParseCommandLine)
 {
     GetDXUTState().SetDXUTInitCalled(true);
 
@@ -148,9 +147,6 @@ HRESULT DXUTInit(bool bParseCommandLine, bool bShowMsgBoxOnError, bool bHandleAl
             FreeLibrary(hInstWinMM);
         }
     }
-
-    GetDXUTState().SetShowMsgBoxOnError(bShowMsgBoxOnError);
-    GetDXUTState().SetHandleAltEnter(bHandleAltEnter);
 
     if(bParseCommandLine)
         DXUTParseCommandLine();
@@ -247,12 +243,6 @@ void DXUTParseCommandLine()
                     GetDXUTState().SetOverrideHeight(nHeight);
                 continue;
                 }
-            }
-
-            if(DXUTIsNextArg(strCmdLine, L"noerrormsgboxes"))
-            {
-                GetDXUTState().SetShowMsgBoxOnError(false);
-                continue;
             }
 
             if(DXUTIsNextArg(strCmdLine, L"nostats"))
@@ -2088,11 +2078,6 @@ HRESULT DXUTChangeDevice(DXUTDeviceSettings* pNewDeviceSettings, IDirect3DDevice
 
     GetDXUTState().SetCurrentDeviceSettings(pNewDeviceSettings);
 
-    // When a WM_SIZE message is received, it calls DXUTCheckForWindowSizeChange().
-    // A WM_SIZE message might be sent when adjusting the window, so tell 
-    // DXUTCheckForWindowSizeChange() to ignore size changes temporarily
-    GetDXUTState().SetIgnoreSizeChange(true);
-
     // Only apply the cmd line overrides if this is the first device created
     // and DXUTSetDevice() isn't used
     if(NULL == pd3dDeviceFromApp && NULL == pOldDeviceSettings)
@@ -2248,7 +2233,6 @@ HRESULT DXUTChangeDevice(DXUTDeviceSettings* pNewDeviceSettings, IDirect3DDevice
             S_DEL(pOldDeviceSettings);
             DXUTCleanup3DEnvironment();
             DXUTDisplayErrorMessage(hr);
-            GetDXUTState().SetIgnoreSizeChange(false);
             return hr;
         }
     }
@@ -2447,7 +2431,6 @@ HRESULT DXUTChangeDevice(DXUTDeviceSettings* pNewDeviceSettings, IDirect3DDevice
             {
                 S_DEL(pOldDeviceSettings);
                 DXUTCleanup3DEnvironment();
-                GetDXUTState().SetIgnoreSizeChange(false);
                 return hr;
             }
         }
@@ -2464,7 +2447,6 @@ HRESULT DXUTChangeDevice(DXUTDeviceSettings* pNewDeviceSettings, IDirect3DDevice
         SetThreadExecutionState(ES_CONTINUOUS);   
 
     S_DEL(pOldDeviceSettings);
-    GetDXUTState().SetIgnoreSizeChange(false);
     GetDXUTState().SetDeviceCreated(true);
 
     return S_OK;
@@ -2665,8 +2647,7 @@ HRESULT DXUTReset3DEnvironment()
 void DXUTCheckForWindowSizeChange()
 {
     // Skip the check for various reasons
-    if(GetDXUTState().GetIgnoreSizeChange() || 
-        !GetDXUTState().GetDeviceCreated() || 
+    if( !GetDXUTState().GetDeviceCreated() || 
         !GetDXUTState().GetCurrentDeviceSettings()->pp.Windowed)
         return;
 
@@ -2912,7 +2893,6 @@ HWND DXUTGetHWNDDeviceFullScreen()                  { return GetDXUTState().GetH
 HWND DXUTGetHWNDDeviceWindowed()                    { return GetDXUTState().GetHWNDDeviceWindowed(); }
 LPCWSTR DXUTGetDeviceStats()                        { return GetDXUTState().GetDeviceStats(); }
 int DXUTGetExitCode()                               { return GetDXUTState().GetExitCode(); }
-bool DXUTGetShowMsgBoxOnError()                     { return GetDXUTState().GetShowMsgBoxOnError(); }
 
 // Return if windowed in the current device.  If no device exists yet, then returns false
 
@@ -2979,8 +2959,7 @@ void DXUTDisplayErrorMessage(HRESULT hr)
 
     GetDXUTState().SetExitCode(nExitCode);
 
-    bool bShowMsgBoxOnError = GetDXUTState().GetShowMsgBoxOnError();
-    if(bFound && bShowMsgBoxOnError)
+    if(bFound)
     {
 		MessageBox(DXUTGetHWND(), strBuffer, L"DirectX Application", MB_ICONERROR|MB_OK);
     }
@@ -2993,10 +2972,6 @@ void DXUTDisplayErrorMessage(HRESULT hr)
 HRESULT WINAPI DXUTTrace(const CHAR* strFile, DWORD dwLine, HRESULT hr,
                           const WCHAR* strMsg, bool bPopMsgBox)
 {
-    bool bShowMsgBoxOnError = GetDXUTState().GetShowMsgBoxOnError();
-    if(bPopMsgBox && bShowMsgBoxOnError == false)
-        bPopMsgBox = false;
-
     return DXTrace(strFile, dwLine, hr, strMsg, bPopMsgBox);
 }
 
@@ -3009,7 +2984,6 @@ void DXUTCheckForWindowChangingMonitors()
 {
     // Skip this check for various reasons
     if(!GetDXUTState().GetAutoChangeAdapter() || 
-         GetDXUTState().GetIgnoreSizeChange() ||
         !GetDXUTState().GetDeviceCreated() ||
         !GetDXUTState().GetCurrentDeviceSettings()->pp.Windowed)
     {

@@ -12,7 +12,7 @@ CD3D9RenderWindow::~CD3D9RenderWindow()
 {
 }
 
-bool CD3D9RenderWindow::Init(bool bParseCommandLine, bool bShowMsgBoxOnError, bool bHandleAltEnter)
+bool CD3D9RenderWindow::Init(bool bParseCommandLine)
 {
 	GetDXUTState().SetDXUTInitCalled(true);
 
@@ -34,9 +34,6 @@ bool CD3D9RenderWindow::Init(bool bParseCommandLine, bool bShowMsgBoxOnError, bo
 			FreeLibrary(hInstWinMM);
 		}
 	}
-
-	GetDXUTState().SetShowMsgBoxOnError(bShowMsgBoxOnError);
-	GetDXUTState().SetHandleAltEnter(bHandleAltEnter);
 
 	if(bParseCommandLine)
 		DXUTParseCommandLine();
@@ -411,12 +408,7 @@ LRESULT CD3D9RenderWindow::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM l
 			// The GetMinimizedWhileFullscreen() varible is used instead of !DXUTIsWindowed()
 			// to handle the rare case toggling to windowed mode while the fullscreen application 
 			// is minimized and thus making the pause count wrong
-			if(GetDXUTState().GetMinimizedWhileFullscreen()) 
-			{
-				m_bMinimized = false;
-				GetDXUTState().SetMinimizedWhileFullscreen(false);
-			}
-
+			m_bMinimized = false;
 		}
 		else if(wParam == FALSE && m_bActive) // Handle only if previously active 
 		{           
@@ -426,7 +418,6 @@ LRESULT CD3D9RenderWindow::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM l
 				m_bMinimized = true;
 				// Going from full screen to a minimized state 
 				ClipCursor(NULL);      // don't limit the cursor anymore
-				GetDXUTState().SetMinimizedWhileFullscreen(true); 
 			}
 		}
 		break;
@@ -486,7 +477,6 @@ LRESULT CD3D9RenderWindow::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM l
 			{
 			case VK_RETURN:
 				{
-					if(GetDXUTState().GetHandleAltEnter())
 					{
 						// Toggle full screen upon alt-enter 
 						DWORD dwMask = (1 << 29);
