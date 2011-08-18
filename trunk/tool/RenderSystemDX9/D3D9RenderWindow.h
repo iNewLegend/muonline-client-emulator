@@ -16,7 +16,7 @@ public:
 	HWND GetHWND();
 	LRESULT MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 private:
-	bool Init(bool bParseCommandLine, bool bShowMsgBoxOnError, bool bHandleAltEnter);
+	bool Init(bool bParseCommandLine);
 	bool m_bActive;
 	bool m_bMoving;
 	bool m_bMinimized;

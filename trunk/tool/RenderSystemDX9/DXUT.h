@@ -34,7 +34,7 @@ bool    CALLBACK IsDeviceAcceptable(D3DCAPS9* pCaps, D3DFORMAT AdapterFormat, D3
 bool    CALLBACK ModifyDeviceSettings(DXUTDeviceSettings* pDeviceSettings, const D3DCAPS9* pCaps, void* pUserContext);
 
 // Initialization
-HRESULT DXUTInit(bool bParseCommandLine = true, bool bShowMsgBoxOnError = true, bool bHandleAltEnter = true);
+HRESULT DXUTInit(bool bParseCommandLine = true);
 
 // Choose either DXUTCreateWindow or DXUTSetWindow.  If using DXUTSetWindow, consider using DXUTStaticWndProc
 HRESULT DXUTCreateWindow(WNDPROC pWndProc = NULL, const std::wstring& strWindowTitle = L"Direct3D Window", 
@@ -129,12 +129,9 @@ protected:
 		WINDOWPLACEMENT m_WindowedPlacement; // record of windowed HWND position/show state/etc
 		bool  m_TopmostWhileWindowed;       // if true, the windowed HWND is topmost 
 		bool  m_MinimizedWhileFullscreen;   // if true, the HWND is minimized due to a focus switch away when fullscreen mode
-		bool  m_IgnoreSizeChange;           // if true, DXUT won't reset the device upon HWND size change
 
 		HINSTANCE m_HInstance;              // handle to the app instance
 
-		bool  m_HandleAltEnter;             // if true, then DXUT will handle Alt-Enter
-		bool  m_ShowMsgBoxOnError;          // if true, then msgboxes are displayed upon errors
 		bool  m_NoStats;                    // if true, then DXUTGetFrameStats() and DXUTGetDeviceStats() will return blank strings
 		bool  m_AutoChangeAdapter;          // if true, then the adapter will automatically change if the window is different monitor
 		int   m_ExitCode;                   // the exit code to be returned to the command line
@@ -149,7 +146,6 @@ protected:
 
 		bool  m_DeviceObjectsCreated;       // if true, then DeviceCreated callback has been called (if non-NULL)
 		bool  m_DeviceObjectsReset;         // if true, then DeviceReset callback has been called (if non-NULL)
-		bool  m_InsideMainloop;             // if true, then the framework is inside the main loop
 		bool  m_Active;                     // if true, then the app is the active top level window
 		bool  m_DeviceLost;                 // if true, then the device is lost and needs to be reset
 
@@ -195,13 +191,9 @@ public:
 	GETP_SETP_ACCESSOR(WINDOWPLACEMENT, WindowedPlacement);
 	GET_SET_ACCESSOR(DWORD, WindowedStyleAtModeChange);
 	GET_SET_ACCESSOR(bool, TopmostWhileWindowed);
-	GET_SET_ACCESSOR(bool, MinimizedWhileFullscreen);
-	GET_SET_ACCESSOR(bool, IgnoreSizeChange);   
 
 	GET_SET_ACCESSOR(HINSTANCE, HInstance);
 
-	GET_SET_ACCESSOR(bool, HandleAltEnter);
-	GET_SET_ACCESSOR(bool, ShowMsgBoxOnError);
 	GET_SET_ACCESSOR(bool, NoStats);
 	GET_SET_ACCESSOR(bool, AutoChangeAdapter);
 	GET_SET_ACCESSOR(int, ExitCode);
@@ -212,7 +204,6 @@ public:
 	GET_SET_ACCESSOR(bool, DXUTInitCalled);
 	GET_SET_ACCESSOR(bool, WindowCreateCalled);
 	GET_SET_ACCESSOR(bool, DeviceCreateCalled);
-	GET_SET_ACCESSOR(bool, InsideMainloop);
 	GET_SET_ACCESSOR(bool, DeviceLost);
 
 	GET_SET_ACCESSOR(int, OverrideAdapterOrdinal);
@@ -244,7 +235,6 @@ HWND                    DXUTGetHWNDDeviceWindowed();
 bool                    DXUTIsWindowed();
 LPCWSTR                 DXUTGetDeviceStats();
 int                     DXUTGetExitCode();
-bool                    DXUTGetShowMsgBoxOnError();
 
 
 HRESULT DXUTChangeDevice(DXUTDeviceSettings* pNewDeviceSettings, IDirect3DDevice9* pd3dDeviceFromApp, bool bForceRecreate, bool bClipWindowToSingleAdapter);
