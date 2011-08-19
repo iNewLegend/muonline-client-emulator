@@ -843,7 +843,7 @@ void CUIIMEEditBox::RenderCandidateReadingWindow(float fElapsedTime, bool bReadi
 
     // Render the elements
 	// ºòÑ¡×Ö´ÊÁÐ±í±³¾°
-    UIGraph::getInstance().FillRect(rc, clrTextBkColor);
+    ///UIGraph::getInstance().FillRect(rc, clrTextBkColor);
     if((CIME::s_bVerticalCand && !bReading) ||
         (!CIME::s_bHorizontalReading && bReading))
     {
@@ -855,7 +855,7 @@ void CUIIMEEditBox::RenderCandidateReadingWindow(float fElapsedTime, bool bReadi
             // Use a different color for the selected string
             if(CIME::s_CandList.dwSelection == i)
             {
-                UIGraph::getInstance().FillRect(rc, clrSelBkColor);
+   ///             UIGraph::getInstance().FillRect(rc, clrSelBkColor);
   ///              m_Style.m_mapFont[1].color = clrSelTextColor;
             } else
    ///             m_Style.m_mapFont[1].color = clrTextColor;
@@ -882,7 +882,7 @@ void CUIIMEEditBox::RenderCandidateReadingWindow(float fElapsedTime, bool bReadi
 
             rc.right = rc.left + nXRight;
             rc.left += nXLeft;
-            UIGraph::getInstance().FillRect(rc, clrSelBkColor);
+///            UIGraph::getInstance().FillRect(rc, clrSelBkColor);
  ///           m_Style.m_mapFont[1].color = clrSelTextColor;
             UIGraph::getInstance().DrawText(CIME::s_CandList.HoriCand.GetBuffer() + CIME::s_CandList.nFirstSelected,
                                 m_Style, 1, rc, CIME::s_CandList.nHoriSelectedLen);
@@ -938,7 +938,7 @@ void CUIIMEEditBox::RenderComposition(float fElapsedTime)
         {
             if(m_bCaretOn)
             {
-                UIGraph::getInstance().FillRect(rc, m_CompWinColor);
+///                UIGraph::getInstance().FillRect(rc, m_CompWinColor);
             }
             else
             {
@@ -950,7 +950,7 @@ void CUIIMEEditBox::RenderComposition(float fElapsedTime)
         } else
         {
             // Non-Korean IME. Always draw composition background.
-            UIGraph::getInstance().FillRect(rc, m_CompWinColor);
+///            UIGraph::getInstance().FillRect(rc, m_CompWinColor);
         }
 
         // Draw the text
@@ -1027,7 +1027,7 @@ void CUIIMEEditBox::RenderComposition(float fElapsedTime)
         }
 
         RECT rcTarget = { rc.left + nXLeft - nXFirst, rc.top, rc.left + nXRight - nXFirst, rc.bottom };
-        UIGraph::getInstance().FillRect(rcTarget, bkColor);
+///        UIGraph::getInstance().FillRect(rcTarget, bkColor);
         UIGraph::getInstance().DrawText(pcComp, m_Style, 1, rcTarget, 1);
 
         // Record the first target converted character's index
@@ -1048,7 +1048,7 @@ void CUIIMEEditBox::RenderComposition(float fElapsedTime)
             rcCaret.right = rcCaret.left + 2;
         }
 
-        UIGraph::getInstance().FillRect(rcCaret, m_CompCaretColor);
+///        UIGraph::getInstance().FillRect(rcCaret, m_CompCaretColor);
     }
 }
 

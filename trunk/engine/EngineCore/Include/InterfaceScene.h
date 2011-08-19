@@ -49,9 +49,6 @@ public:
 	//virtual bool Prepare()=0;
 	//virtual void DrawChunk(int x, int y)=0;
 
-	//virtual void loadTilesMaterial(const char* szFilename, const char* szParentDir)=0;
-	//virtual void clearAllTiles()=0;
-
 	//virtual void setLightMapTexture(const std::string& strFilename)=0;
 
 	//virtual bool create()=0;

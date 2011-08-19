@@ -30,8 +30,13 @@ function IDD_SERVER_LIST_OnBtnOK()
 	for line in io.lines("server.ini") do
 		_, _, name, ip, port = string.find(line, "([%a.%d]+)[%s]+([%a.%d]+)[%s]+([%d]+)")
 		if index == serverIndex then
+			if index == 0 then
+				g_World:create(0)
+				g_PlayerMe:setCellPos(165,165)
+				g_World:addRole(g_PlayerMe)
+				OnEnterWorld()
 			-- Connecting
-			if ConnectServer(ip,port) then
+			elseif ConnectServer(ip,port) then
 				IDD_SERVER_LIST:SetVisible(false)
 				IDD_LOGIN:SetVisible(true)
 			else

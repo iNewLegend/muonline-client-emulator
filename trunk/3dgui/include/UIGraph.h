@@ -28,9 +28,6 @@ public:
 		return  *m_pInstace;
 	}
 	virtual void frameUpdate()=0;
-	virtual void DrawRect(const CRect<float>& rcDest, Color32 color)=0;
-	virtual void FillRect(const CRect<float>& rcDest, Color32 color)=0;
-	virtual void DrawPolyLine(POINT* apPoints, UINT nNumPoints, Color32 color)=0;
 	virtual void* createTexture(const char* szTexture)=0;
 	virtual void releaseTexture(void* pTexture)=0;
 	virtual void DrawSprite(const CRect<float>& rcSrc, const CRect<float>& rcDest, void* pTexture, Color32 color)=0;

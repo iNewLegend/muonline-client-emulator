@@ -311,7 +311,6 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 	//{
 	//	strTileFile="Plugins\\Data\\default\\Tile.csv";
 	//}
-	//pScene->getTerrainData()->loadTilesMaterial(strTileFile.c_str(),GetParentPath(szFilename).c_str());
 	//pScene->getTerrainData()->create();
 	pRenderNode->init(pTerrainData);
 	return true;

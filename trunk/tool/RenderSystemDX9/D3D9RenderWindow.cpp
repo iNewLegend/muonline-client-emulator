@@ -12,7 +12,7 @@ CD3D9RenderWindow::~CD3D9RenderWindow()
 {
 }
 
-bool CD3D9RenderWindow::Init(bool bParseCommandLine)
+bool CD3D9RenderWindow::Init()
 {
 	GetDXUTState().SetDXUTInitCalled(true);
 
@@ -34,9 +34,6 @@ bool CD3D9RenderWindow::Init(bool bParseCommandLine)
 			FreeLibrary(hInstWinMM);
 		}
 	}
-
-	if(bParseCommandLine)
-		DXUTParseCommandLine();
 
 	// Verify D3DX version
 	//if(!D3DXCheckVersion(D3D_SDK_VERSION, D3DX_SDK_VERSION))
@@ -85,7 +82,7 @@ bool CD3D9RenderWindow::Create(WNDPROC pWndProc, const std::wstring& wstrWindowT
 	pDSFormats->Add(D3DFMT_D24X4S4);
 	pDSFormats->Add(D3DFMT_D15S1);
 	pDSFormats->Add(D3DFMT_D24FS8);*/
-	Init(true, true, true);
+	Init();
 	DXUTSetupCursor();
 	DXUTCreateWindow(pWndProc, wstrWindowTitle);
 	DXUTCreateDevice(D3DADAPTER_DEFAULT, !bFullScreen, uWidth, uHeight);

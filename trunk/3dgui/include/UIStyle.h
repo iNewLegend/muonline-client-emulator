@@ -90,18 +90,6 @@ public:
 	CRect<float>m_rcCenter;
 };
 
-class  StyleBorder: public StyleElement
-{
-public:
-	void draw(const wchar_t* wcsText,const CRect<float>& rc,const Color32& color)const;
-};
-
-class  StyleSquare: public StyleElement
-{
-public:
-	void draw(const wchar_t* wcsText,const CRect<float>& rc,const Color32& color)const;
-};
-
 class StyleText: public StyleElement
 {
 public:
