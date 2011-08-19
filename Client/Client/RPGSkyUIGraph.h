@@ -6,43 +6,10 @@
 #include "TextRender.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-struct UI_SCREEN_VERTEX
-{
-	float	x;
-	float	y;
-	float	z;
-	float	h;
-	float	tu;
-	float	tv;
-	// ----
-	Color32 color;
-	// ----
-	static DWORD FVF;
-};
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-struct UI_SCREEN_VERTEX_UNTEX
-{
-	float	x;
-	float	y;
-	float	z;
-	float	h;
-	// ----
-	Color32 color;
-	// ----
-	static DWORD FVF;
-};
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 class RPGSkyUIGraph : public UIGraph
 {
 public:
 	void	frameUpdate			();
-	// ----
-	void	DrawRect			(const CRect<float>& rcDest, Color32 color);
-	void	FillRect			(const CRect<float>& rcDest, Color32 color);
-	// ----
-	void	DrawPolyLine		(POINT* apPoints, UINT nNumPoints, Color32 color);
 	// ----
 	void*	createTexture		(const char* szTexture);
 	void	releaseTexture		(void* pTexture);

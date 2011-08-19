@@ -10,92 +10,9 @@ static RPGSkyUIGraph g_uiGraph;
 UIGraph * UIGraph::m_pInstace = & g_uiGraph;
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-DWORD UI_SCREEN_VERTEX::FVF			= FVF_XYZRHW | FVF_DIFFUSE | FVF_TEX1;
-DWORD UI_SCREEN_VERTEX_UNTEX::FVF	= FVF_XYZRHW | FVF_DIFFUSE;
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 void RPGSkyUIGraph::frameUpdate()
 {
 	getTextRender().OnFrameMove();
-}
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-void RPGSkyUIGraph::DrawRect(const CRect<float> & rcDest, Color32 color)
-{
-	CRenderSystem & R = GetRenderSystem();
-	// ----
-	// # Since we're doing our own drawing here we need to flush the sprites
-	// ----
-	R.SetFVF(UI_SCREEN_VERTEX::FVF);
-	// ----
-	R.SetTextureColorOP(0, TBOP_SOURCE2);
-	R.SetTextureAlphaOP(0, TBOP_SOURCE2);
-	// ----
-	GetGraphics().DrawRect(rcDest, color.c);
-	// ----
-	R.SetTextureColorOP(0, TBOP_MODULATE);
-	R.SetTextureAlphaOP(0, TBOP_MODULATE);
-}
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-void RPGSkyUIGraph::FillRect(const CRect<float> & rcDest, Color32 color)
-{
-	CRenderSystem & R = GetRenderSystem();
-	// ----
-	// # Since we're doing our own drawing here we need to flush the sprites
-	// ----
-	R.SetFVF(UI_SCREEN_VERTEX::FVF);
-	// ----
-	R.SetTextureColorOP(0, TBOP_SOURCE2);
-	R.SetTextureAlphaOP(0, TBOP_SOURCE2);
-	// ----
-	GetGraphics().FillRect(rcDest.left, rcDest.top, rcDest.right, rcDest.bottom, color.c);
-	// ----
-	R.SetTextureColorOP(0, TBOP_MODULATE);
-	R.SetTextureAlphaOP(0, TBOP_MODULATE);
-}
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-void RPGSkyUIGraph::DrawPolyLine(POINT * apPoints, UINT nNumPoints, Color32 color)
-{
-	UI_SCREEN_VERTEX * vertices = new UI_SCREEN_VERTEX[nNumPoints];
-	// ----
-	if(vertices != NULL)
-	{
-		UI_SCREEN_VERTEX * pVertex	= vertices;
-		POINT * pt					= apPoints;
-		// ----
-		for(UINT i = 0 ; i < nNumPoints ; i++)
-		{
-			pVertex->x		= (float) pt->x;
-			pVertex->y		= (float) pt->y;
-			// ----
-			pVertex->z		= 0.5f;
-			pVertex->h		= 1.0f;
-			pVertex->tu		= 0.0f;
-			pVertex->tv		= 0.0f;
-			// ----
-			pVertex->color = color;
-			// ----
-			pVertex++;
-			// ----
-			pt++;
-		}
-		// ----
-		CRenderSystem & R = GetRenderSystem();
-		// ----
-		R.SetFVF(UI_SCREEN_VERTEX::FVF);
-		// ----
-		R.SetTextureColorOP(0, TBOP_SOURCE2);
-		R.SetTextureAlphaOP(0, TBOP_SOURCE2);
-		// ----
-		R.DrawPrimitiveUP(VROT_LINE_STRIP, (nNumPoints - 1), vertices, sizeof(UI_SCREEN_VERTEX));
-		// ----
-		R.SetTextureColorOP(0, TBOP_MODULATE);
-		R.SetTextureAlphaOP(0, TBOP_MODULATE);
-		// ----
-		S_DELS(vertices);
-	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

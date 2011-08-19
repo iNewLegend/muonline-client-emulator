@@ -34,7 +34,7 @@ bool    CALLBACK IsDeviceAcceptable(D3DCAPS9* pCaps, D3DFORMAT AdapterFormat, D3
 bool    CALLBACK ModifyDeviceSettings(DXUTDeviceSettings* pDeviceSettings, const D3DCAPS9* pCaps, void* pUserContext);
 
 // Initialization
-HRESULT DXUTInit(bool bParseCommandLine = true);
+HRESULT DXUTInit();
 
 // Choose either DXUTCreateWindow or DXUTSetWindow.  If using DXUTSetWindow, consider using DXUTStaticWndProc
 HRESULT DXUTCreateWindow(WNDPROC pWndProc = NULL, const std::wstring& strWindowTitle = L"Direct3D Window", 
@@ -132,7 +132,6 @@ protected:
 
 		HINSTANCE m_HInstance;              // handle to the app instance
 
-		bool  m_NoStats;                    // if true, then DXUTGetFrameStats() and DXUTGetDeviceStats() will return blank strings
 		bool  m_AutoChangeAdapter;          // if true, then the adapter will automatically change if the window is different monitor
 		int   m_ExitCode;                   // the exit code to be returned to the command line
 
@@ -150,10 +149,6 @@ protected:
 		bool  m_DeviceLost;                 // if true, then the device is lost and needs to be reset
 
 		int   m_OverrideAdapterOrdinal;     // if != -1, then override to use this adapter ordinal
-		bool  m_OverrideWindowed;           // if true, then force to start windowed
-		bool  m_OverrideFullScreen;         // if true, then force to start full screen
-		int   m_OverrideWidth;              // if != 0, then override to this width
-		int   m_OverrideHeight;             // if != 0, then override to this height
 		bool  m_OverrideForcePureHWVP;      // if true, then force to use pure HWVP (failing if device doesn't support it)
 
 		WCHAR                        m_StaticFrameStats[256];           // static part of frames stats 
@@ -194,7 +189,6 @@ public:
 
 	GET_SET_ACCESSOR(HINSTANCE, HInstance);
 
-	GET_SET_ACCESSOR(bool, NoStats);
 	GET_SET_ACCESSOR(bool, AutoChangeAdapter);
 	GET_SET_ACCESSOR(int, ExitCode);
 
@@ -207,10 +201,6 @@ public:
 	GET_SET_ACCESSOR(bool, DeviceLost);
 
 	GET_SET_ACCESSOR(int, OverrideAdapterOrdinal);
-	GET_SET_ACCESSOR(bool, OverrideWindowed);
-	GET_SET_ACCESSOR(bool, OverrideFullScreen);
-	GET_SET_ACCESSOR(int, OverrideWidth);
-	GET_SET_ACCESSOR(int, OverrideHeight);
 	GET_SET_ACCESSOR(bool, OverrideForcePureHWVP);
 
 	GET_ACCESSOR(WCHAR*, StaticFrameStats);
@@ -219,7 +209,6 @@ public:
 
 DXUTState& GetDXUTState();
 typedef DECLSPEC_IMPORT UINT (WINAPI* LPTIMEBEGINPERIOD)(UINT uPeriod);
-void    DXUTParseCommandLine();
 void    DXUTDisplayErrorMessage(HRESULT hr);
 
 // State Retrieval  

@@ -90,8 +90,7 @@ public:
 	virtual void				LightMapFinish	();
 	virtual bool				prepare			()const;
 	virtual void				drawCubeBoxes	(Color32 color=0xFF00FF00)const;
-	virtual void				drawLayer0		()const;
-	virtual void				drawLayer1		()const;
+	virtual void				drawLayer		(int nLayer)const;
 	virtual void				renderGrass		()const;
 
 	virtual void				draw();
@@ -99,10 +98,8 @@ public:
 	void						drawLightDecal	(float x, float y, float fSize, Color32 color);
 	virtual void				drawChunk		(TerrainChunk* pChunk);
 	//
-	std::map<int,std::string>&	getTiles		(){return m_Tiles;}
+	std::map<int,std::string>&	getTiles		(){return m_Tiles[0];}
 	CTerrainDecal&				GetLightMapDecal(){return m_LightMapDecal;}
-	void						loadTilesMaterial(const char* szFilename, const char* szParentDir);
-	void						clearAllTiles();
 	void						setLightMapTexture(const std::string& strFilename);
 protected:
 	//
@@ -122,7 +119,7 @@ protected:
 	CTerrainDecal						m_LightMapDecal;
 	CTerrainDecal						m_LightDecal;
 	// Œ∆¿ÌTile
-	std::map<int,std::string>			m_Tiles;
+	std::map<int,std::string>			m_Tiles[2];
 	int									m_nLightMap;
 	unsigned long						m_uShowTileIBCount;
 	// For Render

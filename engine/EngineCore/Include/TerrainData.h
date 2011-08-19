@@ -18,6 +18,7 @@ enum E_TERRAIN_ATT_TYPE
 struct TerrainChunk
 {
 	BBox box;
+	std::map<int,int> m_TileCount[2];
 };
 
 // 地图文件数据

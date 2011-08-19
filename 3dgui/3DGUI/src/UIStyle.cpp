@@ -242,14 +242,6 @@ void CUIStyleData::XMLParse(const TiXmlElement& xml)
 		{
 			pNewStyleElement = new StyleSprite;
 		}
-		else if (pElement->ValueStr() == "border")
-		{
-			pNewStyleElement = new StyleBorder;
-		}
-		else if (pElement->ValueStr() == "square")
-		{
-			pNewStyleElement = new StyleSquare;
-		}
 		else if (pElement->ValueStr() == "font"||pElement->ValueStr() == "ubb")
 		{
 			pNewStyleElement = new StyleText;
@@ -257,7 +249,7 @@ void CUIStyleData::XMLParse(const TiXmlElement& xml)
 		}
 		else
 		{
-			pNewStyleElement = new StyleBorder;
+			pNewStyleElement = new StyleSprite;
 		}
 		pNewStyleElement->XMLParse(*pElement);
 		m_setStyleElement.push_back(pNewStyleElement);
@@ -622,34 +614,6 @@ void StyleSprite::draw(const wchar_t* wcsText,const CRect<float>& rc,const Color
 	//{
 	//	GetRenderSystem().SetupRenderState();
 	//}
-}
-
-void StyleBorder::draw(const wchar_t* wcsText,const CRect<float>& rc,const Color32& color)const
-{
-	if(color.a==0)
-	{
-		return;
-	}
-	//UIGraph::getInstance().DrawRect(rc.left,rc.right,rc.top,rc.bottom,color);
-	//GetRenderSystem().SetTextureColorOP(0,TBOP_SOURCE2);
-	//GetRenderSystem().SetTextureAlphaOP(0,TBOP_SOURCE2);
-	//GetGraphics().DrawRect(rc, color);
-	//GetRenderSystem().SetTextureColorOP(0,TBOP_MODULATE);
-	//GetRenderSystem().SetTextureAlphaOP(0,TBOP_MODULATE);
-}
-
-void StyleSquare::draw(const wchar_t* wcsText,const CRect<float>& rc,const Color32& color)const
-{
-	if(color.a==0)
-	{
-		return;
-	}
-	UIGraph::getInstance().FillRect(rc,color);
-	//GetRenderSystem().SetTextureColorOP(0,TBOP_SOURCE2);
-	//GetRenderSystem().SetTextureAlphaOP(0,TBOP_SOURCE2);
-	//GetGraphics().FillRect(rc, color);
-	//GetRenderSystem().SetTextureColorOP(0,TBOP_MODULATE);
-	//GetRenderSystem().SetTextureAlphaOP(0,TBOP_MODULATE);
 }
 
 bool CUIStyleMgr::Create(const char* szFilename)
