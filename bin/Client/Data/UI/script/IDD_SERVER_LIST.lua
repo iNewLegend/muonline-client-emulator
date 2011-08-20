@@ -33,7 +33,7 @@ function IDD_SERVER_LIST_OnBtnOK()
 			if index == 0 then
 				g_World:create(0)
 				-- 
-				g_PlayerMe:setCellPos(127,129)
+				g_PlayerMe:setCellPos(147,127)
 				g_PlayerMe:setRoleName(L"Local")
 				-- Init Equip
 				g_PlayerMe:setClass(1)
@@ -47,7 +47,14 @@ function IDD_SERVER_LIST_OnBtnOK()
 				g_PlayerMe:setDir(1)
 				g_PlayerMe:setActionState(0)
 				g_World:addRole(g_PlayerMe)
-				OnEnterWorld()
+				----
+				IDD_MAIN:setControlVisible("IDC_IMAGE_BG",false)
+				IDD_SERVER_LIST:SetVisible(false)
+				IDD_LOGIN:SetVisible(false)
+				dlgRoleChoose:SetVisible(false)
+				dlgMainDialog:SetVisible(false)
+				IDD_CHAT_MESSAGE:SetVisible(false)
+				--OnEnterWorld()
 			-- Connecting
 			elseif ConnectServer(ip,port) then
 				IDD_SERVER_LIST:SetVisible(false)
