@@ -57,6 +57,9 @@ end
 
 function OnEnterWorld()
 	CloseMessageBox()
+	IDD_MAIN:setControlVisible("IDC_IMAGE_BG",false)
+	IDD_SERVER_LIST:SetVisible(false)
+	IDD_LOGIN:SetVisible(false)
 	dlgRoleChoose:SetVisible(false)
 	dlgMainDialog:SetVisible(true)
 	IDD_CHAT_MESSAGE:SetVisible(true)

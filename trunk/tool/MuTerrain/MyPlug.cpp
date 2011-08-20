@@ -273,26 +273,30 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 {
 	iTerrainData* pTerrainData = (iTerrainData*)pRenderNodeMgr->createRenderData("terrain",szFilename);
 	importTerrainData(pTerrainData,szFilename);
-	const char* szTerrainMaterial[17][3]={
-		{"Terrain.00","TileGrass01.ozj","tileX4"},
-		{"Terrain.01","TileGrass02.ozj","tileX2"},
-		{"Terrain.02","TileGround01.ozj","tileX4"},
-		{"Terrain.03","TileGround02.ozj","tileX2"},
-		{"Terrain.04","TileGround03.ozj","tileX2"},
-		{"Terrain.05","TileWater01.ozj","water"},
-		{"Terrain.06","TileWood01.ozj","tileX2"},
-		{"Terrain.07","TileRock01.ozj","tileX2"},
-		{"Terrain.08","TileRock02.ozj","tileX2"},
-		{"Terrain.09","TileRock03.ozj","tileX2"},
-		{"Terrain.10","TileRock04.ozj","tileX2"},
-		{"Terrain.11","TileRock05.ozj","tileX2"},
-		{"Terrain.12","TileRock06.ozj","tileX2"},
-		{"Terrain.13","TileRock07.ozj","tileX2"},
-		{"Terrain.14","TileRock08.ozj","tileX2"},
-		{"Terrain.15","mine_floor01.dds","tileX2"},
+	const char* szTerrainMaterial[21][3]={
+		{"Terrain.0_0","TileGrass01.ozj","terrainTileX4"},
+		{"Terrain.0_1","TileGrass02.ozj","terrainTileX2"},
+		{"Terrain.0_2","TileGround01.ozj","terrainTileX4"},
+		{"Terrain.0_3","TileGround02.ozj","terrainTileX2"},
+		{"Terrain.0_4","TileGround03.ozj","terrainTileX2"},
+		{"Terrain.0_5","TileWater01.ozj","terrainWater"},
+		{"Terrain.0_6","TileWood01.ozj","terrainTileX2"},
+		{"Terrain.0_7","TileRock01.ozj","terrainTileX2"},
+		{"Terrain.0_8","TileRock02.ozj","terrainTileX2"},
+		{"Terrain.0_9","TileRock03.ozj","terrainTileX2"},
+		{"Terrain.1_0","TileGrass01.ozj","terrainTileAlphaX4"},
+		{"Terrain.1_1","TileGrass02.ozj","terrainTileAlphaX2"},
+		{"Terrain.1_2","TileGround01.ozj","terrainTileAlphaX4"},
+		{"Terrain.1_3","TileGround02.ozj","terrainTileAlphaX2"},
+		{"Terrain.1_4","TileGround03.ozj","terrainTileAlphaX2"},
+		{"Terrain.1_5","TileWater01.ozj","terrainWaterAlpha"},
+		{"Terrain.1_6","TileWood01.ozj","terrainTileAlphaX2"},
+		{"Terrain.1_7","TileRock01.ozj","terrainTileAlphaX2"},
+		{"Terrain.1_8","TileRock02.ozj","terrainTileAlphaX2"},
+		{"Terrain.1_9","TileRock03.ozj","terrainTileAlphaX2"},
 		{"Terrain.Grass","TileGrass01.OZT","grass"}
 	};
-	for (int i=0; i<17; ++i)
+	for (int i=0; i<21; ++i)
 	{
 		CMaterial* pMaterial = (CMaterial*)pRenderNodeMgr->createRenderData("material",szTerrainMaterial[i][0]);
 		if(pMaterial)

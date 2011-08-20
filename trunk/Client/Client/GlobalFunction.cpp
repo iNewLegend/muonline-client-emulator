@@ -51,9 +51,23 @@ void InitLua(lua_State * L)
 		.mem("m_vLookAt",		& CUIDisplayRoleChoose::m_vLookAt);
 	lua_tinker::set(L, "g_UIDisplayCharList", &CUIDisplayRoleChoose::getInstance());
 	// ----
-	lua_tinker::class_<CPlayerMe>(L, "CPlayerMe")
+	lua_tinker::class_<CRole>(L, "CRole")
 		.con(lua_tinker::constructor<void>())
-		.def("setCellPos",		& CPlayerMe::setCellPos);
+		.def("setCellPos",		& CPlayerMe::setCellPos)
+		.def("setRoleName",		& CPlayerMe::setRoleName)
+		.def("setDir",			& CPlayerMe::setDir)
+		.def("setActionState",	& CPlayerMe::setActionState)
+		.def("setClass",		& CPlayerMe::setClass)
+		.def("setSkeleton",		& CPlayerMe::setSkeleton)
+		.def("setHelm",			& CPlayerMe::setHelm)
+		.def("setArmor",		& CPlayerMe::setArmor)
+		.def("setGlove",		& CPlayerMe::setGlove)
+		.def("setPant",			& CPlayerMe::setPant)
+		.def("setBoot",			& CPlayerMe::setBoot);
+	// ----
+	lua_tinker::class_<CPlayerMe>(L, "CPlayerMe")
+		.inh<CRole>()
+		.con(lua_tinker::constructor<void>());
 	lua_tinker::set(L, "g_PlayerMe", &CPlayerMe::getInstance());
 	// ----
 	lua_tinker::class_<CWorld>(L, "CWorld")
