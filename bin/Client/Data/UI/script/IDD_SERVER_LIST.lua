@@ -32,7 +32,20 @@ function IDD_SERVER_LIST_OnBtnOK()
 		if index == serverIndex then
 			if index == 0 then
 				g_World:create(0)
-				g_PlayerMe:setCellPos(165,165)
+				-- 
+				g_PlayerMe:setCellPos(127,129)
+				g_PlayerMe:setRoleName(L"Local")
+				-- Init Equip
+				g_PlayerMe:setClass(1)
+				g_PlayerMe:setSkeleton()
+				g_PlayerMe:setHelm(1)
+				g_PlayerMe:setArmor(1)
+				g_PlayerMe:setGlove(1)
+				g_PlayerMe:setPant(1)
+				g_PlayerMe:setBoot(1)
+				--
+				g_PlayerMe:setDir(1)
+				g_PlayerMe:setActionState(0)
 				g_World:addRole(g_PlayerMe)
 				OnEnterWorld()
 			-- Connecting

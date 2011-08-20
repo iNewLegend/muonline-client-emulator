@@ -29,15 +29,9 @@ technique Render
 		Lighting			= False;
 		CullMode			= None;
 
-		AlphaTestEnable		= True;
-		AlphaFunc			= GreaterEqual;
-		AlphaRef			= 64;
-
-		AlphaBlendEnable	= True;
-		BlendOp				= Add;
-		SrcBlend			= SrcAlpha;
-		DestBlend			= InvSrcAlpha;
-
+		AlphaTestEnable		= False;
+		AlphaBlendEnable	= False;
+		
 		ZEnable				= True;
 		ZFunc				= LessEqual;
 		ZWriteEnable		= True;

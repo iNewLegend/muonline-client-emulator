@@ -164,14 +164,11 @@ void CWorld::create(UCHAR uMapID)
 	{
 		m_CurMap	= uMapID;
 		// ----
-		UINT nJump	= (uMapID + 1);
-		// ----
 		char szMapFilname[256];
-		sprintf(szMapFilname,"Data\\World%d\\EncTerrain%d.obj", nJump, nJump);
-		//
+		sprintf(szMapFilname,"Data\\World%d\\EncTerrain%d.obj", m_CurMap+1, m_CurMap+1);
 		load(szMapFilname);
 		//
-		sprintf(szMapFilname,"Data\\World%d\\EncTerrain%d.map", nJump, nJump);
+		sprintf(szMapFilname,"Data\\World%d\\EncTerrain%d.map", m_CurMap+1, m_CurMap+1);
 		m_pTerrain = new CTerrain;
 		m_pTerrain->load(szMapFilname);
 		// ----
