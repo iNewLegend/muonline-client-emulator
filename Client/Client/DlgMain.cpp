@@ -22,6 +22,7 @@ void CDlgMain::OnControlRegister()
 	CUIMainDialog::OnControlRegister();
 	// ----
 	RegisterControl("IDC_DISPLAY_WORLD", m_DisplayWorld);
+	RegisterControl("IDC_STATIC_FPS", m_StaticFps);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -34,6 +35,12 @@ bool CDlgMain::OnInitDialog()
 
 void CDlgMain::OnFrameMove(double fTime, float fElapsedTime)
 {
+	static float fFps = 0.0f;
+	if (fElapsedTime!=0.0f)
+	{
+		fFps = fFps*0.99f+0.01f/fElapsedTime;
+	}
+	m_StaticFps.SetFloat(fFps,0,2);
 	CUIMainDialog::OnFrameMove(fTime,fElapsedTime);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

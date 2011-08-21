@@ -20,7 +20,7 @@ CGraphics::CGraphics(void)
 	m_nVBBatchSize = 0;
 	m_nCount = 0;
 
-	m_pVB = GetRenderSystem().GetHardwareBufferMgr().CreateVertexBuffer(MAX_VBSIZE, sizeof(VERTEX_XYZ_DIF_TEX),
+	/*m_pVB = GetRenderSystem().GetHardwareBufferMgr().CreateVertexBuffer(MAX_VBSIZE, sizeof(VERTEX_XYZ_DIF_TEX),
 		CHardwareBuffer::HBU_DYNAMIC_WRITE_ONLY);
 
 	m_pIB = GetRenderSystem().GetHardwareBufferMgr().CreateIndexBuffer(6000);
@@ -40,7 +40,7 @@ CGraphics::CGraphics(void)
 		*pIndex= i+3;
 		pIndex++;
 	}
-	m_pIB->unlock();
+	m_pIB->unlock();*/
 }
 
 CGraphics::~CGraphics(void)
