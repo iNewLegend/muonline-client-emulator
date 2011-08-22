@@ -7,7 +7,7 @@ technique Render
 
 		AlphaTestEnable		= True;
 		AlphaFunc			= GreaterEqual;
-		AlphaRef			= 64;
+		AlphaRef			= 128;
 
 		AlphaBlendEnable	= False;
 
