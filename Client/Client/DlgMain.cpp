@@ -38,7 +38,7 @@ void CDlgMain::OnFrameMove(double fTime, float fElapsedTime)
 	static float fFps = 0.0f;
 	if (fElapsedTime!=0.0f)
 	{
-		fFps = fFps*0.99f+0.01f/fElapsedTime;
+		fFps = fFps*0.9f+0.1f/fElapsedTime;
 	}
 	m_StaticFps.SetFloat(fFps,0,2);
 	CUIMainDialog::OnFrameMove(fTime,fElapsedTime);
