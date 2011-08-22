@@ -165,12 +165,6 @@
 		</texture>
 	</element>
 	<element name="dialog.caption">
-		<square>
-			<blend normal="0.6" pressed="0.0" hidden="0.8">0.8</blend>
-			<color normal="#ff84" disabled="#feee" hidden="#0f84" focus="#ff88" mouseover="#ff44" pressed="#ffd4"/>
-			<offset hidden="64,160,-64,160">8,-1,-8,0</offset>
-			<scale hidden="0.5,1,0.5,1">0,1,1,1</scale>
-		</square>
 		<font	format="UCENTER|VCENTER">
 			<blend normal="0.6" pressed="0.0" hidden="0.8">0.8</blend>
 			<color normal="#FBBB" disabled="#CCCC" hidden="#0FFF" focus="#FDDD" mouseover="#CFFF" pressed="#FFFF"/>
@@ -395,10 +389,7 @@
 	</element>
 
 	<element name="slider">
-		<square>
-			<blend pressed="0.0" hidden="0.5">0.8</blend>
-			<color hidden="#0000">#F223</color>
-		</square>
+
 	</element>
 	
 	<element name="slider.button" sound="sound\iButtonClick.wav">
@@ -411,10 +402,7 @@
 	</element>
 	
 	<element name="editbox.selection">
-		<square>
-			<blend pressed="0.0" hidden="0.5">0.8</blend>
-			<color normal="#F88F" disabled="#EEEE" hidden="#0FFF" focus="#F88F" mouseover="#F88F" pressed="#F88F"/>
-		</square>
+
 		<font	format="LEFT|VCENTER">
 			<blend pressed="0.0" hidden="0.5">0.8</blend>
 			<color normal="#F000" disabled="#CCCC" hidden="#0000" focus="#F000" mouseover="#F222" pressed="#F333"/>
@@ -430,10 +418,7 @@
 	</element>
 
 	<element name="editbox.caret">
-		<square>
-			<blend pressed="0.0" hidden="0.5">0.8</blend>
-			<color normal="#F000" disabled="#EEEE" hidden="#0FFF" focus="#FFFF" mouseover="#FFFF" pressed="#FFFF"/>
-		</square>
+
 	</element>
 
 	<element name="imeeditbox">
