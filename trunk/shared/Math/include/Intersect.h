@@ -3,6 +3,7 @@
 #include "Plane.h"
 #include "Matrix.h"
 #include "assert.h"
+#include "wtypes.h"
 
 inline void GetPickRay(Vec3D& vRayPos, Vec3D& vRayDir, int x, int y, const Matrix mView, const Matrix mProj, const RECT& rc)
 {

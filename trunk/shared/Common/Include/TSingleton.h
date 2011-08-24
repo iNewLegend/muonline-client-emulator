@@ -1,6 +1,5 @@
 #pragma once
 
-
 template <typename T>
 class TSingleton
 {
@@ -10,7 +9,7 @@ public:
 
 	static T& getInstance()
 	{
-		if (NULL == m_pInstace)
+		if (0 == m_pInstace)
 		{
 			m_pInstace = new T;
 		}
@@ -25,6 +24,5 @@ private:
 
 };
 
-
 template <typename T>
-T* TSingleton<T>::m_pInstace = NULL;
+T* TSingleton<T>::m_pInstace = 0;
