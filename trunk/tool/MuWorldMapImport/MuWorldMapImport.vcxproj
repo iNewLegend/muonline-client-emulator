@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>MuWorldMapPlugin</ProjectName>
+    <ProjectName>MuMapPlugin</ProjectName>
     <ProjectGuid>{257217AD-AAF5-461D-9327-03891BA604A1}</ProjectGuid>
     <RootNamespace>MuWorldMapImport</RootNamespace>
     <Keyword>MFCProj</Keyword>
