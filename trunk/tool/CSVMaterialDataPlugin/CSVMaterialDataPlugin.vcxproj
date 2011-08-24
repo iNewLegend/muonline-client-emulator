@@ -93,7 +93,8 @@
       <OutputFile>..\..\bin\Client\Plugins\$(ProjectName)d.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\shared\lib;..\..\engine\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <ModuleDefinitionFile>.\$(ProjectName).def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>
+      </ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\Debug/$(ProjectName).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
