@@ -1,6 +1,0 @@
-; MuWorldMapPlug.def : Declares the module parameters for the DLL.
-
-LIBRARY      "MuTerrainPlugin"
-
-EXPORTS
-    Data_Plug_CreateObject	@1

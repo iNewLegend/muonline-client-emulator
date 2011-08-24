@@ -7,6 +7,11 @@ extern "C" {
 #include "jpeg\jpeglib.h"
 }
 
+__declspec(dllexport) bool __stdcall Data_Plug_CreateObject(void ** pobj){
+	*pobj = new CMyPlug;
+	return *pobj != NULL;
+}
+
 CMyPlug::CMyPlug(void)
 {
 }
@@ -269,9 +274,9 @@ int getMapIDFromFilename(const std::string& strFilename)
 	return nMapID;
 }
 
-bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNode, const char* szFilename)
+bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 {
-	iTerrainData* pTerrainData = (iTerrainData*)pRenderNodeMgr->createRenderData("terrain",szFilename);
+	iTerrainData* pTerrainData = (iTerrainData*)m_pRenderNodeMgr->createRenderData("terrain",szFilename);
 	importTerrainData(pTerrainData,szFilename);
 	const char* szTerrainMaterial[21][3]={
 		{"Terrain.0_0","TileGrass01.ozj","terrainTileX4"},
@@ -298,7 +303,7 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 	};
 	for (int i=0; i<21; ++i)
 	{
-		CMaterial* pMaterial = (CMaterial*)pRenderNodeMgr->createRenderData("material",szTerrainMaterial[i][0]);
+		CMaterial* pMaterial = (CMaterial*)m_pRenderNodeMgr->createRenderData("material",szTerrainMaterial[i][0]);
 		if(pMaterial)
 		{
 			char szTexture[256];

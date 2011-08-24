@@ -1,7 +1,8 @@
 #pragma once
-#include "InterfaceScene.h"
+#include "InterfacePlug.h"
+#include "iScene.h"
 
-class CMyPlug : public CModelPlugBase  
+class CMyPlug : public CDataPlugBase  
 {
 public:
 	CMyPlug(void);
@@ -9,7 +10,7 @@ public:
 
 	virtual const char * getTitle(){return "Mu Terrain File";}
 	virtual const char * getFormat() {return ".map";}
-	virtual bool importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNode, const char* szFilename);
+	virtual bool importData(iRenderNode* pRenderNode, const char* szFilename);
 	virtual void release();
 private:
 	bool importTerrainData(iTerrainData * pTerrainData, const std::string& strFilename);
