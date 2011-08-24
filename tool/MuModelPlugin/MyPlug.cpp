@@ -3,6 +3,12 @@
 #include "FileSystem.h"
 #include "MUBmd.h"
 #include "Material.h"
+#include "Windows.h"
+
+__declspec(dllexport) bool __stdcall Data_Plug_CreateObject(void ** pobj){
+	*pobj = new CMyPlug;
+	return *pobj != NULL;
+}
 
 CMyPlug::CMyPlug(void)
 {
@@ -155,7 +161,7 @@ void importSkeletonAnims(iSkeletonData& skeletonData, CMUBmd& bmd)
 	}
 }
 
-bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNode, const char* szFilename)
+bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 {
 	static CMUBmd* pPlayerBmd;
 	if (GetFilename(szFilename)=="player.bmd")
@@ -170,10 +176,10 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 		}
 		if (pRenderNode->getType()==iRenderNode::NODE_SKELETON)
 		{
-			iSkeletonData*	pSkeletonData	= (iSkeletonData*)	pRenderNodeMgr->getRenderData("skeleton",szFilename);
+			iSkeletonData*	pSkeletonData	= (iSkeletonData*)	m_pRenderNodeMgr->getRenderData("skeleton",szFilename);
 			if (pSkeletonData==NULL)
 			{
-				pSkeletonData = (iSkeletonData*)pRenderNodeMgr->createRenderData("skeleton",szFilename);
+				pSkeletonData = (iSkeletonData*)m_pRenderNodeMgr->createRenderData("skeleton",szFilename);
 				if (pSkeletonData)
 				{
 					//m_Mesh.m_Lods.resize(1);
@@ -190,7 +196,7 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 	}
 	else
 	{
-		iLodMesh* pMesh = (iLodMesh*)pRenderNodeMgr->getRenderData("mesh",szFilename);
+		iLodMesh* pMesh = (iLodMesh*)m_pRenderNodeMgr->getRenderData("mesh",szFilename);
 		// ----
 		if (pMesh==NULL)
 		{
@@ -202,7 +208,7 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 			// ----
 			if (pMesh==NULL)
 			{
-				pMesh = (iLodMesh*)pRenderNodeMgr->createRenderData("mesh",szFilename);
+				pMesh = (iLodMesh*)m_pRenderNodeMgr->createRenderData("mesh",szFilename);
 				if (pMesh)
 				{
 					bool bIsPlayerPart = false;
@@ -301,7 +307,7 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 						char szMaterialName[255];
 						{
 							sprintf(szMaterialName,"%s%d",ChangeExtension(GetFilename(szFilename),".sub").c_str(),i);
-							CMaterial* pMaterial = (CMaterial*)pRenderNodeMgr->createRenderData("material",szMaterialName);
+							CMaterial* pMaterial = (CMaterial*)m_pRenderNodeMgr->createRenderData("material",szMaterialName);
 							std::string strTexFileName = GetParentPath(szFilename) + bmdSub.szTexture;
 							{
 								std::string strExt = GetExtension(bmdSub.szTexture); 
@@ -326,10 +332,10 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 			// ----
 			if (pRenderNode->getType()==iRenderNode::NODE_SKELETON)
 			{
-				iSkeletonData*	pSkeletonData	= (iSkeletonData*)	pRenderNodeMgr->getRenderData("skeleton",szFilename);
+				iSkeletonData*	pSkeletonData	= (iSkeletonData*)	m_pRenderNodeMgr->getRenderData("skeleton",szFilename);
 				if (pSkeletonData==NULL)
 				{
-					pSkeletonData = (iSkeletonData*)pRenderNodeMgr->createRenderData("skeleton",szFilename);
+					pSkeletonData = (iSkeletonData*)m_pRenderNodeMgr->createRenderData("skeleton",szFilename);
 					if (pSkeletonData)
 					{
 						//m_Mesh.m_Lods.resize(1);
@@ -346,12 +352,12 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 		// ----
 		if (pRenderNode->getType()==iRenderNode::NODE_SKELETON)
 		{
-			iSkeletonData*	pSkeletonData	= (iSkeletonData*)	pRenderNodeMgr->getRenderData("skeleton",szFilename);
+			iSkeletonData*	pSkeletonData	= (iSkeletonData*)	m_pRenderNodeMgr->getRenderData("skeleton",szFilename);
 			if (pSkeletonData)
 			{
 				pRenderNode->init(pSkeletonData);
 				//----
-				iRenderNode* pMeshNode = pRenderNodeMgr->createRenderNode("mesh");
+				iRenderNode* pMeshNode = m_pRenderNodeMgr->createRenderNode("mesh");
 				if (pMeshNode)
 				{
 					pMeshNode->init(pMesh);
@@ -388,10 +394,10 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 		{
 			strParFilename=strMyPath+strParentDirName+".par.csv";
 		}
-		pRenderNodeMgr->loadRenderNode(strMatFilename.c_str(),pRenderNode);
-		pRenderNodeMgr->loadRenderNode(strParFilename.c_str(),pRenderNode);
+		m_pRenderNodeMgr->loadRenderNode(strMatFilename.c_str(),pRenderNode);
+		m_pRenderNodeMgr->loadRenderNode(strParFilename.c_str(),pRenderNode);
 		//////////////////////////////////////////////////////////////////////////
-		//iRenderNode* pRenderNode = pRenderNodeMgr->createRenderNode("Skeleton");
+		//iRenderNode* pRenderNode = m_pRenderNodeMgr->createRenderNode("Skeleton");
 	}
 	return true;
 }

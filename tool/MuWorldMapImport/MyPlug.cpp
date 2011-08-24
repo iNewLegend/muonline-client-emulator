@@ -3,6 +3,11 @@
 #include "FileSystem.h"
 #include "3DMapSceneObj.h"
 
+__declspec(dllexport) bool __stdcall Data_Plug_CreateObject(void ** pobj){
+	*pobj = new CMyPlug;
+	return *pobj != NULL;
+}
+
 //标记开始处.
 #ifdef _VMP
 #define   VMBEGIN\
@@ -1460,7 +1465,7 @@ int getMapIDFromFilename(const std::string& strFilename)
 	return nMapID;
 }
 
-bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNode, const char* szFilename)
+bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 {
 	// calc the map object filename
 	int nMapID = getMapIDFromFilename(szFilename);
@@ -1480,7 +1485,7 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 		importObjectResourcesFormDir(strObjectPath);
 	}
 	// object data filename
-	iSceneData* pSceneData = (iSceneData*)pRenderNodeMgr->createRenderData("scene",szFilename);
+	iSceneData* pSceneData = (iSceneData*)m_pRenderNodeMgr->createRenderData("scene",szFilename);
 	BBox bboxObject;
 	float fLength = 256;//max(pScene->getTerrainData()->GetWidth(),pScene->getTerrainData()->GetHeight());
 	bboxObject.vMin = Vec3D(-10.0f,-fLength*0.5f-10.0f,-10.0f);
@@ -1489,7 +1494,7 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 	pSceneData->setOctreeDepth(6);
 	pRenderNode->init(pSceneData);
 	// Loading the object.
-	//iRenderNode* pSceneNode = (iRenderNode*)pRenderNodeMgr->createRenderNode("scene");
+	//iRenderNode* pSceneNode = (iRenderNode*)m_pRenderNodeMgr->createRenderNode("scene");
 	IOReadBase* pRead = IOReadBase::autoOpen(szFilename);
 	if (pRead)
 	{
@@ -1506,7 +1511,7 @@ bool CMyPlug::importData(iRenderNodeMgr* pRenderNodeMgr, iRenderNode* pRenderNod
 			Vec3D vPos = Vec3D(pObjInfo->p.x,pObjInfo->p.z,pObjInfo->p.y)*0.01f;
 			Vec3D vRotate = Vec3D(pObjInfo->rotate.x,pObjInfo->rotate.z,pObjInfo->rotate.y)*PI/180.0f;
 			Vec3D vScale= Vec3D(pObjInfo->fScale,pObjInfo->fScale,pObjInfo->fScale);
-			iRenderNode* pObjectRenderNode = (iRenderNode*)pRenderNodeMgr->createRenderNode("sceneobject");
+			iRenderNode* pObjectRenderNode = (iRenderNode*)m_pRenderNodeMgr->createRenderNode("sceneobject");
 			char szTemp[256];
 			pObjectRenderNode->setName(itoa(i,szTemp,10));
 			pObjectRenderNode->setFilename(m_mapObjectName[pObjInfo->id].c_str());
