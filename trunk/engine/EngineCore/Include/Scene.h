@@ -5,6 +5,7 @@
 #include "3DMapEffect.h"
 #include "Octree.h"
 #include "FocusNode.h"
+#include "InterfacePlug.h"
 
 class SceneData: public iSceneData
 {

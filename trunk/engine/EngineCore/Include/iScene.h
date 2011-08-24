@@ -1,5 +1,4 @@
 #pragma once
-#include "InterfaceDataPlugsBase.h"
 #include "Vec4D.h"
 #include "Vec2D.h"
 #include "Color.h"
@@ -33,37 +32,20 @@ struct TerrainCell
 //////////////////////////////////////////////////////////////////////////
 // Terrain
 //////////////////////////////////////////////////////////////////////////
-
-class CTerrainDecal;
-
 class iTerrainData
 {
-public:
-	//virtual void setTileMaterial(int nTileID, const std::string& strMaterialName)=0;
-	//virtual CMaterial& getMaterial(const char* szMaterialName)=0;
-
-	//virtual CTerrainDecal& GetLightMapDecal()=0;
-
-	//virtual void getCubesByFrustum(const CFrustum& frustum, LIST_CUBES& CubeList)const=0;
-
-	//virtual bool Prepare()=0;
-	//virtual void DrawChunk(int x, int y)=0;
-
-	//virtual void setLightMapTexture(const std::string& strFilename)=0;
-
-	//virtual bool create()=0;
 public:
 	iTerrainData(){};
 	virtual ~iTerrainData(){};
 	//
-	virtual void clear()=0;
-	virtual void create(size_t width, size_t height, size_t chunkSize)=0;
-	virtual bool resize(size_t width, size_t height, size_t chunkSize)=0;
+	virtual void			clear()=0;
+	virtual void			create(size_t width, size_t height, size_t chunkSize)=0;
+	virtual bool			resize(size_t width, size_t height, size_t chunkSize)=0;
 	//
-	virtual int getWidth()const=0;
-	virtual int getHeight()const=0;
-	virtual int	getVertexCount()const=0;
-	virtual int getChunkSize()const=0;
+	virtual int				getWidth()const=0;
+	virtual int				getHeight()const=0;
+	virtual int				getVertexCount()const=0;
+	virtual int				getChunkSize()const=0;
 	//
 	virtual bool			isCellIn(int x, int y)const=0;
 	virtual bool			isPointIn(int x, int y)const=0;
@@ -105,10 +87,8 @@ public:
 //////////////////////////////////////////////////////////////////////////
 // Scene
 //////////////////////////////////////////////////////////////////////////
-#include "MapObj.h"
 #include "RenderSystemCommon.h"
-#include "RenderNode.h"
-#include "InterfaceModel.h"
+#include "Frustum.h"
 
 class iSceneData
 {

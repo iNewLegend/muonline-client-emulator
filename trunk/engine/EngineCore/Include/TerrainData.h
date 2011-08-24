@@ -1,5 +1,5 @@
 #pragma once
-#include "InterfaceScene.h"
+#include "iScene.h"
 #include "Octree.h"
 
 enum E_TERRAIN_ATT_TYPE

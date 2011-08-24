@@ -24,7 +24,6 @@ public:
 		:uShader(-1)
 		,vAmbient(0.6f,0.6f,0.6f,0.6f)
 		,vDiffuse(1.0f,1.0f,1.0f,1.0f)
-		,vTexAnim(0.0f,0.0f)
 		,m_fOpacity(1.0f)
 		,cEmissive(255,255,255,255)
 	{
@@ -117,7 +116,6 @@ public:
 	Vec4D			vAmbient;
 	Vec4D			vDiffuse;
 	// ----
-	Vec2D			vTexAnim;
 	float			m_fOpacity;
 	Color32			cEmissive;
 };
