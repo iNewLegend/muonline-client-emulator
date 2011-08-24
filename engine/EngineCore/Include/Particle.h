@@ -3,7 +3,6 @@
 #include "matrix.h"
 #include "Material.h"
 #include "RenderNode.h"
-#include "InterfaceModel.h"
 
 struct Particle
 {

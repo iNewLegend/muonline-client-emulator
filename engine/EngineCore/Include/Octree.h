@@ -1,6 +1,7 @@
 #pragma once
 #include <algorithm>
 #include <set>
+#include <list>
 
 template <typename T>
 class Octree

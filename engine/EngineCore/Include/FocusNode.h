@@ -1,8 +1,5 @@
 #pragma once
-#include "Terrain.h"
-#include "MapObj.h"
-#include "3DMapSceneObj.h"
-#include "3DMapEffect.h"
+#include "RenderNode.h"
 
 class CFocusNode: public CRenderNode
 {

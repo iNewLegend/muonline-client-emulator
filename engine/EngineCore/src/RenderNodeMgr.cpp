@@ -19,7 +19,7 @@ void* newTerrainData(){return new CTerrainData;}
 
 CRenderNodeMgr::CRenderNodeMgr()
 {
-	m_DataPlugsMgr.loadPlugs("Plugins\\*.dll");
+	loadPlugs("Plugins\\*.dll");
 	registerRenderNode("skeleton",	(P_FUNC_NEW_RENDER_NODE)newSkeletonNode/*(P_FUNC_NEW_RENDER_NODE)&[](){return new CSkeletonNode;}*/);
 	registerRenderNode("particle",	(P_FUNC_NEW_RENDER_NODE)newParticleEmitter);
 	registerRenderNode("mesh",		(P_FUNC_NEW_RENDER_NODE)newSkinModel);
@@ -46,10 +46,10 @@ bool CRenderNodeMgr::loadRenderNode(const char* szFilename, iRenderNode* pRender
 {
 	// 判断格式--根据文件后缀名
 	std::string strExt = GetExtension(szFilename);
-	CModelPlugBase* pModelPlug = (CModelPlugBase*)m_DataPlugsMgr.getPlugByExtension(strExt.c_str());
+	CDataPlugBase* pModelPlug = getPlugByExtension(strExt.c_str());
 	if (pModelPlug)
 	{
-		return pModelPlug->importData(this, pRenderNode, szFilename);
+		return pModelPlug->importData(pRenderNode, szFilename);
 	}
 	return false;
 }
@@ -108,4 +108,113 @@ void* CRenderNodeMgr::createRenderData(const char* szClassName, const char* szNa
 		m_mapRenderData[szClassName][szName] = pData;
 	}
 	return pData;
+}
+
+typedef bool (__stdcall * PFN_DATA_Plug_CreateObject)(void ** pobj);
+
+CDataPlugBase* CRenderNodeMgr::getPlugByExtension(const char* szExt)
+{
+	for (size_t i=0;i<m_setPlugObj.size();++i)
+	{
+		if (strcmp(m_setPlugObj[i].pObj->getFormat(),szExt)==0)
+		{
+			return m_setPlugObj[i].pObj;
+		}
+	}
+	return NULL;
+}
+
+bool CRenderNodeMgr::loadPlugs(const char* szFilename)
+{
+	WIN32_FIND_DATAA wfd;
+	std::string strFilename;
+	std::string strDir;
+
+	strDir = szFilename;
+	for (int i=strDir.length()-2; i>= 0; i--)
+	{
+		if (strDir[i]=='\\' || strDir[i]=='/')
+		{
+			strDir = strDir.substr(0,i+1);
+			break;
+		}
+	}
+
+	HANDLE hf = FindFirstFileA(szFilename, &wfd);
+
+	// If invalid, than return.
+	if (INVALID_HANDLE_VALUE == hf)
+	{
+		return false;
+	}
+
+	// Add the plugs
+	do 
+	{
+		strFilename = strDir + wfd.cFileName;
+		loadPlug(strFilename.c_str());
+	}while (FindNextFileA(hf, &wfd));
+
+	// Find Close
+	FindClose(hf);
+	return true;
+}
+
+bool CRenderNodeMgr::loadPlug(const char* szFilename)
+{
+	bool brt = false;
+	if (m_setPlugObj.size() > 255)
+	{
+		MessageBoxA(NULL,"插件过多", "message", MB_OK|MB_ICONINFORMATION);
+		return false;
+	}
+	DATA_PLUG_ST stPs;
+	ZeroMemory(&stPs, sizeof(stPs));
+	stPs.hIns = LoadLibraryA(szFilename);
+	if (stPs.hIns)
+	{
+		PFN_DATA_Plug_CreateObject pFunc = (PFN_DATA_Plug_CreateObject)GetProcAddress(stPs.hIns, "Data_Plug_CreateObject");
+		if (pFunc)
+		{
+			if (pFunc((void **)&stPs.pObj))
+			{
+#ifdef _DEBUG
+				if (stPs.pObj->isDebug())
+#else
+				if (!stPs.pObj->isDebug())
+#endif
+				{
+					brt =true;
+					stPs.pObj->setRenderNodeMgr(this);
+					m_setPlugObj.push_back(stPs);
+				}
+			}
+		}
+	}
+	if (!brt)
+	{
+		if (stPs.pObj)
+		{
+			stPs.pObj->release();
+		}
+		if (stPs.hIns)
+		{
+			FreeLibrary(stPs.hIns);
+		}
+	}
+	return brt;
+}
+
+std::string CRenderNodeMgr::getAllExtensions()
+{
+	std::string strExts;
+	for (size_t i=0;i<m_setPlugObj.size();++i)
+	{
+		if (i>0)
+		{
+			strExts+="|";
+		}
+		strExts+=m_setPlugObj[i].pObj->getFormat();
+	}
+	return strExts;
 }

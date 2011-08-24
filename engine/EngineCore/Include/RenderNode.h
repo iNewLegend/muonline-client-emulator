@@ -5,7 +5,7 @@
 #include <string>
 #include <list>
 #include "common.h"
-#include "InterfaceModel.h"
+#include "InterfacePlug.h"
 
 class CRenderNode;
 typedef std::list<iRenderNode*>		LIST_RENDER_NODE;

@@ -1,6 +1,4 @@
 #include "Scene.h"
-#include "CsvFile.h"
-#include "IORead.h"
 #include <algorithm>
 #include "RenderNodeMgr.h"
 
@@ -388,43 +386,6 @@ void CScene::getNodes()
 {
 
 }
-
-/*CRenderNode* CScene::add3DMapSceneObj(__int64 uID,const Vec3D& vPos,const Vec3D& vRotate,const Vec3D& vScale)
-{
- 	if (m_NodeInfo.find(uID)==m_NodeInfo.end())
- 	{
-		return NULL;
-	}
-	// ----
-	const NodeInfo& NodeInfo = m_NodeInfo[uID];
-	// ----
-	BBox localBBox;
-	localBBox.vMin.set(-1,-1,-1);
-	localBBox.vMax.set( 1, 1, 1);
-	// ----
-	//C3DMapSceneObj* pNode = new C3DMapSceneObj;
-	//pNode->Register(NodeInfo.strFilename.c_str());
-	C3DMapSceneObj* pNode = new C3DMapSceneObj;
-	pNode->setPos(vPos);
-	pNode->setRotate(vRotate);
-	pNode->setScale(vScale);
-	pNode->setLocalBBox(localBBox);
-	pNode->updateWorldMatrix();
-	pNode->updateWorldBBox();
-	// ----
-	pNode->setNodeID(uID);
-	// ----
-	char szNameID[255];
-	sprintf(szNameID,"%d",uID);
-	pNode->setName(szNameID);
-	// ----
-	// 		//Vec4D vColor = m_pTerrain->GetData().getColor(Vec2D(vPos.x,vPos.z));
-	// 		//vColor.w=1.0f;
-	// 		//pNode->SetMaterial(vColor*0.5f,vColor+0.3f);
-	// ----
-	addChild(pNode);
-	return pNode;
-}*/
 
 bool CScene::delChildByFocus()
 {
