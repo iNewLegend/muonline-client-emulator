@@ -4,7 +4,6 @@
 
 #include "UIMainDialog.h"
 #include "UIDisplayWorld.h"
-#include "DataPlugsMgr.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 class CDlgMain : public CUIMainDialog

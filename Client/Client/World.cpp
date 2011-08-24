@@ -16,10 +16,6 @@ CWorld::CWorld()
 {
 	m_CurMap = 0xFFFFFFFF;
 	// ----
-	// # create the dll of map data plugs
-	// ----
-	//m_DataPlugsMgr.createPlugFromPath("Plugins\\", "Scene_Plug_CreateObject");
-	// ----
 	// # Change the fog color.
 	// ----
 	Fog fog		= getFog();
