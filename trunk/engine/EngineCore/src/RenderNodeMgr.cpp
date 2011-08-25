@@ -170,7 +170,7 @@ bool CRenderNodeMgr::loadPlug(const char* szFilename)
 	}
 	DATA_PLUG_ST stPs;
 	ZeroMemory(&stPs, sizeof(stPs));
-	stPs.hIns = LoadLibraryA(szFilename);
+	stPs.hIns = LoadLibrary(szFilename);
 	if (stPs.hIns)
 	{
 		PFN_DATA_Plug_CreateObject pFunc = (PFN_DATA_Plug_CreateObject)GetProcAddress(stPs.hIns, "Data_Plug_CreateObject");
