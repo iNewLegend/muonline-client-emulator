@@ -104,7 +104,11 @@ bool CSkinModel::init(void* pData)
 				CSubMesh* pSubMesh = m_pMesh->getSubMesh(i);
 				if(pSubMesh)
 				{
-					pass.strMaterial = pSubMesh->strMaterial;
+					const char* szMaterial = pSubMesh->getMaterial(0);
+					if (szMaterial)
+					{
+						pass.strMaterial = szMaterial;
+					}
 				}
 				m_vecPasses.push_back(pass);
 			}
@@ -137,6 +141,29 @@ void CSkinModel::SetLOD(unsigned long uLodID)
 	if (m_pMesh->m_Lods.size()>uLodID)
 	{
 		m_uLodLevel = uLodID;
+	}
+}
+
+void CSkinModel::setSubSkin(int nSubID, int nID)
+{
+	if (!m_pMesh)
+	{
+		return;
+	}
+	CSubMesh* pSubMesh = m_pMesh->getSubMesh(nSubID);
+	if (pSubMesh)
+	{
+		const char* szMaterial = pSubMesh->getMaterial(nID);
+		if (szMaterial)
+		{
+			for (auto it=m_vecPasses.begin();it!=m_vecPasses.end();it++)
+			{
+				if (it->nSubID==nSubID)
+				{
+					it->strMaterial = szMaterial;
+				}
+			}
+		}
 	}
 }
 

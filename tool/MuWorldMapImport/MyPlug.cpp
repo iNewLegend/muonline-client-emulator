@@ -3,7 +3,7 @@
 #include "FileSystem.h"
 #include "3DMapSceneObj.h"
 
-__declspec(dllexport) bool __stdcall Data_Plug_CreateObject(void ** pobj){
+__declspec(dllexport) bool Data_Plug_CreateObject(void ** pobj){
 	*pobj = new CMyPlug;
 	return *pobj != NULL;
 }

@@ -110,7 +110,7 @@ void* CRenderNodeMgr::createRenderData(const char* szClassName, const char* szNa
 	return pData;
 }
 
-typedef bool (__stdcall * PFN_DATA_Plug_CreateObject)(void ** pobj);
+typedef bool ( * PFN_DATA_Plug_CreateObject)(void ** pobj);
 
 CDataPlugBase* CRenderNodeMgr::getPlugByExtension(const char* szExt)
 {

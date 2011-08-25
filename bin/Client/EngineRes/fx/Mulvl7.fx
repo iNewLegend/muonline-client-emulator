@@ -16,7 +16,7 @@ technique Render
 		ZWriteEnable		= True;
 
 		ColorOp[0]			= Modulate;
-		ColorArg1[0]		= Texture;
+		ColorArg1[0]		= Diffuse;
 		ColorArg2[0]		= Diffuse;
 
 		AlphaOp[0]			= SelectArg1;

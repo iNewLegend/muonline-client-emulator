@@ -63,6 +63,7 @@ public:
 	virtual bool	init			(void* pData);
 	bool			Prepare			()const;
 	void			SetLOD			(unsigned long uLodID);		// …Ë÷√LodID
+	void			setSubSkin		(int nSubID, int nID);
 	void			SetLightMap		(const char* szFilename);	// SetLightMap
 
 protected:
