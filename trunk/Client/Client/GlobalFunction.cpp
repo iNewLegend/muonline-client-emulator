@@ -59,11 +59,8 @@ void InitLua(lua_State * L)
 		.def("setActionState",	& CPlayerMe::setActionState)
 		.def("setClass",		& CPlayerMe::setClass)
 		.def("setSkeleton",		& CPlayerMe::setSkeleton)
-		.def("setHelm",			& CPlayerMe::setHelm)
-		.def("setArmor",		& CPlayerMe::setArmor)
-		.def("setGlove",		& CPlayerMe::setGlove)
-		.def("setPant",			& CPlayerMe::setPant)
-		.def("setBoot",			& CPlayerMe::setBoot);
+		.def("setEquip",		& CPlayerMe::setEquip)
+		.def("setEquipLevel",	& CPlayerMe::setEquipLevel);
 	// ----
 	lua_tinker::class_<CPlayerMe>(L, "CPlayerMe")
 		.inh<CRole>()

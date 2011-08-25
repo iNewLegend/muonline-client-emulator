@@ -5,7 +5,7 @@
 #include "Material.h"
 #include "Windows.h"
 
-__declspec(dllexport) bool __stdcall Data_Plug_CreateObject(void ** pobj){
+__declspec(dllexport) bool Data_Plug_CreateObject(void ** pobj){
 	*pobj = new CMyPlug;
 	return *pobj != NULL;
 }
@@ -306,8 +306,6 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 						// ----
 						char szMaterialName[255];
 						{
-							sprintf(szMaterialName,"%s%d",ChangeExtension(GetFilename(szFilename),".sub").c_str(),i);
-							CMaterial* pMaterial = (CMaterial*)m_pRenderNodeMgr->createRenderData("material",szMaterialName);
 							std::string strTexFileName = GetParentPath(szFilename) + bmdSub.szTexture;
 							{
 								std::string strExt = GetExtension(bmdSub.szTexture); 
@@ -316,10 +314,31 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 								else if (".bmp"==strExt)	strExt = ".ozb";
 								strTexFileName = ChangeExtension(strTexFileName,strExt);
 							}
+							// ----
+							// # lvl 1-3
+							// ----
+							sprintf(szMaterialName,"%s%d",ChangeExtension(GetFilename(szFilename),".sub").c_str(),i);
+							CMaterial* pMaterial = (CMaterial*)m_pRenderNodeMgr->createRenderData("material",szMaterialName);
 							pMaterial->setTexture(0,strTexFileName.c_str());
-							pMaterial->setShader("EngineRes\\fx\\diffuseAlphaTest64.fx");
+							pMaterial->setShader("EngineRes\\fx\\diffuseAlphaTest128.fx");
+							subMesh.addMaterial(szMaterialName);
+							// ----
+							// # lvl 4
+							// ----
+							sprintf(szMaterialName,"%s%d_4",ChangeExtension(GetFilename(szFilename),".sub").c_str(),i);
+							pMaterial = (CMaterial*)m_pRenderNodeMgr->createRenderData("material",szMaterialName);
+							pMaterial->setTexture(0,strTexFileName.c_str());
+							pMaterial->setShader("EngineRes\\fx\\MuLvl4.fx");
+							subMesh.addMaterial(szMaterialName);
+							// ----
+							// # lvl 7
+							// ----
+							sprintf(szMaterialName,"%s%d_7",ChangeExtension(GetFilename(szFilename),".sub").c_str(),i);
+							pMaterial = (CMaterial*)m_pRenderNodeMgr->createRenderData("material",szMaterialName);
+							pMaterial->setTexture(0,strTexFileName.c_str());
+							pMaterial->setShader("EngineRes\\fx\\MuLvl7.fx");
+							subMesh.addMaterial(szMaterialName);
 						}
-						subMesh.setMaterial(szMaterialName);
 					}
 					pMesh->setBBox(bbox);
 					pMesh->init();

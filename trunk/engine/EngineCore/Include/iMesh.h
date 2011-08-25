@@ -52,6 +52,8 @@ public:
 	{color.push_back(clr);}
 	void addTexcoord(const Vec2D& vUV)
 	{texcoord.push_back(vUV);}
+	void addMaterial(const char* szMaterial)
+	{material.push_back(szMaterial);}
 
 	template <class _T>
 	void  setVectorValue(std::vector<_T>& vec, size_t pos, const _T& val)
@@ -118,18 +120,23 @@ public:
 	{
 		getVectorValue(texcoord,n,vUV);
 	}
-	void setMaterial(const char* szMaterial)
+	const char* getMaterial(size_t n)
 	{
-		strMaterial = szMaterial;
+		if (material.size()>n)
+		{
+			return material[n].c_str();
+		}
+		return NULL;
 	}
-	std::string			strMaterial;
-	std::vector<Vec3D>	pos;
+
+	std::vector<std::string>	material;
+	std::vector<Vec3D>			pos;
 	std::vector<unsigned long>	weight;
 	std::vector<unsigned long>	bone;
-	std::vector<Vec3D>	normal;
-	std::vector<Color32>color;
-	std::vector<Vec2D>	texcoord;
-	std::vector<Vec2D>	texcoord2;
+	std::vector<Vec3D>			normal;
+	std::vector<Color32>		color;
+	std::vector<Vec2D>			texcoord;
+	std::vector<Vec2D>			texcoord2;
 
 	std::vector<VertexIndex> m_setVertexIndex;
 };

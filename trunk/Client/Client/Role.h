@@ -19,6 +19,31 @@
 #define DIR_NORMALIZE(a)	Vec3D((float)DX[a], 0.0f,(float)DY[a]).normalize()
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+enum EQUIP_TYPE
+{
+	ET_HELM=7,
+	ET_ARMOR,
+	ET_PANT,
+	ET_GLOVE,
+	ET_BOOT,
+	ET_MAX,
+};
+static const char* EQUIP_TYPE_NAME[ET_MAX]=
+{
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"helm",
+	"armor",
+	"pant",
+	"glove",
+	"boot",
+};
+
 class CRole : public C3DMapObj
 {
 private:
@@ -53,7 +78,8 @@ public:
 	// ----
 	void			setSkeleton		();
 	void			setSet			(const CHARSET & charSet);
-	void			setEquip		(const char * szPart, int nType, int nEquipID);
+	void			setEquip		(int nType, int nEquipID);
+	void			setEquipLevel	(int nType, int nLevel);
 	// ----
 	void			setCellPos		(int x, int y);
 	void			setTargetCellPos(int x, int y);
@@ -71,11 +97,6 @@ public:
 	void			setID			(ULONG uID)					{ m_uID = uID; };
 	void			setLevel		(int nLevel)				{ m_nLevel=nLevel; };
 	void			setClass		(int nID)					{ m_nClass=nID; };
-	void			setHelm			(int nID)					{ setEquip("helm",	7,	nID); };
-	void			setArmor		(int nID)					{ setEquip("armor",	8,	nID); };
-	void			setGlove		(int nID)					{ setEquip("glove",	10,	nID); };
-	void			setPant			(int nID)					{ setEquip("pant",	9,	nID); };
-	void			setBoot			(int nID)					{ setEquip("boot",	11,	nID); };
 	void			setRoleName		(const wchar_t* wcsName)	{ m_wstrName = wcsName; };
 	void			setDir			(UCHAR uDir)				{ m_uDir = uDir; };
 	void			setTargetDir	(UCHAR uDir)				{ m_uTargetDir = uDir; };
