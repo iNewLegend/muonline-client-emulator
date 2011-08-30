@@ -51,11 +51,11 @@ struct ModelRenderPass // 这部分的结构需要赚到材质层去 使材质更强大
 
 class CHardwareVertexBuffer;
 class CLodMesh;
-class CSkinModel: public CRenderNode
+class CSkinMesh: public CRenderNode
 {
 public:
-	CSkinModel();
-	~CSkinModel();
+	CSkinMesh();
+	~CSkinMesh();
 	virtual int		getType			() {return NODE_MODEL;}
 	virtual void	frameMove		(const Matrix& mWorld, double fTime, float fElapsedTime);
 	virtual void	render			(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType=MATERIAL_NORMAL)const;

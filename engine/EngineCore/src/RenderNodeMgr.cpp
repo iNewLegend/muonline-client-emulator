@@ -8,7 +8,7 @@
 
 iRenderNode* newSkeletonNode(){return new CSkeletonNode;}
 iRenderNode* newParticleEmitter(){return new CParticleEmitter;}
-iRenderNode* newSkinModel(){return new CSkinModel;};
+iRenderNode* newSkinMesh(){return new CSkinMesh;};
 iRenderNode* newMapSceneObj(){return new C3DMapSceneObj;};
 
 void* newSkeletonData(){return new CSkeletonData;}
@@ -22,7 +22,7 @@ CRenderNodeMgr::CRenderNodeMgr()
 	loadPlugs("Plugins\\*.dll");
 	registerRenderNode("skeleton",	(P_FUNC_NEW_RENDER_NODE)newSkeletonNode/*(P_FUNC_NEW_RENDER_NODE)&[](){return new CSkeletonNode;}*/);
 	registerRenderNode("particle",	(P_FUNC_NEW_RENDER_NODE)newParticleEmitter);
-	registerRenderNode("mesh",		(P_FUNC_NEW_RENDER_NODE)newSkinModel);
+	registerRenderNode("mesh",		(P_FUNC_NEW_RENDER_NODE)newSkinMesh);
 	registerRenderNode("sceneobject",(P_FUNC_NEW_RENDER_NODE)newMapSceneObj);
 	
 	registerRenderData("skeleton",	(P_FUNC_NEW_RENDER_DATA)newSkeletonData);

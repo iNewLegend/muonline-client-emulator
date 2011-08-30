@@ -113,7 +113,7 @@
     <ClInclude Include="Include\Singleton.h" />
     <ClInclude Include="include\SkeletonData.h" />
     <ClInclude Include="Include\SkeletonNode.h" />
-    <ClInclude Include="Include\SkinModel.h" />
+    <ClInclude Include="Include\SkinMesh.h" />
     <ClInclude Include="Include\Terrain.h" />
     <ClInclude Include="Include\TerrainData.h" />
     <ClInclude Include="Include\TerrainDecal.h" />
@@ -138,7 +138,7 @@
     <ClCompile Include="src\SceneEffect.cpp" />
     <ClCompile Include="src\SkeletonData.cpp" />
     <ClCompile Include="src\SkeletonNode.cpp" />
-    <ClCompile Include="src\SkinModel.cpp" />
+    <ClCompile Include="src\SkinMesh.cpp" />
     <ClCompile Include="src\Terrain.cpp" />
     <ClCompile Include="src\TerrainData.cpp" />
     <ClCompile Include="src\TerrainDecal.cpp" />

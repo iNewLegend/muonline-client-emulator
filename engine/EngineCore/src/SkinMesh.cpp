@@ -1,9 +1,9 @@
-#include "SkinModel.h"
+#include "SkinMesh.h"
 #include "RenderSystem.h"
 #include "SkeletonNode.h"
 #include "LodMesh.h"
 
-CSkinModel::CSkinModel()
+CSkinMesh::CSkinMesh()
 	:m_pVB(NULL)
 	,m_pMesh(NULL)
 	,m_uLightMapTex(0)
@@ -12,12 +12,12 @@ CSkinModel::CSkinModel()
 {
 }
 
-CSkinModel::~CSkinModel()
+CSkinMesh::~CSkinMesh()
 {
 	S_DEL(m_pVB);
 }
 
-void CSkinModel::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
+void CSkinMesh::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
 	if(!m_pMesh)
 	{
@@ -40,7 +40,7 @@ void CSkinModel::frameMove(const Matrix& mWorld, double fTime, float fElapsedTim
 	updateWorldBBox();
 }
 
-void CSkinModel::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)const
+void CSkinMesh::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)const
 {
 	if(!m_pMesh)
 	{
@@ -60,7 +60,7 @@ void CSkinModel::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType
 	CRenderNode::render(mNewWorld, eRenderType);
 }
 
-bool CSkinModel::intersectSelf(const Vec3D& vRayPos , const Vec3D& vRayDir, float &tmin ,float &tmax)const
+bool CSkinMesh::intersectSelf(const Vec3D& vRayPos , const Vec3D& vRayDir, float &tmin ,float &tmax)const
 {
 	if (!m_pMesh)
 	{
@@ -73,7 +73,7 @@ bool CSkinModel::intersectSelf(const Vec3D& vRayPos , const Vec3D& vRayDir, floa
 	return false;
 }
 
-bool CSkinModel::init(void* pData)
+bool CSkinMesh::init(void* pData)
 {
 	m_pMesh =(CLodMesh*) pData;
 	// ----
@@ -123,7 +123,7 @@ bool CSkinModel::init(void* pData)
 	return true;
 }
 
-bool CSkinModel::Prepare()const
+bool CSkinMesh::Prepare()const
 {
 	if(!m_pMesh)
 	{
@@ -132,7 +132,7 @@ bool CSkinModel::Prepare()const
 	return m_pMesh->SetMeshSource(m_uLodLevel,m_pVB);
 }
 
-void CSkinModel::SetLOD(unsigned long uLodID)
+void CSkinMesh::SetLOD(unsigned long uLodID)
 {
 	if (!m_pMesh)
 	{
@@ -144,7 +144,7 @@ void CSkinModel::SetLOD(unsigned long uLodID)
 	}
 }
 
-void CSkinModel::setSubSkin(int nSubID, int nID)
+void CSkinMesh::setSubSkin(int nSubID, int nID)
 {
 	if (!m_pMesh)
 	{
@@ -167,14 +167,14 @@ void CSkinModel::setSubSkin(int nSubID, int nID)
 	}
 }
 
-void CSkinModel::SetLightMap(const char* szFilename)
+void CSkinMesh::SetLightMap(const char* szFilename)
 {
 	m_uLightMapTex = GetRenderSystem().GetTextureMgr().RegisterTexture(szFilename);
 	GetRenderSystem().GetTextureMgr().releaseBuffer(m_uLightMapTex);
 	m_bLightmap = true;
 }
 
-void CSkinModel::renderMesh(E_MATERIAL_RENDER_TYPE eModelRenderType, size_t uLodLevel, CHardwareVertexBuffer* pSkinVB, float fOpacity, int nAnimTime)const
+void CSkinMesh::renderMesh(E_MATERIAL_RENDER_TYPE eModelRenderType, size_t uLodLevel, CHardwareVertexBuffer* pSkinVB, float fOpacity, int nAnimTime)const
 {
 	if (m_pMesh->SetMeshSource(uLodLevel,pSkinVB))
 	{
