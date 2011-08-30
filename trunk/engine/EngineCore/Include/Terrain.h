@@ -74,7 +74,7 @@ public:
 	CTerrain(const std::string& strFilename); 
 	~CTerrain();
 	//
-	virtual int					getType			() {return NODE_MODEL;}
+	virtual int					getType			() {return NODE_MESH;}
 	virtual void				frameMove		(const Matrix& mWorld, double fTime, float fElapsedTime){;}
 	virtual void				render			(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType=MATERIAL_NORMAL)const;
 

@@ -385,7 +385,7 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 				pRenderNode->addChild(pMeshNode);
 			}
 		}
-		else if (pRenderNode->getType()==iRenderNode::NODE_MODEL)
+		else if (pRenderNode->getType()==iRenderNode::NODE_MESH)
 		{
 			pRenderNode->init(pMesh);
 		}

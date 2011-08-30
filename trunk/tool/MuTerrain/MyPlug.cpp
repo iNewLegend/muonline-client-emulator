@@ -299,7 +299,7 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 		{"Terrain.1_7","TileRock01.ozj","terrainTileAlphaX2"},
 		{"Terrain.1_8","TileRock02.ozj","terrainTileAlphaX2"},
 		{"Terrain.1_9","TileRock03.ozj","terrainTileAlphaX2"},
-		{"Terrain.Grass","TileGrass01.OZT","grass"}
+		{"Terrain.Grass","TileGrass01.OZT","terrainGrass"}
 	};
 	for (int i=0; i<21; ++i)
 	{

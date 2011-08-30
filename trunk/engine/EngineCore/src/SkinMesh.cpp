@@ -84,7 +84,7 @@ bool CSkinMesh::init(void* pData)
 	// ----
 	// # 设置默认LOD
 	// ----
-	SetLOD(0);
+	setLOD(0);
 	// ----
 	// # 如果是几何体动画 则进行重建VB
 	// ----
@@ -123,7 +123,7 @@ bool CSkinMesh::init(void* pData)
 	return true;
 }
 
-bool CSkinMesh::Prepare()const
+bool CSkinMesh::prepare()const
 {
 	if(!m_pMesh)
 	{
@@ -132,7 +132,7 @@ bool CSkinMesh::Prepare()const
 	return m_pMesh->SetMeshSource(m_uLodLevel,m_pVB);
 }
 
-void CSkinMesh::SetLOD(unsigned long uLodID)
+void CSkinMesh::setLOD(unsigned long uLodID)
 {
 	if (!m_pMesh)
 	{
@@ -167,7 +167,7 @@ void CSkinMesh::setSubSkin(int nSubID, int nID)
 	}
 }
 
-void CSkinMesh::SetLightMap(const char* szFilename)
+void CSkinMesh::setLightMap(const char* szFilename)
 {
 	m_uLightMapTex = GetRenderSystem().GetTextureMgr().RegisterTexture(szFilename);
 	GetRenderSystem().GetTextureMgr().releaseBuffer(m_uLightMapTex);
