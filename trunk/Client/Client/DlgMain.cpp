@@ -35,12 +35,14 @@ bool CDlgMain::OnInitDialog()
 
 void CDlgMain::OnFrameMove(double fTime, float fElapsedTime)
 {
-	static float fFps = 0.0f;
-	if (fElapsedTime!=0.0f)
+	static float s_fElapsedTime = 1.0f;
+	s_fElapsedTime+=fElapsedTime;
+	if (s_fElapsedTime>1.0f)
 	{
-		fFps = fFps*0.9f+0.1f/fElapsedTime;
+		s_fElapsedTime = 0.0f;
+		m_StaticFps.SetFloat(1.0f/fElapsedTime,0,2);
+		m_StaticFps.SetFocus();
 	}
-	m_StaticFps.SetFloat(fFps,0,2);
 	CUIMainDialog::OnFrameMove(fTime,fElapsedTime);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
