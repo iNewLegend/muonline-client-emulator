@@ -2,7 +2,7 @@
 #include "TSingleton.h"
 #include "SkeletonNode.h"
 #include "Particle.h"
-#include "SkinModel.h"
+#include "SkinMesh.h"
 #include "SkeletonData.h"
 #include "LodMesh.h"
 

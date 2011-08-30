@@ -3,6 +3,7 @@
 #include "TerrainDecal.h"
 #include "RenderSystem.h"
 #include "RenderNode.h"
+#include "SkinMesh.h"
 
 #define TERRAIN_VERTEX_FVF	(FVF_XYZ | FVF_NORMAL | FVF_DIFFUSE | FVF_TEX3)
 
@@ -129,4 +130,5 @@ protected:
 	std::set<TerrainChunk*>				m_setRenderChunks;
 	//
 	bool								m_bShowBox;
+	std::vector<CSkinMesh*>				m_GrassSkinMeshs;
 };
