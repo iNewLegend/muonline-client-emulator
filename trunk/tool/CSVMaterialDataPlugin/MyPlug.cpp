@@ -2,7 +2,7 @@
 #include "CSVFile.h"
 #include "Material.h"
 
-__declspec(dllexport) bool Data_Plug_CreateObject(void ** pobj){
+extern "C" __declspec(dllexport) bool Data_Plug_CreateObject(void ** pobj){
 	*pobj = new CMyPlug;
 	return *pobj != NULL;
 }
