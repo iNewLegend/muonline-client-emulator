@@ -1,3 +1,39 @@
+#include "shared.fx"
+
+struct VS_MODEL_INPUT
+{
+    float4  Pos     : POSITION;
+	float3  Normal  : NORMAL;
+    float2  UV0     : TEXCOORD0;
+};
+
+struct VS_MODEL_OUTPUT
+{
+    float4  Pos     : POSITION;
+    float2  UV0     : TEXCOORD0;
+    float2  UV1     : TEXCOORD1;
+    float4  Color   : COLOR;
+};
+
+
+VS_MODEL_OUTPUT VS(VS_MODEL_INPUT i)
+{
+	VS_MODEL_OUTPUT o;
+	o.UV0 = i.UV0;
+	o.UV1 = mul(i.Normal+i.Pos,g_mView)+g_fTime*0.3f;
+	i.Pos = mul(i.Pos,g_mWorld);
+	o.Pos = mul(i.Pos,g_mViewProj);
+	o.Color = 1;
+	return o;
+}
+
+sampler s0: register(s0);
+float4 PS(VS_MODEL_OUTPUT i) : COLOR0
+{
+	float4 color	= tex2D(s0, i.UV0)+(float4(0.5,0.5,0.1,1)*((sin((i.UV1.y+i.UV1.x)*8)+1.0f)*0.5f));
+	return color*i.Color;
+}
+
 technique Render
 {
     pass P0
@@ -15,17 +51,7 @@ technique Render
 		ZFunc				= LessEqual;
 		ZWriteEnable		= True;
 
-		ColorOp[0]			= Modulate;
-		ColorArg1[0]		= Diffuse;
-		ColorArg2[0]		= Diffuse;
-
-		AlphaOp[0]			= SelectArg1;
-		AlphaArg1[0]		= Texture;
-
-		ColorOp[1]			= Disable;
-		AlphaOP[1]			= Disable;
-
-        VertexShader		= NULL;
-        PixelShader			= NULL;
+        VertexShader		= compile vs_1_0 VS();
+        PixelShader			= compile ps_2_0 PS();
     }
 }
