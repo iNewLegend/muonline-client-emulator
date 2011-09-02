@@ -25,11 +25,11 @@ public:
 	virtual GSET_CONST_VAR	(BBox&,			m_,LocalBBox);
 	virtual GSET_CONST_VAR	(BBox&,			m_,WorldBBox);
 	virtual GSET_CONST_VAR	(Matrix&,		m_m,WorldMatrix);
+	virtual GSET_VAR		(iRenderNode*,	m_p,Parent);
 	//----
 	virtual void			updateWorldBBox		();
 	virtual void			updateWorldMatrix	();
 public:
-	GSET_VAR				(CRenderNode*,	m_p,Parent);
 	//----
 	GET_VARIABLE			(LIST_RENDER_NODE&,ChildObj,m_mapChildNode);
 	CONST_GET_VARIABLE		(LIST_RENDER_NODE&,ChildObj,m_mapChildNode);
@@ -56,7 +56,7 @@ public:
 	//----
 	void					setChildBindingBone	(const char* szName, const char* szBoneName);
 protected:
-	CRenderNode*			m_pParent;
+	iRenderNode*			m_pParent;
 	LIST_RENDER_NODE		m_mapChildNode;
 	//----
 	std::string				m_strName;

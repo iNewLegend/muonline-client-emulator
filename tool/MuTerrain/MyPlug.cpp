@@ -329,11 +329,11 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 		for (int x=0; x<pTerrainData->getWidth(); x+=16)
 		{
 			int nWidth = min(pTerrainData->getWidth()-x,16);
-			int nHeight = min(pTerrainData->getHeight()-x,16);
+			int nHeight = min(pTerrainData->getHeight()-y,16);
 
 			char szGrassMeshName[256];
 			sprintf(szGrassMeshName,"%s_%d_%d",szFilename,x,y);
-			iLodMesh* pMesh = (iLodMesh*)m_pRenderNodeMgr->getRenderData("mesh",szGrassMeshName);
+			iLodMesh* pMesh = (iLodMesh*)m_pRenderNodeMgr->createRenderData("mesh",szGrassMeshName);
 			CSubMesh& subMesh = pMesh->allotSubMesh();
 			subMesh.addMaterial("Terrain.Grass");
 
@@ -423,10 +423,13 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 			iRenderNode* pMeshNode = m_pRenderNodeMgr->createRenderNode("mesh");
 			if (pMeshNode)
 			{
+				pMeshNode->setLocalBBox(bbox);
+				pMeshNode->updateWorldBBox();
+				pMeshNode->updateWorldMatrix();
 				pMeshNode->init(pMesh);
+				pRenderNode->getParent()->addChild(pMeshNode);
 			}
 			//----
-			pRenderNode->addChild(pMeshNode);
 		}
 	}
 

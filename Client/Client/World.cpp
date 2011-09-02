@@ -166,6 +166,7 @@ void CWorld::create(UCHAR uMapID)
 		//
 		sprintf(szMapFilname,"Data\\World%d\\EncTerrain%d.map", m_CurMap+1, m_CurMap+1);
 		m_pTerrain = new CTerrain;
+		m_pTerrain->setParent(this);
 		m_pTerrain->load(szMapFilname);
 		// ----
 		//GetAudio().LoadMusic("Data\\Music\\main_theme.mp3");

@@ -176,7 +176,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 				{
 					//if(pObj->GetObjType() == MAP_3DOBJ)
 					{
-						C3DMapObj* p3DObj = (C3DMapObj*)pObj;
+					/*	C3DMapObj* p3DObj = (C3DMapObj*)pObj;
 						float fHeight = 0.0f;
 						if (m_pTerrain && m_pTerrain->getTerrainData())
 						{
@@ -194,7 +194,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 								vDir.normalize();
 								p3DObj->renderShadow(Matrix::UNIT,vDir,fHeight);
 							}
-						}
+						}*/
 					}
 				}
 			}catch(...)
