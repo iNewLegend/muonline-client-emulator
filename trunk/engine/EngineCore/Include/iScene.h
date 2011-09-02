@@ -77,7 +77,6 @@ public:
 	virtual const			std::string& getFilename()const=0;
 	//
 	virtual void			getVertexByCell(int nCellX, int nCellY, TerrainVertex& vertex)const=0;
-	virtual void			getGrassVertexByCell(int nCellX, int nCellY, TerrainVertex*& vertex)const=0;
 
 	virtual bool			hasGrass(int nCellX, int nCellY)const=0;
 

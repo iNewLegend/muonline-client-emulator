@@ -321,6 +321,115 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 	//	strTileFile="Plugins\\Data\\default\\Tile.csv";
 	//}
 	//pScene->getTerrainData()->create();
+	// ----
+	// # Create Grasses
+	// ----
+	for (int y=0; y<pTerrainData->getHeight(); y+=16)
+	{
+		for (int x=0; x<pTerrainData->getWidth(); x+=16)
+		{
+			int nWidth = min(pTerrainData->getWidth()-x,16);
+			int nHeight = min(pTerrainData->getHeight()-x,16);
+
+			char szGrassMeshName[256];
+			sprintf(szGrassMeshName,"%s_%d_%d",szFilename,x,y);
+			iLodMesh* pMesh = (iLodMesh*)m_pRenderNodeMgr->getRenderData("mesh",szGrassMeshName);
+			CSubMesh& subMesh = pMesh->allotSubMesh();
+			subMesh.addMaterial("Terrain.Grass");
+
+			BBox bbox;
+			int i=0;
+			for (int grassY=y; grassY<y+nHeight; ++grassY)
+			{
+				for (int grassX=x; grassX<x+nWidth; ++grassX)
+				{
+					if (pTerrainData->hasGrass(grassX,grassY))
+					{
+						float fHeight1 = pTerrainData->getVertexHeight(grassX,grassY);
+						float fHeight2 = pTerrainData->getVertexHeight(grassX+1,grassY+1);
+
+						Color32 color1 = pTerrainData->getVertexColor(grassX,grassY);
+						Color32 color2 = pTerrainData->getVertexColor(grassX+1,grassY+1);
+
+						int	nRand = (((grassY*(pTerrainData->getWidth()+1)+grassX+grassX*grassY)*214013L+2531011L)>>16)&0x7fff;   
+						float fTexU = (nRand%4)*0.25f;
+
+						subMesh.addPos( Vec3D((float)grassX, fHeight1, (float)grassY) );
+						subMesh.addColor(color1);
+						subMesh.addTexcoord(Vec2D(fTexU,1.0f));
+
+						subMesh.addPos( Vec3D((float)grassX, fHeight1+1.5f, (float)grassY) );
+						subMesh.addColor(color1);
+						subMesh.addTexcoord(Vec2D(fTexU,0.0f));
+
+						subMesh.addPos( Vec3D((float)(grassX+1), fHeight2+1.5f, (float)(grassY+1)) );
+						subMesh.addColor(color2);
+						subMesh.addTexcoord(Vec2D(fTexU+0.25f,0.0f));
+
+						subMesh.addPos( Vec3D((float)(grassX+1), fHeight2, (float)(grassY+1)) );
+						subMesh.addColor(color2);
+						subMesh.addTexcoord(Vec2D(fTexU+0.25f,1.0f));
+
+						bbox.vMin.x = min((float)grassX,bbox.vMin.x);
+						bbox.vMin.y = min(fHeight1,bbox.vMin.y);
+						bbox.vMin.z = min((float)grassY,bbox.vMin.z);
+
+						bbox.vMax.x = max((float)(grassX+1),bbox.vMax.x);
+						bbox.vMax.y = max(fHeight2+1.5f,bbox.vMax.y);
+						bbox.vMax.z = max((float)(grassY+1),bbox.vMax.z);
+
+						// 1	 2
+						//	*---*
+						//	| / |
+						//	*---*
+						// 0	 3
+
+						VertexIndex vertexIndex;
+						vertexIndex.b	= 0;
+						vertexIndex.w	= 0;
+						vertexIndex.n	= 0;
+
+						vertexIndex.p	= i;
+						vertexIndex.uv1	= i;
+						subMesh.m_setVertexIndex.push_back(vertexIndex);
+
+						vertexIndex.p	= i+1;
+						vertexIndex.uv1	= i+1;
+						subMesh.m_setVertexIndex.push_back(vertexIndex);
+
+						vertexIndex.p	= i+2;
+						vertexIndex.uv1	= i+2;
+						subMesh.m_setVertexIndex.push_back(vertexIndex);
+
+						vertexIndex.p	= i;
+						vertexIndex.uv1	= i;
+						subMesh.m_setVertexIndex.push_back(vertexIndex);
+
+						vertexIndex.p	= i+2;
+						vertexIndex.uv1	= i+2;
+						subMesh.m_setVertexIndex.push_back(vertexIndex);
+
+						vertexIndex.p	= i+3;
+						vertexIndex.uv1	= i+3;
+						subMesh.m_setVertexIndex.push_back(vertexIndex);
+
+						i+=4;
+					}
+				}
+			}
+			pMesh->setBBox(bbox);
+			pMesh->init();
+
+			iRenderNode* pMeshNode = m_pRenderNodeMgr->createRenderNode("mesh");
+			if (pMeshNode)
+			{
+				pMeshNode->init(pMesh);
+			}
+			//----
+			pRenderNode->addChild(pMeshNode);
+		}
+	}
+
 	pRenderNode->init(pTerrainData);
 	return true;
 }

@@ -92,7 +92,6 @@ public:
 	virtual bool				prepare			()const;
 	virtual void				drawCubeBoxes	(Color32 color=0xFF00FF00)const;
 	virtual void				drawLayer		(int nLayer)const;
-	virtual void				renderGrass		()const;
 
 	virtual void				draw();
 	void						brushLightColor	(MAP_EDIT_RECORD& mapEditRecord, float fPosX, float fPosY, Color32 colorPaint, float fRadius, float fHardness, float fStrength);
@@ -105,17 +104,12 @@ public:
 protected:
 	//
 	virtual void				updateVB(int nBeginX, int nBeginY, int nEndX, int nEndY);
-	virtual void				CreateGrassVB(size_t uGrassCount);
-	virtual void				CreateGrassIB(size_t uGrassCount);
 	//
 	virtual void				updateIB();
 protected:
 	CTerrainData*						m_pTerrainData;
 	CHardwareVertexBuffer*				m_pVB;
 	CHardwareIndexBuffer*				m_pIB;
-	// grass
-	CHardwareVertexBuffer*				m_pGrassVB;
-	CHardwareIndexBuffer*				m_pGrassIB;
 	// Ìù»¨
 	CTerrainDecal						m_LightMapDecal;
 	CTerrainDecal						m_LightDecal;
@@ -125,7 +119,6 @@ protected:
 	unsigned long						m_uShowTileIBCount;
 	// For Render
 	std::map<unsigned char,TerrainSub>	m_RenderTileSubsLayer[2];
-	TerrainSub							m_GrassSub;
 	//
 	std::set<TerrainChunk*>				m_setRenderChunks;
 	//
