@@ -72,7 +72,6 @@ public:
 	const std::string&	getFilename()const{return m_strFilename;}
 	//
 	void				getVertexByCell(int nCellX, int nCellY, TerrainVertex& vertex)const;
-	void				getGrassVertexByCell(int nCellX, int nCellY, TerrainVertex*& vertex)const;
 
 	bool				hasGrass(int nCellX, int nCellY)const;
 
