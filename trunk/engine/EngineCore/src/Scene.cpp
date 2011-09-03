@@ -211,12 +211,12 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 				CMapObj* pObj = (CMapObj*)(*it);
 				if(pObj)
 				{
-					if(pObj->getObjType() != MAP_ROLE &&
+					/*if(pObj->getObjType() != MAP_ROLE &&
 						pObj->getObjType() != MAP_HERO &&
 						pObj->getObjType() != MAP_PLAYER &&
 						pObj->getObjType() != MAP_3DEFFECT &&
 						pObj->getObjType() != MAP_3DEFFECTNEW)
-					{
+					{*/
 						Vec4D vColor(1.0f,1.0f,1.0f,1.0f);
 						if (m_pTerrain && m_pTerrain->getTerrainData())
 						{
@@ -226,12 +226,12 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 
 						DirectionalLight light(vColor*0.5f,vColor+0.3f,Vec4D(1.0f,1.0f,1.0f,1.0f),vLightDir);
 						R.SetDirectionalLight(0,light);
-					}
+					/*}
 					else
 					{
 						DirectionalLight light(Vec4D(0.4f,0.4f,0.4f,0.4f),Vec4D(1.0f,1.0f,1.0f,1.0f),Vec4D(0.6f,0.6f,0.6f,0.6f),vLightDir);
 						R.SetDirectionalLight(0,light);
-					}
+					}*/
 					// ----
 					FOR_IN(itLight,m_setLightObj)
 					{

@@ -385,32 +385,24 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 						// 0	 3
 
 						VertexIndex vertexIndex;
-						vertexIndex.b	= 0;
-						vertexIndex.w	= 0;
-						vertexIndex.n	= 0;
+						ZeroMemory(&vertexIndex,sizeof(VertexIndex));
 
-						vertexIndex.p	= i;
-						vertexIndex.uv1	= i;
+						vertexIndex.p= vertexIndex.c= vertexIndex.uv1 = i;
 						subMesh.m_setVertexIndex.push_back(vertexIndex);
 
-						vertexIndex.p	= i+1;
-						vertexIndex.uv1	= i+1;
+						vertexIndex.p= vertexIndex.c= vertexIndex.uv1 = i+1;
 						subMesh.m_setVertexIndex.push_back(vertexIndex);
 
-						vertexIndex.p	= i+2;
-						vertexIndex.uv1	= i+2;
+						vertexIndex.p= vertexIndex.c= vertexIndex.uv1 = i+2;
 						subMesh.m_setVertexIndex.push_back(vertexIndex);
 
-						vertexIndex.p	= i;
-						vertexIndex.uv1	= i;
+						vertexIndex.p= vertexIndex.c= vertexIndex.uv1 = i;
 						subMesh.m_setVertexIndex.push_back(vertexIndex);
 
-						vertexIndex.p	= i+2;
-						vertexIndex.uv1	= i+2;
+						vertexIndex.p= vertexIndex.c= vertexIndex.uv1 = i+2;
 						subMesh.m_setVertexIndex.push_back(vertexIndex);
 
-						vertexIndex.p	= i+3;
-						vertexIndex.uv1	= i+3;
+						vertexIndex.p= vertexIndex.c= vertexIndex.uv1 = i+3;
 						subMesh.m_setVertexIndex.push_back(vertexIndex);
 
 						i+=4;

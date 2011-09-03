@@ -37,7 +37,6 @@
 		<element type="display" id="IDC_DISPLAY_WORLD" scale="0,0,100,100"/>
 		<element type="image" id="IDC_IMAGE_BG" scale="50,50,50,50" offset="-512,-384,511,383" filename="Data/Textures/Title/1.jpg"/>
 		<element type="static" id="IDC_GAME_VERSIONS" scale="100,100,100,100" offset="-120,-30,0,0" text="Versions 0.1.0"/>
-		<element type="static" id="IDC_STATIC_FPS" scale="100,0,100,0" offset="-120,0,0,30" text="FPS"/>
 	</dialog>
 	<dialog id="IDD_MESSAGE_BOX" scale="50,50,50,50" offset="-200,-50,200,50" exclusive="true">
 		<element type="static" id="IDC_STATIC_INFO" offset="10,10,380,60">NULL</element>

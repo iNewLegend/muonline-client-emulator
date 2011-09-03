@@ -10,7 +10,6 @@ class CDlgMain : public CUIMainDialog
 {
 private:
 	CUIDisplayWorld	m_DisplayWorld;
-	CUIStatic		m_StaticFps;
 public:
 	CDlgMain();
 	~CDlgMain();
