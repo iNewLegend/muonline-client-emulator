@@ -331,9 +331,11 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 			int nWidth = min(pTerrainData->getWidth()-x,16);
 			int nHeight = min(pTerrainData->getHeight()-y,16);
 
-			char szGrassMeshName[256];
-			sprintf(szGrassMeshName,"%s_%d_%d",szFilename,x,y);
-			iLodMesh* pMesh = (iLodMesh*)m_pRenderNodeMgr->createRenderData("mesh",szGrassMeshName);
+			char szMeshName[256];
+			// 
+			sprintf(szMeshName,"%s_%d_%d",szFilename,x,y);
+			iLodMesh* pMesh = (iLodMesh*)m_pRenderNodeMgr->createRenderData("mesh",szMeshName);
+
 			CSubMesh& subMesh = pMesh->allotSubMesh();
 			subMesh.addMaterial("Terrain.Grass");
 
@@ -343,6 +345,7 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 			{
 				for (int grassX=x; grassX<x+nWidth; ++grassX)
 				{
+
 					if (pTerrainData->hasGrass(grassX,grassY))
 					{
 						float fHeight1 = pTerrainData->getVertexHeight(grassX,grassY);

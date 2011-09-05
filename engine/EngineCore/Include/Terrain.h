@@ -87,8 +87,6 @@ public:
 	//
 	virtual void				updateRender	(const CFrustum& frustum);
 
-	virtual bool				LightMapPrepare	();
-	virtual void				LightMapFinish	();
 	virtual bool				prepare			()const;
 	virtual void				drawCubeBoxes	(Color32 color=0xFF00FF00)const;
 	virtual void				drawLayer		(int nLayer)const;
@@ -100,7 +98,6 @@ public:
 	//
 	std::map<int,std::string>&	getTiles		(){return m_Tiles[0];}
 	CTerrainDecal&				GetLightMapDecal(){return m_LightMapDecal;}
-	void						setLightMapTexture(const std::string& strFilename);
 protected:
 	//
 	virtual void				updateVB(int nBeginX, int nBeginY, int nEndX, int nEndY);
@@ -115,7 +112,6 @@ protected:
 	CTerrainDecal						m_LightDecal;
 	// Œ∆¿ÌTile
 	std::map<int,std::string>			m_Tiles[2];
-	int									m_nLightMap;
 	unsigned long						m_uShowTileIBCount;
 	// For Render
 	std::map<unsigned char,TerrainSub>	m_RenderTileSubsLayer[2];

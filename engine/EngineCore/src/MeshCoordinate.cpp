@@ -34,34 +34,34 @@ void CMeshCoordinate::init()
 {
 	m_setSubMesh.resize(3);
 	const size_t CIRCLE_LINE_COUNT=6;
-	m_setSubMesh[0].addPos(Vec3D(1,0,0));
+	addPos(Vec3D(1,0,0));
 	for(size_t i=0; i<CIRCLE_LINE_COUNT; ++i)
 	{
 		float fRadian = PI*i*2/CIRCLE_LINE_COUNT;
 		Vec3D v(0.75f,sinf(fRadian)*0.05f,cosf(fRadian)*0.05f);
-		m_setSubMesh[0].addPos(v);
+		addPos(v);
 	}
-	m_setSubMesh[1].addPos(Vec3D(0,1,0));
+	addPos(Vec3D(0,1,0));
 	for (size_t i=0; i<CIRCLE_LINE_COUNT; ++i)
 	{
 		float fRadian = PI*i*2/CIRCLE_LINE_COUNT;
 		Vec3D v(cosf(fRadian)*0.05f,0.75f,sinf(fRadian)*0.05f);
-		m_setSubMesh[1].addPos(v);
+		addPos(v);
 	}
-	m_setSubMesh[2].addPos(Vec3D(0,0,1));
+	addPos(Vec3D(0,0,1));
 	for (size_t i=0; i<CIRCLE_LINE_COUNT; ++i)
 	{
 		float fRadian = PI*i*2/CIRCLE_LINE_COUNT;
 		Vec3D v(sinf(fRadian)*0.05f,cosf(fRadian)*0.05f,0.75f);
-		m_setSubMesh[2].addPos(v);
+		addPos(v);
 	}
 	//
-	m_setSubMesh[0].addColor(0xFFFF0000);
-	m_setSubMesh[1].addColor(0xFF00FF00);
-	m_setSubMesh[2].addColor(0xFF0000FF);
-	m_setSubMesh[0].addColor(0xFF880000);
-	m_setSubMesh[1].addColor(0xFF008800);
-	m_setSubMesh[2].addColor(0xFF000088);
+	addColor(0xFFFF0000);
+	addColor(0xFF00FF00);
+	addColor(0xFF0000FF);
+	addColor(0xFF880000);
+	addColor(0xFF008800);
+	addColor(0xFF000088);
 	//
 	for (size_t i=0;i<3;++i)
 	{

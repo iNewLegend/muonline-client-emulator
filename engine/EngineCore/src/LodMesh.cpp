@@ -75,22 +75,8 @@ CSubMesh* CLodMesh::getSubMesh(size_t n)
 
 void CLodMesh::init()
 {
-	for(size_t i=0;i<m_setSubMesh.size();++i)
-	{
-		if (false==m_bSkinMesh)
-		{
-			if(m_setSubMesh[i].bone.size()>0)
-			{
-				m_bSkinMesh = true;
-				break;
-			}
-		}
-	}
-	if (!m_bSkinMesh)
-	{
-		//weight.clear();
-		//bone.clear();
-	}
+	m_bSkinMesh = bone.size()>0;
+
 	size_t uVertexCount=0;
 	std::vector<std::vector<VertexIndex>> setVecVertexIndex;
 	if (m_setSubMesh.size()!=0)
@@ -155,49 +141,24 @@ void CLodMesh::init()
 	{
 		for (size_t i=0;i<setVecVertexIndex.size();++i)
 		{
-			CSubMesh& subMesh=m_setSubMesh[i];
 			std::vector<VertexIndex>& setVertexIndex=setVecVertexIndex[i];
 			for (size_t n=0;n<setVertexIndex.size();++n)
 			{
 				VertexIndex& vertexIndex=setVertexIndex[n];
 				SkinVertex skinVertex;
-				skinVertex.p = subMesh.pos[vertexIndex.p];
-				skinVertex.n = subMesh.normal[vertexIndex.n];
-				skinVertex.w4 = subMesh.weight[vertexIndex.w];
-				skinVertex.b4 = subMesh.bone[vertexIndex.b];
+				skinVertex.p = pos[vertexIndex.p];
+				skinVertex.n = normal[vertexIndex.n];
+				skinVertex.w4 = weight[vertexIndex.w];
+				skinVertex.b4 = bone[vertexIndex.b];
 				m_setSkinVertex.push_back(skinVertex);
 			}
 		}
 	}
-	bool bPos		= false;
-	bool bNormal	= false;
-	bool bColor		= false;
-	bool bTexCoord	= false;
-	bool bTexCoord2	= false;
-	for (size_t i=0;i<m_setSubMesh.size();++i)
-	{
-		CSubMesh& subMesh=m_setSubMesh[i];
-		if (subMesh.pos.size()>0)
-		{
-			bPos=true;
-		}
-		if (subMesh.normal.size()>0)
-		{
-			bNormal=true;
-		}
-		if (subMesh.color.size()>0)
-		{
-			bColor=true;
-		}
-		if (subMesh.texcoord.size()>0)
-		{
-			bTexCoord=true;
-		}
-		if (subMesh.texcoord2.size()>0)
-		{
-			bTexCoord2=true;
-		}
-	}
+	bool bPos		= pos.size()>0;
+	bool bNormal	= normal.size()>0;
+	bool bColor		= color.size()>0;
+	bool bTexCoord	= texcoord.size()>0;
+	bool bTexCoord2	= texcoord2.size()>0;
 
 	m_pVertexDeclHardware = GetRenderSystem().CreateVertexDeclaration();
 
@@ -270,28 +231,28 @@ void CLodMesh::init()
 						{
 							if (bPos)
 							{
-								*(Vec3D*)pBuffer = subMesh.pos[vertexIndex.p];
+								*(Vec3D*)pBuffer = pos[vertexIndex.p];
 								pBuffer += sizeof(Vec3D);
 							}
 							if (bNormal)
 							{
-								*(Vec3D*)pBuffer = subMesh.normal[vertexIndex.n];
+								*(Vec3D*)pBuffer = normal[vertexIndex.n];
 								pBuffer += sizeof(Vec3D);
 							}
 						}
 						if (bColor)
 						{
-							*(Color32*)pBuffer = subMesh.color[vertexIndex.c];
+							*(Color32*)pBuffer = color[vertexIndex.c];
 							pBuffer += sizeof(Color32);
 						}
 						if (bTexCoord)
 						{
-							*(Vec2D*)pBuffer = subMesh.texcoord[vertexIndex.uv1];
+							*(Vec2D*)pBuffer = texcoord[vertexIndex.uv1];
 							pBuffer += sizeof(Vec2D);
 						}
 						if (bTexCoord2)
 						{
-							*(Vec2D*)pBuffer = subMesh.texcoord2[vertexIndex.uv2];
+							*(Vec2D*)pBuffer = texcoord2[vertexIndex.uv2];
 							pBuffer += sizeof(Vec2D);
 						}
 					}
@@ -446,27 +407,20 @@ void CLodMesh::Clear()
 	m_setSubMesh.clear();
 }
 
-bool SubMeshIntersect(const CSubMesh& subMesh,const Vec3D& vRayPos , const Vec3D& vRayDir, Vec3D& vOut)
-{
-	size_t size=subMesh.m_setVertexIndex.size()/3;
-	for(size_t i=0;i<size;++i)
-	{
-		if (IntersectTri(subMesh.pos[subMesh.m_setVertexIndex[i*3].p],subMesh.pos[subMesh.m_setVertexIndex[i*3+1].p],subMesh.pos[subMesh.m_setVertexIndex[i*3+2].p],vRayPos,vRayDir,vOut))
-		{
-			return true;
-		}
-	}
-	return false;
-}
-
 bool CLodMesh::intersect(const Vec3D& vRayPos, const Vec3D& vRayDir, Vec3D& vOut, int& nSubID)const
 {
-	for (size_t i=0;i<m_setSubMesh.size();++i)
+	for (size_t n=0;n<m_setSubMesh.size();++n)
 	{
-		if (SubMeshIntersect(m_setSubMesh[i],vRayPos,vRayDir,vOut))
+		const CSubMesh& subMesh = m_setSubMesh[n];
+		size_t size=subMesh.m_setVertexIndex.size()/3;
+
+		for(size_t i=0;i<size;++i)
 		{
-			nSubID = i;
-			return true;
+			if (IntersectTri(pos[subMesh.m_setVertexIndex[i*3].p],pos[subMesh.m_setVertexIndex[i*3+1].p],pos[subMesh.m_setVertexIndex[i*3+2].p],vRayPos,vRayDir,vOut))
+			{
+				nSubID = n;
+				return true;
+			}
 		}
 	}
 	return false;

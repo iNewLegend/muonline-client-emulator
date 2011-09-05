@@ -40,86 +40,8 @@ struct VertexIndex
 class CSubMesh
 {
 public:
-	void addPos(const Vec3D& vPos)
-	{pos.push_back(vPos);}
-	void addBone(unsigned long uBone)
-	{bone.push_back(uBone);}
-	void addWeight(unsigned long uWeight)
-	{weight.push_back(uWeight);}
-	void addNormal(const Vec3D& vNormal)
-	{normal.push_back(vNormal);}
-	void addColor(const Color32& clr)
-	{color.push_back(clr);}
-	void addTexcoord(const Vec2D& vUV)
-	{texcoord.push_back(vUV);}
 	void addMaterial(const char* szMaterial)
 	{material.push_back(szMaterial);}
-
-	template <class _T>
-	void  setVectorValue(std::vector<_T>& vec, size_t pos, const _T& val)
-	{
-		if (vec.size()<=pos)
-		{
-			vec.resize(pos+1);
-		}
-		vec.push_back(val);
-	}
-
-	void setPos(size_t n, const Vec3D& vPos)
-	{
-		setVectorValue(pos,n,vPos);
-	}
-	void setBone(size_t n, unsigned long uBone)
-	{
-		setVectorValue(bone,n,uBone);
-	}
-	void setWeight(size_t n, unsigned long uWeight)
-	{
-		setVectorValue(weight,n,uWeight);
-	}
-	void setNormal(size_t n, const Vec3D& vNormal)
-	{
-		setVectorValue(normal,n,vNormal);
-	}
-	void setTexcoord(size_t n, const Vec2D& vUV)
-	{
-		setVectorValue(texcoord,n,vUV);
-	}
-
-	template <class _T>
-	void  getVectorValue(const std::vector<_T>& vec, size_t pos, _T& val)
-	{
-		if (vec.size()>pos)
-		{
-			val=vec[pos];
-		}
-	}
-
-	void getVertexIndex(size_t n, VertexIndex& vertexIndex)
-	{
-		getVectorValue(m_setVertexIndex,n,vertexIndex);
-	}
-
-	void getPos(size_t n, Vec3D& vPos)
-	{
-		getVectorValue(pos,n,vPos);
-	}
-	void getBone(size_t n, unsigned long& uBone)
-	{
-		getVectorValue(bone,n,uBone);
-	}
-	void getWeight(size_t n, unsigned long& uWeight)
-	{
-		getVectorValue(weight,n,uWeight);
-	}
-	void getNormal(size_t n, Vec3D& vNormal)
-	{
-		getVectorValue(normal,n,vNormal);
-	}
-	void getTexcoord(size_t n, Vec2D& vUV)
-	{
-		getVectorValue(texcoord,n,vUV);
-	}
 	const char* getMaterial(size_t n)
 	{
 		if (material.size()>n)
@@ -128,15 +50,16 @@ public:
 		}
 		return NULL;
 	}
+	void getVertexIndex(size_t n, VertexIndex& vertexIndex)
+	{
+		if (m_setVertexIndex.size()>n)
+		{
+			vertexIndex=m_setVertexIndex[n];
+		}
+	}
 
 	std::vector<std::string>	material;
-	std::vector<Vec3D>			pos;
-	std::vector<unsigned long>	weight;
-	std::vector<unsigned long>	bone;
-	std::vector<Vec3D>			normal;
-	std::vector<Color32>		color;
-	std::vector<Vec2D>			texcoord;
-	std::vector<Vec2D>			texcoord2;
+
 
 	std::vector<VertexIndex> m_setVertexIndex;
 };
@@ -150,4 +73,53 @@ public:
 	virtual const BBox&	getBBox()=0;
 	virtual void		setBBox(const BBox& bbox)=0;
 	virtual void		init()=0;
+
+	virtual void		init()=0;
+
+
+	void addPos(const Vec3D& vPos){pos.push_back(vPos);}
+	void addBone(unsigned long uBone){bone.push_back(uBone);}
+	void addWeight(unsigned long uWeight){weight.push_back(uWeight);}
+	void addNormal(const Vec3D& vNormal){normal.push_back(vNormal);}
+	void addColor(const Color32& clr){color.push_back(clr);}
+	void addTexcoord(const Vec2D& vUV){texcoord.push_back(vUV);}
+
+	template <class _T>
+	void  setVectorValue(std::vector<_T>& vec, size_t pos, const _T& val)
+	{
+		if (vec.size()<=pos)
+		{
+			vec.resize(pos+1);
+		}
+		vec.push_back(val);
+	}
+
+	void setPos(size_t n, const Vec3D& vPos){setVectorValue(pos,n,vPos);}
+	void setBone(size_t n, unsigned long uBone){setVectorValue(bone,n,uBone);}
+	void setWeight(size_t n, unsigned long uWeight){setVectorValue(weight,n,uWeight);}
+	void setNormal(size_t n, const Vec3D& vNormal){setVectorValue(normal,n,vNormal);}
+	void setTexcoord(size_t n, const Vec2D& vUV){setVectorValue(texcoord,n,vUV);}
+
+	template <class _T>
+	void  getVectorValue(const std::vector<_T>& vec, size_t pos, _T& val)
+	{
+		if (vec.size()>pos)
+		{
+			val=vec[pos];
+		}
+	}
+
+	void getPos(size_t n, Vec3D& vPos){getVectorValue(pos,n,vPos);}
+	void getBone(size_t n, unsigned long& uBone){getVectorValue(bone,n,uBone);}
+	void getWeight(size_t n, unsigned long& uWeight){getVectorValue(weight,n,uWeight);}
+	void getNormal(size_t n, Vec3D& vNormal){getVectorValue(normal,n,vNormal);}
+	void getTexcoord(size_t n, Vec2D& vUV){getVectorValue(texcoord,n,vUV);}
+
+	std::vector<Vec3D>			pos;
+	std::vector<unsigned long>	weight;
+	std::vector<unsigned long>	bone;
+	std::vector<Vec3D>			normal;
+	std::vector<Color32>		color;
+	std::vector<Vec2D>			texcoord;
+	std::vector<Vec2D>			texcoord2;
 };
