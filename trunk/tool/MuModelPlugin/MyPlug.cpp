@@ -233,22 +233,6 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 						CMUBmd::BmdSub& bmdSub = bmd.setBmdSub[i];
 						CSubMesh& subMesh=pMesh->allotSubMesh();
 						// ----
-						// # Vertex Index
-						// ----
-						VertexIndex vertexIndex;
-						for(std::vector<CMUBmd::BmdSub::BmdTriangle>::iterator it=bmdSub.setTriangle.begin(); it!=bmdSub.setTriangle.end(); it++)
-						{
-							for (size_t j=0; j<3; ++j)
-							{
-								vertexIndex.p	= it->indexVertex[2-j];
-								vertexIndex.b	= it->indexVertex[2-j];
-								vertexIndex.w	= it->indexVertex[2-j];
-								vertexIndex.n	= it->indexNormal[2-j];
-								vertexIndex.uv1	= it->indexUV[2-j];
-								subMesh.m_setVertexIndex.push_back(vertexIndex);
-							}
-						}
-						// ----
 						// # Pos
 						// ----
 						for(std::vector<CMUBmd::BmdSub::BmdPos>::iterator it=bmdSub.setVertex.begin(); it!=bmdSub.setVertex.end(); it++)
@@ -274,16 +258,16 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 								unsigned char uBone = it->uBones&0xFF;
 								if (bmd.bmdSkeleton.setBmdBone.size()<=uBone||bmd.bmdSkeleton.setBmdBone[uBone].bEmpty)
 								{
-									subMesh.addBone(0);// 想办法把bmd的骨骼ID都设置为0的去掉
+									pMesh->addBone(0);// 想办法把bmd的骨骼ID都设置为0的去掉
 								}
 								else
 								{
-									subMesh.addBone(it->uBones);
+									pMesh->addBone(it->uBones);
 								}
 								//assert((it->uBones&0xFFFFFF00)==0);
-								subMesh.addWeight(0x000000FF);
+								pMesh->addWeight(0x000000FF);
 							}
-							subMesh.addPos(vPos);
+							pMesh->addPos(vPos);
 						}
 						// ----
 						// # Normal
@@ -292,14 +276,30 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 						{
 							Vec3D n = fixCoordSystemNormal(it->vNormal);
 							n = bmd.bmdSkeleton.getRotateMatrix(it->uBones)*n;
-							subMesh.addNormal(n);
+							pMesh->addNormal(n);
 						}
 						// ----
 						// # Texcoord
 						// ----
 						for(std::vector<Vec2D>::iterator it=bmdSub.setUV.begin(); it!=bmdSub.setUV.end(); it++)
 						{
-							subMesh.addTexcoord(*it);
+							pMesh->addTexcoord(*it);
+						}
+						// ----
+						// # Vertex Index
+						// ----
+						VertexIndex vertexIndex;
+						for(std::vector<CMUBmd::BmdSub::BmdTriangle>::iterator it=bmdSub.setTriangle.begin(); it!=bmdSub.setTriangle.end(); it++)
+						{
+							for (size_t j=0; j<3; ++j)
+							{
+								vertexIndex.p	= pMesh->pos.size()+it->indexVertex[2-j];
+								vertexIndex.b	= pMesh->bone.size()+it->indexVertex[2-j];
+								vertexIndex.w	= pMesh->weight.size()+it->indexVertex[2-j];
+								vertexIndex.n	= pMesh->normal.size()+it->indexNormal[2-j];
+								vertexIndex.uv1	= pMesh->texcoord.size()+it->indexUV[2-j];
+								subMesh.m_setVertexIndex.push_back(vertexIndex);
+							}
 						}
 						// ----
 						// # Material
