@@ -66,6 +66,21 @@ public:
 	virtual void		setBBox(const BBox& bbox){m_bbox = bbox;}
 	virtual void		init();
 
+	GSET_CONST_VAR		(unsigned short,		m_u,VertexSize);
+
+	CONST_GSETVAR		(int,PosOffset);
+	CONST_GSETVAR		(int,NormalOffset);
+	CONST_GSETVAR		(int,ColorOffset);
+	CONST_GSETVAR		(int,TexcoordOffset);
+	CONST_GSETVAR		(int,Texcoord2Offset);
+
+	virtual char*		createVB(size_t size);
+	virtual char*		createIB(size_t size);
+	virtual char*		getVB(){return m_vb;}
+	virtual char*		getIB(){return m_ib;}
+	virtual size_t		getVBSize(){return m_ibSize;}
+	virtual size_t		getIBSize(){return m_ibSize;}
+
 	bool				SetMeshSource(int nLodLevel=0, CHardwareVertexBuffer* pSkinVB=NULL)const;
 	void				drawSub(size_t uSubID, size_t uLodLevel=0)const;
 	void				draw(size_t uLodLevel=0)const;
@@ -76,17 +91,28 @@ public:
 	bool				intersect(const Vec3D& vRayPos , const Vec3D& vRayDir, Vec3D& vOut, int& nSubID)const;
 	bool				intersect(const Vec3D& vRayPos , const Vec3D& vRayDir)const;
 public:
-	std::vector<CSubMesh>			m_setSubMesh;
+	std::vector<CSubMesh>		m_setSubMesh;
 
-	CHardwareVertexBuffer*			m_pShareBuffer;			// Share Vertex Buffer
-	CVertexDeclaration*				m_pVertexDeclHardware;	// FVF
-	std::vector<ModelLod>			m_Lods;					// the lods
+	CHardwareVertexBuffer*		m_pShareBuffer;			// Share Vertex Buffer
+	CVertexDeclaration*			m_pVertexDeclHardware;	// FVF
+	std::vector<ModelLod>		m_Lods;					// the lods
 
-	unsigned short					m_uSkinVertexSize;
-	unsigned short					m_uShareVertexSize;
+	unsigned short				m_uVertexSize;
+	unsigned short				m_uSkinVertexSize;
+	unsigned short				m_uShareVertexSize;
 
-	bool							m_bSkinMesh;			// is skin mesh?
-	BBox							m_bbox;					//
+	bool						m_bSkinMesh;			// is skin mesh?
+	BBox						m_bbox;					//
 protected:
-	std::vector<SkinVertex>			m_setSkinVertex;
+	std::vector<SkinVertex>		m_setSkinVertex;
+	char*						m_vb;
+	size_t						m_vbSize;
+	char*						m_ib;
+	size_t						m_ibSize;
+
+	int							m_PosOffset;
+	int							m_NormalOffset;
+	int							m_ColorOffset;
+	int							m_TexcoordOffset;
+	int							m_Texcoord2Offset;
 };

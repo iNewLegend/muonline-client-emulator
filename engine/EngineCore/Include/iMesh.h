@@ -74,15 +74,15 @@ public:
 	virtual void		setBBox(const BBox& bbox)=0;
 	virtual void		init()=0;
 
-	virtual void		init()=0;
+	virtual void					setVertexSize(const unsigned short vertexSize)=0;
+	virtual const unsigned short	getVertexSize()const=0;
 
-
-	void addPos(const Vec3D& vPos){pos.push_back(vPos);}
-	void addBone(unsigned long uBone){bone.push_back(uBone);}
-	void addWeight(unsigned long uWeight){weight.push_back(uWeight);}
-	void addNormal(const Vec3D& vNormal){normal.push_back(vNormal);}
-	void addColor(const Color32& clr){color.push_back(clr);}
-	void addTexcoord(const Vec2D& vUV){texcoord.push_back(vUV);}
+	virtual char*		createVB(size_t size)=0;
+	virtual char*		createIB(size_t size)=0;
+	virtual char*		getVB()=0;
+	virtual char*		getIB()=0;
+	virtual size_t		getVBSize()=0;
+	virtual size_t		getIBSize()=0;
 
 	template <class _T>
 	void  setVectorValue(std::vector<_T>& vec, size_t pos, const _T& val)
@@ -94,11 +94,6 @@ public:
 		vec.push_back(val);
 	}
 
-	void setPos(size_t n, const Vec3D& vPos){setVectorValue(pos,n,vPos);}
-	void setBone(size_t n, unsigned long uBone){setVectorValue(bone,n,uBone);}
-	void setWeight(size_t n, unsigned long uWeight){setVectorValue(weight,n,uWeight);}
-	void setNormal(size_t n, const Vec3D& vNormal){setVectorValue(normal,n,vNormal);}
-	void setTexcoord(size_t n, const Vec2D& vUV){setVectorValue(texcoord,n,vUV);}
 
 	template <class _T>
 	void  getVectorValue(const std::vector<_T>& vec, size_t pos, _T& val)
@@ -109,17 +104,4 @@ public:
 		}
 	}
 
-	void getPos(size_t n, Vec3D& vPos){getVectorValue(pos,n,vPos);}
-	void getBone(size_t n, unsigned long& uBone){getVectorValue(bone,n,uBone);}
-	void getWeight(size_t n, unsigned long& uWeight){getVectorValue(weight,n,uWeight);}
-	void getNormal(size_t n, Vec3D& vNormal){getVectorValue(normal,n,vNormal);}
-	void getTexcoord(size_t n, Vec2D& vUV){getVectorValue(texcoord,n,vUV);}
-
-	std::vector<Vec3D>			pos;
-	std::vector<unsigned long>	weight;
-	std::vector<unsigned long>	bone;
-	std::vector<Vec3D>			normal;
-	std::vector<Color32>		color;
-	std::vector<Vec2D>			texcoord;
-	std::vector<Vec2D>			texcoord2;
 };
