@@ -18,6 +18,28 @@ CMyPlug::~CMyPlug(void)
 {
 }
 
+template <class _T, class _T2>
+void  transformRedundance(const std::vector<_T>& setIn, std::vector<_T>& setOut, std::vector<_T2>& index)
+{
+	std::map<_T,int> mapSort;
+	size_t start = setOut.size();
+	for (auto it=setIn.begin();it!=setIn.end();it++)
+	{
+		mapSort[*it];
+	}
+	int id = setOut.size();
+	for (auto it=mapSort.begin();it!=mapSort.end();it++)
+	{
+		setOut.push_back(it->first);
+		it->second=id;
+		id++;
+	}
+	for (auto it=setIn.begin();it!=setIn.end();it++)
+	{
+		index.push_back(mapSort[*it]);
+	}
+}
+
 void importSkeletonBons(iSkeletonData& skeletonData, CMUBmd& bmd)
 {
 	for (std::vector<CMUBmd::BmdSkeleton::BmdBone>::iterator itBmdBone=bmd.bmdSkeleton.setBmdBone.begin();itBmdBone!=bmd.bmdSkeleton.setBmdBone.end();itBmdBone++)
@@ -228,10 +250,37 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 					// # Mesh
 					// ----
 					BBox bbox;
+
+					std::vector<Vec3D>			pos;
+					std::vector<unsigned long>	weight;
+					std::vector<unsigned long>	bone;
+					std::vector<Vec3D>			normal;
+					std::vector<Vec2D>			texcoord;
+					std::vector<VertexIndex>	face;
+
+					size_t uVertexCount=0;
+					std::vector<std::vector<VertexIndex>> setVecVertexIndex;
+					std::vector<unsigned short> setIndex;
+
 					for (size_t i=0;  i<bmd.setBmdSub.size(); ++i)
 					{
 						CMUBmd::BmdSub& bmdSub = bmd.setBmdSub[i];
-						CSubMesh& subMesh=pMesh->allotSubMesh();
+						// ----
+						// # Vertex Index
+						// ----
+						VertexIndex vertexIndex;
+						for(std::vector<CMUBmd::BmdSub::BmdTriangle>::iterator it=bmdSub.setTriangle.begin(); it!=bmdSub.setTriangle.end(); it++)
+						{
+							for (size_t j=0; j<3; ++j)
+							{
+								vertexIndex.p	= pos.size()+it->indexVertex[2-j];
+								vertexIndex.b	= bone.size()+it->indexVertex[2-j];
+								vertexIndex.w	= weight.size()+it->indexVertex[2-j];
+								vertexIndex.n	= normal.size()+it->indexNormal[2-j];
+								vertexIndex.uv1	= texcoord.size()+it->indexUV[2-j];
+								face.push_back(vertexIndex);
+							}
+						}
 						// ----
 						// # Pos
 						// ----
@@ -258,16 +307,16 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 								unsigned char uBone = it->uBones&0xFF;
 								if (bmd.bmdSkeleton.setBmdBone.size()<=uBone||bmd.bmdSkeleton.setBmdBone[uBone].bEmpty)
 								{
-									pMesh->addBone(0);// 想办法把bmd的骨骼ID都设置为0的去掉
+									bone.push_back(0);// 想办法把bmd的骨骼ID都设置为0的去掉
 								}
 								else
 								{
-									pMesh->addBone(it->uBones);
+									bone.push_back(it->uBones);
 								}
 								//assert((it->uBones&0xFFFFFF00)==0);
-								pMesh->addWeight(0x000000FF);
+								weight.push_back(0x000000FF);
 							}
-							pMesh->addPos(vPos);
+							pos.push_back(vPos);
 						}
 						// ----
 						// # Normal
@@ -276,34 +325,31 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 						{
 							Vec3D n = fixCoordSystemNormal(it->vNormal);
 							n = bmd.bmdSkeleton.getRotateMatrix(it->uBones)*n;
-							pMesh->addNormal(n);
+							normal.push_back(n);
 						}
 						// ----
 						// # Texcoord
 						// ----
 						for(std::vector<Vec2D>::iterator it=bmdSub.setUV.begin(); it!=bmdSub.setUV.end(); it++)
 						{
-							pMesh->addTexcoord(*it);
+							texcoord.push_back(*it);
 						}
 						// ----
-						// # Vertex Index
-						// ----
-						VertexIndex vertexIndex;
-						for(std::vector<CMUBmd::BmdSub::BmdTriangle>::iterator it=bmdSub.setTriangle.begin(); it!=bmdSub.setTriangle.end(); it++)
-						{
-							for (size_t j=0; j<3; ++j)
-							{
-								vertexIndex.p	= pMesh->pos.size()+it->indexVertex[2-j];
-								vertexIndex.b	= pMesh->bone.size()+it->indexVertex[2-j];
-								vertexIndex.w	= pMesh->weight.size()+it->indexVertex[2-j];
-								vertexIndex.n	= pMesh->normal.size()+it->indexNormal[2-j];
-								vertexIndex.uv1	= pMesh->texcoord.size()+it->indexUV[2-j];
-								subMesh.m_setVertexIndex.push_back(vertexIndex);
-							}
-						}
+ 						transformRedundance(face,setVecVertexIndex[i],setIndex);
+						uVertexCount+=setVecVertexIndex[i].size();
+// 						subset.vstart = 0;	// 因为每个sub都是独立的ib索引编号 从0开始，所以只需要设置vbase（vb地址偏移），有些显卡在误设置vstart（IB范围后）会不显示。
+// 						subset.vbase += subset.vcount;
+// 						subset.istart += subset.icount;
+// 						subset.vcount = setVertexIndex.size();
+// 						subset.icount = setIndex.size()-subset.istart;
+// 						m_Lods[0].setSubset.push_back(subset);
+// 						uVertexCount+=setVertexIndex.size();
+// 					}
+// 					transformRedundance(setIndex,m_Lods[0].IndexLookup,m_Lods[0].Indices);
 						// ----
 						// # Material
 						// ----
+						CSubMesh& subMesh=pMesh->allotSubMesh();
 						char szMaterialName[255];
 						{
 							std::string strTexFileName = GetParentPath(szFilename) + bmdSub.szTexture;
@@ -339,6 +385,13 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 							pMaterial->setShader("EngineRes\\fx\\MuLvl7.fx");
 							subMesh.addMaterial(szMaterialName);
 						}
+					}
+					pMesh->createVB(uVertexCount*(36+8));
+
+					pMesh->createIB(setIndex.size()*2);
+					for (size_t i=0;i<indexSize;++i)
+					{
+						indices[i] = it->IndexLookup[ it->Indices[i] ];
 					}
 					pMesh->setBBox(bbox);
 					pMesh->init();

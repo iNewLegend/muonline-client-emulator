@@ -45,9 +45,14 @@ void  transformRedundance(const std::vector<_T>& setIn, std::vector<_T>& setOut,
 CLodMesh::CLodMesh()
 :m_pShareBuffer(NULL)
 ,m_pVertexDeclHardware(NULL)
+,m_uVertexSize(0)
 ,m_uSkinVertexSize(0)
 ,m_uShareVertexSize(0)
 ,m_bSkinMesh(false)
+,m_vb(NULL)
+,m_vbSize(0)
+,m_ib(NULL)
+,m_ibSize(0)
 {
 }
 
@@ -71,6 +76,18 @@ CSubMesh* CLodMesh::getSubMesh(size_t n)
 		return NULL;
 	}
 	return &m_setSubMesh[n];
+}
+
+char* CLodMesh::createVB(size_t size)
+{
+	m_vb = new char[size];
+	m_vbSize = size;
+}
+
+char* CLodMesh::createIB(size_t size)
+{
+	m_ib = new char[size];
+	m_ibSize = size;
 }
 
 void CLodMesh::init()
@@ -101,42 +118,7 @@ void CLodMesh::init()
 		}
 		transformRedundance(setIndex,m_Lods[0].IndexLookup,m_Lods[0].Indices);
 	}
-	else
-	{
-		/*for (size_t i=0; i<pos.size(); ++i)
-		{
-			VertexIndex vertexIndex;
-			if (i<pos.size())
-			{
-				vertexIndex.p=i;
-			}
-			if (i<normal.size())
-			{
-				vertexIndex.n=i;
-			}
-			if (i<color.size())
-			{
-				vertexIndex.c=i;
-			}
-			if (i<texcoord.size())
-			{
-				vertexIndex.uv1=i;
-			}
-			if (i<texcoord2.size())
-			{
-				vertexIndex.uv2=i;
-			}
-			if (i<weight.size())
-			{
-				vertexIndex.w=i;
-			}
-			if (i<bone.size())
-			{
-				vertexIndex.b=i;
-			}
-			setVertexIndex.push_back(vertexIndex);
-		}*/
-	}
+
 	if (m_bSkinMesh)
 	{
 		for (size_t i=0;i<setVecVertexIndex.size();++i)
@@ -162,12 +144,11 @@ void CLodMesh::init()
 
 	m_pVertexDeclHardware = GetRenderSystem().CreateVertexDeclaration();
 
-	unsigned long dwFVF = 0;
 	unsigned short uOffset = 0;
 	m_uSkinVertexSize = 0;
 	unsigned short uStream = 0;
 	// pos
-	if (bPos)
+	if (m_PosOffset)
 	{
 		m_pVertexDeclHardware->AddElement(uStream, uOffset, VET_FLOAT3, VES_POSITION);
 		uOffset += sizeof(Vec3D);
