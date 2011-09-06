@@ -78,11 +78,9 @@ public:
 	virtual const unsigned short	getVertexSize()const=0;
 
 	virtual char*		createVB(size_t size)=0;
-	virtual char*		createIB(size_t size)=0;
 	virtual char*		getVB()=0;
-	virtual char*		getIB()=0;
 	virtual size_t		getVBSize()=0;
-	virtual size_t		getIBSize()=0;
+	virtual std::vector<unsigned short>&	getIB()=0;
 
 	template <class _T>
 	void  setVectorValue(std::vector<_T>& vec, size_t pos, const _T& val)

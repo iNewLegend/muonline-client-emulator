@@ -260,7 +260,7 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 
 					size_t uVertexCount=0;
 					std::vector<std::vector<VertexIndex>> setVecVertexIndex;
-					std::vector<unsigned short> setIndex;
+					std::vector<unsigned short>& setIndex = pMesh->getIB();
 
 					for (size_t i=0;  i<bmd.setBmdSub.size(); ++i)
 					{
@@ -388,11 +388,6 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 					}
 					pMesh->createVB(uVertexCount*(36+8));
 
-					pMesh->createIB(setIndex.size()*2);
-					for (size_t i=0;i<indexSize;++i)
-					{
-						indices[i] = it->IndexLookup[ it->Indices[i] ];
-					}
 					pMesh->setBBox(bbox);
 					pMesh->init();
 				}

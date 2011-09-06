@@ -75,11 +75,10 @@ public:
 	CONST_GSETVAR		(int,Texcoord2Offset);
 
 	virtual char*		createVB(size_t size);
-	virtual char*		createIB(size_t size);
 	virtual char*		getVB(){return m_vb;}
-	virtual char*		getIB(){return m_ib;}
 	virtual size_t		getVBSize(){return m_ibSize;}
-	virtual size_t		getIBSize(){return m_ibSize;}
+
+	virtual std::vector<unsigned short>&	getIB(){return m_ib;}
 
 	bool				SetMeshSource(int nLodLevel=0, CHardwareVertexBuffer* pSkinVB=NULL)const;
 	void				drawSub(size_t uSubID, size_t uLodLevel=0)const;
@@ -107,8 +106,7 @@ protected:
 	std::vector<SkinVertex>		m_setSkinVertex;
 	char*						m_vb;
 	size_t						m_vbSize;
-	char*						m_ib;
-	size_t						m_ibSize;
+	std::vector<unsigned short>	m_ib;
 
 	int							m_PosOffset;
 	int							m_NormalOffset;
