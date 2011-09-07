@@ -46,12 +46,9 @@ CLodMesh::CLodMesh()
 :m_pShareVB(NULL)
 ,m_pIB(NULL)
 ,m_pVertexDeclHardware(NULL)
-,m_uVertexSize(0)
 ,m_uSkinVertexSize(0)
 ,m_uShareVertexSize(0)
 ,m_bSkinMesh(false)
-,m_vb(NULL)
-,m_vbSize(0)
 {
 }
 
@@ -62,184 +59,71 @@ CLodMesh::~CLodMesh()
 	S_DEL(m_pVertexDeclHardware);
 }
 
-char* CLodMesh::createVB(size_t size)
-{
-	m_vb = new char[size];
-	m_vbSize = size;
-}
-
 void CLodMesh::init()
 {
-	m_bSkinMesh = bone.size()>0;
-
-	size_t uVertexCount=0;
-	std::vector<std::vector<VertexIndex>> setVecVertexIndex;
-	if (m_setSubMesh.size()!=0)
-	{
-		setVecVertexIndex.resize(m_setSubMesh.size());
-		m_Lods.resize(1);
-		IndexedSubset subset;
-		std::vector<unsigned short> setIndex;
-		for (size_t i=0;i<m_setSubMesh.size();++i)
-		{
-			CSubMesh& subMesh = m_setSubMesh[i];
-			std::vector<VertexIndex>& setVertexIndex=setVecVertexIndex[i];
-
-			transformRedundance(subMesh.m_setVertexIndex,setVertexIndex,setIndex);
-			subset.vstart = 0;	// 因为每个sub都是独立的ib索引编号 从0开始，所以只需要设置vbase（vb地址偏移），有些显卡在误设置vstart（IB范围后）会不显示。
-			subset.vbase += subset.vcount;
-			subset.istart += subset.icount;
-			subset.vcount = setVertexIndex.size();
-			subset.icount = setIndex.size()-subset.istart;
-			m_Lods[0].setSubset.push_back(subset);
-			uVertexCount+=setVertexIndex.size();
-		}
-		transformRedundance(setIndex,m_Lods[0].IndexLookup,m_Lods[0].Indices);
-	}
-
-	if (m_bSkinMesh)
-	{
-		for (size_t i=0;i<setVecVertexIndex.size();++i)
-		{
-			std::vector<VertexIndex>& setVertexIndex=setVecVertexIndex[i];
-			for (size_t n=0;n<setVertexIndex.size();++n)
-			{
-				VertexIndex& vertexIndex=setVertexIndex[n];
-				SkinVertex skinVertex;
-				skinVertex.p = pos[vertexIndex.p];
-				skinVertex.n = normal[vertexIndex.n];
-				skinVertex.w4 = weight[vertexIndex.w];
-				skinVertex.b4 = bone[vertexIndex.b];
-				m_setSkinVertex.push_back(skinVertex);
-			}
-		}
-	}
-	bool bPos		= pos.size()>0;
-	bool bNormal	= normal.size()>0;
-	bool bColor		= color.size()>0;
-	bool bTexCoord	= texcoord.size()>0;
-	bool bTexCoord2	= texcoord2.size()>0;
-
+	m_bSkinMesh = m_setSkinVertex.size()>0;
+	// ----
+	// # Create Vertex Declaration.
+	// ----
 	m_pVertexDeclHardware = GetRenderSystem().CreateVertexDeclaration();
+	if (m_setSkinVertex.size()>0)
+	{
+		m_bSkinMesh = true;
+		m_pVertexDeclHardware->AddElement(0, 0, VET_FLOAT3, VES_POSITION);
+		m_pVertexDeclHardware->AddElement(0, 12, VET_FLOAT3, VES_NORMAL);
+		m_pVertexDeclHardware->AddElement(1, 0, VET_FLOAT2, VES_TEXTURE_COORDINATES);
+		m_uSkinVertexSize = 24;
+		m_uShareVertexSize = sizeof(Vec2D);
 
-	unsigned short uOffset = 0;
-	m_uSkinVertexSize = 0;
-	unsigned short uStream = 0;
-	// pos
-	if (m_PosOffset)
-	{
-		m_pVertexDeclHardware->AddElement(uStream, uOffset, VET_FLOAT3, VES_POSITION);
-		uOffset += sizeof(Vec3D);
-	}
-	// normal
-	if (bNormal)
-	{
-		m_pVertexDeclHardware->AddElement(uStream, uOffset, VET_FLOAT3, VES_NORMAL);
-		uOffset += sizeof(Vec3D);
-	}
-	//// 当为蒙皮时，只创建固定的公用的纹理UV缓存 // 创建刚体网格的公用的VB
-	if (m_bSkinMesh)
-	{
-		m_uSkinVertexSize = uOffset;
-		uOffset = 0; 
-		uStream = 1;
-	}
-	// color
-	if (bColor)
-	{
-		m_pVertexDeclHardware->AddElement(uStream, uOffset, VET_COLOUR, VES_DIFFUSE);
-		uOffset += sizeof(unsigned long);
-	}
-	// texCoord
-	if (bTexCoord)
-	{
-		m_pVertexDeclHardware->AddElement(uStream, uOffset, VET_FLOAT2, VES_TEXTURE_COORDINATES);
-		uOffset += sizeof(Vec2D);
-	}
-	// texCoord2
-	if (bTexCoord2)
-	{
-		m_pVertexDeclHardware->AddElement(uStream, uOffset, VET_FLOAT2, VES_TEXTURE_COORDINATES, 1);
-		uOffset += sizeof(Vec2D);
-	}
-	//
-	m_pVertexDeclHardware->EndElement();
-	m_uShareVertexSize = uOffset;
-
-	// 	m_dwFVF |= bColor?D3DFVF_DIFFUSE:0;
-	// 	m_dwFVF |= bTexCoord?D3DFVF_TEX1:0;
-
-	// 当为蒙皮时，只创建固定的公用的纹理UV缓存
-	// 创建刚体网格的公用的VB
-	if (m_uShareVertexSize > 0)
-	{
-		m_pShareVB = GetRenderSystem().GetHardwareBufferMgr().CreateVertexBuffer(uVertexCount, m_uShareVertexSize);
+		// 当为蒙皮时，只创建固定的公用的纹理UV缓存
+		m_pShareVB = GetRenderSystem().GetHardwareBufferMgr().CreateVertexBuffer(m_setSkinVertex.size(), sizeof(Vec2D));
 		if (m_pShareVB)
 		{
-			unsigned char* pBuffer = (unsigned char*)m_pShareVB->lock(CHardwareBuffer::HBL_NORMAL);
+			Vec2D* pBuffer = (Vec2D*)m_pShareVB->lock(CHardwareBuffer::HBL_NORMAL);
 			if (pBuffer)
 			{
-				for (size_t i=0;i<setVecVertexIndex.size();++i)
+				for (size_t n=0;n<m_setSkinVertex.size();++n)
 				{
-					CSubMesh& subMesh=m_setSubMesh[i];
-					std::vector<VertexIndex>& setVertexIndex=setVecVertexIndex[i];
-					for (size_t n=0;n<setVertexIndex.size();++n)
-					{
-						VertexIndex& vertexIndex=setVertexIndex[n];
-							if (!m_bSkinMesh)
-						{
-							if (bPos)
-							{
-								*(Vec3D*)pBuffer = pos[vertexIndex.p];
-								pBuffer += sizeof(Vec3D);
-							}
-							if (bNormal)
-							{
-								*(Vec3D*)pBuffer = normal[vertexIndex.n];
-								pBuffer += sizeof(Vec3D);
-							}
-						}
-						if (bColor)
-						{
-							*(Color32*)pBuffer = color[vertexIndex.c];
-							pBuffer += sizeof(Color32);
-						}
-						if (bTexCoord)
-						{
-							*(Vec2D*)pBuffer = texcoord[vertexIndex.uv1];
-							pBuffer += sizeof(Vec2D);
-						}
-						if (bTexCoord2)
-						{
-							*(Vec2D*)pBuffer = texcoord2[vertexIndex.uv2];
-							pBuffer += sizeof(Vec2D);
-						}
-					}
+					*pBuffer++ = m_setSkinVertex[n].uv;
 				}
 			}
 			m_pShareVB->unlock();
 		}
 	}
+	else
+	{
+		m_pVertexDeclHardware->AddElement(0, 0, VET_FLOAT3, VES_POSITION);
+		m_pVertexDeclHardware->AddElement(0, 12, VET_FLOAT3, VES_NORMAL);
+		m_pVertexDeclHardware->AddElement(0, 24, VET_FLOAT2, VES_TEXTURE_COORDINATES);
+		m_uSkinVertexSize = 0;
+		m_uShareVertexSize = sizeof(RigidVertex);
+
+		m_pShareVB = GetRenderSystem().GetHardwareBufferMgr().CreateVertexBuffer(m_setRigidVertex.size(), sizeof(RigidVertex));
+		if (m_pShareVB)
+		{
+			unsigned char* pBuffer = (unsigned char*)m_pShareVB->lock(CHardwareBuffer::HBL_NORMAL);
+			if (pBuffer)
+			{
+				memcpy(pBuffer, &m_setRigidVertex[0], m_setRigidVertex.size()*sizeof(RigidVertex));
+			}
+			m_pShareVB->unlock();
+		}
+	}
+	m_pVertexDeclHardware->EndElement();
+
 
 	// 填入IB
-	for(auto it = m_Lods.begin(); it!=m_Lods.end(); it++)
+	if (m_Indices.size()>0)
 	{
-		size_t indexSize = it->Indices.size();
-		if (indexSize>0)
+		m_pIB = GetRenderSystem().GetHardwareBufferMgr().CreateIndexBuffer(m_Indices.size());
+		if (m_pIB)
 		{
-			it->pIB = GetRenderSystem().GetHardwareBufferMgr().CreateIndexBuffer(indexSize);
-			if (it->pIB)
+			unsigned short* indices = (unsigned short*)m_pIB->lock(CHardwareBuffer::HBL_NORMAL);
+			if (indices)
 			{
-				unsigned short* indices = (unsigned short*)it->pIB->lock(CHardwareBuffer::HBL_NORMAL);
-				if (indices)
-				{
-					for (size_t i=0;i<indexSize;++i)
-					{
-						indices[i] = it->IndexLookup[ it->Indices[i] ];
-					}
-				}
-				it->pIB->unlock();
+				memcpy(indices, &m_Indices[0], m_Indices.size()*sizeof(unsigned short));
 			}
+			m_pIB->unlock();
 		}
 	}
 }
@@ -278,9 +162,9 @@ bool CLodMesh::SetMeshSource(int nLodLevel, CHardwareVertexBuffer* pSkinVB)const
 			return false;
 		}
 	}
-	if (m_Lods[ nLodLevel ].pIB)
+	if (m_pIB)
 	{
-		R.SetIndices(m_Lods[ nLodLevel ].pIB);	
+		R.SetIndices(m_pIB);	
 	}
 	else
 	{
@@ -291,28 +175,19 @@ bool CLodMesh::SetMeshSource(int nLodLevel, CHardwareVertexBuffer* pSkinVB)const
 
 void CLodMesh::drawSub(size_t uSubID, size_t uLodLevel)const
 {
-	if (m_Lods.size()<=uLodLevel)
+	if (m_setSubset.size()<=uSubID)
 	{
 		return;
 	}
-	if (m_Lods[uLodLevel].setSubset.size()<=uSubID)
-	{
-		return;
-	}
-	const IndexedSubset &subset = m_Lods[uLodLevel].setSubset[uSubID];
-	GetRenderSystem().drawIndexedSubset(subset);
+	GetRenderSystem().drawIndexedSubset(m_setSubset[uSubID]);
 }
 
 void CLodMesh::draw(size_t uLodLevel)const
 {
-	if (m_Lods.size()>uLodLevel)
+	CRenderSystem& R = GetRenderSystem();
+	for (auto it=m_setSubset.begin(); it!=m_setSubset.end(); it++)
 	{
-		CRenderSystem& R = GetRenderSystem();
-		const std::vector<IndexedSubset>& setSubset = m_Lods[ uLodLevel ].setSubset;
-		for (auto it=setSubset.begin(); it!=setSubset.end(); it++)
-		{
-			R.drawIndexedSubset(*it);
-		}
+		R.drawIndexedSubset(*it);
 	}
 }
 
@@ -363,21 +238,34 @@ void CLodMesh::skinningMesh(CHardwareVertexBuffer* pVB, std::vector<Matrix>& set
 
 void CLodMesh::Clear()
 {
-	m_setSubMesh.clear();
 }
 
 bool CLodMesh::intersect(const Vec3D& vRayPos, const Vec3D& vRayDir, Vec3D& vOut, int& nSubID)const
 {
-	for (size_t n=0;n<m_setSubMesh.size();++n)
-	{
-		const CSubMesh& subMesh = m_setSubMesh[n];
-		size_t size=subMesh.m_setVertexIndex.size()/3;
+	size_t size=m_Indices.size()/3;
 
+	if(m_setSkinVertex.size()>0)
+	{
 		for(size_t i=0;i<size;++i)
 		{
-			if (IntersectTri(pos[subMesh.m_setVertexIndex[i*3].p],pos[subMesh.m_setVertexIndex[i*3+1].p],pos[subMesh.m_setVertexIndex[i*3+2].p],vRayPos,vRayDir,vOut))
+			if (IntersectTri(m_setSkinVertex[m_Indices[i*3]].p,
+				m_setSkinVertex[m_Indices[i*3+1]].p,
+				m_setSkinVertex[m_Indices[i*3+2]].p,
+				vRayPos,vRayDir,vOut))
 			{
-				nSubID = n;
+				return true;
+			}
+		}
+	}
+	else
+	{
+		for(size_t i=0;i<size;++i)
+		{
+			if (IntersectTri(m_setRigidVertex[m_Indices[i*3]].p,
+				m_setRigidVertex[m_Indices[i*3+1]].p,
+				m_setRigidVertex[m_Indices[i*3+2]].p,
+				vRayPos,vRayDir,vOut))
+			{
 				return true;
 			}
 		}

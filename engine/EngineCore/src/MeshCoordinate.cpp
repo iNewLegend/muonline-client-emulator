@@ -32,7 +32,7 @@ CMeshCoordinate::~CMeshCoordinate()
 
 void CMeshCoordinate::init()
 {
-	m_setSubMesh.resize(3);
+	/*m_setSubMesh.resize(3);
 	const size_t CIRCLE_LINE_COUNT=6;
 	addPos(Vec3D(1,0,0));
 	for(size_t i=0; i<CIRCLE_LINE_COUNT; ++i)
@@ -98,7 +98,7 @@ void CMeshCoordinate::init()
 			vertexIndex.p=3+j+start;
 			m_setSubMesh[i].m_setVertexIndex.push_back(vertexIndex);
 		}
-	}
+	}*/
 	//
 	CLodMesh::init();
 }
@@ -201,7 +201,6 @@ bool CMeshCoordinate::intersect(const Vec3D& vRayPos , const Vec3D& vRayDir,Vec3
 #define COORD_PLANE_COLOR 0x44FFFF00
 void CMeshCoordinate::render(const Vec3D& vCoordShow)
 {
-	if (m_setSubMesh.empty())
 	{
 		init();
 	}

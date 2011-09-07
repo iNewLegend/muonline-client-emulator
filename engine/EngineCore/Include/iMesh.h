@@ -1,6 +1,7 @@
 #pragma once
 #include "Vec2D.h"
 #include "Frustum.h"
+#include "RenderSystemCommon.h"
 
 struct VertexIndex
 {
@@ -37,6 +38,32 @@ struct VertexIndex
 	}
 };
 
+struct SkinVertex
+{
+	Vec3D	p;
+	Vec3D	n;
+	SkinVertex()
+	{
+		w4=0;
+		b4=0;
+	}
+	union{
+		unsigned char	w[4];
+		unsigned long	w4;
+	};
+	union{
+		unsigned char	b[4];
+		unsigned long	b4;
+	};
+	Vec2D uv;
+};
+
+struct RigidVertex
+{
+	Vec3D	p;
+	Vec3D	n;
+	Vec2D	uv;
+};
 
 class iLodMesh
 {
@@ -45,12 +72,9 @@ public:
 	virtual void		setBBox(const BBox& bbox)=0;
 	virtual void		init()=0;
 
-	virtual void					setVertexSize(const unsigned short vertexSize)=0;
-	virtual const unsigned short	getVertexSize()const=0;
-
-	virtual char*		createVB(size_t size)=0;
-	virtual char*		getVB()=0;
-	virtual size_t		getVBSize()=0;
+	virtual std::vector<SkinVertex>&		getSkinVertices()=0;
+	virtual std::vector<RigidVertex>&		getRigidVertices()=0;
 	virtual std::vector<unsigned short>&	getIndices()=0;
-
+	virtual std::vector<IndexedSubset>&		getSubsets()=0;
+	virtual std::vector<std::vector<std::string>>&	getMaterials()=0;
 };

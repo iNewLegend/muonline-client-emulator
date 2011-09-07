@@ -336,8 +336,8 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 			sprintf(szMeshName,"%s_%d_%d",szFilename,x,y);
 			iLodMesh* pMesh = (iLodMesh*)m_pRenderNodeMgr->createRenderData("mesh",szMeshName);
 
-			CSubMesh& subMesh = pMesh->allotSubMesh();
-			subMesh.addMaterial("Terrain.Grass");
+			pMesh->getMaterials().resize(1);
+			pMesh->getMaterials()[0].push_back("Terrain.Grass");
 
 			BBox bbox;
 			int i=0;
@@ -356,22 +356,33 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 
 						int	nRand = (((grassY*(pTerrainData->getWidth()+1)+grassX+grassX*grassY)*214013L+2531011L)>>16)&0x7fff;   
 						float fTexU = (nRand%4)*0.25f;
+						RigidVertex rigidVertex;
 
-						subMesh.addPos( Vec3D((float)grassX, fHeight1, (float)grassY) );
-						subMesh.addColor(color1);
-						subMesh.addTexcoord(Vec2D(fTexU,1.0f));
+						rigidVertex.p.set( (float)grassX, fHeight1, (float)grassY );
+						//rigidVertex.c = color1;
+						rigidVertex.n.set( 0.0f, 0.0f, 0.0f );
+						rigidVertex.uv.set( (float)fTexU,1.0f );
+						pMesh->getRigidVertices().push_back(rigidVertex);
 
-						subMesh.addPos( Vec3D((float)grassX, fHeight1+1.5f, (float)grassY) );
-						subMesh.addColor(color1);
-						subMesh.addTexcoord(Vec2D(fTexU,0.0f));
+						rigidVertex.p.set( (float)grassX, fHeight1+1.5f, (float)grassY );
+						//rigidVertex.c = color1;
+						rigidVertex.n.set( 0.0f, 0.0f, 0.0f );
+						rigidVertex.uv.set( (float)fTexU,0.0f );
+						pMesh->getRigidVertices().push_back(rigidVertex);
 
-						subMesh.addPos( Vec3D((float)(grassX+1), fHeight2+1.5f, (float)(grassY+1)) );
-						subMesh.addColor(color2);
-						subMesh.addTexcoord(Vec2D(fTexU+0.25f,0.0f));
 
-						subMesh.addPos( Vec3D((float)(grassX+1), fHeight2, (float)(grassY+1)) );
-						subMesh.addColor(color2);
-						subMesh.addTexcoord(Vec2D(fTexU+0.25f,1.0f));
+		
+						rigidVertex.p.set( (float)(grassX+1), fHeight2+1.5f, (float)(grassY+1) );
+						//rigidVertex.c = color2;
+						rigidVertex.n.set( 0.0f, 0.0f, 0.0f );
+						rigidVertex.uv.set( (float)fTexU+0.25f,0.0f );
+						pMesh->getRigidVertices().push_back(rigidVertex);
+
+						rigidVertex.p.set( (float)(grassX+1), fHeight2, (float)(grassY+1) );
+						//rigidVertex.c = color2;
+						rigidVertex.n.set( 0.0f, 0.0f, 0.0f );
+						rigidVertex.uv.set( (float)fTexU+0.25f,1.0f );
+						pMesh->getRigidVertices().push_back(rigidVertex);
 
 						bbox.vMin.x = min((float)grassX,bbox.vMin.x);
 						bbox.vMin.y = min(fHeight1,bbox.vMin.y);
@@ -386,28 +397,12 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 						//	| / |
 						//	*---*
 						// 0	 3
-
-						VertexIndex vertexIndex;
-						ZeroMemory(&vertexIndex,sizeof(VertexIndex));
-
-						vertexIndex.p= vertexIndex.c= vertexIndex.uv1 = i;
-						subMesh.m_setVertexIndex.push_back(vertexIndex);
-
-						vertexIndex.p= vertexIndex.c= vertexIndex.uv1 = i+1;
-						subMesh.m_setVertexIndex.push_back(vertexIndex);
-
-						vertexIndex.p= vertexIndex.c= vertexIndex.uv1 = i+2;
-						subMesh.m_setVertexIndex.push_back(vertexIndex);
-
-						vertexIndex.p= vertexIndex.c= vertexIndex.uv1 = i;
-						subMesh.m_setVertexIndex.push_back(vertexIndex);
-
-						vertexIndex.p= vertexIndex.c= vertexIndex.uv1 = i+2;
-						subMesh.m_setVertexIndex.push_back(vertexIndex);
-
-						vertexIndex.p= vertexIndex.c= vertexIndex.uv1 = i+3;
-						subMesh.m_setVertexIndex.push_back(vertexIndex);
-
+						pMesh->getIndices().push_back(i);
+						pMesh->getIndices().push_back(i+1);
+						pMesh->getIndices().push_back(i+2);
+						pMesh->getIndices().push_back(i);
+						pMesh->getIndices().push_back(i+2);
+						pMesh->getIndices().push_back(i+3);
 						i+=4;
 					}
 				}
