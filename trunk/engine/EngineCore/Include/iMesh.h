@@ -65,6 +65,13 @@ struct RigidVertex
 	Vec2D	uv;
 };
 
+struct RigidNolightVertex
+{
+	Vec3D	p;
+	Color32	c;
+	Vec2D	uv;
+};
+
 class iLodMesh
 {
 public:
@@ -72,9 +79,10 @@ public:
 	virtual void		setBBox(const BBox& bbox)=0;
 	virtual void		init()=0;
 
-	virtual std::vector<SkinVertex>&		getSkinVertices()=0;
-	virtual std::vector<RigidVertex>&		getRigidVertices()=0;
-	virtual std::vector<unsigned short>&	getIndices()=0;
-	virtual std::vector<IndexedSubset>&		getSubsets()=0;
+	virtual std::vector<SkinVertex>&				getSkinVertices()=0;
+	virtual std::vector<RigidVertex>&				getRigidVertices()=0;
+	virtual std::vector<RigidNolightVertex>&		getRigidNolightVertices()=0;
+	virtual std::vector<unsigned short>&			getIndices()=0;
+	virtual std::vector<IndexedSubset>&				getSubsets()=0;
 	virtual std::vector<std::vector<std::string>>&	getMaterials()=0;
 };

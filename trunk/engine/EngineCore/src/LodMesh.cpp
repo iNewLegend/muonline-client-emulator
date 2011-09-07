@@ -90,7 +90,7 @@ void CLodMesh::init()
 			m_pShareVB->unlock();
 		}
 	}
-	else
+	else if (m_setRigidVertex.size()>0)
 	{
 		m_pVertexDeclHardware->AddElement(0, 0, VET_FLOAT3, VES_POSITION);
 		m_pVertexDeclHardware->AddElement(0, 12, VET_FLOAT3, VES_NORMAL);
@@ -98,13 +98,32 @@ void CLodMesh::init()
 		m_uSkinVertexSize = 0;
 		m_uShareVertexSize = sizeof(RigidVertex);
 
-		m_pShareVB = GetRenderSystem().GetHardwareBufferMgr().CreateVertexBuffer(m_setRigidVertex.size(), sizeof(RigidVertex));
+		m_pShareVB = GetRenderSystem().GetHardwareBufferMgr().CreateVertexBuffer(m_setRigidVertex.size(), m_uShareVertexSize);
 		if (m_pShareVB)
 		{
 			unsigned char* pBuffer = (unsigned char*)m_pShareVB->lock(CHardwareBuffer::HBL_NORMAL);
 			if (pBuffer)
 			{
 				memcpy(pBuffer, &m_setRigidVertex[0], m_setRigidVertex.size()*sizeof(RigidVertex));
+			}
+			m_pShareVB->unlock();
+		}
+	}
+	else if (m_setRigidNolightVertex.size()>0)
+	{
+		m_pVertexDeclHardware->AddElement(0, 0, VET_FLOAT3, VES_POSITION);
+		m_pVertexDeclHardware->AddElement(0, 12, VET_FLOAT3, VES_DIFFUSE);
+		m_pVertexDeclHardware->AddElement(0, 16, VET_FLOAT2, VES_TEXTURE_COORDINATES);
+		m_uSkinVertexSize = 0;
+		m_uShareVertexSize = sizeof(RigidNolightVertex);
+
+		m_pShareVB = GetRenderSystem().GetHardwareBufferMgr().CreateVertexBuffer(m_setRigidNolightVertex.size(), m_uShareVertexSize);
+		if (m_pShareVB)
+		{
+			unsigned char* pBuffer = (unsigned char*)m_pShareVB->lock(CHardwareBuffer::HBL_NORMAL);
+			if (pBuffer)
+			{
+				memcpy(pBuffer, &m_setRigidNolightVertex[0], m_setRigidNolightVertex.size()*m_uShareVertexSize);
 			}
 			m_pShareVB->unlock();
 		}
@@ -257,7 +276,7 @@ bool CLodMesh::intersect(const Vec3D& vRayPos, const Vec3D& vRayDir, Vec3D& vOut
 			}
 		}
 	}
-	else
+	else if(m_setRigidVertex.size()>0)
 	{
 		for(size_t i=0;i<size;++i)
 		{
