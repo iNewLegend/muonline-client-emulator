@@ -37,39 +37,10 @@ struct VertexIndex
 	}
 };
 
-class CSubMesh
-{
-public:
-	void addMaterial(const char* szMaterial)
-	{material.push_back(szMaterial);}
-	const char* getMaterial(size_t n)
-	{
-		if (material.size()>n)
-		{
-			return material[n].c_str();
-		}
-		return NULL;
-	}
-	void getVertexIndex(size_t n, VertexIndex& vertexIndex)
-	{
-		if (m_setVertexIndex.size()>n)
-		{
-			vertexIndex=m_setVertexIndex[n];
-		}
-	}
-
-	std::vector<std::string>	material;
-
-
-	std::vector<VertexIndex> m_setVertexIndex;
-};
 
 class iLodMesh
 {
 public:
-	virtual CSubMesh&	allotSubMesh()=0;
-	virtual int			getSubCount()=0;
-	virtual CSubMesh*	getSubMesh(size_t n)=0;
 	virtual const BBox&	getBBox()=0;
 	virtual void		setBBox(const BBox& bbox)=0;
 	virtual void		init()=0;
@@ -80,26 +51,6 @@ public:
 	virtual char*		createVB(size_t size)=0;
 	virtual char*		getVB()=0;
 	virtual size_t		getVBSize()=0;
-	virtual std::vector<unsigned short>&	getIB()=0;
-
-	template <class _T>
-	void  setVectorValue(std::vector<_T>& vec, size_t pos, const _T& val)
-	{
-		if (vec.size()<=pos)
-		{
-			vec.resize(pos+1);
-		}
-		vec.push_back(val);
-	}
-
-
-	template <class _T>
-	void  getVectorValue(const std::vector<_T>& vec, size_t pos, _T& val)
-	{
-		if (vec.size()>pos)
-		{
-			val=vec[pos];
-		}
-	}
+	virtual std::vector<unsigned short>&	getIndices()=0;
 
 };

@@ -43,7 +43,8 @@ void  transformRedundance(const std::vector<_T>& setIn, std::vector<_T>& setOut,
 
 //////////////////////////////////////////////////////////////////////////
 CLodMesh::CLodMesh()
-:m_pShareBuffer(NULL)
+:m_pShareVB(NULL)
+,m_pIB(NULL)
 ,m_pVertexDeclHardware(NULL)
 ,m_uVertexSize(0)
 ,m_uSkinVertexSize(0)
@@ -51,43 +52,20 @@ CLodMesh::CLodMesh()
 ,m_bSkinMesh(false)
 ,m_vb(NULL)
 ,m_vbSize(0)
-,m_ib(NULL)
-,m_ibSize(0)
 {
 }
 
 CLodMesh::~CLodMesh()
 {
-	S_DEL(m_pShareBuffer);
+	S_DEL(m_pShareVB);
+	S_DEL(m_pIB);
 	S_DEL(m_pVertexDeclHardware);
-}
-
-CSubMesh& CLodMesh::allotSubMesh()
-{
-	size_t size=m_setSubMesh.size();
-	m_setSubMesh.resize(size+1);
-	return m_setSubMesh[size];
-}
-
-CSubMesh* CLodMesh::getSubMesh(size_t n)
-{
-	if (m_setSubMesh.size()<=n)
-	{
-		return NULL;
-	}
-	return &m_setSubMesh[n];
 }
 
 char* CLodMesh::createVB(size_t size)
 {
 	m_vb = new char[size];
 	m_vbSize = size;
-}
-
-char* CLodMesh::createIB(size_t size)
-{
-	m_ib = new char[size];
-	m_ibSize = size;
 }
 
 void CLodMesh::init()
@@ -195,10 +173,10 @@ void CLodMesh::init()
 	// 创建刚体网格的公用的VB
 	if (m_uShareVertexSize > 0)
 	{
-		m_pShareBuffer = GetRenderSystem().GetHardwareBufferMgr().CreateVertexBuffer(uVertexCount, m_uShareVertexSize);
-		if (m_pShareBuffer)
+		m_pShareVB = GetRenderSystem().GetHardwareBufferMgr().CreateVertexBuffer(uVertexCount, m_uShareVertexSize);
+		if (m_pShareVB)
 		{
-			unsigned char* pBuffer = (unsigned char*)m_pShareBuffer->lock(CHardwareBuffer::HBL_NORMAL);
+			unsigned char* pBuffer = (unsigned char*)m_pShareVB->lock(CHardwareBuffer::HBL_NORMAL);
 			if (pBuffer)
 			{
 				for (size_t i=0;i<setVecVertexIndex.size();++i)
@@ -239,7 +217,7 @@ void CLodMesh::init()
 					}
 				}
 			}
-			m_pShareBuffer->unlock();
+			m_pShareVB->unlock();
 		}
 	}
 
@@ -275,9 +253,9 @@ bool CLodMesh::SetMeshSource(int nLodLevel, CHardwareVertexBuffer* pSkinVB)const
 		{
 			R.SetVertexDeclaration(m_pVertexDeclHardware);
 			R.SetStreamSource(0, pSkinVB, 0, sizeof(SkinnedVertex));
-			if (m_pShareBuffer)
+			if (m_pShareVB)
 			{
-				R.SetStreamSource(1, m_pShareBuffer, 0, m_uShareVertexSize);
+				R.SetStreamSource(1, m_pShareVB, 0, m_uShareVertexSize);
 			}
 			//GetRenderSystem().GetDevice()->SetStreamSourceFreq(0, D3DSTREAMSOURCE_INDEXEDDATA | 1ul);
 			//GetRenderSystem().GetDevice()->SetStreamSourceFreq(1, D3DSTREAMSOURCE_INDEXEDDATA | 1ul);
@@ -290,10 +268,10 @@ bool CLodMesh::SetMeshSource(int nLodLevel, CHardwareVertexBuffer* pSkinVB)const
 	}
 	else
 	{
-		if (m_pShareBuffer)
+		if (m_pShareVB)
 		{
 			R.SetVertexDeclaration(m_pVertexDeclHardware);
-			R.SetStreamSource(0, m_pShareBuffer, 0, m_uShareVertexSize);
+			R.SetStreamSource(0, m_pShareVB, 0, m_uShareVertexSize);
 		}
 		else
 		{

@@ -28,21 +28,16 @@ struct SkinVertex: public SkinnedVertex
 		unsigned char	b[4];
 		unsigned long	b4;
 	};
+	Vec3D uv;
 };
 
-struct ModelLod
+struct RigidVertex
 {
-	ModelLod()
-	{
-		pIB = NULL;
-		nLevel = 0;
-	}
-	CHardwareIndexBuffer*		pIB;			// 索引缓冲
-	std::vector<unsigned short>	IndexLookup;	// 使用索引查找表可以优化骨骼动画（通过索引表去更新必要的顶点） Vertices in this model (index into vertices[])
-	std::vector<unsigned short>	Indices;		// indices
-	std::vector<IndexedSubset>	setSubset;		// 部件
-	long						nLevel;			// LOD等级
+	Vec3D	p;
+	Vec3D	n;
+	Vec3D	uv;
 };
+
 
 class CBoundMesh
 {
@@ -78,8 +73,10 @@ public:
 	virtual char*		getVB(){return m_vb;}
 	virtual size_t		getVBSize(){return m_ibSize;}
 
-	virtual std::vector<unsigned short>&	getIB(){return m_ib;}
-
+	virtual std::vector<unsigned short>&	getIndices(){return m_Indices;}
+	virtual std::vector<IndexedSubset>&		getSubsets(){return m_setSubset;}
+	virtual std::vector<std::vector<std::string>>&		getMaterials(){return m_setMaterial;}
+	
 	bool				SetMeshSource(int nLodLevel=0, CHardwareVertexBuffer* pSkinVB=NULL)const;
 	void				drawSub(size_t uSubID, size_t uLodLevel=0)const;
 	void				draw(size_t uLodLevel=0)const;
@@ -92,10 +89,6 @@ public:
 public:
 	std::vector<CSubMesh>		m_setSubMesh;
 
-	CHardwareVertexBuffer*		m_pShareBuffer;			// Share Vertex Buffer
-	CVertexDeclaration*			m_pVertexDeclHardware;	// FVF
-	std::vector<ModelLod>		m_Lods;					// the lods
-
 	unsigned short				m_uVertexSize;
 	unsigned short				m_uSkinVertexSize;
 	unsigned short				m_uShareVertexSize;
@@ -103,10 +96,20 @@ public:
 	bool						m_bSkinMesh;			// is skin mesh?
 	BBox						m_bbox;					//
 protected:
+	CHardwareVertexBuffer*		m_pShareVB;				// Share Vertex Buffer
+	CHardwareIndexBuffer*		m_pIB;					// 索引缓冲
+	CVertexDeclaration*			m_pVertexDeclHardware;	// FVF
+
 	std::vector<SkinVertex>		m_setSkinVertex;
+	std::vector<RigidVertex>		m_setRigidVertex;
+	 
+	std::vector<unsigned short>	m_Indices;
+
+	std::vector<IndexedSubset>	m_setSubset;				// Sub IndexedSubset
+	std::vector<std::vector<std::string>>	m_setMaterial;	// Sub Material
+
 	char*						m_vb;
 	size_t						m_vbSize;
-	std::vector<unsigned short>	m_ib;
 
 	int							m_PosOffset;
 	int							m_NormalOffset;
