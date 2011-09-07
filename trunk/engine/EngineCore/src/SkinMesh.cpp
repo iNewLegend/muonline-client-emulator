@@ -95,24 +95,16 @@ bool CSkinMesh::init(void* pData)
 
 	if (m_vecPasses.empty())
 	{
-		if (m_pMesh->m_Lods.size()>0)
-		{
-			for (size_t i=0; i<m_pMesh->m_Lods[0].setSubset.size();++i)
+			for (size_t i=0; i<m_pMesh->getMaterials().size();++i)
 			{
 				ModelRenderPass pass;
 				pass.nSubID = i;
-				CSubMesh* pSubMesh = m_pMesh->getSubMesh(i);
-				if(pSubMesh)
+				if(m_pMesh->getMaterials()[i].size()>0)
 				{
-					const char* szMaterial = pSubMesh->getMaterial(0);
-					if (szMaterial)
-					{
-						pass.strMaterial = szMaterial;
-					}
+					pass.strMaterial = m_pMesh->getMaterials()[i][0];
 				}
 				m_vecPasses.push_back(pass);
 			}
-		}
 	}
 	m_nOrder=0;
 	for (auto it=m_vecPasses.begin();it!=m_vecPasses.end();it++)
@@ -138,7 +130,7 @@ void CSkinMesh::setLOD(unsigned long uLodID)
 	{
 		return;
 	}
-	if (m_pMesh->m_Lods.size()>uLodID)
+	//if (m_pMesh->m_Lods.size()>uLodID)
 	{
 		m_uLodLevel = uLodID;
 	}
@@ -150,19 +142,22 @@ void CSkinMesh::setSubSkin(int nSubID, int nID)
 	{
 		return;
 	}
-	CSubMesh* pSubMesh = m_pMesh->getSubMesh(nSubID);
-	if (pSubMesh)
+	// ----
+	if(m_pMesh->getMaterials().size()<=nSubID)
 	{
-		const char* szMaterial = pSubMesh->getMaterial(nID);
-		if (szMaterial)
+		return;
+	}
+	// ----
+	if(m_pMesh->getMaterials()[nSubID].size()<=nID)
+	{
+		return;
+	}
+	// ----
+	for (auto it=m_vecPasses.begin();it!=m_vecPasses.end();it++)
+	{
+		if (it->nSubID==nSubID)
 		{
-			for (auto it=m_vecPasses.begin();it!=m_vecPasses.end();it++)
-			{
-				if (it->nSubID==nSubID)
-				{
-					it->strMaterial = szMaterial;
-				}
-			}
+			it->strMaterial = m_pMesh->getMaterials()[nSubID][nID];
 		}
 	}
 }

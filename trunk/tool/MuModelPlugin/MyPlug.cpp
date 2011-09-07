@@ -251,20 +251,22 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 					// ----
 					BBox bbox;
 
-					std::vector<Vec3D>			pos;
-					std::vector<unsigned long>	weight;
-					std::vector<unsigned long>	bone;
-					std::vector<Vec3D>			normal;
-					std::vector<Vec2D>			texcoord;
-					std::vector<VertexIndex>	face;
+					IndexedSubset subset;
 
-					size_t uVertexCount=0;
-					std::vector<std::vector<VertexIndex>> setVecVertexIndex;
-					std::vector<unsigned short>& setIndex = pMesh->getIB();
-
+					std::vector<unsigned short>& setIndex = pMesh->getIndices();
+					pMesh->getMaterials().resize(bmd.setBmdSub.size());
 					for (size_t i=0;  i<bmd.setBmdSub.size(); ++i)
 					{
 						CMUBmd::BmdSub& bmdSub = bmd.setBmdSub[i];
+
+						std::vector<Vec3D>			pos;
+						std::vector<unsigned long>	weight;
+						std::vector<unsigned long>	bone;
+						std::vector<Vec3D>			normal;
+						std::vector<Vec2D>			texcoord;
+						std::vector<VertexIndex>	setVecVertexIndex;
+						std::vector<VertexIndex>	face;
+
 						// ----
 						// # Vertex Index
 						// ----
@@ -335,21 +337,32 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 							texcoord.push_back(*it);
 						}
 						// ----
- 						transformRedundance(face,setVecVertexIndex[i],setIndex);
-						uVertexCount+=setVecVertexIndex[i].size();
-// 						subset.vstart = 0;	// 因为每个sub都是独立的ib索引编号 从0开始，所以只需要设置vbase（vb地址偏移），有些显卡在误设置vstart（IB范围后）会不显示。
-// 						subset.vbase += subset.vcount;
-// 						subset.istart += subset.icount;
-// 						subset.vcount = setVertexIndex.size();
-// 						subset.icount = setIndex.size()-subset.istart;
-// 						m_Lods[0].setSubset.push_back(subset);
-// 						uVertexCount+=setVertexIndex.size();
+ 						transformRedundance(face,setVecVertexIndex,setIndex);
+
+ 						subset.vstart = 0;	// 因为每个sub都是独立的ib索引编号 从0开始，所以只需要设置vbase（vb地址偏移），有些显卡在误设置vstart（IB范围后）会不显示。
+ 						subset.vbase += subset.vcount;
+ 						subset.istart += subset.icount;
+ 						subset.vcount = setVecVertexIndex.size();
+ 						subset.icount = setIndex.size()-subset.istart;
+						pMesh->getSubsets().push_back(subset);
+
+						for (size_t n=0;n<setVecVertexIndex.size();++n)
+						{
+							VertexIndex& vertexIndex=setVecVertexIndex[n];
+							SkinVertex skinVertex;
+							skinVertex.p = pos[vertexIndex.p];
+							skinVertex.n = normal[vertexIndex.n];
+							skinVertex.w4 = weight[vertexIndex.w];
+							skinVertex.b4 = bone[vertexIndex.b];
+							skinVertex.w4 = weight[vertexIndex.w];
+							skinVertex.b4 = bone[vertexIndex.b];
+							pMesh->getSkinVertices().push_back(skinVertex);
+						}
 // 					}
 // 					transformRedundance(setIndex,m_Lods[0].IndexLookup,m_Lods[0].Indices);
 						// ----
 						// # Material
 						// ----
-						CSubMesh& subMesh=pMesh->allotSubMesh();
 						char szMaterialName[255];
 						{
 							std::string strTexFileName = GetParentPath(szFilename) + bmdSub.szTexture;
@@ -367,7 +380,7 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 							CMaterial* pMaterial = (CMaterial*)m_pRenderNodeMgr->createRenderData("material",szMaterialName);
 							pMaterial->setTexture(0,strTexFileName.c_str());
 							pMaterial->setShader("EngineRes\\fx\\diffuseAlphaTest128.fx");
-							subMesh.addMaterial(szMaterialName);
+							pMesh->getMaterials()[i].push_back(szMaterialName);
 							// ----
 							// # lvl 4
 							// ----
@@ -375,7 +388,7 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 							pMaterial = (CMaterial*)m_pRenderNodeMgr->createRenderData("material",szMaterialName);
 							pMaterial->setTexture(0,strTexFileName.c_str());
 							pMaterial->setShader("EngineRes\\fx\\MuLvl4.fx");
-							subMesh.addMaterial(szMaterialName);
+							pMesh->getMaterials()[i].push_back(szMaterialName);
 							// ----
 							// # lvl 7
 							// ----
@@ -383,11 +396,9 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 							pMaterial = (CMaterial*)m_pRenderNodeMgr->createRenderData("material",szMaterialName);
 							pMaterial->setTexture(0,strTexFileName.c_str());
 							pMaterial->setShader("EngineRes\\fx\\MuLvl7.fx");
-							subMesh.addMaterial(szMaterialName);
+							pMesh->getMaterials()[i].push_back(szMaterialName);
 						}
 					}
-					pMesh->createVB(uVertexCount*(36+8));
-
 					pMesh->setBBox(bbox);
 					pMesh->init();
 				}
