@@ -4,7 +4,6 @@
 struct VS_TERRAIN_GRASS_INPUT
 {
     float4  Pos     : POSITION;
-	float3  Normal  : NORMAL;
     float4  Color   : COLOR;
     float2  UV0     : TEXCOORD0;
 };

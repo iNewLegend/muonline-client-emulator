@@ -352,6 +352,7 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 							SkinVertex skinVertex;
 							skinVertex.p = pos[vertexIndex.p];
 							skinVertex.n = normal[vertexIndex.n];
+							skinVertex.uv = texcoord[vertexIndex.uv1];
 							skinVertex.w4 = weight[vertexIndex.w];
 							skinVertex.b4 = bone[vertexIndex.b];
 							skinVertex.w4 = weight[vertexIndex.w];

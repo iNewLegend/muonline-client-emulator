@@ -345,7 +345,6 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 			{
 				for (int grassX=x; grassX<x+nWidth; ++grassX)
 				{
-
 					if (pTerrainData->hasGrass(grassX,grassY))
 					{
 						float fHeight1 = pTerrainData->getVertexHeight(grassX,grassY);
@@ -356,33 +355,29 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 
 						int	nRand = (((grassY*(pTerrainData->getWidth()+1)+grassX+grassX*grassY)*214013L+2531011L)>>16)&0x7fff;   
 						float fTexU = (nRand%4)*0.25f;
-						RigidVertex rigidVertex;
+						RigidNolightVertex vertex;
 
-						rigidVertex.p.set( (float)grassX, fHeight1, (float)grassY );
-						//rigidVertex.c = color1;
-						rigidVertex.n.set( 0.0f, 0.0f, 0.0f );
-						rigidVertex.uv.set( (float)fTexU,1.0f );
-						pMesh->getRigidVertices().push_back(rigidVertex);
+						vertex.p.set( (float)grassX, fHeight1, (float)grassY );
+						vertex.c = color1;
+						vertex.uv.set( (float)fTexU,1.0f );
+						pMesh->getRigidNolightVertices().push_back(vertex);
 
-						rigidVertex.p.set( (float)grassX, fHeight1+1.5f, (float)grassY );
-						//rigidVertex.c = color1;
-						rigidVertex.n.set( 0.0f, 0.0f, 0.0f );
-						rigidVertex.uv.set( (float)fTexU,0.0f );
-						pMesh->getRigidVertices().push_back(rigidVertex);
+						vertex.p.set( (float)grassX, fHeight1+1.5f, (float)grassY );
+						vertex.c = color1;
+						vertex.uv.set( (float)fTexU,0.0f );
+						pMesh->getRigidNolightVertices().push_back(vertex);
 
 
 		
-						rigidVertex.p.set( (float)(grassX+1), fHeight2+1.5f, (float)(grassY+1) );
-						//rigidVertex.c = color2;
-						rigidVertex.n.set( 0.0f, 0.0f, 0.0f );
-						rigidVertex.uv.set( (float)fTexU+0.25f,0.0f );
-						pMesh->getRigidVertices().push_back(rigidVertex);
+						vertex.p.set( (float)(grassX+1), fHeight2+1.5f, (float)(grassY+1) );
+						vertex.c = color2;
+						vertex.uv.set( (float)fTexU+0.25f,0.0f );
+						pMesh->getRigidNolightVertices().push_back(vertex);
 
-						rigidVertex.p.set( (float)(grassX+1), fHeight2, (float)(grassY+1) );
-						//rigidVertex.c = color2;
-						rigidVertex.n.set( 0.0f, 0.0f, 0.0f );
-						rigidVertex.uv.set( (float)fTexU+0.25f,1.0f );
-						pMesh->getRigidVertices().push_back(rigidVertex);
+						vertex.p.set( (float)(grassX+1), fHeight2, (float)(grassY+1) );
+						vertex.c = color2;
+						vertex.uv.set( (float)fTexU+0.25f,1.0f );
+						pMesh->getRigidNolightVertices().push_back(vertex);
 
 						bbox.vMin.x = min((float)grassX,bbox.vMin.x);
 						bbox.vMin.y = min(fHeight1,bbox.vMin.y);
@@ -407,6 +402,15 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 					}
 				}
 			}
+
+			IndexedSubset subset;
+			subset.vstart = 0;
+ 			subset.vbase = 0;
+ 			subset.istart = 0;
+ 			subset.vcount = pMesh->getRigidNolightVertices().size();
+ 			subset.icount = pMesh->getIndices().size();
+			pMesh->getSubsets().push_back(subset);
+
 			pMesh->setBBox(bbox);
 			pMesh->init();
 

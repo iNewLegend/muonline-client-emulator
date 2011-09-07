@@ -32,10 +32,11 @@ public:
 	virtual void		setBBox(const BBox& bbox){m_bbox = bbox;}
 	virtual void		init();
 
-	virtual std::vector<SkinVertex>&		getSkinVertices(){return m_setSkinVertex;}
-	virtual std::vector<RigidVertex>&		getRigidVertices(){return m_setRigidVertex;}
-	virtual std::vector<unsigned short>&	getIndices(){return m_Indices;}
-	virtual std::vector<IndexedSubset>&		getSubsets(){return m_setSubset;}
+	virtual std::vector<SkinVertex>&				getSkinVertices(){return m_setSkinVertex;}
+	virtual std::vector<RigidVertex>&				getRigidVertices(){return m_setRigidVertex;}
+	virtual std::vector<RigidNolightVertex>&		getRigidNolightVertices(){return m_setRigidNolightVertex;}
+	virtual std::vector<unsigned short>&			getIndices(){return m_Indices;}
+	virtual std::vector<IndexedSubset>&				getSubsets(){return m_setSubset;}
 	virtual std::vector<std::vector<std::string>>&	getMaterials(){return m_setMaterial;}
 	
 	bool				SetMeshSource(int nLodLevel=0, CHardwareVertexBuffer* pSkinVB=NULL)const;
@@ -58,11 +59,12 @@ protected:
 	CHardwareIndexBuffer*		m_pIB;					// Ë÷Òý»º³å
 	CVertexDeclaration*			m_pVertexDeclHardware;	// FVF
 
-	std::vector<SkinVertex>		m_setSkinVertex;
-	std::vector<RigidVertex>	m_setRigidVertex;
+	std::vector<SkinVertex>					m_setSkinVertex;
+	std::vector<RigidVertex>				m_setRigidVertex;
+	std::vector<RigidNolightVertex>			m_setRigidNolightVertex;
 	 
-	std::vector<unsigned short>	m_Indices;
+	std::vector<unsigned short>				m_Indices;
 
-	std::vector<IndexedSubset>	m_setSubset;				// Sub IndexedSubset
+	std::vector<IndexedSubset>				m_setSubset;				// Sub IndexedSubset
 	std::vector<std::vector<std::string>>	m_setMaterial;	// Sub Material
 };

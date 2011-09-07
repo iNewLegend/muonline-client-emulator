@@ -5,7 +5,6 @@ VS_TERRAIN_OUTPUT VS(VS_TERRAIN_INPUT i)
 {
 	VS_TERRAIN_OUTPUT o;
 	o.UV0 = i.UV0;
-	o.UV1 = i.UV1;
 	o.Pos = mul(i.Pos,g_mViewProj);
 	o.Pos.z+=0.001f;
 	o.Color = i.Color;
