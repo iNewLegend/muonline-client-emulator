@@ -346,18 +346,33 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
  						subset.icount = setIndex.size()-subset.istart;
 						pMesh->getSubsets().push_back(subset);
 
-						for (size_t n=0;n<setVecVertexIndex.size();++n)
+						if (1<bmd.nFrameCount||bIsPlayerPart)
 						{
-							VertexIndex& vertexIndex=setVecVertexIndex[n];
-							SkinVertex skinVertex;
-							skinVertex.p = pos[vertexIndex.p];
-							skinVertex.n = normal[vertexIndex.n];
-							skinVertex.uv = texcoord[vertexIndex.uv1];
-							skinVertex.w4 = weight[vertexIndex.w];
-							skinVertex.b4 = bone[vertexIndex.b];
-							skinVertex.w4 = weight[vertexIndex.w];
-							skinVertex.b4 = bone[vertexIndex.b];
-							pMesh->getSkinVertices().push_back(skinVertex);
+							for (size_t n=0;n<setVecVertexIndex.size();++n)
+							{
+								VertexIndex& vertexIndex=setVecVertexIndex[n];
+								SkinVertex vertex;
+								vertex.p = pos[vertexIndex.p];
+								vertex.n = normal[vertexIndex.n];
+								vertex.uv = texcoord[vertexIndex.uv1];
+								vertex.w4 = weight[vertexIndex.w];
+								vertex.b4 = bone[vertexIndex.b];
+								vertex.w4 = weight[vertexIndex.w];
+								vertex.b4 = bone[vertexIndex.b];
+								pMesh->getSkinVertices().push_back(vertex);
+							}
+						}
+						else
+						{
+							for (size_t n=0;n<setVecVertexIndex.size();++n)
+							{
+								VertexIndex& vertexIndex=setVecVertexIndex[n];
+								RigidVertex vertex;
+								vertex.p = pos[vertexIndex.p];
+								vertex.n = normal[vertexIndex.n];
+								vertex.uv = texcoord[vertexIndex.uv1];
+								pMesh->getRigidVertices().push_back(vertex);
+							}
 						}
 // 					}
 // 					transformRedundance(setIndex,m_Lods[0].IndexLookup,m_Lods[0].Indices);

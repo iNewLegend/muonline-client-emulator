@@ -39,13 +39,12 @@ public:
 	virtual ~iTerrainData(){};
 	//
 	virtual void			clear()=0;
-	virtual void			create(size_t width, size_t height, size_t chunkSize)=0;
-	virtual bool			resize(size_t width, size_t height, size_t chunkSize)=0;
+	virtual void			create(size_t width, size_t height)=0;
+	virtual bool			resize(size_t width, size_t height)=0;
 	//
 	virtual int				getWidth()const=0;
 	virtual int				getHeight()const=0;
 	virtual int				getVertexCount()const=0;
-	virtual int				getChunkSize()const=0;
 	//
 	virtual bool			isCellIn(int x, int y)const=0;
 	virtual bool			isPointIn(int x, int y)const=0;

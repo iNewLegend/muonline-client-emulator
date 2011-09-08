@@ -1506,7 +1506,7 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 		unsigned short uMapID = *((unsigned short*)(buffer));
 		unsigned short uObjCount = *((unsigned short*)(buffer+2));
 		ObjInfo* pObjInfo = (ObjInfo*)(buffer+4);
-		for (int i=0; i<0;++i)
+		for (int i=0; i<uObjCount;++i)
 		{
 			Vec3D vPos = Vec3D(pObjInfo->p.x,pObjInfo->p.z,pObjInfo->p.y)*0.01f;
 			Vec3D vRotate = Vec3D(pObjInfo->rotate.x,pObjInfo->rotate.z,pObjInfo->rotate.y)*PI/180.0f;

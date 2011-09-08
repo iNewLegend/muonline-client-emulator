@@ -1,6 +1,5 @@
 #pragma once
 #include "iScene.h"
-#include "Octree.h"
 
 enum E_TERRAIN_ATT_TYPE
 {
@@ -15,12 +14,6 @@ enum E_TERRAIN_ATT_TYPE
 #define ATTRIBUTE_BREAK		(0x01<<2)
 #define ATTRIBUTE_UNVISIBLE	(0x01<<3)
 
-struct TerrainChunk
-{
-	BBox box;
-	std::map<int,int> m_TileCount[2];
-};
-
 // 地图文件数据
 class CTerrainData:public iTerrainData
 {
@@ -29,14 +22,11 @@ public:
 	~CTerrainData();
 	//
 	void				clear();
-	void				create(size_t width, size_t height, size_t chunkSize);
-	bool				resize(size_t width, size_t height, size_t chunkSize);
-	void				updateChunk(TerrainChunk* pChunk);
-	void				walkOctree(const CFrustum& frustum, std::set<TerrainChunk*>& setNode);
+	void				create(size_t width, size_t height);
+	bool				resize(size_t width, size_t height);
 	//
 	int					getWidth()const			{ return m_nWidth; }
 	int					getHeight()const		{ return m_nHeight; }
-	int					getChunkSize()const		{ return m_nChunkSize; }
 	int					getVertexCount()const	{ return m_Cells.size(); }
 	//
 	bool				isCellIn(int x, int y)const;
@@ -107,11 +97,8 @@ protected:
 	std::string					m_strFilename;
 	int							m_nWidth;
 	int							m_nHeight;
-	int							m_nChunkSize;
 
 	std::vector<TerrainCell>	m_Cells;
-	std::vector<TerrainChunk>	m_Chunks;
-	Octree<TerrainChunk*>		m_OctreeRoot;
 	unsigned short				m_uMuFlgMap;
 	unsigned long				m_uMuFlgAtt;
 };

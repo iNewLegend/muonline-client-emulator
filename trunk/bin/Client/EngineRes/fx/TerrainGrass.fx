@@ -12,7 +12,6 @@ struct VS_TERRAIN_GRASS_OUTPUT
 {
     float4  Pos     : POSITION;
     float2  UV0     : TEXCOORD0;
-
     float4  Color   : COLOR;
 };
 
@@ -33,7 +32,6 @@ float4 PS(VS_TERRAIN_GRASS_OUTPUT i) : COLOR0
 	float4 cDiffuse	= tex2D(s0, i.UV0);
 	float4 color;
 	//float4 cLight	= tex2D(g_samLight, i.UV1);
-	//color.xyz=cLight.xyz;
 	color = i.Color;
 	color *= cDiffuse;
 	return color;

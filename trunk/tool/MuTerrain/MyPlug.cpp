@@ -79,7 +79,7 @@ inline void encrypt(char* buffer, size_t size)
 bool CMyPlug::importTerrainData(iTerrainData * pTerrainData, const std::string& strFilename)
 {
 	pTerrainData->clear();
-	if (pTerrainData->resize(253,253,11))
+	if (pTerrainData->resize(253,253))
 	{
 		// EncTerrain
 		IOReadBase* pRead = IOReadBase::autoOpen(strFilename);
@@ -314,103 +314,194 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 			pMaterial->setShader(szShaderFilename);
 		}
 	}
-	// tiles
-	//std::string strTileFile = GetParentPath(szFilename)+"Tile.csv";
-	//if (!IOReadBase::Exists(strTileFile))
-	//{
-	//	strTileFile="Plugins\\Data\\default\\Tile.csv";
-	//}
-	//pScene->getTerrainData()->create();
 	// ----
 	// # Create Grasses
 	// ----
-	for (int y=0; y<pTerrainData->getHeight(); y+=16)
+	for (int startY=0; startY<pTerrainData->getHeight(); startY+=16)
 	{
-		for (int x=0; x<pTerrainData->getWidth(); x+=16)
+		for (int startX=0; startX<pTerrainData->getWidth(); startX+=16)
 		{
-			int nWidth = min(pTerrainData->getWidth()-x,16);
-			int nHeight = min(pTerrainData->getHeight()-y,16);
-
+			int nWidth = min(pTerrainData->getWidth()-startX,16);
+			int nHeight = min(pTerrainData->getHeight()-startY,16);
+			int nEndX = startX+nWidth;
+			int nEndY = startY+nHeight;
 			char szMeshName[256];
 			// 
-			sprintf(szMeshName,"%s_%d_%d",szFilename,x,y);
+			sprintf(szMeshName,"%s_%d_%d",szFilename,startX,startY);
 			iLodMesh* pMesh = (iLodMesh*)m_pRenderNodeMgr->createRenderData("mesh",szMeshName);
 
-			pMesh->getMaterials().resize(1);
-			pMesh->getMaterials()[0].push_back("Terrain.Grass");
-
 			BBox bbox;
-			int i=0;
-			for (int grassY=y; grassY<y+nHeight; ++grassY)
+
+			std::vector<RigidNolightVertex>& setVertices = pMesh->getRigidNolightVertices();
+
+			// ----
+			// # Ground
+			// ----
+			for (int y=startY; y<=nEndY; ++y)
 			{
-				for (int grassX=x; grassX<x+nWidth; ++grassX)
+				for (int grassX=startX; grassX<=nEndX; ++grassX)
 				{
-					if (pTerrainData->hasGrass(grassX,grassY))
+					RigidNolightVertex vertex;
+
+					float fHeight = pTerrainData->getVertexHeight(grassX,y);
+					Color32 color = pTerrainData->getVertexColor(grassX,y);
+
+					bbox.vMin.y = min(fHeight,bbox.vMin.y);
+					bbox.vMax.y = max(fHeight,bbox.vMax.y);
+
+					vertex.p.set( (float)grassX, fHeight, (float)y );
+					vertex.c = color;
+					vertex.uv.set( (float)grassX,(float)y );
+					setVertices.push_back(vertex);
+				}
+			}
+			// ----
+			std::map<unsigned char,std::vector<int>> mapLayer[2];
+			int i=0;
+			for (int y=startY; y<nEndY; ++y)
+			{
+				for (int grassX=startX; grassX<nEndX; ++grassX)
+				{
+					unsigned char title0 = pTerrainData->getCellTileID(grassX,y,0);
+					unsigned char title1 = pTerrainData->getCellTileID(grassX,y,1);
+					//TerrainCell& cell = *m_pTerrainData->getCell(x,y);
+					//if ((cell.uAttribute&0x8)==0)// Í¸Ã÷
+					if (title0!=0xFF)// Í¸Ã÷
 					{
-						float fHeight1 = pTerrainData->getVertexHeight(grassX,grassY);
-						float fHeight2 = pTerrainData->getVertexHeight(grassX+1,grassY+1);
+						mapLayer[0][title0].push_back(i);
+					}
+					if (title1!=0xFF)// Í¸Ã÷
+					{
+						mapLayer[1][title1].push_back(i);
+					}
+					i++;
+				}
+				i++;
+			}
+			// ----
+			IndexedSubset subset;
+			for (int nLayer=0;nLayer<2;++nLayer)
+			{
+				for (auto it= mapLayer[nLayer].begin(); it!=mapLayer[nLayer].end(); ++it)
+				{
+					// ----
+					// # Subset
+					// ----
+					subset.vstart = 0;
+					subset.vbase = 0;
+					subset.istart += subset.icount;
+					subset.vcount = setVertices.size();
+					subset.icount = it->second.size()*6;
+					pMesh->getSubsets().push_back(subset);
+					// ----
+					// # Material
+					// ----
+					pMesh->getMaterials().resize(pMesh->getSubsets().size());
+					pMesh->getMaterials()[pMesh->getSubsets().size()-1].push_back(szTerrainMaterial[it->first+nLayer*10][0]);
+					// ----
+					// # Indices
+					// ----
+					for (auto it2=it->second.begin(); it2!=it->second.end(); ++it2)
+					{
+						// 1	 2
+						//	*---*
+						//	| / |
+						//	*---*
+						// 0	 3
+						int i = *it2;
+						pMesh->getIndices().push_back(i);
+						pMesh->getIndices().push_back(i+nWidth+1);
+						pMesh->getIndices().push_back(i+nWidth+2);
+						pMesh->getIndices().push_back(i);
+						pMesh->getIndices().push_back(i+nWidth+2);
+						pMesh->getIndices().push_back(i+1);
+					}
+				}
+			}
+			// ----
+			// # Grass
+			// ----
+			for (int y=startY; y<nEndY; ++y)
+			{
+				for (int x=startX; x<nEndX; ++x)
+				{
+					if (pTerrainData->hasGrass(x,y))
+					{
+						float fHeight1 = pTerrainData->getVertexHeight(x,y);
+						float fHeight2 = pTerrainData->getVertexHeight(x+1,y+1);
 
-						Color32 color1 = pTerrainData->getVertexColor(grassX,grassY);
-						Color32 color2 = pTerrainData->getVertexColor(grassX+1,grassY+1);
+						Color32 color1 = pTerrainData->getVertexColor(x,y);
+						Color32 color2 = pTerrainData->getVertexColor(x+1,y+1);
 
-						int	nRand = (((grassY*(pTerrainData->getWidth()+1)+grassX+grassX*grassY)*214013L+2531011L)>>16)&0x7fff;   
+						int	nRand = (((y*(pTerrainData->getWidth()+1)+x+x*y)*214013L+2531011L)>>16)&0x7fff;   
 						float fTexU = (nRand%4)*0.25f;
 						RigidNolightVertex vertex;
 
-						vertex.p.set( (float)grassX, fHeight1, (float)grassY );
+						vertex.p.set( (float)x, fHeight1, (float)y );
 						vertex.c = color1;
 						vertex.uv.set( (float)fTexU,1.0f );
-						pMesh->getRigidNolightVertices().push_back(vertex);
+						setVertices.push_back(vertex);
 
-						vertex.p.set( (float)grassX, fHeight1+1.5f, (float)grassY );
+						vertex.p.set( (float)x, fHeight1+1.5f, (float)y );
 						vertex.c = color1;
 						vertex.uv.set( (float)fTexU,0.0f );
-						pMesh->getRigidNolightVertices().push_back(vertex);
+						setVertices.push_back(vertex);
 
-
-		
-						vertex.p.set( (float)(grassX+1), fHeight2+1.5f, (float)(grassY+1) );
+						vertex.p.set( (float)(x+1), fHeight2+1.5f, (float)(y+1) );
 						vertex.c = color2;
 						vertex.uv.set( (float)fTexU+0.25f,0.0f );
-						pMesh->getRigidNolightVertices().push_back(vertex);
+						setVertices.push_back(vertex);
 
-						vertex.p.set( (float)(grassX+1), fHeight2, (float)(grassY+1) );
+						vertex.p.set( (float)(x+1), fHeight2, (float)(y+1) );
 						vertex.c = color2;
 						vertex.uv.set( (float)fTexU+0.25f,1.0f );
-						pMesh->getRigidNolightVertices().push_back(vertex);
+						setVertices.push_back(vertex);
 
-						bbox.vMin.x = min((float)grassX,bbox.vMin.x);
+						bbox.vMin.x = min((float)x,bbox.vMin.x);
 						bbox.vMin.y = min(fHeight1,bbox.vMin.y);
-						bbox.vMin.z = min((float)grassY,bbox.vMin.z);
+						bbox.vMin.z = min((float)y,bbox.vMin.z);
 
-						bbox.vMax.x = max((float)(grassX+1),bbox.vMax.x);
+						bbox.vMax.x = max((float)(x+1),bbox.vMax.x);
 						bbox.vMax.y = max(fHeight2+1.5f,bbox.vMax.y);
-						bbox.vMax.z = max((float)(grassY+1),bbox.vMax.z);
+						bbox.vMax.z = max((float)(y+1),bbox.vMax.z);
 
 						// 1	 2
 						//	*---*
 						//	| / |
 						//	*---*
 						// 0	 3
+						int i = setVertices.size()-4;
 						pMesh->getIndices().push_back(i);
 						pMesh->getIndices().push_back(i+1);
 						pMesh->getIndices().push_back(i+2);
 						pMesh->getIndices().push_back(i);
 						pMesh->getIndices().push_back(i+2);
 						pMesh->getIndices().push_back(i+3);
-						i+=4;
 					}
 				}
 			}
-
-			IndexedSubset subset;
+			// ----
+			// # Subset
+			// ----
 			subset.vstart = 0;
  			subset.vbase = 0;
- 			subset.istart = 0;
- 			subset.vcount = pMesh->getRigidNolightVertices().size();
- 			subset.icount = pMesh->getIndices().size();
+ 			subset.istart += subset.icount;
+ 			subset.vcount = setVertices.size();
+ 			subset.icount = pMesh->getIndices().size()-subset.istart;
 			pMesh->getSubsets().push_back(subset);
+			// ----
+			// # Material
+			// ----
+			pMesh->getMaterials().resize(pMesh->getSubsets().size());
+			pMesh->getMaterials()[pMesh->getSubsets().size()-1].push_back("Terrain.Grass");
+			// ----
+			// # Box
+			// ----
+			bbox.vMin.x = (float)startX;
+			bbox.vMin.z = (float)startY;
 
+			bbox.vMax.x = (float)(nEndX);
+			bbox.vMax.z = (float)(nEndY);
 			pMesh->setBBox(bbox);
 			pMesh->init();
 

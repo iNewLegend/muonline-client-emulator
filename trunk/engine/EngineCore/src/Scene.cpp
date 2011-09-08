@@ -77,10 +77,6 @@ void CScene::updateRender(const CFrustum& frustum)
 		s_frustum=frustum;
 	}
 	m_bRefreshViewport = false;
-	if (m_pTerrain)
-	{
-		m_pTerrain->updateRender(frustum);
-	}
 	//
 	m_setRenderSceneNode.clear();
 	if (m_bShowNode)
@@ -139,7 +135,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 	}
 	if (m_pTerrain)
 	{
-		if(m_pTerrain->prepare())
+		//if(m_pTerrain->prepare())
 		{
 			if(R.prepareMaterial("LightDecal"))
 			{
@@ -148,7 +144,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 				FOR_IN(itLight,m_setLightObj)
 				{
 					const Vec3D& vLightPos = (*itLight)->getPos();
-					m_pTerrain->drawLightDecal(vLightPos.x,vLightPos.z,3.0f,0xFFFFFFFF);
+					//m_pTerrain->drawLightDecal(vLightPos.x,vLightPos.z,3.0f,0xFFFFFFFF);
 				}
 			}
 		}
