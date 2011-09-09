@@ -11,7 +11,6 @@ struct VS_MODEL_OUTPUT
 {
     float4  Pos     : POSITION;
     float2  UV0     : TEXCOORD0;
-    float2  UV1     : TEXCOORD1;
     float4  Color   : COLOR;
 };
 
@@ -20,10 +19,9 @@ VS_MODEL_OUTPUT VS(VS_MODEL_INPUT i)
 {
 	VS_MODEL_OUTPUT o;
 	o.UV0 = i.UV0;
-	o.UV1 = mul(i.Normal+i.Pos,g_mView)+g_fTime*0.3f;
 	i.Pos = mul(i.Pos,g_mWorld);
 	o.Pos = mul(i.Pos,g_mViewProj);
-	o.Color = 1;
+	o.Color = float4(0.7,1,0.7,1)*(0.8-sin(g_fTime*2)*0.2f);
 	return o;
 }
 
@@ -31,7 +29,6 @@ sampler s0: register(s0);
 float4 PS(VS_MODEL_OUTPUT i) : COLOR0
 {
 	float4 color	= tex2D(s0, i.UV0);
-	color.xyz*=(float3(0.7,1,0.7)*((sin((i.UV1.y+i.UV1.x)*8)+3.0f)*0.25f));
 	return color*i.Color;
 }
 

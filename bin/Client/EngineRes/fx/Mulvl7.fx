@@ -20,7 +20,7 @@ VS_MODEL_OUTPUT VS(VS_MODEL_INPUT i)
 {
 	VS_MODEL_OUTPUT o;
 	o.UV0 = i.UV0;
-	o.UV1 = mul(i.Normal+i.Pos,g_mView)+g_fTime*0.3f;
+	o.UV1 = mul(i.Normal,g_mView).xz+g_fTime*0.3f;
 	i.Pos = mul(i.Pos,g_mWorld);
 	o.Pos = mul(i.Pos,g_mViewProj);
 	o.Color = 1;
@@ -30,7 +30,7 @@ VS_MODEL_OUTPUT VS(VS_MODEL_INPUT i)
 sampler s0: register(s0);
 float4 PS(VS_MODEL_OUTPUT i) : COLOR0
 {
-	float4 color	= tex2D(s0, i.UV0)+(float4(0.5,0.5,0.1,1)*((sin((i.UV1.y+i.UV1.x)*8)+1.0f)*0.5f));
+	float4 color	= tex2D(s0, i.UV0)+(float4(0.5,0.5,0.1,1)*((sin((i.UV1.y+i.UV1.x)*16)+1.0f)*0.5f));
 	return color*i.Color;
 }
 
