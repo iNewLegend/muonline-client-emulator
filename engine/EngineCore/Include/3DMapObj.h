@@ -17,9 +17,6 @@ public:
 
 	virtual Matrix	getShadowMatrix	(const Vec3D& vLight,float fHeight)const;
 	virtual void	renderShadow	(const Matrix& mWorld, const Vec3D& vLight,float fHeight)const;
-	virtual void	renderFocus		()const;
 	virtual void	renderDebug		()const;
-
-	void			renderFocus		(Color32 color)const;
 protected:
 };

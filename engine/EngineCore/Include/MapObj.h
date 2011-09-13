@@ -36,7 +36,6 @@ public:
 public:
 	GSET_CONST_VAR	(int,m_n,Order);
 
-	virtual void			renderFocus	()const					{}
 	virtual void			renderDebug	()const					{}
 
 	virtual int				getObjType	()						{return m_nType;}

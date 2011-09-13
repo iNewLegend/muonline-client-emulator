@@ -20,7 +20,6 @@ public:
 	// ----
 	virtual void	frameMove		(const Matrix& mWorld, double fTime, float fElapsedTime);
 	virtual void	setActionState	(unsigned char uActionState);
-	virtual void	renderFocus		()const;
 	// ----
 	virtual int		GetObjType		(){return MAP_ROLE;}
 };
