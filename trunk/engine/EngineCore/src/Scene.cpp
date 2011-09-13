@@ -250,7 +250,19 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 		//
 		FOR_IN(it,m_FocusNode.getChildObj())
 		{
-			((C3DMapObj*)*it)->renderFocus();
+			if (GetRenderSystem().prepareMaterial("ObjectFocus"))
+			{
+				// monster (0xFFFF4040)
+				// NPC (0xFF40FF40)
+				// Player (0xFF00FFFF)
+				//CShader* pShaderFocus = GetRenderSystem().GetShaderMgr().getItem(m_MaterialFocus.uShader);
+				//if (pShaderFocus)
+				{
+					//	pShaderFocus->setVec4D("g_vColorFocus",Vec4D(color));
+					((CRenderNode*)*it)->render(Matrix::UNIT, E_MATERIAL_RENDER_TYPE(MATERIAL_GEOMETRY|MATERIAL_RENDER_ALPHA_TEST));
+				}
+				GetRenderSystem().finishMaterial();
+			}
 		}
 		FOR_IN(it,m_FocusNode.getChildObj())
 		{

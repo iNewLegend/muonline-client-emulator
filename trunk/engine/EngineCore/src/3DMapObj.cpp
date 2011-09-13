@@ -43,27 +43,8 @@ void C3DMapObj::renderShadow(const Matrix& mWorld, const Vec3D& vLight,float fHe
 	render(mNewWorld, E_MATERIAL_RENDER_TYPE(MATERIAL_GEOMETRY|MATERIAL_RENDER_ALPHA_TEST));
 }
 
-void C3DMapObj::renderFocus()const
-{
-	renderFocus(0xFFFFFFFF);
-}
-
 #include "Graphics.h"
 void C3DMapObj::renderDebug()const
 {
 	GetGraphics().drawBBox(getLocalBBox(),0xFFFF4400);
-}
-
-void C3DMapObj::renderFocus(Color32 color)const
-{
-	if (GetRenderSystem().prepareMaterial("ObjectFocus"))
-	{
-		//CShader* pShaderFocus = GetRenderSystem().GetShaderMgr().getItem(m_MaterialFocus.uShader);
-		//if (pShaderFocus)
-		{
-		//	pShaderFocus->setVec4D("g_vColorFocus",Vec4D(color));
-			render(Matrix::UNIT, E_MATERIAL_RENDER_TYPE(MATERIAL_GEOMETRY|MATERIAL_RENDER_ALPHA_TEST));
-		}
-		GetRenderSystem().finishMaterial();
-	}
 }
