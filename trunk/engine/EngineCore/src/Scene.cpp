@@ -250,31 +250,29 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 		//
 		FOR_IN(it,m_FocusNode.getChildObj())
 		{
+			R.SetTextureFactor(0xFF40FF40);
 			if (GetRenderSystem().prepareMaterial("ObjectFocus"))
 			{
+				float color[4] = {1.0f,0.25f,0.0f,0.5f};
+				R.SetPixelShaderConstantF(0,color,1);
 				// monster (0xFFFF4040)
 				// NPC (0xFF40FF40)
 				// Player (0xFF00FFFF)
-				//CShader* pShaderFocus = GetRenderSystem().GetShaderMgr().getItem(m_MaterialFocus.uShader);
-				//if (pShaderFocus)
-				{
-					//	pShaderFocus->setVec4D("g_vColorFocus",Vec4D(color));
-					((CRenderNode*)*it)->render(Matrix::UNIT, E_MATERIAL_RENDER_TYPE(MATERIAL_GEOMETRY|MATERIAL_RENDER_ALPHA_TEST));
-				}
+				((CRenderNode*)*it)->render(Matrix::UNIT, E_MATERIAL_RENDER_TYPE(MATERIAL_GEOMETRY|MATERIAL_RENDER_ALPHA_TEST));
 				GetRenderSystem().finishMaterial();
 			}
 		}
-		FOR_IN(it,m_FocusNode.getChildObj())
-		{
-			DirectionalLight light(Vec4D(0.4f,0.4f,0.4f,0.4f),Vec4D(1.0f,1.0f,1.0f,1.0f),
-				Vec4D(0.6f,0.6f,0.6f,0.6f),vLightDir);
-			R.SetDirectionalLight(0,light);
-			(*it)->render(Matrix::UNIT,MATERIAL_GEOMETRY);
-		}
+ 		FOR_IN(it,m_FocusNode.getChildObj())
+ 		{
+ 			DirectionalLight light(Vec4D(0.8f,0.8f,0.8f,0.8f),Vec4D(1.0f,1.0f,1.0f,1.0f),
+ 				Vec4D(0.6f,0.6f,0.6f,0.6f),vLightDir);
+ 			R.SetDirectionalLight(0,light);
+ 			(*it)->render(Matrix::UNIT,MATERIAL_GEOMETRY);
+ 		}
 		//
 		if (m_pTerrain)
 		{
-			m_pTerrain->render(Matrix::UNIT,MATERIAL_ALPHA);
+		//	m_pTerrain->render(Matrix::UNIT,MATERIAL_ALPHA);
 		}
 		DirectionalLight light(Vec4D(0.3f,0.3f,0.3f,0.3f),Vec4D(0.6f,0.6f,0.6f,0.6f),Vec4D(0.6f,0.6f,0.6f,0.6f),Vec3D(0.0f,-1.0f,1.0f));
 		R.SetDirectionalLight(0,light);
@@ -287,11 +285,11 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 		//
 		FOR_IN(it,m_setRenderSceneNode)
 		{
-			(*it)->render(Matrix::UNIT,MATERIAL_ALPHA);
+		//	(*it)->render(Matrix::UNIT,MATERIAL_ALPHA);
 		}
 		FOR_IN(it,m_setRenderSceneNode)
 		{
-			(*it)->render(Matrix::UNIT,MATERIAL_GLOW);
+		//	(*it)->render(Matrix::UNIT,MATERIAL_GLOW);
 		}
 	}
 }

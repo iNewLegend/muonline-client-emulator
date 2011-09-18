@@ -5,13 +5,11 @@ struct VS_OBJECT_INPUT
 {
     float4  Pos     : POSITION;
 	float3  Normal  : NORMAL;
-    float2  UV0     : TEXCOORD0;
 };
 
 struct VS_OBJECT_OUTPUT
 {
     float4  Pos     : POSITION;
-    float2  UV0     : TEXCOORD0;
 };
 
 VS_OBJECT_OUTPUT VS(VS_OBJECT_INPUT i)
@@ -28,16 +26,14 @@ VS_OBJECT_OUTPUT VS(VS_OBJECT_INPUT i)
 	normal = normalize(mul(normal,mView));
 
 	o.Pos.xy+=normal.xy*o.Pos.w*0.005;
-	
-	o.UV0 = i.UV0;
+
 	return o;
 }
 
+float4 vColorFocus: register(c0);
 float4 PS(VS_OBJECT_OUTPUT i) : COLOR0
 {
-	float4 color = 0xFFFF4000;//g_vColorFocus;
-	//color.a	*= tex2D(g_samDiffuse, i.UV0).a;
-	return color;
+	return vColorFocus;
 }
 
 technique Render
@@ -49,8 +45,11 @@ technique Render
 
 		AlphaTestEnable		= False;
 
-		AlphaBlendEnable	= False;
-
+		AlphaBlendEnable	= True;
+		BlendOp				= Add;
+		SrcBlend			= SrcAlpha;
+		DestBlend			= InvSrcAlpha;
+		
 		ZEnable				= True;
 		ZFunc				= LessEqual;
 		ZWriteEnable		= False;

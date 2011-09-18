@@ -96,18 +96,11 @@ HRESULT CD3D9RenderSystem::OnResetDevice()
 	// # Reset All Shader
 	// ----
 	myMgrTransform(m_ShaderMgr.m_Items, &CD3D9Shader::OnResetDevice);
-	// ----
-	m_mapChangeTexture.clear();
-	m_mapChangeStreamSource.clear();
 
 	//FillMemory(m_Lights, 8*sizeof(D3DLIGHT9), NULL);
 	//FillMemory(m_LightEnable, 8*sizeof(bool), NULL);
 
-	m_uChangeFVF = 0;
-	m_pChangeIB	= NULL;
-	m_pChangeShader= m_pOldShader = NULL;
-
-	m_nShaderID = m_nChangeShaderID = -1;
+	m_pOldShader = NULL;
 
 //////////////////////////////////////////////////////////////////////////
 	SetAlphaTestFunc(false);
@@ -203,8 +196,6 @@ HRESULT CD3D9RenderSystem::OnResetDevice()
 
 	//SetRenderState(D3DSAMP_SRGBTEXTURE, 1);
 	//SetRenderState(D3DRS_SRGBWRITEENABLE, 1);
-
-	commit();
 	return S_OK;
 }
 
@@ -642,9 +633,15 @@ void CD3D9RenderSystem::SetCullingMode(CullingMode mode)
 	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_CULLMODE, uCullingMode) );
 }
 
+void CD3D9RenderSystem::SetPixelShaderConstantF(unsigned int StartRegister,const float* pConstantData,unsigned int Vector4fCount)
+{
+	D3D9HR( m_pD3D9Device->SetPixelShaderConstantF(StartRegister, pConstantData, Vector4fCount) );
+}
+
 void CD3D9RenderSystem::SetTextureFactor(Color32 color)
 {
 	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_TEXTUREFACTOR, color.c) );
+	Vec4D vFactorColor(color);
 }
 
 inline unsigned long  TextureBlendOperationForD3D9(TextureBlendOperation op)
@@ -921,7 +918,13 @@ void CD3D9RenderSystem::SetTexture(unsigned long Stage, const CTexture* pTexture
 
 void CD3D9RenderSystem::SetTexture(unsigned long Stage, IDirect3DTexture9* pD3D9Texture)
 {
-	m_mapChangeTexture[Stage] = pD3D9Texture;
+	IDirect3DTexture9* pOldD3D9Texture = NULL;
+	D3D9HR( m_pD3D9Device->GetTexture(Stage,(IDirect3DBaseTexture9**) &pOldD3D9Texture) );
+	if (pOldD3D9Texture != pD3D9Texture)
+	{
+		D3D9HR( m_pD3D9Device->SetTexture(Stage, pD3D9Texture) );
+	}	
+	S_REL(pOldD3D9Texture);
 }
 
 CTexture* CD3D9RenderSystem::GetTexture(unsigned long Stage)
@@ -947,33 +950,18 @@ CVertexDeclaration* CD3D9RenderSystem::CreateVertexDeclaration()
 
 void CD3D9RenderSystem::SetShader(CShader* pShader)
 {
-	m_pChangeShader = pShader;
-	if (pShader==NULL)
+	if (m_pOldShader!=pShader)
 	{
 		if (m_pOldShader)
 		{
 			m_pOldShader->end();
-			m_pOldShader=NULL;
 		}
-	}
-
-/*	if (m_nShaderID != ShaderID)
-	{
-		//CShader* pShader= GetShaderMgr().GetShader(ShaderID);
 		if (pShader)
 		{
-			pShader->Begin();
+			pShader->begin("Render");
 		}
-		else
-		{
-		//	pShader= GetShaderMgr().GetShader(m_nShaderID);
-			if (pShader)
-			{
-				pShader->End();
-			}
-		}
-		m_nShaderID = ShaderID;
-	}*/
+		m_pOldShader=pShader;
+	}
 }
 
 void CD3D9RenderSystem::SetShader(unsigned long id)
@@ -983,7 +971,12 @@ void CD3D9RenderSystem::SetShader(unsigned long id)
 
 void CD3D9RenderSystem::SetFVF(unsigned long FVF)
 {
-	m_uChangeFVF = FVF;
+	DWORD dwOldFVF = 0;
+	D3D9HR( m_pD3D9Device->GetFVF(&dwOldFVF) );
+	if (FVF != dwOldFVF)
+	{
+		D3D9HR( m_pD3D9Device->SetFVF(FVF) );
+	}
 }
 
 void CD3D9RenderSystem::SetVertexDeclaration(CVertexDeclaration* pDecl)
@@ -993,15 +986,29 @@ void CD3D9RenderSystem::SetVertexDeclaration(CVertexDeclaration* pDecl)
 
 void CD3D9RenderSystem::SetStreamSource(unsigned long StreamNumber,CHardwareVertexBuffer* pStreamData,unsigned long OffsetInBytes,unsigned long Stride)
 {
-	D3D9StreamSource& d3D9StreamSource = m_mapChangeStreamSource[StreamNumber];
-	d3D9StreamSource.pStreamData = ((CD3D9HardwareVertexBuffer*)pStreamData)->getD3D9VertexBuffer();
-	d3D9StreamSource.uOffsetInBytes = OffsetInBytes;
-	d3D9StreamSource.uStride = Stride;
+	IDirect3DVertexBuffer9* pOldStreamData;
+	unsigned int uOldOffsetInBytes;
+	unsigned int uOldStride;
+	IDirect3DVertexBuffer9* pD3DStreamData = ((CD3D9HardwareVertexBuffer*)pStreamData)->getD3D9VertexBuffer();
+	D3D9HR( m_pD3D9Device->GetStreamSource(StreamNumber,&pOldStreamData,&uOldOffsetInBytes,&uOldStride) );
+	if (pOldStreamData!=pD3DStreamData || uOldOffsetInBytes!=OffsetInBytes || uOldStride!=Stride)
+	{
+		D3D9HR( m_pD3D9Device->SetStreamSource(StreamNumber,pD3DStreamData,OffsetInBytes,Stride) );
+	}
+	S_REL(pOldStreamData);
 }
 
 void CD3D9RenderSystem::SetIndices(CHardwareIndexBuffer* pIndexData)
 {
-	m_pChangeIB = ((CD3D9HardwareIndexBuffer*)pIndexData)->getD3DIndexBuffer();
+	IDirect3DIndexBuffer9* m_pChangeIB = ((CD3D9HardwareIndexBuffer*)pIndexData)->getD3DIndexBuffer();
+
+	IDirect3DIndexBuffer9* pOldIB = NULL;
+	D3D9HR( m_pD3D9Device->GetIndices(&pOldIB) );
+	if (pOldIB!=m_pChangeIB)
+	{
+		D3D9HR( m_pD3D9Device->SetIndices(m_pChangeIB) );
+	}
+	S_REL(pOldIB);
 }
 
 inline D3DPRIMITIVETYPE VertexRenderOperationTypeForD3D9(VertexRenderOperationType PrimitiveType)
@@ -1020,42 +1027,27 @@ inline D3DPRIMITIVETYPE VertexRenderOperationTypeForD3D9(VertexRenderOperationTy
 
 void CD3D9RenderSystem::DrawPrimitive(VertexRenderOperationType PrimitiveType,unsigned long StartVertex,unsigned long PrimitiveCount)
 {
-	if (commit())// ¼ì²â×´Ì¬ÊÇ·ñÕýÈ·
-	{
-		D3D9HR( m_pD3D9Device->DrawPrimitive(VertexRenderOperationTypeForD3D9(PrimitiveType),StartVertex,PrimitiveCount) );
-	}
+	D3D9HR( m_pD3D9Device->DrawPrimitive(VertexRenderOperationTypeForD3D9(PrimitiveType),StartVertex,PrimitiveCount) );
 }
 
 void CD3D9RenderSystem::DrawIndexedPrimitive(VertexRenderOperationType PrimitiveType,int32 BaseVertexIndex,unsigned long MinVertexIndex,unsigned long NumVertices,unsigned long startIndex,unsigned long primCount)
 {
-	if (commit())// ¼ì²â×´Ì¬ÊÇ·ñÕýÈ·
-	{
-		D3D9HR( m_pD3D9Device->DrawIndexedPrimitive(VertexRenderOperationTypeForD3D9(PrimitiveType), BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, primCount) );
-	}
+	D3D9HR( m_pD3D9Device->DrawIndexedPrimitive(VertexRenderOperationTypeForD3D9(PrimitiveType), BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, primCount) );
 }
 
 void CD3D9RenderSystem::DrawPrimitiveUP(VertexRenderOperationType PrimitiveType,unsigned long PrimitiveCount,const void* pVertexStreamZeroData,unsigned long VertexStreamZeroStride)
 {
-	if (commit())// ¼ì²â×´Ì¬ÊÇ·ñÕýÈ·
-	{
-		D3D9HR( m_pD3D9Device->DrawPrimitiveUP(VertexRenderOperationTypeForD3D9(PrimitiveType), PrimitiveCount, pVertexStreamZeroData, VertexStreamZeroStride) );
-	}
+	D3D9HR( m_pD3D9Device->DrawPrimitiveUP(VertexRenderOperationTypeForD3D9(PrimitiveType), PrimitiveCount, pVertexStreamZeroData, VertexStreamZeroStride) );
 }
 
 void CD3D9RenderSystem::DrawIndexedPrimitiveUP(VertexRenderOperationType PrimitiveType,unsigned long MinVertexIndex,unsigned long NumVertices,unsigned long PrimitiveCount,const void* pIndexData,const void* pVertexStreamZeroData,unsigned long VertexStreamZeroStride)
 {
-	if (commit())// ¼ì²â×´Ì¬ÊÇ·ñÕýÈ·
-	{
-		D3D9HR( m_pD3D9Device->DrawIndexedPrimitiveUP(VertexRenderOperationTypeForD3D9(PrimitiveType), MinVertexIndex, NumVertices, PrimitiveCount, pIndexData, D3DFMT_INDEX16, pVertexStreamZeroData, VertexStreamZeroStride) );
-	}
+	D3D9HR( m_pD3D9Device->DrawIndexedPrimitiveUP(VertexRenderOperationTypeForD3D9(PrimitiveType), MinVertexIndex, NumVertices, PrimitiveCount, pIndexData, D3DFMT_INDEX16, pVertexStreamZeroData, VertexStreamZeroStride) );
 }
 
 void CD3D9RenderSystem::drawIndexedSubset(const IndexedSubset& subset)
 {
-	if (commit())// ¼ì²â×´Ì¬ÊÇ·ñÕýÈ·
-	{
-		D3D9HR( m_pD3D9Device->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, subset.vbase, subset.vstart, subset.vcount, subset.istart, subset.icount/3) );
-	}
+	D3D9HR( m_pD3D9Device->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, subset.vbase, subset.vstart, subset.vcount, subset.istart, subset.icount/3) );
 }
 
 void CD3D9RenderSystem::setFog(const Fog& fog)
@@ -1224,93 +1216,8 @@ void CD3D9RenderSystem::SetTexCoordIndex(unsigned long stage, unsigned long inde
 	D3D9HR( m_pD3D9Device->SetTextureStageState(stage, D3DTSS_TEXCOORDINDEX, uIndex) );
 }
 
-bool CD3D9RenderSystem::commitTexture()
-{
-	for (std::map<unsigned long,IDirect3DTexture9*>::iterator it=m_mapChangeTexture.begin(); it!=m_mapChangeTexture.end(); ++it)
-	{
-		IDirect3DTexture9* pOldD3D9Texture = NULL;
-		D3D9HR( m_pD3D9Device->GetTexture(it->first,(IDirect3DBaseTexture9**) &pOldD3D9Texture) );
-		if (pOldD3D9Texture != it->second)
-		{
-			D3D9HR( m_pD3D9Device->SetTexture(it->first, it->second) );
-		}	
-		S_REL(pOldD3D9Texture);
-	}
-	m_mapChangeTexture.clear();
-	return true;
-}
-
-bool CD3D9RenderSystem::commitStreamSource()
-{
-	for (std::map<unsigned long,D3D9StreamSource>::iterator it=m_mapChangeStreamSource.begin(); it!=m_mapChangeStreamSource.end(); ++it)
-	{
-		D3D9StreamSource d3D9StreamSource;
-		D3D9HR( m_pD3D9Device->GetStreamSource(it->first,&d3D9StreamSource.pStreamData,&d3D9StreamSource.uOffsetInBytes,&d3D9StreamSource.uStride) );
-		if (d3D9StreamSource != it->second)
-		{
-			D3D9HR( m_pD3D9Device->SetStreamSource(it->first,it->second.pStreamData,it->second.uOffsetInBytes,it->second.uStride) );
-		}
-		S_REL(d3D9StreamSource.pStreamData);
-	}
-	m_mapChangeStreamSource.clear();
-	return true;
-}
-
-bool CD3D9RenderSystem::commitOther()
-{
 	// Material
 	//if (m_Material != m_ChangeMaterial)
 	//{
-
-	// FVF
-	if (m_uChangeFVF!=0)
-	{
-		DWORD dwOldFVF = 0;
-		D3D9HR( m_pD3D9Device->GetFVF(&dwOldFVF) );
-		if (m_uChangeFVF != dwOldFVF)
-		{
-			D3D9HR( m_pD3D9Device->SetFVF(m_uChangeFVF) );
-		}
-		m_uChangeFVF = 0;
-	}
-
-	if (m_pChangeIB)
-	{
-		IDirect3DIndexBuffer9* pOldIB = NULL;
-		D3D9HR( m_pD3D9Device->GetIndices(&pOldIB) );
-		if (pOldIB!=m_pChangeIB)
-		{
-			D3D9HR( m_pD3D9Device->SetIndices(m_pChangeIB) );
-		}
-		S_REL(pOldIB);
-		m_pChangeIB = NULL;
-	}
-
-	if (m_pChangeShader)
-	{
-		if (m_pOldShader!=m_pChangeShader)
-		{
-			if (m_pOldShader)
-			{
-				m_pOldShader->end();
-				m_pOldShader=NULL;
-			}
-			m_pChangeShader->begin("Render");
-			m_pOldShader = m_pChangeShader;
-			m_pChangeShader = NULL;
-		}
-	}
-	return true;
-}
-
-bool CD3D9RenderSystem::commit()
-{
-	commitTexture();
-	if (m_nShaderID>0)
-	{
-		//GetShaderMgr().m_pParamEffect->CommitChanges();
-	}
-	commitStreamSource();
-	commitOther();
-	return true;
-}
+	//Vec4D vFactorColor(1.0f, 1.0f, 1.0f, 1.0f);
+	//D3D9HR( m_pD3D9Device->SetPixelShaderConstantF(  0, (float*)&vFactorColor, 1) );
