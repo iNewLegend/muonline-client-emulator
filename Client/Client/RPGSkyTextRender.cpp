@@ -53,7 +53,7 @@ void CRPGSkyTextRender::drawTextVertexBuffer(int nVertexCount, void* pBuffer)
 		CShader* pShader = R.GetShaderMgr().getItem(s_uShader);
 		if (pShader)
 		{
-			pShader->setVec4D("g_vShadowColor",Color32(m_uShadowColor));
+			R.SetTextureFactor(Color32(m_uShadowColor));
 			pShader->setTexture("g_texDiffuse",m_pTextTexture);
 		}
 		R.SetShader(s_uShader);

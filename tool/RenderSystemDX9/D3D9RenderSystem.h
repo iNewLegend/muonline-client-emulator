@@ -105,6 +105,7 @@ public:
 		CompareFunction stencilFunction = CMPF_LESS_EQUAL);
 	//
 	void SetCullingMode(CullingMode mode);	// 设置剔除模式
+	void SetPixelShaderConstantF(unsigned int StartRegister,const float* pConstantData,unsigned int Vector4fCount);
 	void SetTextureFactor(Color32 color);	// 设置纹理因素颜色
 	// TextureOP
 	void setResultARGToTemp(size_t unit, bool bResultARGToTemp=true);
@@ -169,15 +170,9 @@ public:
 	void StretchRect(CTexture* pSource,const CRect<int>* pSourceRect,CTexture* pDest,const CRect<int>* pDestRect,TextureFilterType filter);
 protected:
 	void SetTexture(unsigned long Stage, IDirect3DTexture9* pD3D9Texture);
-	// 提交
-	bool commitTexture();
-	bool commitOther();
-	bool commitStreamSource();
 	//
 	//void SetTransform(D3DTRANSFORMSTATETYPE State,const D3DMATRIX* pMatrix);
 	//void GetTransform(D3DTRANSFORMSTATETYPE State, D3DMATRIX* pMatrix);
-	bool commit();
-	//
 protected:
 	// ----
 	// # 非插件数据
@@ -188,32 +183,7 @@ protected:
 	// ----
 	IDirect3DDevice9*			m_pD3D9Device;
 
-	struct D3D9StreamSource 
-	{
-		IDirect3DVertexBuffer9* pStreamData;
-		unsigned int uOffsetInBytes;
-		unsigned int uStride;
-		bool operator!= (const D3D9StreamSource &s) const
-		{
-			return pStreamData != s.pStreamData||
-				uOffsetInBytes != s.uOffsetInBytes||
-				uStride != s.uStride;
-		}
-	};
-	std::map<unsigned long,IDirect3DTexture9*>	m_mapChangeTexture;
-	std::map<unsigned long,D3D9StreamSource>	m_mapChangeStreamSource;
-	unsigned long								m_uChangeFVF;
-	IDirect3DIndexBuffer9*						m_pChangeIB;
-	CShader*									m_pChangeShader;
-	CShader*									m_pOldShader;
-
-	//////////////////////////////////////////////////////////////////////////
-
-	int m_nShaderID;
-	int	m_nChangeShaderID;
-
-	//D3DMATERIAL9	m_Material;
-	//D3DMATERIAL9	m_ChangeMaterial;
+	CShader*					m_pOldShader;
 
 	//////////////////////////////////////////////////////////////////////////
 };

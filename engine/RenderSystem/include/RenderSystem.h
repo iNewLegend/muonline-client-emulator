@@ -91,6 +91,7 @@ public:
 	// ----
 	// # 设置纹理因素颜色
 	// ----
+	virtual void		SetPixelShaderConstantF(unsigned int StartRegister,const float* pConstantData,unsigned int Vector4fCount)=0;
 	virtual void		SetTextureFactor	(Color32 color)		= 0;
 	// ----
 	// # TextureOP

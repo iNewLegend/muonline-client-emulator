@@ -92,18 +92,18 @@ CRole* CWorld::pickRole(const Vec3D & vRayPos , const Vec3D & vRayDir)
 	float fMin		= 0.00;
 	float fMax		= 0.00;
 	// ----
-	FOR_IN(it,m_setRenderSceneNode)
+	FOR_IN(it,m_mapRole)
 	{
-		if((*it)->getType() != MAP_ROLE)
-		{
-			continue;
-		}
+// 		if((*it)->getType() != MAP_ROLE)
+// 		{
+// 			continue;
+// 		}
 		// ----
-		if((*it)-intersect(vRayPos , vRayDir, fMin, fMax) == true)
+		if(it->second->intersect(vRayPos , vRayDir, fMin, fMax) != NULL)
 		{
 			if(fFocusMin > fMin)
 			{
-				pRole		= (CRole*)*it;
+				pRole		= it->second;
 				// ----
 				fFocusMin	= fMax;
 			}

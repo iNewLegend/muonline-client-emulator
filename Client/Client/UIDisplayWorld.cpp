@@ -320,9 +320,9 @@ void CUIDisplayWorld::OnMouseMove(POINT point)
 	}
 	CRole* pRole	=	CWorld::getInstance().pickRole(vRayPos, vRayDir);
 	// ----
+	CWorld::getInstance().getFocusNodes().removeChildren();
 	if (pRole)
 	{
-		CWorld::getInstance().getFocusNodes().removeChildren();
 		CWorld::getInstance().getFocusNodes().addChild(pRole);
 	}
 }
