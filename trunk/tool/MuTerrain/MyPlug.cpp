@@ -349,6 +349,25 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 					bbox.vMin.y = min(fHeight,bbox.vMin.y);
 					bbox.vMax.y = max(fHeight,bbox.vMax.y);
 
+						/*Vec3D vBinormal = vertex.n.cross(Vec3D(0,0,1)).normalize();
+	Vec3D vTangent =  Vec3D(1,0,0).cross(vertex.n).normalize();
+	Matrix mTangent;
+	mTangent.Zero();
+	mTangent._11=vBinormal.x;
+	mTangent._21=vBinormal.y;
+	mTangent._31=vBinormal.z;
+
+	mTangent._12=vertex.n.x;
+	mTangent._22=vertex.n.y;
+	mTangent._32=vertex.n.z;
+
+	mTangent._13=vTangent.x;
+	mTangent._23=vTangent.y;
+	mTangent._33=vTangent.z;
+
+	vertex.n = mTangent*GetLightDir();
+	vertex.n=vertex.n.normalize();*/
+
 					vertex.p.set( (float)grassX, fHeight, (float)y );
 					vertex.c = color;
 					vertex.uv.set( (float)grassX,(float)y );

@@ -9,23 +9,12 @@
 //////////////////////////////////////////////////////////////////////////
 // TerrainData
 //////////////////////////////////////////////////////////////////////////
-struct TerrainVertex
-{
-	//enum { FVF = (FVF_XYZ | FVF_NORMAL | FVF_DIFFUSE | FVF_TEX3) };
-	Vec3D	p;
-	Vec3D	n;
-	Color32	c;
-	Vec2D	t0;
-	Vec2D	t1;
-};
 
 struct TerrainCell
 {
 	unsigned char	uTileID[2];
 	Color32			color;
-	Color32			lightColor;
 	float			fHeight;
-	Vec3D			vNormals;
 	unsigned char	uAttribute;
 };
 
@@ -75,8 +64,6 @@ public:
 	//
 	virtual const			std::string& getFilename()const=0;
 	//
-	virtual void			getVertexByCell(int nCellX, int nCellY, TerrainVertex& vertex)const=0;
-
 	virtual bool			hasGrass(int nCellX, int nCellY)const=0;
 
 	virtual std::vector<TerrainCell>& getCells()=0;
