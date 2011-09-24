@@ -2,6 +2,15 @@
 #include <algorithm>
 #include "RenderNodeMgr.h"
 
+DWORD WINAPI LoadingThreads (LPVOID pScene)
+{
+	while(true)
+	{
+		((CScene*)pScene)->loading();
+	}
+	return 0;
+}
+
 CScene::CScene()
 	:m_bShowNode(true)
 	,m_bShowNodeBBox(false)
@@ -11,10 +20,21 @@ CScene::CScene()
 	,m_pTerrain(NULL)
 	,m_bRefreshViewport(NULL)
 {
+	//isStartImmediate = CREATE_SUSPENDED;
+	m_hThread=CreateThread(NULL,0,LoadingThreads,(LPVOID)this,0,&m_dwThreadID); 
+	if (m_hThread)
+	{ 
+		printf ("Thread launched successfully\n");                
+	}         
+	//ResumeThread(m_hThread);
 }
 
 CScene::~CScene()
 {
+	if (m_hThread)
+	{            
+		CloseHandle(m_hThread);
+	} 
 	clearChildren();
 }
 
@@ -65,6 +85,18 @@ void CScene::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 	}
 }
 
+void CScene::loading()
+{
+// 	FOR_IN(it,m_setRenderSceneNode)
+// 	{
+// 		(*it)->load((*it)->getFilename());
+// 	}
+	if (m_setRenderSceneNode.size()>0)
+	{
+		(*m_setRenderSceneNode.begin())->load((*m_setRenderSceneNode.begin())->getFilename());
+	}
+}
+
 void CScene::updateRender(const CFrustum& frustum)
 {
 	if (!m_bRefreshViewport)
@@ -82,13 +114,7 @@ void CScene::updateRender(const CFrustum& frustum)
 	if (m_bShowNode)
 	{
 		getRenderNodes(frustum, m_setRenderSceneNode);
-		FOR_IN(it,m_setRenderSceneNode)
-		{
-			if (1)
-			{
-				(*it)->load((*it)->getFilename());
-			}
-		}
+
 	}
 }
 

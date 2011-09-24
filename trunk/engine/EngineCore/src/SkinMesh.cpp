@@ -19,20 +19,25 @@ CSkinMesh::~CSkinMesh()
 
 void CSkinMesh::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
-	if(!m_pMesh)
+	if (!m_bLoaded)
 	{
 		return;
 	}
-	// ----
-	if (m_pParent&&m_pParent->getType()==NODE_SKELETON)
-	{
-		CSkeletonNode* pSkeletonNode = (CSkeletonNode*)m_pParent;
-		// ----
-		if (m_pMesh->m_bSkinMesh)
+
+		if(!m_pMesh)
 		{
-			m_pMesh->skinningMesh(m_pVB, pSkeletonNode->getBonesMatrix());
+			return;
 		}
-	}
+		// ----
+		if (m_pParent&&m_pParent->getType()==NODE_SKELETON)
+		{
+			CSkeletonNode* pSkeletonNode = (CSkeletonNode*)m_pParent;
+			// ----
+			if (m_pMesh->m_bSkinMesh)
+			{
+				m_pMesh->skinningMesh(m_pVB, pSkeletonNode->getBonesMatrix());
+			}
+		}
 	// ----
 	CRenderNode::frameMove(mWorld,fTime,fElapsedTime);
 	// ----
@@ -42,20 +47,25 @@ void CSkinMesh::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime
 
 void CSkinMesh::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)const
 {
-	if(!m_pMesh)
-	{
-		return;
-	}
-	if (eRenderType==MATERIAL_NONE)
-	{
-		return;
-	}
-	// ----
 	Matrix mNewWorld = mWorld*m_mWorldMatrix;
 	// ----
-	GetRenderSystem().setWorldMatrix(mNewWorld);
-	// ----
-	renderMesh(eRenderType,m_uLodLevel,m_pVB,1.0f/*m_fTrans*/,0/*m_nAnimTime*/);
+	if (m_bLoaded)
+	{
+		if(!m_pMesh)
+		{
+			return;
+		}
+		if (eRenderType==MATERIAL_NONE)
+		{
+			return;
+		}
+		// ----
+		//Matrix mNewWorld = mWorld*m_mWorldMatrix;
+		// ----
+		GetRenderSystem().setWorldMatrix(mNewWorld);
+		// ----
+		renderMesh(eRenderType,m_uLodLevel,m_pVB,1.0f/*m_fTrans*/,0/*m_nAnimTime*/);
+	}
 	// ----
 	CRenderNode::render(mNewWorld, eRenderType);
 }

@@ -32,6 +32,7 @@ public:
 	void					updateRender			(const CFrustum& frustum);
 	bool					updateNode				(iRenderNode* pNode);
 	// ----
+	void					loading					();
 	virtual void			frameMove				(const Matrix& mWorld, double fTime, float fElapsedTime);
 	virtual void			render					(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType=MATERIAL_NORMAL)const;
 	// ----
@@ -99,4 +100,7 @@ protected:
 	Fog						m_Fog;
 	DirectionalLight		m_Light;
 	Vec3D					m_vTargetPos;
+
+	HANDLE					m_hThread;
+	DWORD					m_dwThreadID;
 };
