@@ -28,7 +28,7 @@ protected:
 	// ----
 	UINT							m_CurMap;
 	// ----
-	CRPGSkyTextRender				m_DamageTextRender;	
+	CRPGSkyTextRender3D				m_DamageTextRender;	
 public:
 	CMessages						m_Messages;
 	// ----
@@ -44,7 +44,6 @@ public:
 	// ----
 	void			create				(UCHAR uMapID);
 	// ----
-	void			renderDamageInfo	(double fTime, float fElapsedTime);
 	void			addDamageInfo		(Vec3D vPos, const std::wstring& wcsInfo);
 	// ----
 	virtual void	frameMove			(const Matrix& mWorld, double fTime, float fElapsedTime);
@@ -53,5 +52,8 @@ public:
 	// ----
 protected:
 	void			loadMap				(const char* szFilename, ...);
+	// ----
+	void			updateDamageInfo	(double fTime, float fElapsedTime);
+	void			renderDamageInfo	()const;
 };
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

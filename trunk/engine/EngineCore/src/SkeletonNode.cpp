@@ -65,6 +65,7 @@ bool CSkeletonNode::init(void* pData)
 	{
 		setAnim(pSkeletonAnim->getName());
 	}
+	m_bLoaded = true;
 	return true;
 }
 

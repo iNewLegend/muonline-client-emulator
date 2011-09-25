@@ -175,15 +175,8 @@ void CWorld::create(UCHAR uMapID)
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void CWorld::renderDamageInfo(double fTime, float fElapsedTime)
+void CWorld::updateDamageInfo(double fTime, float fElapsedTime)
 {
-	// ----
-	RPGSkyUIGraph::getInstance().initDrawText();
-	// ----
-	for (auto it=m_mapRole.begin();it!=m_mapRole.end();it++)
-	{
-		it->second->drawName();
-	}
 	// ----
 	for(int i = m_dequeDamageInfo.size() -1 ; i >= 0 ; i--)
 	{
@@ -194,22 +187,36 @@ void CWorld::renderDamageInfo(double fTime, float fElapsedTime)
 		{
 			m_dequeDamageInfo.erase(m_dequeDamageInfo.begin() + i);
 		}
-		else
-		{
-			Pos2D pos(0,0);
-			// ----
-			GetRenderSystem().world2Screen(damageInfo.vPos, pos);
-			// ----
-			RECT rc = {pos.x - 40, pos.y - 30, pos.x + 40, pos.y}; 
-			// ----
-			RPGSkyUIGraph::getInstance().drawText(damageInfo.wcsInfo.c_str(), damageInfo.wcsInfo.length() ,rc, ALIGN_TYPE_CENTER);
-		}
+	}
+}
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void CWorld::renderDamageInfo()const
+{
+	// ----
+	RPGSkyUIGraph::getInstance().initDrawText();
+	// ----
+	for (auto it=m_mapRole.begin();it!=m_mapRole.end();it++)
+	{
+		it->second->drawName();
+	}
+	// ----
+	FOR_IN(it,m_dequeDamageInfo)
+	{
+		Pos2D pos(0,0);
+		// ----
+		GetRenderSystem().world2Screen(it->vPos, pos);
+		// ----
+		RECT rc = {pos.x - 40, pos.y - 30, pos.x + 40, pos.y}; 
+		// ----UINT format, unsigned long
+		//RPGSkyUIGraph::getInstance().drawText(it->wcsInfo.c_str(), it->wcsInfo.length() ,rc, ALIGN_TYPE_CENTER);
+		m_DamageTextRender.drawText(it->wcsInfo.c_str(),rc, it->wcsInfo.length(), (UINT)ALIGN_TYPE_CENTER);
 	}
 	// ---- text demo for leo :)
-// 	for (size_t i = 0; i < 10; ++i)
-// 	{
-// 		m_DamageTextRender.drawText(L"UIGraph::getInstance().getTextRende",10,10+i*20,0xFFFF3333+0x1400*i);
-// 	}
+ 	for (size_t i = 0; i < 10; ++i)
+ 	{
+ 		//m_DamageTextRender.drawText(L"UIGraph::getInstance().getTextRende",10,10+i*20,0xFFFF3333+0x1400*i);
+ 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -223,7 +230,7 @@ void CWorld::addDamageInfo(Vec3D vPos,const std::wstring & wcsInfo)
 
 void CWorld::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
-	FOR_IN(it,m_setRenderSceneNode)
+	FOR_IN(it,m_RenderNodes)
 	{
 		if((*it)->getType() != MAP_ROLE)
 		{
@@ -253,7 +260,7 @@ void CWorld::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 	// ----
 	m_setLightObj.clear();
 	// ----
-	FOR_IN(it,m_setRenderSceneNode)
+	FOR_IN(it,m_RenderNodes)
 	{
 		//if(((C3DMapObj*)(*it))->m_setParticleGroup.size() > 0)
 		//{
@@ -265,6 +272,7 @@ void CWorld::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 	}
 	// ----
 	m_DamageTextRender.OnFrameMove();
+	updateDamageInfo(fTime, fElapsedTime);
 	// ----
 	m_Messages.frameMove(fTime, fElapsedTime);
 }
@@ -274,7 +282,7 @@ void CWorld::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 {
 	CScene::render(Matrix::UNIT, MATERIAL_NORMAL);
 	// ----
-	//renderDamageInfo(fTime, fElapsedTime);
+	renderDamageInfo();
 	//m_Messages.frameRender();
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

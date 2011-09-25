@@ -71,6 +71,7 @@ public:
 	// # data
 	// ----
 	Octree<iRenderNode*>&	getOctree				(){return m_OctreeRoot;}
+	std::set<iRenderNode*>&	getRenderNodes			(){return m_RenderNodes;}
 	// ----
 	void					CalcLightMap			();
 	// ----
@@ -88,7 +89,7 @@ protected:
 	SceneData*				m_pSceneData;
 	CTerrain*				m_pTerrain;
 	Octree<iRenderNode*>	m_OctreeRoot;
-	std::set<iRenderNode*>	m_setRenderSceneNode;
+	std::set<iRenderNode*>	m_RenderNodes;
 	LIST_RENDER_NODE		m_setLightObj;
 	bool					m_bRefreshViewport;
 	CFocusNode				m_FocusNode;        // The node which has focus

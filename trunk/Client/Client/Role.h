@@ -19,30 +19,7 @@
 #define DIR_NORMALIZE(a)	Vec3D((float)DX[a], 0.0f,(float)DY[a]).normalize()
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-enum EQUIP_TYPE
-{
-	ET_HELM=7,
-	ET_ARMOR,
-	ET_PANT,
-	ET_GLOVE,
-	ET_BOOT,
-	ET_MAX,
-};
-static const char* EQUIP_TYPE_NAME[ET_MAX]=
-{
-	"",
-	"",
-	"",
-	"",
-	"",
-	"",
-	"",
-	"helm",
-	"armor",
-	"pant",
-	"glove",
-	"boot",
-};
+
 
 class CRole : public C3DMapObj
 {

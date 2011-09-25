@@ -8,7 +8,6 @@
 #include <vector>
 #include <string>
 
-/*#define _3D_TEXT*/
 struct TexCharInfo
 {
 	int nLeft;
@@ -97,22 +96,11 @@ static const wchar_t* gs_UBB_TAG_TYPE_NAME[] =
 	L"dir",
 	L"rm",
 };
-struct VERTEX_3D_TEXT
-{
-	float x;
-	float y;
-	float z;
-	unsigned long color;
-	float u;
-	float v;
-};
-
 struct VERTEX_TEXT
 {
 	float x;
 	float y;
 	float z;
-	float w;
 	unsigned long color;
 	float u;
 	float v;
@@ -132,11 +120,7 @@ public:
 	void	updateTextLine				();
 	void	setColor(DWORD dwColor)		{m_dwColor = dwColor;}	
 public:
-#ifdef _3D_TEXT
-	std::vector<VERTEX_3D_TEXT> m_VB;
-#else
 	std::vector<VERTEX_TEXT> m_VB;
-#endif
 protected:
 	std::vector<int>	m_TagTypeRecords[TAG_TYPE_MAX];
 	int		m_nBold;

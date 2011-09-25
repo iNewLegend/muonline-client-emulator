@@ -346,23 +346,15 @@ void CUBB::AddChar(const TexCharInfo* charInfo)
 			v0 = charInfo->fV0;
 			v1 = charInfo->fV1;
 		}
-#ifdef _3D_TEXT
-		VERTEX_3D_TEXT v[4]=
+
+		VERTEX_TEXT v[4]=
 		{
 			fX0+(float)m_nItalic, fY0, 0.0f, m_dwColor, u0, v0,
 			fX1+(float)m_nItalic, fY0, 0.0f, m_dwColor, u1, v0,
 			fX1,				  fY1, 0.0f, m_dwColor, u1, v1,
 			fX0,				  fY1, 0.0f, m_dwColor, u0, v1,
 		};
-#else
-		VERTEX_TEXT v[4]=
-		{
-			fX0+(float)m_nItalic, fY0, 0.0f, 1.0f, m_dwColor, u0, v0,
-			fX1+(float)m_nItalic, fY0, 0.0f, 1.0f, m_dwColor, u1, v0,
-			fX1,				  fY1, 0.0f, 1.0f, m_dwColor, u1, v1,
-			fX0,				  fY1, 0.0f, 1.0f, m_dwColor, u0, v1,
-		};
-#endif
+
 		m_VB.push_back(v[0]);m_VB.push_back(v[1]);m_VB.push_back(v[2]);m_VB.push_back(v[3]);
 	}
 	m_nLineWidth += charInfo->nAdvX*fScaling;
