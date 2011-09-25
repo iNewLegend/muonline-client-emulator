@@ -19,10 +19,10 @@ CSkinMesh::~CSkinMesh()
 
 void CSkinMesh::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
-	if (!m_bLoaded)
-	{
-		return;
-	}
+ 	if (!m_bLoaded)
+ 	{
+ 		return;
+ 	}
 
 		if(!m_pMesh)
 		{
@@ -122,6 +122,7 @@ bool CSkinMesh::init(void* pData)
 		CMaterial& material = GetRenderSystem().getMaterialMgr().getItem(it->strMaterial.c_str());
 		m_nOrder+=material.getOrder();
 	}
+	m_bLoaded = true;
 	return true;
 }
 

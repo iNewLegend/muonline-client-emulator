@@ -531,6 +531,7 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 				pMeshNode->updateWorldBBox();
 				pMeshNode->updateWorldMatrix();
 				pMeshNode->init(pMesh);
+				pMeshNode->setLoaded(true);
 				pRenderNode->getParent()->addChild(pMeshNode);
 			}
 			//----

@@ -85,21 +85,37 @@ enum e_GAME_POROTOCOL_MSG_F3
 #define GET_CHAR_H(a) (((a)&0xF0)>>4)
 #define GET_CHAR_L(a) ((a)&0x0F)
 
+enum EQUIP_TYPE
+{
+	ET_HELM=7,
+	ET_ARMOR,
+	ET_PANT,
+	ET_GLOVE,
+	ET_BOOT,
+	ET_MAX,
+};
+static const char* EQUIP_TYPE_NAME[ET_MAX]=
+{
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"helm",
+	"armor",
+	"pant",
+	"glove",
+	"boot",
+};
+
 struct CHARSET
 {
 	unsigned char CharSet[CHAR_SET_SIZE];	// F
-	void setHelm(unsigned char id){SET_CHAR_H(CharSet[3],id);}
-	void setArmor(unsigned char id){SET_CHAR_L(CharSet[3],id);}
-	void setPant(unsigned char id){SET_CHAR_H(CharSet[4],id);}
-	void setGlove(unsigned char id){SET_CHAR_L(CharSet[4],id);}
-	void setBoot(unsigned char id){SET_CHAR_H(CharSet[5],id);}
-
+	void setEquip(EQUIP_TYPE eEqupID,unsigned char id){((eEqupID-1)%2)?SET_CHAR_L(CharSet[(eEqupID-1)/2],id):SET_CHAR_H(CharSet[(eEqupID-1)/2],id);}
+	unsigned char  getEquip(EQUIP_TYPE eEqupID)const{return ((eEqupID-1)%2)?GET_CHAR_H(CharSet[(eEqupID-1)/2]):GET_CHAR_H(CharSet[(eEqupID-1)/2]);}
 	unsigned char  getWeapon()const{return CharSet[1];}
-	unsigned char  getHelm()const{return GET_CHAR_H(CharSet[3]);}
-	unsigned char  getArmor()const{return GET_CHAR_L(CharSet[3]);}
-	unsigned char  getPant()const{return GET_CHAR_H(CharSet[4]);}
-	unsigned char  getGlove()const{return GET_CHAR_L(CharSet[4]);}
-	unsigned char  getBoot()const{return GET_CHAR_H(CharSet[5]);}
 };
 //////////////////////////////////////////////////////////////////////////
 

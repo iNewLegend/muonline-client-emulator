@@ -26,6 +26,7 @@ public:
 	virtual GSET_CONST_VAR	(BBox&,			m_,WorldBBox);
 	virtual GSET_CONST_VAR	(Matrix&,		m_m,WorldMatrix);
 	virtual GSET_VAR		(iRenderNode*,	m_p,Parent);
+	virtual GSET_CONST_VAR	(bool,			m_b,Loaded);
 	//----
 	virtual void			updateWorldBBox		();
 	virtual void			updateWorldMatrix	();
