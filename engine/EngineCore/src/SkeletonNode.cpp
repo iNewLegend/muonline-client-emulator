@@ -15,17 +15,20 @@ CSkeletonNode::~CSkeletonNode()
 
 void CSkeletonNode::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
+	setup();
+
 	Matrix mNewWorld = mWorld*m_mWorldMatrix;
-	if (m_bLoaded)
+
+	m_AnimMgr.Tick(int(fElapsedTime*1000));
+	animate(m_strAnimName.c_str());
+	// ----
+	//Matrix mNewWorld = mWorld*m_mWorldMatrix;
+	// ----
+	if (m_pParent&&m_pParent->getType()==NODE_SKELETON)
 	{
-		m_AnimMgr.Tick(int(fElapsedTime*1000));
-		animate(m_strAnimName.c_str());
-		// ----
-		//Matrix mNewWorld = mWorld*m_mWorldMatrix;
-		// ----
-		if (m_pParent&&m_pParent->getType()==NODE_SKELETON)
+		CSkeletonNode* pModel = (CSkeletonNode*)m_pParent;
+		if (pModel->getSkeletonData())
 		{
-			CSkeletonNode* pModel = (CSkeletonNode*)m_pParent;
 			// ----
 			if (m_nBindingBoneID==-1)
 			{
@@ -45,9 +48,14 @@ void CSkeletonNode::frameMove(const Matrix& mWorld, double fTime, float fElapsed
 	CRenderNode::frameMove(mNewWorld,fTime,fElapsedTime);
 }
 
-bool CSkeletonNode::init(void* pData)
+bool CSkeletonNode::setup()
 {
-	m_pSkeletonData = (CSkeletonData*)pData;
+	if (m_pSkeletonData==m_pData)
+	{
+		return false;
+	}
+	// ----
+	m_pSkeletonData = (CSkeletonData*)m_pData;
 	// ----
 	if (!m_pSkeletonData)
 	{
@@ -65,7 +73,6 @@ bool CSkeletonNode::init(void* pData)
 	{
 		setAnim(pSkeletonAnim->getName());
 	}
-	m_bLoaded = true;
 	return true;
 }
 

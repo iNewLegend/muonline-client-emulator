@@ -13,7 +13,7 @@ public:
 	virtual int			getType			() {return NODE_SKELETON;}
 	virtual void		frameMove		(const Matrix& mWorld, double fTime, float fElapsedTime);
 	CSkeletonData*		getSkeletonData	(){return m_pSkeletonData;}
-	virtual bool		init			(void* pData);
+	virtual bool		setup			();
 	void				setAnim			(int nID);
 	void				setAnim			(const char* szAnimName);
 	void				animate			(const char* szAnimName);

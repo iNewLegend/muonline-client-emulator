@@ -27,6 +27,7 @@ public:
 	virtual GSET_CONST_VAR	(Matrix&,		m_m,WorldMatrix);
 	virtual GSET_VAR		(iRenderNode*,	m_p,Parent);
 	virtual GSET_CONST_VAR	(bool,			m_b,Loaded);
+	virtual GSET_VAR		(void*,			m_p,Data);
 	//----
 	virtual void			updateWorldBBox		();
 	virtual void			updateWorldMatrix	();
@@ -52,7 +53,6 @@ public:
 	virtual void			removeChildren		();
 	virtual bool			intersectSelf		(const Vec3D& vRayPos , const Vec3D& vRayDir, float &tmin ,float &tmax)const{return false;}
 	virtual CRenderNode*	intersect			(const Vec3D& vRayPos , const Vec3D& vRayDir, float &tmin ,float &tmax);
-	virtual bool			init				(void* pData){return true;}
 	virtual bool			load				(const char* szFilename);
 	//----
 	void					setChildBindingBone	(const char* szName, const char* szBoneName);
@@ -72,4 +72,5 @@ protected:
 	BBox					m_WorldBBox;
 	Matrix					m_mWorldMatrix;
 	bool					m_bLoaded;
+	void*					m_pData;
 };

@@ -42,7 +42,7 @@ void  transformRedundance(const std::vector<_T>& setIn, std::vector<_T>& setOut,
 }
 
 //////////////////////////////////////////////////////////////////////////
-CLodMesh::CLodMesh()
+CMeshData::CMeshData()
 :m_pShareVB(NULL)
 ,m_pIB(NULL)
 ,m_pVertexDeclHardware(NULL)
@@ -52,15 +52,19 @@ CLodMesh::CLodMesh()
 {
 }
 
-CLodMesh::~CLodMesh()
+CMeshData::~CMeshData()
 {
 	S_DEL(m_pShareVB);
 	S_DEL(m_pIB);
 	S_DEL(m_pVertexDeclHardware);
 }
 
-void CLodMesh::init()
+void CMeshData::init()
 {
+	if (m_pIB!=NULL)
+	{
+		return;
+	}
 	m_bSkinMesh = m_setSkinVertex.size()>0;
 	// ----
 	// # Create Vertex Declaration.
@@ -147,7 +151,7 @@ void CLodMesh::init()
 	}
 }
 
-bool CLodMesh::SetMeshSource(int nLodLevel, CHardwareVertexBuffer* pSkinVB)const
+bool CMeshData::SetMeshSource(int nLodLevel, CHardwareVertexBuffer* pSkinVB)const
 {
 	CRenderSystem& R = GetRenderSystem();
 	if (m_bSkinMesh)
@@ -192,7 +196,7 @@ bool CLodMesh::SetMeshSource(int nLodLevel, CHardwareVertexBuffer* pSkinVB)const
 	return true;
 }
 
-void CLodMesh::drawSub(size_t uSubID, size_t uLodLevel)const
+void CMeshData::drawSub(size_t uSubID, size_t uLodLevel)const
 {
 	if (m_setSubset.size()<=uSubID)
 	{
@@ -201,7 +205,7 @@ void CLodMesh::drawSub(size_t uSubID, size_t uLodLevel)const
 	GetRenderSystem().drawIndexedSubset(m_setSubset[uSubID]);
 }
 
-void CLodMesh::draw(size_t uLodLevel)const
+void CMeshData::draw(size_t uLodLevel)const
 {
 	CRenderSystem& R = GetRenderSystem();
 	for (auto it=m_setSubset.begin(); it!=m_setSubset.end(); it++)
@@ -210,7 +214,7 @@ void CLodMesh::draw(size_t uLodLevel)const
 	}
 }
 
-void CLodMesh::skinningMesh(CHardwareVertexBuffer* pVB, std::vector<Matrix>& setBonesMatrix)const
+void CMeshData::skinningMesh(CHardwareVertexBuffer* pVB, std::vector<Matrix>& setBonesMatrix)const
 {
 	// ‘ÀÀ„∂•µ„
 	if (pVB)
@@ -255,11 +259,11 @@ void CLodMesh::skinningMesh(CHardwareVertexBuffer* pVB, std::vector<Matrix>& set
 	}
 }
 
-void CLodMesh::Clear()
+void CMeshData::Clear()
 {
 }
 
-bool CLodMesh::intersect(const Vec3D& vRayPos, const Vec3D& vRayDir, Vec3D& vOut, int& nSubID)const
+bool CMeshData::intersect(const Vec3D& vRayPos, const Vec3D& vRayDir, Vec3D& vOut, int& nSubID)const
 {
 	size_t size=m_Indices.size()/3;
 
@@ -292,7 +296,7 @@ bool CLodMesh::intersect(const Vec3D& vRayPos, const Vec3D& vRayDir, Vec3D& vOut
 	return false;
 }
 
-bool CLodMesh::intersect(const Vec3D& vRayPos , const Vec3D& vRayDir)const
+bool CMeshData::intersect(const Vec3D& vRayPos , const Vec3D& vRayDir)const
 {
 	Vec3D vOut;
 	int nSubID;

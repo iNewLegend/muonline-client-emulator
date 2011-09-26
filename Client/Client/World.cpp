@@ -68,7 +68,6 @@ CRole * CWorld::getFocusRole()
 	// ----
 	return (CRole*)pObj;
 }
-
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CRole* CWorld::getRole(ULONG uID)
@@ -163,7 +162,7 @@ void CWorld::create(UCHAR uMapID)
 		char szMapFilname[256];
 		sprintf(szMapFilname,"Data\\World%d\\EncTerrain%d.obj", m_CurMap+1, m_CurMap+1);
 		load(szMapFilname);
-		//
+		// ----
 		sprintf(szMapFilname,"Data\\World%d\\EncTerrain%d.map", m_CurMap+1, m_CurMap+1);
 		m_pTerrain = new CTerrain;
 		m_pTerrain->setParent(this);
@@ -177,7 +176,6 @@ void CWorld::create(UCHAR uMapID)
 
 void CWorld::updateDamageInfo(double fTime, float fElapsedTime)
 {
-	// ----
 	for(int i = m_dequeDamageInfo.size() -1 ; i >= 0 ; i--)
 	{
 		DamageInfo& damageInfo	=  m_dequeDamageInfo[i];
@@ -193,7 +191,6 @@ void CWorld::updateDamageInfo(double fTime, float fElapsedTime)
 
 void CWorld::renderDamageInfo()const
 {
-	// ----
 	RPGSkyUIGraph::getInstance().initDrawText();
 	// ----
 	for (auto it=m_mapRole.begin();it!=m_mapRole.end();it++)
@@ -208,9 +205,18 @@ void CWorld::renderDamageInfo()const
 		GetRenderSystem().world2Screen(it->vPos, pos);
 		// ----
 		RECT rc = {pos.x - 40, pos.y - 30, pos.x + 40, pos.y}; 
-		// ----UINT format, unsigned long
+		// ----
+		Matrix mWorld;
+		GetRenderSystem().getWorldMatrix(mWorld);
+		Matrix mNewWorld = mNewWorld*Matrix::newTranslation(Vec3D(pos.x, pos.y, 0.0f));
+		GetRenderSystem().setWorldMatrix(mNewWorld);
+		// ----
+		m_DamageTextRender.drawUBB(&it->ubb);
+		// ----
+		GetRenderSystem().setWorldMatrix(mWorld);
+		// ----
 		//RPGSkyUIGraph::getInstance().drawText(it->wcsInfo.c_str(), it->wcsInfo.length() ,rc, ALIGN_TYPE_CENTER);
-		m_DamageTextRender.drawText(it->wcsInfo.c_str(),rc, it->wcsInfo.length(), (UINT)ALIGN_TYPE_CENTER);
+		//m_DamageTextRender.drawText(it->wcsInfo.c_str(),rc, it->wcsInfo.length(), (UINT)ALIGN_TYPE_CENTER);
 	}
 	// ---- text demo for leo :)
  	for (size_t i = 0; i < 10; ++i)
@@ -222,7 +228,11 @@ void CWorld::renderDamageInfo()const
 
 void CWorld::addDamageInfo(Vec3D vPos,const std::wstring & wcsInfo)
 {
-	DamageInfo damageInfo = {vPos, wcsInfo};
+	DamageInfo damageInfo;
+	damageInfo.vPos = vPos;
+	damageInfo.wcsInfo = wcsInfo;
+	RECT rc = {- 40, - 30, 40, 0}; 
+	m_DamageTextRender.buildUBB(&damageInfo.ubb,wcsInfo.c_str(),rc,wcsInfo.length(),ALIGN_TYPE_CENTER);
 	// ----
 	m_dequeDamageInfo.push_back(damageInfo);
 }
@@ -230,6 +240,8 @@ void CWorld::addDamageInfo(Vec3D vPos,const std::wstring & wcsInfo)
 
 void CWorld::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
+	setup();
+	// ----
 	FOR_IN(it,m_RenderNodes)
 	{
 		if((*it)->getType() != MAP_ROLE)

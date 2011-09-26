@@ -15,7 +15,7 @@ public:
 	CRPGSkyTextRender3D();
 	// ----
 	virtual void updateTextureBuffer	(unsigned char * pBuffer, size_t size, size_t width, size_t height);
-	virtual void drawTextVertexBuffer	(int nVertexCount, void * pBuffer)const;
+	virtual void drawUBB				(const CUBB* pUBB)const;
 protected:
 	CTexture*	 m_pTextTexture;
 };

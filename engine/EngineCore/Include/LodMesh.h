@@ -21,11 +21,11 @@ public:
 	void draw()const;
 };
 
-class CLodMesh:public iLodMesh
+class CMeshData:public iMeshData
 {
 public:
-	CLodMesh();
-	~CLodMesh();
+	CMeshData();
+	~CMeshData();
 public:
 	GSET_CONST_VAR	(unsigned short,		m_u,SkinVertexSize);
 	virtual const BBox& getBBox(){return m_bbox;}

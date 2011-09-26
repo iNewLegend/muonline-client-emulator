@@ -41,7 +41,7 @@ public:
 	virtual void			clearChildren			();
 	// ----
 	// load
-	virtual bool			init					(void* pData);
+	virtual bool			setup					();
 	bool					removeRenderNode		(iRenderNode* pNode);
 	// ----
 	// # shit

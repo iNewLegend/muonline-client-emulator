@@ -10,6 +10,7 @@ CRenderNode::CRenderNode()
 ,m_vRotate(0.0f,0.0f,0.0f)
 ,m_vScale(1.0f,1.0f,1.0f)
 ,m_bLoaded(false)
+,m_pData(NULL)
 {
 	m_mWorldMatrix.unit();
 }

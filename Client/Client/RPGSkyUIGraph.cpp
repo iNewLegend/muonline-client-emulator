@@ -1,7 +1,6 @@
 #include "RPGSkyUIGraph.h"
 #include "RenderSystem.h"
 #include "Graphics.h"
-#include "RPGSkyTextRender.h"
 #include "Audio.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -12,7 +11,7 @@ UIGraph * UIGraph::m_pInstace = & g_uiGraph;
 
 void RPGSkyUIGraph::frameUpdate()
 {
-	getTextRender().OnFrameMove();
+	s_RPGSkyTextRender.OnFrameMove();
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -62,7 +61,7 @@ void RPGSkyUIGraph::CalcTextRect(const wchar_t* wcsText, CRect<float> & rcDest)
 	// ----
 	RECT rect = rcDest.getRECT();
 	// ----
-	getTextRender().calcUBBRect(wcsText, rect);
+	s_RPGSkyTextRender.calcUBBRect(wcsText, rect);
 	// ----
 	rcDest	= rect;
 }
@@ -110,7 +109,7 @@ void RPGSkyUIGraph::DrawText(const wchar_t* wcsText, CUIStyle & style, int nInde
 		// ----
 		// No need to draw fully transparent layers
 		// ----
-		getTextRender().drawText(wcsText, rcDest.getRECT(), nCount, uFormat, color.c);
+		s_RPGSkyTextRender.drawText(wcsText, rcDest.getRECT(), nCount, uFormat, color.c);
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -124,7 +123,7 @@ void RPGSkyUIGraph::drawText(const wchar_t* wcsText, int cchText, const RECT & r
 	R.SetTextureColorOP(1, TBOP_MODULATE, TBS_CURRENT,TBS_TFACTOR);
 	R.SetTextureAlphaOP(1 ,TBOP_MODULATE, TBS_CURRENT,TBS_TFACTOR);
 	// ----
-	getTextRender().drawText(wcsText,rc, cchText, format, color);
+	s_RPGSkyTextRender.drawText(wcsText,rc, cchText, format, color);
 	// ----
 	R.SetTextureColorOP(1, TBOP_DISABLE);
 	R.SetTextureAlphaOP(1, TBOP_DISABLE);
@@ -133,15 +132,16 @@ void RPGSkyUIGraph::drawText(const wchar_t* wcsText, int cchText, const RECT & r
 
 void RPGSkyUIGraph::initFont(const char* szFontFilename, size_t size)
 {
-	getTextRender().load(szFontFilename);
+	s_RPGSkyTextRender.load(szFontFilename);
+	s_RPGSkyTextRender.setShadowBorder(1);
 	// ----
-	getTextRender().setFontSize(size);
+	s_RPGSkyTextRender.setFontSize(size);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 int RPGSkyUIGraph::GetFontSize()
 {
-	return getTextRender().GetCharHeight();
+	return s_RPGSkyTextRender.GetCharHeight();
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -191,7 +191,7 @@ Matrix RPGSkyUIGraph::setUIMatrix(const Matrix & mTransform, const CRect<float> 
 
 bool RPGSkyUIGraph::scriptStringAnalyse(CScriptStringAnalysis & analysis, const wchar_t *wcsText)
 {
-	return getTextRender().scriptStringAnalyse(analysis,wcsText);
+	return s_RPGSkyTextRender.scriptStringAnalyse(analysis,wcsText);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -203,7 +203,6 @@ void RPGSkyUIGraph::playSound(const char * szFilename)
 
 CTextRender & RPGSkyUIGraph::getTextRender()
 {
-	static CRPGSkyTextRender3D s_RPGSkyTextRender;
 	// ----
 	return s_RPGSkyTextRender;
 }

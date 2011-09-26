@@ -6,26 +6,13 @@ struct PS_TEXT_INPUT
     float2  UV      : TEXCOORD0;
 };
 
-texture	g_texText;
-float4  g_vShadowColor;
-
-sampler g_samText=
-sampler_state
-{
-    Texture = <g_texText>;
-    AddressU = BORDER;
-    AddressV = BORDER;
-    MinFilter = Linear;
-    MagFilter = Linear;
-    MipFilter = Linear;
-};
-
+sampler s0: register(s0);
+float4 c0: register(c0);
 float4 PS(PS_TEXT_INPUT i) : COLOR0
 {
 	//F*(1-T)+T*D
-	float4 color	= tex2D(g_samDiffuse, i.UV);
-	color.xyz = g_vShadowColor*(1-color.x)+color.x*i.Diffuse.xyz;
-	//color.a = 1.0f;
+	float4 color	= tex2D(s0, i.UV);
+	color.xyz = c0*(1-color.x)+color.x*i.Diffuse.xyz;
 	return color;
 }
 
@@ -33,7 +20,7 @@ technique Render
 {
     pass P0
     {
-		VertexShader = NULL;
+	VertexShader = NULL;
         PixelShader  = compile ps_2_0 PS();
     }
 }

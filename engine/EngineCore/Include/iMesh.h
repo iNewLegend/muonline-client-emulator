@@ -72,12 +72,11 @@ struct RigidNolightVertex
 	Vec2D	uv;
 };
 
-class iLodMesh
+class iMeshData
 {
 public:
 	virtual const BBox&	getBBox()=0;
 	virtual void		setBBox(const BBox& bbox)=0;
-	virtual void		init()=0;
 
 	virtual std::vector<SkinVertex>&				getSkinVertices()=0;
 	virtual std::vector<RigidVertex>&				getRigidVertices()=0;

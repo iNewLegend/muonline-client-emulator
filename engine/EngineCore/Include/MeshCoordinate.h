@@ -1,7 +1,7 @@
 #pragma once
 #include "LodMesh.h"
 
-class CMeshCoordinate:public CLodMesh
+class CMeshCoordinate:public CMeshData
 {
 public:
 	CMeshCoordinate();

@@ -404,15 +404,6 @@ void CTextRender::buildUBB(CUBB* pUBB, const wchar_t* wcsText, const RECT& rc, i
 	pUBB->updateTextLine();
 }
 
-void CTextRender::drawUBB(CUBB* pUBB)
-{
-	int nVertexCount = pUBB->m_VB.size();
-	if (nVertexCount)
-	{
-		drawTextVertexBuffer(nVertexCount,&pUBB->m_VB[0]);
-	}
-}
-
 void CTextRender::drawText(const wchar_t* wcsText, const RECT& rc, int cchText, UINT format, unsigned long dwColor)
 {
 	CUBB ubb;
