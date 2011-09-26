@@ -13,7 +13,7 @@ iRenderNode* newMapSceneObj(){return new C3DMapSceneObj;};
 
 void* newSkeletonData(){return new CSkeletonData;}
 void* newParticleData(){return new ParticleData;}
-void* newLodMesh(){return new CLodMesh;}
+void* newLodMesh(){return new CMeshData;}
 void* newSceneData(){return new SceneData;}
 void* newTerrainData(){return new CTerrainData;}
 

@@ -1492,7 +1492,7 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 	bboxObject.vMax = Vec3D(fLength+10.0f,fLength*0.5f+10.0f,fLength+10.0f);
 	pSceneData->setBBox(bboxObject);
 	pSceneData->setOctreeDepth(6);
-	pRenderNode->init(pSceneData);
+	pRenderNode->setData(pSceneData);
 	// Loading the object.
 	//iRenderNode* pSceneNode = (iRenderNode*)m_pRenderNodeMgr->createRenderNode("scene");
 	IOReadBase* pRead = IOReadBase::autoOpen(szFilename);

@@ -4,6 +4,7 @@
 
 #include "UIGraph.h"
 #include "TextRender.h"
+#include "RPGSkyTextRender.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 class RPGSkyUIGraph : public UIGraph
@@ -35,5 +36,6 @@ public:
 	void	playSound			(const char* szFilename);
 	// ----
 	CTextRender & getTextRender();
+	CRPGSkyTextRender3D s_RPGSkyTextRender;
 };
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

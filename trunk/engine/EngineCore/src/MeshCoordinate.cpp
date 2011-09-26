@@ -100,7 +100,7 @@ void CMeshCoordinate::init()
 		}
 	}*/
 	//
-	CLodMesh::init();
+	CMeshData::init();
 }
 
 void CMeshCoordinate::setPos(const Vec3D& vPos)
@@ -171,7 +171,7 @@ bool CMeshCoordinate::intersect(const Vec3D& vRayPos , const Vec3D& vRayDir,Vec3
 
 	Vec3D vOut;
 	int nSubID  = -1;
-	if (CLodMesh::intersect(vNewRayPos, vNewRayDir, vOut, nSubID))
+	if (CMeshData::intersect(vNewRayPos, vNewRayDir, vOut, nSubID))
 	{
 		switch(nSubID)
 		{

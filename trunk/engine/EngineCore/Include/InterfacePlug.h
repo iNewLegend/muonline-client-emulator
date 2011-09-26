@@ -20,6 +20,7 @@ public:
 	virtual void			setWorldBBox		(const BBox& WorldBBox)=0;
 	virtual void			setWorldMatrix		(const Matrix& mWorldMatrix)=0;
 	virtual void			setParent			(iRenderNode* pParent)=0;
+	virtual void			setData				(void* pData)=0;
 	virtual void			setLoaded			(const bool bLoaded)=0;
 	virtual const Vec3D&	getPos				()const=0;
 	virtual const Vec3D&	getRotate			()const=0;
@@ -28,12 +29,12 @@ public:
 	virtual const BBox&		getWorldBBox		()const=0;
 	virtual const Matrix&	getWorldMatrix		()const=0;
 	virtual iRenderNode*	getParent			()=0;
+	virtual void*			getData				()=0;
 	virtual const bool		getLoaded			()const=0;
 	virtual const char*		getName				()const=0;
 	virtual const char*		getFilename			()const=0;
 	virtual iRenderNode*	getChild			(const char* szName)=0;
 	virtual void			addChild			(iRenderNode* pChild)=0;
-	virtual bool			init				(void* pData)=0;
 	virtual bool			load				(const char* szFilename)=0;
 	virtual void			updateWorldBBox		()=0;
 	virtual void			updateWorldMatrix	()=0;

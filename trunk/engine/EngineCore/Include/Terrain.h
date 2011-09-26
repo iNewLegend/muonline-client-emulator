@@ -57,18 +57,12 @@ typedef std::map<EditTarget,EditValue>  MAP_EDIT_RECORD;
 class CTerrain:public CRenderNode
 {
 public:
-	CTerrain(); 
-	CTerrain(const std::string& strFilename); 
-	~CTerrain();
-	//
 	virtual int					getType			() {return NODE_MESH;}
 	virtual void				frameMove		(const Matrix& mWorld, double fTime, float fElapsedTime){;}
 
-	CTerrainData*				getTerrainData	(){return m_pTerrainData;}
-	virtual bool				init			(void* pData);
+	CTerrainData*				getTerrainData	(){return (CTerrainData*)m_pData;}
 	//
 protected:
-	CTerrainData*						m_pTerrainData;
 	// Ìù»¨
 	CTerrainDecal						m_LightMapDecal;
 	CTerrainDecal						m_LightDecal;

@@ -25,7 +25,6 @@ public:
 	void OnFrameMove();
 
 	virtual void updateTextureBuffer(unsigned char* pBuffer, size_t size, size_t width, size_t height)=0;
-	virtual void drawTextVertexBuffer(int nVertexCount, void* pBuffer)=0;
 
 	void SetInsertionPos(int x, int y) { m_nX = x; m_nY = y; }
 	void SetForegroundColor(unsigned long color) { m_dwColor = color; }
@@ -33,7 +32,7 @@ public:
 
 	// ubb
 	void buildUBB(CUBB* pUBB, const wchar_t* wcsText, const RECT& rc, int cchText = -1, UINT format = 0, unsigned long dwColor = 0xffffffff);
-	void drawUBB(CUBB* pUBB);
+	virtual void drawUBB(const CUBB* pUBB)const=0;
 	void drawText(const wchar_t* wcsText, const RECT& rc, int cchText = -1, UINT format = 0, unsigned long dwColor = 0xffffffff);
 	void drawText(const wchar_t* wcsText, int x, int y, unsigned long dwColor = 0xffffffff);
 	void calcUBBRect(const wchar_t* wcsText, RECT& rc);

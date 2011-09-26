@@ -86,6 +86,8 @@ bool CScene::updateNode(iRenderNode* pNode)
 
 void CScene::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
+	setup();
+	// ----
 	FOR_IN(it,m_mapChildNode)
 	{
 		(*it)->frameMove(Matrix::UNIT,fTime,fElapsedTime);
@@ -322,9 +324,13 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 	}
 }
 
-bool CScene::init(void* pData)
+bool CScene::setup()
 {
-	m_pSceneData = (SceneData*)pData;
+	if (m_pSceneData==m_pData)
+	{
+		return false;
+	}
+	m_pSceneData = (SceneData*)m_pData;
 	m_OctreeRoot.create(m_pSceneData->getBBox(),m_pSceneData->getOctreeDepth());
 	return true;
 }

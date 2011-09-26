@@ -213,12 +213,12 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 					// createSkeletonData error!
 				}
 			}
-			pRenderNode->init(pSkeletonData);
+			pRenderNode->setData(pSkeletonData);
 		}
 	}
 	else
 	{
-		iLodMesh* pMesh = (iLodMesh*)m_pRenderNodeMgr->getRenderData("mesh",szFilename);
+		iMeshData* pMesh = (iMeshData*)m_pRenderNodeMgr->getRenderData("mesh",szFilename);
 		// ----
 		if (pMesh==NULL)
 		{
@@ -230,7 +230,7 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 			// ----
 			if (pMesh==NULL)
 			{
-				pMesh = (iLodMesh*)m_pRenderNodeMgr->createRenderData("mesh",szFilename);
+				pMesh = (iMeshData*)m_pRenderNodeMgr->createRenderData("mesh",szFilename);
 				if (pMesh)
 				{
 					bool bIsPlayerPart = false;
@@ -416,7 +416,6 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 						}
 					}
 					pMesh->setBBox(bbox);
-					pMesh->init();
 				}
 				else
 				{
@@ -449,12 +448,12 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 			iSkeletonData*	pSkeletonData	= (iSkeletonData*)	m_pRenderNodeMgr->getRenderData("skeleton",szFilename);
 			if (pSkeletonData)
 			{
-				pRenderNode->init(pSkeletonData);
+				pRenderNode->setData(pSkeletonData);
 				//----
 				iRenderNode* pMeshNode = m_pRenderNodeMgr->createRenderNode("mesh");
 				if (pMeshNode)
 				{
-					pMeshNode->init(pMesh);
+					pMeshNode->setData(pMesh);
 				}
 				//----
 				pRenderNode->addChild(pMeshNode);
@@ -462,7 +461,7 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 		}
 		else if (pRenderNode->getType()==iRenderNode::NODE_MESH)
 		{
-			pRenderNode->init(pMesh);
+			pRenderNode->setData(pMesh);
 		}
 		else
 		{

@@ -328,7 +328,7 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 			char szMeshName[256];
 			// 
 			sprintf(szMeshName,"%s_%d_%d",szFilename,startX,startY);
-			iLodMesh* pMesh = (iLodMesh*)m_pRenderNodeMgr->createRenderData("mesh",szMeshName);
+			iMeshData* pMesh = (iMeshData*)m_pRenderNodeMgr->createRenderData("mesh",szMeshName);
 
 			BBox bbox;
 
@@ -522,7 +522,6 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 			bbox.vMax.x = (float)(nEndX);
 			bbox.vMax.z = (float)(nEndY);
 			pMesh->setBBox(bbox);
-			pMesh->init();
 
 			iRenderNode* pMeshNode = m_pRenderNodeMgr->createRenderNode("mesh");
 			if (pMeshNode)
@@ -530,7 +529,7 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 				pMeshNode->setLocalBBox(bbox);
 				pMeshNode->updateWorldBBox();
 				pMeshNode->updateWorldMatrix();
-				pMeshNode->init(pMesh);
+				pMeshNode->setData(pMesh);
 				pMeshNode->setLoaded(true);
 				pRenderNode->getParent()->addChild(pMeshNode);
 			}
@@ -538,7 +537,7 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 		}
 	}
 
-	pRenderNode->init(pTerrainData);
+	pRenderNode->setData(pTerrainData);
 	return true;
 }
 

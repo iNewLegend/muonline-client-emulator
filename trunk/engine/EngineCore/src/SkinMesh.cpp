@@ -19,25 +19,22 @@ CSkinMesh::~CSkinMesh()
 
 void CSkinMesh::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
- 	if (!m_bLoaded)
- 	{
- 		return;
- 	}
-
-		if(!m_pMesh)
-		{
-			return;
-		}
+	setup();
+	// ----
+	if(!m_pMesh)
+	{
+		return;
+	}
+	// ----
+	if (m_pParent&&m_pParent->getType()==NODE_SKELETON)
+	{
+		CSkeletonNode* pSkeletonNode = (CSkeletonNode*)m_pParent;
 		// ----
-		if (m_pParent&&m_pParent->getType()==NODE_SKELETON)
+		if (m_pMesh->m_bSkinMesh)
 		{
-			CSkeletonNode* pSkeletonNode = (CSkeletonNode*)m_pParent;
-			// ----
-			if (m_pMesh->m_bSkinMesh)
-			{
-				m_pMesh->skinningMesh(m_pVB, pSkeletonNode->getBonesMatrix());
-			}
+			m_pMesh->skinningMesh(m_pVB, pSkeletonNode->getBonesMatrix());
 		}
+	}
 	// ----
 	CRenderNode::frameMove(mWorld,fTime,fElapsedTime);
 	// ----
@@ -49,12 +46,8 @@ void CSkinMesh::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)
 {
 	Matrix mNewWorld = mWorld*m_mWorldMatrix;
 	// ----
-	if (m_bLoaded)
+	if (m_pMesh)
 	{
-		if(!m_pMesh)
-		{
-			return;
-		}
 		if (eRenderType==MATERIAL_NONE)
 		{
 			return;
@@ -83,14 +76,20 @@ bool CSkinMesh::intersectSelf(const Vec3D& vRayPos , const Vec3D& vRayDir, float
 	return false;
 }
 
-bool CSkinMesh::init(void* pData)
+bool CSkinMesh::setup()
 {
-	m_pMesh =(CLodMesh*) pData;
+	if (m_pMesh==m_pData)
+	{
+		return false;
+	}
+	// ----
+	m_pMesh = (CMeshData*)m_pData;
 	// ----
 	if(!m_pMesh)
 	{
 		return false;
 	}
+	m_pMesh->init();
 	// ----
 	// # ÉèÖÃÄ¬ÈÏLOD
 	// ----
@@ -122,7 +121,6 @@ bool CSkinMesh::init(void* pData)
 		CMaterial& material = GetRenderSystem().getMaterialMgr().getItem(it->strMaterial.c_str());
 		m_nOrder+=material.getOrder();
 	}
-	m_bLoaded = true;
 	return true;
 }
 

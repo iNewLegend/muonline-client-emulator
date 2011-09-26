@@ -50,7 +50,7 @@ struct ModelRenderPass
 };
 
 class CHardwareVertexBuffer;
-class CLodMesh;
+class CMeshData;
 class CSkinMesh: public CRenderNode
 {
 public:
@@ -60,7 +60,7 @@ public:
 	virtual void	frameMove		(const Matrix& mWorld, double fTime, float fElapsedTime);
 	virtual void	render			(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType=MATERIAL_NORMAL)const;
 	virtual bool	intersectSelf	(const Vec3D& vRayPos , const Vec3D& vRayDir, float &tmin ,float &tmax)const;
-	virtual bool	init			(void* pData);
+	virtual bool	setup			();
 	bool			prepare			()const;
 	void			setLOD			(unsigned long uLodID);		// …Ë÷√LodID
 	void			setSubSkin		(int nSubID, int nID);
@@ -70,7 +70,7 @@ public:
 	void			renderMesh(E_MATERIAL_RENDER_TYPE eModelRenderType, size_t uLodLevel, CHardwareVertexBuffer* pSkinVB, float fOpacity, int nAnimTime)const;
 protected:
 	CHardwareVertexBuffer*			m_pVB;				// ∂•µ„ª∫≥Â
-	CLodMesh*						m_pMesh;
+	CMeshData*						m_pMesh;
 	unsigned long					m_uLodLevel;		// Current Lod Level
 	unsigned long					m_uLightMapTex;		//
 	bool							m_bLightmap;
