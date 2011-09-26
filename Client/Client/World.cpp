@@ -167,6 +167,8 @@ void CWorld::create(UCHAR uMapID)
 		m_pTerrain = new CTerrain;
 		m_pTerrain->setParent(this);
 		m_pTerrain->load(szMapFilname);
+		setup();
+
 		// ----
 		//GetAudio().LoadMusic("Data\\Music\\main_theme.mp3");
 		//GetAudio().PlayMusic(true,20);
@@ -240,7 +242,6 @@ void CWorld::addDamageInfo(Vec3D vPos,const std::wstring & wcsInfo)
 
 void CWorld::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
-	setup();
 	// ----
 	FOR_IN(it,m_RenderNodes)
 	{
