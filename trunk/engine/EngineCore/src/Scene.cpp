@@ -125,11 +125,11 @@ void CScene::updateRender(const CFrustum& frustum)
 		getRenderNodes(frustum, m_RenderNodes);
 		FOR_IN(it,m_RenderNodes)
 		{
-			//if (!(*it)->getLoaded())
-			//{
-			//	s_pThreadRenderNode = (*it);
-			//}
-			(*it)->load((*it)->getFilename());
+			if (!(*it)->getLoaded())
+			{
+				s_pThreadRenderNode = (*it);
+			}
+			//(*it)->load((*it)->getFilename());
 		}
 	}
 }
@@ -337,6 +337,9 @@ bool CScene::setup()
 
 void CScene::addChild(iRenderNode* pChild)
 {
+	// 临时放在这里
+	setup();
+	//
 	CRenderNode::addChild(pChild);
 	// ----
 	if (m_OctreeRoot.addNode(pChild->getWorldBBox(), pChild))

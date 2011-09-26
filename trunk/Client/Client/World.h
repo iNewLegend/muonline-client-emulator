@@ -52,7 +52,6 @@ public:
 	virtual void	getRenderNodes		(const CFrustum& frustum, std::set<iRenderNode*>& setNode);
 	// ----
 protected:
-	void			loadMap				(const char* szFilename, ...);
 	// ----
 	void			updateDamageInfo	(double fTime, float fElapsedTime);
 	void			renderDamageInfo	()const;
