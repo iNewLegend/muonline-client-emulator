@@ -309,5 +309,32 @@ void CWorld::getRenderNodes(const CFrustum& frustum, std::set<iRenderNode*>& set
 	}
 	// ----
 	CScene::getRenderNodes(frustum, setNode);
+	// ----
+	if (CWorld::getInstance().getSceneData())
+	{
+		Pos2D pos;
+		CPlayerMe::getInstance().GetCellPos(pos);
+		unsigned char uTileID = CWorld::getInstance().getSceneData()->getCellTileID(pos.x, pos.y ,0);
+		// ----
+		// # hide the house wall
+		if (uTileID==4)
+		{
+			for(auto it = setNode.begin(); it!=setNode.end();)
+			{
+				auto temp = it++;
+				if (std::string((*temp)->getFilename()).find("HouseWall05.bmd") != std::string::npos||
+					std::string((*temp)->getFilename()).find("HouseWall06.bmd") != std::string::npos)
+					//if (strcmp((*it)->getFilename(),"125")==0 || strcmp((*it)->getName(),"126")==0)
+				{
+					m_RenderNodes.erase(temp);
+				}           
+			}
+
+			FOR_IN(it,setNode)
+			{
+
+			}
+		}
+	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
