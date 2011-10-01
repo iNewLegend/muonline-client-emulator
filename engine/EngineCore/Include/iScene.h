@@ -19,13 +19,16 @@ struct TerrainCell
 };
 
 //////////////////////////////////////////////////////////////////////////
-// Terrain
+// Scene
 //////////////////////////////////////////////////////////////////////////
-class iTerrainData
+#include "RenderSystemCommon.h"
+#include "Frustum.h"
+
+class iSceneData
 {
 public:
-	iTerrainData(){};
-	virtual ~iTerrainData(){};
+	iSceneData(){};
+	virtual ~iSceneData(){};
 	//
 	virtual void			clear()=0;
 	virtual void			create(size_t width, size_t height)=0;
@@ -67,16 +70,6 @@ public:
 	virtual bool			hasGrass(int nCellX, int nCellY)const=0;
 
 	virtual std::vector<TerrainCell>& getCells()=0;
-};
-
-//////////////////////////////////////////////////////////////////////////
-// Scene
-//////////////////////////////////////////////////////////////////////////
-#include "RenderSystemCommon.h"
-#include "Frustum.h"
-
-class iSceneData
-{
 public:
 	virtual void					setBBox					(const BBox& box)=0;
 	virtual void					setOctreeDepth			(const size_t size)=0;
