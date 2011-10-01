@@ -14,13 +14,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client", "Client\Client\Cli
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EngineCore", "engine\EngineCore\EngineCore.vcxproj", "{9C205B68-B380-418C-8422-50BEE76017CF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CSVMaterialDataPlugin", "tool\CSVMaterialDataPlugin\CSVMaterialDataPlugin.vcxproj", "{EEB7C1F2-C588-4924-909A-DF7326CC09FF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CSVMaterialPlugin", "tool\CSVMaterialDataPlugin\CSVMaterialDataPlugin.vcxproj", "{EEB7C1F2-C588-4924-909A-DF7326CC09FF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MuModelPlugin", "tool\MuModelPlugin\MuModelPlugin.vcxproj", "{40AB2FE3-FD81-47B3-9D55-AC959D2F8B8D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MuWorldMapPlugin", "tool\MuWorldMapImport\MuWorldMapImport.vcxproj", "{257217AD-AAF5-461D-9327-03891BA604A1}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MuTerrain", "tool\MuTerrain\MuTerrain.vcxproj", "{47E419FE-422B-4F59-8FC3-39113F527554}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MuMapPlugin", "tool\MuWorldMapImport\MuWorldMapImport.vcxproj", "{257217AD-AAF5-461D-9327-03891BA604A1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RenderSystem", "engine\RenderSystem\RenderSystem.vcxproj", "{67E8BE2E-F68E-473E-AECB-1A6DA07E7AB6}"
 EndProject
@@ -52,10 +50,6 @@ Global
 		{257217AD-AAF5-461D-9327-03891BA604A1}.Debug|Win32.Build.0 = Debug|Win32
 		{257217AD-AAF5-461D-9327-03891BA604A1}.Release|Win32.ActiveCfg = Release|Win32
 		{257217AD-AAF5-461D-9327-03891BA604A1}.Release|Win32.Build.0 = Release|Win32
-		{47E419FE-422B-4F59-8FC3-39113F527554}.Debug|Win32.ActiveCfg = Debug|Win32
-		{47E419FE-422B-4F59-8FC3-39113F527554}.Debug|Win32.Build.0 = Debug|Win32
-		{47E419FE-422B-4F59-8FC3-39113F527554}.Release|Win32.ActiveCfg = Release|Win32
-		{47E419FE-422B-4F59-8FC3-39113F527554}.Release|Win32.Build.0 = Release|Win32
 		{67E8BE2E-F68E-473E-AECB-1A6DA07E7AB6}.Debug|Win32.ActiveCfg = Debug|Win32
 		{67E8BE2E-F68E-473E-AECB-1A6DA07E7AB6}.Debug|Win32.Build.0 = Debug|Win32
 		{67E8BE2E-F68E-473E-AECB-1A6DA07E7AB6}.Release|Win32.ActiveCfg = Release|Win32
