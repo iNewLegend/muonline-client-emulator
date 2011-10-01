@@ -1,5 +1,6 @@
 #pragma once
 #include "iScene.h"
+#include "RenderSystem.h"
 
 enum E_TERRAIN_ATT_TYPE
 {
@@ -14,12 +15,23 @@ enum E_TERRAIN_ATT_TYPE
 #define ATTRIBUTE_BREAK		(0x01<<2)
 #define ATTRIBUTE_UNVISIBLE	(0x01<<3)
 
+
 // 地图文件数据
-class CTerrainData:public iTerrainData
+class CSceneData:public iSceneData
 {
 public:
-	CTerrainData(); 
-	~CTerrainData();
+	virtual GSET_CONST_VAR	(BBox&,				m_,BBox);
+	virtual GSET_CONST_VAR	(size_t,			m_,OctreeDepth);
+	virtual GSET_CONST_VAR	(Fog&,				m_,Fog);
+	virtual GSET_CONST_VAR	(DirectionalLight&,	m_,Light);
+private:
+	BBox				m_BBox;
+	size_t				m_OctreeDepth;
+	Fog					m_Fog;
+	DirectionalLight	m_Light;
+public:
+	CSceneData(); 
+	~CSceneData();
 	//
 	void				clear();
 	void				create(size_t width, size_t height);

@@ -2,6 +2,7 @@
 #include "InterfacePlug.h"
 #include "iScene.h"
 
+int getMapIDFromFilename(const std::string& strFilename);
 class CMyPlug : public CDataPlugBase  
 {
 public:

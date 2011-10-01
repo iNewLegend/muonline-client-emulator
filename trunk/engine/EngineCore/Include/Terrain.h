@@ -5,8 +5,6 @@
 #include "RenderNode.h"
 #include "SkinMesh.h"
 
-#define TERRAIN_VERTEX_FVF	(FVF_XYZ | FVF_NORMAL | FVF_DIFFUSE | FVF_TEX3)
-
 struct EditValue
 {
 	union 
@@ -54,16 +52,10 @@ struct EditRecord
 typedef std::map<EditTarget,EditValue>  MAP_EDIT_RECORD;
 
 
-class CTerrain:public CRenderNode
-{
-public:
-	virtual int					getType			() {return NODE_MESH;}
-	virtual void				frameMove		(const Matrix& mWorld, double fTime, float fElapsedTime){;}
-
-	CTerrainData*				getTerrainData	(){return (CTerrainData*)m_pData;}
-	//
-protected:
+// class CTerrain:public CRenderNode
+//{
+//public:
 	// Ìù»¨
-	CTerrainDecal						m_LightMapDecal;
-	CTerrainDecal						m_LightDecal;
-};
+//	CTerrainDecal						m_LightMapDecal;
+//	CTerrainDecal						m_LightDecal;
+//};
