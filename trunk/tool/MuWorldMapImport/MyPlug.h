@@ -21,4 +21,12 @@ private:
 	bool exportObject(iRenderNode * pScene, const std::string& strFilename);
 
 	std::map<int,std::string>	m_mapObjectName;
+	bool importSceneTerrainData(iRenderNode* pRenderNode, iSceneData * pTerrainData,  const char* szFilename);
+	bool importTerrainData(iSceneData * pTerrainData, const std::string& strFilename);
+
+	bool exportTerrainAtt(iSceneData * pTerrainData, const std::string& strFilename);
+	bool exportTerrainLightmap(iSceneData * pTerrainData, const std::string& strFilename);
+	bool exportTerrainHeight(iSceneData * pTerrainData, const std::string& strFilename);
+	bool exportTerrainData(iSceneData * pTerrainData, const std::string& strFilename);
+	bool exportTiles(iSceneData * pTerrain, const std::string& strFilename, const std::string& strPath);
 };

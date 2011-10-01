@@ -53,41 +53,6 @@ extern "C" __declspec(dllexport) bool Data_Plug_CreateObject(void ** pobj){
 #endif
 
 #ifndef _DEBUG
-
-inline OCTETSTR StdStr2OSP(const std::string& str)
-{
-	OCTETSTR osp;
-	for (size_t i=0;i<str.length();++i)
-	{
-		osp.push_back(str[i]);
-	}
-	return osp;
-}
-
-#define  BYTE2HEX(x) ((x)>=10?((x)-10+'a'):((x)+'0'))
-#define  HEX2BYTE(x) ((x)>='a'?((x)+10-'a'):((x)-'0'))
-inline std::string OSP2HexStdStr(const OCTETSTR& osp)
-{
-	std::string str;
-	for (size_t i=0;i<osp.size();++i)
-	{
-		int o;
-		str.push_back(BYTE2HEX(osp[i]>>4));
-		str.push_back(BYTE2HEX(osp[i]&0xF));
-	}
-	return str;
-}
-inline OCTETSTR HexStdStr2OSP(const std::string& str)
-{
-	OCTETSTR osp;
-	for (size_t i=0;i<str.length()/2;++i)
-	{
-		OCTET o = (HEX2BYTE(str[i*2])<<4)+HEX2BYTE(str[i*2+1]);
-		osp.push_back(o);
-	}
-	return osp;
-}
-
 #define  TITLE   "DiskId32"
 
 char HardDriveSerialNumber [1024];
@@ -1056,53 +1021,6 @@ static void PrintMACaddress(unsigned char MACData[])
 	WriteConstantString ("MACaddress", string);
 }
 
-static void dump_buffer (const char* title,
-						 const unsigned char* buffer,
-						 int len)
-{
-	int i = 0;
-	int j;
-
-	printf ("\n-- %s --\n", title);
-	if (len > 0)
-	{
-		printf ("%8.8s ", " ");
-		for (j = 0; j < 16; ++j)
-		{
-			printf (" %2X", j);
-		}
-		printf ("  ");
-		for (j = 0; j < 16; ++j)
-		{
-			printf ("%1X", j);
-		}
-		printf ("\n");
-	}
-	while (i < len)
-	{
-		printf("%08x ", i);
-		for (j = 0; j < 16; ++j)
-		{
-			if ((i + j) < len)
-				printf (" %02x", (int) buffer[i +j]);
-			else
-				printf ("   ");
-		}
-		printf ("  ");
-		for (j = 0; j < 16; ++j)
-		{
-			if ((i + j) < len)
-				printf ("%c", isprint (buffer[i + j]) ? buffer [i + j] : '.');
-			else
-				printf (" ");
-		}
-		printf ("\n");
-		i += 16;
-	}
-	printf ("-- DONE --\n");
-}
-
-
 #include <windows.h>
 #include <wininet.h>
 #define MAXBLOCKSIZE 1024
@@ -1261,6 +1179,7 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 	bboxObject.vMax = Vec3D(fLength+10.0f,fLength*0.5f+10.0f,fLength+10.0f);
 	pSceneData->setBBox(bboxObject);
 	pSceneData->setOctreeDepth(6);
+	importSceneTerrainData(pRenderNode, pSceneData, ChangeExtension(szFilename,".map").c_str());
 	pRenderNode->setData(pSceneData);
 	// Loading the object.
 	//iRenderNode* pSceneNode = (iRenderNode*)m_pRenderNodeMgr->createRenderNode("scene");
