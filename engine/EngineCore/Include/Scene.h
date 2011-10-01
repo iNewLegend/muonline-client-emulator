@@ -7,19 +7,6 @@
 #include "FocusNode.h"
 #include "InterfacePlug.h"
 
-class SceneData: public iSceneData
-{
-public:
-	virtual GSET_CONST_VAR	(BBox&,				m_,BBox);
-	virtual GSET_CONST_VAR	(size_t,			m_,OctreeDepth);
-	virtual GSET_CONST_VAR	(Fog&,				m_,Fog);
-	virtual GSET_CONST_VAR	(DirectionalLight&,	m_,Light);
-private:
-	BBox				m_BBox;
-	size_t				m_OctreeDepth;
-	Fog					m_Fog;
-	DirectionalLight	m_Light;
-};
 
 class CScene: public CRenderNode
 {
@@ -79,15 +66,13 @@ public:
 	GSET_VAR				(bool,				m_b,ShowNodeBBox);
 	GSET_VAR				(bool,				m_b,ShowOctreeBox);
 	GSET_VAR				(bool,				m_b,RefreshViewport);
-	GSET_VAR				(CTerrain*,			m_p,Terrain );
 	GSET_CONST_VAR			(DirectionalLight&,	m_,Light);
 	GSET_CONST_VAR			(Fog&,				m_,Fog);
 	GSET_CONST_VAR			(Vec3D&,			m_v,TargetPos);
 	// ----
-	SceneData*				getSceneData			(){return m_pSceneData;}
+	CSceneData*				getSceneData			(){return m_pSceneData;}
 protected:
-	SceneData*				m_pSceneData;
-	CTerrain*				m_pTerrain;
+	CSceneData*				m_pSceneData;
 	Octree<iRenderNode*>	m_OctreeRoot;
 	std::set<iRenderNode*>	m_RenderNodes;
 	LIST_RENDER_NODE		m_setLightObj;

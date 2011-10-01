@@ -24,7 +24,6 @@ CScene::CScene()
 	,m_Fog(32.0f,48.0f,0.01f,0xFF223344)
 	,m_Light(Vec4D(1.0f,1.0f,1.0f,1.0f),Vec4D(1.0f,1.0f,1.0f,1.0f),Vec4D(1.0f,1.0f,1.0f,1.0f),Vec3D(-1.0f,-1.0f,-1.0f))
 	,m_pSceneData(NULL)
-	,m_pTerrain(NULL)
 	,m_bRefreshViewport(NULL)
 {
 	//isStartImmediate = CREATE_SUSPENDED;
@@ -171,27 +170,27 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 	R.setFogEnable(m_Fog.fEnd>0.0f);
 	R.SetDirectionalLight(0, m_Light);
 	Vec3D vLightDir = Vec3D(-0.8f,-1.0f,0.0f).normalize();
-	if (m_pTerrain)
-	{
-		m_pTerrain->render(mWorld,MATERIAL_GEOMETRY);
-	}
-	if (m_pTerrain)
-	{
-		//if(m_pTerrain->prepare())
-		{
-			if(R.prepareMaterial("LightDecal"))
-			{
-				R.SetBlendFunc(true,BLENDOP_ADD,SBF_DEST_COLOUR,SBF_ONE);
-				// ----
-				FOR_IN(itLight,m_setLightObj)
-				{
-					const Vec3D& vLightPos = (*itLight)->getPos();
-					//m_pTerrain->drawLightDecal(vLightPos.x,vLightPos.z,3.0f,0xFFFFFFFF);
-				}
-			}
-		}
-		R.finishMaterial();
-	}
+// 	if (m_pTerrain)
+// 	{
+// 		m_pTerrain->render(mWorld,MATERIAL_GEOMETRY);
+// 	}
+// 	if (m_pTerrain)
+// 	{
+// 		//if(m_pTerrain->prepare())
+// 		{
+// 			if(R.prepareMaterial("LightDecal"))
+// 			{
+// 				R.SetBlendFunc(true,BLENDOP_ADD,SBF_DEST_COLOUR,SBF_ONE);
+// 				// ----
+// 				FOR_IN(itLight,m_setLightObj)
+// 				{
+// 					const Vec3D& vLightPos = (*itLight)->getPos();
+// 					//m_pTerrain->drawLightDecal(vLightPos.x,vLightPos.z,3.0f,0xFFFFFFFF);
+// 				}
+// 			}
+// 		}
+// 		R.finishMaterial();
+// 	}
 	{
 		R.SetCullingMode(CULL_NONE);
 		R.SetShader((CShader*)NULL);
@@ -250,9 +249,9 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 				if(pObj)
 				{
 						Vec4D vColor(1.0f,1.0f,1.0f,1.0f);
-						if (m_pTerrain && m_pTerrain->getTerrainData())
+						if (m_pSceneData)
 						{
-							vColor = m_pTerrain->getTerrainData()->getColor((*it)->getPos().x,(*it)->getPos().z);
+							vColor = m_pSceneData->getColor((*it)->getPos().x,(*it)->getPos().z);
 						}
 						vColor.w=1.0f;
 
@@ -300,10 +299,10 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
  			(*it)->render(Matrix::UNIT,MATERIAL_GEOMETRY);
  		}
 		//
-		if (m_pTerrain)
-		{
-		//	m_pTerrain->render(Matrix::UNIT,MATERIAL_ALPHA);
-		}
+		//if (m_pSceneData)
+		//{
+		////	m_pTerrain->render(Matrix::UNIT,MATERIAL_ALPHA);
+		//}
 		DirectionalLight light(Vec4D(0.3f,0.3f,0.3f,0.3f),Vec4D(0.6f,0.6f,0.6f,0.6f),Vec4D(0.6f,0.6f,0.6f,0.6f),Vec3D(0.0f,-1.0f,1.0f));
 		R.SetDirectionalLight(0,light);
 
@@ -330,7 +329,7 @@ bool CScene::setup()
 	{
 		return false;
 	}
-	m_pSceneData = (SceneData*)m_pData;
+	m_pSceneData = (CSceneData*)m_pData;
 	m_OctreeRoot.create(m_pSceneData->getBBox(),m_pSceneData->getOctreeDepth());
 	return true;
 }
@@ -474,27 +473,27 @@ CMapObj* CScene::pickNode(const Vec3D& vRayPos, const Vec3D& vRayDir)
 
 bool CScene::pick(const Vec3D& vRayPos, const Vec3D& vRayDir, Vec3D* pPos)const
 {
-	if (m_pTerrain && m_pTerrain->getTerrainData())
+	if (m_pSceneData)
 	{
-		return m_pTerrain->getTerrainData()->pick(vRayPos, vRayDir, pPos);
+		return m_pSceneData->pick(vRayPos, vRayDir, pPos);
 	}
 	return false;
 }
 
 float CScene::getHeight(float x, float y)const
 {
-	if (m_pTerrain && m_pTerrain->getTerrainData())
+	if (m_pSceneData)
 	{
-		return m_pTerrain->getTerrainData()->getHeight(x, y);
+		return m_pSceneData->getHeight(x, y);
 	}
 	return 0.0f;
 }
 
 unsigned char CScene::getPath(int sx,int sy,int tx,int ty, std::vector<unsigned char>& path)
 {
-	if (m_pTerrain && m_pTerrain->getTerrainData())
+	if (m_pSceneData)
 	{
-		return m_pTerrain->getTerrainData()->getPath(sx, sy, tx, ty, path);
+		return m_pSceneData->getPath(sx, sy, tx, ty, path);
 	}
 	return 0;
 }

@@ -247,20 +247,6 @@ bool CMyPlug::importTerrainData(iSceneData * pTerrainData, const std::string& st
 	return true;
 }
 
-int getMapIDFromFilename(const std::string& strFilename)
-{
-	int nMapID = -1;
-	{
-		std::string strPath = GetFilename(GetParentPath(strFilename));
-		size_t i = strPath.find("world");
-		if (i!=std::string::npos)
-		{
-			nMapID=atoi(strPath.substr(i+5).c_str());
-		}
-	}
-	return nMapID;
-}
-
 bool CMyPlug::importSceneTerrainData(iRenderNode* pRenderNode, iSceneData* pTerrainData, const char* szFilename)
 {
 	importTerrainData(pTerrainData,szFilename);
