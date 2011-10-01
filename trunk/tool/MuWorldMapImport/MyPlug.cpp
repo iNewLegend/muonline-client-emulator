@@ -1093,19 +1093,163 @@ inline void encrypt(char* buffer, size_t size)
 	}
 }
 
-#include "CsvFile.h"
 bool CMyPlug::importObjectResources(const char* szFilename, const std::string& strPath)
 {
 	m_mapObjectName.clear();
-	CCsvFile csvObject;
-	if (csvObject.open(szFilename))
-	{
-		while (csvObject.seekNextLine())
-		{
-			m_mapObjectName[csvObject.getInt("ID")] = getRealFilename(strPath.c_str(),csvObject.getStr("Filename", ""));
-		}
-		csvObject.close();
-	}
+
+	m_mapObjectName[200] = strPath+"Bird01.bmd";
+	m_mapObjectName[200] = strPath+"Butterfly01.bmd";
+	m_mapObjectName[200] = strPath+"Fish01.bmd";
+
+	m_mapObjectName[0] = strPath+"Tree01.bmd";
+	m_mapObjectName[1] = strPath+"Tree02.bmd";
+	m_mapObjectName[2] = strPath+"Tree03.bmd";
+	m_mapObjectName[3] = strPath+"Tree04.bmd";
+	m_mapObjectName[4] = strPath+"Tree05.bmd";
+	m_mapObjectName[5] = strPath+"Tree06.bmd";
+	m_mapObjectName[6] = strPath+"Tree07.bmd";
+	m_mapObjectName[7] = strPath+"Tree08.bmd";
+	m_mapObjectName[8] = strPath+"Tree09.bmd";
+	m_mapObjectName[9] = strPath+"Tree10.bmd";
+	m_mapObjectName[10] = strPath+"Tree11.bmd";
+	m_mapObjectName[11] = strPath+"Tree12.bmd";
+	m_mapObjectName[12] = strPath+"Tree13.bmd";
+
+	m_mapObjectName[20] = strPath+"Grass01.bmd";
+	m_mapObjectName[21] = strPath+"Grass02.bmd";
+	m_mapObjectName[22] = strPath+"Grass03.bmd";
+	m_mapObjectName[23] = strPath+"Grass04.bmd";
+	m_mapObjectName[24] = strPath+"Grass05.bmd";
+	m_mapObjectName[25] = strPath+"Grass06.bmd";
+	m_mapObjectName[26] = strPath+"Grass07.bmd";
+	m_mapObjectName[27] = strPath+"Grass08.bmd";
+
+	m_mapObjectName[30] = strPath+"Stone01.bmd";
+	m_mapObjectName[31] = strPath+"Stone02.bmd";
+	m_mapObjectName[32] = strPath+"Stone03.bmd";
+	m_mapObjectName[33] = strPath+"Stone04.bmd";
+	m_mapObjectName[34] = strPath+"Stone05.bmd";
+
+	m_mapObjectName[40] = strPath+"StoneStatue01.bmd";
+	m_mapObjectName[41] = strPath+"StoneStatue02.bmd";
+	m_mapObjectName[42] = strPath+"StoneStatue03.bmd";
+
+	m_mapObjectName[43] = strPath+"SteelStatue01.bmd";
+	m_mapObjectName[44] = strPath+"Tomb01.bmd";
+	m_mapObjectName[45] = strPath+"Tomb02.bmd";
+	m_mapObjectName[46] = strPath+"Tomb03.bmd";
+
+	m_mapObjectName[50] = strPath+"FireLight01.bmd";
+	m_mapObjectName[51] = strPath+"FireLight02.bmd";
+
+	m_mapObjectName[52] = strPath+"Bonfire01.bmd";
+
+	m_mapObjectName[55] = strPath+"DoungeonGate01.bmd";
+
+	m_mapObjectName[56] = strPath+"MerchantAnimal01.bmd";
+	m_mapObjectName[57] = strPath+"MerchantAnimal02.bmd";
+	m_mapObjectName[58] = strPath+"TreasureDrum01.bmd";
+	m_mapObjectName[59] = strPath+"TreasureChest01.bmd";
+
+	m_mapObjectName[60] = strPath+"Ship01.bmd";
+
+	m_mapObjectName[65] = strPath+"SteelWall01.bmd";
+	m_mapObjectName[66] = strPath+"SteelWall02.bmd";
+	m_mapObjectName[67] = strPath+"SteelWall03.bmd";
+	m_mapObjectName[68] = strPath+"SteelDoor01.bmd";
+
+
+	m_mapObjectName[69] = strPath+"StoneWall01.bmd";
+	m_mapObjectName[70] = strPath+"StoneWall02.bmd";
+	m_mapObjectName[71] = strPath+"StoneWall03.bmd";
+	m_mapObjectName[72] = strPath+"StoneWall04.bmd";
+	m_mapObjectName[73] = strPath+"StoneWall05.bmd";
+	m_mapObjectName[74] = strPath+"StoneWall06.bmd";
+
+	m_mapObjectName[75] = strPath+"StoneMuWall01.bmd";
+	m_mapObjectName[76] = strPath+"StoneMuWall02.bmd";
+	m_mapObjectName[77] = strPath+"StoneMuWall03.bmd";
+	m_mapObjectName[78] = strPath+"StoneMuWall04.bmd";
+
+
+
+	m_mapObjectName[80] = strPath+"Bridge01.bmd";
+
+
+	m_mapObjectName[81] = strPath+"Fence01.bmd";
+	m_mapObjectName[82] = strPath+"Fence02.bmd";
+	m_mapObjectName[83] = strPath+"Fence03.bmd";
+	m_mapObjectName[84] = strPath+"Fence04.bmd";
+
+	m_mapObjectName[85] = strPath+"BridgeStone01.bmd";
+
+	m_mapObjectName[90] = strPath+"StreetLight01.bmd";
+
+	m_mapObjectName[91] = strPath+"Cannon01.bmd";
+	m_mapObjectName[92] = strPath+"Cannon02.bmd";
+	m_mapObjectName[93] = strPath+"Cannon03.bmd";
+
+	m_mapObjectName[95] = strPath+"Curtain01.bmd";
+
+	m_mapObjectName[96] = strPath+"Sign01.bmd";
+	m_mapObjectName[97] = strPath+"Sign02.bmd";
+
+	m_mapObjectName[98] = strPath+"Carriage01.bmd";
+	m_mapObjectName[99] = strPath+"Carriage02.bmd";
+	m_mapObjectName[100] = strPath+"Carriage03.bmd";
+	m_mapObjectName[101] = strPath+"Carriage04.bmd";
+
+	m_mapObjectName[102] = strPath+"Straw01.bmd";
+	m_mapObjectName[103] = strPath+"Straw02.bmd";
+
+	m_mapObjectName[105] = strPath+"Waterspout01.bmd";
+	m_mapObjectName[106] = strPath+"Well01.bmd";
+	m_mapObjectName[107] = strPath+"Well02.bmd";
+	m_mapObjectName[108] = strPath+"Well03.bmd";
+	m_mapObjectName[109] = strPath+"Well04.bmd";
+
+	m_mapObjectName[110] = strPath+"Hanging01.bmd";
+
+	m_mapObjectName[111] = strPath+"Stair01.bmd";
+
+	m_mapObjectName[115] = strPath+"House01.bmd";
+	m_mapObjectName[116] = strPath+"House02.bmd";
+	m_mapObjectName[117] = strPath+"House03.bmd";
+	m_mapObjectName[118] = strPath+"House04.bmd";
+	m_mapObjectName[119] = strPath+"House05.bmd";
+
+	m_mapObjectName[120] = strPath+"Tent01.bmd";
+
+	m_mapObjectName[121] = strPath+"HouseWall01.bmd";
+	m_mapObjectName[122] = strPath+"HouseWall02.bmd";
+	m_mapObjectName[123] = strPath+"HouseWall03.bmd";
+	m_mapObjectName[124] = strPath+"HouseWall04.bmd";
+	m_mapObjectName[125] = strPath+"HouseWall05.bmd";
+	m_mapObjectName[126] = strPath+"HouseWall06.bmd";
+
+	m_mapObjectName[127] = strPath+"HouseEtc01.bmd";
+	m_mapObjectName[128] = strPath+"HouseEtc02.bmd";
+	m_mapObjectName[129] = strPath+"HouseEtc03.bmd";
+
+
+	m_mapObjectName[130] = strPath+"Light01.bmd";
+	m_mapObjectName[131] = strPath+"Light02.bmd";
+	m_mapObjectName[132] = strPath+"Light03.bmd";
+
+	m_mapObjectName[133] = strPath+"PoseBox01.bmd";
+
+	m_mapObjectName[140] = strPath+"Furniture01.bmd";
+	m_mapObjectName[141] = strPath+"Furniture02.bmd";
+	m_mapObjectName[142] = strPath+"Furniture03.bmd";
+	m_mapObjectName[143] = strPath+"Furniture04.bmd";
+	m_mapObjectName[144] = strPath+"Furniture05.bmd";
+	m_mapObjectName[145] = strPath+"Furniture06.bmd";
+	m_mapObjectName[146] = strPath+"Furniture07.bmd";
+
+	m_mapObjectName[150] = strPath+"Candle01.bmd";
+	m_mapObjectName[151] = strPath+"Beer01.bmd";
+	m_mapObjectName[152] = strPath+"Beer02.bmd";
+	m_mapObjectName[153] = strPath+"Beer03.bmd";
 	return true;
 }
 
@@ -1179,8 +1323,8 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 	bboxObject.vMax = Vec3D(fLength+10.0f,fLength*0.5f+10.0f,fLength+10.0f);
 	pSceneData->setBBox(bboxObject);
 	pSceneData->setOctreeDepth(6);
-	importSceneTerrainData(pRenderNode, pSceneData, ChangeExtension(szFilename,".map").c_str());
 	pRenderNode->setData(pSceneData);
+	importSceneTerrainData(pRenderNode, pSceneData, ChangeExtension(szFilename,".map").c_str());
 	// Loading the object.
 	//iRenderNode* pSceneNode = (iRenderNode*)m_pRenderNodeMgr->createRenderNode("scene");
 	IOReadBase* pRead = IOReadBase::autoOpen(szFilename);
