@@ -5,6 +5,7 @@
 #include "UIDisplayModel.h"
 #include "MainRoot.h"
 #include "UIDisplayRoleChoose.h"
+#include "UIIcon.h"
 #include "protocol.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -35,23 +36,11 @@ void InitLua(lua_State * L)
 		.mem("y",	& Vec3D::y)
 		.mem("z",	& Vec3D::z);
 	// ----
-	lua_tinker::class_<CUIDisplayModel>(L, "CDisplayModel")
-		.inh<CUIControl>()
-		.con(lua_tinker::constructor<void>())
-		.def("LoadModel",	& CUIDisplayModel::LoadModel)
-		.mem("m_vEye",		& CUIDisplayModel::m_vEye)
-		.mem("m_vLookAt",	& CUIDisplayModel::m_vLookAt);
-	// ----
-	lua_tinker::class_<CUIDisplayRoleChoose>(L, "CUIDisplayRoleChoose")
-		.inh<CUIControl>()
-		.con(lua_tinker::constructor<void>())
-		.def("GetSelectIndex",	& CUIDisplayRoleChoose::getSelectIndex)
-		.def("LoadModel",		& CUIDisplayRoleChoose::LoadModel)
-		.mem("m_vEye",			& CUIDisplayRoleChoose::m_vEye)
-		.mem("m_vLookAt",		& CUIDisplayRoleChoose::m_vLookAt);
-	lua_tinker::set(L, "g_UIDisplayCharList", &CUIDisplayRoleChoose::getInstance());
+	lua_tinker::class_<CRenderNode>(L, "CRenderNode")
+		.con(lua_tinker::constructor<void>());
 	// ----
 	lua_tinker::class_<CRole>(L, "CRole")
+		.inh<CRenderNode>()
 		.con(lua_tinker::constructor<void>())
 		.def("setCellPos",		& CPlayerMe::setCellPos)
 		.def("setRoleName",		& CPlayerMe::setRoleName)
@@ -72,6 +61,36 @@ void InitLua(lua_State * L)
 		.def("create",		& CWorld::create)
 		.def("addRole",		& CWorld::addRole);
 	lua_tinker::set(L, "g_World", &CWorld::getInstance());
+	// ----
+	lua_tinker::class_<ItemData>(L, "ItemData")
+		.con(lua_tinker::constructor<void>())
+		.mem("cType",		& ItemData::cType)
+		.mem("cIndex",		& ItemData::cIndex)
+		.mem("level",		& ItemData::level);
+	// ----
+	lua_tinker::class_<CUIIcon>(L, "CUIIcon")
+		.inh<CUIControl>()
+		.con(lua_tinker::constructor<void>())
+		.def("setItemData",	& CUIIcon::setItemData);
+	// ----
+	lua_tinker::class_<CUIDisplayModel>(L, "CDisplayModel")
+		.inh<CUIControl>()
+		.con(lua_tinker::constructor<void>())
+		.def("LoadModel",	& CUIDisplayModel::LoadModel)
+		.def("setRenderNode",	& CUIDisplayModel::setRenderNode)
+		.def("getRenderNode",	& CUIDisplayModel::getRenderNode)
+		.mem("m_vEye",		& CUIDisplayModel::m_vEye)
+		.mem("m_vLookAt",	& CUIDisplayModel::m_vLookAt);
+	// ----
+	lua_tinker::class_<CUIDisplayRoleChoose>(L, "CUIDisplayRoleChoose")
+		.inh<CUIControl>()
+		.con(lua_tinker::constructor<void>())
+		.def("GetSelectIndex",	& CUIDisplayRoleChoose::getSelectIndex)
+		.def("LoadModel",		& CUIDisplayRoleChoose::LoadModel)
+		.mem("m_vEye",			& CUIDisplayRoleChoose::m_vEye)
+		.mem("m_vLookAt",		& CUIDisplayRoleChoose::m_vLookAt);
+	lua_tinker::set(L, "g_UIDisplayCharList", &CUIDisplayRoleChoose::getInstance());
+
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

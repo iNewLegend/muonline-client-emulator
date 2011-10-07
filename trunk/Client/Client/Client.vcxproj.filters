@@ -87,6 +87,9 @@
     <ClCompile Include="Messages.cpp">
       <Filter>Global Sources</Filter>
     </ClCompile>
+    <ClCompile Include="UIIcon.cpp">
+      <Filter>Dialog</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GlobalFunction.h">
@@ -142,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="Messages.h">
       <Filter>Global Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="UIIcon.h">
+      <Filter>Dialog</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

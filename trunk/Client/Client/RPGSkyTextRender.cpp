@@ -10,7 +10,7 @@
 static WORD s_DrawTextIB[DRAW_TEXT_MAX * 6];
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-CRPGSkyTextRender3D::CRPGSkyTextRender3D()
+CNode3DTextRender::CNode3DTextRender()
 {
 	for(int i = 0 ; i < DRAW_TEXT_MAX ; i++)
 	{
@@ -26,7 +26,7 @@ CRPGSkyTextRender3D::CRPGSkyTextRender3D()
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void CRPGSkyTextRender3D::updateTextureBuffer(unsigned char* pBuffer, size_t size, size_t width, size_t height)
+void CNode3DTextRender::updateTextureBuffer(unsigned char* pBuffer, size_t size, size_t width, size_t height)
 {
 	if(m_pTextTexture == NULL)
 	{
@@ -41,7 +41,7 @@ void CRPGSkyTextRender3D::updateTextureBuffer(unsigned char* pBuffer, size_t siz
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void CRPGSkyTextRender3D::drawUBB(const CUBB* pUBB)const
+void CNode3DTextRender::drawUBB(const CUBB* pUBB)const
 {
 	int nVertexCount = pUBB->m_VB.size();
 	if (nVertexCount)

@@ -63,10 +63,10 @@ inline void encrypt(char* buffer, size_t size)
 	}
 }
 
-bool CMyPlug::importTerrainData(iSceneData * pTerrainData, const std::string& strFilename)
+bool CMyPlug::importTerrainData(iSceneData * pSceneData, const std::string& strFilename)
 {
-	pTerrainData->clear();
-	if (pTerrainData->resize(253,253))
+	pSceneData->clear();
+	if (pSceneData->resize(253,253))
 	{
 		// EncTerrain
 		IOReadBase* pRead = IOReadBase::autoOpen(strFilename);
@@ -84,7 +84,7 @@ bool CMyPlug::importTerrainData(iSceneData * pTerrainData, const std::string& st
 				{
 					for (int x=0; x<253; ++x)
 					{
-						pTerrainData->setCellTileID(x,y,*p,0);
+						pSceneData->setCellTileID(x,y,*p,0);
 						p++;
 					}
 					p+=3;
@@ -94,7 +94,7 @@ bool CMyPlug::importTerrainData(iSceneData * pTerrainData, const std::string& st
 				{
 					for (int x=0; x<253; ++x)
 					{
-						pTerrainData->setCellTileID(x,y,*p,1);
+						pSceneData->setCellTileID(x,y,*p,1);
 						p++;
 					}
 					p+=3;
@@ -104,7 +104,7 @@ bool CMyPlug::importTerrainData(iSceneData * pTerrainData, const std::string& st
 				{
 					for (int x=0; x<254; ++x)
 					{
-						pTerrainData->setVertexColor(x,y,Color32(*p,255,255,255));
+						pSceneData->setVertexColor(x,y,Color32(*p,255,255,255));
 						p++;
 					}
 					p+=2;
@@ -129,7 +129,7 @@ bool CMyPlug::importTerrainData(iSceneData * pTerrainData, const std::string& st
 				{
 					for (int x=0; x<253; ++x)
 					{
-						pTerrainData->setCellAttribute(x,y,*p);
+						pSceneData->setCellAttribute(x,y,*p);
 						p+=2;
 					}
 					p+=6;
@@ -148,7 +148,7 @@ bool CMyPlug::importTerrainData(iSceneData * pTerrainData, const std::string& st
 				{
 					for (int x=0; x<253; ++x)
 					{
-						pTerrainData->setCellAttribute(x,y,*p);
+						pSceneData->setCellAttribute(x,y,*p);
 						p++;
 					}
 					p+=3;
@@ -208,14 +208,14 @@ bool CMyPlug::importTerrainData(iSceneData * pTerrainData, const std::string& st
 			{
 				for (int x=0; x<254; ++x)
 				{
-					Color32 c = pTerrainData->getVertexColor(x,y);
+					Color32 c = pSceneData->getVertexColor(x,y);
 					c.r = *pImg;
 					pImg++;
 					c.g = *pImg;
 					pImg++;
 					c.b = *pImg;
 					pImg++;
-					pTerrainData->setVertexColor(x,y,c);
+					pSceneData->setVertexColor(x,y,c);
 				}
 				pImg+=2*3;
 			}
@@ -237,7 +237,7 @@ bool CMyPlug::importTerrainData(iSceneData * pTerrainData, const std::string& st
 					{
 						unsigned char uVal;
 						pRead->Read(&uVal,1);
-						pTerrainData->setVertexHeight(x,y,uVal*0.015f);
+						pSceneData->setVertexHeight(x,y,uVal*0.015f);
 					}
 				}
 			}
@@ -247,9 +247,9 @@ bool CMyPlug::importTerrainData(iSceneData * pTerrainData, const std::string& st
 	return true;
 }
 
-bool CMyPlug::importSceneTerrainData(iRenderNode* pRenderNode, iSceneData* pTerrainData, const char* szFilename)
+bool CMyPlug::importSceneTerrainData(iRenderNode* pRenderNode, iSceneData* pSceneData, const char* szFilename)
 {
-	importTerrainData(pTerrainData,szFilename);
+	importTerrainData(pSceneData,szFilename);
 	const char* szTerrainMaterial[21][3]={
 		{"Terrain.0_0","TileGrass01.ozj","terrainTileX4"},
 		{"Terrain.0_1","TileGrass02.ozj","terrainTileX2"},
@@ -289,12 +289,12 @@ bool CMyPlug::importSceneTerrainData(iRenderNode* pRenderNode, iSceneData* pTerr
 	// ----
 	// # Create Grasses
 	// ----
-	for (int startY=0; startY<pTerrainData->getHeight(); startY+=16)
+	for (int startY=0; startY<pSceneData->getHeight(); startY+=16)
 	{
-		for (int startX=0; startX<pTerrainData->getWidth(); startX+=16)
+		for (int startX=0; startX<pSceneData->getWidth(); startX+=16)
 		{
-			int nWidth = min(pTerrainData->getWidth()-startX,16);
-			int nHeight = min(pTerrainData->getHeight()-startY,16);
+			int nWidth = min(pSceneData->getWidth()-startX,16);
+			int nHeight = min(pSceneData->getHeight()-startY,16);
 			int nEndX = startX+nWidth;
 			int nEndY = startY+nHeight;
 			char szMeshName[256];
@@ -315,8 +315,8 @@ bool CMyPlug::importSceneTerrainData(iRenderNode* pRenderNode, iSceneData* pTerr
 				{
 					RigidNolightVertex vertex;
 
-					float fHeight = pTerrainData->getVertexHeight(grassX,y);
-					Color32 color = pTerrainData->getVertexColor(grassX,y);
+					float fHeight = pSceneData->getVertexHeight(grassX,y);
+					Color32 color = pSceneData->getVertexColor(grassX,y);
 
 					bbox.vMin.y = min(fHeight,bbox.vMin.y);
 					bbox.vMax.y = max(fHeight,bbox.vMax.y);
@@ -353,8 +353,8 @@ bool CMyPlug::importSceneTerrainData(iRenderNode* pRenderNode, iSceneData* pTerr
 			{
 				for (int grassX=startX; grassX<nEndX; ++grassX)
 				{
-					unsigned char title0 = pTerrainData->getCellTileID(grassX,y,0);
-					unsigned char title1 = pTerrainData->getCellTileID(grassX,y,1);
+					unsigned char title0 = pSceneData->getCellTileID(grassX,y,0);
+					unsigned char title1 = pSceneData->getCellTileID(grassX,y,1);
 					//TerrainCell& cell = *m_pTerrainData->getCell(x,y);
 					//if ((cell.uAttribute&0x8)==0)// Í¸Ã÷
 					if (title0!=0xFF)// Í¸Ã÷
@@ -416,15 +416,15 @@ bool CMyPlug::importSceneTerrainData(iRenderNode* pRenderNode, iSceneData* pTerr
 			{
 				for (int x=startX; x<nEndX; ++x)
 				{
-					if (pTerrainData->hasGrass(x,y))
+					if (pSceneData->hasGrass(x,y))
 					{
-						float fHeight1 = pTerrainData->getVertexHeight(x,y);
-						float fHeight2 = pTerrainData->getVertexHeight(x+1,y+1);
+						float fHeight1 = pSceneData->getVertexHeight(x,y);
+						float fHeight2 = pSceneData->getVertexHeight(x+1,y+1);
 
-						Color32 color1 = pTerrainData->getVertexColor(x,y);
-						Color32 color2 = pTerrainData->getVertexColor(x+1,y+1);
+						Color32 color1 = pSceneData->getVertexColor(x,y);
+						Color32 color2 = pSceneData->getVertexColor(x+1,y+1);
 
-						int	nRand = (((y*(pTerrainData->getWidth()+1)+x+x*y)*214013L+2531011L)>>16)&0x7fff;   
+						int	nRand = (((y*(pSceneData->getWidth()+1)+x+x*y)*214013L+2531011L)>>16)&0x7fff;   
 						float fTexU = (nRand%4)*0.25f;
 						RigidNolightVertex vertex;
 
@@ -510,7 +510,7 @@ bool CMyPlug::importSceneTerrainData(iRenderNode* pRenderNode, iSceneData* pTerr
 	return true;
 }
 
-bool CMyPlug::exportTerrainAtt(iSceneData * pTerrainData, const std::string& strFilename)
+bool CMyPlug::exportTerrainAtt(iSceneData * pSceneData, const std::string& strFilename)
 {
 	// Calc MU's map id from filename.
 	int nMapID = getMapIDFromFilename(strFilename);
@@ -529,7 +529,7 @@ bool CMyPlug::exportTerrainAtt(iSceneData * pTerrainData, const std::string& str
 		{
 			for (int x=0; x<253; ++x)
 			{
-				*p = pTerrainData->getCellAttribute(x,y);
+				*p = pSceneData->getCellAttribute(x,y);
 				p++;
 			}
 			for (int x=253; x<256; ++x)
@@ -576,7 +576,7 @@ bool CMyPlug::exportTerrainAtt(iSceneData * pTerrainData, const std::string& str
 				{
 					for (int x=0; x<253; ++x)
 					{
-						*p = pTerrainData->getCellAttribute(x,y);
+						*p = pSceneData->getCellAttribute(x,y);
 						p++;
 						*p =0;++p;
 					}
@@ -608,7 +608,7 @@ bool CMyPlug::exportTerrainAtt(iSceneData * pTerrainData, const std::string& str
 				{
 					for (int x=0; x<253; ++x)
 					{
-						*p = pTerrainData->getCellAttribute(x,y);
+						*p = pSceneData->getCellAttribute(x,y);
 						p++;
 					}
 					for (int x=253; x<256; ++x)
@@ -642,7 +642,7 @@ bool CMyPlug::exportTerrainAtt(iSceneData * pTerrainData, const std::string& str
 			{
 				for (int x=0; x<253; ++x)
 				{
-					*p = pTerrainData->getCellAttribute(x,y);
+					*p = pSceneData->getCellAttribute(x,y);
 					p++;
 				}
 				for (int x=253; x<256; ++x)
@@ -675,7 +675,7 @@ bool CMyPlug::exportTerrainAtt(iSceneData * pTerrainData, const std::string& str
 			{
 				for (int x=0; x<253; ++x)
 				{
-					*p = pTerrainData->getCellAttribute(x,y);
+					*p = pSceneData->getCellAttribute(x,y);
 					p++;
 					*p =0;++p;
 				}
@@ -699,7 +699,7 @@ bool CMyPlug::exportTerrainAtt(iSceneData * pTerrainData, const std::string& str
 	return true;
 }
 
-bool CMyPlug::exportTerrainLightmap(iSceneData * pTerrainData, const std::string& strFilename)
+bool CMyPlug::exportTerrainLightmap(iSceneData * pSceneData, const std::string& strFilename)
 {
 	unsigned char buffer[LIGHT_MAP_SIZE];
 	unsigned char* p = buffer;
@@ -712,7 +712,7 @@ bool CMyPlug::exportTerrainLightmap(iSceneData * pTerrainData, const std::string
 
 		for (int x=0; x<254; ++x)
 		{
-			Color32 c = pTerrainData->getVertexColor(x,y);
+			Color32 c = pSceneData->getVertexColor(x,y);
 			*p = c.r;
 			p++;
 			*p = c.g;
@@ -787,7 +787,7 @@ bool CMyPlug::exportTerrainLightmap(iSceneData * pTerrainData, const std::string
 	return true;
 }
 
-bool CMyPlug::exportTerrainHeight(iSceneData * pTerrainData, const std::string& strFilename)
+bool CMyPlug::exportTerrainHeight(iSceneData * pSceneData, const std::string& strFilename)
 {
 	FILE* f=fopen(strFilename.c_str(),"wb+");
 	if (f)
@@ -801,7 +801,7 @@ bool CMyPlug::exportTerrainHeight(iSceneData * pTerrainData, const std::string& 
 			*p =0;++p;
 			for (int x=0; x<254; ++x)
 			{
-				*p = max(min(pTerrainData->getVertexHeight(x,y)/0.015f,255),0);
+				*p = max(min(pSceneData->getVertexHeight(x,y)/0.015f,255),0);
 				p++;
 			}
 		}
@@ -815,12 +815,12 @@ bool CMyPlug::exportTerrainHeight(iSceneData * pTerrainData, const std::string& 
 	return true;
 }
 
-bool CMyPlug::exportTerrainData(iSceneData * pTerrainData, const std::string& strFilename)
+bool CMyPlug::exportTerrainData(iSceneData * pSceneData, const std::string& strFilename)
 {
 	//////////////////////////////////////////////////////////////////////////
-	exportTerrainAtt(pTerrainData, strFilename);
-	exportTerrainLightmap(pTerrainData, GetParentPath(strFilename)+"TerrainLight.ozj");
-	exportTerrainHeight(pTerrainData, GetParentPath(strFilename)+"TerrainHeight.ozb");
+	exportTerrainAtt(pSceneData, strFilename);
+	exportTerrainLightmap(pSceneData, GetParentPath(strFilename)+"TerrainLight.ozj");
+	exportTerrainHeight(pSceneData, GetParentPath(strFilename)+"TerrainHeight.ozb");
 
 	// Calc MU's map id from filename.
 	int nMapID = getMapIDFromFilename(strFilename);
@@ -840,7 +840,7 @@ bool CMyPlug::exportTerrainData(iSceneData * pTerrainData, const std::string& st
 			{
 				for (int x=0; x<253; ++x)
 				{
-					*p = pTerrainData->getCellTileID(x,y,layer);
+					*p = pSceneData->getCellTileID(x,y,layer);
 					p++;
 				}
 				*p =0;++p;
@@ -858,7 +858,7 @@ bool CMyPlug::exportTerrainData(iSceneData * pTerrainData, const std::string& st
 			{
 				for (int x=0; x<254; ++x)
 				{
-					*p = pTerrainData->getVertexColor(x,y).a;
+					*p = pSceneData->getVertexColor(x,y).a;
 					p++;
 				}
 				*p =0;++p;

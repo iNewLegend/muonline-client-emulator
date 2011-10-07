@@ -124,9 +124,9 @@
 	</dialog>
 
   <dialog id="IDD_MAIN_DIALOG" scale="50,100,50,100" offset="-457,-63,457,0" style="main_dialog">
-    <element type="button" id="IDC_MAIN_CHAR" rect="495,21,32,38" style="main_btn_state" hotkey="C" tip="Char Info(C)"></element>
-    <element type="button" id="IDC_MAIN_GOOD" rect="527,21,32,38" style="main_btn_good" tip="物品栏$（I）"></element>
-    <element type="button" id="IDC_MAIN_MONSTER" rect="559,21,32,38" style="main_btn_pet" tip="幻兽$（P）"></element>
+    <element type="button" id="IDC_MAIN_CHAR" rect="495,21,32,38" style="main_btn_state" hotkey="C" tip="角色信息(C)"></element>
+    <element type="button" id="IDC_MAIN_BAG" rect="527,21,32,38" style="main_btn_good" tip="包裹$（I）"></element>
+    <element type="button" id="IDC_MAIN_MONSTER" rect="559,21,32,38" style="main_btn_pet" tip="宠物$（P）"></element>
     <element type="button" id="IDC_MAIN_MAGIC" rect="591,21,32,38" style="main_btn_skill" tip="技能$（T）"></element>
     <element type="button" id="IDC_MAIN_FACTION" rect="623,21,32,38" style="main_btn_faction" tip="公会$（A）"></element>
     <element type="button" id="IDC_MAIN_TEAM" rect="655,21,32,38" style="main_btn_team" tip="队伍"></element>
@@ -720,39 +720,88 @@
     <element type="static" id="IDC_STA_POSY" rect="49,24,31,17">""</element>
   </dialog>
 
-  <dialog id="IDD_DIALOG_EQUIP" rect=" 0, 0, 280, 330">
+  <dialog id="IDD_EQUIP" rect=" 0, 0, 320, 370">
     <caption height="42">装备</caption>
-	<element type="static" id="IDC_STATIC_EQUIP_BG" rect="10,2,260,260" style="static02"></element>
+	<element type="static" id="IDC_STATIC_EQUIP_BG" rect="10,2,300,300" style="static02"></element>
 	
-    <element type="button" id="IDC_IMG_HEAD" rect="20,10,38,38">头盔</element>
-	<element type="button" id="IDC_IMG_MANTLE" rect="20,50,38,38">披风</element>
-	<element type="button" id="IDC_IMG_WEAPON" rect="20,90,38,38">武器</element>
-	    <element type="button" id="IDC_IMG_SHOE" rect="20,130,38,38">鞋子</element>
-    <element type="button" id="IDC_IMG_NECK" rect="220,10,38,38">项链</element>
-	<element type="button" id="IDC_IMG_BODY" rect="220,50,38,38">盔甲</element>
-    <element type="button" id="IDC_IMG_GEAR" rect="220,90,38,38">手镯</element>
-    <element type="button" id="IDC_IMG_MOUNT" rect="220,130,38,38">坐骑</element>
+	<element type="static" id="IDC_STA_NAME" rect="105,10,85,12">NAME</element>
+		
+    <element type="button" id="IDC_IMG_HEAD" rect="20,10,32,32">头盔</element>
+	<element type="button" id="IDC_IMG_ARMOR" rect="20,50,32,32">铠甲</element>
+	<element type="button" id="IDC_IMG_GLOVE" rect="20,90,32,32">手套</element>
+	<element type="button" id="IDC_IMG_PANT" rect="20,130,32,32">护腿</element>
+	<element type="button" id="IDC_IMG_BOOT" rect="20,170,32,32">鞋子</element>
+    <element type="button" id="IDC_IMG_BACK" rect="260,10,32,32">背部</element>
+	<element type="button" id="IDC_IMG_NECK" rect="260,50,32,32">项链</element>
+    <element type="button" id="IDC_IMG_GEAR1" rect="260,90,32,32">戒子</element>
+    <element type="button" id="IDC_IMG_GEAR2" rect="260,130,32,32">戒子</element>
+    <element type="button" id="IDC_IMG_MOUNT" rect="260,170,32,32">坐骑</element>
 	
-	<element type="static" id="IDC_STATIC_ROLE_HP" rect="15,180,55,16">HP</element>
-    <element type="static" id="IDC_STATIC_ROLE_XP" rect="15,200,55,16">XP</element>
-    <element type="static" id="IDC_STATIC_ROLE_FIGHT" rect="15,220,55,16">物理攻击</element>
-    <element type="static" id="IDC_STATIC_ROLE_MAGIC" rect="15,240,55,16">魔法攻击</element>
-    <element type="static" id="IDC_STATIC_ROLE_MP" rect="140,180,55,16">MP</element>
-    <element type="static" id="IDC_STATIC_ROLE_AVOID" rect="140,200,55,16">回避率</element>
-    <element type="static" id="IDC_STATIC_ROLE_FIGHTDEF" rect="140,220,55,16">物理防御</element>
-    <element type="static" id="IDC_STATIC_ROLE_MAGICDEF" rect="140,240,55,16">魔法防御</element>
+	<element type="button" id="IDC_DISPLAY_PLAYER" rect="60,0,180,220" style="null"></element>
+		
+    <element type="button" id="IDC_BTN_ADD1" rect="260,220,20,20">+</element>
+    <element type="button" id="IDC_BTN_ADD2" rect="260,240,20,20">+</element>
+    <element type="button" id="IDC_BTN_ADD3" rect="260,260,20,20">+</element>
+    <element type="button" id="IDC_BTN_ADD4" rect="260,280,20,20">+</element>
 	
-    <element type="static" id="IDC_ROLE_HP" rect="75,180,60,16" style="static01">130/200</element>
-    <element type="static" id="IDC_ROLE_XP" rect="75,200,60,16" style="static01">100/100</element>
-    <element type="static" id="IDC_ROLE_FIGHT" rect="75,220,60,16" style="static01">52</element>
-    <element type="static" id="IDC_ROLE_MAGIC" rect="75,240,60,16" style="static01">10</element>
-    <element type="static" id="IDC_ROLE_MP" rect="200,180,60,16" style="static01">50/66</element>
-    <element type="static" id="IDC_ROLE_AVOID" rect="200,200,60,16" style="static01">8%</element>
-    <element type="static" id="IDC_ROLE_FIGHTDEF" rect="200,220,60,16" style="static01">30</element>
-    <element type="static" id="IDC_ROLE_MAGICDEF" rect="200,240,60,16" style="static01">10</element>
-
+	<element type="static" id="IDC_STATIC_ROLE_HP" rect="15,220,55,16">HP</element>
+    <element type="static" id="IDC_STATIC_ROLE_XP" rect="15,240,55,16">XP</element>
+    <element type="static" id="IDC_STATIC_ROLE_FIGHT" rect="15,260,55,16">物理攻击</element>
+    <element type="static" id="IDC_STATIC_ROLE_MAGIC" rect="15,280,55,16">魔法攻击</element>
+    <element type="static" id="IDC_STATIC_ROLE_MP" rect="140,220,55,16">MP</element>
+    <element type="static" id="IDC_STATIC_ROLE_AVOID" rect="140,240,55,16">回避率</element>
+    <element type="static" id="IDC_STATIC_ROLE_FIGHTDEF" rect="140,260,55,16">物理防御</element>
+    <element type="static" id="IDC_STATIC_ROLE_MAGICDEF" rect="140,280,55,16">魔法防御</element>
+	
+    <element type="static" id="IDC_ROLE_HP" rect="75,220,60,16" style="static01">130/200</element>
+    <element type="static" id="IDC_ROLE_XP" rect="75,240,60,16" style="static01">100/100</element>
+    <element type="static" id="IDC_ROLE_FIGHT" rect="75,260,60,16" style="static01">52</element>
+    <element type="static" id="IDC_ROLE_MAGIC" rect="75,280,60,16" style="static01">10</element>
+    <element type="static" id="IDC_ROLE_MP" rect="200,220,60,16" style="static01">50/66</element>
+    <element type="static" id="IDC_ROLE_AVOID" rect="200,240,60,16" style="static01">8%</element>
+    <element type="static" id="IDC_ROLE_FIGHTDEF" rect="200,260,60,16" style="static01">30</element>
+    <element type="static" id="IDC_ROLE_MAGICDEF" rect="200,280,60,16" style="static01">10</element>
   </dialog>
 
+  <dialog id="IDD_BAG" scale="100,50,100,50" offset="-240,-240,0,240">
+    <caption height="42">背包</caption>
+    <element type="button" id="IDC_ICON_0" rect="20,10,40,40">0</element>
+    <element type="button" id="IDC_ICON_1" rect="60,10,40,40">1</element>
+    <element type="button" id="IDC_ICON_2" rect="100,10,40,40">2</element>
+    <element type="button" id="IDC_ICON_3" rect="140,10,40,40">3</element>
+    <element type="button" id="IDC_ICON_4" rect="180,10,40,40">4</element>
+
+    <element type="button" id="IDC_ICON_5" rect="20,50,40,40">0</element>
+    <element type="button" id="IDC_ICON_6" rect="60,50,40,40">1</element>
+    <element type="button" id="IDC_ICON_7" rect="100,50,40,40">2</element>
+    <element type="button" id="IDC_ICON_8" rect="140,50,40,40">3</element>
+    <element type="button" id="IDC_ICON_9" rect="180,50,40,40">4</element>
+	
+    <element type="button" id="IDC_ICON_10" rect="20,90,40,40">0</element>
+    <element type="button" id="IDC_ICON_11" rect="60,90,40,40">1</element>
+    <element type="button" id="IDC_ICON_12" rect="100,90,40,40">2</element>
+    <element type="button" id="IDC_ICON_13" rect="140,90,40,40">3</element>
+    <element type="button" id="IDC_ICON_14" rect="180,90,40,40">4</element>
+
+    <element type="button" id="IDC_ICON_15" rect="20,130,40,40">0</element>
+    <element type="button" id="IDC_ICON_16" rect="60,130,40,40">1</element>
+    <element type="button" id="IDC_ICON_17" rect="100,130,40,40">2</element>
+    <element type="button" id="IDC_ICON_18" rect="140,130,40,40">3</element>
+    <element type="button" id="IDC_ICON_19" rect="180,130,40,40">4</element>
+	
+	<element type="button" id="IDC_ICON_20" rect="20,170,40,40">0</element>
+    <element type="button" id="IDC_ICON_21" rect="60,170,40,40">1</element>
+    <element type="button" id="IDC_ICON_22" rect="100,170,40,40">2</element>
+    <element type="button" id="IDC_ICON_23" rect="140,170,40,40">3</element>
+    <element type="button" id="IDC_ICON_24" rect="180,170,40,40">4</element>
+	
+	<element type="button" id="IDC_ICON_25" rect="20,210,40,40">0</element>
+    <element type="button" id="IDC_ICON_26" rect="60,210,40,40">1</element>
+    <element type="button" id="IDC_ICON_27" rect="100,210,40,40">2</element>
+    <element type="button" id="IDC_ICON_28" rect="140,210,40,40">3</element>
+    <element type="button" id="IDC_ICON_29" rect="180,210,40,40">4</element>
+  </dialog>
+  
   <dialog id="IDD_DIALOG_MSG" rect=" 0, 0, 256, 139">
 
 
@@ -1558,15 +1607,6 @@
   <dialog id="IDD_DIALOG_ROOMLG" rect=" 0, 0, 187, 99">
     <element type="button" id="IDC_ROOMLG_BTN_RETURN" rect="63,71,42,21">Button1</element>
     <element type="listbox" id="IDC_LIST_ROOMINFO" rect="29,16,124,45">""</element>
-  </dialog>
-
-  <dialog id="IDD_CHAR_INFO" scale="100,50,100,50" offset="-240,-240,0,240">
-    <element type="static" id="IDC_STA_NAME" rect="105,10,85,12">NAME</element>
-    <element type="button" id="IDC_BTN_ADD1" rect="36,72,40,40">+</element>
-    <element type="button" id="IDC_BTN_ADD2" rect="36,121,40,40">+</element>
-    <element type="button" id="IDC_BTN_ADD3" rect="36,170,40,40">+</element>
-    <element type="button" id="IDC_BTN_ADD4" rect="36,221,40,40">+</element>
-    <element type="button" id="IDC_BTN_CLOSE" rect="264,276,24,24">close</element>
   </dialog>
   
   <dialog id="IDD_CHAT_MESSAGE" scale="0,100,0,100" offset="10,-263,300,-93">

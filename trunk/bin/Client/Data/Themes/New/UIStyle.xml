@@ -134,10 +134,10 @@
 	
 	<element name="tip">
 		<blend normal="0.60" pressed="0.4" hidden="0.9">0.8</blend>
-		<texture filename="UI1.dds" layout_type ="1" rect="320,200,57,57" center_rect="16,16,25,25">
+		<texture filename="ui.tga" layout_type ="1" rect="209,253,12,12" center_rect="5,5,2,2">
 			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
-		<ubb><color normal="#FFFF"/><blend pressed="0.0" hidden="0.5">0.8</blend><offset>16,16,-16,-16</offset></ubb>
+		<ubb><color normal="#FFFF"/><blend pressed="0.0" hidden="0.5">0.8</blend><offset>6,6,-6,-6</offset></ubb>
 	</element>
 	<element name="null,display">
 		<default>

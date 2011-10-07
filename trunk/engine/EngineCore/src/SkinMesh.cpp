@@ -2,6 +2,7 @@
 #include "RenderSystem.h"
 #include "SkeletonNode.h"
 #include "LodMesh.h"
+#include "RenderNodeMgr.h"
 
 CSkinMesh::CSkinMesh()
 	:m_pVB(NULL)
@@ -80,6 +81,10 @@ bool CSkinMesh::setup()
 {
 	if (m_pMesh==m_pData)
 	{
+		if (m_pData==NULL)
+		{
+			CRenderNodeMgr::getInstance().PushMTLoading(this);
+		}
 		return false;
 	}
 	// ----

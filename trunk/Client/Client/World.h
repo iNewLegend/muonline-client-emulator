@@ -29,7 +29,7 @@ protected:
 	// ----
 	UINT							m_CurMap;
 	// ----
-	CRPGSkyTextRender3D				m_DamageTextRender;	
+	CNode3DTextRender				m_DamageTextRender;	
 public:
 	CMessages						m_Messages;
 	// ----

@@ -28,12 +28,17 @@ dlgChatMessage:create("IDD_CHAT_MESSAGE",IDD_MAIN)
 dlgChatMessage:SetVisible(false)
 
 dlgChat = CUIDialog()
-dlgChat:create("IDD_CHAT",IDD_MAIN)
+dlgChat:create("IDD_EQUIP",IDD_MAIN)
 dlgChat:SetVisible(false)
 
 dlgMove = CUIDialog()
 dlgMove:create("IDD_MOVE",IDD_MAIN)
 dlgMove:SetVisible(false)
+
+-- Bag
+dlgBag = CUIDialog()
+dlgBag:create("IDD_BAG",IDD_MAIN)
+dlgBag:SetVisible(false)
 -- Register Control
 
 -- Register Event

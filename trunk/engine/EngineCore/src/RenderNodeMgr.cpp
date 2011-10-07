@@ -4,7 +4,22 @@
 #include "RenderSystem.h"
 #include "Scene.h"
 #include "3DMapSceneObj.h"
-#include "TerrainData.h"
+#include "SceneData.h"
+
+static iRenderNode* s_pThreadRenderNode = NULL;
+DWORD WINAPI LoadingThreads (LPVOID pScene)
+{
+	while(true)
+	{
+		iRenderNode* pRenderNode = s_pThreadRenderNode;
+		s_pThreadRenderNode=NULL;
+		if (pRenderNode)
+		{
+			pRenderNode->load(pRenderNode->getFilename());
+		}
+	}
+	return 0;
+}
 
 iRenderNode* newSkeletonNode(){return new CSkeletonNode;}
 iRenderNode* newParticleEmitter(){return new CParticleEmitter;}
@@ -15,7 +30,6 @@ void* newSkeletonData(){return new CSkeletonData;}
 void* newParticleData(){return new ParticleData;}
 void* newLodMesh(){return new CMeshData;}
 void* newSceneData(){return new CSceneData;}
-void* newTerrainData(){return new CSceneData;}
 
 CRenderNodeMgr::CRenderNodeMgr()
 {
@@ -29,7 +43,22 @@ CRenderNodeMgr::CRenderNodeMgr()
 	registerRenderData("particle",	(P_FUNC_NEW_RENDER_DATA)newParticleData);
 	registerRenderData("mesh",		(P_FUNC_NEW_RENDER_DATA)newLodMesh);
 	registerRenderData("scene",		(P_FUNC_NEW_RENDER_DATA)newSceneData);
-	registerRenderData("terrain",	(P_FUNC_NEW_RENDER_DATA)newTerrainData);
+
+	//isStartImmediate = CREATE_SUSPENDED;
+	m_hThread=CreateThread(NULL,0,LoadingThreads,(LPVOID)this,0,&m_dwThreadID); 
+	//if (m_hThread)
+	//{ 
+	//	printf ("Thread launched successfully\n");                
+	//}         
+	//ResumeThread(m_hThread);
+}
+
+CRenderNodeMgr::~CRenderNodeMgr()
+{
+	if (m_hThread)
+	{            
+		CloseHandle(m_hThread);
+	} 
 }
 
 void CRenderNodeMgr::registerRenderNode(const char* szClassName, P_FUNC_NEW_RENDER_NODE pfn)
@@ -40,6 +69,11 @@ void CRenderNodeMgr::registerRenderNode(const char* szClassName, P_FUNC_NEW_REND
 void CRenderNodeMgr::registerRenderData(const char* szClassName, P_FUNC_NEW_RENDER_DATA pfn)
 {
 	m_mapRenderDataFunc[szClassName] = pfn;
+}
+
+void CRenderNodeMgr::PushMTLoading(iRenderNode* pRenderNode)
+{
+	s_pThreadRenderNode = pRenderNode;
 }
 
 bool CRenderNodeMgr::loadRenderNode(const char* szFilename, iRenderNode* pRenderNode)

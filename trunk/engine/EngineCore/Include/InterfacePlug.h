@@ -21,7 +21,6 @@ public:
 	virtual void			setWorldMatrix		(const Matrix& mWorldMatrix)=0;
 	virtual void			setParent			(iRenderNode* pParent)=0;
 	virtual void			setData				(void* pData)=0;
-	virtual void			setLoaded			(const bool bLoaded)=0;
 	virtual const Vec3D&	getPos				()const=0;
 	virtual const Vec3D&	getRotate			()const=0;
 	virtual const Vec3D&	getScale			()const=0;
@@ -30,7 +29,6 @@ public:
 	virtual const Matrix&	getWorldMatrix		()const=0;
 	virtual iRenderNode*	getParent			()=0;
 	virtual void*			getData				()=0;
-	virtual const bool		getLoaded			()const=0;
 	virtual const char*		getName				()const=0;
 	virtual const char*		getFilename			()const=0;
 	virtual iRenderNode*	getChild			(const char* szName)=0;
