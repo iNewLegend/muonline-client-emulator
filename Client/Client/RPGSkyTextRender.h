@@ -9,10 +9,10 @@
 #define DRAW_TEXT_MAX	1024 * 8
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-class CRPGSkyTextRender3D : public CTextRender
+class CNode3DTextRender : public CTextRender
 {
 public:
-	CRPGSkyTextRender3D();
+	CNode3DTextRender();
 	// ----
 	virtual void updateTextureBuffer	(unsigned char * pBuffer, size_t size, size_t width, size_t height);
 	virtual void drawUBB				(const CUBB* pUBB)const;

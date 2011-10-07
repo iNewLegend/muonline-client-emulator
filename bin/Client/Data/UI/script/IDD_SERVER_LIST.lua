@@ -57,7 +57,7 @@ function IDD_SERVER_LIST_OnBtnOK()
 				IDD_SERVER_LIST:SetVisible(false)
 				IDD_LOGIN:SetVisible(false)
 				dlgRoleChoose:SetVisible(false)
-				dlgMainDialog:SetVisible(false)
+				dlgMainDialog:SetVisible(true)
 				IDD_CHAT_MESSAGE:SetVisible(false)
 				--OnEnterWorld()
 			-- Connecting

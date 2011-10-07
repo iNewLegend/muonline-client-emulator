@@ -26,7 +26,6 @@ public:
 	virtual GSET_CONST_VAR	(BBox&,			m_,WorldBBox);
 	virtual GSET_CONST_VAR	(Matrix&,		m_m,WorldMatrix);
 	virtual GSET_VAR		(iRenderNode*,	m_p,Parent);
-	virtual GSET_CONST_VAR	(bool,			m_b,Loaded);
 	virtual GSET_VAR		(void*,			m_p,Data);
 	//----
 	virtual void			updateWorldBBox		();
@@ -40,7 +39,7 @@ public:
 	virtual GSET_STRING	(Filename);
 	GSET_STRING	(BindingBoneName);
 	//----
-	virtual	int				getType				() = 0;
+	virtual	int				getType				(){return NODE_BASE;}
 	virtual void			frameMove			(const Matrix& mWorld, double fTime, float fElapsedTime);
 	virtual void			render				(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType=MATERIAL_NORMAL)const;
 	iRenderNode*			getChild			(const char* szName);
@@ -71,6 +70,5 @@ protected:
 	BBox					m_LocalBBox;
 	BBox					m_WorldBBox;
 	Matrix					m_mWorldMatrix;
-	bool					m_bLoaded;
 	void*					m_pData;
 };

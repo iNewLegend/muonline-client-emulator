@@ -9,7 +9,6 @@ CRenderNode::CRenderNode()
 ,m_vPos(0.0f,0.0f,0.0f)
 ,m_vRotate(0.0f,0.0f,0.0f)
 ,m_vScale(1.0f,1.0f,1.0f)
-,m_bLoaded(false)
 ,m_pData(NULL)
 {
 	m_mWorldMatrix.unit();
@@ -157,19 +156,21 @@ void CRenderNode::setChildBindingBone(const char* szName, const char* szBoneName
 
 bool CRenderNode::load(const char* szFilename)
 {
-	if (m_bLoaded)
+	if (m_pData)
 	{
 		return false;
 	}
 	// ----
 	m_strFilename = szFilename;
 	// ----
-	if (CRenderNodeMgr::getInstance().loadRenderNode(szFilename,this))
+	if (!CRenderNodeMgr::getInstance().loadRenderNode(szFilename,this))
 	{
-		m_bLoaded = true;
-		return true;
+		char szTemp[256];
+		sprintf(szTemp,"Load file \"%s\" error.", szFilename);
+		OutputDebugString(szTemp);
+		return false;
 	}
-	return false;
+	return true;
 }
 
 void CRenderNode::updateWorldMatrix()

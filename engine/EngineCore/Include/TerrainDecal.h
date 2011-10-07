@@ -1,5 +1,5 @@
 #pragma once
-#include "TerrainData.h"
+#include "SceneData.h"
 #include "Frustum.h"
 #include "HardwareIndexBuffer.h"
 

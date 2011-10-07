@@ -2,6 +2,7 @@
 #include "SkeletonData.h"
 #include "TextRender.h"
 #include "Graphics.h"
+#include "RenderNodeMgr.h"
 
 CSkeletonNode::CSkeletonNode()
 	:m_nAnimTime(0)
@@ -52,6 +53,10 @@ bool CSkeletonNode::setup()
 {
 	if (m_pSkeletonData==m_pData)
 	{
+		if (m_pData==NULL)
+		{
+			CRenderNodeMgr::getInstance().PushMTLoading(this);
+		}
 		return false;
 	}
 	// ----

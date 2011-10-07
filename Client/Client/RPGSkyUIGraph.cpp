@@ -4,30 +4,30 @@
 #include "Audio.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-static RPGSkyUIGraph g_uiGraph;
+static Node3DUIGraph g_uiGraph;
 // ----
 UIGraph * UIGraph::m_pInstace = & g_uiGraph;
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void RPGSkyUIGraph::frameUpdate()
+void Node3DUIGraph::frameUpdate()
 {
 	s_RPGSkyTextRender.OnFrameMove();
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void* RPGSkyUIGraph::createTexture(const char * szTexture)
+void* Node3DUIGraph::createTexture(const char * szTexture)
 {
 	return (void*)GetRenderSystem().GetTextureMgr().RegisterTexture(szTexture);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void RPGSkyUIGraph::releaseTexture(void * pTexture)
+void Node3DUIGraph::releaseTexture(void * pTexture)
 {
 	// ----
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void RPGSkyUIGraph::DrawSprite3x3Grid(const CRect<float> & rcSrc, const CRect<float> & rcCenterSrc, const CRect<float> & rcDest, void * pTexture, Color32 color)
+void Node3DUIGraph::DrawSprite3x3Grid(const CRect<float> & rcSrc, const CRect<float> & rcCenterSrc, const CRect<float> & rcDest, void * pTexture, Color32 color)
 {
 	if(color.a != 0)
 	{
@@ -36,7 +36,7 @@ void RPGSkyUIGraph::DrawSprite3x3Grid(const CRect<float> & rcSrc, const CRect<fl
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void RPGSkyUIGraph::DrawSprite(const CRect<float> & rcSrc, const CRect<float> & rcDest, void * pTexture, Color32 color)
+void Node3DUIGraph::DrawSprite(const CRect<float> & rcSrc, const CRect<float> & rcDest, void * pTexture, Color32 color)
 {
 	if(color.a != 0)
 	{
@@ -45,7 +45,7 @@ void RPGSkyUIGraph::DrawSprite(const CRect<float> & rcSrc, const CRect<float> & 
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void RPGSkyUIGraph::DrawSprite(const CRect<float> & rcDest, void * pTexture, Color32 color)
+void Node3DUIGraph::DrawSprite(const CRect<float> & rcDest, void * pTexture, Color32 color)
 {
 	if(color.a != 0)
 	{
@@ -54,7 +54,7 @@ void RPGSkyUIGraph::DrawSprite(const CRect<float> & rcDest, void * pTexture, Col
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void RPGSkyUIGraph::CalcTextRect(const wchar_t* wcsText, CRect<float> & rcDest)
+void Node3DUIGraph::CalcTextRect(const wchar_t* wcsText, CRect<float> & rcDest)
 {
 	// ---
 	// # (leo123) Why rcDest = rect and not directly to rcDest ? unless memory use.
@@ -67,7 +67,7 @@ void RPGSkyUIGraph::CalcTextRect(const wchar_t* wcsText, CRect<float> & rcDest)
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void RPGSkyUIGraph::initDrawText()
+void Node3DUIGraph::initDrawText()
 {
 	CRect<int>	rcViewport;
 	Matrix		mView;
@@ -99,7 +99,7 @@ void RPGSkyUIGraph::initDrawText()
 	}
 }
 
-void RPGSkyUIGraph::DrawText(const wchar_t* wcsText, CUIStyle & style, int nIndex,const CRect<float> & rcDest, int nCount)
+void Node3DUIGraph::DrawText(const wchar_t* wcsText, CUIStyle & style, int nIndex,const CRect<float> & rcDest, int nCount)
 {
 	Color32 color			= 0xFFFFFFFF;
 	// ----
@@ -114,7 +114,7 @@ void RPGSkyUIGraph::DrawText(const wchar_t* wcsText, CUIStyle & style, int nInde
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void RPGSkyUIGraph::drawText(const wchar_t* wcsText, int cchText, const RECT & rc, UINT format, unsigned long color, RECT * prcRet)
+void Node3DUIGraph::drawText(const wchar_t* wcsText, int cchText, const RECT & rc, UINT format, unsigned long color, RECT * prcRet)
 {
 	CRenderSystem & R = GetRenderSystem();
 	// ----
@@ -130,7 +130,7 @@ void RPGSkyUIGraph::drawText(const wchar_t* wcsText, int cchText, const RECT & r
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void RPGSkyUIGraph::initFont(const char* szFontFilename, size_t size)
+void Node3DUIGraph::initFont(const char* szFontFilename, size_t size)
 {
 	s_RPGSkyTextRender.load(szFontFilename);
 	s_RPGSkyTextRender.setShadowBorder(1);
@@ -139,13 +139,13 @@ void RPGSkyUIGraph::initFont(const char* szFontFilename, size_t size)
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-int RPGSkyUIGraph::GetFontSize()
+int Node3DUIGraph::GetFontSize()
 {
 	return s_RPGSkyTextRender.GetCharHeight();
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Matrix RPGSkyUIGraph::setUIMatrix(const Matrix & mTransform, const CRect<float> & rc, const Vec3D & vTranslation, const Vec3D & vRotate)
+Matrix Node3DUIGraph::setUIMatrix(const Matrix & mTransform, const CRect<float> & rc, const Vec3D & vTranslation, const Vec3D & vRotate)
 {
 	CRect<int>	rcViewport;
 	// ----
@@ -189,19 +189,19 @@ Matrix RPGSkyUIGraph::setUIMatrix(const Matrix & mTransform, const CRect<float> 
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-bool RPGSkyUIGraph::scriptStringAnalyse(CScriptStringAnalysis & analysis, const wchar_t *wcsText)
+bool Node3DUIGraph::scriptStringAnalyse(CScriptStringAnalysis & analysis, const wchar_t *wcsText)
 {
 	return s_RPGSkyTextRender.scriptStringAnalyse(analysis,wcsText);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void RPGSkyUIGraph::playSound(const char * szFilename)
+void Node3DUIGraph::playSound(const char * szFilename)
 {
 	GetAudio().playSound(szFilename);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-CTextRender & RPGSkyUIGraph::getTextRender()
+CTextRender & Node3DUIGraph::getTextRender()
 {
 	// ----
 	return s_RPGSkyTextRender;

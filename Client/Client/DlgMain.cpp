@@ -34,7 +34,17 @@ bool CDlgMain::OnInitDialog()
 
 void CDlgMain::OnFrameMove(double fTime, float fElapsedTime)
 {
-	CUIMainDialog::OnFrameMove(fTime,fElapsedTime);
+	CUIMainDialog::OnFrameMove(fTime, fElapsedTime);
+}
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void CDlgMain::OnFrameRender(const Matrix& mTransform, double fTime, float fElapsedTime)
+{
+	CUIMainDialog::OnFrameRender(mTransform, fTime, fElapsedTime);
+	if (m_IconCursor.IsVisible())
+	{
+		m_IconCursor.OnFrameRender(mTransform, fTime, fElapsedTime);
+	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

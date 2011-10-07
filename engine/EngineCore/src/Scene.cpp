@@ -2,22 +2,6 @@
 #include <algorithm>
 #include "RenderNodeMgr.h"
 
-static iRenderNode* s_pThreadRenderNode = NULL;
-DWORD WINAPI LoadingThreads (LPVOID pScene)
-{
-	while(true)
-	{
-		iRenderNode* pRenderNode = s_pThreadRenderNode;
-		s_pThreadRenderNode=NULL;
-		if (pRenderNode)
-		{
-			pRenderNode->load(pRenderNode->getFilename());
-			pRenderNode->setLoaded(true);
-		}
-	}
-	return 0;
-}
-
 CScene::CScene()
 	:m_bShowNode(true)
 	,m_bShowNodeBBox(false)
@@ -26,21 +10,10 @@ CScene::CScene()
 	,m_pSceneData(NULL)
 	,m_bRefreshViewport(NULL)
 {
-	//isStartImmediate = CREATE_SUSPENDED;
-	m_hThread=CreateThread(NULL,0,LoadingThreads,(LPVOID)this,0,&m_dwThreadID); 
-	//if (m_hThread)
-	//{ 
-	//	printf ("Thread launched successfully\n");                
-	//}         
-	//ResumeThread(m_hThread);
 }
 
 CScene::~CScene()
 {
-	if (m_hThread)
-	{            
-		CloseHandle(m_hThread);
-	} 
 	clearChildren();
 }
 
@@ -93,18 +66,6 @@ void CScene::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 	}
 }
 
-void CScene::loading()
-{
-// 	FOR_IN(it,m_setRenderSceneNode)
-// 	{
-// 		(*it)->load((*it)->getFilename());
-// 	}
-	if (m_RenderNodes.size()>0)
-	{
-		(*m_RenderNodes.begin())->load((*m_RenderNodes.begin())->getFilename());
-	}
-}
-
 void CScene::updateRender(const CFrustum& frustum)
 {
 	if (!m_bRefreshViewport)
@@ -122,14 +83,6 @@ void CScene::updateRender(const CFrustum& frustum)
 	if (m_bShowNode)
 	{
 		getRenderNodes(frustum, m_RenderNodes);
-		FOR_IN(it,m_RenderNodes)
-		{
-			if (!(*it)->getLoaded())
-			{
-				s_pThreadRenderNode = (*it);
-			}
-			//(*it)->load((*it)->getFilename());
-		}
 	}
 }
 
@@ -215,9 +168,9 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 					{
 					/*	C3DMapObj* p3DObj = (C3DMapObj*)pObj;
 						float fHeight = 0.0f;
-						if (m_pTerrain && m_pTerrain->getTerrainData())
+						if (m_pSceneData)
 						{
-							fHeight = m_pTerrain->getTerrainData()->getHeight(p3DObj->getPos().x,p3DObj->getPos().z);
+							fHeight = m_pScene->getHeight(p3DObj->getPos().x,p3DObj->getPos().z);
 						}
 						p3DObj->renderShadow(Matrix::UNIT,vLightDir,fHeight);
 						// ----

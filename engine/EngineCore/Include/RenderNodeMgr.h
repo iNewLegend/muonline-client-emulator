@@ -18,9 +18,10 @@ class CRenderNodeMgr:public iRenderNodeMgr, public TSingleton<CRenderNodeMgr>
 {
 public:
 	CRenderNodeMgr();
-	virtual ~CRenderNodeMgr(){};
+	virtual ~CRenderNodeMgr();
 	void registerRenderNode(const char* szClassName, P_FUNC_NEW_RENDER_NODE pfn);
 	void registerRenderData(const char* szClassName, P_FUNC_NEW_RENDER_DATA pfn);
+	void PushMTLoading(iRenderNode* pRenderNode);
 	virtual bool			loadRenderNode(const char* szFilename, iRenderNode* pRenderNode);
 	virtual iRenderNode*	createRenderNode(const char* szClassName);
 	virtual void*			createRenderData(const char* szClassName);
@@ -37,4 +38,7 @@ private:
 	std::map<std::string, P_FUNC_NEW_RENDER_NODE>		m_mapRenderNodeFunc;
 	std::map<std::string, P_FUNC_NEW_RENDER_DATA>		m_mapRenderDataFunc;
 	std::map<std::string, std::map<std::string, void*>>		m_mapRenderData;
+
+	HANDLE					m_hThread;
+	DWORD					m_dwThreadID;
 };

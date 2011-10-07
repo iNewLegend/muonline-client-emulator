@@ -7,7 +7,7 @@
 #include "RPGSkyTextRender.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-class RPGSkyUIGraph : public UIGraph
+class Node3DUIGraph : public UIGraph
 {
 public:
 	void	frameUpdate			();
@@ -36,6 +36,6 @@ public:
 	void	playSound			(const char* szFilename);
 	// ----
 	CTextRender & getTextRender();
-	CRPGSkyTextRender3D s_RPGSkyTextRender;
+	CNode3DTextRender s_RPGSkyTextRender;
 };
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

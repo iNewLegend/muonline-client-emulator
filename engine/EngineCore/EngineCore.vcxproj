@@ -115,7 +115,7 @@
     <ClInclude Include="Include\SkeletonNode.h" />
     <ClInclude Include="Include\SkinMesh.h" />
     <ClInclude Include="Include\Terrain.h" />
-    <ClInclude Include="Include\TerrainData.h" />
+    <ClInclude Include="Include\SceneData.h" />
     <ClInclude Include="Include\TerrainDecal.h" />
   </ItemGroup>
   <ItemGroup>
@@ -139,8 +139,7 @@
     <ClCompile Include="src\SkeletonData.cpp" />
     <ClCompile Include="src\SkeletonNode.cpp" />
     <ClCompile Include="src\SkinMesh.cpp" />
-    <ClCompile Include="src\Terrain.cpp" />
-    <ClCompile Include="src\TerrainData.cpp" />
+    <ClCompile Include="src\SceneData.cpp" />
     <ClCompile Include="src\TerrainDecal.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

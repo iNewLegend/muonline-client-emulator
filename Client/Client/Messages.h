@@ -28,7 +28,7 @@ private:
 	std::deque<MSG_INFO>m_Msg;
 	// ----
 	CRect<int>			m_Rect;
-	CRPGSkyTextRender3D	m_TextRender;
+	CNode3DTextRender	m_TextRender;
 	// ----
 	int					m_xPos;
 	int					m_yPos;

@@ -187,7 +187,7 @@ void CWorld::updateDamageInfo(double fTime, float fElapsedTime)
 
 void CWorld::renderDamageInfo()const
 {
-	RPGSkyUIGraph::getInstance().initDrawText();
+	Node3DUIGraph::getInstance().initDrawText();
 	// ----
 	for (auto it=m_mapRole.begin();it!=m_mapRole.end();it++)
 	{

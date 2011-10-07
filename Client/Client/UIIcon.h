@@ -1,26 +1,27 @@
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#pragma once /* UIDisaplyModel.h */
+#pragma once /* UIIcon.h */
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#include "UIDisplay.h"
+#include "UIButton.h"
 #include "Camera.h"
 #include "RenderNode.h"
 #include "SceneEffect.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-class CUIDisplayModel : public CUIDisplay
+struct ItemData 
 {
-private:
-	iRenderNode*		m_pRenderNode;
+	char cType;
+	char cIndex;
+	int level;
+};
+
+class CUIIcon : public CUIButton
+{
 public:
-	Vec3D				m_vEye;
-	Vec3D				m_vLookAt;
-	CSceneEffect		m_SceneEffect;
 	// ----
-	CUIDisplayModel();
-	~CUIDisplayModel();
+	CUIIcon();
+	~CUIIcon();
 	// ----
-	void			LoadModel		(const char* szFilename);
 	void			OnFrameMove		(double fTime, float fElapsedTime);
 	void			OnFrameRender	(const Matrix& mTransform, double fTime, float fElapsedTime);
 	// ----
@@ -35,12 +36,12 @@ public:
 	// ----
 	virtual void	OnSize			(const CRect<int> & rc);
 	// ----
-	CRenderNode*	getRenderNode	(){return (CRenderNode*)m_pRenderNode;}
-	void			setRenderNode	(CRenderNode* pRenderNode){m_pRenderNode = pRenderNode;}
-	// ----
-	void			SetEye			(const Vec3D& vEye)		{ m_vEye = vEye; }
-	const Vec3D		GetEye			()						{ return m_vEye; }
-	void			SetLookAt		(const Vec3D& vLookAt)	{ m_vLookAt = vLookAt; }
-	const Vec3D		GetLookAt		()						{ return m_vLookAt; }
+	CONST_GETVAR	(ItemData,		ItemData);
+	void			setItemData		(const ItemData itemData);
+
+protected:
+	int				m_nIconID;
+	ItemData		m_ItemData;
+	void*			s_pTexture;
 };
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
