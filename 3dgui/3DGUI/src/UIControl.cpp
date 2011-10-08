@@ -271,7 +271,7 @@ void CUIControl::drawTip(const Matrix& mTransform,const CRect<int>& rc, double f
 	const StyleElement* pFontStyleElement = CUIControl::s_TipStyle.getStyleData().getFontStyleElement();
 	if(pFontStyleElement)
 	{
-		rect -= pFontStyleElement->setOffset[CONTROL_STATE_NORMAL];
+		rect -= pFontStyleElement->rcOffset[CONTROL_STATE_NORMAL];
 	}
 	int nTipWidth = rect.getWidth();
 	int nTipHeight = rect.getHeight();

@@ -156,7 +156,7 @@ void CUIEditBox::UpdateRects()
 	const StyleElement* pStyleElement = m_Style.getStyleData().getFontStyleElement();
 	if(pStyleElement)
 	{
-		m_rcText = m_rcBoundingBox+CRect<int>(pStyleElement->setOffset[CONTROL_STATE_NORMAL].getRECT());
+		m_rcText = m_rcBoundingBox+CRect<int>(pStyleElement->rcOffset[CONTROL_STATE_NORMAL].getRECT());
 		m_rcText.offset(-m_rcBoundingBox.left,-m_rcBoundingBox.top);
 	}	 
 }

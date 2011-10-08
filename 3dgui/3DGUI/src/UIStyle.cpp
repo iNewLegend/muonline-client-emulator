@@ -59,29 +59,6 @@ inline unsigned int StrToTextFormat(const char* szFormat)
 	return uFormat;
 }
 
-CRect<float> StyleDrawData::updateRect(CRect<float> rect)
-{
-	CRect<float> rc;
-	rc.left		= rect.left+rect.getWidth()*scale.left;
-	rc.right	= rect.left+rect.getWidth()*scale.right;
-	rc.top		= rect.top+rect.getHeight()*scale.top;
-	rc.bottom	= rect.top+rect.getHeight()*scale.bottom;
-	rc+= offset;
-	return rc;
-}
-
-CUIStyle::CUIStyle():
-m_nVisible(0)
-{
-	vTranslation.x=0.0f;
-	vTranslation.y=0.0f;
-	vTranslation.z=0.0f;
-
-	vRotate.x=0.0f;
-	vRotate.y=0.0f;
-	vRotate.z=0.0f;
-}
-
 void CUIStyle::Blend(UINT iState, float fElapsedTime)
 {
 	if (uState!=iState)
@@ -97,7 +74,7 @@ void CUIStyle::Blend(UINT iState, float fElapsedTime)
 	{
 		if (fRate<1.0f)
 		{
-			const CUIStyleData& styleData = getStyleData();
+			const CUIStyle& styleData = getStyleData();
 
 			fRate += styleData.setBlendRate[iState]*fElapsedTime;//1.0f - powf(styleData.setBlendRate[iState], 30 * fElapsedTime);
 			fRate = min(1.0f,fRate);
@@ -106,13 +83,26 @@ void CUIStyle::Blend(UINT iState, float fElapsedTime)
 		}
 		else if (CONTROL_STATE_HIDDEN==iState)
 		{
-			const CUIStyleData& styleData = getStyleData();
-			styleData.blend(iState,1000,m_mapStyleDrawData);
+			const CUIStyle& styleData = getStyleData();
+
+			for (size_t i=0; i<styleData.m_setStyleElement.size(); ++i)
+			{
+				m_mapStyleDrawData[i].uState = iState;
+				m_mapStyleDrawData[i].fRate = 1.0f;
+				m_mapStyleDrawData[i].color = m_mapStyleDrawData[i].setColor[iState];
+			}
+			m_FontStyle.uState = iState;
+			m_FontStyle.fRate = 1.0f;
+			m_FontStyle.color = m_FontStyle.setColor[iState];
+
 			m_nVisible = false;
 			return;
 		}
-		const CUIStyleData& styleData = getStyleData();
-		styleData.blend(iState,fElapsedTime,m_mapStyleDrawData);
+		for (size_t i=0; i<styleData.m_setStyleElement.size(); ++i)
+		{
+			m_mapStyleDrawData[i].blend(iState,fElapsedTime);
+		}
+		m_FontStyle.blend(iState,fElapsedTime);
 	}
 }
 
@@ -122,20 +112,60 @@ void CUIStyle::SetStyle(const std::string& strName)
 	Blend(CONTROL_STATE_HIDDEN,100);
 }
 
-const CUIStyleData& CUIStyle::getStyleData()
+const CUIStyle& CUIStyle::getStyleData()
 {
 	return GetStyleMgr().getStyleData(m_strName);
 }
 
 void CUIStyle::draw(const Matrix& mTransform, const CRect<float>& rc, const wchar_t* wcsText)
 {
-	CRect<float> rcNew;
-	rcNew.left =0;// -0.5f*rc.getWidth();
-	rcNew.right = rc.getWidth();//0.5f*rc.getWidth();
-	rcNew.top =0;// -0.5f*rc.getHeight();
-	rcNew.bottom = rc.getHeight();//0.5f*rc.getHeight();
+	RECT rcNew;
+	rcNew.left =0;
+	rcNew.right = rc.getWidth();
+	rcNew.top =0;
+	rcNew.bottom = rc.getHeight();
+	// ----
 	mWorld = UIGraph::getInstance().setUIMatrix(mTransform,rc,vTranslation,vRotate);
-	getStyleData().draw(rcNew, wcsText,m_mapStyleDrawData);
+	// ----
+	const CUIStyle& styleData = getStyleData();
+	for (size_t i=0; i<m_mapStyleDrawData.size(); ++i)
+	{
+		RECT rcDest=m_mapStyleDrawData[i].updateRect(rcNew);
+
+		Color32 color = m_mapStyleDrawData[i].color.getColor();
+		if(color.a==0)
+		{
+			continue;
+		}
+		//if (m_bDecolor)
+		//{
+		//	GetRenderSystem().SetTextureStageStateDecolor();
+		//}
+		switch(sprite.m_nSpriteLayoutType)
+		{
+		case SPRITE_LAYOUT_WRAP:
+			UIGraph::getInstance().drawSprite(&rcDest,sprite.m_pTexture,color,&rcDest);
+			break;
+		case SPRITE_LAYOUT_SIMPLE:
+			UIGraph::getInstance().drawSprite(&rcDest,sprite.m_pTexture,color,&sprite.m_rcBorder);
+			break;
+		case SPRITE_LAYOUT_3X3GRID:
+			UIGraph::getInstance().drawSprite(&rcDest,sprite.m_pTexture,color,&sprite.m_rcBorder,&sprite.m_rcCenter);
+			break;
+		default:
+			break;
+		}
+		//if (m_bDecolor)
+		//{
+		//	GetRenderSystem().SetupRenderState();
+		//}
+	}
+
+	if(m_FontStyle.color.a!=0)
+	{
+		RECT rcDest = m_FontStyle.updateRect(rcNew);
+		UIGraph::getInstance().drawText(wcsText,-1,rcDest,m_FontStyle.uFormat,m_FontStyle.color.c);
+	}
 }
 
 void CUIStyle::draw(const Matrix& mTransform, const CRect<float>& rc, const wchar_t* wcsText, CONTROL_STATE state, float fElapsedTime)
@@ -148,26 +178,6 @@ void CUIStyle::draw(const Matrix& mTransform, const CRect<int>& rc, const wchar_
 {
 	Blend(state, fElapsedTime);
 	draw(mTransform,rc.getRECT(),wcsText);
-}
-
-void CUIStyleData::blend(UINT iState, float fElapsedTime, std::map<int,StyleDrawData>& mapStyleDrawData)const
-{
-	for (size_t i=0; i<m_setStyleElement.size(); ++i)
-	{
-		mapStyleDrawData[i].blend(*m_setStyleElement[i],iState,fElapsedTime);
-	}
-}
-
-void CUIStyleData::draw(const CRect<float>& rc, const wchar_t* wcsText, std::map<int,StyleDrawData>& mapStyleDrawData)const
-{
-// 	for(std::map<int,StyleDrawData>::iterator it=mapStyleDrawData.begin();it!=mapStyleDrawData.end();++it)
-// 	{
-// 	}
-	for (size_t i=0; i<m_setStyleElement.size(); ++i)
-	{
-		CRect<float> rcReal=mapStyleDrawData[i].updateRect(rc);
-		m_setStyleElement[i]->draw(wcsText,rcReal,mapStyleDrawData[i].color.getColor());
-	}
 }
 
 void CUIStyle::playSound()
@@ -185,8 +195,17 @@ bool CUIStyle::isVisible()
 // 	return m_mapStyleDrawData[m_mapStyleDrawData.size()-1].rc;
 // }
 
-CUIStyleData::CUIStyleData():m_pFontStyleElement(NULL)
+CUIStyle::CUIStyle()
+	:m_nVisible(0)
 {
+	vTranslation.x=0.0f;
+	vTranslation.y=0.0f;
+	vTranslation.z=0.0f;
+
+	vRotate.x=0.0f;
+	vRotate.y=0.0f;
+	vRotate.z=0.0f;
+
 	for (size_t i=0;i< CONTROL_STATE_MAX;++i)
 	{
 		setBlendRate[i]=0.8f;
@@ -205,14 +224,13 @@ CUIStyleData::CUIStyleData():m_pFontStyleElement(NULL)
 	}
 }
 
-CUIStyleData::~CUIStyleData()
+CUIStyle::~CUIStyle()
 {
 	clear();
 }
 
-void CUIStyleData::clear()
+void CUIStyle::clear()
 {
-	m_pFontStyleElement = NULL;
 	for (size_t i=0; i<m_setStyleElement.size(); ++i)
 	{
 		delete m_setStyleElement[i];
@@ -221,38 +239,32 @@ void CUIStyleData::clear()
 	m_setStyleElement.clear();
 }
 
-void CUIStyleData::Refresh()
+void CUIStyle::Refresh()
 {
 	//m_SpriteColor.Current = m_TextureColor.States[ CONTROL_STATE_HIDDEN ];
 	//m_FontColor.Current = m_FontColor.States[ CONTROL_STATE_HIDDEN ];
 }
 
-void CUIStyleData::add(const std::vector<StyleElement*>& setStyleElement)
+void CUIStyle::add(const std::vector<StyleElement*>& setStyleElement)
 {
 	m_setStyleElement.insert(m_setStyleElement.end(), setStyleElement.begin(), setStyleElement.end()); 
 }
 
-void CUIStyleData::XMLParse(const TiXmlElement& xml)
+void CUIStyle::XMLParse(const TiXmlElement& xml)
 {
 	const TiXmlElement* pElement = xml.FirstChildElement();
 	while (pElement)
 	{
-		StyleElement* pNewStyleElement = NULL;
 		if (pElement->ValueStr() == "texture")
 		{
-			pNewStyleElement = new StyleSprite;
+			StyleSprite* pNewStyleElement = new StyleSprite;
+			pNewStyleElement->XMLParse(*pElement);
+			m_setStyleElement.push_back(pNewStyleElement);
 		}
 		else if (pElement->ValueStr() == "font"||pElement->ValueStr() == "ubb")
 		{
-			pNewStyleElement = new StyleText;
-			m_pFontStyleElement = pNewStyleElement;
+			m_FontStyle.XMLParse(*pElement);
 		}
-		else
-		{
-			pNewStyleElement = new StyleSprite;
-		}
-		pNewStyleElement->XMLParse(*pElement);
-		m_setStyleElement.push_back(pNewStyleElement);
 		pElement = pElement->NextSiblingElement();
 	}
 	//
@@ -370,16 +382,16 @@ void CUIStyleData::XMLParse(const TiXmlElement& xml)
 	}
 }
 
-const StyleElement* CUIStyleData::getFontStyleElement()const
+const StyleText& CUIStyle::getFontStyle()const
 {
-	return m_pFontStyleElement;
+	return m_FontStyle;
 }
 
 CUIStyleMgr::CUIStyleMgr()
 {
 }
 
-void StyleDrawData::blend(const StyleElement& se,UINT iState,float fElapsedTime)
+void StyleElement::blend(UINT iState,float fElapsedTime)
 {
 	if (uState!=iState)
 	{
@@ -388,132 +400,100 @@ void StyleDrawData::blend(const StyleElement& se,UINT iState,float fElapsedTime)
 	}
 	if (fRate<1.0f)
 	{
-		fRate += se.setBlendRate[iState]*fElapsedTime;
+		fRate += setBlendRate[iState]*fElapsedTime;
 		fRate = min(1.0f,fRate);
 
-		color	= interpolate(fRate, color,	se.setColor[iState]);
-		offset	= interpolate(fRate, offset,se.setOffset[iState]);
-		scale	= interpolate(fRate, scale,	se.setScale[iState]);
+		color	= interpolate(fRate, color,	setColor[iState]);
 	}
 }
 
 void StyleElement::XMLParse(const TiXmlElement& element)
 {
+	for (size_t i=0;i< CONTROL_STATE_MAX;++i)
 	{
-		for (size_t i=0;i< CONTROL_STATE_MAX;++i)
+		setColor[i].set(0.0f,0.0f,0.0f,0.0f);
+	}
+	for (size_t i=0;i< CONTROL_STATE_MAX;++i)
+	{
+		setBlendRate[i]=0.8f;
+	}
+	SetRect(&rcOffset,0,0,0,0);
+	SetRect(&rcScale,0,0,1,1);
+	//
+	const TiXmlElement *pElement = element.FirstChildElement("color");
+	if (pElement)
+	{
+		const char* pszText = pElement->GetText();
+		if(pszText)
 		{
-			setColor[i].set(0.0f,0.0f,0.0f,0.0f);
+			Color32 c;
+			c = pszText;
+			for (int i = 0; i < CONTROL_STATE_MAX; ++i)
+			{
+				setColor[i] = c;
+			}
+			setColor[CONTROL_STATE_HIDDEN].w = 0.0f;
 		}
-		const TiXmlElement *pElement = element.FirstChildElement("color");
-		if (pElement)
+		for (int i = 0; i < CONTROL_STATE_MAX; ++i)
 		{
-			const char* pszText = pElement->GetText();
-			if(pszText)
+			pszText =  pElement->Attribute(szControlState[i]);
+			if (pszText)
 			{
 				Color32 c;
 				c = pszText;
-				for (int i = 0; i < CONTROL_STATE_MAX; ++i)
-				{
-					setColor[i] = c;
-				}
-				setColor[CONTROL_STATE_HIDDEN].w = 0.0f;
-			}
-			for (int i = 0; i < CONTROL_STATE_MAX; ++i)
-			{
-				pszText =  pElement->Attribute(szControlState[i]);
-				if (pszText)
-				{
-					Color32 c;
-					c = pszText;
-					setColor[i] = c;
-				}
+				setColor[i] = c;
 			}
 		}
 	}
 	//
+	pElement = element.FirstChildElement("blend");
+	if (pElement)
 	{
-		for (size_t i=0;i< CONTROL_STATE_MAX;++i)
+		const char* pszText = pElement->GetText();
+		if(pszText)
 		{
-			setBlendRate[i]=0.8f;
-		}
-		const TiXmlElement *pElement = element.FirstChildElement("blend");
-		if (pElement)
-		{
-			const char* pszText = pElement->GetText();
-			if(pszText)
-			{
-				float fBlend = (float)atof(pszText);
-				for (size_t i=0;i< CONTROL_STATE_MAX;++i)
-				{
-					setBlendRate[i] = fBlend;
-				}
-			}
+			float fBlend = (float)atof(pszText);
 			for (size_t i=0;i< CONTROL_STATE_MAX;++i)
 			{
-				pszText =  pElement->Attribute(szControlState[i]);
-				if (pszText)
-				{
-					setBlendRate[i] = (float)atof(pszText);
-				}
+				setBlendRate[i] = fBlend;
+			}
+		}
+		for (size_t i=0;i< CONTROL_STATE_MAX;++i)
+		{
+			pszText =  pElement->Attribute(szControlState[i]);
+			if (pszText)
+			{
+				setBlendRate[i] = (float)atof(pszText);
 			}
 		}
 	}
 	//
+	pElement = element.FirstChildElement("offset");
+	if (pElement)
 	{
-		for (size_t i=0;i< CONTROL_STATE_MAX;++i)
+		const char* pszText = pElement->GetText();
+		if (!pszText)
 		{
-			setOffset[i].set(0.0f,0.0f,0.0f,0.0f);
+			pszText = element.Attribute("offset");
 		}
-		const TiXmlElement *pElement = element.FirstChildElement("offset");
-		if (pElement)
+		if(pszText)
 		{
-			const char* pszText = pElement->GetText();
-			if(pszText)
-			{
-				CRect<float> rc;
-				rc.setByString(pszText);
-				for (size_t i=0;i< CONTROL_STATE_MAX;++i)
-				{
-					setOffset[i] = rc;
-				}
-			}
-			for (size_t i=0;i< CONTROL_STATE_MAX;++i)
-			{
-				pszText =  pElement->Attribute(szControlState[i]);
-				if (pszText)
-				{
-					setOffset[i].setByString(pszText);
-				}
-			}
+			sscanf_s(pszText, "%d,%d,%d,%d", &rcOffset.right, &rcOffset.top, &rcOffset.right, &rcOffset.bottom);
 		}
+
 	}
 	// 
+	pElement = element.FirstChildElement("scale");
+	if (pElement)
 	{
-		for (size_t i=0;i< CONTROL_STATE_MAX;++i)
+		const char* pszText = pElement->GetText();
+		if (!pszText)
 		{
-			setScale[i].set(0.0f,0.0f,1.0f,1.0f);
+			pszText =  element.Attribute("scale");
 		}
-		const TiXmlElement *pElement = element.FirstChildElement("scale");
-		if (pElement)
+		if(pszText)
 		{
-			const char* pszText = pElement->GetText();
-			if(pszText)
-			{
-				CRect<float> rc;
-				rc.setByString(pszText);
-				for (size_t i=0;i< CONTROL_STATE_MAX;++i)
-				{
-					setScale[i] = rc;
-				}
-			}
-			for (size_t i=0;i< CONTROL_STATE_MAX;++i)
-			{
-				pszText =  pElement->Attribute(szControlState[i]);
-				if (pszText)
-				{
-					setScale[i].setByString(pszText);
-				}
-			}
+			sscanf_s(pszText, "%d,%d,%d,%d", &rcScale.right, &rcScale.top, &rcScale.right, &rcScale.bottom);
 		}
 	}
 }
@@ -530,14 +510,14 @@ void StyleSprite::XMLParse(const TiXmlElement& element)
 	if (element.Attribute("rect"))
 	{
 		const char* strRect = element.Attribute("rect");
-		m_rcBorder.setByString(strRect);
+		sscanf_s(strRect, "%d,%d,%d,%d", &m_rcBorder.right, &m_rcBorder.top, &m_rcBorder.right, &m_rcBorder.bottom);
 		m_rcBorder.right	+= m_rcBorder.left;
 		m_rcBorder.bottom	+= m_rcBorder.top;
 		if (element.Attribute("center_rect"))
 		{
 			m_nSpriteLayoutType = SPRITE_LAYOUT_3X3GRID;
 			const char* strCenterRect = element.Attribute("center_rect");
-			m_rcCenter.setByString(strCenterRect);
+			sscanf_s(strCenterRect, "%d,%d,%d,%d", &m_rcCenter.right, &m_rcCenter.top, &m_rcCenter.right, &m_rcCenter.bottom);
 			m_rcCenter.left		+= m_rcBorder.left;
 			m_rcCenter.top		+= m_rcBorder.top;
 			m_rcCenter.right	+= m_rcCenter.left;
@@ -573,47 +553,16 @@ void StyleText::XMLParse(const TiXmlElement& element)
 	}
 }
 
-void StyleElement::draw(const wchar_t* wcsText,const CRect<float>& rc,const Color32& color)const
+RECT StyleElement::updateRect(RECT rect)
 {
-}
-
-void StyleText::draw(const wchar_t* wcsText,const CRect<float>& rc,const Color32& color)const
-{
-	if(color.a==0)
-	{
-		return;
-	}
-	UIGraph::getInstance().drawText(wcsText,-1,rc.getRECT(),uFormat,color.c);
-}
-
-void StyleSprite::draw(const wchar_t* wcsText,const CRect<float>& rc,const Color32& color)const
-{
-	if(color.a==0)
-	{
-		return;
-	}
-	//if (m_bDecolor)
-	//{
-	//	GetRenderSystem().SetTextureStageStateDecolor();
-	//}
-	switch(m_nSpriteLayoutType)
-	{
-	case SPRITE_LAYOUT_WRAP:
-		UIGraph::getInstance().DrawSprite(rc,rc,m_pTexture,color);
-		break;
-	case SPRITE_LAYOUT_SIMPLE:
-		UIGraph::getInstance().DrawSprite(m_rcBorder,rc,m_pTexture,color);
-		break;
-	case SPRITE_LAYOUT_3X3GRID:
-		UIGraph::getInstance().DrawSprite3x3Grid(m_rcBorder,m_rcCenter,rc,m_pTexture,color);
-		break;
-	default:
-		break;
-	}
-	//if (m_bDecolor)
-	//{
-	//	GetRenderSystem().SetupRenderState();
-	//}
+	RECT rc;
+	int nWidth = rect.right - rect.left;
+	int nHeight = rect.bottom - rect.top;
+	rc.left		= rect.left	+ nWidth	* rcScale.left		+ rcOffset.left;
+	rc.right	= rect.left	+ nWidth	* rcScale.right		+ rcOffset.right;
+	rc.top		= rect.top	+ nHeight	* rcScale.top		+ rcOffset.top;
+	rc.bottom	= rect.top	+ nHeight	* rcScale.bottom	+ rcOffset.bottom;
+	return rc;
 }
 
 bool CUIStyleMgr::Create(const char* szFilename)
@@ -650,7 +599,7 @@ bool CUIStyleMgr::Create(const char* szFilename)
 			char* pszName=strtok(szNameList,",");
 			while(pszName)
 			{
-				CUIStyleData& styleData = m_mapStyleData[pszName];//.add(StyleData);
+				CUIStyle& styleData = m_mapStyleData[pszName];//.add(StyleData);
 				styleData.XMLParse(*pStyleElement);
 				pszName = strtok(pszName+strlen(pszName)+1,",");
 			}
@@ -689,7 +638,7 @@ bool CUIStyleMgr::CreateFromMemory(const unsigned char* pBuffer, size_t bufferSi
 			char* pszName=strtok(szNameList,",");
 			while(pszName)
 			{
-				CUIStyleData& styleData = m_mapStyleData[pszName];//.add(StyleData);
+				CUIStyle& styleData = m_mapStyleData[pszName];//.add(StyleData);
 				styleData.XMLParse(*pStyleElement);
 				pszName = strtok(pszName+strlen(pszName)+1,",");
 			}
@@ -700,12 +649,12 @@ bool CUIStyleMgr::CreateFromMemory(const unsigned char* pBuffer, size_t bufferSi
 	return true;
 }
 
-const CUIStyleData& CUIStyleMgr::getStyleData(const std::string& strName)
+const CUIStyle& CUIStyleMgr::getStyleData(const std::string& strName)
 {
 	if (m_mapStyleData.find(strName)!=m_mapStyleData.end())
 	{
 		return m_mapStyleData[strName];
 	}
-	static CUIStyleData s_StyleData;
+	static CUIStyle s_StyleData;
 	return s_StyleData;
 }
