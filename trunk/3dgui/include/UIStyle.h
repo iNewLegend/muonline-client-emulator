@@ -58,8 +58,8 @@ public:
 
 	float			setBlendRate[CONTROL_STATE_MAX];
 	Vec4D			setColor[CONTROL_STATE_MAX];
-	CRect<float>	setOffset[CONTROL_STATE_MAX];
-	CRect<float>	setScale[CONTROL_STATE_MAX];
+	CRect<float>	setOffset;
+	CRect<float>	setScale;
 };
 
 struct StyleDrawData
