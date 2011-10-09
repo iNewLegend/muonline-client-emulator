@@ -636,17 +636,17 @@ void CUIListBox::OnFrameRender(const Matrix& mTransform, double fTime, float fEl
 
 				if(bSelectedStyle)
 				{
-					m_StyleSelected.draw(m_Style.mWorld,rc.getRECT(), pItem->wstrText.c_str());
+					m_StyleSelected.draw(m_Style.m_mWorld,rc.getRECT(), pItem->wstrText.c_str());
 				}
 				else
 				{
 					if (i%2==0)
 					{
-						m_StyleItem1.draw(m_Style.mWorld,rc.getRECT(), pItem->wstrText.c_str());
+						m_StyleItem1.draw(m_Style.m_mWorld,rc.getRECT(), pItem->wstrText.c_str());
 					}
 					else
 					{
-						m_StyleItem2.draw(m_Style.mWorld,rc.getRECT(), pItem->wstrText.c_str());
+						m_StyleItem2.draw(m_Style.m_mWorld,rc.getRECT(), pItem->wstrText.c_str());
 					}
 				}
 				rc.offset(0, m_nTextHeight);

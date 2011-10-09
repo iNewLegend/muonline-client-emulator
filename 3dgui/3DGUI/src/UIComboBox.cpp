@@ -194,11 +194,7 @@ void CUIComboBox::OnFrameRender(const Matrix& mTransform, double fTime, float fE
 		iState = CONTROL_STATE_PRESSED;
 	}
 	// Main text box
-	UIListBoxItem* pItem = m_ListBox.GetSelectedItem();
-	if(pItem)
-	{
-		m_Style.draw(mTransform,m_rcRelativeBox,pItem->wstrText.c_str(),iState, fElapsedTime);
-	}
+	//CUIControl::OnFrameRender(mTransform, fTime, fElapsedTime);
 }
 
 bool CUIComboBox::AddItem(const wchar_t* wcsText, void* pData)

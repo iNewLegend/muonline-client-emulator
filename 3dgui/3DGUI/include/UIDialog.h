@@ -27,7 +27,6 @@ public:
 
 	virtual void loadString(const char* szFilename);
 	virtual void XMLParse(const TiXmlElement* pControlElement);
-	virtual void SetStyle(const std::string& strStyleName);
 	virtual void OnChildSize(const CRect<int>& rc);
 	virtual void OnSize(const CRect<int>& rc);
 	virtual void UpdateRects();
@@ -49,8 +48,6 @@ public:
 
 	// Attributes
 
-	bool GetMinimized() { return m_bMinimized; }
-	void SetMinimized(bool bMinimized) { m_bMinimized = bMinimized; }
 	bool IsExclusive() { return m_bExclusive; }
 	void SetExclusive(bool bExclusive) { m_bExclusive = bExclusive; }
 
@@ -86,8 +83,6 @@ public:
 	bool UnregisterDialog(const CUIDialog *pDialog);
 	bool toTop();
 protected:
-	CUIStyle m_StyleCaption;
-
 	virtual void OnMove(int x, int y);
 	virtual	bool OnInitDialog();
 
@@ -96,7 +91,6 @@ protected:
 
 	bool m_bCaption;
 	bool m_bCanMove;
-	bool m_bMinimized;
 	bool m_bExclusive;
 	std::wstring m_wstrCaption;
 

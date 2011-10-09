@@ -24,13 +24,7 @@ void CUIImage::OnFrameRender(const Matrix& mTransform, double fTime, float fElap
 {    
 	if(m_bVisible == false)
 		return;
-
-	m_Style.Blend(/*m_rcBoundingBox.getRECT(), */GetState(), fElapsedTime);
-	//UIGraph::getInstance().DrawSprite(m_rcTex, m_rcBoundingBox, m_nTexID, m_dwColor);
-	UIGraph::getInstance().drawSprite(&m_rcBoundingBox.getRECT(), m_pFilename, m_Style.getFontStyle().color.getColor());
-	//GetRenderSystem().SetTextureStageStateDecolor();
-	//UIGraph::getInstance().DrawSprite(m_rcBoundingBox, m_rcBoundingBox, m_nTexID, m_Style.m_crSpriteColor[1].c);
-	//GetRenderSystem().SetupRenderState();
+	CUIControl::OnFrameRender(mTransform, fTime, fElapsedTime);
 }
 
 void CUIImage::SetFilename(const char* szFilename)
@@ -38,4 +32,8 @@ void CUIImage::SetFilename(const char* szFilename)
 	m_strFilename = szFilename;
 	UIGraph::getInstance().releaseTexture(m_pFilename);
 	m_pFilename = UIGraph::getInstance().createTexture(szFilename);
+	if (m_Style.m_StyleSprites.size()>0)
+	{
+		m_Style.m_StyleSprites[0].m_pTexture = m_pFilename;
+	}
 }

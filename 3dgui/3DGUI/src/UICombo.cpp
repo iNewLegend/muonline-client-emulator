@@ -112,11 +112,6 @@ void CUICombo::XMLParse(const TiXmlElement* pElement)
 	XMLParseControls(pElement);
 }
 
-void CUICombo::SetStyle(const std::string& strStyleName)
-{
-	m_Style.setStyle(strStyleName);
-}
-
 void CUICombo::UpdateRects()
 {
 	CUIControl::UpdateRects();
@@ -381,8 +376,7 @@ void CUICombo::OnFrameMove(double fTime, float fElapsedTime)
 
 void CUICombo::OnFrameRender(const Matrix& mTransform, double fTime, float fElapsedTime)
 {
-	m_Style.draw(mTransform,m_rcRelativeBox, L"",GetState(), fElapsedTime);
-
+	CUIControl::OnFrameRender(mTransform, fTime, fElapsedTime);
 	// render controls
 	for(size_t i=0;i<m_Controls.size();++i)
 	{
@@ -392,7 +386,7 @@ void CUICombo::OnFrameRender(const Matrix& mTransform, double fTime, float fElap
 		{
 			continue;
 		}
-		pControl->OnFrameRender(m_Style.mWorld,fTime,fElapsedTime);
+		pControl->OnFrameRender(m_Style.m_mWorld,fTime,fElapsedTime);
 	}
 	for(size_t i=0;i<m_Controls.size();++i)
 	{
@@ -400,7 +394,7 @@ void CUICombo::OnFrameRender(const Matrix& mTransform, double fTime, float fElap
 
 		if (pControl->IsFocus())
 		{
-			pControl->OnFrameRender(m_Style.mWorld,fTime, fElapsedTime);
+			pControl->OnFrameRender(m_Style.m_mWorld,fTime, fElapsedTime);
 		}
 	}
 }

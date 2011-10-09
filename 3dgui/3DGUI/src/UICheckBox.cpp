@@ -35,7 +35,13 @@ void CUICheckBox::OnPressUp()
 
 void CUICheckBox::OnFrameRender(const Matrix& mTransform, double fTime, float fElapsedTime)
 {
+	CUIControl::updateUIMatrix(mTransform, fTime, fElapsedTime);
+	RECT rc;
+	rc.left =0;
+	rc.right = m_rcRelativeBox.getWidth();
+	rc.top =0;
+	rc.bottom = m_rcRelativeBox.getHeight();
 	CONTROL_STATE iState = GetState();
-	m_Style.draw(mTransform,m_rcRelativeBox,m_wstrText.c_str(),m_bChecked?CONTROL_STATE_HIDDEN:iState,fElapsedTime);
-	m_StyleChecked.draw(mTransform,m_rcRelativeBox,m_wstrText.c_str(),m_bChecked?iState:CONTROL_STATE_HIDDEN,fElapsedTime);
+	m_Style.draw(rc, GetText(), m_bChecked?CONTROL_STATE_HIDDEN:iState, fElapsedTime);
+	m_Style.draw(rc, GetText(), m_bChecked?iState:CONTROL_STATE_HIDDEN, fElapsedTime);
 }

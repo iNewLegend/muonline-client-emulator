@@ -84,5 +84,5 @@ bool CUIButton::ContainsPoint(POINT pt)
 
 void CUIButton::OnFrameRender(const Matrix& mTransform, double fTime, float fElapsedTime)
 {
-	m_Style.draw(mTransform,m_rcRelativeBox,m_wstrText.c_str(),GetState(),fElapsedTime);
+	CUIControl::OnFrameRender(mTransform, fTime, fElapsedTime);
 }
