@@ -56,6 +56,7 @@ public:
 	virtual void XMLParse(const TiXmlElement& element);
 	void blend(UINT iState,float fElapsedTime);
 	RECT updateRect(RECT rect);
+	void hide();
 
 	float			setBlendRate[CONTROL_STATE_MAX];
 	Vec4D			setColor[CONTROL_STATE_MAX];
@@ -71,6 +72,7 @@ class StyleSprite: public StyleElement
 {
 public:
 	virtual void XMLParse(const TiXmlElement& element);
+	void		draw(const RECT& rc);
 	void*		m_pTexture;
 	bool		m_bDecolor;
 	int			m_nSpriteLayoutType;
@@ -78,7 +80,7 @@ public:
 	RECT		m_rcCenter;
 };
 
-class StyleText: public StyleElement
+class StyleFont: public StyleElement
 {
 public:
 	virtual void XMLParse(const TiXmlElement& element);
@@ -92,37 +94,34 @@ public:
 	~CUIStyle();
 	void clear();
 	void Refresh();
-	void add(const std::vector<StyleElement*>& setStyleElement);
+	//void add(const std::vector<StyleElement*>& setStyleElement);
 
 	virtual void XMLParse(const TiXmlElement& xml);
-	const StyleText& getFontStyle()const;
-	std::vector<StyleSprite*>	m_setStyleElement;
-	StyleText					m_FontStyle;
+	const StyleFont& getFontStyle()const;
+	std::vector<StyleSprite>	m_StyleSprites;
+	StyleFont					m_FontStyle;
 	std::string					m_strSound;
 	float						setBlendRate[CONTROL_STATE_MAX];
 	MY3DGUI_VEC3D				setTranslation[CONTROL_STATE_MAX];
 	MY3DGUI_VEC3D				setRotate[CONTROL_STATE_MAX];
-
-	int m_nVisible;
-	std::string	m_strName;
-	Matrix						mWorld;
+	unsigned int				uState;
+	float						fRate;
 	MY3DGUI_VEC3D				vTranslation;
 	MY3DGUI_VEC3D				vRotate;
-	float						fRate;
-	unsigned int				uState;
+
+	int							m_nVisible;
+	std::string					m_strName;
+	Matrix						mWorld;
 
 	void Blend(UINT iState, float fElapsedTime);
 	void draw(const Matrix& mTransform, const CRect<float>& rc, const wchar_t* wcsText);
 	void draw(const Matrix& mTransform, const CRect<float>& rc, const wchar_t* wcsText, CONTROL_STATE state, float fElapsedTime);
 	void draw(const Matrix& mTransform, const CRect<int>& rc, const wchar_t* wcsText, CONTROL_STATE state, float fElapsedTime);
 
-	void SetStyle(const std::string& strName);
-	const CUIStyle& getStyleData();
+	void setStyle(const std::string& strName);
 	void playSound();
 	bool isVisible();
 };
-
-
 
 class CUIStyleMgr
 {

@@ -265,8 +265,8 @@ void CUIDialog::XMLParse(const TiXmlElement* pElement)
 
 void CUIDialog::SetStyle(const std::string& strStyleName)
 {
-	m_Style.SetStyle(strStyleName);
-	m_StyleCaption.SetStyle(strStyleName+".caption");
+	m_Style.setStyle(strStyleName);
+	m_StyleCaption.setStyle(strStyleName+".caption");
 }
 
 void CUIDialog::UpdateRects()

@@ -25,10 +25,10 @@ void CUIListBox::OnControlRegister()
 
 void CUIListBox::SetStyle(const std::string& strStyleName)
 {
-	m_Style.SetStyle(strStyleName);
-	m_StyleItem1.SetStyle(strStyleName+".item1");
-	m_StyleItem2.SetStyle(strStyleName+".item2");
-	m_StyleSelected.SetStyle(strStyleName+".selected");
+	m_Style.setStyle(strStyleName);
+	m_StyleItem1.setStyle(strStyleName+".item1");
+	m_StyleItem2.setStyle(strStyleName+".item2");
+	m_StyleSelected.setStyle(strStyleName+".selected");
 }
 
 void CUIListBox::UpdateRects()

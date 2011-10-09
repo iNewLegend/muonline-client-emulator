@@ -16,8 +16,8 @@ CUISlider::CUISlider()
 #include "tinyxml.h"
 void CUISlider::SetStyle(const std::string& strStyleName)
 {
-	m_Style.SetStyle(strStyleName);
-	m_StyleButton.SetStyle(strStyleName+".button");// 没有tinyxml会编译不通过
+	m_Style.setStyle(strStyleName);
+	m_StyleButton.setStyle(strStyleName+".button");// 没有tinyxml会编译不通过
 }
 
 void CUISlider::UpdateRects()

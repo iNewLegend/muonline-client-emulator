@@ -40,9 +40,9 @@ void CUIEditBox::XMLParse(const TiXmlElement* pControlElement)
 
 void CUIEditBox::SetStyle(const std::string& strStyleName)
 {
-	m_Style.SetStyle(strStyleName);
-	m_StyleSelection.SetStyle(strStyleName+".selection");
-	m_StyleCaret.SetStyle(strStyleName+".caret");
+	m_Style.setStyle(strStyleName);
+	m_StyleSelection.setStyle(strStyleName+".selection");
+	m_StyleCaret.setStyle(strStyleName+".caret");
 }
 
 // PlaceCaret: Set the caret to a character position, and adjust the scrolling if
@@ -153,12 +153,8 @@ void CUIEditBox::DeleteSelectionText()
 void CUIEditBox::UpdateRects()
 {
 	CUIControl::UpdateRects();
-	const StyleElement* pStyleElement = m_Style.getStyleData().getFontStyleElement();
-	if(pStyleElement)
-	{
-		m_rcText = m_rcBoundingBox+CRect<int>(pStyleElement->rcOffset[CONTROL_STATE_NORMAL].getRECT());
-		m_rcText.offset(-m_rcBoundingBox.left,-m_rcBoundingBox.top);
-	}	 
+	m_rcText = m_rcBoundingBox+CRect<int>(CUIControl::s_TipStyle.getFontStyle().rcOffset);
+	m_rcText.offset(-m_rcBoundingBox.left,-m_rcBoundingBox.top);
 }
 
 void CUIEditBox::CopyToClipboard()

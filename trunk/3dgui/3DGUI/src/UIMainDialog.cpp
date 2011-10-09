@@ -14,7 +14,7 @@ CUIMainDialog::~CUIMainDialog()
 bool CUIMainDialog::OnInitDialog()
 {
 	CIME::StaticOnCreateDevice();
-	CUIControl::s_TipStyle.SetStyle("tip");
+	CUIControl::s_TipStyle.setStyle("tip");
 	return CUIDialog::OnInitDialog();
 }
 void CUIMainDialog::OnFrameMove(double fTime, float fElapsedTime)
