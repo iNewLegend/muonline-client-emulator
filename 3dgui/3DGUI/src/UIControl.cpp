@@ -233,7 +233,7 @@ void CUIControl::SetHotkey(std::string& strHotkey)
 
 void CUIControl::SetStyle(const std::string& strStyleName)
 {
-	m_Style.SetStyle(strStyleName);
+	m_Style.setStyle(strStyleName);
 }
 
 void CUIControl::Refresh()
@@ -268,11 +268,12 @@ void CUIControl::drawTip(const Matrix& mTransform,const CRect<int>& rc, double f
 	CRect<float> rect(0.0f,0.0f,1000.0f,1000.0f);
 	UIGraph::getInstance().CalcTextRect(m_wstrTip.c_str(), rect);// 计算文本框大小
 
-	const StyleElement* pFontStyleElement = CUIControl::s_TipStyle.getStyleData().getFontStyleElement();
-	if(pFontStyleElement)
-	{
-		rect -= pFontStyleElement->rcOffset[CONTROL_STATE_NORMAL];
-	}
+	RECT rcOffset = CUIControl::s_TipStyle.getFontStyle().rcOffset;
+	rect.left -= rcOffset.left;
+	rect.top -= rcOffset.top;
+	rect.right -= rcOffset.right;
+	rect.bottom -= rcOffset.bottom;
+
 	int nTipWidth = rect.getWidth();
 	int nTipHeight = rect.getHeight();
 

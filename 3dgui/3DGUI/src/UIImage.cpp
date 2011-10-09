@@ -27,7 +27,7 @@ void CUIImage::OnFrameRender(const Matrix& mTransform, double fTime, float fElap
 
 	m_Style.Blend(/*m_rcBoundingBox.getRECT(), */GetState(), fElapsedTime);
 	//UIGraph::getInstance().DrawSprite(m_rcTex, m_rcBoundingBox, m_nTexID, m_dwColor);
-	UIGraph::getInstance().DrawSprite(m_rcBoundingBox.getRECT(), m_pFilename, m_Style.m_mapStyleDrawData[0].color.getColor());
+	UIGraph::getInstance().drawSprite(&m_rcBoundingBox.getRECT(), m_pFilename, m_Style.getFontStyle().color.getColor());
 	//GetRenderSystem().SetTextureStageStateDecolor();
 	//UIGraph::getInstance().DrawSprite(m_rcBoundingBox, m_rcBoundingBox, m_nTexID, m_Style.m_crSpriteColor[1].c);
 	//GetRenderSystem().SetupRenderState();

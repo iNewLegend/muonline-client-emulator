@@ -114,7 +114,7 @@ void CUICombo::XMLParse(const TiXmlElement* pElement)
 
 void CUICombo::SetStyle(const std::string& strStyleName)
 {
-	m_Style.SetStyle(strStyleName);
+	m_Style.setStyle(strStyleName);
 }
 
 void CUICombo::UpdateRects()

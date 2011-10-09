@@ -23,8 +23,8 @@ void CUICheckBox::XMLParse(const TiXmlElement* pControlElement)
 
 void CUICheckBox::SetStyle(const std::string& strStyleName)
 {
-	m_Style.SetStyle(strStyleName);
-	m_StyleChecked.SetStyle(strStyleName+".checked");
+	m_Style.setStyle(strStyleName);
+	m_StyleChecked.setStyle(strStyleName+".checked");
 }
 
 void CUICheckBox::OnPressUp()
