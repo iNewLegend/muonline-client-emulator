@@ -13,7 +13,7 @@ void CUIDisplay::XMLParse(const TiXmlElement* pControlElement)
 
 void CUIDisplay::OnFrameRender(const Matrix& mTransform, double fTime, float fElapsedTime)
 {
-	m_Style.draw(mTransform,m_rcRelativeBox,L"",GetState(),fElapsedTime);
+	CUIControl::OnFrameRender(mTransform, fTime, fElapsedTime);
 }
 
 CRect<int> CUIDisplay::getViewport()

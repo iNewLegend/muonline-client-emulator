@@ -87,7 +87,6 @@ CUIDialog::CUIDialog()
 
 	m_bCaption = false;
 	m_bCanMove = true;
-	m_bMinimized = false;
 	m_bExclusive = false;
 	m_nCaptionHeight = 0;
 
@@ -263,19 +262,9 @@ void CUIDialog::XMLParse(const TiXmlElement* pElement)
 	CUICombo::XMLParse(pElement);
 }
 
-void CUIDialog::SetStyle(const std::string& strStyleName)
-{
-	m_Style.setStyle(strStyleName);
-	m_StyleCaption.setStyle(strStyleName+".caption");
-}
-
 void CUIDialog::UpdateRects()
 {
 	CUICombo::UpdateRects();
-	if(m_bMinimized)
-	{
-		m_rcBoundingBox.bottom = m_rcBoundingBox.top+m_nCaptionHeight*2;
-	}
 	m_rcCaption = m_rcBoundingBox;
 	m_rcCaption.bottom = m_rcCaption.top+m_nCaptionHeight;
 }
@@ -292,7 +281,7 @@ bool CUIDialog::ContainsPoint(POINT pt)
 
 void CUIDialog::OnFrameMove(double fTime, float fElapsedTime)
 {
-	if(!m_bMinimized&&m_bVisible)
+	if(m_bVisible)
 	{
 		for(size_t i=0;i<m_Controls.size();++i)
 		{
@@ -311,46 +300,33 @@ void CUIDialog::OnFrameMove(double fTime, float fElapsedTime)
 
 void CUIDialog::OnFrameRender(const Matrix& mTransform, double fTime, float fElapsedTime)
 {
-	// For invisible dialog, out now.
-	if((m_bMinimized && !m_bCaption))
-		return;
+	//CUICombo::OnFrameRender(mTransform,fTime,fElapsedTime);
+	CUIControl::OnFrameRender(mTransform, fTime, fElapsedTime);
 
 	// If the dialog is minimized, skip rendering
 	// its controls.
-	Matrix mNewTransform = m_Style.mWorld*Matrix::newTranslation(Vec3D(0,m_nCaptionHeight,0));
-	if(!m_bMinimized)
+	Matrix mNewTransform = m_Style.m_mWorld*Matrix::newTranslation(Vec3D(0,m_nCaptionHeight,0));
+
+	// render controls
+	for(size_t i=0;i<m_Controls.size();++i)
 	{
-		//CUICombo::OnFrameRender(mTransform,fTime,fElapsedTime);
-		m_Style.draw(mTransform,m_rcRelativeBox, L"",GetState(), fElapsedTime);
+		CUIControl* pControl = m_Controls[i];   
 
-		// render controls
-		for(size_t i=0;i<m_Controls.size();++i)
+		if (pControl->IsFocus())
 		{
-			CUIControl* pControl = m_Controls[i];   
-
-			if (pControl->IsFocus())
-			{
-				continue;
-			}
-			pControl->OnFrameRender(mNewTransform,fTime,fElapsedTime);
+			continue;
 		}
-		for(size_t i=0;i<m_Controls.size();++i)
-		{
-			CUIControl* pControl = m_Controls[i];   
+		pControl->OnFrameRender(mNewTransform,fTime,fElapsedTime);
+	}
+	for(size_t i=0;i<m_Controls.size();++i)
+	{
+		CUIControl* pControl = m_Controls[i];   
 
-			if (pControl->IsFocus())
-			{
-				pControl->OnFrameRender(mNewTransform,fTime, fElapsedTime);
-			}
+		if (pControl->IsFocus())
+		{
+			pControl->OnFrameRender(mNewTransform,fTime, fElapsedTime);
 		}
 	}
-
-	if(m_bCaption)
-	{
-		CRect<int>	rcCaption(0,0,m_rcBoundingBox.getWidth(),m_nCaptionHeight);
-		m_StyleCaption.draw(m_Style.mWorld,rcCaption, m_wstrCaption.c_str(),GetState(), fElapsedTime);
-	}
-
 	//
 	for(size_t i=0;i<m_Dialogs.size();++i)
 	{

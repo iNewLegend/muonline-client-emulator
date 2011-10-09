@@ -42,20 +42,5 @@ void CUIProgress::SetRange(int nMin, int nMax)
 
 void CUIProgress::OnFrameRender(const Matrix& mTransform, double fTime, float fElapsedTime)
 {
-	int nOffsetX = 0;
-	int nOffsetY = 0;
-
-	CONTROL_STATE iState = GetState();
-	if(iState == CONTROL_STATE_PRESSED)
-	{
-		nOffsetX = 1;
-		nOffsetY = 2;
-	}
-	else if(iState == CONTROL_STATE_MOUSEOVER)
-	{
-		nOffsetX = -1;
-		nOffsetY = -2;
-	}
-	m_Style.draw(mTransform,m_rcRelativeBox,L"",iState, fElapsedTime);
-	//m_StyleButton.draw(m_rcButton,m_wstrText,iState, fElapsedTime, fBlendRate);
+	CUIControl::OnFrameRender(mTransform, fTime, fElapsedTime);
 }

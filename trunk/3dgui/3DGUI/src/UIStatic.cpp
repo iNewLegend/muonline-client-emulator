@@ -15,7 +15,7 @@ void CUIStatic::OnFrameRender(const Matrix& mTransform, double fTime, float fEla
 		UIGraph::getInstance().CalcTextRect(m_wstrText.c_str(),rect);
 		m_rcBoundingBox=rect.getRECT();
 	}
-	m_Style.draw(mTransform,m_rcRelativeBox,m_wstrText.c_str(),GetState(), fElapsedTime);
+	CUIControl::OnFrameRender(mTransform, fTime, fElapsedTime);
 }
 
 void CUIStatic::SetText(const wchar_t* wcsText)

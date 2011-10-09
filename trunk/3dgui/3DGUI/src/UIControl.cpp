@@ -243,6 +243,29 @@ void CUIControl::Refresh()
 	//m_bHasFocus = false;
 }
 
+virtual void OnFrameRender(const Matrix& mTransform, double fTime, float fElapsedTime)
+{
+	CUIControl::updateUIMatrix(mTransform, fTime, fElapsedTime);
+	RECT rc;
+	rc.left =0;
+	rc.right = m_rcRelativeBox.getWidth();
+	rc.top =0;
+	rc.bottom = m_rcRelativeBox.getHeight();
+	m_Style.draw(rc, GetText(), GetState(), fElapsedTime);
+}
+
+virtual void updateUIMatrix(const Matrix& mTransform, double fTime, float fElapsedTime)
+{
+	if (m_fRate<1.0f)
+	{
+		m_fRate += m_setBlendRate[iState]*fElapsedTime;//1.0f - powf(styleData.setBlendRate[iState], 30 * fElapsedTime);
+		m_fRate = min(1.0f,m_fRate);
+		m_vRotate			= interpolate(m_fRate, m_vRotate, m_setRotate[iState]);
+		m_vTranslation	= interpolate(m_fRate, m_vTranslation, m_setTranslation[iState]);
+	}
+	m_mWorld = UIGraph::getInstance().setUIMatrix(mTransform,m_rcRelativeBox,m_vTranslation,m_vRotate);
+}
+
 bool CUIControl::ContainsPoint(POINT pt)
 {
 	return m_rcBoundingBox.ptInRect(pt);

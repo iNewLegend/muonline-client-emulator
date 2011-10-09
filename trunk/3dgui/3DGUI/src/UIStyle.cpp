@@ -272,7 +272,7 @@ void CUIStyle::Blend(UINT iState, float fElapsedTime)
 	if (uState!=iState)
 	{
 		uState = iState;
-		fRate = 0.0f;
+		m_fRate = 0.0f;
 		if (CONTROL_STATE_HIDDEN!=iState)
 		{
 			m_nVisible=true;
@@ -280,23 +280,23 @@ void CUIStyle::Blend(UINT iState, float fElapsedTime)
 	}
 	if (m_nVisible)
 	{
-		if (fRate<1.0f)
-		{
-			fRate += setBlendRate[iState]*fElapsedTime;//1.0f - powf(styleData.setBlendRate[iState], 30 * fElapsedTime);
-			fRate = min(1.0f,fRate);
-			vRotate			= interpolate(fRate, vRotate, setRotate[iState]);
-			vTranslation	= interpolate(fRate, vTranslation, setTranslation[iState]);
-		}
-		else if (CONTROL_STATE_HIDDEN==iState)
-		{
-			for (size_t i=0; i<m_StyleSprites.size(); ++i)
-			{
-				m_StyleSprites[i].hide();
-			}
-			m_FontStyle.hide();
-			m_nVisible = false;
-			return;
-		}
+// 		if (m_fRate<1.0f)
+// 		{
+// 			m_fRate += m_setBlendRate[iState]*fElapsedTime;//1.0f - powf(styleData.setBlendRate[iState], 30 * fElapsedTime);
+// 			m_fRate = min(1.0f,m_fRate);
+// 			m_vRotate			= interpolate(m_fRate, m_vRotate, m_setRotate[iState]);
+// 			m_vTranslation	= interpolate(m_fRate, m_vTranslation, m_setTranslation[iState]);
+// 		}
+// 		else if (CONTROL_STATE_HIDDEN==iState)
+// 		{
+// 			for (size_t i=0; i<m_StyleSprites.size(); ++i)
+// 			{
+// 				m_StyleSprites[i].hide();
+// 			}
+// 			m_FontStyle.hide();
+// 			m_nVisible = false;
+// 			return;
+// 		}
 		for (size_t i=0; i<m_StyleSprites.size(); ++i)
 		{
 			m_StyleSprites[i].blend(iState,fElapsedTime);
@@ -313,9 +313,8 @@ void CUIStyle::setStyle(const std::string& strName)
 	Blend(CONTROL_STATE_HIDDEN,100);
 }
 
-void CUIStyle::draw(const Matrix& mTransform, const CRect<float>& rc, const wchar_t* wcsText)
+void CUIStyle::draw(const RECT& rc, const wchar_t* wcsText)
 {
-	mWorld = UIGraph::getInstance().setUIMatrix(mTransform,rc,vTranslation,vRotate);
 	// ----
 	RECT rcNew;
 	rcNew.left =0;
@@ -325,26 +324,20 @@ void CUIStyle::draw(const Matrix& mTransform, const CRect<float>& rc, const wcha
 	// ----
 	for (size_t i=0; i<m_StyleSprites.size(); ++i)
 	{
-		m_StyleSprites[i].draw(rcNew);
+		m_StyleSprites[i].draw(rc);
 	}
 	// ----
 	if(m_FontStyle.color.a!=0)
 	{
-		RECT rcDest = m_FontStyle.updateRect(rcNew);
+		RECT rcDest = m_FontStyle.updateRect(rc);
 		UIGraph::getInstance().drawText(wcsText,-1,rcDest,m_FontStyle.uFormat,m_FontStyle.color.c);
 	}
 }
 
-void CUIStyle::draw(const Matrix& mTransform, const CRect<float>& rc, const wchar_t* wcsText, CONTROL_STATE state, float fElapsedTime)
+void CUIStyle::draw(const RECT& rc, const wchar_t* wcsText, CONTROL_STATE state, float fElapsedTime)
 {
 	Blend(state, fElapsedTime);
-	draw(mTransform,rc,wcsText);
-}
-
-void CUIStyle::draw(const Matrix& mTransform, const CRect<int>& rc, const wchar_t* wcsText, CONTROL_STATE state, float fElapsedTime)
-{
-	Blend(state, fElapsedTime);
-	draw(mTransform,rc.getRECT(),wcsText);
+	draw(rc,wcsText);
 }
 
 void CUIStyle::playSound()
@@ -365,29 +358,29 @@ bool CUIStyle::isVisible()
 CUIStyle::CUIStyle()
 	:m_nVisible(0)
 {
-	vTranslation.x=0.0f;
-	vTranslation.y=0.0f;
-	vTranslation.z=0.0f;
+	m_vTranslation.x=0.0f;
+	m_vTranslation.y=0.0f;
+	m_vTranslation.z=0.0f;
 
-	vRotate.x=0.0f;
-	vRotate.y=0.0f;
-	vRotate.z=0.0f;
+	m_vRotate.x=0.0f;
+	m_vRotate.y=0.0f;
+	m_vRotate.z=0.0f;
 
 	for (size_t i=0;i< CONTROL_STATE_MAX;++i)
 	{
-		setBlendRate[i]=0.8f;
+		m_setBlendRate[i]=0.8f;
 	}
 	for (size_t i=0;i< CONTROL_STATE_MAX;++i)
 	{
-		setTranslation[i].x=0.0f;
-		setTranslation[i].y=0.0f;
-		setTranslation[i].z=0.0f;
+		m_setTranslation[i].x=0.0f;
+		m_setTranslation[i].y=0.0f;
+		m_setTranslation[i].z=0.0f;
 	}
 	for (size_t i=0;i< CONTROL_STATE_MAX;++i)
 	{
-		setRotate[i].x=0.0f;
-		setRotate[i].y=0.0f;
-		setRotate[i].z=0.0f;
+		m_setRotate[i].x=0.0f;
+		m_setRotate[i].y=0.0f;
+		m_setRotate[i].z=0.0f;
 	}
 }
 
@@ -445,7 +438,7 @@ void CUIStyle::XMLParse(const TiXmlElement& xml)
 				float fBlend = (float)atof(pszText);
 				for (size_t i=0;i< CONTROL_STATE_MAX;++i)
 				{
-					setBlendRate[i] = fBlend;
+					m_setBlendRate[i] = fBlend;
 				}
 			}
 			for (size_t i=0;i< CONTROL_STATE_MAX;++i)
@@ -453,7 +446,7 @@ void CUIStyle::XMLParse(const TiXmlElement& xml)
 				pszText =  pElement->Attribute(szControlState[i]);
 				if (pszText)
 				{
-					setBlendRate[i] = (float)atof(pszText);
+					m_setBlendRate[i] = (float)atof(pszText);
 				}
 			}
 		}
@@ -499,7 +492,7 @@ void CUIStyle::XMLParse(const TiXmlElement& xml)
 				sscanf_s(pszText, "%f,%f,%f", &v.x, &v.y, &v.z);
 				for (size_t i=0;i< CONTROL_STATE_MAX;++i)
 				{
-					setTranslation[i] = v;
+					m_setTranslation[i] = v;
 				}
 			}
 			for (size_t i=0;i< CONTROL_STATE_MAX;++i)
@@ -507,7 +500,7 @@ void CUIStyle::XMLParse(const TiXmlElement& xml)
 				pszText =  pElement->Attribute(szControlState[i]);
 				if (pszText)
 				{
-					sscanf_s(pszText, "%f,%f,%f", &setTranslation[i].x, &setTranslation[i].y, &setTranslation[i].z);
+					sscanf_s(pszText, "%f,%f,%f", &m_setTranslation[i].x, &m_setTranslation[i].y, &m_setTranslation[i].z);
 				}
 			}
 		}
@@ -526,7 +519,7 @@ void CUIStyle::XMLParse(const TiXmlElement& xml)
 				v.z*=3.14159f/180.0f;
 				for (size_t i=0;i< CONTROL_STATE_MAX;++i)
 				{
-					setRotate[i] = v;
+					m_setRotate[i] = v;
 				}
 			}
 			for (size_t i=0;i< CONTROL_STATE_MAX;++i)
@@ -534,10 +527,10 @@ void CUIStyle::XMLParse(const TiXmlElement& xml)
 				pszText =  pElement->Attribute(szControlState[i]);
 				if (pszText)
 				{
-					sscanf_s(pszText, "%f,%f,%f", &setRotate[i].x, &setRotate[i].y, &setRotate[i].z);
-					setRotate[i].x*=3.14159f/180.0f;
-					setRotate[i].y*=3.14159f/180.0f;
-					setRotate[i].z*=3.14159f/180.0f;
+					sscanf_s(pszText, "%f,%f,%f", &m_setRotate[i].x, &m_setRotate[i].y, &m_setRotate[i].z);
+					m_setRotate[i].x*=3.14159f/180.0f;
+					m_setRotate[i].y*=3.14159f/180.0f;
+					m_setRotate[i].z*=3.14159f/180.0f;
 				}
 			}
 		}

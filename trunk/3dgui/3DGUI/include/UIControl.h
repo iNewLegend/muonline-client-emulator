@@ -113,6 +113,8 @@ public:
 	virtual void OnFrameMove(double fTime, float fElapsedTime) {}
 	virtual void OnFrameRender(const Matrix& mTransform, double fTime, float fElapsedTime) {}
 
+	virtual void updateUIMatrix(const Matrix& mTransform, double fTime, float fElapsedTime);
+
 	// Windows message handler
 	virtual bool MsgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) { return false; }
 
@@ -216,4 +218,13 @@ protected:
 
 	CRect<int>			m_rcScale;
 	CRect<int>			m_rcOffset;
+
+	float				m_setBlendRate[CONTROL_STATE_MAX];
+	MY3DGUI_VEC3D		m_setTranslation[CONTROL_STATE_MAX];
+	MY3DGUI_VEC3D		m_setRotate[CONTROL_STATE_MAX];
+	float				m_fRate;
+	MY3DGUI_VEC3D		m_vTranslation;
+	MY3DGUI_VEC3D		m_vRotate;
+	Matrix				m_mWorld;
+
 };
