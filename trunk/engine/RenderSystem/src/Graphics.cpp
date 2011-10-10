@@ -343,82 +343,81 @@ void CGraphics::FillRect(const CRect<float>& rcDest, Color32 color, Color32 colo
 
 //////////////////////////////////////////////////////////////////////////
 
-void CGraphics::DrawQuad(const CRect<float>& rcSrc, const CRect<float>& rcDest, float fWidth, float fHeight, Color32 color)
+void CGraphics::drawQuad(const RECT& rcDest, const RECT& rcSrc, float fWidth, float fHeight, Color32 color)
 {
 	CRenderSystem& R = GetRenderSystem();
-	float u0 = (rcSrc.left+0.5f)/ fWidth;
-	float v0 = (rcSrc.top+0.5f)	/ fHeight;
-	float u1 = (rcSrc.right)	/ fWidth;
-	float v1 = (rcSrc.bottom)	/ fHeight;
+	float u0 = ((float)rcSrc.left+0.5f)	/ fWidth;
+	float v0 = ((float)rcSrc.top+0.5f)	/ fHeight;
+	float u1 = ((float)rcSrc.right)		/ fWidth;
+	float v1 = ((float)rcSrc.bottom)	/ fHeight;
 	VERTEX_XYZ_DIF_TEX v[4]=
 	{
-		Vec3D( rcDest.left,		rcDest.top,		0.0f), color, Vec2D(u0, v0),
-		Vec3D( rcDest.right,	rcDest.top,		0.0f), color, Vec2D(u1, v0),
-		Vec3D( rcDest.right,	rcDest.bottom,	0.0f), color, Vec2D(u1, v1),
-		Vec3D( rcDest.left,		rcDest.bottom,	0.0f), color, Vec2D(u0, v1),
+		Vec3D( (float)rcDest.left,	(float)rcDest.top,		0.0f), color, Vec2D(u0, v0),
+		Vec3D( (float)rcDest.right,	(float)rcDest.top,		0.0f), color, Vec2D(u1, v0),
+		Vec3D( (float)rcDest.right,	(float)rcDest.bottom,	0.0f), color, Vec2D(u1, v1),
+		Vec3D( (float)rcDest.left,	(float)rcDest.bottom,	0.0f), color, Vec2D(u0, v1),
 	};
 	R.SetFVF(VERTEX_XYZ_DIF_TEX::FVF);
 	R.DrawPrimitiveUP(VROT_TRIANGLE_FAN, 2, v, sizeof(VERTEX_XYZ_DIF_TEX));
 }
 
-void CGraphics::DrawTex(float destX, float destY, int nTexID, Color32 color)
+void CGraphics::drawTex(int destX, int destY, int nTexID, Color32 color, const RECT* rcSrc)
 {
 	CTexture* pTex = GetRenderSystem().GetTextureMgr().getItem(nTexID);
-	if (pTex)
+	// ----
+	if (!pTex)
 	{
-		float fTexWidth = (float)pTex->GetWidth();
-		float fTexHeight = (float)pTex->GetHeight();
-		CRect<float> rcSrc(0.0f,0.0f,fTexWidth,fTexHeight);
-		CRect<float> rcDest(destX,destX,fTexWidth+destX,fTexHeight+destX);
-		GetRenderSystem().SetTexture(0, nTexID);
-		DrawQuad(rcSrc, rcDest, fTexWidth, fTexHeight, color);
+		return;
+	}
+	// ----
+	GetRenderSystem().SetTexture(0, nTexID);
+	// ----
+	int nTexWidth = pTex->GetWidth();
+	int nTexHeight = pTex->GetHeight();
+	// ----
+	if (!rcSrc)
+	{
+		RECT rcSrc={0.0f,0.0f,nTexWidth,nTexHeight};
+		RECT rcDest={destX,destY,nTexWidth+destX,nTexHeight+destY};
+		drawQuad(rcDest, rcSrc, nTexWidth, nTexHeight, color);
+	}
+	else
+	{
+		RECT rcDest={destX,destY,destX+rcSrc->right-rcSrc->left,destY+rcSrc->bottom-rcSrc->top};
+		drawQuad(rcDest, *rcSrc, nTexWidth, nTexHeight, color);
 	}
 }
 
-void CGraphics::DrawTex(const CRect<float>& rcDest, int nTexID, Color32 color)
+void CGraphics::drawTex(const RECT& rcDest, int nTexID, Color32 color, const RECT* rcSrc, const RECT* rcCenterSrc)
 {
 	CTexture* pTex = GetRenderSystem().GetTextureMgr().getItem(nTexID);
-	if (pTex)
+	// ----
+	if (!pTex)
 	{
-		float fTexWidth = (float)pTex->GetWidth();
-		float fTexHeight = (float)pTex->GetHeight();
-		CRect<float> rcSrc(0.0f,0.0f,fTexWidth,fTexHeight);
-		GetRenderSystem().SetTexture(0, nTexID);
-		DrawQuad(rcSrc, rcDest, fTexWidth, fTexHeight, color);
+		return;
 	}
-}
-
-void CGraphics::DrawTex(const CRect<float>& rcSrc, const CRect<float>& rcDest, int nTexID, Color32 color)
-{
-	CRenderSystem& R = GetRenderSystem();
-	CTexture* pTex = GetRenderSystem().GetTextureMgr().getItem(nTexID);
-	if (pTex)
+	// ----
+	GetRenderSystem().SetTexture(0, nTexID);
+	// ----
+	int nTexWidth = pTex->GetWidth();
+	int nTexHeight = pTex->GetHeight();
+	// ----
+	if (!rcSrc)
 	{
-		R.SetTexture(0, nTexID);
-		DrawQuad(rcSrc, rcDest, (float)pTex->GetWidth(), (float)pTex->GetHeight(), color);
+		RECT rcMySrc={0.0f,0.0f,nTexWidth,nTexHeight};
+		drawQuad(rcDest, rcMySrc, nTexWidth, nTexHeight, color);
 	}
-}
-
-void CGraphics::DrawTex(const CRect<float>& rcSrc, float destX, float destY, int nTexID, Color32 color)
-{
-	CRect<float> rcDest = rcSrc;
-	rcDest.right += destX;
-	rcDest.left += destX;
-	rcDest.top += destY;
-	rcDest.bottom += destY;
-	DrawTex(rcSrc, rcDest, nTexID, color);
-}
-
-void CGraphics::Draw3x3Grid(const CRect<float>& rcSrc, const CRect<float>& rcCenterSrc, const CRect<float>& rcDest, int nTexID, Color32 color)
-{
-	CTexture* pTex = GetRenderSystem().GetTextureMgr().getItem(nTexID);
-	if (pTex)
+	else if (!rcCenterSrc)
+	{
+		drawQuad(rcDest, *rcSrc, nTexWidth, nTexHeight, color);
+	}
+	else
 	{
 		CRect<float> rcCenterDest(
-			rcDest.left + (rcCenterSrc.left - rcSrc.left),
-			rcDest.top + (rcCenterSrc.top - rcSrc.top),
-			rcDest.right + (rcCenterSrc.right - rcSrc.right),
-			rcDest.bottom + (rcCenterSrc.bottom - rcSrc.bottom));
+			rcDest.left + (rcCenterSrc->left - rcSrc->left),
+			rcDest.top + (rcCenterSrc->top - rcSrc->top),
+			rcDest.right + (rcCenterSrc->right - rcSrc->right),
+			rcDest.bottom + (rcCenterSrc->bottom - rcSrc->bottom));
 
 		if(rcCenterDest.left>rcCenterDest.right)
 		{
@@ -446,10 +445,10 @@ void CGraphics::Draw3x3Grid(const CRect<float>& rcSrc, const CRect<float>& rcCen
 		};
 		float U[4] =
 		{
-			(rcSrc.left+0.5f)/pTex->GetWidth(),
-			(rcCenterSrc.left+0.5f)/pTex->GetWidth(),
-			(rcCenterSrc.right+0.5f)/pTex->GetWidth(),
-			(rcSrc.right+0.5f)/pTex->GetWidth(),
+			(rcSrc->left+0.5f)/pTex->GetWidth(),
+			(rcCenterSrc->left+0.5f)/pTex->GetWidth(),
+			(rcCenterSrc->right+0.5f)/pTex->GetWidth(),
+			(rcSrc->right+0.5f)/pTex->GetWidth(),
 		};
 		for (int i = 0; i<4; i++)
 		{
@@ -470,10 +469,10 @@ void CGraphics::Draw3x3Grid(const CRect<float>& rcSrc, const CRect<float>& rcCen
 		};
 		float V[4] =
 		{
-			(rcSrc.top+0.5f)/pTex->GetHeight(),
-			(rcCenterSrc.top+0.5f)/pTex->GetHeight(),
-			(rcCenterSrc.bottom+0.5f)/pTex->GetHeight(),
-			(rcSrc.bottom+0.5f)/pTex->GetHeight(),
+			(rcSrc->top+0.5f)/pTex->GetHeight(),
+			(rcCenterSrc->top+0.5f)/pTex->GetHeight(),
+			(rcCenterSrc->bottom+0.5f)/pTex->GetHeight(),
+			(rcSrc->bottom+0.5f)/pTex->GetHeight(),
 		};
 		for (int i = 0; i<4; i++)
 		{
@@ -486,20 +485,20 @@ void CGraphics::Draw3x3Grid(const CRect<float>& rcSrc, const CRect<float>& rcCen
 		}
 		//////////////////////////////////////////////////////////////////////////
 		const static unsigned short index[3*3*6] = { 0,0+1,0+5,		0,0+5,0+4,
-									 1,1+1,1+5,		1,1+5,1+4,
-									 2,2+1,2+5,		2,2+5,2+4,
-									 4,4+1,4+5,		4,4+5,4+4,
-									 5,5+1,5+5,		5,5+5,5+4,
-									 6,6+1,6+5,		6,6+5,6+4,
-									 8,8+1,8+5,		8,8+5,8+4,
-									 9,9+1,9+5,		9,9+5,9+4,
-									 10,10+1,10+5,	10,10+5,10+4};
+			1,1+1,1+5,		1,1+5,1+4,
+			2,2+1,2+5,		2,2+5,2+4,
+			4,4+1,4+5,		4,4+5,4+4,
+			5,5+1,5+5,		5,5+5,5+4,
+			6,6+1,6+5,		6,6+5,6+4,
+			8,8+1,8+5,		8,8+5,8+4,
+			9,9+1,9+5,		9,9+5,9+4,
+			10,10+1,10+5,	10,10+5,10+4};
 
 		CRenderSystem& R = GetRenderSystem();
-		R.SetTexture(0, nTexID);
 		R.SetFVF(VERTEX_XYZ_DIF_TEX::FVF);
 		R.DrawIndexedPrimitiveUP(VROT_TRIANGLE_LIST, 0, 4*4, 3*3*2, index, vertex, sizeof(VERTEX_XYZ_DIF_TEX));
 	}
+	// ----
 }
 
 //////////////////////////////////////////////////////////////////////////
