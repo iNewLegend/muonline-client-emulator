@@ -55,6 +55,7 @@ public:
 	int GetCaptionHeight() const { return m_nCaptionHeight; }
 	void SetCaptionHeight(int nHeight) { m_nCaptionHeight = nHeight; }
 	void SetCaptionText(const std::wstring& wstrText) { m_wstrCaption = wstrText; }
+	virtual const wchar_t* GetText()const{return m_wstrCaption.c_str();}
 
 	void SetCanMove(bool bCanMove) { m_bCanMove = bCanMove; }
 	bool CanMove() { return m_bCanMove; }

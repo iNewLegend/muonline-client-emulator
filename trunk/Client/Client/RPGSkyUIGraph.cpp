@@ -27,9 +27,9 @@ void Node3DUIGraph::releaseTexture(void * pTexture)
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void drawSprite(const RECT* rcDest, void* pTexture, Color32 color, const RECT* rcSrc, const RECT* rcCenterSrc)
+void Node3DUIGraph::drawSprite(const RECT& rcDest, void* pTexture, Color32 color, const RECT* rcSrc, const RECT* rcCenterSrc)
 {
-	GetGraphics().drawTex(*rcDest, (int)pTexture, color, rcSrc, rcCenterSrc);
+	GetGraphics().drawTex(rcDest, (int)pTexture, color, rcSrc, rcCenterSrc);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

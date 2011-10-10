@@ -111,7 +111,7 @@ public:
 	virtual void Refresh();
 
 	virtual void OnFrameMove(double fTime, float fElapsedTime) {}
-	virtual void OnFrameRender(const Matrix& mTransform, double fTime, float fElapsedTime) {}
+	virtual void OnFrameRender(const Matrix& mTransform, double fTime, float fElapsedTime);
 
 	virtual void updateUIMatrix(const Matrix& mTransform, double fTime, float fElapsedTime);
 

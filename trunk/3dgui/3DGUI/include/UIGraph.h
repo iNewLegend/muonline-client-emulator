@@ -30,7 +30,7 @@ public:
 	virtual void frameUpdate()=0;
 	virtual void* createTexture(const char* szTexture)=0;
 	virtual void releaseTexture(void* pTexture)=0;
-	virtual void drawSprite(const RECT* rcDest, void* pTexture, Color32 color=0xFFFFFFFF, const RECT* rcSrc=NULL, const RECT* rcCenterSrc=NULL)=0;
+	virtual void drawSprite(const RECT& rcDest, void* pTexture, Color32 color=0xFFFFFFFF, const RECT* rcSrc=NULL, const RECT* rcCenterSrc=NULL)=0;
 	virtual void CalcTextRect(const wchar_t* wcsText, CRect<float>& rcDest)=0;
 	virtual void initDrawText()=0;
 	virtual void DrawText(const wchar_t* wcsText, CUIStyle& style, int nIndex, const CRect<float>& rcDest, int nCount = -1)=0;

@@ -163,6 +163,10 @@
 			<blend normal="0.6" pressed="0.0" hidden="0.8">0.8</blend>
 			<offset>0,0,8,8</offset>
 		</texture>
+		<font	format="UCENTER|VCENTER" offset="0,0,20,20" scale="0,0,0,0">
+			<color normal="#8111" disabled="#CCCC" hidden="#0" focus="#F000" mouseover="#C111" pressed="#F000"/>
+			<blend pressed="0.0" hidden="0.5">0.8</blend>
+		</font>
 	</element>
 	<element name="dialog.caption">
 		<font	format="UCENTER|VCENTER">

@@ -15,7 +15,7 @@ public:
 	void*	createTexture		(const char* szTexture);
 	void	releaseTexture		(void* pTexture);
 	// ----
-	void	drawSprite			(const RECT* rcDest, void* pTexture, Color32 color=0xFFFFFFFF, const RECT* rcSrc=NULL, const RECT* rcCenterSrc=NULL);
+	void	drawSprite			(const RECT& rcDest, void* pTexture, Color32 color=0xFFFFFFFF, const RECT* rcSrc=NULL, const RECT* rcCenterSrc=NULL);
 	// ----
 	void	CalcTextRect		(const wchar_t* wcsText, CRect<float>& rcDest);
 	// ----

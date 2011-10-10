@@ -25,7 +25,15 @@ enum CONTROL_STATE
 	CONTROL_STATE_PRESSED,
 	CONTROL_STATE_MAX,
 };
-
+static const char* szControlState[]=
+{
+	"normal",
+	"disabled",
+	"hidden",
+	"focus",
+	"mouseover",
+	"pressed",
+};
 // 纹理布局的三种类型
 enum SPRITE_LAYOUT_TYPE
 {

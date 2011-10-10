@@ -9,16 +9,6 @@ CUIStyleMgr& GetStyleMgr()
 	return g_UIStyleMgr;
 }
 
-const char* szControlState[]=
-{
-	"normal",
-	"disabled",
-	"hidden",
-	"focus",
-	"mouseover",
-	"pressed",
-};
-
 inline unsigned int StrToTextFormat(const char* szFormat)
 {
 	unsigned int uFormat = 0;
@@ -90,7 +80,7 @@ void StyleElement::blend(UINT iState,float fElapsedTime)
 	{
 		fRate += setBlendRate[iState]*fElapsedTime;
 		fRate = min(1.0f,fRate);
-		color	= interpolate(fRate, color,	setColor[iState]);
+		color = interpolate(fRate, color, setColor[iState]);
 	}
 }
 
@@ -195,13 +185,13 @@ void StyleSprite::draw(const RECT& rc)
 	switch(m_nSpriteLayoutType)
 	{
 	case SPRITE_LAYOUT_WRAP:
-		UIGraph::getInstance().drawSprite(&rcDest,m_pTexture,color.getColor(),&rcDest);
+		UIGraph::getInstance().drawSprite(rcDest,m_pTexture,color.getColor(),&rcDest);
 		break;
 	case SPRITE_LAYOUT_SIMPLE:
-		UIGraph::getInstance().drawSprite(&rcDest,m_pTexture,color.getColor(),&m_rcBorder);
+		UIGraph::getInstance().drawSprite(rcDest,m_pTexture,color.getColor(),&m_rcBorder);
 		break;
 	case SPRITE_LAYOUT_3X3GRID:
-		UIGraph::getInstance().drawSprite(&rcDest,m_pTexture,color.getColor(),&m_rcBorder,&m_rcCenter);
+		UIGraph::getInstance().drawSprite(rcDest,m_pTexture,color.getColor(),&m_rcBorder,&m_rcCenter);
 		break;
 	default:
 		break;
@@ -272,13 +262,13 @@ void CUIStyle::Blend(UINT iState, float fElapsedTime)
 	if (uState!=iState)
 	{
 		uState = iState;
-		m_fRate = 0.0f;
+		//m_fRate = 0.0f;
 		if (CONTROL_STATE_HIDDEN!=iState)
 		{
 			m_nVisible=true;
 		}
 	}
-	if (m_nVisible)
+	//if (m_nVisible)
 	{
 // 		if (m_fRate<1.0f)
 // 		{
@@ -316,12 +306,6 @@ void CUIStyle::setStyle(const std::string& strName)
 void CUIStyle::draw(const RECT& rc, const wchar_t* wcsText)
 {
 	// ----
-	RECT rcNew;
-	rcNew.left =0;
-	rcNew.right = rc.getWidth();
-	rcNew.top =0;
-	rcNew.bottom = rc.getHeight();
-	// ----
 	for (size_t i=0; i<m_StyleSprites.size(); ++i)
 	{
 		m_StyleSprites[i].draw(rc);
@@ -330,7 +314,7 @@ void CUIStyle::draw(const RECT& rc, const wchar_t* wcsText)
 	if(m_FontStyle.color.a!=0)
 	{
 		RECT rcDest = m_FontStyle.updateRect(rc);
-		UIGraph::getInstance().drawText(wcsText,-1,rcDest,m_FontStyle.uFormat,m_FontStyle.color.c);
+		UIGraph::getInstance().drawText(wcsText,-1,rcDest,m_FontStyle.uFormat,m_FontStyle.color.getColor().c);
 	}
 }
 
@@ -356,32 +340,9 @@ bool CUIStyle::isVisible()
 // }
 
 CUIStyle::CUIStyle()
-	:m_nVisible(0)
+	:m_nVisible(true)
 {
-	m_vTranslation.x=0.0f;
-	m_vTranslation.y=0.0f;
-	m_vTranslation.z=0.0f;
 
-	m_vRotate.x=0.0f;
-	m_vRotate.y=0.0f;
-	m_vRotate.z=0.0f;
-
-	for (size_t i=0;i< CONTROL_STATE_MAX;++i)
-	{
-		m_setBlendRate[i]=0.8f;
-	}
-	for (size_t i=0;i< CONTROL_STATE_MAX;++i)
-	{
-		m_setTranslation[i].x=0.0f;
-		m_setTranslation[i].y=0.0f;
-		m_setTranslation[i].z=0.0f;
-	}
-	for (size_t i=0;i< CONTROL_STATE_MAX;++i)
-	{
-		m_setRotate[i].x=0.0f;
-		m_setRotate[i].y=0.0f;
-		m_setRotate[i].z=0.0f;
-	}
 }
 
 CUIStyle::~CUIStyle()
@@ -428,29 +389,7 @@ void CUIStyle::XMLParse(const TiXmlElement& xml)
 		m_strSound = GetStyleMgr().getDir()+xml.Attribute("sound");
 	}
 	//
-	{
-		const TiXmlElement *pElement = xml.FirstChildElement("blend");
-		if (pElement)
-		{
-			const char* pszText = pElement->GetText();
-			if(pszText)
-			{
-				float fBlend = (float)atof(pszText);
-				for (size_t i=0;i< CONTROL_STATE_MAX;++i)
-				{
-					m_setBlendRate[i] = fBlend;
-				}
-			}
-			for (size_t i=0;i< CONTROL_STATE_MAX;++i)
-			{
-				pszText =  pElement->Attribute(szControlState[i]);
-				if (pszText)
-				{
-					m_setBlendRate[i] = (float)atof(pszText);
-				}
-			}
-		}
-	}
+
 	//
 	//{
 	//	for (size_t i=0;i< CONTROL_STATE_MAX;++i)
@@ -481,60 +420,7 @@ void CUIStyle::XMLParse(const TiXmlElement& xml)
 	//	}
 	//}
 	//
-	{
-		const TiXmlElement *pElement = xml.FirstChildElement("translation");
-		if (pElement)
-		{
-			const char* pszText = pElement->GetText();
-			if(pszText)
-			{
-				MY3DGUI_VEC3D v;
-				sscanf_s(pszText, "%f,%f,%f", &v.x, &v.y, &v.z);
-				for (size_t i=0;i< CONTROL_STATE_MAX;++i)
-				{
-					m_setTranslation[i] = v;
-				}
-			}
-			for (size_t i=0;i< CONTROL_STATE_MAX;++i)
-			{
-				pszText =  pElement->Attribute(szControlState[i]);
-				if (pszText)
-				{
-					sscanf_s(pszText, "%f,%f,%f", &m_setTranslation[i].x, &m_setTranslation[i].y, &m_setTranslation[i].z);
-				}
-			}
-		}
-	}
-	{
-		const TiXmlElement *pElement = xml.FirstChildElement("rotate");
-		if (pElement)
-		{
-			const char* pszText = pElement->GetText();
-			if(pszText)
-			{
-				MY3DGUI_VEC3D v;
-				sscanf_s(pszText, "%f,%f,%f", &v.x, &v.y, &v.z);
-				v.x*=3.14159f/180.0f;
-				v.y*=3.14159f/180.0f;
-				v.z*=3.14159f/180.0f;
-				for (size_t i=0;i< CONTROL_STATE_MAX;++i)
-				{
-					m_setRotate[i] = v;
-				}
-			}
-			for (size_t i=0;i< CONTROL_STATE_MAX;++i)
-			{
-				pszText =  pElement->Attribute(szControlState[i]);
-				if (pszText)
-				{
-					sscanf_s(pszText, "%f,%f,%f", &m_setRotate[i].x, &m_setRotate[i].y, &m_setRotate[i].z);
-					m_setRotate[i].x*=3.14159f/180.0f;
-					m_setRotate[i].y*=3.14159f/180.0f;
-					m_setRotate[i].z*=3.14159f/180.0f;
-				}
-			}
-		}
-	}
+
 }
 
 const StyleFont& CUIStyle::getFontStyle()const

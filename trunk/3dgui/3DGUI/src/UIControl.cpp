@@ -36,6 +36,31 @@ CUIControl::CUIControl()
 	m_rcScale.set(0,0,0,0);
 
 	m_rcBoundingBox.set(0,0,0,0);
+
+	m_vTranslation.x=0.0f;
+	m_vTranslation.y=0.0f;
+	m_vTranslation.z=0.0f;
+
+	m_vRotate.x=0.0f;
+	m_vRotate.y=0.0f;
+	m_vRotate.z=0.0f;
+
+	for (size_t i=0;i< CONTROL_STATE_MAX;++i)
+	{
+		m_setBlendRate[i]=0.8f;
+	}
+	for (size_t i=0;i< CONTROL_STATE_MAX;++i)
+	{
+		m_setTranslation[i].x=0.0f;
+		m_setTranslation[i].y=0.0f;
+		m_setTranslation[i].z=0.0f;
+	}
+	for (size_t i=0;i< CONTROL_STATE_MAX;++i)
+	{
+		m_setRotate[i].x=0.0f;
+		m_setRotate[i].y=0.0f;
+		m_setRotate[i].z=0.0f;
+	}
 }
 
 CUIControl::~CUIControl()
@@ -134,6 +159,83 @@ void CUIControl::XMLParse(const TiXmlElement* pControlElement)
 		MultiByteToWideChar(CP_UTF8,0,pText,-1,pTextBuffer,nLength);
 		SetText(pTextBuffer);
 		delete pTextBuffer;
+	}
+	{
+		const TiXmlElement *pElement = pControlElement->FirstChildElement("blend");
+		if (pElement)
+		{
+			const char* pszText = pElement->GetText();
+			if(pszText)
+			{
+				float fBlend = (float)atof(pszText);
+				for (size_t i=0;i< CONTROL_STATE_MAX;++i)
+				{
+					m_setBlendRate[i] = fBlend;
+				}
+			}
+			for (size_t i=0;i< CONTROL_STATE_MAX;++i)
+			{
+				pszText =  pElement->Attribute(szControlState[i]);
+				if (pszText)
+				{
+					m_setBlendRate[i] = (float)atof(pszText);
+				}
+			}
+		}
+	}
+	{
+		const TiXmlElement *pElement = pControlElement->FirstChildElement("translation");
+		if (pElement)
+		{
+			const char* pszText = pElement->GetText();
+			if(pszText)
+			{
+				MY3DGUI_VEC3D v;
+				sscanf_s(pszText, "%f,%f,%f", &v.x, &v.y, &v.z);
+				for (size_t i=0;i< CONTROL_STATE_MAX;++i)
+				{
+					m_setTranslation[i] = v;
+				}
+			}
+			for (size_t i=0;i< CONTROL_STATE_MAX;++i)
+			{
+				pszText =  pElement->Attribute(szControlState[i]);
+				if (pszText)
+				{
+					sscanf_s(pszText, "%f,%f,%f", &m_setTranslation[i].x, &m_setTranslation[i].y, &m_setTranslation[i].z);
+				}
+			}
+		}
+	}
+	{
+		const TiXmlElement *pElement = pControlElement->FirstChildElement("rotate");
+		if (pElement)
+		{
+			const char* pszText = pElement->GetText();
+			if(pszText)
+			{
+				MY3DGUI_VEC3D v;
+				sscanf_s(pszText, "%f,%f,%f", &v.x, &v.y, &v.z);
+				v.x*=3.14159f/180.0f;
+				v.y*=3.14159f/180.0f;
+				v.z*=3.14159f/180.0f;
+				for (size_t i=0;i< CONTROL_STATE_MAX;++i)
+				{
+					m_setRotate[i] = v;
+				}
+			}
+			for (size_t i=0;i< CONTROL_STATE_MAX;++i)
+			{
+				pszText =  pElement->Attribute(szControlState[i]);
+				if (pszText)
+				{
+					sscanf_s(pszText, "%f,%f,%f", &m_setRotate[i].x, &m_setRotate[i].y, &m_setRotate[i].z);
+					m_setRotate[i].x*=3.14159f/180.0f;
+					m_setRotate[i].y*=3.14159f/180.0f;
+					m_setRotate[i].z*=3.14159f/180.0f;
+				}
+			}
+		}
 	}
 }
 
@@ -243,7 +345,7 @@ void CUIControl::Refresh()
 	//m_bHasFocus = false;
 }
 
-virtual void OnFrameRender(const Matrix& mTransform, double fTime, float fElapsedTime)
+void CUIControl::OnFrameRender(const Matrix& mTransform, double fTime, float fElapsedTime)
 {
 	CUIControl::updateUIMatrix(mTransform, fTime, fElapsedTime);
 	RECT rc;
@@ -254,16 +356,17 @@ virtual void OnFrameRender(const Matrix& mTransform, double fTime, float fElapse
 	m_Style.draw(rc, GetText(), GetState(), fElapsedTime);
 }
 
-virtual void updateUIMatrix(const Matrix& mTransform, double fTime, float fElapsedTime)
+void CUIControl::updateUIMatrix(const Matrix& mTransform, double fTime, float fElapsedTime)
 {
+	CONTROL_STATE state = GetState();
 	if (m_fRate<1.0f)
 	{
-		m_fRate += m_setBlendRate[iState]*fElapsedTime;//1.0f - powf(styleData.setBlendRate[iState], 30 * fElapsedTime);
-		m_fRate = min(1.0f,m_fRate);
-		m_vRotate			= interpolate(m_fRate, m_vRotate, m_setRotate[iState]);
-		m_vTranslation	= interpolate(m_fRate, m_vTranslation, m_setTranslation[iState]);
+		m_fRate			+= m_setBlendRate[state]*fElapsedTime;//1.0f - powf(styleData.setBlendRate[iState], 30 * fElapsedTime);
+		m_fRate			= min(1.0f,m_fRate);
+		m_vRotate		= interpolate(m_fRate, m_vRotate, m_setRotate[state]);
+		m_vTranslation	= interpolate(m_fRate, m_vTranslation, m_setTranslation[state]);
 	}
-	m_mWorld = UIGraph::getInstance().setUIMatrix(mTransform,m_rcRelativeBox,m_vTranslation,m_vRotate);
+	m_mWorld = UIGraph::getInstance().setUIMatrix(mTransform,m_rcRelativeBox.getRECT(),m_vTranslation,m_vRotate);
 }
 
 bool CUIControl::ContainsPoint(POINT pt)
@@ -335,7 +438,7 @@ void CUIControl::drawTip(const Matrix& mTransform,const CRect<int>& rc, double f
 		rect.bottom	= m_rcBoundingBox.bottom+nTipHeight;
 	}
 
-	CUIControl::s_TipStyle.draw(mTransform,rect,m_wstrTip.c_str(),CONTROL_STATE_NORMAL, fElapsedTime);
+	CUIControl::s_TipStyle.draw(rect.getRECT(),m_wstrTip.c_str(),CONTROL_STATE_NORMAL, fElapsedTime);
 }
 
 void CUIControl::SetFocus(bool bFocus)
