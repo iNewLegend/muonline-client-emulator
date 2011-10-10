@@ -34,11 +34,9 @@ public:
 	void DrawCircle	(const CRect<float>& rcDest, Color32 color);
 	void FillCircle	(const CRect<float>& rcDest, Color32 color);
 	// Quadrilateral
-	void DrawQuad	(const CRect<float>& rcSrc, const CRect<float>& rcDest, float fWidth, float fHeight, Color32 color);
-	void DrawTex	(float destX, float destY, int nTexID, Color32 color);
-	void DrawTex	(const CRect<float>& rcDest, int nTexID, Color32 color);
-	void DrawTex	(const CRect<float>& rcSrc, const CRect<float>& rcDest, int nTexID, Color32 color);
-	void DrawTex	(const CRect<float>& rcSrc, float destX, float destY, int nTexID, Color32 color);
+	void drawQuad	(const RECT& rcDest, const RECT& rcSrc, float fWidth, float fHeight, Color32 color);
+	void drawTex	(int destX, int destY, int nTexID, Color32 color=0xFFFFFFFF, const RECT* rcSrc=NULL);
+	void drawTex	(const RECT& rcDest, int nTexID, Color32 color=0xFFFFFFFF, const RECT* rcSrc=NULL, const RECT* rcCenterSrc=NULL);
 	//
 	void Draw3x3Grid(const CRect<float>& rcSrc, const CRect<float>& rcCenterSrc, const CRect<float>& rcDest, int nTexID, Color32 color);
 	// 2DÏß

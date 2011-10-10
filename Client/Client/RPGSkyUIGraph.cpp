@@ -27,30 +27,9 @@ void Node3DUIGraph::releaseTexture(void * pTexture)
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void Node3DUIGraph::DrawSprite3x3Grid(const CRect<float> & rcSrc, const CRect<float> & rcCenterSrc, const CRect<float> & rcDest, void * pTexture, Color32 color)
+void drawSprite(const RECT* rcDest, void* pTexture, Color32 color, const RECT* rcSrc, const RECT* rcCenterSrc)
 {
-	if(color.a != 0)
-	{
-		GetGraphics().Draw3x3Grid(rcSrc, rcCenterSrc, rcDest, (int)pTexture, color);
-	}
-}
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-void Node3DUIGraph::DrawSprite(const CRect<float> & rcSrc, const CRect<float> & rcDest, void * pTexture, Color32 color)
-{
-	if(color.a != 0)
-	{
-		GetGraphics().DrawTex(rcSrc, rcDest, (int)pTexture, color);
-	}
-}
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-void Node3DUIGraph::DrawSprite(const CRect<float> & rcDest, void * pTexture, Color32 color)
-{
-	if(color.a != 0)
-	{
-		GetGraphics().DrawTex(rcDest, (int)pTexture, color);
-	}
+	GetGraphics().drawTex(*rcDest, (int)pTexture, color, rcSrc, rcCenterSrc);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
