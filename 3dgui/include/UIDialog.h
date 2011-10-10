@@ -27,7 +27,6 @@ public:
 
 	virtual void loadString(const char* szFilename);
 	virtual void XMLParse(const TiXmlElement* pControlElement);
-	virtual void SetStyle(const std::string& strStyleName);
 	virtual void OnChildSize(const CRect<int>& rc);
 	virtual void OnSize(const CRect<int>& rc);
 	virtual void UpdateRects();
@@ -56,6 +55,7 @@ public:
 	int GetCaptionHeight() const { return m_nCaptionHeight; }
 	void SetCaptionHeight(int nHeight) { m_nCaptionHeight = nHeight; }
 	void SetCaptionText(const std::wstring& wstrText) { m_wstrCaption = wstrText; }
+	virtual const wchar_t* GetText()const{return m_wstrCaption.c_str();}
 
 	void SetCanMove(bool bCanMove) { m_bCanMove = bCanMove; }
 	bool CanMove() { return m_bCanMove; }

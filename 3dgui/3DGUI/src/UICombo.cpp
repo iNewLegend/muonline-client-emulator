@@ -386,7 +386,7 @@ void CUICombo::OnFrameRender(const Matrix& mTransform, double fTime, float fElap
 		{
 			continue;
 		}
-		pControl->OnFrameRender(m_Style.m_mWorld,fTime,fElapsedTime);
+		pControl->OnFrameRender(m_mWorld,fTime,fElapsedTime);
 	}
 	for(size_t i=0;i<m_Controls.size();++i)
 	{
@@ -394,7 +394,7 @@ void CUICombo::OnFrameRender(const Matrix& mTransform, double fTime, float fElap
 
 		if (pControl->IsFocus())
 		{
-			pControl->OnFrameRender(m_Style.m_mWorld,fTime, fElapsedTime);
+			pControl->OnFrameRender(m_mWorld,fTime, fElapsedTime);
 		}
 	}
 }

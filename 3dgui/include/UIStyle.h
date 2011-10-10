@@ -25,7 +25,15 @@ enum CONTROL_STATE
 	CONTROL_STATE_PRESSED,
 	CONTROL_STATE_MAX,
 };
-
+static const char* szControlState[]=
+{
+	"normal",
+	"disabled",
+	"hidden",
+	"focus",
+	"mouseover",
+	"pressed",
+};
 // 纹理布局的三种类型
 enum SPRITE_LAYOUT_TYPE
 {
@@ -101,22 +109,14 @@ public:
 	std::vector<StyleSprite>	m_StyleSprites;
 	StyleFont					m_FontStyle;
 	std::string					m_strSound;
-	float						setBlendRate[CONTROL_STATE_MAX];
-	MY3DGUI_VEC3D				setTranslation[CONTROL_STATE_MAX];
-	MY3DGUI_VEC3D				setRotate[CONTROL_STATE_MAX];
 	unsigned int				uState;
-	float						fRate;
-	MY3DGUI_VEC3D				vTranslation;
-	MY3DGUI_VEC3D				vRotate;
 
 	int							m_nVisible;
 	std::string					m_strName;
-	Matrix						mWorld;
 
 	void Blend(UINT iState, float fElapsedTime);
-	void draw(const Matrix& mTransform, const CRect<float>& rc, const wchar_t* wcsText);
-	void draw(const Matrix& mTransform, const CRect<float>& rc, const wchar_t* wcsText, CONTROL_STATE state, float fElapsedTime);
-	void draw(const Matrix& mTransform, const CRect<int>& rc, const wchar_t* wcsText, CONTROL_STATE state, float fElapsedTime);
+	void draw(const RECT& rc, const wchar_t* wcsText);
+	void draw(const RECT& rc, const wchar_t* wcsText, CONTROL_STATE state, float fElapsedTime);
 
 	void setStyle(const std::string& strName);
 	void playSound();

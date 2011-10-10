@@ -24,7 +24,7 @@ void CUISlider::UpdateRects()
 {
 	CUIControl::UpdateRects();
 	m_bH = m_rcBoundingBox.getWidth()>m_rcBoundingBox.getHeight();
-	m_rcButton.set(0,0,m_rcBoundingBox.getWidth(),m_rcBoundingBox.getHeight());
+	SetRect(&m_rcButton, 0, 0, m_rcBoundingBox.getWidth(), m_rcBoundingBox.getHeight());
 	if(m_bH)
 	{
 		int nRangeLength = m_nMax-m_nMin;
@@ -33,7 +33,7 @@ void CUISlider::UpdateRects()
 		if(nRangeLength>0)
 		{
 			int nButtonX = (int) ((m_nValue - m_nMin) * (float)(m_rcBoundingBox.getWidth()-nButtonSize)/nRangeLength);
-			m_rcButton.offset(nButtonX, 0);
+			OffsetRect(&m_rcButton, nButtonX, 0);
 		}
 	}
 	else
@@ -44,7 +44,7 @@ void CUISlider::UpdateRects()
 		if(nRangeLength>0)
 		{
 			int nButtonY = (int) ((m_nValue - m_nMin) * (float)(m_rcBoundingBox.getHeight()-nButtonSize)/nRangeLength);
-			m_rcButton.offset(0, nButtonY);
+			OffsetRect(&m_rcButton, 0, nButtonY);
 		}
 	}
 }
@@ -53,13 +53,13 @@ int CUISlider::ValueFromPos(POINT pt)
 {
 	if(m_bH)
 	{
-		int nButtonSize = m_rcButton.getWidth();
+		int nButtonSize = m_rcButton.right -m_rcButton.left;
 		float fValuePerPixel = (float)(m_nMax - m_nMin)/(float)(m_rcBoundingBox.getWidth()-nButtonSize);
 		return (int) (0.5f + m_nMin + fValuePerPixel * (pt.x /*- m_rcBoundingBox.left*/-nButtonSize));
 	}
 	else
 	{
-		int nButtonSize = m_rcButton.getHeight();
+		int nButtonSize = m_rcButton.bottom -m_rcButton.top;
 		float fValuePerPixel = (float)(m_nMax - m_nMin)/(float)(m_rcBoundingBox.getHeight()-nButtonSize);
 		return (int) (0.5f + m_nMin + fValuePerPixel * (pt.y /*- m_rcBoundingBox.top*/-nButtonSize));
 	}
@@ -129,7 +129,7 @@ void CUISlider::OnMouseWheel(POINT point,short wheelDelta)
 void CUISlider::OnLButtonDown(POINT point)
 {
 	screenToClient(point);
-	if(m_rcButton.ptInRect(point))
+	if(PtInRect(&m_rcButton, point))
 	{
 		// Pressed while inside the control
 		SetPressed(true);

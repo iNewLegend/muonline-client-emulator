@@ -305,7 +305,7 @@ void CUIDialog::OnFrameRender(const Matrix& mTransform, double fTime, float fEla
 
 	// If the dialog is minimized, skip rendering
 	// its controls.
-	Matrix mNewTransform = m_Style.m_mWorld*Matrix::newTranslation(Vec3D(0,m_nCaptionHeight,0));
+	Matrix mNewTransform = m_mWorld*Matrix::newTranslation(Vec3D(0,m_nCaptionHeight,0));
 
 	// render controls
 	for(size_t i=0;i<m_Controls.size();++i)

@@ -43,7 +43,7 @@ protected:
 	int		m_nMax;
 	int		m_nDragX;      // Mouse position at start of drag
 	POINT	m_ptDragOffset; // Drag offset from the center of the button
-	CRect<int>	m_rcButton;
+	RECT	m_rcButton;
 	bool	m_bH;
 	int		m_nPageSize;  // How many items are displayable in one page
 

@@ -596,7 +596,7 @@ void CUIListBox::OnLButtonUp(POINT point)
 
 void CUIListBox::OnFrameRender(const Matrix& mTransform, double fTime, float fElapsedTime)
 {
-	CUICombo::OnFrameRender(mTransform,fTime,fElapsedTime);
+	CUIControl::OnFrameRender(mTransform,fTime,fElapsedTime);
 
 	CONTROL_STATE iState = GetState();
 
@@ -636,20 +636,41 @@ void CUIListBox::OnFrameRender(const Matrix& mTransform, double fTime, float fEl
 
 				if(bSelectedStyle)
 				{
-					m_StyleSelected.draw(m_Style.m_mWorld,rc.getRECT(), pItem->wstrText.c_str());
+					m_StyleSelected.draw(rc.getRECT(), pItem->wstrText.c_str());
 				}
 				else
 				{
 					if (i%2==0)
 					{
-						m_StyleItem1.draw(m_Style.m_mWorld,rc.getRECT(), pItem->wstrText.c_str());
+						m_StyleItem1.draw(rc.getRECT(), pItem->wstrText.c_str());
 					}
 					else
 					{
-						m_StyleItem2.draw(m_Style.m_mWorld,rc.getRECT(), pItem->wstrText.c_str());
+						m_StyleItem2.draw(rc.getRECT(), pItem->wstrText.c_str());
 					}
 				}
 				rc.offset(0, m_nTextHeight);
+		}
+	}
+
+	// render controls
+	for(size_t i=0;i<m_Controls.size();++i)
+	{
+		CUIControl* pControl = m_Controls[i];   
+
+		if (pControl->IsFocus())
+		{
+			continue;
+		}
+		pControl->OnFrameRender(m_mWorld,fTime,fElapsedTime);
+	}
+	for(size_t i=0;i<m_Controls.size();++i)
+	{
+		CUIControl* pControl = m_Controls[i];   
+
+		if (pControl->IsFocus())
+		{
+			pControl->OnFrameRender(m_mWorld,fTime, fElapsedTime);
 		}
 	}
 }

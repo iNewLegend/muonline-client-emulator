@@ -643,7 +643,7 @@ void CUIEditBox::OnFrameRender(const Matrix& mTransform, double fTime, float fEl
 		///m_Style.Blend(CONTROL_STATE_FOCUS, fElapsedTime, 1);
 		std::wstring wstrSelection = m_Buffer.GetBuffer() + nFirstToRender;
 		wstrSelection = wstrSelection.substr(0,nNumChatToRender);
-		m_StyleSelection.draw(rcSelection, wstrSelection.c_str(), GetState(), fElapsedTime);
+		m_StyleSelection.draw(rcSelection.getRECT(), wstrSelection.c_str(), GetState(), fElapsedTime);
 	}
 
 	//
@@ -673,7 +673,7 @@ void CUIEditBox::OnFrameRender(const Matrix& mTransform, double fTime, float fEl
 			m_Buffer.CPtoX(m_nCaret, TRUE, nRightEdgeX);
 			rcCaret.right = m_rcText.left - nXFirst + nRightEdgeX;
 		}
-		m_StyleSelection.draw(rcCaret, L"", GetState(), fElapsedTime);
+		m_StyleSelection.draw(rcCaret.getRECT(), L"", GetState(), fElapsedTime);
 	}
 }
 
