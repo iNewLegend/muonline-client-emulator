@@ -56,24 +56,16 @@ struct MY3DGUI_VEC4D
 class StyleElement
 {
 public:
-	StyleElement()
-	{
-		memset(this,0,sizeof(*this));
-	}
-
-	virtual void XMLParse(const TiXmlElement& element);
-	void blend(UINT iState,float fElapsedTime);
+	StyleElement();
 	RECT updateRect(RECT rect);
-	void hide();
-
-	float			setBlendRate[CONTROL_STATE_MAX];
+	virtual void XMLParse(const TiXmlElement& element);
+	// ----
 	Vec4D			setColor[CONTROL_STATE_MAX];
 	RECT			rcOffset;
 	RECT			rcScale;
 	// ----
 	Vec4D			color;
-	float			fRate;
-	unsigned int	uState;
+
 };
 
 class StyleSprite: public StyleElement
@@ -102,14 +94,15 @@ public:
 	~CUIStyle();
 	void clear();
 	void Refresh();
-	//void add(const std::vector<StyleElement*>& setStyleElement);
-
 	virtual void XMLParse(const TiXmlElement& xml);
 	const StyleFont& getFontStyle()const;
 	std::vector<StyleSprite>	m_StyleSprites;
 	StyleFont					m_FontStyle;
 	std::string					m_strSound;
-	unsigned int				uState;
+
+	float						m_setBlendRate[CONTROL_STATE_MAX];
+	float						m_fRate;
+	unsigned int				m_uState;
 
 	int							m_nVisible;
 	std::string					m_strName;
