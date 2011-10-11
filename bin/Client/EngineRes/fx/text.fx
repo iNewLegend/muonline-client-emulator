@@ -13,6 +13,7 @@ float4 PS(PS_TEXT_INPUT i) : COLOR0
 	//F*(1-T)+T*D
 	float4 color	= tex2D(s0, i.UV);
 	color.xyz = c0*(1-color.x)+color.x*i.Diffuse.xyz;
+	color.w*=i.Diffuse.w;
 	return color;
 }
 

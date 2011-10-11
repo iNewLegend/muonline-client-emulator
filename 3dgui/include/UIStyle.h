@@ -60,11 +60,11 @@ public:
 	RECT updateRect(RECT rect);
 	virtual void XMLParse(const TiXmlElement& element);
 	// ----
-	Vec4D			setColor[CONTROL_STATE_MAX];
+	Color32			setColor[CONTROL_STATE_MAX];
 	RECT			rcOffset;
 	RECT			rcScale;
 	// ----
-	Vec4D			color;
+	Color32			color;
 
 };
 
