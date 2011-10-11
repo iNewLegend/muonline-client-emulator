@@ -29,6 +29,7 @@ void CUIMainDialog::OnFrameRender(const Matrix& mTransform, double fTime, float 
 	// ÏÔÊ¾Tips
 	if (s_pControlMouseOver)
 	{
+		m_mWorld = UIGraph::getInstance().setUIMatrix(mTransform,m_rcRelativeBox.getRECT(),m_vTranslation,m_vRotate);
 		s_pControlMouseOver->drawTip(mTransform,m_rcBoundingBox.getRECT(), fTime, fElapsedTime);
 	}
 	else
