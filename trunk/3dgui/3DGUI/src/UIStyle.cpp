@@ -53,11 +53,12 @@ StyleElement::StyleElement()
 {
 	for (size_t i=0;i< CONTROL_STATE_MAX;++i)
 	{
-		setColor[i].set(1.0f,1.0f,1.0f,1.0f);
+		setColor[i]=0xFFFFFFFF;
 	}
 	SetRect(&rcOffset,0,0,0,0);
 	SetRect(&rcScale,0,0,1,1);
-	setColor[CONTROL_STATE_HIDDEN].w=0;;
+	setColor[CONTROL_STATE_HIDDEN].a=0;
+	setColor[CONTROL_STATE_DISABLED].a=0xCCCCCCCC;
 	color = setColor[CONTROL_STATE_HIDDEN];
 
 }
@@ -79,25 +80,12 @@ void StyleElement::XMLParse(const TiXmlElement& element)
 	const TiXmlElement *pElement = element.FirstChildElement("color");
 	if (pElement)
 	{
-		const char* pszText = pElement->GetText();
-		if(pszText)
-		{
-			Color32 c;
-			c = pszText;
-			for (int i = 0; i < CONTROL_STATE_MAX; ++i)
-			{
-				setColor[i] = c;
-			}
-			setColor[CONTROL_STATE_HIDDEN].w = 0.0f;
-		}
 		for (int i = 0; i < CONTROL_STATE_MAX; ++i)
 		{
-			pszText =  pElement->Attribute(szControlState[i]);
+			const char* pszText =  pElement->Attribute(szControlState[i]);
 			if (pszText)
 			{
-				Color32 c;
-				c = pszText;
-				setColor[i] = c;
+				setColor[i] = pszText;
 			}
 		}
 	}
@@ -142,13 +130,13 @@ void StyleSprite::draw(const RECT& rc)
 	switch(m_nSpriteLayoutType)
 	{
 	case SPRITE_LAYOUT_WRAP:
-		UIGraph::getInstance().drawSprite(rcDest,m_pTexture,color.getColor(),&rcDest);
+		UIGraph::getInstance().drawSprite(rcDest,m_pTexture,color,&rcDest);
 		break;
 	case SPRITE_LAYOUT_SIMPLE:
-		UIGraph::getInstance().drawSprite(rcDest,m_pTexture,color.getColor(),&m_rcBorder);
+		UIGraph::getInstance().drawSprite(rcDest,m_pTexture,color,&m_rcBorder);
 		break;
 	case SPRITE_LAYOUT_3X3GRID:
-		UIGraph::getInstance().drawSprite(rcDest,m_pTexture,color.getColor(),&m_rcBorder,&m_rcCenter);
+		UIGraph::getInstance().drawSprite(rcDest,m_pTexture,color,&m_rcBorder,&m_rcCenter);
 		break;
 	default:
 		break;
@@ -264,7 +252,7 @@ void CUIStyle::draw(const RECT& rc, const wchar_t* wcsText)
 	if(m_FontStyle.color.a!=0 && wcsText!=NULL)
 	{
 		RECT rcDest = m_FontStyle.updateRect(rc);
-		UIGraph::getInstance().drawText(wcsText,-1,rcDest,m_FontStyle.uFormat,m_FontStyle.color.getColor().c);
+		UIGraph::getInstance().drawText(wcsText,-1,rcDest,m_FontStyle.uFormat,m_FontStyle.color.c);
 	}
 }
 
