@@ -1,137 +1,5 @@
 <?xml	version="1.0"	encoding="UTF-8"?>
 <root>
-	<element	name="main_dialog">
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="2,2,914,63">
-			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#FFFF" mouseover="#FFFF" pressed="#FFFF"/>
-		</texture>
-	</element>
-	<element name="main_btn_state">
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="275,210,32,38">
-			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
-		</texture>
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="311,210,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#0FFF"/>
-		</texture>
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="347,210,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
-		</texture>
-		<font	format="CENTER|VCENTER">
-			<color normal="#FFFF" disabled="#CCCC" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#FFFF"/>
-		</font>
-	</element>
-	<element name="main_btn_good">
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="491,210,32,38">
-			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
-		</texture>
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="527,210,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#0FFF"/>
-		</texture>
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="563,210,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
-		</texture>
-		<font	format="CENTER|VCENTER">
-			<color normal="#FFFF" disabled="#CCCC" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#FFFF"/>
-		</font>
-	</element>
-	<element name="main_btn_pet">
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="383,210,32,38">
-			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
-		</texture>
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="419,210,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#0FFF"/>
-		</texture>
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="455,210,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
-		</texture>
-		<font	format="CENTER|VCENTER">
-			<color normal="#FFFF" disabled="#CCCC" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#FFFF"/>
-		</font>
-	</element>
-	<element name="main_btn_skill">
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="599,210,32,38">
-			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
-		</texture>
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="635,210,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#0FFF"/>
-		</texture>
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="671,210,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
-		</texture>
-		<font	format="CENTER|VCENTER">
-			<color normal="#FFFF" disabled="#CCCC" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#FFFF"/>
-		</font>
-	</element>
-	<element name="main_btn_friend">
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="383,253,32,38">
-			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
-		</texture>
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="419,253,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#0FFF"/>
-		</texture>
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="455,253,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
-		</texture>
-		<font	format="CENTER|VCENTER">
-			<color normal="#FFFF" disabled="#CCCC" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#FFFF"/>
-		</font>
-	</element>
-	<element name="main_btn_faction">
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="599,253,32,38">
-			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
-		</texture>
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="635,253,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#0FFF"/>
-		</texture>
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="671,253,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
-		</texture>
-		<font	format="CENTER|VCENTER">
-			<color normal="#FFFF" disabled="#CCCC" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#FFFF"/>
-		</font>
-	</element>
-	<element name="main_btn_trade">
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="707,210,32,38">
-			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
-		</texture>
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="707,253,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#0FFF"/>
-		</texture>
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="743,253,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
-		</texture>
-		<font	format="CENTER|VCENTER">
-			<color normal="#FFFF" disabled="#CCCC" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#FFFF"/>
-		</font>
-	</element>
-	<element name="main_btn_team">
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="257,295,32,38">
-			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
-		</texture>
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="293,295,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#0FFF"/>
-		</texture>
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="329,295,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
-		</texture>
-		<font	format="CENTER|VCENTER">
-			<color normal="#FFFF" disabled="#CCCC" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#FFFF"/>
-		</font>
-	</element>
-	<element name="main_btn_setup">
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="257,336,32,38">
-			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
-		</texture>
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="293,336,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#0FFF"/>
-		</texture>
-		<texture filename="Texture/source_main.dds" layout_type ="0" rect="329,336,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
-		</texture>
-		<font	format="CENTER|VCENTER">
-			<color normal="#FFFF" disabled="#CCCC" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#FFFF"/>
-		</font>
-	</element>
-	
 	<element name="tip">
 		<blend normal="0.60" pressed="0.4" hidden="0.9">0.8</blend>
 		<texture filename="ui.tga" layout_type ="1" rect="209,253,12,12" center_rect="5,5,2,2">
@@ -230,13 +98,9 @@
 	</element>
 	
 	<element name="image">
-		<texture rect="0,0,16,16" center_rect="6,6,10,10">
+		<texture>
 			<blend pressed="0.0" hidden="0.5">0.8</blend>
-			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#CFFF"/>
-		</texture>
-		<texture rect="0,16,16,32">
-			<blend pressed="0.0" hidden="0.5">0.8</blend>
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0" focus="#FFFF" mouseover="#FFFF" pressed="#3000"/>
+			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#FFFF" mouseover="#FFFF" pressed="#CFFF"/>
 		</texture>
 	</element>
 

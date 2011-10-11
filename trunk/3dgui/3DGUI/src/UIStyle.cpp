@@ -49,6 +49,18 @@ inline unsigned int StrToTextFormat(const char* szFormat)
 	return uFormat;
 }
 
+StyleElement::StyleElement()
+{
+	for (size_t i=0;i< CONTROL_STATE_MAX;++i)
+	{
+		setColor[i].set(1.0f,1.0f,1.0f,1.0f);
+	}
+	SetRect(&rcOffset,0,0,0,0);
+	SetRect(&rcScale,0,0,1,1);
+	setColor[CONTROL_STATE_HIDDEN].w=0;;
+	color = setColor[CONTROL_STATE_HIDDEN];
+
+}
 
 RECT StyleElement::updateRect(RECT rect)
 {
@@ -62,41 +74,8 @@ RECT StyleElement::updateRect(RECT rect)
 	return rc;
 }
 
-void StyleElement::hide()
-{
-	uState = CONTROL_STATE_HIDDEN;
-	fRate = 1.0f;
-	color = setColor[CONTROL_STATE_HIDDEN];
-}
-
-void StyleElement::blend(UINT iState,float fElapsedTime)
-{
-	if (uState!=iState)
-	{
-		uState = iState;
-		fRate = 0.0f;
-	}
-	if (fRate<1.0f)
-	{
-		fRate += setBlendRate[iState]*fElapsedTime;
-		fRate = min(1.0f,fRate);
-		color = interpolate(fRate, color, setColor[iState]);
-	}
-}
-
 void StyleElement::XMLParse(const TiXmlElement& element)
 {
-	for (size_t i=0;i< CONTROL_STATE_MAX;++i)
-	{
-		setColor[i].set(0.0f,0.0f,0.0f,0.0f);
-	}
-	for (size_t i=0;i< CONTROL_STATE_MAX;++i)
-	{
-		setBlendRate[i]=0.8f;
-	}
-	SetRect(&rcOffset,0,0,0,0);
-	SetRect(&rcScale,0,0,1,1);
-	//
 	const TiXmlElement *pElement = element.FirstChildElement("color");
 	if (pElement)
 	{
@@ -119,28 +98,6 @@ void StyleElement::XMLParse(const TiXmlElement& element)
 				Color32 c;
 				c = pszText;
 				setColor[i] = c;
-			}
-		}
-	}
-	//
-	pElement = element.FirstChildElement("blend");
-	if (pElement)
-	{
-		const char* pszText = pElement->GetText();
-		if(pszText)
-		{
-			float fBlend = (float)atof(pszText);
-			for (size_t i=0;i< CONTROL_STATE_MAX;++i)
-			{
-				setBlendRate[i] = fBlend;
-			}
-		}
-		for (size_t i=0;i< CONTROL_STATE_MAX;++i)
-		{
-			pszText =  pElement->Attribute(szControlState[i]);
-			if (pszText)
-			{
-				setBlendRate[i] = (float)atof(pszText);
 			}
 		}
 	}
@@ -214,14 +171,14 @@ void StyleSprite::XMLParse(const TiXmlElement& element)
 	if (element.Attribute("rect"))
 	{
 		const char* strRect = element.Attribute("rect");
-		sscanf_s(strRect, "%d,%d,%d,%d", &m_rcBorder.right, &m_rcBorder.top, &m_rcBorder.right, &m_rcBorder.bottom);
+		sscanf_s(strRect, "%d,%d,%d,%d", &m_rcBorder.left, &m_rcBorder.top, &m_rcBorder.right, &m_rcBorder.bottom);
 		m_rcBorder.right	+= m_rcBorder.left;
 		m_rcBorder.bottom	+= m_rcBorder.top;
 		if (element.Attribute("center_rect"))
 		{
 			m_nSpriteLayoutType = SPRITE_LAYOUT_3X3GRID;
 			const char* strCenterRect = element.Attribute("center_rect");
-			sscanf_s(strCenterRect, "%d,%d,%d,%d", &m_rcCenter.right, &m_rcCenter.top, &m_rcCenter.right, &m_rcCenter.bottom);
+			sscanf_s(strCenterRect, "%d,%d,%d,%d", &m_rcCenter.left, &m_rcCenter.top, &m_rcCenter.right, &m_rcCenter.bottom);
 			m_rcCenter.left		+= m_rcBorder.left;
 			m_rcCenter.top		+= m_rcBorder.top;
 			m_rcCenter.right	+= m_rcCenter.left;
@@ -259,39 +216,33 @@ void StyleFont::XMLParse(const TiXmlElement& element)
 
 void CUIStyle::Blend(UINT iState, float fElapsedTime)
 {
-	if (uState!=iState)
+	if (m_uState!=iState)
 	{
-		uState = iState;
-		//m_fRate = 0.0f;
+		m_uState = iState;
+		m_fRate = 0.0f;
 		if (CONTROL_STATE_HIDDEN!=iState)
 		{
 			m_nVisible=true;
 		}
 	}
-	//if (m_nVisible)
+	// ----
+	if (m_nVisible)
 	{
-// 		if (m_fRate<1.0f)
-// 		{
-// 			m_fRate += m_setBlendRate[iState]*fElapsedTime;//1.0f - powf(styleData.setBlendRate[iState], 30 * fElapsedTime);
-// 			m_fRate = min(1.0f,m_fRate);
-// 			m_vRotate			= interpolate(m_fRate, m_vRotate, m_setRotate[iState]);
-// 			m_vTranslation	= interpolate(m_fRate, m_vTranslation, m_setTranslation[iState]);
-// 		}
-// 		else if (CONTROL_STATE_HIDDEN==iState)
-// 		{
-// 			for (size_t i=0; i<m_StyleSprites.size(); ++i)
-// 			{
-// 				m_StyleSprites[i].hide();
-// 			}
-// 			m_FontStyle.hide();
-// 			m_nVisible = false;
-// 			return;
-// 		}
+ 		if (m_fRate<1.0f)
+ 		{
+			m_fRate += m_setBlendRate[iState]*fElapsedTime;
+			m_fRate = min(1.0f,m_fRate);
+		}
+		else if (CONTROL_STATE_HIDDEN==iState)
+		{
+			m_nVisible = false;
+			return;
+		}
 		for (size_t i=0; i<m_StyleSprites.size(); ++i)
 		{
-			m_StyleSprites[i].blend(iState,fElapsedTime);
+			m_StyleSprites[i].color = interpolate(m_fRate, m_StyleSprites[i].color, m_StyleSprites[i].setColor[iState]);
 		}
-		m_FontStyle.blend(iState,fElapsedTime);
+		m_FontStyle.color = interpolate(m_fRate, m_FontStyle.color, m_FontStyle.setColor[iState]);
 	}
 }
 
@@ -305,13 +256,12 @@ void CUIStyle::setStyle(const std::string& strName)
 
 void CUIStyle::draw(const RECT& rc, const wchar_t* wcsText)
 {
-	// ----
 	for (size_t i=0; i<m_StyleSprites.size(); ++i)
 	{
 		m_StyleSprites[i].draw(rc);
 	}
 	// ----
-	if(m_FontStyle.color.a!=0)
+	if(m_FontStyle.color.a!=0 && wcsText!=NULL)
 	{
 		RECT rcDest = m_FontStyle.updateRect(rc);
 		UIGraph::getInstance().drawText(wcsText,-1,rcDest,m_FontStyle.uFormat,m_FontStyle.color.getColor().c);
@@ -334,15 +284,15 @@ bool CUIStyle::isVisible()
 	return m_nVisible!=0;
 }
 
-// CRect<float>& CUIStyle::getTextRect()
-// {
-// 	return m_mapStyleDrawData[m_mapStyleDrawData.size()-1].rc;
-// }
-
 CUIStyle::CUIStyle()
 	:m_nVisible(true)
 {
-
+	for (size_t i=0;i< CONTROL_STATE_MAX;++i)
+	{
+		m_setBlendRate[i]=0.8f;
+	}
+	m_fRate = 0.0f;
+	m_uState = CONTROL_STATE_HIDDEN;
 }
 
 CUIStyle::~CUIStyle()
@@ -361,32 +311,48 @@ void CUIStyle::Refresh()
 	//m_FontColor.Current = m_FontColor.States[ CONTROL_STATE_HIDDEN ];
 }
 
-// void CUIStyle::add(const std::vector<StyleElement*>& setStyleElement)
-// {
-// 	//m_StyleSprites.insert(m_StyleSprites.end(), setStyleElement.begin(), setStyleElement.end()); 
-// }
-
 void CUIStyle::XMLParse(const TiXmlElement& xml)
 {
-	const TiXmlElement* pElement = xml.FirstChildElement();
+	const TiXmlElement* pElement = xml.FirstChildElement("texture");
 	while (pElement)
 	{
-		if (pElement->ValueStr() == "texture")
-		{
-			StyleSprite newStyleElement;
-			newStyleElement.XMLParse(*pElement);
-			m_StyleSprites.push_back(newStyleElement);
-		}
-		else if (pElement->ValueStr() == "font"||pElement->ValueStr() == "ubb")
-		{
-			m_FontStyle.XMLParse(*pElement);
-		}
-		pElement = pElement->NextSiblingElement();
+		StyleSprite newStyleElement;
+		newStyleElement.XMLParse(*pElement);
+		m_StyleSprites.push_back(newStyleElement);
+		pElement = pElement->NextSiblingElement("texture");
 	}
-	//
+	// ----
+	pElement = xml.FirstChildElement("font");
+	if (pElement)
+	{
+		m_FontStyle.XMLParse(*pElement);
+	}
+	// ----
 	if (xml.Attribute("sound"))
 	{
 		m_strSound = GetStyleMgr().getDir()+xml.Attribute("sound");
+	}
+	//
+	pElement = xml.FirstChildElement("blend");
+	if (pElement)
+	{
+		const char* pszText = pElement->GetText();
+		if(pszText)
+		{
+			float fBlend = (float)atof(pszText);
+			for (size_t i=0;i< CONTROL_STATE_MAX;++i)
+			{
+				m_setBlendRate[i] = fBlend;
+			}
+		}
+		for (size_t i=0;i< CONTROL_STATE_MAX;++i)
+		{
+			pszText =  pElement->Attribute(szControlState[i]);
+			if (pszText)
+			{
+				m_setBlendRate[i] = (float)atof(pszText);
+			}
+		}
 	}
 	//
 

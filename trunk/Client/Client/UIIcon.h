@@ -36,9 +36,8 @@ public:
 	// ----
 	virtual void	OnSize			(const CRect<int> & rc);
 	// ----
-	CONST_GETVAR	(ItemData,		ItemData);
-	void			setItemData		(const ItemData itemData);
-
+	const ItemData& getItemData		();
+	void			setItemData		(const ItemData& itemData);
 protected:
 	int				m_nIconID;
 	ItemData		m_ItemData;

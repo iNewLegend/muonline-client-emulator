@@ -136,15 +136,22 @@ void CUIControl::XMLParse(const TiXmlElement* pControlElement)
 	{
 		SetStyle(pControlElement->Attribute("style"));
 	}
-	else if (pControlElement->Attribute("type"))
-	{
-		SetStyle(pControlElement->Attribute("type"));
-	}
 	else
 	{
-		SetStyle("dialog");
-	//	std::wstring wstrInfo = FormatW(L"Can not find the style of this control.\nControl:%s;",s2ws(GetID()).c_str());
-	//	MessageBoxW(NULL,wstrInfo.c_str(),L"Register Control Warn!",0);
+		m_Style.XMLParse(*pControlElement);
+		if (m_Style.m_StyleSprites.size()==0)
+		{
+			if (pControlElement->Attribute("type"))
+			{
+				SetStyle(pControlElement->Attribute("type"));
+			}
+			else
+			{
+				SetStyle("dialog");
+			}
+			//	std::wstring wstrInfo = FormatW(L"Can not find the style of this control.\nControl:%s;",s2ws(GetID()).c_str());
+			//	MessageBoxW(NULL,wstrInfo.c_str(),L"Register Control Warn!",0);
+		}
 	}
 	// text
 	if (pControlElement->GetText()||pControlElement->Attribute("text"))
