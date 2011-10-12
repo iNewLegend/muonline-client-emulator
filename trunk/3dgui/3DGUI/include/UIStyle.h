@@ -75,7 +75,7 @@ public:
 	void		draw(const RECT& rc);
 	void*		m_pTexture;
 	bool		m_bDecolor;
-	int			m_nSpriteLayoutType;
+	int			m_nLayoutType;
 	RECT		m_rcBorder;
 	RECT		m_rcCenter;
 };

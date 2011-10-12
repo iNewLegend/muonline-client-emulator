@@ -18,15 +18,8 @@ public:
 	virtual void OnFrameRender(const Matrix& mTransform, double fTime, float fElapsedTime);
 
 	std::string& GetFilename() { return m_strFilename; }
-	DWORD GetColor(){ return m_dwColor; }
-
 	void SetFilename(const char* szFilename);
-	void SetColor(DWORD dwColor){ m_dwColor = dwColor; }
-
-
 protected:
 	RECT m_rcTex;
-	DWORD m_dwColor;
 	std::string m_strFilename;
-	void* m_pFilename; 
 };
