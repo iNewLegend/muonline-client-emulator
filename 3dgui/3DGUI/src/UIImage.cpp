@@ -5,10 +5,7 @@
 CUIImage::CUIImage()
 {
 	m_Type = UI_CONTROL_IMAGE;
-
 	SetRect(&m_rcTex, 0, 0, -1, -1);
-	m_dwColor = 0xFFFFFFFF;
-	UIGraph::getInstance().releaseTexture(m_pFilename);
 }
 void CUIImage::XMLParse(const TiXmlElement* pControlElement)
 {
@@ -30,10 +27,9 @@ void CUIImage::OnFrameRender(const Matrix& mTransform, double fTime, float fElap
 void CUIImage::SetFilename(const char* szFilename)
 {
 	m_strFilename = szFilename;
-	UIGraph::getInstance().releaseTexture(m_pFilename);
-	m_pFilename = UIGraph::getInstance().createTexture(szFilename);
 	if (m_Style.m_StyleSprites.size()>0)
 	{
-		m_Style.m_StyleSprites[0].m_pTexture = m_pFilename;
+		UIGraph::getInstance().releaseTexture(m_Style.m_StyleSprites[0].m_pTexture);
+		m_Style.m_StyleSprites[0].m_pTexture = UIGraph::getInstance().createTexture(szFilename);
 	}
 }

@@ -127,7 +127,7 @@ void StyleSprite::draw(const RECT& rc)
 	//{
 	//	GetRenderSystem().SetTextureStageStateDecolor();
 	//}
-	switch(m_nSpriteLayoutType)
+	switch(m_nLayoutType)
 	{
 	case SPRITE_LAYOUT_WRAP:
 		UIGraph::getInstance().drawSprite(rcDest,m_pTexture,color,&rcDest);
@@ -164,7 +164,7 @@ void StyleSprite::XMLParse(const TiXmlElement& element)
 		m_rcBorder.bottom	+= m_rcBorder.top;
 		if (element.Attribute("center_rect"))
 		{
-			m_nSpriteLayoutType = SPRITE_LAYOUT_3X3GRID;
+			m_nLayoutType = SPRITE_LAYOUT_3X3GRID;
 			const char* strCenterRect = element.Attribute("center_rect");
 			sscanf_s(strCenterRect, "%d,%d,%d,%d", &m_rcCenter.left, &m_rcCenter.top, &m_rcCenter.right, &m_rcCenter.bottom);
 			m_rcCenter.left		+= m_rcBorder.left;
@@ -174,12 +174,12 @@ void StyleSprite::XMLParse(const TiXmlElement& element)
 		}
 		else
 		{
-			m_nSpriteLayoutType = SPRITE_LAYOUT_SIMPLE;
+			m_nLayoutType = SPRITE_LAYOUT_SIMPLE;
 		}
 	}
 	else
 	{
-		m_nSpriteLayoutType = SPRITE_LAYOUT_WRAP;
+		m_nLayoutType = SPRITE_LAYOUT_WRAP;
 	}
 
 	m_bDecolor = false;
