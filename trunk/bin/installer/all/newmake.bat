@@ -1,12 +1,12 @@
 @echo 请先关闭杀毒软件/防火墙等, 否则会浪费太多的时间
 @echo 输入制作完整安装包的版本号(如1.0.0.0):
 @set /p ver=
-@set base_url=svn://192.168.0.12/LianYu/tags/releases/release%ver%/Code/Release
+@set base_url=https://node3d.googlecode.com/svn/trunk/bin/Client
 @set path=%path%;%cd%\..\..\tools;
 
 @echo export game ...
 rd /s /q game
-svn export %base_url%/Game game
+svn export %base_url% game
 
 pushd game 
 del /s /q *.lvl
@@ -22,10 +22,10 @@ REM @for /r %1 %%c in (*.skin *.landscape2 *.ctc) do (skin2dds.exe "%%c")
 
 popd
 
-pushd game\data\scp
-for %%i in (*.scp *.csv) do scpconvert %%i
-del /s /q *.scp *.csv
-popd
+REM pushd game\data\scp
+REM for %%i in (*.scp *.csv) do scpconvert %%i
+REM del /s /q *.scp *.csv
+REM popd
 
 rem pack data/* except music and scp
 @echo now you must pack data/* execpt music and scp 

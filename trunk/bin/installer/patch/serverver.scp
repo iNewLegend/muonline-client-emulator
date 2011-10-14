@@ -1,0 +1,42 @@
+
+///////////////////////////////
+// *******  资源脚本  *******
+//
+//  每行最大长度2048字节
+///////////////////////////////
+
+MaxID = 5004
+CurVer = 1.0.0.9
+Object SERVERS 
+{
+	Object SERVER 
+	{
+		DES = 电信
+		URL = http://192.168.0.7/
+	}	
+	Object REGION
+	{
+		DES = 华南区
+		
+		Object SERVER 
+		{
+			DES = 黑暗帝国(内网)
+			IPS = 电信
+			ADDR = 192.168.0.8
+			PORT = 6001
+			COMMEND = 推荐
+		}	
+	}	
+}
+
+Object UPDATE
+{	
+	Object FILE
+	{		
+		DES = dsc1
+		SRC = game-1.0.0.8-to-1.0.0.9-patch.zip
+	}
+}
+
+
+
