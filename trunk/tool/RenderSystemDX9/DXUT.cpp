@@ -168,9 +168,6 @@ HRESULT DXUTInit()
         return DXUT_ERR(L"Direct3DCreate9", DXUTERR_NODIRECT3D);
     }
 
-    // Reset the timer
-    GetGlobalTimer().Reset();
-
     GetDXUTState().SetDXUTInited(true);
 
     return S_OK;

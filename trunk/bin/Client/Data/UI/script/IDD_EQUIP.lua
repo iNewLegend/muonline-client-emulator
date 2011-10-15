@@ -37,26 +37,30 @@ m_PlayerView = CRole()
 				m_PlayerView:setEquipLevel(9,9)
 				m_PlayerView:setEquipLevel(10,9)
 				m_PlayerView:setEquipLevel(11,9)
+				m_PlayerView:setActionState(0);
 m_DisplayPlayer:setRenderNode(m_PlayerView)
 m_DisplayPlayer.m_vEye=Vec3D(0.0,1.0,-3)
 m_DisplayPlayer.m_vLookAt=Vec3D(0.0,1.0,0.0)
-	
+
 -- Event Func
 function IDD_EQUIP_OnBtnHead()
 	local nIndex = math.random(0,10)
-	local nLevel = math.random(0,10)
+	local nLevel = math.random(10,30)
 	g_PlayerMe:setEquip(7,nIndex)
 	g_PlayerMe:setEquipLevel(7,nLevel)
 	--
 	itemData = ItemData()
 	itemData.cType = 7;
 	itemData.cIndex = nIndex;
+
 	itemData.level = nLevel;
 	m_IconHead:setItemData(itemData)
+
+	m_PlayerView:setAnim(nLevel)
 end
 function IDD_EQUIP_OnBtnArmor()
 	local nIndex = math.random(0,10)
-	local nLevel = math.random(0,10)
+	local nLevel = math.random(30,40)
 	g_PlayerMe:setEquip(8,nIndex)
 	g_PlayerMe:setEquipLevel(8,nLevel)
 	--
@@ -65,6 +69,7 @@ function IDD_EQUIP_OnBtnArmor()
 	itemData.cIndex = nIndex;
 	itemData.level = nLevel;
 	m_IconArmor:setItemData(itemData)
+	m_PlayerView:setAnim(nLevel)
 end
 function IDD_EQUIP_OnBtnGlove()
 	local nIndex = math.random(0,10)

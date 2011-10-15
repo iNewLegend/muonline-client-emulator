@@ -8,6 +8,7 @@ CSkeletonNode::CSkeletonNode()
 	:m_nAnimTime(0)
 	,m_pSkeletonData(NULL)
 {
+	m_strAnimName="0";
 }
 
 CSkeletonNode::~CSkeletonNode()
@@ -76,7 +77,7 @@ bool CSkeletonNode::setup()
 	iSkeletonAnim* pSkeletonAnim = m_pSkeletonData->getAnimation(0);
 	if (pSkeletonAnim)
 	{
-		setAnim(pSkeletonAnim->getName());
+		setAnimByName(m_strAnimName.c_str());
 	}
 	return true;
 }
@@ -85,16 +86,16 @@ void CSkeletonNode::setAnim(int nID)
 {
 	char szAnimName[256];
 	sprintf_s(szAnimName,"%d",nID);
-	setAnim(szAnimName);
+	setAnimByName(szAnimName);
 }
 
-void CSkeletonNode::setAnim(const char* szAnimName)
+void CSkeletonNode::setAnimByName(const char* szAnimName)
 {
+	m_strAnimName = szAnimName;
 	if (!m_pSkeletonData)
 	{
 		return;
 	}
-	m_strAnimName = szAnimName;
 	iSkeletonAnim* pSkeletonAnim = m_pSkeletonData->getAnimation(szAnimName);
 	if (pSkeletonAnim)
 	{

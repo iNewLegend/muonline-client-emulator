@@ -239,7 +239,7 @@ void CWorld::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 	// ----
 	FOR_IN(it,m_RenderNodes)
 	{
-		if((*it)->getType() != MAP_ROLE)
+		if((*it)->getType())
 		{
 			(*it)->frameMove(Matrix::UNIT, fTime, fElapsedTime);
 		}
@@ -247,7 +247,7 @@ void CWorld::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 	// ----
 	FOR_IN(it,m_mapRole)
 	{
-		it->second->frameMove(Matrix::UNIT, fTime, fElapsedTime);
+		it->second->frameMoveRole(Matrix::UNIT, fTime, fElapsedTime);
 	}
 	// ----
 	// # Delete the old roles

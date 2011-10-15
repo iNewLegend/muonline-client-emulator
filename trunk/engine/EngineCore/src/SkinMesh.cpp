@@ -10,6 +10,7 @@ CSkinMesh::CSkinMesh()
 	,m_uLightMapTex(0)
 	,m_bLightmap(false)
 	,m_uLodLevel(0)
+	,m_nSkinID(0)
 {
 }
 
@@ -109,16 +110,20 @@ bool CSkinMesh::setup()
 
 	if (m_vecPasses.empty())
 	{
-			for (size_t i=0; i<m_pMesh->getMaterials().size();++i)
+		for (size_t i=0; i<m_pMesh->getMaterials().size();++i)
+		{
+			ModelRenderPass pass;
+			pass.nSubID = i;
+
+			std::vector<std::string>& subMaterials = m_pMesh->getMaterials()[i];
+
+			if(subMaterials.size()>0)
 			{
-				ModelRenderPass pass;
-				pass.nSubID = i;
-				if(m_pMesh->getMaterials()[i].size()>0)
-				{
-					pass.strMaterial = m_pMesh->getMaterials()[i][0];
-				}
-				m_vecPasses.push_back(pass);
+				int nSkinID = subMaterials.size()>m_nSkinID?m_nSkinID:0;
+				pass.strMaterial = m_pMesh->getMaterials()[i][nSkinID];
 			}
+			m_vecPasses.push_back(pass);
+		}
 	}
 	m_nOrder=0;
 	for (auto it=m_vecPasses.begin();it!=m_vecPasses.end();it++)
@@ -150,28 +155,23 @@ void CSkinMesh::setLOD(unsigned long uLodID)
 	}
 }
 
-void CSkinMesh::setSubSkin(int nSubID, int nID)
+void CSkinMesh::setSkin(int nID)
 {
+	m_nSkinID = nID;
 	if (!m_pMesh)
-	{
-		return;
-	}
-	// ----
-	if(m_pMesh->getMaterials().size()<=nSubID)
-	{
-		return;
-	}
-	// ----
-	if(m_pMesh->getMaterials()[nSubID].size()<=nID)
 	{
 		return;
 	}
 	// ----
 	for (auto it=m_vecPasses.begin();it!=m_vecPasses.end();it++)
 	{
-		if (it->nSubID==nSubID)
+		if(m_pMesh->getMaterials().size()>it->nSubID)
 		{
-			it->strMaterial = m_pMesh->getMaterials()[nSubID][nID];
+			std::vector<std::string>& subMaterials = m_pMesh->getMaterials()[it->nSubID];
+			if (subMaterials.size()>m_nSkinID)
+			{
+				it->strMaterial = subMaterials[m_nSkinID];
+			}
 		}
 	}
 }

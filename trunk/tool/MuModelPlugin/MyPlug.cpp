@@ -73,7 +73,9 @@ void importSkeletonAnims(iSkeletonData& skeletonData, CMUBmd& bmd)
 			bool bFixMove = false;
 			if (bmd.head.uAnimCount>100) // player
 			{
-				if (uAnimID>=15&&uAnimID<=20)
+				if ((uAnimID>=15&&uAnimID<=20)
+					||uAnimID==25
+					||uAnimID==26)
 				{
 					bFixMove=true;
 					bFixFrame=false;

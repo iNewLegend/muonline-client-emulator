@@ -59,8 +59,6 @@ bool CD3D9RenderWindow::Init()
 		DXUT_ERR(L"Direct3DCreate9", DXUTERR_NODIRECT3D);
 		return false;//DXUT_ERR(L"Direct3DCreate9", DXUTERR_NODIRECT3D);
 	}
-	// Reset the timer
-	GetGlobalTimer().Reset();
 	GetDXUTState().SetDXUTInited(true);
 	// 设置shader 是否有效
 	///GetShaderMgr().SetEnable(true);
@@ -96,12 +94,12 @@ void CD3D9RenderWindow::SetFullscreen(bool bFullScreen, unsigned long width, uns
 
 double CD3D9RenderWindow::GetTime()
 {
-	return GetGlobalTimer().GetTime();
+	return 0;
 }
 
 float CD3D9RenderWindow::GetElapsedTime()
 {
-	return GetGlobalTimer().GetElapsedTime();
+	return 0;
 }
 
 bool CD3D9RenderWindow::FrameBegin()
@@ -228,25 +226,8 @@ bool CD3D9RenderWindow::FrameBegin()
 
 
 	// Get the app's time, in seconds. Skip rendering if no time elapsed
-	double fTime, fAbsTime; float fElapsedTime, fSleepTime;
-	GetGlobalTimer().GetTimeValues(&fTime, &fAbsTime, &fElapsedTime, fSleepTime, 60);
 
-	// 锁帧
-	//{
-	//	double fSleepTime = 1.0f/60.0f - fElapsedTime;
-	//	if (fSleepTime > 0.0f)
-	//	{
-	//		Sleep(fSleepTime*1000);
-	//		fElapsedTime += fSleepTime;
-	//		fTime += fSleepTime;
-	//		fAbsTime += fSleepTime;
-	//	}
-	//	else
-	//	{
-	//		fSleepTime = 0.0f;
-	//	}
-	//	GetDXUTState().SetSleepTime(fSleepTime);
-	//}
+
 
 	return true;
 }
@@ -449,7 +430,6 @@ LRESULT CD3D9RenderWindow::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM l
 
 		// QPC may lose consistency when suspending, so reset the timer
 		// upon resume.
-		GetGlobalTimer().Reset();                   
 		return true;
 		}
 		break;

@@ -15,7 +15,7 @@ public:
 	CSkeletonData*		getSkeletonData	(){return m_pSkeletonData;}
 	virtual bool		setup			();
 	void				setAnim			(int nID);
-	void				setAnim			(const char* szAnimName);
+	void				setAnimByName	(const char* szAnimName);
 	void				animate			(const char* szAnimName);
 	void				CalcBones		(const char* szAnim, int time);
 	virtual void		drawSkeleton	(CTextRender* pTextRender)const;

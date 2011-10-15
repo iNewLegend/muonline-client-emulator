@@ -63,7 +63,7 @@ public:
 	virtual bool	setup			();
 	bool			prepare			()const;
 	void			setLOD			(unsigned long uLodID);		// 设置LodID
-	void			setSubSkin		(int nSubID, int nID);
+	void			setSkin			(int nID);
 	void			setLightMap		(const char* szFilename);	// SetLightMap
 	virtual std::vector<ModelRenderPass>&	getRenderPasses(){return m_vecPasses;}
 	virtual			GSET_CONST_VAR	(int,	m_n,Order);
@@ -76,4 +76,5 @@ protected:
 	bool							m_bLightmap;
 	std::vector<ModelRenderPass>	m_vecPasses;			// 渲染过程集
 	int								m_nOrder;
+	int								m_nSkinID;
 };
