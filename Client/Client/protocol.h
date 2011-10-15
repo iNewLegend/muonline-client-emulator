@@ -4,7 +4,9 @@
 #include "..//..//Protocol//prodef.h"
 #include "..//..//Protocol//GameProtocol.h"
 #include "..//..//Protocol//JoinProtocol.h"
+
 #include <vector>
+#include <deque>
 //-----------------------------------------------------------------------------------------------------------
 
 #define WM_GM_JOIN_CLIENT_MSG_PROC		0x403
@@ -46,7 +48,7 @@ void SCMonsterViewportCreate(const unsigned char* msg);													// 0x13
 // ----
 void SCViewportDestroy		(const unsigned char* msg);													// 0x14
 // ----
-void CSMove					(int x, int y, std::vector<unsigned char> path, unsigned char uTargetDir);	// 0xD7
+void CSMove					(int x, int y, std::deque<char> path, unsigned char uTargetDir);	// 0xD7
 void SCMove					(PMSG_RECVMOVE & msg);														// 0xD7
 // ----
 void CSAttack				(unsigned char AttackAction, int Number, unsigned char DirDis);

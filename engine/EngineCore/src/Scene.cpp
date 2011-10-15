@@ -5,7 +5,7 @@
 CScene::CScene()
 	:m_bShowNode(true)
 	,m_bShowNodeBBox(false)
-	,m_Fog(32.0f,48.0f,0.01f,0xFF223344)
+	,m_Fog(32.0f,48.0f,0.01f,0xFFF23344)
 	,m_Light(Vec4D(1.0f,1.0f,1.0f,1.0f),Vec4D(1.0f,1.0f,1.0f,1.0f),Vec4D(1.0f,1.0f,1.0f,1.0f),Vec3D(-1.0f,-1.0f,-1.0f))
 	,m_pSceneData(NULL)
 	,m_bRefreshViewport(NULL)
@@ -442,7 +442,7 @@ float CScene::getHeight(float x, float y)const
 	return 0.0f;
 }
 
-unsigned char CScene::getPath(int sx,int sy,int tx,int ty, std::vector<unsigned char>& path)
+unsigned char CScene::getPath(int sx,int sy,int tx,int ty, std::deque<char>& path)
 {
 	if (m_pSceneData)
 	{

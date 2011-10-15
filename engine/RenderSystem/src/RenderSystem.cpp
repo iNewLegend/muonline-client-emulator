@@ -56,7 +56,6 @@ bool CRenderSystem::prepareMaterial(const char* szMaterialName, float fOpacity)
 	return prepareMaterial(getMaterialMgr().getItem(szMaterialName),fOpacity);
 }
 
-#include "Timer.h"
 bool CRenderSystem::prepareMaterial(/*const */CMaterial& material, float fOpacity) // 由于使用了自动注册纹理的机制,很遗憾的导致不能用“const”
 {
 	CTextureMgr& TM = GetTextureMgr();

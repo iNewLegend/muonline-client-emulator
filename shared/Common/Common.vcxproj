@@ -124,7 +124,6 @@
     <ClCompile Include="src\RC5_321216.cpp" />
     <ClCompile Include="src\RegData.cpp" />
     <ClCompile Include="src\ThreadBase.cpp" />
-    <ClCompile Include="src\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\common.h" />
@@ -137,7 +136,6 @@
     <ClInclude Include="Include\ThreadBase.h" />
     <ClInclude Include="Include\ThreadSafety.h" />
     <ClInclude Include="Include\TickOver.h" />
-    <ClInclude Include="Include\Timer.h" />
     <ClInclude Include="Include\TSingleton.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -521,7 +521,7 @@ void SCViewportDestroy(const unsigned char* msg)
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void CSMove(int x, int y, std::vector<unsigned char> path, unsigned char uTargetDir)
+void CSMove(int x, int y, std::deque<char> path, unsigned char uTargetDir)
 {
 	if((path.size() > 0) && (path.size() < 14))
 	{

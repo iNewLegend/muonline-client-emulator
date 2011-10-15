@@ -52,7 +52,7 @@ public:
 	CMapObj*				pickNode				(const Vec3D& vRayPos , const Vec3D& vRayDir);
 	bool					pick					(const Vec3D& vRayPos, const Vec3D& vRayDir, Vec3D* pPos)const;
 	float					getHeight				(float x, float y)const;
-	unsigned char			getPath					(int sx,int sy,int tx,int ty, std::vector<unsigned char>& path);
+	unsigned char			getPath					(int sx,int sy,int tx,int ty, std::deque<char>& path);
 	// ----
 	// # data
 	// ----

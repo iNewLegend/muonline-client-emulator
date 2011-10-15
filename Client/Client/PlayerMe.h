@@ -17,7 +17,7 @@ public:
 	void			walk			(int x, int y);
 	void			playWalkSound	();
 	// ----
-	virtual void	frameMove		(const Matrix& mWorld, double fTime, float fElapsedTime);
+	virtual void	frameMoveRole	(const Matrix& mWorld, double fTime, float fElapsedTime);
 	virtual void	release			()								{;}
 	// ----
 	void			setAttackTarget	(unsigned long uAttackTarget)	{ m_uAttackTarget = uAttackTarget; };

@@ -93,7 +93,6 @@
 #include "GrowableArray.h"
 #include "DXUT.h"
 #include "DXUTmisc.h"
-#include "Timer.h"
 #include "DXUTenum.h"
 
 #if defined(DEBUG) || defined(_DEBUG)
