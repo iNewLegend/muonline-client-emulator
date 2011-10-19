@@ -16,12 +16,12 @@ public:
 	virtual bool		setup			();
 	void				setAnim			(int nID);
 	void				setAnimByName	(const char* szAnimName);
-	void				animate			(const char* szAnimName);
-	void				CalcBones		(const char* szAnim, int time);
+	virtual void		animate			(const Matrix& mWorld, double fTime, float fElapsedTime);
 	virtual void		drawSkeleton	(CTextRender* pTextRender)const;
 	std::vector<Matrix>&getBonesMatrix	(){return m_setBonesMatrix;}
 protected:
 	SingleAnimNode		m_AnimMgr;			// 动作管理器
+	float				m_fAnimRate;
 	std::vector<Matrix>	m_setBonesMatrix;	// 骨骼矩阵
 	std::string			m_strAnimName;		// Current Name Of Animate
 	int					m_nAnimTime;		// 动作时间帧

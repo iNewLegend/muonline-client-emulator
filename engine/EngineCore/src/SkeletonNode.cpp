@@ -7,6 +7,7 @@
 CSkeletonNode::CSkeletonNode()
 	:m_nAnimTime(0)
 	,m_pSkeletonData(NULL)
+	,m_fAnimRate(1.0f)
 {
 	m_strAnimName="0";
 }
@@ -20,9 +21,7 @@ void CSkeletonNode::frameMove(const Matrix& mWorld, double fTime, float fElapsed
 	setup();
 
 	Matrix mNewWorld = mWorld*m_mWorldMatrix;
-
-	m_AnimMgr.Tick(int(fElapsedTime*1000));
-	animate(m_strAnimName.c_str());
+	animate(mNewWorld, fTime, fElapsedTime);
 	// ----
 	//Matrix mNewWorld = mWorld*m_mWorldMatrix;
 	// ----
@@ -92,6 +91,7 @@ void CSkeletonNode::setAnim(int nID)
 void CSkeletonNode::setAnimByName(const char* szAnimName)
 {
 	m_strAnimName = szAnimName;
+	m_fAnimRate = 0.0f;
 	if (!m_pSkeletonData)
 	{
 		return;
@@ -160,16 +160,11 @@ void CSkeletonNode::drawSkeleton(CTextRender* pTextRender)const
 	}
 }
 
-void CSkeletonNode::CalcBones(const char* szAnim, int time)
+void CSkeletonNode::animate(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
-	if (m_pSkeletonData)
-	{
-		m_pSkeletonData->CalcBonesMatrix(szAnim,time,m_setBonesMatrix);
-	}
-}
+	m_AnimMgr.Tick(int(fElapsedTime*1000));
 
-void CSkeletonNode::animate(const char* szAnimName)
-{
+	m_fAnimRate += fElapsedTime*1.5f;
 	if (!m_pSkeletonData)
 	{
 		return;
@@ -177,10 +172,27 @@ void CSkeletonNode::animate(const char* szAnimName)
 	int t =	m_AnimMgr.uFrame;
 
 	// ¹Ç÷À¶¯»­
-	if ((m_setBonesMatrix.size()>0)  && (m_nAnimTime != t || m_strAnimName != szAnimName))
+	if ((m_setBonesMatrix.size()>0)  && (m_nAnimTime != t))
 	{
-		CalcBones(szAnimName, t);
+		if (m_fAnimRate>=1.0f)
+		{
+			m_pSkeletonData->CalcBonesMatrix(m_strAnimName.c_str(),t,m_setBonesMatrix);
+		}
+		else
+		{
+			int nBoneCount = m_setBonesMatrix.size();
+			std::vector<Matrix> setBonesMatrix2;
+			setBonesMatrix2.resize(nBoneCount);
+			m_pSkeletonData->CalcBonesMatrix(m_strAnimName.c_str(),t,setBonesMatrix2);
+			for (int i=0; i<nBoneCount; ++i)
+			{
+				for (int j=0; j<16; ++j)
+				{
+					m_setBonesMatrix[i]._m[j] *= (1.0f-m_fAnimRate);
+					m_setBonesMatrix[i]._m[j] += setBonesMatrix2[i]._m[j]*m_fAnimRate;
+				}
+			}
+		}
 	}
 	m_nAnimTime		= t;
-	m_strAnimName	= szAnimName;
 }

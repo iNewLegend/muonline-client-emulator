@@ -32,7 +32,7 @@ void CSkinMesh::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime
 	{
 		CSkeletonNode* pSkeletonNode = (CSkeletonNode*)m_pParent;
 		// ----
-		if (m_pMesh->m_bSkinMesh)
+		if (m_pMesh->m_bSkinMesh&&pSkeletonNode->getSkeletonData())
 		{
 			m_pMesh->skinningMesh(m_pVB, pSkeletonNode->getBonesMatrix());
 		}
