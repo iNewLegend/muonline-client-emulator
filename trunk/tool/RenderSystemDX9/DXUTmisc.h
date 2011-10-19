@@ -1,17 +1,5 @@
 #pragma once
 
-#define KEY_WAS_DOWN_MASK 0x80
-#define KEY_IS_DOWN_MASK  0x01
-
-#define MOUSE_LEFT_BUTTON   0x01
-#define MOUSE_MIDDLE_BUTTON 0x02
-#define MOUSE_RIGHT_BUTTON  0x04
-#define MOUSE_WHEEL         0x08
-
-// Returns the string for the given D3DFORMAT.
-//       bWithPrefix determines whether the string should include the "D3DFMT_"
-LPCWSTR DXUTD3DFormatToString(D3DFORMAT format, bool bWithPrefix);
-
 // Debug printing support
 // See dxerr.h for more debug printing support
 void DXUTOutputDebugStringW(LPCWSTR strMsg, ...);
@@ -36,14 +24,9 @@ HRESULT WINAPI DXUTTrace(const CHAR* strFile, DWORD dwLine, HRESULT hr, const WC
 #define DXUTTRACE                  (__noop)
 #endif
 
-
-
 // Direct3D9 dynamic linking support -- calls top-level D3D9 APIs with graceful
 // failure if APIs are not present.
-
-
 IDirect3D9 * WINAPI DXUT_Dynamic_Direct3DCreate9(UINT SDKVersion);
-
 
 // Multimon handling to support OSes with or without multimon API support.  
 // Purposely avoiding the use of multimon.h so DXUT.lib doesn't require 

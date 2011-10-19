@@ -90,10 +90,8 @@
 #include <strsafe.h>
 #pragma warning(default : 4996) 
 
-#include "GrowableArray.h"
 #include "DXUT.h"
 #include "DXUTmisc.h"
-#include "DXUTenum.h"
 
 #if defined(DEBUG) || defined(_DEBUG)
 #ifndef V
