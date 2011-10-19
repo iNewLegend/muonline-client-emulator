@@ -140,9 +140,7 @@
     <ClInclude Include="D3D9VertexDeclaration.h" />
     <ClInclude Include="dxstdafx.h" />
     <ClInclude Include="DXUT.h" />
-    <ClInclude Include="DXUTenum.h" />
     <ClInclude Include="DXUTmisc.h" />
-    <ClInclude Include="GrowableArray.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="D3D9HardwareIndexBuffer.cpp" />
@@ -154,7 +152,6 @@
     <ClCompile Include="D3D9Texture.cpp" />
     <ClCompile Include="D3D9VertexDeclaration.cpp" />
     <ClCompile Include="DXUT.cpp" />
-    <ClCompile Include="DXUTenum.cpp" />
     <ClCompile Include="DXUTmisc.cpp" />
   </ItemGroup>
   <ItemGroup>

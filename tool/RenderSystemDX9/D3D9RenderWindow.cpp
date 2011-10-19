@@ -1,6 +1,15 @@
 #include "D3D9RenderWindow.h"
 #include "dxstdafx.h"
 
+
+// Look for an adapter ordinal that is tied to a HMONITOR
+HRESULT DXUTGetAdapterOrdinalFromMonitor(HMONITOR hMonitor, UINT* pAdapterOrdinal)
+{
+	*pAdapterOrdinal = 0;
+	return S_OK;
+	return E_FAIL;
+}
+
 CD3D9RenderWindow::CD3D9RenderWindow():
 m_bActive(true),
 m_bMoving(false),
@@ -35,13 +44,6 @@ bool CD3D9RenderWindow::Init()
 		}
 	}
 
-	// Verify D3DX version
-	//if(!D3DXCheckVersion(D3D_SDK_VERSION, D3DX_SDK_VERSION))
-	//{
-	//    DXUTDisplayErrorMessage(DXUTERR_INCORRECTVERSION);
-	//    return DXUT_ERR(L"D3DXCheckVersion", DXUTERR_INCORRECTVERSION);
-	//}
-
 	// Create a Direct3D object if one has not already been created
 	IDirect3D9* pD3D = DXUTGetD3DObject();
 	if(pD3D == NULL)
@@ -65,25 +67,218 @@ bool CD3D9RenderWindow::Init()
 	return true;
 }
 
+// Creates a window with the specified window title, icon, menu, and 
+// starting position.  If DXUTInit() has not already been called, it will
+// call it with the default parameters.  Instead of calling this, you can 
+// call DXUTSetWindow() to use an existing window.  
+
+HRESULT CD3D9RenderWindow::D3DCreateWindow(WNDPROC pWndProc, const std::wstring& strWindowTitle, HINSTANCE hInstance, 
+	HICON hIcon, HMENU hMenu, int x, int y)
+{
+	HRESULT hr;
+
+	GetDXUTState().SetWindowCreateCalled(true);
+
+	if(!GetDXUTState().GetDXUTInited()) 
+	{
+		// If DXUTInit() was already called and failed, then fail.
+		// DXUTInit() must first succeed for this function to succeed
+		if(GetDXUTState().GetDXUTInitCalled())
+			return E_FAIL; 
+
+		// If DXUTInit() hasn't been called, then automatically call it
+		// with default params
+		hr = D3DInit();
+		if(FAILED(hr))
+			return hr;
+	}
+
+	if(DXUTGetHWNDFocus() == NULL)
+	{
+		if(hInstance == NULL) 
+			hInstance = (HINSTANCE)GetModuleHandle(NULL);
+		GetDXUTState().SetHInstance(hInstance);
+
+		WCHAR szExePath[MAX_PATH];
+		GetModuleFileName(NULL, szExePath, MAX_PATH);
+		if(hIcon == NULL) // If the icon is NULL, then use the first one found in the exe
+			hIcon = ExtractIcon(hInstance, szExePath, 0); 
+
+		// Register the windows class
+		WNDCLASS wndClass;
+		wndClass.style = CS_DBLCLKS;
+		wndClass.lpfnWndProc = pWndProc;
+		wndClass.cbClsExtra = 0;
+		wndClass.cbWndExtra = 0;
+		wndClass.hInstance = hInstance;
+		wndClass.hIcon = hIcon;
+		wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
+		wndClass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+		wndClass.lpszMenuName = NULL;
+		wndClass.lpszClassName = L"Direct3DWindowClass";
+
+		if(!RegisterClass(&wndClass))
+		{
+			DWORD dwError = GetLastError();
+			if(dwError != ERROR_CLASS_ALREADY_EXISTS)
+				return DXUT_ERR_MSGBOX(L"RegisterClass", HRESULT_FROM_WIN32(dwError));
+		}
+
+		RECT rc;
+
+		// Find the window's initial size, but it might be changed later
+		int nDefaultWidth = 640;
+		int nDefaultHeight = 480;
+
+		SetRect(&rc, 0, 0, nDefaultWidth, nDefaultHeight);        
+		AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, (hMenu != NULL) ? true : false);
+
+		// Create the render window
+		HWND hWnd = CreateWindowExW(0L, L"Direct3DWindowClass", strWindowTitle.c_str(), WS_OVERLAPPEDWINDOW,
+			x, y, (rc.right-rc.left), (rc.bottom-rc.top), 0,
+			hMenu, hInstance, 0);
+		if(hWnd == NULL)
+		{
+			DWORD dwError = GetLastError();
+			return DXUT_ERR_MSGBOX(L"CreateWindow", HRESULT_FROM_WIN32(dwError));
+		}
+
+		GetDXUTState().SetWindowCreated(true);
+		GetDXUTState().SetHWNDFocus(hWnd);
+		GetDXUTState().SetHWND(hWnd);
+	}
+
+	return S_OK;
+}
+
+// Sets a previously created window for the framework to use.  If DXUTInit() 
+// has not already been called, it will call it with the default parameters.  
+// Instead of calling this, you can call DXUTCreateWindow() to create a new window.  
+
+HRESULT CD3D9RenderWindow::DXUTSetWindow(WNDPROC pWndProc, HWND hWndFocus, HWND hWndDeviceWindowed, bool bHandleMessages)
+{
+	HRESULT hr;
+
+	GetDXUTState().SetWindowCreateCalled(true);
+
+	// To avoid confusion, we do not allow any HWND to be NULL here.  The
+	// caller must pass in valid HWND for all three parameters.  The same
+	// HWND may be used for more than one parameter.
+	if(hWndFocus == NULL || hWndDeviceWindowed == NULL)
+		return DXUT_ERR_MSGBOX(L"DXUTSetWindow", E_INVALIDARG);
+
+	// If subclassing the window, set the pointer to the local window procedure
+	if(bHandleMessages)
+	{
+		// 注入消息
+		// Switch window procedures
+#ifdef _WIN64
+		LONG_PTR nResult = SetWindowLongPtr(hWndFocus, GWLP_WNDPROC, (LONG_PTR)pWndProc);
+#else
+		LONG_PTR nResult = SetWindowLongPtr(hWndFocus, GWLP_WNDPROC, (LONG)(LONG_PTR)pWndProc);
+#endif 
+		GetDXUTState().SetWndProc(nResult);//ffffff
+
+		DWORD dwError = GetLastError();
+		if(nResult == 0)
+			return DXUT_ERR_MSGBOX(L"SetWindowLongPtr", HRESULT_FROM_WIN32(dwError));
+	}
+
+	if(!GetDXUTState().GetDXUTInited()) 
+	{
+		// If DXUTInit() was already called and failed, then fail.
+		// DXUTInit() must first succeed for this function to succeed
+		if(GetDXUTState().GetDXUTInitCalled())
+			return E_FAIL; 
+
+		// If DXUTInit() hasn't been called, then automatically call it
+		// with default params
+		hr = D3DInit();
+		if(FAILED(hr))
+			return hr;
+	}
+
+	HINSTANCE hInstance = (HINSTANCE) (LONG_PTR) GetWindowLongPtr(hWndFocus, GWLP_HINSTANCE); 
+	GetDXUTState().SetHInstance(hInstance);
+	GetDXUTState().SetWindowCreated(true);
+	GetDXUTState().SetHWNDFocus(hWndFocus);
+	GetDXUTState().SetHWND(hWndDeviceWindowed);
+
+	return S_OK;
+}
+
+// Creates a Direct3D device. If DXUTCreateWindow() or DXUTSetWindow() has not already 
+// been called, it will call DXUTCreateWindow() with the default parameters.  
+// Instead of calling this, you can call DXUTSetDevice() or DXUTCreateDeviceFromSettings() 
+
+HRESULT CD3D9RenderWindow::D3DCreateDevice(UINT AdapterOrdinal, bool bWindowed, 
+	int nSuggestedWidth, int nSuggestedHeight)
+{
+	HRESULT hr;
+
+
+	GetDXUTState().SetDeviceCreateCalled(true);
+
+	// If DXUTCreateWindow() or DXUTSetWindow() has not already been called, 
+	// then call DXUTCreateWindow() with the default parameters.         
+	if(!GetDXUTState().GetWindowCreated()) 
+	{
+		if(GetDXUTState().GetWindowCreateCalled())
+			return E_FAIL; 
+
+		hr = D3DCreateWindow();
+		if(FAILED(hr))
+			return hr;
+	}
+
+	// Force an enumeration with the new IsDeviceAcceptable callback
+
+	D3DDeviceSettings deviceSettings;
+	ZeroMemory(&deviceSettings, sizeof(D3DDeviceSettings));
+	deviceSettings.AdapterOrdinal			= AdapterOrdinal;
+	deviceSettings.pp.Windowed				= bWindowed;
+	deviceSettings.pp.BackBufferWidth		= nSuggestedWidth;
+	deviceSettings.pp.BackBufferHeight		= nSuggestedHeight;
+	deviceSettings.pp.BackBufferFormat		= D3DFMT_X8R8G8B8;
+	deviceSettings.pp.BackBufferCount		= 1;
+	deviceSettings.pp.MultiSampleType		= D3DMULTISAMPLE_NONE;
+	deviceSettings.pp.MultiSampleQuality	= 0;
+	deviceSettings.pp.SwapEffect			= D3DSWAPEFFECT_DISCARD;
+	deviceSettings.pp.hDeviceWindow			= DXUTGetHWND();
+	deviceSettings.pp.EnableAutoDepthStencil= true;
+	deviceSettings.pp.AutoDepthStencilFormat= D3DFMT_D24S8;
+	deviceSettings.pp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
+	deviceSettings.pp.PresentationInterval	= D3DPRESENT_INTERVAL_IMMEDIATE/*D3DPRESENT_INTERVAL_DEFAULT*/;
+
+	if(GetDXUTState().GetOverrideAdapterOrdinal() != -1)
+		deviceSettings.AdapterOrdinal = GetDXUTState().GetOverrideAdapterOrdinal();
+	deviceSettings.AdapterFormat			= D3DFMT_X8R8G8B8;
+	deviceSettings.DeviceType				= D3DDEVTYPE_HAL;
+
+	if(GetDXUTState().GetOverrideForcePureHWVP())//纯设备不支持查询某些设备状态,不会滤除任何冗余状态变化,减省cpu
+	{
+		deviceSettings.BehaviorFlags = D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_PUREDEVICE;
+	}
+	else
+	{
+		deviceSettings.BehaviorFlags = D3DCREATE_HARDWARE_VERTEXPROCESSING;
+	}
+
+	// Change to a Direct3D device created from the new device settings.  
+	// If there is an existing device, then either reset or recreated the scene
+	hr = D3DChangeDevice(&deviceSettings, NULL, false, true);
+	if(FAILED(hr))
+		return hr;
+
+	return S_OK;
+}
+
 bool CD3D9RenderWindow::Create(WNDPROC pWndProc, const std::wstring& wstrWindowTitle, unsigned long uWidth, unsigned long uHeight, bool bFullScreen)
 {
-	//////////////////////////////////////////////////////////////////////////
-#if defined(DEBUG) | defined(_DEBUG)
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-#endif
-	// TODO: Perform any application-level initialization here
-
-	// This sample requires a stencil buffer. See the callback function for details.
-	/*CGrowableArray<D3DFORMAT>* pDSFormats = DXUTGetEnumeration()->GetPossibleDepthStencilFormatList();
-	pDSFormats->RemoveAll();
-	pDSFormats->Add(D3DFMT_D24S8);
-	pDSFormats->Add(D3DFMT_D24X4S4);
-	pDSFormats->Add(D3DFMT_D15S1);
-	pDSFormats->Add(D3DFMT_D24FS8);*/
 	Init();
 	DXUTSetupCursor();
-	DXUTCreateWindow(pWndProc, wstrWindowTitle);
-	DXUTCreateDevice(D3DADAPTER_DEFAULT, !bFullScreen, uWidth, uHeight);
+	D3DCreateWindow(pWndProc, wstrWindowTitle);
+	D3DCreateDevice(D3DADAPTER_DEFAULT, !bFullScreen, uWidth, uHeight);
 	return true;
 }
 
@@ -105,8 +300,6 @@ float CD3D9RenderWindow::GetElapsedTime()
 bool CD3D9RenderWindow::FrameBegin()
 {
 	HRESULT hr;
-	DWORD dwBeginRenderTime = GetTickCount();
-
 	if (m_bMoving||m_bMinimized)
 	{
 		Sleep(50); 
@@ -122,8 +315,8 @@ bool CD3D9RenderWindow::FrameBegin()
 	{
 		if(GetDXUTState().GetDeviceLost())
 		{
-			DXUTDeviceSettings deviceSettings = DXUTGetDeviceSettings();
-			DXUTChangeDevice(&deviceSettings, NULL, false, true);
+			D3DDeviceSettings deviceSettings = DXUTGetDeviceSettings();
+			D3DChangeDevice(&deviceSettings, NULL, false, true);
 		}
 		return false;
 	}
@@ -144,40 +337,17 @@ bool CD3D9RenderWindow::FrameBegin()
 			{
 				D3DDISPLAYMODE adapterDesktopDisplayMode;
 				IDirect3D9* pD3D = DXUTGetD3DObject();
-				DXUTDeviceSettings* pDeviceSettings = GetDXUTState().GetCurrentDeviceSettings();
+				D3DDeviceSettings* pDeviceSettings = GetDXUTState().GetCurrentDeviceSettings();
 				pD3D->GetAdapterDisplayMode(pDeviceSettings->AdapterOrdinal, &adapterDesktopDisplayMode);
 				if(pDeviceSettings->AdapterFormat != adapterDesktopDisplayMode.Format)
 				{
-					DXUTMatchOptions matchOptions;
-					matchOptions.eAdapterOrdinal     = DXUTMT_PRESERVE_INPUT;
-					matchOptions.eDeviceType         = DXUTMT_PRESERVE_INPUT;
-					matchOptions.eWindowed           = DXUTMT_PRESERVE_INPUT;
-					matchOptions.eAdapterFormat      = DXUTMT_PRESERVE_INPUT;
-					matchOptions.eVertexProcessing   = DXUTMT_CLOSEST_TO_INPUT;
-					matchOptions.eResolution         = DXUTMT_CLOSEST_TO_INPUT;
-					matchOptions.eBackBufferFormat   = DXUTMT_CLOSEST_TO_INPUT;
-					matchOptions.eBackBufferCount    = DXUTMT_CLOSEST_TO_INPUT;
-					matchOptions.eMultiSample        = DXUTMT_CLOSEST_TO_INPUT;
-					matchOptions.eSwapEffect         = DXUTMT_CLOSEST_TO_INPUT;
-					matchOptions.eDepthFormat        = DXUTMT_CLOSEST_TO_INPUT;
-					matchOptions.eStencilFormat      = DXUTMT_CLOSEST_TO_INPUT;
-					matchOptions.ePresentFlags       = DXUTMT_CLOSEST_TO_INPUT;
-					matchOptions.eRefreshRate        = DXUTMT_CLOSEST_TO_INPUT;
-					matchOptions.ePresentInterval    = DXUTMT_CLOSEST_TO_INPUT;
 
-					DXUTDeviceSettings deviceSettings = DXUTGetDeviceSettings();
+					D3DDeviceSettings deviceSettings = DXUTGetDeviceSettings();
 					deviceSettings.AdapterFormat = adapterDesktopDisplayMode.Format;
-
-					hr = DXUTFindValidDeviceSettings(&deviceSettings, &deviceSettings, &matchOptions);
-					if(FAILED(hr)) // the call will fail if no valid devices were found
-					{
-						DXUTDisplayErrorMessage(DXUTERR_NOCOMPATIBLEDEVICES);
-						DXUTShutdown();
-					}
 
 					// Change to a Direct3D device created from the new device settings.  
 					// If there is an existing device, then either reset or recreate the scene
-					hr = DXUTChangeDevice(&deviceSettings, NULL, false, false);
+					hr = D3DChangeDevice(&deviceSettings, NULL, false, false);
 					if(FAILED(hr))  
 					{
 						// If this fails, try to go fullscreen and if this fails also shutdown.
@@ -209,8 +379,8 @@ bool CD3D9RenderWindow::FrameBegin()
 					{
 						// Reset failed, but the device wasn't lost so something bad happened, 
 						// so recreate the device to try to recover
-						DXUTDeviceSettings* pDeviceSettings = GetDXUTState().GetCurrentDeviceSettings();
-						if(FAILED(DXUTChangeDevice(pDeviceSettings, NULL, true, false)))
+						D3DDeviceSettings* pDeviceSettings = GetDXUTState().GetCurrentDeviceSettings();
+						if(FAILED(D3DChangeDevice(pDeviceSettings, NULL, true, false)))
 						{
 							DXUTShutdown();
 							return false;
@@ -222,13 +392,7 @@ bool CD3D9RenderWindow::FrameBegin()
 
 		GetDXUTState().SetDeviceLost(false);
 	}
-	DWORD dwEndRenderTime = GetTickCount();
-
-
 	// Get the app's time, in seconds. Skip rendering if no time elapsed
-
-
-
 	return true;
 }
 
@@ -239,19 +403,6 @@ void CD3D9RenderWindow::FrameEnd()
 	IDirect3DDevice9* pd3dDevice = DXUTGetD3DDevice();
 	if(NULL == pd3dDevice) // Handle DXUTShutdown from inside callback
 		return;
-
-
-#if defined(DEBUG) || defined(_DEBUG)
-	// check backbuffer covers the entire window
-	/*RECT rcClient;
-	GetClientRect(GetHWND(), &rcClient);
-	if(!IsIconic(GetHWND()))
-	{
-		GetClientRect(GetHWND(), &rcClient);
-		assert(DXUTGetBackBufferSurfaceDesc()->Width == (UINT)rcClient.right);
-		assert(DXUTGetBackBufferSurfaceDesc()->Height == (UINT)rcClient.bottom);
-	}*/
-#endif
 
 	// Show the frame on the primary surface.
 	hr = pd3dDevice->Present(NULL, NULL, NULL, NULL);
@@ -274,6 +425,78 @@ HWND CD3D9RenderWindow::GetHWND()
 	return DXUTGetHWND();
 }
 
+void CD3D9RenderWindow::CheckForWindowSizeChange()
+{
+	// Skip the check for various reasons
+	if( !GetDXUTState().GetDeviceCreated() || 
+		!GetDXUTState().GetCurrentDeviceSettings()->pp.Windowed)
+		return;
+
+	RECT rcCurrentClient;
+	GetClientRect(DXUTGetHWND(), &rcCurrentClient);
+
+	if((UINT)rcCurrentClient.right != GetDXUTState().GetCurrentDeviceSettings()->pp.BackBufferWidth ||
+		(UINT)rcCurrentClient.bottom != GetDXUTState().GetCurrentDeviceSettings()->pp.BackBufferHeight)
+	{
+		// A new window size will require a new backbuffer size
+		// size, so the device must be reset and the D3D structures updated accordingly.
+
+		// Tell DXUTChangeDevice and D3D to size according to the HWND's client rect
+		D3DDeviceSettings deviceSettings = DXUTGetDeviceSettings();
+		deviceSettings.pp.BackBufferWidth  = 0; 
+		deviceSettings.pp.BackBufferHeight = 0;
+		D3DChangeDevice(&deviceSettings, NULL, false, false);
+	}
+}
+
+// Checks to see if the HWND changed monitors, and if it did it creates a device 
+// from the monitor's adapter and recreates the scene.
+void CD3D9RenderWindow::CheckForWindowChangingMonitors()
+{
+	// Skip this check for various reasons
+	if(!GetDXUTState().GetAutoChangeAdapter() || 
+		!GetDXUTState().GetDeviceCreated() ||
+		!GetDXUTState().GetCurrentDeviceSettings()->pp.Windowed)
+	{
+		return;
+	}
+
+	HRESULT hr;
+	HMONITOR hWindowMonitor = DXUTMonitorFromWindow(DXUTGetHWND(), MONITOR_DEFAULTTOPRIMARY);
+	HMONITOR hAdapterMonitor = GetDXUTState().GetAdapterMonitor();
+	if(hWindowMonitor != hAdapterMonitor)
+	{
+		UINT newOrdinal;
+		if(SUCCEEDED(DXUTGetAdapterOrdinalFromMonitor(hWindowMonitor, &newOrdinal)))
+		{
+			// Find the closest valid device settings with the new ordinal
+			D3DDeviceSettings deviceSettings = DXUTGetDeviceSettings();
+			deviceSettings.AdapterOrdinal = newOrdinal;
+
+
+			//hr = DXUTFindValidDeviceSettings(&deviceSettings, &deviceSettings);
+			//if(SUCCEEDED(hr)) 
+			{
+				// Create a Direct3D device using the new device settings.  
+				// If there is an existing device, then it will either reset or recreate the scene.
+				hr = D3DChangeDevice(&deviceSettings, NULL, false, false);
+
+				// If hr == E_ABORT, this means the app rejected the device settings in the ModifySettingsCallback
+				if(hr == E_ABORT)
+				{
+					// so nothing changed and keep from attempting to switch adapters next time
+					GetDXUTState().SetAutoChangeAdapter(false);
+				}
+				else if(FAILED(hr))
+				{
+					DXUTShutdown();
+					return;
+				}
+			}
+		}
+	}    
+}
+
 LRESULT CD3D9RenderWindow::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch(uMsg)
@@ -284,13 +507,7 @@ LRESULT CD3D9RenderWindow::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM l
 
 			if(pd3dDevice && m_bMoving)
 			{
-				HRESULT hr;
-				// double fTime = DXUTGetTime();
-				// float fElapsedTime = DXUTGetElapsedTime();
-
-				// GetRoot().OnFrameRender(fTime, fElapsedTime);
-
-				hr = pd3dDevice->Present(NULL, NULL, NULL, NULL);
+				HRESULT hr = pd3dDevice->Present(NULL, NULL, NULL, NULL);
 				if(D3DERR_DEVICELOST == hr)
 				{
 					GetDXUTState().SetDeviceLost(true);
@@ -323,25 +540,25 @@ LRESULT CD3D9RenderWindow::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM l
 			else if(SIZE_MAXIMIZED == wParam)
 			{
 				m_bMinimized = false;
-				DXUTCheckForWindowSizeChange();
-				DXUTCheckForWindowChangingMonitors();
+				CheckForWindowSizeChange();
+				CheckForWindowChangingMonitors();
 			}
 			else if(SIZE_RESTORED == wParam)
 			{      
 				m_bMinimized = false;
 				if(!m_bMoving)
 				{
-					DXUTCheckForWindowSizeChange();
-					DXUTCheckForWindowChangingMonitors();
+					CheckForWindowSizeChange();
+					CheckForWindowChangingMonitors();
 				}
 			}
 		}
 		break;
-#define DXUT_MIN_WINDOW_SIZE_X 200
-#define DXUT_MIN_WINDOW_SIZE_Y 200
+
 	case WM_GETMINMAXINFO:
-		((MINMAXINFO*)lParam)->ptMinTrackSize.x = DXUT_MIN_WINDOW_SIZE_X;
-		((MINMAXINFO*)lParam)->ptMinTrackSize.y = DXUT_MIN_WINDOW_SIZE_Y;
+		// 设定窗口的最大最小尺寸，拖动尺寸... 
+		((MINMAXINFO*)lParam)->ptMinTrackSize.x = 200;
+		((MINMAXINFO*)lParam)->ptMinTrackSize.y = 200;
 		break;
 
 	case WM_ENTERSIZEMOVE:
@@ -350,8 +567,8 @@ LRESULT CD3D9RenderWindow::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM l
 		break;
 
 	case WM_EXITSIZEMOVE:
-		DXUTCheckForWindowSizeChange();
-		DXUTCheckForWindowChangingMonitors();
+		CheckForWindowSizeChange();
+		CheckForWindowChangingMonitors();
 		m_bMoving = false;
 		break;
 
@@ -487,7 +704,7 @@ LRESULT CD3D9RenderWindow::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM l
 				case VK_ESCAPE:
 					{
 						// Received key to exit app
-						SendMessage(hWnd, WM_CLOSE, 0, 0);
+						// SendMessage(hWnd, WM_CLOSE, 0, 0);
 					}
 
 				case VK_PAUSE: 
@@ -501,15 +718,10 @@ LRESULT CD3D9RenderWindow::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM l
 
 	case WM_CLOSE:
 		{
-			HMENU hMenu;
-			hMenu = GetMenu(hWnd);
-			if(hMenu != NULL)
-				DestroyMenu(hMenu);
 			DestroyWindow(hWnd);
 			UnregisterClass(L"Direct3DWindowClass", NULL);
 			GetDXUTState().SetHWNDFocus(NULL);
-			GetDXUTState().SetHWNDDeviceFullScreen(NULL);
-			GetDXUTState().SetHWNDDeviceWindowed(NULL);
+			GetDXUTState().SetHWND(NULL);
 			return 0;
 		}
 

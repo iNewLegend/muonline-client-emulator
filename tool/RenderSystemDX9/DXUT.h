@@ -1,10 +1,6 @@
 #pragma once
 
-// Structs
-
-class CD3DEnumeration;
-
-struct DXUTDeviceSettings
+struct D3DDeviceSettings
 {
     UINT AdapterOrdinal;
     D3DDEVTYPE DeviceType;
@@ -12,8 +8,6 @@ struct DXUTDeviceSettings
     DWORD BehaviorFlags;
     D3DPRESENT_PARAMETERS pp;
 };
-
-// Error codes
 
 #define DXUTERR_NODIRECT3D              MAKE_HRESULT(SEVERITY_ERROR, FACILITY_ITF, 0x0901)
 #define DXUTERR_NOCOMPATIBLEDEVICES     MAKE_HRESULT(SEVERITY_ERROR, FACILITY_ITF, 0x0902)
@@ -31,94 +25,44 @@ void    DXUTSetupCursor();
 typedef bool    (CALLBACK *LPDXUTCALLBACKISDEVICEACCEPTABLE)(D3DCAPS9* pCaps, D3DFORMAT AdapterFormat, D3DFORMAT BackBufferFormat, bool bWindowed, void* pUserContext);
 
 bool    CALLBACK IsDeviceAcceptable(D3DCAPS9* pCaps, D3DFORMAT AdapterFormat, D3DFORMAT BackBufferFormat, bool bWindowed, void* pUserContext);
-bool    CALLBACK ModifyDeviceSettings(DXUTDeviceSettings* pDeviceSettings, const D3DCAPS9* pCaps, void* pUserContext);
 
 // Initialization
-HRESULT DXUTInit();
+HRESULT D3DInit();
 
-// Choose either DXUTCreateWindow or DXUTSetWindow.  If using DXUTSetWindow, consider using DXUTStaticWndProc
-HRESULT DXUTCreateWindow(WNDPROC pWndProc = NULL, const std::wstring& strWindowTitle = L"Direct3D Window", 
-                          HINSTANCE hInstance = NULL, HICON hIcon = NULL, HMENU hMenu = NULL,
-                          int x = CW_USEDEFAULT, int y = CW_USEDEFAULT);
-HRESULT DXUTSetWindow(WNDPROC pWndProc, HWND hWndFocus, HWND hWndDeviceFullScreen, HWND hWndDeviceWindowed, bool bHandleMessages = true);
 
-// Choose either DXUTCreateDevice or DXUTSetDevice or DXUTCreateDeviceFromSettings
-HRESULT DXUTCreateDevice(UINT AdapterOrdinal = D3DADAPTER_DEFAULT, bool bWindowed = true, 
-                          int nSuggestedWidth = 0, int nSuggestedHeight = 0);
-HRESULT DXUTCreateDeviceFromSettings(DXUTDeviceSettings* pDeviceSettings, bool bPreserveInput = false, bool bClipWindowToSingleAdapter = true);
 HRESULT DXUTSetDevice(IDirect3DDevice9* pd3dDevice);
 
 
 void DXUTCloseWindow();
 
-// Finding valid device settings
-
-enum DXUT_MATCH_TYPE
-{
-    DXUTMT_IGNORE_INPUT = 0,  // Use the closest valid value to a default 
-    DXUTMT_PRESERVE_INPUT,    // Use input without change, but may cause no valid device to be found
-    DXUTMT_CLOSEST_TO_INPUT   // Use the closest valid value to the input 
-};
-
-struct DXUTMatchOptions
-{
-    DXUT_MATCH_TYPE eAdapterOrdinal;
-    DXUT_MATCH_TYPE eDeviceType;
-    DXUT_MATCH_TYPE eWindowed;
-    DXUT_MATCH_TYPE eAdapterFormat;
-    DXUT_MATCH_TYPE eVertexProcessing;
-    DXUT_MATCH_TYPE eResolution;
-    DXUT_MATCH_TYPE eBackBufferFormat;
-    DXUT_MATCH_TYPE eBackBufferCount;
-    DXUT_MATCH_TYPE eMultiSample;
-    DXUT_MATCH_TYPE eSwapEffect;
-    DXUT_MATCH_TYPE eDepthFormat;
-    DXUT_MATCH_TYPE eStencilFormat;
-    DXUT_MATCH_TYPE ePresentFlags;
-    DXUT_MATCH_TYPE eRefreshRate;
-    DXUT_MATCH_TYPE ePresentInterval;
-};
-
-HRESULT DXUTFindValidDeviceSettings(DXUTDeviceSettings* pOut, DXUTDeviceSettings* pIn = NULL, DXUTMatchOptions* pMatchOptions = NULL);
-
 // Common Tasks 
 HRESULT DXUTToggleFullScreen();
-void    DXUTResetFrameworkState();
-void    DXUTShutdown(int nExitCode = 0);
-
-template< typename TYPE >
-class CGrowableArray;
+void    DXUTShutdown();
 
 // Helper macros to build member functions that access member variables with thread safety
 
-#define SET_ACCESSOR(x, y)       inline void Set##y(x t)  { m_state.m_##y = t; };
-#define GET_ACCESSOR(x, y)       inline x Get##y() { return m_state.m_##y; };
+#define SET_ACCESSOR(x, y)       inline void Set##y(x t)  { m_##y = t; };
+#define GET_ACCESSOR(x, y)       inline x Get##y() { return m_##y; };
 #define GET_SET_ACCESSOR(x, y)   SET_ACCESSOR(x, y) GET_ACCESSOR(x, y)
 
-#define SETP_ACCESSOR(x, y)      inline void Set##y(x* t)  { m_state.m_##y = *t; };
-#define GETP_ACCESSOR(x, y)      inline x* Get##y() { return &m_state.m_##y; };
+#define SETP_ACCESSOR(x, y)      inline void Set##y(x* t)  { m_##y = *t; };
+#define GETP_ACCESSOR(x, y)      inline x* Get##y() { return &m_##y; };
 #define GETP_SETP_ACCESSOR(x, y) SETP_ACCESSOR(x, y) GETP_ACCESSOR(x, y)
-
 
 class DXUTState
 {
-protected:
-	struct STATE
-	{
+public:
 		IDirect3D9*          m_D3D;                     // the main D3D object
 
 		IDirect3DDevice9*    m_D3DDevice;               // the D3D rendering device
-		CD3DEnumeration*     m_D3DEnumeration;          // CD3DEnumeration object
 
-		DXUTDeviceSettings*  m_CurrentDeviceSettings;   // current device settings
-		D3DSURFACE_DESC      m_BackBufferSurfaceDesc;   // back buffer surface description
+		D3DDeviceSettings*  m_CurrentDeviceSettings;   // current device settings
 		D3DCAPS9             m_Caps;                    // D3D caps for current device
 
 
 		LONG_PTR m_WndProc;//
 		HWND  m_HWNDFocus;                  // the main app focus window
-		HWND  m_HWNDDeviceFullScreen;       // the main app device window in fullscreen mode
-		HWND  m_HWNDDeviceWindowed;         // the main app device window in windowed mode
+		HWND  m_HWND;
 		HMONITOR m_AdapterMonitor;          // the monitor of the adapter 
 
 		UINT m_FullScreenBackBufferWidthAtModeChange;  // back buffer size of fullscreen mode right before switching to windowed mode.  Used to restore to same resolution when toggling back to fullscreen
@@ -133,7 +77,6 @@ protected:
 		HINSTANCE m_HInstance;              // handle to the app instance
 
 		bool  m_AutoChangeAdapter;          // if true, then the adapter will automatically change if the window is different monitor
-		int   m_ExitCode;                   // the exit code to be returned to the command line
 
 		bool  m_DXUTInited;                 // if true, then DXUTInit() has succeeded
 		bool  m_WindowCreated;              // if true, then DXUTCreateWindow() or DXUTSetWindow() has succeeded
@@ -150,13 +93,6 @@ protected:
 
 		int   m_OverrideAdapterOrdinal;     // if != -1, then override to use this adapter ordinal
 		bool  m_OverrideForcePureHWVP;      // if true, then force to use pure HWVP (failing if device doesn't support it)
-
-		WCHAR                        m_StaticFrameStats[256];           // static part of frames stats 
-		WCHAR                        m_DeviceStats[256];                // device stats (description, device type, etc)
-	};
-
-	STATE m_state;
-
 public:
 	DXUTState();
 	~DXUTState();
@@ -168,15 +104,12 @@ public:
 	GET_SET_ACCESSOR(IDirect3D9*, D3D);
 
 	GET_SET_ACCESSOR(IDirect3DDevice9*, D3DDevice);
-	GET_SET_ACCESSOR(CD3DEnumeration*, D3DEnumeration);   
-	GET_SET_ACCESSOR(DXUTDeviceSettings*, CurrentDeviceSettings);   
-	GETP_SETP_ACCESSOR(D3DSURFACE_DESC, BackBufferSurfaceDesc);
+	GET_SET_ACCESSOR(D3DDeviceSettings*, CurrentDeviceSettings);   
 	GETP_SETP_ACCESSOR(D3DCAPS9, Caps);
 
 	GET_SET_ACCESSOR(LONG_PTR, WndProc);
 	GET_SET_ACCESSOR(HWND, HWNDFocus);
-	GET_SET_ACCESSOR(HWND, HWNDDeviceFullScreen);
-	GET_SET_ACCESSOR(HWND, HWNDDeviceWindowed);
+	GET_SET_ACCESSOR(HWND, HWND);
 	GET_SET_ACCESSOR(HMONITOR, AdapterMonitor);
 
 	GET_SET_ACCESSOR(UINT, FullScreenBackBufferWidthAtModeChange);
@@ -190,11 +123,11 @@ public:
 	GET_SET_ACCESSOR(HINSTANCE, HInstance);
 
 	GET_SET_ACCESSOR(bool, AutoChangeAdapter);
-	GET_SET_ACCESSOR(int, ExitCode);
 
 	GET_SET_ACCESSOR(bool, DXUTInited);
 	GET_SET_ACCESSOR(bool, WindowCreated);
 	GET_SET_ACCESSOR(bool, DeviceCreated);
+
 	GET_SET_ACCESSOR(bool, DXUTInitCalled);
 	GET_SET_ACCESSOR(bool, WindowCreateCalled);
 	GET_SET_ACCESSOR(bool, DeviceCreateCalled);
@@ -202,9 +135,6 @@ public:
 
 	GET_SET_ACCESSOR(int, OverrideAdapterOrdinal);
 	GET_SET_ACCESSOR(bool, OverrideForcePureHWVP);
-
-	GET_ACCESSOR(WCHAR*, StaticFrameStats);
-	GET_ACCESSOR(WCHAR*, DeviceStats);    
 };
 
 DXUTState& GetDXUTState();
@@ -212,21 +142,12 @@ typedef DECLSPEC_IMPORT UINT (WINAPI* LPTIMEBEGINPERIOD)(UINT uPeriod);
 void    DXUTDisplayErrorMessage(HRESULT hr);
 
 // State Retrieval  
-
 IDirect3D9*             DXUTGetD3DObject(); // Does not addref unlike typical Get* APIs
 IDirect3DDevice9*       DXUTGetD3DDevice(); // Does not addref unlike typical Get* APIs
-DXUTDeviceSettings      DXUTGetDeviceSettings(); 
-const D3DSURFACE_DESC*  DXUTGetBackBufferSurfaceDesc();
+D3DDeviceSettings      DXUTGetDeviceSettings(); 
 HWND                    DXUTGetHWND();
 HWND                    DXUTGetHWNDFocus();
-HWND                    DXUTGetHWNDDeviceFullScreen();
-HWND                    DXUTGetHWNDDeviceWindowed();
 bool                    DXUTIsWindowed();
-LPCWSTR                 DXUTGetDeviceStats();
-int                     DXUTGetExitCode();
 
-
-HRESULT DXUTChangeDevice(DXUTDeviceSettings* pNewDeviceSettings, IDirect3DDevice9* pd3dDeviceFromApp, bool bForceRecreate, bool bClipWindowToSingleAdapter);
-void    DXUTCheckForWindowSizeChange();
-void    DXUTCheckForWindowChangingMonitors();
+HRESULT D3DChangeDevice(D3DDeviceSettings* pNewDeviceSettings, IDirect3DDevice9* pd3dDeviceFromApp, bool bForceRecreate, bool bClipWindowToSingleAdapter);
 HRESULT DXUTReset3DEnvironment();
