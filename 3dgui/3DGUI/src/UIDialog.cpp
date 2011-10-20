@@ -310,22 +310,7 @@ void CUIDialog::OnFrameRender(const Matrix& mTransform, double fTime, float fEla
 	// render controls
 	for(size_t i=0;i<m_Controls.size();++i)
 	{
-		CUIControl* pControl = m_Controls[i];   
-
-		if (pControl->IsFocus())
-		{
-			continue;
-		}
-		pControl->OnFrameRender(mNewTransform,fTime,fElapsedTime);
-	}
-	for(size_t i=0;i<m_Controls.size();++i)
-	{
-		CUIControl* pControl = m_Controls[i];   
-
-		if (pControl->IsFocus())
-		{
-			pControl->OnFrameRender(mNewTransform,fTime, fElapsedTime);
-		}
+		m_Controls[i]->OnFrameRender(mNewTransform,fTime,fElapsedTime);
 	}
 	//
 	for(size_t i=0;i<m_Dialogs.size();++i)
@@ -336,7 +321,6 @@ void CUIDialog::OnFrameRender(const Matrix& mTransform, double fTime, float fEla
 			pDialog->OnFrameRender(mNewTransform,fTime,fElapsedTime);
 		}
 	}
-	return;
 }
 
 bool CUIDialog::postMsg(const std::string& strMsg)

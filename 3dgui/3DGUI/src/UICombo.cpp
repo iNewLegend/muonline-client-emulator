@@ -380,22 +380,7 @@ void CUICombo::OnFrameRender(const Matrix& mTransform, double fTime, float fElap
 	// render controls
 	for(size_t i=0;i<m_Controls.size();++i)
 	{
-		CUIControl* pControl = m_Controls[i];   
-
-		if (pControl->IsFocus())
-		{
-			continue;
-		}
-		pControl->OnFrameRender(m_mWorld,fTime,fElapsedTime);
-	}
-	for(size_t i=0;i<m_Controls.size();++i)
-	{
-		CUIControl* pControl = m_Controls[i];   
-
-		if (pControl->IsFocus())
-		{
-			pControl->OnFrameRender(m_mWorld,fTime, fElapsedTime);
-		}
+		m_Controls[i]->OnFrameRender(m_mWorld,fTime,fElapsedTime);
 	}
 }
 
@@ -518,25 +503,10 @@ bool CUICombo::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 CUIControl* CUICombo::GetControlAtPoint(POINT pt)
 {
-	for(size_t i=0;i<m_Controls.size();++i)
-	{
-		CUIControl* pControl = m_Controls[i];
-		if (pControl->IsFocus())
-		{
-			if (pControl->ContainsPoint(pt))
-			{
-				return pControl;
-			}
-		}
-	}
 	for(int i = m_Controls.size()-1; i >= 0; i--)
 	{
 		CUIControl* pControl = m_Controls[i];
-		if(pControl==NULL)
-		{
-			continue;
-		}
-		if(pControl->ContainsPoint(pt) && pControl->GetEnabled() && pControl->IsVisible())
+		if(m_Controls[i]->IsVisible() && m_Controls[i]->GetEnabled() && m_Controls[i]->ContainsPoint(pt))
 		{
 			return pControl;
 		}
