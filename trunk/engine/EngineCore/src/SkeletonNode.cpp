@@ -49,6 +49,25 @@ void CSkeletonNode::frameMove(const Matrix& mWorld, double fTime, float fElapsed
 	CRenderNode::frameMove(mNewWorld,fTime,fElapsedTime);
 }
 
+void CSkeletonNode::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)const
+{
+	Matrix mNewWorld = mWorld;
+	if (m_pParent&&m_pParent->getType()==NODE_SKELETON)
+	{
+		CSkeletonNode* pModel = (CSkeletonNode*)m_pParent;
+		if (pModel->getSkeletonData())
+		{
+			if (m_nBindingBoneID!=-1)
+			{
+				Matrix mBoneLocal = pModel->getSkeletonData()->m_Bones[m_nBindingBoneID].m_mInvLocal;
+				mBoneLocal.Invert();
+				Matrix mBone = pModel->m_setBonesMatrix[m_nBindingBoneID]*mBoneLocal;
+				mNewWorld *= mBone;
+			}
+		}
+	}
+	CRenderNode::render(mNewWorld,eRenderType);
+}
 bool CSkeletonNode::setup()
 {
 	if (m_pSkeletonData==m_pData)
