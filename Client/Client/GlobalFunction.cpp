@@ -50,7 +50,7 @@ void InitLua(lua_State * L)
 		.def("setClass",		& CPlayerMe::setClass)
 		.def("setSkeleton",		& CPlayerMe::setSkeleton)
 		.def("setEquip",		& CPlayerMe::setEquip)
-		.def("setEquipLevel",	& CPlayerMe::setEquipLevel);
+		.def("setEquipSkin",	& CPlayerMe::setEquipSkin);
 	// ----
 	lua_tinker::class_<CPlayerMe>(L, "CPlayerMe")
 		.inh<CRole>()

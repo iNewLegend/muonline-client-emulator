@@ -87,34 +87,33 @@ enum e_GAME_POROTOCOL_MSG_F3
 
 enum EQUIP_TYPE
 {
-	ET_HELM=7,
+	ET_HELM,
 	ET_ARMOR,
 	ET_PANT,
 	ET_GLOVE,
 	ET_BOOT,
+	ET_BACK,
+	ET_LEFT,
+	ET_RIGHT,
 	ET_MAX,
 };
 static const char* EQUIP_TYPE_NAME[ET_MAX]=
 {
-	"",
-	"",
-	"",
-	"",
-	"",
-	"",
-	"",
 	"helm",
 	"armor",
 	"pant",
 	"glove",
 	"boot",
+	"back",
+	"left",
+	"right",
 };
 
 struct CHARSET
 {
 	unsigned char CharSet[CHAR_SET_SIZE];	// F
 	void setEquip(EQUIP_TYPE eEqupID,unsigned char id){((eEqupID-1)%2)?SET_CHAR_L(CharSet[(eEqupID-1)/2],id):SET_CHAR_H(CharSet[(eEqupID-1)/2],id);}
-	unsigned char  getEquip(EQUIP_TYPE eEqupID)const{return ((eEqupID-1)%2)?GET_CHAR_H(CharSet[(eEqupID-1)/2]):GET_CHAR_H(CharSet[(eEqupID-1)/2]);}
+	unsigned char  getEquip(EQUIP_TYPE eEqupID)const{return ((eEqupID-1)%2)?GET_CHAR_L(CharSet[(eEqupID-1)/2]):GET_CHAR_H(CharSet[(eEqupID-1)/2]);}
 	unsigned char  getWeapon()const{return CharSet[1];}
 };
 //////////////////////////////////////////////////////////////////////////

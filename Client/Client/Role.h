@@ -54,7 +54,7 @@ public:
 	void			setSkeleton		();
 	void			setSet			(const CHARSET & charSet);
 	void			setEquip		(int nType, int nEquipID);
-	void			setEquipLevel	(int nType, int nLevel);
+	void			setEquipSkin	(int nType, int nSkinID);
 	// ----
 	void			setCellPos		(int x, int y);
 	void			setTargetCellPos(int x, int y);

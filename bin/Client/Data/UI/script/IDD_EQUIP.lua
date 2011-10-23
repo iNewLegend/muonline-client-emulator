@@ -32,11 +32,11 @@ m_PlayerView = CRole()
 				m_PlayerView:setEquip(9,1)
 				m_PlayerView:setEquip(10,1)
 				m_PlayerView:setEquip(11,1)
-				m_PlayerView:setEquipLevel(7,9)
-				m_PlayerView:setEquipLevel(8,4)
-				m_PlayerView:setEquipLevel(9,9)
-				m_PlayerView:setEquipLevel(10,9)
-				m_PlayerView:setEquipLevel(11,9)
+				m_PlayerView:setEquipSkin(7,1)
+				m_PlayerView:setEquipSkin(8,2)
+				m_PlayerView:setEquipSkin(9,3)
+				m_PlayerView:setEquipSkin(10,4)
+				m_PlayerView:setEquipSkin(11,1)
 				m_PlayerView:setActionState(0);
 m_DisplayPlayer:setRenderNode(m_PlayerView)
 m_DisplayPlayer.m_vEye=Vec3D(0.0,1.0,-3)
@@ -47,7 +47,7 @@ function IDD_EQUIP_OnBtnHead()
 	local nIndex = math.random(0,10)
 	local nLevel = math.random(10,30)
 	g_PlayerMe:setEquip(7,nIndex)
-	g_PlayerMe:setEquipLevel(7,nLevel)
+	g_PlayerMe:setEquipSkin(7,nLevel)
 	--
 	itemData = ItemData()
 	itemData.cType = 7;
@@ -62,7 +62,7 @@ function IDD_EQUIP_OnBtnArmor()
 	local nIndex = math.random(0,10)
 	local nLevel = math.random(30,40)
 	g_PlayerMe:setEquip(8,nIndex)
-	g_PlayerMe:setEquipLevel(8,nLevel)
+	g_PlayerMe:setEquipSkin(8,nLevel)
 	--
 	itemData = ItemData()
 	itemData.cType = 8;
@@ -73,9 +73,9 @@ function IDD_EQUIP_OnBtnArmor()
 end
 function IDD_EQUIP_OnBtnGlove()
 	local nIndex = math.random(0,10)
-	local nLevel = math.random(0,10)
+	local nLevel = math.random(0,4)
 	g_PlayerMe:setEquip(9,nIndex)
-	g_PlayerMe:setEquipLevel(9,nLevel)
+	g_PlayerMe:setEquipSkin(9,nLevel)
 	--
 	itemData = ItemData()
 	itemData.cType = 9;
@@ -85,9 +85,9 @@ function IDD_EQUIP_OnBtnGlove()
 end
 function IDD_EQUIP_OnBtnPant()
 	local nIndex = math.random(0,10)
-	local nLevel = math.random(0,10)
+	local nLevel = math.random(0,4)
 	g_PlayerMe:setEquip(10,nIndex)
-	g_PlayerMe:setEquipLevel(10,nLevel)
+	g_PlayerMe:setEquipSkin(10,nLevel)
 	--
 	itemData = ItemData()
 	itemData.cType = 10;
@@ -97,9 +97,9 @@ function IDD_EQUIP_OnBtnPant()
 end
 function IDD_EQUIP_OnBtnBoot()
 	local nType = math.random(0,10)
-	local nLevel = math.random(0,10)
+	local nLevel = math.random(0,4)
 	g_PlayerMe:setEquip(11,nType)
-	g_PlayerMe:setEquipLevel(11,nLevel)
+	g_PlayerMe:setEquipSkin(11,nLevel)
 	--
 	itemData = ItemData()
 	itemData.cType = 11;
