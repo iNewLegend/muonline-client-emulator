@@ -58,7 +58,19 @@ void importSkeletonBons(iSkeletonData& skeletonData, CMUBmd& bmd)
 			pBoneInfo->setName(itBmdBone->szName);
 			pBoneInfo->setInvLocal(mInvLocal);
 			pBoneInfo->setParent(nParent);
+
+			if (skeletonData)
+			{
+			}
+			ofstream file3("Skeleton.txt");//以输出方式打开文件
+			if ()
+			{
+
+			}
 		}
+	}
+	if (bmd.bmdSkeleton.setBmdBone.size())
+	{
 	}
 }
 
@@ -101,12 +113,9 @@ void importSkeletonAnims(iSkeletonData& skeletonData, CMUBmd& bmd)
 			
 			long timeEnd = nFrameCount;
 
-			std::string strAnimName;
-			{
-				char szID[256]={0};
-				itoa(uAnimID,szID,10);
-				strAnimName=szID;
-			}
+			char szTemp[256]={0};
+			std::string strAnimName = itoa(uAnimID,szTemp,10);
+
 			/*switch(uAnimID)
 			{
 			case 0:strAnimName+="Idle0";
