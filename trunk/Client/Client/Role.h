@@ -37,6 +37,8 @@ protected:
 	std::deque<char>m_Path;
 	// ----
 	unsigned char	m_uActionState;
+	unsigned char	m_uWeaponState;
+	unsigned char	m_uSafeState;
 	// ----
 	float			m_fWalkSpeed;
 	Vec3D			m_vNextPos;
@@ -61,8 +63,12 @@ public:
 	// ----
 	void			drawName		() const;
 	// ----
-	virtual void	setActionState	(unsigned char uActionState);
-	virtual unsigned char	getActionState	();
+	virtual void	updateAction	();
+	virtual void	setSafeState	(unsigned char uState)		{ m_uSafeState=uState; updateAction();}
+	virtual void	setActionState	(unsigned char uState)		{ m_uActionState=uState; updateAction();}
+	virtual void	setWeaponState	(unsigned char uState)		{ m_uWeaponState=uState; updateAction();}
+	UCHAR			getActionState	()const						{ return m_uActionState; };
+	UCHAR			getWeaponState	()const						{ return m_uWeaponState; };
 	virtual void	playWalkSound	();
 	// ----
 	virtual int		GetObjType		()							{ return MAP_ROLE; }
@@ -81,7 +87,7 @@ public:
 	// ----
 	ULONG			getID			()							{ return m_uID; };
 	const wchar_t*	getName			()							{ return m_wstrName.c_str(); };
-	UCHAR			getActionState	()const						{ return m_uActionState; };
+
 	std::deque<char>& getPath		()							{ return m_Path; };
 	// ----
 	void			moveStep();
@@ -99,6 +105,14 @@ public:
 		SPELL,
 		DIE,
 		DEATH
+	};
+	enum /* WeaponStateType */
+	{
+		EMPTY,
+		SINGLE,
+		DOUBLE,
+		BOW,
+		CROSSBOW
 	};
 };
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
