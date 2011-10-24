@@ -1,0 +1,11 @@
+sex	mount	weapon	stand	walk	run	hit	die
+	-1	empty	1	15	24	38	211
+	-1	single	1	15	24	38	211
+	-1	double	1	15	24	38	211
+	-1	bow	1	15	24	38	211
+	-1	crossbow	1	15	24	38	211
+	0	empty	1	15	24	38	211
+	0	single	1	15	24	38	211
+	0	double	1	15	24	38	211
+	0	bow	1	15	24	38	211
+	0	crossbow	1	15	24	38	211
