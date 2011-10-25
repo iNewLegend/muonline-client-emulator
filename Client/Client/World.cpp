@@ -237,17 +237,17 @@ void CWorld::addDamageInfo(Vec3D vPos,const std::wstring & wcsInfo)
 void CWorld::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
 	// ----
+	FOR_IN(it,m_mapRole)
+	{
+		it->second->frameMoveRole(Matrix::UNIT, fTime, fElapsedTime);
+	}
+	// ----
 	FOR_IN(it,m_RenderNodes)
 	{
 		if((*it)->getType())
 		{
 			(*it)->frameMove(Matrix::UNIT, fTime, fElapsedTime);
 		}
-	}
-	// ----
-	FOR_IN(it,m_mapRole)
-	{
-		it->second->frameMoveRole(Matrix::UNIT, fTime, fElapsedTime);
 	}
 	// ----
 	// # Delete the old roles

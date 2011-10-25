@@ -93,8 +93,8 @@ enum EQUIP_TYPE
 	ET_GLOVE,
 	ET_BOOT,
 	ET_BACK,
-	ET_LEFT,
 	ET_RIGHT,
+	ET_LEFT,
 	ET_MAX,
 };
 static const char* EQUIP_TYPE_NAME[ET_MAX]=
