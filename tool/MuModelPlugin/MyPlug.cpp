@@ -44,15 +44,16 @@ void  transformRedundance(const std::vector<_T>& setIn, std::vector<_T>& setOut,
 
 void importSkeletonBons(iSkeletonData& skeletonData, CMUBmd& bmd)
 {
-			if (bmd.bmdSkeleton.setBmdBone.size()>100)
-			{
-				int id=0;
-				std::ofstream file3("D:\Skeleton.txt");//以输出方式打开文件
-				for (std::vector<CMUBmd::BmdSkeleton::BmdBone>::iterator itBmdBone=bmd.bmdSkeleton.setBmdBone.begin();itBmdBone!=bmd.bmdSkeleton.setBmdBone.end();itBmdBone++)
-				{
-					file3<<id<<","<<itBmdBone->szName<<"\n";
-				}
-			}
+	if (bmd.bmdSkeleton.setBmdBone.size()>50)
+	{
+		int id=0;
+		std::ofstream file3("D:\Skeleton.txt");//以输出方式打开文件
+		for (std::vector<CMUBmd::BmdSkeleton::BmdBone>::iterator itBmdBone=bmd.bmdSkeleton.setBmdBone.begin();itBmdBone!=bmd.bmdSkeleton.setBmdBone.end();itBmdBone++)
+		{
+			file3<<id<<","<<itBmdBone->szName<<"\n";
+			id++;
+		}
+	}
 	for (std::vector<CMUBmd::BmdSkeleton::BmdBone>::iterator itBmdBone=bmd.bmdSkeleton.setBmdBone.begin();itBmdBone!=bmd.bmdSkeleton.setBmdBone.end();itBmdBone++)
 	{
 		iBoneInfo* pBoneInfo = skeletonData.allotBoneInfo();
