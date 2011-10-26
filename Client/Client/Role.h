@@ -45,7 +45,8 @@ protected:
 	// ----
 	unsigned char	m_uDir;
 	unsigned char	m_uTargetDir;
-
+	// ----
+	float			m_fRoleHeight;
 public:
 	CRole();
 	~CRole();
