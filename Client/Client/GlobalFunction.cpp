@@ -7,6 +7,7 @@
 #include "UIDisplayRoleChoose.h"
 #include "UIIcon.h"
 #include "protocol.h"
+#include "Monster.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void InitLua(lua_State * L)
@@ -42,7 +43,10 @@ void InitLua(lua_State * L)
 	lua_tinker::class_<CRole>(L, "CRole")
 		.inh<CRenderNode>()
 		.con(lua_tinker::constructor<void>())
+		.def("setID",			& CPlayerMe::setID)
 		.def("setCellPos",		& CPlayerMe::setCellPos)
+		.def("getCellPosX",		& CPlayerMe::getCellPosX)
+		.def("getCellPosY",		& CPlayerMe::getCellPosY)
 		.def("setRoleName",		& CPlayerMe::setRoleName)
 		.def("setDir",			& CPlayerMe::setDir)
 		.def("setActionState",	& CPlayerMe::setActionState)
@@ -51,6 +55,11 @@ void InitLua(lua_State * L)
 		.def("setSkeleton",		& CPlayerMe::setSkeleton)
 		.def("setEquip",		& CPlayerMe::setEquip)
 		.def("setEquipSkin",	& CPlayerMe::setEquipSkin);
+	// ----
+	lua_tinker::class_<CMonster>(L, "CMonster")
+		.inh<CRole>()
+		.con(lua_tinker::constructor<void>())
+		.def("setType",			& CMonster::setType);
 	// ----
 	lua_tinker::class_<CPlayerMe>(L, "CPlayerMe")
 		.inh<CRole>()

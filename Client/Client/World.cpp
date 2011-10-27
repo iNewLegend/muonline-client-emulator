@@ -52,7 +52,7 @@ CRole * CWorld::getFocusRole()
 	{
 		pObj = *getFocusNodes().getChildObj().begin();
 		// ----
-		if(pObj != NULL) 
+		/*if(pObj != NULL) 
 		{
 			if(pObj->getType() != MAP_ROLE)
 			{
@@ -61,7 +61,7 @@ CRole * CWorld::getFocusRole()
 				// ----
 				pObj = NULL;
 			}
-		}
+		}*/
 		// ----
 		// # Point of object is null.
 	}

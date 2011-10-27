@@ -60,6 +60,8 @@ public:
 	void			setEquipSkin	(int nType, int nSkinID);
 	// ----
 	void			setCellPos		(int x, int y);
+	int				getCellPosX		(){return m_posCell.x;}
+	int				getCellPosY		(){return m_posCell.y;}
 	void			setTargetCellPos(int x, int y);
 	// ----
 	void			drawName		() const;
@@ -97,7 +99,6 @@ public:
 		STAND,
 		WALK,
 		RUN,
-		JUMP,
 		HIT1,
 		HIT2,
 		HIT3,
