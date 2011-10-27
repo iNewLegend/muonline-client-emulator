@@ -124,8 +124,9 @@ void CSkeletonNode::setAnimByName(const char* szAnimName)
 	}
 }
 
-void CSkeletonNode::drawSkeleton(CTextRender* pTextRender)const
+void CSkeletonNode::drawSkeleton(const Matrix& mWorld, CTextRender* pTextRender)const
 {
+	Matrix mNewWorld = mWorld*m_mWorldMatrix;
 	if (!m_pSkeletonData)
 	{
 		return;
@@ -140,7 +141,7 @@ void CSkeletonNode::drawSkeleton(CTextRender* pTextRender)const
 	{
 		Matrix	mInvLocal = m_pSkeletonData->m_Bones[i].m_mInvLocal;
 		mInvLocal.Invert();
-		setBonesPoint[i]=m_setBonesMatrix[i]*mInvLocal*Vec3D(0,0,0);
+		setBonesPoint[i]=mNewWorld*m_setBonesMatrix[i]*mInvLocal*Vec3D(0,0,0);
 	}
 
 	if (R.prepareMaterial("Skeleton"))
