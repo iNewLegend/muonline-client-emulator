@@ -166,7 +166,7 @@ bool CRenderNode::load(const char* szFilename)
 	if (!CRenderNodeMgr::getInstance().loadRenderNode(szFilename,this))
 	{
 		char szTemp[256];
-		sprintf(szTemp,"Load file \"%s\" error.", szFilename);
+		sprintf(szTemp,"Load file \"%s\" error.\n", szFilename);
 		OutputDebugString(szTemp);
 		return false;
 	}
