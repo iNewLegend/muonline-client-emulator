@@ -38,6 +38,7 @@ public:
 	virtual GSET_STRING	(Name);
 	virtual GSET_STRING	(Filename);
 	GSET_STRING	(BindingBoneName);
+	GSET_VAR	(int, m_n, BindingBoneID);
 	//----
 	virtual	int				getType				(){return NODE_BASE;}
 	virtual void			frameMove			(const Matrix& mWorld, double fTime, float fElapsedTime);
