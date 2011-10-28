@@ -110,11 +110,13 @@ public:
 	};
 	enum /* WeaponStateType */
 	{
-		EMPTY,
-		SINGLE,
-		DOUBLE,
-		BOW,
-		CROSSBOW
+		WS_EMPTY,
+		WS_SINGLE,
+		WS_DSINGLE,
+		WS_DOUBLE,
+		WS_DOUBLE_ROD,
+		WS_BOW,
+		WS_CROSSBOW
 	};
 };
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
