@@ -17,12 +17,34 @@ void Node3DUIGraph::frameUpdate()
 
 void* Node3DUIGraph::createTexture(const char * szTexture)
 {
-	return (void*)GetRenderSystem().GetTextureMgr().RegisterTexture(szTexture);
+	unsigned long uTex = GetRenderSystem().GetTextureMgr().RegisterTexture(szTexture);
+	if (uTex<=0)
+	{
+		std::string strTexture = GetStyleMgr().getDir()+szTexture;
+		uTex = GetRenderSystem().GetTextureMgr().RegisterTexture(strTexture);
+	}
+	return (void*)uTex;
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void Node3DUIGraph::releaseTexture(void * pTexture)
 {
+	// ----
+}
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void Node3DUIGraph::setShader(const char* szShader)
+{
+	static unsigned long s_uShader = GetRenderSystem().GetShaderMgr().registerItem("EngineRes\\fx\\ui.fx");
+	if (szShader==NULL||strlen(szShader)==0)
+	{
+		GetRenderSystem().SetShader(s_uShader);
+	}
+	else
+	{
+		unsigned long uShader = GetRenderSystem().GetShaderMgr().registerItem(szShader);
+		GetRenderSystem().SetShader(uShader);
+	}
 	// ----
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

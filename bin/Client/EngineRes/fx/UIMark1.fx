@@ -11,14 +11,14 @@ technique Render
 		AlphaFunc			= GreaterEqual;
 		AlphaRef			= 64;
 		
-		AlphaBlendEnable	= True;
+		AlphaBlendEnable	= TRUE;
 		BlendOp				= Add;
-		SrcBlend			= SrcAlpha;
-		DestBlend			= InvSrcAlpha;
+		SrcBlend			= ZERO;
+		DestBlend			= ONE;
 
-		ZEnable				= False;
+		ZEnable				= True;
 		ZFunc				= LessEqual;
-		ZWriteEnable		= False;
+		ZWriteEnable		= True;
 
 		ColorOp[0]			= Modulate;
 		ColorArg1[0]		= Texture;
