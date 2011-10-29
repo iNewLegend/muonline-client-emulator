@@ -711,12 +711,13 @@
   </dialog>
 
   <dialog id="IDD_MINMAP"  scale="100,0,100,0" offset="-200,0,0,222">
+	<texture filename="alphamark.tga" shader="EngineRes\fx\UIMark1.fx"  scale="0,0,0,0" offset="20,30,180,190" rect="0,0,160,160"/>
+	<texture filename="Data\World1\TerrainLight.OZJ" shader="EngineRes\fx\UIMark2.fx" scale="0,0,0,0" offset="20,30,180,190" rect="0,0,160,160"/>
   	<texture filename="ui.tga" rect="0,260,200,222"/>
-    <element type="button" id="IDC_BTN_VIEWCHG" rect="89,4,17,18" tip="缩放地图">VIEW</element>
     <element type="button" id="IDC_BTN_BIGOUT" rect="105,20,20,20" tip="地图全貌$（M）">BIG</element>
-    <element type="static" id="IDC_STA_NAME" rect="27,6,53,17">""</element>
-    <element type="static" id="IDC_STA_POSX" rect="14,24,31,17">""</element>
-    <element type="static" id="IDC_STA_POSY" rect="49,24,31,17">""</element>
+    <element type="static" id="IDC_STA_NAME" rect="30,8,0,0">勇者大陆</element>
+    <element type="static" id="IDC_STA_POSX" rect="120,8,0,0">100</element>
+    <element type="static" id="IDC_STA_POSY" rect="150,8,0,0">100</element>
   </dialog>
 
   <dialog id="IDD_EQUIP" rect=" 0, 0, 320, 370">

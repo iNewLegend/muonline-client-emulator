@@ -1,25 +1,4 @@
 #include "shared.fx"
-#include "terrainShared.fx"
-
-VS_TERRAIN_OUTPUT VS(VS_TERRAIN_INPUT i)
-{
-	VS_TERRAIN_OUTPUT o;
-	o.UV0 = i.UV0;
-	o.Pos = mul(i.Pos,g_mViewProj);
-	o.Pos.z+=0.001f;
-	o.Color = i.Color;
-	return o;
-}
-
-sampler s0: register(s0);
-float4 PS(VS_TERRAIN_OUTPUT i) : COLOR0
-{
-	float4 cDiffuse	= tex2D(s0, i.UV0);
-	float4 color;
-	color = i.Color;
-	color *= cDiffuse;
-	return color;
-}
 
 technique Render
 {
@@ -28,30 +7,26 @@ technique Render
 		Lighting			= False;
 		CullMode			= None;
 		
-		AlphaTestEnable		= True;
-		AlphaFunc			= GreaterEqual;
-		AlphaRef			= 64;
+		AlphaTestEnable		= False;
 
 		AlphaBlendEnable	= True;
 		BlendOp				= Add;
 		SrcBlend			= SrcAlpha;
 		DestBlend			= InvSrcAlpha;
 
-		ZEnable				= True;
+		ZEnable				= False;
 		ZFunc				= LessEqual;
-		ZWriteEnable		= True;
+		ZWriteEnable		= False;
 
 		ColorOp[0]			= Modulate;
 		ColorArg1[0]		= Texture;
 		ColorArg2[0]		= Diffuse;
 
-		AlphaOp[0]			= SelectArg1;
-		AlphaArg1[0]		= Diffuse;
+		AlphaOp[0]			= Modulate;
+		AlphaArg1[0]		= Texture;
+		AlphaArg2[0]		= Diffuse;
 
 		ColorOp[1]			= Disable;
 		AlphaOP[1]			= Disable;
-		
-        VertexShader = compile vs_1_1 VS();
-        PixelShader  = compile ps_2_0 PS();
     }
 }

@@ -90,43 +90,23 @@ void StyleElement::XMLParse(const TiXmlElement& element)
 		}
 	}
 	//
-	pElement = element.FirstChildElement("offset");
-	if (pElement)
+	const char* pszText = element.Attribute("offset");
+	if(pszText)
 	{
-		const char* pszText = pElement->GetText();
-		if (!pszText)
-		{
-			pszText = element.Attribute("offset");
-		}
-		if(pszText)
-		{
-			sscanf_s(pszText, "%d,%d,%d,%d", &rcOffset.right, &rcOffset.top, &rcOffset.right, &rcOffset.bottom);
-		}
-
+		sscanf_s(pszText, "%d,%d,%d,%d", &rcOffset.left, &rcOffset.top, &rcOffset.right, &rcOffset.bottom);
 	}
 	// 
-	pElement = element.FirstChildElement("scale");
-	if (pElement)
+	pszText = element.Attribute("scale");
+	if(pszText)
 	{
-		const char* pszText = pElement->GetText();
-		if (!pszText)
-		{
-			pszText =  element.Attribute("scale");
-		}
-		if(pszText)
-		{
-			sscanf_s(pszText, "%d,%d,%d,%d", &rcScale.right, &rcScale.top, &rcScale.right, &rcScale.bottom);
-		}
+		sscanf_s(pszText, "%d,%d,%d,%d", &rcScale.left, &rcScale.top, &rcScale.right, &rcScale.bottom);
 	}
 }
 
 void StyleSprite::draw(const RECT& rc)
 {
 	RECT rcDest = updateRect(rc);
-	//if (m_bDecolor)
-	//{
-	//	GetRenderSystem().SetTextureStageStateDecolor();
-	//}
+	UIGraph::getInstance().setShader(m_strShader.c_str());
 	switch(m_nLayoutType)
 	{
 	case SPRITE_LAYOUT_WRAP:
@@ -141,10 +121,6 @@ void StyleSprite::draw(const RECT& rc)
 	default:
 		break;
 	}
-	//if (m_bDecolor)
-	//{
-	//	GetRenderSystem().SetupRenderState();
-	//}
 }
 
 void StyleSprite::XMLParse(const TiXmlElement& element)
@@ -153,9 +129,15 @@ void StyleSprite::XMLParse(const TiXmlElement& element)
 	StyleElement::XMLParse(element);
 	if (element.Attribute("filename"))
 	{
-		std::string strTexture = GetStyleMgr().getDir()+element.Attribute("filename");
+		std::string strTexture = element.Attribute("filename");
 		m_pTexture = UIGraph::getInstance().createTexture(strTexture.c_str());
 	}
+	//
+	if (element.Attribute("shader"))
+	{
+		m_strShader = element.Attribute("shader");
+	}
+	
 	if (element.Attribute("rect"))
 	{
 		const char* strRect = element.Attribute("rect");
@@ -180,15 +162,6 @@ void StyleSprite::XMLParse(const TiXmlElement& element)
 	else
 	{
 		m_nLayoutType = SPRITE_LAYOUT_WRAP;
-	}
-
-	m_bDecolor = false;
-	if (element.Attribute("decolor"))
-	{
-		if (std::string("true")==element.Attribute("decolor"))
-		{
-			m_bDecolor = true;
-		}
 	}
 }
 

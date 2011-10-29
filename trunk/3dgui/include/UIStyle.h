@@ -74,7 +74,7 @@ public:
 	virtual void XMLParse(const TiXmlElement& element);
 	void		draw(const RECT& rc);
 	void*		m_pTexture;
-	bool		m_bDecolor;
+	std::string	m_strShader;
 	int			m_nLayoutType;
 	RECT		m_rcBorder;
 	RECT		m_rcCenter;
