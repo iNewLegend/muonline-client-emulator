@@ -54,13 +54,7 @@ function IDD_SERVER_LIST_OnBtnOK()
 				g_PlayerMe:setActionState(0)
 				g_World:addRole(g_PlayerMe)
 				----
-				IDD_MAIN:setControlVisible("IDC_IMAGE_BG",false)
-				IDD_SERVER_LIST:SetVisible(false)
-				IDD_LOGIN:SetVisible(false)
-				dlgRoleChoose:SetVisible(false)
-				dlgMainDialog:SetVisible(true)
-				IDD_CHAT_MESSAGE:SetVisible(false)
-				--OnEnterWorld()
+				OnEnterWorld()
 			-- Connecting
 			elseif ConnectServer(ip,port) then
 				IDD_SERVER_LIST:SetVisible(false)
