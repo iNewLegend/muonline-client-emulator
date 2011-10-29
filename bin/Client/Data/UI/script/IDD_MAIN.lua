@@ -39,6 +39,11 @@ dlgMove:SetVisible(false)
 dlgBag = CUIDialog()
 dlgBag:create("IDD_BAG",IDD_MAIN)
 dlgBag:SetVisible(false)
+
+-- Min Map
+dlgMinmap = CUIDialog()
+dlgMinmap:create("IDD_MINMAP",IDD_MAIN)
+dlgMinmap:SetVisible(false)
 -- Register Control
 
 -- Register Event
@@ -68,4 +73,5 @@ function OnEnterWorld()
 	dlgRoleChoose:SetVisible(false)
 	dlgMainDialog:SetVisible(true)
 	IDD_CHAT_MESSAGE:SetVisible(true)
+	dlgMinmap:SetVisible(true)
 end
