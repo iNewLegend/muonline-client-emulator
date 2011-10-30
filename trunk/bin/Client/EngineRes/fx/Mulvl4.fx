@@ -14,13 +14,12 @@ struct VS_MODEL_OUTPUT
     float4  Color   : COLOR;
 };
 
-
+float4x4 WorldXViewXProj: register(c0);
 VS_MODEL_OUTPUT VS(VS_MODEL_INPUT i)
 {
 	VS_MODEL_OUTPUT o;
 	o.UV0 = i.UV0;
-	i.Pos = mul(i.Pos,g_mWorld);
-	o.Pos = mul(i.Pos,g_mViewProj);
+	o.Pos = mul(i.Pos,WorldXViewXProj);
 	o.Color = float4(0.7,1,0.7,1)*(0.8-sin(g_fTime*2)*0.2f);
 	return o;
 }

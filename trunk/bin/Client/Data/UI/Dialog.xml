@@ -709,7 +709,11 @@
     <element type="static" id="IDC_STA_TITLE" rect="48,2,18,8">称号</element>
     <element type="static" id="IDC_STA_DUKE" rect="15,2,18,8">公爵</element>
   </dialog>
-
+  
+  <dialog id="IDD_PLAYERHEAD"  offset="0,0,275,100">
+  	<texture filename="ui.tga" rect="0,84,275,100"/>
+  </dialog>
+  
   <dialog id="IDD_MINMAP"  scale="100,0,100,0" offset="-200,0,0,222">
 	<texture filename="alphamark.tga" shader="EngineRes\fx\UIMark1.fx"  scale="0,0,0,0" offset="20,30,180,190" rect="0,0,160,160"/>
 	<texture filename="Data\World1\TerrainLight.OZJ" shader="EngineRes\fx\UIMark2.fx" scale="0,0,0,0" offset="20,30,180,190" rect="0,0,160,160"/>
@@ -720,7 +724,7 @@
     <element type="static" id="IDC_STA_POSY" rect="150,8,0,0">100</element>
   </dialog>
 
-  <dialog id="IDD_EQUIP" rect=" 0, 0, 320, 370">
+  <dialog id="IDD_EQUIP" scale="0,50,0,50" offset=" 0, -200, 320, 200">
     <caption height="42">装备</caption>
 	<element type="static" id="IDC_STATIC_EQUIP_BG" rect="10,2,300,300" style="static02"></element>
 	<element type="display" id="IDC_DISPLAY_PLAYER" scale="0,0,100,100"/>

@@ -11,22 +11,15 @@ struct VS_OBJECT_OUTPUT
 {
     float4  Pos     : POSITION;
 };
-
+ 
+float4x4 WorldXViewXProj: register(c0);
 VS_OBJECT_OUTPUT VS(VS_OBJECT_INPUT i)
 {
 	VS_OBJECT_OUTPUT o;
-	i.Pos = mul(i.Pos,g_mWorld);
-	o.Pos = mul(i.Pos,g_mViewProj);
-	
-	float4x4 mViewProj = g_mViewProj;
-	float4x4 mView = g_mView;
-	mView._41=0;mView._42=0;mView._43=0;
-	mViewProj._41=0;mViewProj._42=0;mViewProj._43=0;
-	float3 normal = mul(i.Normal,mViewProj);
-	normal = normalize(mul(normal,mView));
-
+	o.Pos = mul(i.Pos,WorldXViewXProj);
+	float3 normal = normalize(mul(i.Normal,WorldXViewXProj));
+	//normal = normalize(mul(normal,g_mView));
 	o.Pos.xy+=normal.xy*o.Pos.w*0.005;
-
 	return o;
 }
 

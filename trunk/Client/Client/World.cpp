@@ -298,6 +298,8 @@ void CWorld::getRenderNodes(const CFrustum& frustum, std::set<iRenderNode*>& set
 {
 	CrossRet crossRet;
 	// ----
+	CScene::getRenderNodes(frustum, setNode);
+	// ----
 	for(auto it = m_mapRole.begin() ; it != m_mapRole.end() ; it++)
 	{
 		crossRet = frustum.CheckAABBVisible(it->second->getWorldBBox());
@@ -307,8 +309,6 @@ void CWorld::getRenderNodes(const CFrustum& frustum, std::set<iRenderNode*>& set
 			setNode.insert(it->second);
 		}
 	}
-	// ----
-	CScene::getRenderNodes(frustum, setNode);
 	// ----
 	if (CWorld::getInstance().getSceneData())
 	{

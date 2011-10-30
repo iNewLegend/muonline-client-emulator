@@ -40,6 +40,12 @@ dlgBag = CUIDialog()
 dlgBag:create("IDD_BAG",IDD_MAIN)
 dlgBag:SetVisible(false)
 
+-- Player Head
+dlgPlayerHead = CUIDialog()
+dlgPlayerHead:create("IDD_PLAYERHEAD",IDD_MAIN)
+dlgPlayerHead:SetVisible(false)
+
+
 -- Min Map
 dlgMinmap = CUIDialog()
 dlgMinmap:create("IDD_MINMAP",IDD_MAIN)
@@ -74,4 +80,5 @@ function OnEnterWorld()
 	dlgMainDialog:SetVisible(true)
 	IDD_CHAT_MESSAGE:SetVisible(true)
 	dlgMinmap:SetVisible(true)
+	dlgPlayerHead:SetVisible(true)
 end

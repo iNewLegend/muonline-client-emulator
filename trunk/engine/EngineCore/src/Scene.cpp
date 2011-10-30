@@ -195,8 +195,27 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 		// ----
 		R.SetStencilFunc(false);
 		// ----
+		iRenderNode* pFocusNode = NULL;
+		if (m_FocusNode.getChildObj().size()>0)
+		{
+			pFocusNode = *m_FocusNode.getChildObj().begin();
+		}
 		FOR_IN(it,m_RenderNodes)
 		{
+			if (*it==pFocusNode)
+			{
+				R.SetTextureFactor(0xFF40FF40);
+				if (GetRenderSystem().prepareMaterial("ObjectFocus"))
+				{
+					float color[4] = {1.0f,0.25f,0.0f,0.5f};
+					R.SetPixelShaderConstantF(0,color,1);
+					// monster (0xFFFF4040)
+					// NPC (0xFF40FF40)
+					// Player (0xFF00FFFF)
+					((CRenderNode*)*it)->render(Matrix::UNIT, E_MATERIAL_RENDER_TYPE(MATERIAL_GEOMETRY|MATERIAL_RENDER_ALPHA_TEST));
+					GetRenderSystem().finishMaterial();
+				}
+			}
 			try {
 				CMapObj* pObj = (CMapObj*)(*it);
 				if(pObj)
@@ -229,28 +248,6 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 				return;
 			}
 		}
-		//
-		FOR_IN(it,m_FocusNode.getChildObj())
-		{
-			R.SetTextureFactor(0xFF40FF40);
-			if (GetRenderSystem().prepareMaterial("ObjectFocus"))
-			{
-				float color[4] = {1.0f,0.25f,0.0f,0.5f};
-				R.SetPixelShaderConstantF(0,color,1);
-				// monster (0xFFFF4040)
-				// NPC (0xFF40FF40)
-				// Player (0xFF00FFFF)
-				((CRenderNode*)*it)->render(Matrix::UNIT, E_MATERIAL_RENDER_TYPE(MATERIAL_GEOMETRY|MATERIAL_RENDER_ALPHA_TEST));
-				GetRenderSystem().finishMaterial();
-			}
-		}
- 		FOR_IN(it,m_FocusNode.getChildObj())
- 		{
- 			DirectionalLight light(Vec4D(0.8f,0.8f,0.8f,0.8f),Vec4D(1.0f,1.0f,1.0f,1.0f),
- 				Vec4D(0.6f,0.6f,0.6f,0.6f),vLightDir);
- 			R.SetDirectionalLight(0,light);
- 			(*it)->render(Matrix::UNIT,MATERIAL_GEOMETRY);
- 		}
 		//
 		//if (m_pSceneData)
 		//{
