@@ -20,7 +20,7 @@
 		<texture filename="button.tga" rect="0,128,128,128" center_rect="6,6,114,114">
 			<offset>0,0,8,8</offset>
 		</texture>
-		<font format="UCENTER|VCENTER" offset="0,0,20,20" scale="0,0,0,0">
+		<font format="UCENTER|VCENTER" offset="0,10,0,40" scale="0,0,1,0">
 			<color focus="#CFFF" mouseover="#C111" pressed="#F000"/>
 		</font>
 	</element>

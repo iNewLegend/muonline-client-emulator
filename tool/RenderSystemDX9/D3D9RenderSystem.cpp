@@ -408,6 +408,11 @@ void CD3D9RenderSystem::setWorldMatrix(const Matrix& m)
 			((CD3D9Shader*)m_pOldShader)->getD3DXEffect()->CommitChanges();
 		}
 	}
+	Matrix Proj, View;
+	getProjectionMatrix(Proj);
+	getViewMatrix(View);
+	Matrix c0 = Proj * View * m;
+	D3D9HR( m_pD3D9Device->SetVertexShaderConstantF(0, c0, 4) );
 	D3D9HR( m_pD3D9Device->SetTransform(D3DTS_WORLD, (D3DXMATRIX*)&mDx) );
 }
 

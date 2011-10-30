@@ -48,6 +48,7 @@ void CUIDisplayWorld::OnFrameRender(const Matrix& mTransform, double fTime, floa
 		// ----
 		if (pShader)
 		{
+			//R.SetPixelShaderConstantF()
 			pShader->setFloat("g_fTime", fTime);
 			pShader->setMatrix("g_mViewProj", m_Camera.GetProjXView());
 			pShader->setMatrix("g_mView", m_Camera.getViewMatrix());
