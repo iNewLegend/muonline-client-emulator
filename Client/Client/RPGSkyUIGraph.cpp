@@ -17,11 +17,11 @@ void Node3DUIGraph::frameUpdate()
 
 void* Node3DUIGraph::createTexture(const char * szTexture)
 {
-	unsigned long uTex = GetRenderSystem().GetTextureMgr().RegisterTexture(szTexture);
+	unsigned long uTex = GetRenderSystem().GetTextureMgr().RegisterTexture(szTexture,1);
 	if (uTex<=0)
 	{
 		std::string strTexture = GetStyleMgr().getDir()+szTexture;
-		uTex = GetRenderSystem().GetTextureMgr().RegisterTexture(strTexture);
+		uTex = GetRenderSystem().GetTextureMgr().RegisterTexture(strTexture,1);
 	}
 	return (void*)uTex;
 }

@@ -388,6 +388,7 @@ void CGraphics::drawTex(int destX, int destY, int nTexID, Color32 color, const R
 	}
 }
 
+#define PIXEL_OFFSET 0.5f
 void CGraphics::drawTex(const RECT& rcDest, int nTexID, Color32 color, const RECT* prcSrc, const RECT* prcCenterSrc)
 {
 	CTexture* pTex = GetRenderSystem().GetTextureMgr().getItem(nTexID);
@@ -421,13 +422,13 @@ void CGraphics::drawTex(const RECT& rcDest, int nTexID, Color32 color, const REC
 
 		if(rcCenterDest.left>rcCenterDest.right)
 		{
-			rcCenterDest.left=(rcDest.left+rcDest.right)*0.5f;
-			rcCenterDest.right=(rcDest.left+rcDest.right)*0.5f;
+			rcCenterDest.left	=(rcDest.left+rcDest.right)*0.5f;
+			rcCenterDest.right	=(rcDest.left+rcDest.right)*0.5f;
 		}
 		if(rcCenterDest.top>rcCenterDest.bottom)
 		{
-			rcCenterDest.top=(rcDest.top+rcDest.bottom)*0.5f;
-			rcCenterDest.bottom=(rcDest.top+rcDest.bottom)*0.5f;
+			rcCenterDest.top	=(rcDest.top+rcDest.bottom)*0.5f;
+			rcCenterDest.bottom	=(rcDest.top+rcDest.bottom)*0.5f;
 		}
 		VERTEX_XYZ_DIF_TEX vertex[4*4];
 		for (int i = 0; i<16; i++)
@@ -445,10 +446,10 @@ void CGraphics::drawTex(const RECT& rcDest, int nTexID, Color32 color, const REC
 		};
 		float U[4] =
 		{
-			(prcSrc->left+0.5f)/nTexWidth,
-			(prcCenterSrc->left+0.5f)/nTexWidth,
-			(prcCenterSrc->right+0.5f)/nTexWidth,
-			(prcSrc->right+0.5f)/nTexWidth,
+			(prcSrc->left+PIXEL_OFFSET)/nTexWidth,
+			(prcCenterSrc->left+PIXEL_OFFSET)/nTexWidth,
+			(prcCenterSrc->right+PIXEL_OFFSET)/nTexWidth,
+			(prcSrc->right+PIXEL_OFFSET)/nTexWidth,
 		};
 		for (int i = 0; i<4; i++)
 		{
@@ -469,10 +470,10 @@ void CGraphics::drawTex(const RECT& rcDest, int nTexID, Color32 color, const REC
 		};
 		float V[4] =
 		{
-			(prcSrc->top+0.5f)/nTexHeight,
-			(prcCenterSrc->top+0.5f)/nTexHeight,
-			(prcCenterSrc->bottom+0.5f)/nTexHeight,
-			(prcSrc->bottom+0.5f)/nTexHeight,
+			(prcSrc->top+PIXEL_OFFSET)/nTexHeight,
+			(prcCenterSrc->top+PIXEL_OFFSET)/nTexHeight,
+			(prcCenterSrc->bottom+PIXEL_OFFSET)/nTexHeight,
+			(prcSrc->bottom+PIXEL_OFFSET)/nTexHeight,
 		};
 		for (int i = 0; i<4; i++)
 		{
