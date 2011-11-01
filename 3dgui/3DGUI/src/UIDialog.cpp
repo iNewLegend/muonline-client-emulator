@@ -466,9 +466,16 @@ void CUIDialog::OnLButtonDown(POINT point)
 		pChildDialog->OnLButtonDown(point);
 		return;
 	}
-	CUICombo::OnLButtonDown(point);
+	// 控件
+	CUIControl* pControl = GetControlAtPoint(point);
+	if(pControl!=NULL)
+	{
+		pControl->OnLButtonDown(point);
+		return;
+	}
+	SetFocus(true);
 	// 标题
-	if(m_bCaption&&m_bCanMove&&m_rcCaption.ptInRect(point))
+	if(IsFocus()&&m_bCaption&&m_bCanMove&&m_rcCaption.ptInRect(point))
 	{
 		m_nMouseOriginX = point.x-m_rcBoundingBox.left;
 		m_nMouseOriginY = point.y-m_rcBoundingBox.top;
@@ -484,6 +491,7 @@ void CUIDialog::OnLButtonUp(POINT point)
 		SetPressed(false);
 		return;
 	}
+	CUICombo::OnLButtonUp(point);
 	// 子对话框
 	CUIDialog* pChildDialog = GetChildDialogAtPoint(point);
 	if(pChildDialog)
@@ -491,7 +499,6 @@ void CUIDialog::OnLButtonUp(POINT point)
 		pChildDialog->OnLButtonUp(point);
 		return;
 	}
-	CUICombo::OnLButtonUp(point);
 }
 void CUIDialog::OnRButtonDblClk(POINT point)
 {

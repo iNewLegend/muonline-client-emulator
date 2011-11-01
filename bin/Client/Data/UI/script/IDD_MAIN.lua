@@ -45,11 +45,20 @@ dlgPlayerHead = CUIDialog()
 dlgPlayerHead:create("IDD_PLAYERHEAD",IDD_MAIN)
 dlgPlayerHead:SetVisible(false)
 
-
 -- Min Map
 dlgMinmap = CUIDialog()
 dlgMinmap:create("IDD_MINMAP",IDD_MAIN)
 dlgMinmap:SetVisible(false)
+
+-- Act
+dlgAct = CUIDialog()
+dlgAct:create("IDD_ACT",IDD_MAIN)
+dlgAct:SetVisible(false)
+
+-- Setup
+dlgSetup = CUIDialog()
+dlgSetup:create("IDD_SETUP",IDD_MAIN)
+dlgSetup:SetVisible(false)
 -- Register Control
 
 -- Register Event
@@ -81,4 +90,5 @@ function OnEnterWorld()
 	IDD_CHAT_MESSAGE:SetVisible(true)
 	dlgMinmap:SetVisible(true)
 	dlgPlayerHead:SetVisible(true)
+	dlgAct:SetVisible(true)
 end
