@@ -32,6 +32,19 @@
 		</texture>
 	</element>
 	
+	<element name="close" sound="sound\iButtonClick.wav">
+		<blend normal="0.60" pressed="0.4" hidden="0.9">0.8</blend>
+		<texture filename="ui.tga" rect="0,616,20,20">
+			<color normal="#FFFF" focus="#FFFF" mouseover="#0FFF" pressed="#0FFF"/>
+		</texture>
+		<texture filename="ui.tga" rect="0,640,20,20">
+			<color normal="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#0FFF"/>
+		</texture>
+		<texture filename="ui.tga" rect="0,664,20,20">
+			<color normal="0FFF" focus="#0FFF" mouseover="#0FFF" pressed="#FFFF"/>
+		</texture>
+	</element>
+	
 	<element name="radiobutton_btn.checked">
 		<texture filename="Button.tga" rect="32,0,32,32" center_rect="6,6,12,12">
 			<color mouseover="#8FFF"/>

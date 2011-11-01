@@ -83,10 +83,24 @@
 		<element type="editbox" id="IDC_EDT_NAME" rect="50,300,200,20"></element>
 		<element type="static" id="IDC_STA_INFO" rect="10,320,440,40">AAAAA</element>
 	</dialog>
-
+	
+  <dialog id="IDD_ACT" scale="0,100,0,100" offset="0,-88,190,-63">
+    <element type="button" id="IDC_ACT_BTN1" rect="10,5,15,15">酷</element>
+    <element type="button" id="IDC_ACT_BTN2" rect="27,5,15,15">跪</element>
+    <element type="button" id="IDC_ACT_BTN3" rect="44,5,15,15">悲</element>
+    <element type="button" id="IDC_ACT_BTN4" rect="61,5,15,15">高</element>
+    <element type="button" id="IDC_ACT_BTN5" rect="78,5,15,15">气</element>
+    <element type="button" id="IDC_ACT_BTN6" rect="95,5,15,15">躺</element>
+    <element type="button" id="IDC_ACT_BTN7" rect="112,5,15,15">舞</element>
+    <element type="button" id="IDC_ACT_BTN8" rect="129,5,15,15">招</element>
+    <element type="button" id="IDC_ACT_BTN9" rect="146,5,15,15">揖</element>
+    <element type="button" id="IDC_ACT_BTN10" rect="163,5,15,15">坐</element>
+    <element type="button" id="IDC_BTN_CLOSE" rect="179,1,10,10">C</element>
+  </dialog>
+  
   <dialog id="IDD_MAIN_DIALOG" scale="50,100,50,100" offset="-457,-63,457,0">
   	<texture filename="ui.tga" rect="2,2,914,63"/>
-    <element type="button" id="IDC_MAIN_CHAR" rect="495,21,32,38" hotkey="C" tip="角色信息(C)">
+    <element type="button" id="IDC_MAIN_CHAR" rect="495,21,32,38" hotkey="C" tip="角色信息(C)" sound="sound\iButtonClick.wav">
 		<texture filename="ui.tga" rect="275,210,32,38">
 			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
@@ -97,7 +111,7 @@
 			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
-    <element type="button" id="IDC_MAIN_BAG" rect="527,21,32,38" tip="包裹$（I）">
+    <element type="button" id="IDC_MAIN_BAG" rect="527,21,32,38" tip="包裹$（I）" sound="sound\iButtonClick.wav">
 		<texture filename="ui.tga" rect="491,210,32,38">
 			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
@@ -108,7 +122,7 @@
 			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
-    <element type="button" id="IDC_MAIN_MONSTER" rect="559,21,32,38" tip="宠物$（P）">
+    <element type="button" id="IDC_MAIN_MONSTER" rect="559,21,32,38" tip="宠物$（P）" sound="sound\iButtonClick.wav">
 		<texture filename="ui.tga" rect="383,210,32,38">
 			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
@@ -119,7 +133,7 @@
 			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
-    <element type="button" id="IDC_MAIN_MAGIC" rect="591,21,32,38" tip="技能$（T）">
+    <element type="button" id="IDC_MAIN_MAGIC" rect="591,21,32,38" tip="技能$（T）" sound="sound\iButtonClick.wav">
 		<texture filename="ui.tga" rect="599,210,32,38">
 			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
@@ -130,7 +144,7 @@
 			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
-    <element type="button" id="IDC_MAIN_FACTION" rect="623,21,32,38" tip="公会$（A）">
+    <element type="button" id="IDC_MAIN_FACTION" rect="623,21,32,38" tip="公会$（A）" sound="sound\iButtonClick.wav">
 		<texture filename="ui.tga" rect="599,253,32,38">
 			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
@@ -141,7 +155,7 @@
 			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
-    <element type="button" id="IDC_MAIN_TEAM" rect="655,21,32,38" tip="队伍">
+    <element type="button" id="IDC_MAIN_TEAM" rect="655,21,32,38" tip="队伍" sound="sound\iButtonClick.wav">
 		<texture filename="ui.tga" rect="257,295,32,38">
 			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
@@ -152,7 +166,7 @@
 			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
-    <element type="button" id="IDC_MAIN_FRIEND" rect="687,21,32,38" tip="师徒/好友/敌人">
+    <element type="button" id="IDC_MAIN_FRIEND" rect="687,21,32,38" tip="师徒/好友/敌人" sound="sound\iButtonClick.wav">
 		<texture filename="ui.tga" rect="383,253,32,38">
 			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
@@ -163,7 +177,7 @@
 			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
-    <element type="button" id="IDC_MAIN_TRADE" rect="719,21,32,38" tip="交易$（B）">
+    <element type="button" id="IDC_MAIN_TRADE" rect="719,21,32,38" tip="交易$（B）" sound="sound\iButtonClick.wav">
 		<texture filename="ui.tga" rect="707,210,32,38">
 			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
@@ -174,7 +188,7 @@
 			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
-    <element type="button" id="IDC_MAIN_SETUP" rect="751,21,32,38" tip="系统设置">
+    <element type="button" id="IDC_MAIN_SETUP" rect="751,21,32,38" tip="系统设置" sound="sound\iButtonClick.wav">
 		<texture filename="ui.tga" rect="257,336,32,38">
 			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
@@ -185,7 +199,7 @@
 			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
-    <element type="button" id="IDC_MAIN_MOVE" rect="783,21,32,38" hotkey="M" tip="移动">
+    <element type="button" id="IDC_MAIN_MOVE" rect="783,21,32,38" hotkey="M" tip="移动" sound="sound\iButtonClick.wav">
 		<texture filename="ui.tga" rect="257,336,32,38">
 			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
@@ -291,31 +305,17 @@
     <element type="button" id="IDC_TRADE_BTN_NPCOK" rect="192,199,38,23">确定</element>
   </dialog>
 
-  <dialog id="IDD_DIALOG_SETUP" scale="50,50,50,50" offset="-200,-130,200,130">
-  	<element type="static" id="IDC_STATIC_BG" style="static02" rect="5,40,380,160"></element>
-    <element type="radiobutton" id="IDC_SETUP_BTN_GRAPH" facetype="button" style="pushbutton" rect="20,20,80,23">图形选项</element>
-    <element type="radiobutton" id="IDC_SETUP_BTN_MUSIC" facetype="button" style="pushbutton" rect="110,20,80,23">音乐音效</element>
-    <element type="radiobutton" id="IDC_SETUP_BTN_HOTKEY" facetype="button" style="pushbutton" rect="200,20,80,23">热键设定</element>
-    <element type="radiobutton" id="IDC_SETUP_BTN_OTHER" facetype="button" style="pushbutton" rect="290,20,80,23">CHAT功能</element>
+  <dialog id="IDD_SETUP" scale="50,50,50,50" offset="-200,-130,200,130">
+    <caption height="32">设置</caption>
+    <element type="button" id="IDC_SETUP_BTN_RETURN" scale="100,0,100,0" offset="-33,-22,-13,-2"  style="close"></element>
+    <element type="radiobutton" id="IDC_SETUP_BTN_GRAPH" facetype="button" style="pushbutton" rect="20,10,80,23">图形选项</element>
+    <element type="radiobutton" id="IDC_SETUP_BTN_MUSIC" facetype="button" style="pushbutton" rect="110,10,80,23">音乐音效</element>
+    <element type="radiobutton" id="IDC_SETUP_BTN_HOTKEY" facetype="button" style="pushbutton" rect="200,10,80,23">热键设定</element>
+    <element type="radiobutton" id="IDC_SETUP_BTN_OTHER" facetype="button" style="pushbutton" rect="290,10,80,23">CHAT功能</element>
 	
     <element type="button" id="IDC_SETUP_BTN_RELOGIN" rect="60,211,80,24">重新登陆</element>
-    <element type="button" id="IDC_SETUP_BTN_DELETE" rect="150,211,80,24">删除人物</element>
+    <element type="button" id="IDC_SETUP_BTN_DELETE" rect="150,211,80,24">返回选人</element>
     <element type="button" id="IDC_SETUP_BTN_EXIT" rect="240,211,80,24">退出游戏</element>
-    <element type="button" id="IDC_SETUP_BTN_RETURN" rect="346,223,24,23">x</element>
-  </dialog>
-
-  <dialog id="IDD_DIALOG_ACT" rect="0, 0, 190, 25">
-    <element type="button" id="IDC_ACT_BTN1" rect="10,5,15,15">扮酷</element>
-    <element type="button" id="IDC_ACT_BTN2" rect="27,5,15,15">半跪</element>
-    <element type="button" id="IDC_ACT_BTN3" rect="44,5,15,15">悲哀</element>
-    <element type="button" id="IDC_ACT_BTN4" rect="61,5,15,15">高兴</element>
-    <element type="button" id="IDC_ACT_BTN5" rect="78,5,15,15">生气</element>
-    <element type="button" id="IDC_ACT_BTN6" rect="95,5,15,15">躺下</element>
-    <element type="button" id="IDC_ACT_BTN7" rect="112,5,15,15">舞蹈</element>
-    <element type="button" id="IDC_ACT_BTN8" rect="129,5,15,15">招呼</element>
-    <element type="button" id="IDC_ACT_BTN9" rect="146,5,15,15">作揖</element>
-    <element type="button" id="IDC_ACT_BTN10" rect="163,5,15,15">坐下</element>
-    <element type="button" id="IDC_BTN_CLOSE" rect="179,1,10,10">C</element>
   </dialog>
 
   <dialog id="IDD_DIALOG_GROUP" rect=" 0, 0, 55, 173">
