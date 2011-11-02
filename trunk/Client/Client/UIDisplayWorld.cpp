@@ -348,8 +348,6 @@ void CUIDisplayWorld::OnLButtonDown(POINT point)
 {
 	if(ContainsPoint(point) == true)
 	{
-		SetFocus();
-		// ----
 		CRole* pRole = CWorld::getInstance().getFocusRole();
 		// ----
 		if(pRole == NULL)

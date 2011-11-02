@@ -15,8 +15,7 @@ class CUISlider : public CUIControl
 public:
 	CUISlider();
 	virtual void SetStyle(const std::string& strStyleName);
-	virtual bool	CanHaveFocus() { return (m_bVisible && m_bEnabled); }
-	virtual bool	HandleKeyboard(UINT uMsg, WPARAM wParam, LPARAM lParam);
+	virtual bool HandleKeyboard(UINT uMsg, WPARAM wParam, LPARAM lParam);
 	//
 	virtual void OnMouseMove(POINT pt);
 	virtual void OnMouseWheel(POINT point,short wheelDelta);

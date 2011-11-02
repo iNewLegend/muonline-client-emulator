@@ -130,17 +130,6 @@ bool CUIMainDialog::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 	case WM_ACTIVATEAPP:
-		// Call OnFocusIn()/OnFocusOut() of the control that currently has the focus
-		// as the application is activated/deactivated.  This matches the Windows
-		// behavior.
-		if(s_pControlFocus && 
-			s_pControlFocus->GetEnabled())
-		{
-			if(wParam)
-				s_pControlFocus->OnFocusIn();
-			else
-				s_pControlFocus->OnFocusOut();
-		}
 		break;
 		// Keyboard messages
 	case WM_KEYDOWN:
@@ -150,12 +139,12 @@ bool CUIMainDialog::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			// If a control is in focus, it belongs to this dialog, and it's enabled, then give
 			// it the first chance at handling the message.
-			if(s_pControlFocus && 
-				s_pControlFocus->GetEnabled())
-			{
-				if(s_pControlFocus->HandleKeyboard(uMsg, wParam, lParam))
-					return true;
-			}
+// 			if(s_pControlFocus && 
+// 				s_pControlFocus->GetEnabled())
+// 			{
+// 				if(s_pControlFocus->HandleKeyboard(uMsg, wParam, lParam))
+// 					return true;
+// 			}
 		}
 		break;
 	case WM_CAPTURECHANGED:
@@ -174,13 +163,13 @@ bool CUIMainDialog::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 
 	// 含焦点的控件 要优先处理消息 跨dialog处理
-	if(s_pControlFocus && 
-		s_pControlFocus->GetEnabled())
-	{
-		// If the control MsgProc handles it, then we don't.
-		if(s_pControlFocus->MsgProc(uMsg, wParam, lParam))
-			return true;
-	}
+// 	if(s_pControlFocus && 
+// 		s_pControlFocus->GetEnabled())
+// 	{
+// 		// If the control MsgProc handles it, then we don't.
+// 		if(s_pControlFocus->MsgProc(uMsg, wParam, lParam))
+// 			return true;
+// 	}
 
 	if(CUIDialog::MsgProc(hWnd, uMsg, wParam, lParam))
 	{
@@ -219,12 +208,12 @@ void CUIMainDialog::OnMouseWheel(POINT point,short wheelDelta)
 	CUIDialog::OnMouseWheel(point,wheelDelta);
 	if(false)
 	{
-		// 焦点控件 for what? I can't remanber.
-		if(s_pControlFocus)
-		{
-			s_pControlFocus->OnMouseWheel(point,wheelDelta);
-			//return true;
-		}
+// 		// 焦点控件 for what? I can't remanber.
+// 		if(s_pControlFocus)
+// 		{
+// 			s_pControlFocus->OnMouseWheel(point,wheelDelta);
+// 			//return true;
+// 		}
 	}
 }
 

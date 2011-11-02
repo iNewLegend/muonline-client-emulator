@@ -23,7 +23,6 @@ public:
 	//
 	virtual bool MsgProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
 	virtual void UpdateRects();
-	virtual bool CanHaveFocus() { return (m_bVisible && m_bEnabled); }
 	virtual void OnFrameRender(const Matrix& mTransform, double fTime, float fElapsedTime);
 	virtual void OnFocusIn();
 	virtual void OnFocusOut();
