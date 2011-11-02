@@ -315,12 +315,7 @@ void CUICombo::RemoveControl(const char* szID)
 		CUIControl* pControl = *it;
 		if(pControl->GetID() == szID)
 		{
-			// Clean focus first
-			ClearFocus();
-
 			// Clear references to this control
-			if(s_pControlFocus == pControl)
-				s_pControlFocus = NULL;
 			if(s_pControlPressed == pControl)
 				s_pControlPressed = NULL;
 			if(s_pControlMouseOver == pControl)
@@ -333,8 +328,6 @@ void CUICombo::RemoveControl(const char* szID)
 
 void CUICombo::RemoveAllControls()
 {
-	if(s_pControlFocus && s_pControlFocus->GetParentDialog() == this)
-		s_pControlFocus = NULL;
 	if(s_pControlPressed && s_pControlPressed->GetParentDialog() == this)
 		s_pControlPressed = NULL;
 	if(s_pControlMouseOver && s_pControlMouseOver->GetParentDialog() == this)
@@ -345,8 +338,6 @@ void CUICombo::RemoveAllControls()
 
 void CUICombo::Refresh()
 {
-	clearFocus();
-
 	if(s_pControlMouseOver)
 		s_pControlMouseOver->OnMouseLeave();
 
@@ -358,9 +349,6 @@ void CUICombo::Refresh()
 		CUIControl* pControl = m_Controls[i];
 		pControl->Refresh();
 	}
-
-	if(m_bKeyboardInput)
-		FocusDefaultControl();
 }
 
 void CUICombo::OnFrameMove(double fTime, float fElapsedTime)
@@ -436,66 +424,6 @@ bool CUICombo::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			OnMouseMove(pt);
 			break;
 		}
-
-		// Keyboard messages
-	case WM_KEYDOWN:
-	case WM_SYSKEYDOWN:
-	case WM_KEYUP:
-	case WM_SYSKEYUP:
-		{
-			// Not yet handled, see if this matches a control's hotkey
-			// Activate the hotkey if the focus doesn't belong to an
-			// edit box.
-			if(uMsg == WM_KEYDOWN && (!s_pControlFocus ||
-				(s_pControlFocus->GetType() != UI_CONTROL_EDITBOX
-				&& s_pControlFocus->GetType() != UI_CONTROL_IMEEDITBOX)))
-			{
-				for(size_t i=0;i<m_Controls.size();++i)
-				{
-					CUIControl* pControl = m_Controls[i];
-					if(pControl->GetHotkey() == wParam)
-					{
-						pControl->OnHotkey();
-						return true;
-					}
-				}
-			}
-
-			// Not yet handled, check for focus messages
-			if(uMsg == WM_KEYDOWN)
-			{
-				// If keyboard input is not enabled, this message should be ignored
-				if(!m_bKeyboardInput)
-					return false;
-
-				switch(wParam)
-				{
-				case VK_RIGHT:
-				case VK_DOWN:
-					if(s_pControlFocus != NULL)
-					{
-						return OnCycleFocus(true);
-					}
-					break;
-
-				case VK_LEFT:
-				case VK_UP:
-					if(s_pControlFocus != NULL)
-					{
-						return OnCycleFocus(false);
-					}
-					break;
-
-				case VK_TAB: 
-					{
-						bool bShiftDown = ((GetKeyState(VK_SHIFT) & 0x8000) != 0);
-						return OnCycleFocus(!bShiftDown);
-					}
-				}
-			}
-			break;
-		}
-
 	}
 
 	return false;
@@ -560,10 +488,6 @@ void CUICombo::OnMouseMove(POINT point)
 	{
 		pControl->OnMouseMove(point);
 	}
-	//else if(s_pControlFocus)
-	//{
-	//	s_pControlFocus->OnMouseMove(point);
-	//}
 
 	// If the mouse is still over the same control, nothing needs to be done
 	if(pControl == s_pControlMouseOver)
@@ -604,8 +528,6 @@ void CUICombo::OnLButtonDblClk(POINT point)
 }
 void CUICombo::OnLButtonDown(POINT point)
 {
-	//// 设置为焦点对话框
-	//SetFocus(true);
 	// 控件
 	CUIControl* pControl = GetControlAtPoint(point);
 	if(pControl!=NULL)
@@ -613,7 +535,6 @@ void CUICombo::OnLButtonDown(POINT point)
 		pControl->OnLButtonDown(point);
 		return;
 	}
-	SetFocus(true);
 }
 void CUICombo::OnLButtonUp(POINT point)
 {
@@ -640,12 +561,9 @@ void CUICombo::OnRButtonDblClk(POINT point)
 		pControl->OnRButtonDblClk(point);
 		return;
 	}
-	SetFocus(true);
 }
 void CUICombo::OnRButtonDown(POINT point)
 {
-	//// 设置为焦点对话框
-	//SetFocus(true);
 	// 控件
 	CUIControl* pControl = GetControlAtPoint(point);
 	if(pControl!=NULL)
@@ -653,7 +571,6 @@ void CUICombo::OnRButtonDown(POINT point)
 		pControl->OnRButtonDown(point);
 		return;
 	}
-	SetFocus(true);
 }
 void CUICombo::OnRButtonUp(POINT point)
 {
@@ -674,12 +591,9 @@ void CUICombo::OnMButtonDblClk(POINT point)
 		pControl->OnMButtonDblClk(point);
 		return;
 	}
-	SetFocus(true);
 }
 void CUICombo::OnMButtonDown(POINT point)
 {
-	//// 设置为焦点对话框
-	//SetFocus(true);
 	// 控件
 	CUIControl* pControl = GetControlAtPoint(point);
 	if(pControl!=NULL)
@@ -687,7 +601,6 @@ void CUICombo::OnMButtonDown(POINT point)
 		pControl->OnMButtonDown(point);
 		return;
 	}
-	SetFocus(true);
 }
 void CUICombo::OnMButtonUp(POINT point)
 {
@@ -697,36 +610,6 @@ void CUICombo::OnMButtonUp(POINT point)
 	{
 		pControl->OnMButtonUp(point);
 		return;
-	}
-}
-
-bool CUICombo::IsFocus()
-{
-	if (CUIControl::IsFocus())
-	{
-		return true;
-	}
-	
-	for(size_t i=0;i<m_Controls.size();++i)
-	{
-		CUIControl* pControl = m_Controls[i];
-		if (pControl->IsFocus())
-		{
-			return true;
-		}
-	}
-	return false;
-}
-
-void CUICombo::OnFocusOut()
-{
-	CUIControl::OnFocusOut();
-	if (GetParentDialog())
-	{
-		if (!GetParentDialog()->IsFocus())
-		{
-			GetParentDialog()->OnFocusOut();
-		}
 	}
 }
 
@@ -910,25 +793,6 @@ void CUICombo::ScreenToClient(RECT& rc)
 {
 }
 
-void CUICombo::FocusDefaultControl()
-{
-	// Check for default control in this dialog
-	for(size_t i=0;i<m_Controls.size();++i)
-	{
-		CUIControl* pControl = m_Controls[i];
-		if(pControl->IsDefault())
-		{
-			// Remove focus from the current control
-			ClearFocus();
-
-			// Give focus to the default control
-			s_pControlFocus = pControl;
-			s_pControlFocus->OnFocusIn();
-			return;
-		}
-	}
-}
-
 void CUICombo::OnChildSize(const CRect<int>& rc)
 {
 	// change Controls' size
@@ -946,119 +810,4 @@ void CUICombo::OnSize(const CRect<int>& rc)
 {
 	CUIControl::OnSize(rc);
 	OnChildSize(m_rcBoundingBox);
-}
-
-bool CUICombo::OnCycleFocus(bool bForward)
-{
-	//CUIControl *pControl = NULL;
-	//CUICombo *pDialog = NULL; // pDialog and pLastDialog are used to track wrapping of
-	//CUICombo *pLastDialog;    // focus from first control to last or vice versa.
-
-	//if(s_pControlFocus == NULL)
-	//{
-	//	// If s_pControlFocus is NULL, we focus the first control of first dialog in
-	//	// the case that bForward is true, and focus the last control of last dialog when
-	//	// bForward is false.
-	//	//
-	//	if(bForward)
-	//	{
-	//		for(unsigned long d=0; d<m_Dialogs.size(); ++d)
-	//		{
-	//			pDialog = pLastDialog = m_Dialogs[d];
-	//			if(pDialog && pDialog->m_Controls.size() > 0)
-	//			{
-	//				pControl = pDialog->m_Controls[0];
-	//				break;
-	//			}
-	//		}
-	//	}
-	//	else
-	//	{
-	//		for(unsigned long d=m_Dialogs.size()-1; d>=0; --d)
-	//		{
-	//			pDialog = pLastDialog = m_Dialogs[d];
-	//			if(pDialog && pDialog->m_Controls.size() > 0)
-	//			{
-	//				pControl = pDialog->m_Controls[pDialog->m_Controls.size() - 1];
-	//				break;
-	//			}
-	//		}
-	//	}
-	//	if(!pDialog || !pControl)
-	//	{
-	//		// No dialog has been registered yet or no controls have been
-	//		// added to the dialogs. Cannot proceed.
-	//		return true;
-	//	}
-	//}
-	//else if(s_pControlFocus->GetParentDialog() != this)
-	//{
-	//	// If a control belonging to another dialog has focus, let that other
-	//	// dialog handle this event by returning false.
-	//	//
-	//	return false;
-	//}
-	//else
-	//{
-	//	// Focused control belongs to this dialog. Cycle to the
-	//	// next/previous control.
-	//	pLastDialog = s_pControlFocus->GetParentDialog();
-	//	pControl = (bForward) ? GetNextControl(s_pControlFocus) : GetPrevControl(s_pControlFocus);
-	//	pDialog = pControl->GetParentDialog();
-	//}
-
-
-	//for(int i=0; i < 0xffff; i++)
-	//{
-	//	// If we just wrapped from last control to first or vice versa,
-	//	// set the focused control to NULL. This state, where no control
-	//	// has focus, allows the camera to work.
-	//	int nLastDialogIndex = -1;//m_Dialogs.IndexOf(pLastDialog);
-	//	for (unsigned long i=0; i<m_Dialogs.size(); ++i)
-	//	{
-	//		if(pLastDialog == m_Dialogs[i])
-	//		{
-	//			nLastDialogIndex = i;
-	//			break;
-	//		}
-	//	}
-	//	int nDialogIndex = -1;//m_Dialogs.IndexOf(pDialog);
-	//	for (unsigned long i=0; i<m_Dialogs.size(); ++i)
-	//	{
-	//		if(pDialog == m_Dialogs[i])
-	//		{
-	//			nDialogIndex = i;
-	//			break;
-	//		}
-	//	}
-
-	//	if((!bForward && nLastDialogIndex < nDialogIndex) ||
-	//		(bForward && nDialogIndex < nLastDialogIndex))
-	//	{
-	//		if(s_pControlFocus)
-	//			s_pControlFocus->OnFocusOut();
-	//		s_pControlFocus = NULL;
-	//		return true;
-	//	}
-
-	//	// If we've gone in a full circle then focus doesn't change
-	//	if(pControl == s_pControlFocus)
-	//		return true;
-
-	//	// If the dialog accepts keybord input and the control can have focus then
-	//	// move focus
-	//	if(pControl->GetParentDialog()->IsKeyboardInputEnabled() && pControl->CanHaveFocus())
-	//	{
-	//		if(s_pControlFocus)
-	//			s_pControlFocus->OnFocusOut();
-	//		s_pControlFocus = pControl;
-	//		s_pControlFocus->OnFocusIn();
-	//		return true;
-	//	}
-
-	//	pLastDialog = pDialog;
-	//	pControl = (bForward) ? GetNextControl(pControl) : GetPrevControl(pControl);
-	//	pDialog = pControl->GetParentDialog();
-	//}
-	return false;
 }

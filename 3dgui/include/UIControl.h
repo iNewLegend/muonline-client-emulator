@@ -56,9 +56,9 @@ void UISetHWND(HWND hWnd);
 // EVENT_LISTBOX_SELECTION is fired off when the selection changes in
 // a single selection list box.
 #define EVENT_LISTBOX_SELECTION             0x0702
-
-#define EVENT_SETFOCUS						0x0901
-#define EVENT_KILLFOCUS						0x0902
+// 
+// #define EVENT_SETFOCUS						0x0901
+// #define EVENT_KILLFOCUS						0x0902
 #define EVENT_VISIBLE						0x0903
 // Enums for pre-defined control types
 
@@ -133,10 +133,6 @@ public:
 	virtual void OnMButtonDown(POINT point){;}
 	virtual void OnMButtonUp(POINT point){;}
 
-	virtual bool CanHaveFocus() { return false; }
-	virtual void SetFocus(bool bFocus=true);
-	virtual void OnFocusIn() { SendEvent(EVENT_SETFOCUS);}
-	virtual void OnFocusOut() { SendEvent(EVENT_KILLFOCUS); }
 	virtual void OnMouseEnter() { m_bMouseOver = true; }
 	virtual void OnMouseLeave() { m_bMouseOver = false; }
 	virtual void OnHotkey() {}
@@ -182,11 +178,7 @@ public:
 
 	virtual bool IsPressed(){return this==s_pControlPressed;}
 	void SetPressed(bool bPressed);
-	virtual bool IsFocus(){return this==s_pControlFocus;}
-	static void ClearFocus();
-	static void clearFocus();
 
-	static CUIControl* s_pControlFocus;        // The control which has focus
 	static CUIControl* s_pControlPressed;      // The control currently pressed
 	static CUIControl* s_pControlMouseOver;    // The control which is hovered over
 

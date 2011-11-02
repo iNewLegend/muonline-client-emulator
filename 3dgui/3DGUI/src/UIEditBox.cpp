@@ -383,7 +383,7 @@ void CUIEditBox::OnMouseMove(POINT pt)
 void CUIEditBox::OnLButtonDown(POINT point)
 {
 	screenToClient(point);
-	SetFocus();
+	//SetFocus();
 	SetPressed(true);
 	//SetCapture(UIGetHWND());
 	// Determine the character corresponding to the coordinates.
@@ -412,13 +412,13 @@ void CUIEditBox::OnLButtonUp(POINT point)
 
 void CUIEditBox::OnFocusIn()
 {
-	CUIControl::OnFocusIn();
+	//CUIControl::OnFocusIn();
 	ResetCaretBlink();
 }
 
 void CUIEditBox::OnFocusOut()
 {
-	CUIControl::OnFocusOut();
+	//CUIControl::OnFocusOut();
 	SendEvent(EVENT_DEFAULT);
 }
 
@@ -658,7 +658,7 @@ void CUIEditBox::OnFrameRender(const Matrix& mTransform, double fTime, float fEl
 	//
 	// Render the caret if this control has the focus
 	//
-	if(IsFocus() && m_bCaretOn && !s_bHideCaret)
+	if(/*IsFocus() &&*/ m_bCaretOn && !s_bHideCaret)
 	{
 		// Start the rectangle with insert mode caret
 		CRect<int> rcCaret(m_rcText.left - nXFirst + nCaretX - 1, m_rcText.top,

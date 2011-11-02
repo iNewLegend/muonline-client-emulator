@@ -23,9 +23,6 @@ public:
 	virtual void OnLButtonUp(POINT point);
 	virtual void OnHotkey();
 	virtual bool ContainsPoint(POINT pt);
-	// 是否能获取焦点
-	virtual bool CanHaveFocus() { return (m_bVisible && m_bEnabled); }
-
 	// 渲染
 	virtual void OnFrameRender(const Matrix& mTransform, double fTime, float fElapsedTime);
 };

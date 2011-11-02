@@ -20,7 +20,6 @@ enum CONTROL_STATE
 	CONTROL_STATE_NORMAL,
 	CONTROL_STATE_DISABLED,
 	CONTROL_STATE_HIDDEN,
-	CONTROL_STATE_FOCUS,
 	CONTROL_STATE_MOUSEOVER,
 	CONTROL_STATE_PRESSED,
 	CONTROL_STATE_MAX,
@@ -30,7 +29,6 @@ static const char* szControlState[]=
 	"normal",
 	"disabled",
 	"hidden",
-	"focus",
 	"mouseover",
 	"pressed",
 };

@@ -449,7 +449,6 @@ int	CUIListBox::getItemIndexByData(void* pData)
 
 void CUIListBox::OnLButtonDblClk(POINT point)
 {
-	SetFocus();
 	int nClicked = getItemIndexByPoint(point);
 	if (nClicked!=-1)
 	{
@@ -460,7 +459,6 @@ void CUIListBox::OnLButtonDblClk(POINT point)
 
 void CUIListBox::OnLButtonDown(POINT point)
 {
-	SetFocus();
 	if (m_ScrollBar.ContainsPoint(point))
 	{
 		m_ScrollBar.OnLButtonDown(point);
@@ -658,19 +656,6 @@ void CUIListBox::OnFrameRender(const Matrix& mTransform, double fTime, float fEl
 	{
 		CUIControl* pControl = m_Controls[i];   
 
-		if (pControl->IsFocus())
-		{
-			continue;
-		}
 		pControl->OnFrameRender(m_mWorld,fTime,fElapsedTime);
-	}
-	for(size_t i=0;i<m_Controls.size();++i)
-	{
-		CUIControl* pControl = m_Controls[i];   
-
-		if (pControl->IsFocus())
-		{
-			pControl->OnFrameRender(m_mWorld,fTime, fElapsedTime);
-		}
 	}
 }

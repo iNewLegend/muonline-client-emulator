@@ -24,9 +24,6 @@ public:
 	virtual void OnMouseWheel(POINT point,short wheelDelta);
 	//
 	virtual void OnHotkey();
-
-	virtual bool CanHaveFocus() { return (m_bVisible && m_bEnabled); }
-	virtual void OnFocusOut();
 	virtual void OnFrameRender(const Matrix& mTransform, double fTime, float fElapsedTime);
 
 	bool	AddItem(const wchar_t* wcsText, void *pData=NULL);

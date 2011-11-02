@@ -33,11 +33,11 @@ bool CUIComboBox::ContainsPoint(POINT pt)
 	return m_rcBoundingBox.ptInRect(pt) || (m_ListBox.IsVisible() && m_ListBox.ContainsPoint(pt)); 
 }
 
-void CUIComboBox::OnFocusOut()
-{
-	CUICombo::OnFocusOut();
-	m_ListBox.SetVisible(false);
-}
+// void CUIComboBox::OnFocusOut()
+// {
+// 	CUICombo::OnFocusOut();
+// 	m_ListBox.SetVisible(false);
+// }
 
 bool CUIComboBox::HandleKeyboard(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -66,7 +66,7 @@ bool CUIComboBox::HandleKeyboard(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					//	SendEvent(EVENT_COMBOBOX_SELECTION_CHANGED);
 					//}
 					m_ListBox.SetVisible(false);
-					SetFocus(false);
+					//SetFocus(false);
 
 					return true;
 				}
@@ -80,7 +80,7 @@ bool CUIComboBox::HandleKeyboard(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				if(!m_ListBox.IsVisible())
 				{
 					SendEvent(EVENT_COMBOBOX_SELECTION_CHANGED);
-					SetFocus(false);
+					//SetFocus(false);
 				}
 				return true;
 			case VK_LEFT:
@@ -114,20 +114,10 @@ void CUIComboBox::OnLButtonDown(POINT point)
 	if(m_rcBoundingBox.ptInRect(point))
 	{
 		// Pressed while inside the control
-		SetFocus();
 		SetPressed(true);
 
 		// Toggle dropdown
-		if(IsFocus())
-		{
-			m_ListBox.SetVisible(!m_ListBox.IsVisible());
-
-			if(!m_ListBox.IsVisible())
-			{
-				SetFocus(false);
-			}
-		}
-		return;
+		m_ListBox.SetVisible(!m_ListBox.IsVisible());
 	}
 }
 
@@ -168,11 +158,6 @@ void CUIComboBox::OnHotkey()
 
 	if(m_ListBox.GetItemCount()==0)
 		return;
-
-	if(GetParentDialog()->IsKeyboardInputEnabled())
-	{
-		SetFocus();
-	}
 
 	if(m_ListBox.GetSelectedIndex()>=m_ListBox.GetItemCount()-1)
 	{
