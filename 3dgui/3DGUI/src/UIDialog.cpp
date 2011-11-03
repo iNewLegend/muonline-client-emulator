@@ -397,6 +397,15 @@ void CUIDialog::SetVisible(bool bVisible)
 	}
 }
 
+void CUIDialog::SetFocus(bool bFocus)
+{
+	CUICombo::SetFocus(bFocus);
+	if (bFocus)
+	{
+		toTop();
+	}
+}
+
 void CUIDialog::OnMouseMove(POINT point)
 {
 	if (IsPressed())
@@ -464,8 +473,9 @@ void CUIDialog::OnLButtonDown(POINT point)
 		pControl->OnLButtonDown(point);
 		return;
 	}
+	SetFocus(true);
 	// БъЬт
-	if(m_bCaption&&m_bCanMove&&m_rcCaption.ptInRect(point))
+	if(IsFocus()&&m_bCaption&&m_bCanMove&&m_rcCaption.ptInRect(point))
 	{
 		m_nMouseOriginX = point.x-m_rcBoundingBox.left;
 		m_nMouseOriginY = point.y-m_rcBoundingBox.top;
@@ -578,6 +588,122 @@ void CUIDialog::ClientToScreen(RECT& rc)
 
 void CUIDialog::ScreenToClient(RECT& rc)
 {
+}
+
+bool CUIDialog::OnCycleFocus(bool bForward)
+{
+	CUIControl *pControl = NULL;
+	CUICombo *pDialog = NULL; // pDialog and pLastDialog are used to track wrapping of
+	CUICombo *pLastDialog;    // focus from first control to last or vice versa.
+
+	if(s_pControlFocus == NULL)
+	{
+		// If s_pControlFocus is NULL, we focus the first control of first dialog in
+		// the case that bForward is true, and focus the last control of last dialog when
+		// bForward is false.
+		//
+		if(bForward)
+		{
+			for(size_t d=0;d<m_Dialogs.size();++d)
+			{
+				pDialog = pLastDialog = m_Dialogs[d];
+				if(pDialog)
+				{
+					pControl = pDialog->getFirstControl();
+					if (pControl)
+					{
+						break;
+					}
+				}
+			}
+		}
+		else
+		{
+			for(size_t d=m_Dialogs.size()-1; d>=0; --d)
+			{
+				pDialog = pLastDialog = m_Dialogs[d];
+				if(pDialog)
+				{
+					pControl = pDialog->getLastControl();
+					if (pControl)
+					{
+						break;
+					}
+				}
+			}
+		}
+		if(!pDialog || !pControl)
+		{
+			// No dialog has been registered yet or no controls have been
+			// added to the dialogs. Cannot proceed.
+			return true;
+		}
+	}
+	else if(s_pControlFocus->GetParentDialog() != this)
+	{
+		// If a control belonging to another dialog has focus, let that other
+		// dialog handle this event by returning false.
+		//
+		return false;
+	}
+	else
+	{
+		// Focused control belongs to this dialog. Cycle to the
+		// next/previous control.
+		pLastDialog = s_pControlFocus->GetParentDialog();
+		pControl = (bForward) ? GetNextControl(s_pControlFocus) : GetPrevControl(s_pControlFocus);
+		pDialog = pControl->GetParentDialog();
+	}
+
+
+	for(int i=0; i < 0xffff; i++)
+	{
+		// If we just wrapped from last control to first or vice versa,
+		// set the focused control to NULL. This state, where no control
+		// has focus, allows the camera to work.
+		int nLastDialogIndex = -1;//m_Dialogs.IndexOf(pLastDialog);
+		for(size_t i=0;i<m_Dialogs.size();++i)
+		{
+			if(pLastDialog == m_Dialogs[i])
+			{
+				nLastDialogIndex = i;
+				break;
+			}
+		}
+		int nDialogIndex = -1;//m_Dialogs.IndexOf(pDialog);
+		for(size_t i=0;i<m_Dialogs.size();++i)
+		{
+			if(pDialog == m_Dialogs[i])
+			{
+				nDialogIndex = i;
+				break;
+			}
+		}
+
+		if((!bForward && nLastDialogIndex < nDialogIndex) ||
+			(bForward && nDialogIndex < nLastDialogIndex))
+		{
+			clearFocus();
+			return true;
+		}
+
+		// If we've gone in a full circle then focus doesn't change
+		if(pControl == s_pControlFocus)
+			return true;
+
+		// If the dialog accepts keybord input and the control can have focus then
+		// move focus
+		if(pControl->GetParentDialog()->IsKeyboardInputEnabled() && pControl->CanHaveFocus())
+		{
+			pControl->SetFocus(true);
+			return true;
+		}
+
+		pLastDialog = pDialog;
+		pControl = (bForward) ? GetNextControl(pControl) : GetPrevControl(pControl);
+		pDialog = pControl->GetParentDialog();
+	}
+	return false;
 }
 
 void CUIDialog::OnChildSize(const CRect<int>& rc)

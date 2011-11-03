@@ -52,6 +52,7 @@ bool CUIButton::HandleKeyboard(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 void CUIButton::OnLButtonDown(POINT point)
 {
+	SetFocus();
 	SetPressed(true);
 }
 
@@ -71,6 +72,8 @@ void CUIButton::OnLButtonUp(POINT point)
 
 void CUIButton::OnHotkey()
 {
+	if(GetParentDialog()->IsKeyboardInputEnabled())
+		SetFocus();
 	OnPressUp();
 }
 

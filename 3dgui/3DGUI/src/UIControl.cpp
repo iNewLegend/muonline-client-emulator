@@ -2,6 +2,7 @@
 #include "UICombo.h"
 #include "tinyxml.h"
 
+CUIControl* CUIControl::s_pControlFocus = NULL;
 CUIControl* CUIControl::s_pControlPressed = NULL;
 CUIControl* CUIControl::s_pControlMouseOver = NULL;
 
@@ -347,6 +348,8 @@ void CUIControl::SetStyle(const std::string& strStyleName)
 void CUIControl::Refresh()
 {
 	m_bMouseOver = false;
+	//IsFocus()
+	//m_bHasFocus = false;
 }
 
 void CUIControl::OnFrameRender(const Matrix& mTransform, double fTime, float fElapsedTime)
@@ -445,6 +448,28 @@ void CUIControl::drawTip(const Matrix& mTransform,const CRect<int>& rc, double f
 	CUIControl::s_TipStyle.draw(rect.getRECT(),m_wstrTip.c_str(),CONTROL_STATE_NORMAL, fElapsedTime);
 }
 
+void CUIControl::SetFocus(bool bFocus)
+{
+	if (bFocus)
+	{
+		if(s_pControlFocus==this)
+			return;
+		if(!CanHaveFocus())
+			return;
+		CUIControl* pOldControlFocus=s_pControlFocus;
+		s_pControlFocus=this;
+		if(pOldControlFocus&&!pOldControlFocus->IsFocus())
+		{
+			pOldControlFocus->OnFocusOut();
+		}
+		OnFocusIn();
+	}
+	else if(GetParentDialog()&&!GetParentDialog()->IsKeyboardInputEnabled())
+	{
+		ClearFocus();
+	}
+}
+
 void CUIControl::SetPressed(bool bPressed)
 {
 	if (bPressed==false)
@@ -452,6 +477,22 @@ void CUIControl::SetPressed(bool bPressed)
 		m_Style.playSound();
 	}
 	s_pControlPressed=bPressed?this:NULL;
+}
+
+void CUIControl::ClearFocus()
+{
+	clearFocus();
+	//ReleaseCapture();
+}
+
+void CUIControl::clearFocus()
+{
+	if(s_pControlFocus)
+	{
+		CUIControl* pOldControlFocus=s_pControlFocus;
+		s_pControlFocus=NULL;
+		pOldControlFocus->OnFocusOut();
+	}
 }
 
 void CUIControl::ClientToScreen(RECT& rc)
@@ -516,6 +557,10 @@ CONTROL_STATE CUIControl::GetState()
 	else if(m_bMouseOver)
 	{
 		iState = CONTROL_STATE_MOUSEOVER;
+	}
+	else if(IsFocus())
+	{
+		iState = CONTROL_STATE_FOCUS;
 	}
 	return iState;
 }
