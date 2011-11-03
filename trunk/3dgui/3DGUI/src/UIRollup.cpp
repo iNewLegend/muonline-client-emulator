@@ -310,6 +310,12 @@ bool CUIRollup::HandleMouse(UINT uMsg, POINT pt, WPARAM wParam, LPARAM lParam)
 	if(!m_bEnabled || !m_bVisible)
 		return false;
 
+	// First acquire focus
+	if(WM_LBUTTONDOWN == uMsg)
+	{
+		SetFocus();
+	}
+
 	// Let the scroll bar handle it first.
 	//if(m_ScrollBar.HandleMouse(uMsg, pt, wParam, lParam))
 	//	return true;

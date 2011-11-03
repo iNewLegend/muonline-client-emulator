@@ -137,6 +137,7 @@ void CUISlider::OnLButtonDown(POINT point)
 		//m_nDragX = pt.x;
 		m_ptDragOffset.x = m_rcButton.right - point.x;
 		m_ptDragOffset.y = m_rcButton.bottom - point.y;
+		SetFocus();
 		return;
 	}
 	if(m_rcRelativeBox.ptInRect(point))
@@ -144,6 +145,7 @@ void CUISlider::OnLButtonDown(POINT point)
 		m_ptDragOffset.x=0;
 		m_ptDragOffset.y=0;
 		//SetPressed(true);
+		SetFocus();
 		if(m_bH)
 		{
 			if(point.x > m_rcButton.left)

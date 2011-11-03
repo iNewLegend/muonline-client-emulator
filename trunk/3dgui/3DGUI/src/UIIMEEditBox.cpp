@@ -1096,7 +1096,7 @@ void CUIIMEEditBox::OnFrameRender(const Matrix& mTransform, double fTime, float 
     //
     // Now render the IME elements
     //
-	if(1/*IsFocus()*/)
+	if(IsFocus())
 	{
 		// Render the input locale indicator
 		RenderIndicator(fElapsedTime);
