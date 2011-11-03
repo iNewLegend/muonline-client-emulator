@@ -21,12 +21,12 @@ VS_MODEL_OUTPUT VS(VS_MODEL_INPUT i)
 	o.Pos = mul(i.Pos,wvpm);
 	o.UV = i.UV;
 	// Eye-soace lighting
-	o.normal = normalize(mul(i.Normal,g_mView));
+	o.normal = normalize(mul(i.Normal,wvm));
 	o.viewVec = -mul(i.Pos,wvm);
 	return o;
 }
 //float4 lightDir: register(c2);
-float furriness = 10.0f;
+float furriness = 25.0f;
 float sheen = 0.68f;
 sampler s0: register(s0);
 float4 PS(VS_MODEL_OUTPUT i) : COLOR0
