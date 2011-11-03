@@ -4,31 +4,43 @@ struct VS_MODEL_INPUT
 {
     float4  Pos     : POSITION;
 	float3  Normal  : NORMAL;
-    float2  UV0     : TEXCOORD0;
+    float2  UV     : TEXCOORD0;
 };
 
 struct VS_MODEL_OUTPUT
 {
     float4  Pos     : POSITION;
-    float2  UV0     : TEXCOORD0;
-    float4  Color   : COLOR;
+    float2  UV      : TEXCOORD0;
+    float3  normal  : TEXCOORD1;
+    float3  viewVec : TEXCOORD2;
 };
 
-float4x4 WorldXViewXProj: register(c0);
 VS_MODEL_OUTPUT VS(VS_MODEL_INPUT i)
 {
 	VS_MODEL_OUTPUT o;
-	o.UV0 = i.UV0;
-	o.Pos = mul(i.Pos,WorldXViewXProj);
-	o.Color = float4(0.7,1,0.7,1)*(0.8-sin(g_fTime*2)*0.2f);
+	o.Pos = mul(i.Pos,wvpm);
+	o.UV = i.UV;
+	// Eye-soace lighting
+	o.normal = normalize(mul(i.Normal,g_mView));
+	o.viewVec = -mul(i.Pos,wvm);
 	return o;
 }
-
+//float4 lightDir: register(c2);
+float furriness = 10.0f;
+float sheen = 0.68f;
 sampler s0: register(s0);
 float4 PS(VS_MODEL_OUTPUT i) : COLOR0
 {
-	float4 color	= tex2D(s0, i.UV0);
-	return color*i.Color;
+	float4 color	= tex2D(s0, i.UV);
+	// Apply some fabric style lighting
+	float diffuse = 0.5 * (1 + dot(i.normal, -g_vLightDir));
+	float cosView = clamp(dot(normalize(i.viewVec), i.normal), 0.0, 1.0);
+	float shine = pow(1.0 - cosView * cosView, furriness);
+
+	color.xyz+=sheen * shine;
+	//color.xyz*=diffuse;
+	//return float4(i.viewVec,1);
+	return color;
 }
 
 technique Render
@@ -48,7 +60,7 @@ technique Render
 		ZFunc				= LessEqual;
 		ZWriteEnable		= True;
 
-        VertexShader		= compile vs_1_0 VS();
+        VertexShader		= compile vs_2_0 VS();
         PixelShader			= compile ps_2_0 PS();
     }
 }

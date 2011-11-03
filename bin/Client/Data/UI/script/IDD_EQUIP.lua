@@ -42,9 +42,9 @@ m_PlayerView = CRole()
 				m_PlayerView:setEquip(3,1)
 				m_PlayerView:setEquip(4,1)
 				m_PlayerView:setEquipSkin(0,1)
-				m_PlayerView:setEquipSkin(1,2)
-				m_PlayerView:setEquipSkin(2,3)
-				m_PlayerView:setEquipSkin(3,4)
+				m_PlayerView:setEquipSkin(1,1)
+				m_PlayerView:setEquipSkin(2,1)
+				m_PlayerView:setEquipSkin(3,1)
 				m_PlayerView:setEquipSkin(4,1)
 				m_PlayerView:setActionState(0);
 m_DisplayPlayer:setRenderNode(m_PlayerView)
@@ -53,12 +53,20 @@ m_DisplayPlayer.m_vLookAt=Vec3D(0.0,1.0,0.0)
 
 function ChangeEquip(id)
 	local nIndex = math.random(0,10)
-	local nLevel = math.random(0,4)
+	local nLevel = math.random(0,9)
+	local nSkin = 0;
+	if nLevel>6 then
+		nSkin = 3
+	elseif nLevel>5 then
+		nSkin = 2
+	elseif  nLevel>2 then
+		nSkin = 1
+	end
 	g_PlayerMe:setEquip(id,nIndex)
-	g_PlayerMe:setEquipSkin(id,nLevel)
+	g_PlayerMe:setEquipSkin(id,nSkin)
 	--
 	itemData = ItemData()
-	itemData.cType = id;
+	itemData.cType = id+7;
 	itemData.cIndex = nIndex;
 	itemData.level = nLevel;
 	m_ListIcon[id+1]:setItemData(itemData)

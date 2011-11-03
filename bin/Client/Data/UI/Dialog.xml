@@ -727,7 +727,7 @@
   <dialog id="IDD_EQUIP" scale="0,50,0,50" offset=" 0, -200, 320, 200">
     <caption height="42">装备</caption>
 	<element type="static" id="IDC_STATIC_EQUIP_BG" rect="10,2,300,300" style="static02"></element>
-	<element type="display" id="IDC_DISPLAY_PLAYER" scale="0,0,100,100"/>
+	<element type="display" id="IDC_DISPLAY_PLAYER" rect="20,0,280,300"/>
 	
 	<element type="static" id="IDC_STA_NAME" rect="105,10,85,12">NAME</element>
 	<element type="static"rect="45,30,85,12">等级</element>

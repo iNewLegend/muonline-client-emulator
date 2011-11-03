@@ -399,26 +399,42 @@ void CD3D9RenderSystem::SetFillMode(FillMode mode)
 void CD3D9RenderSystem::setWorldMatrix(const Matrix& m)
 {
 	Matrix mDx=m;mDx.transpose();
+	Matrix Proj, View;
+	getProjectionMatrix(Proj);
+	getViewMatrix(View);
+	Matrix wvpm = Proj * View * m;
+	Matrix wvm = View * m;
 	CD3D9Shader* shared = (CD3D9Shader*)m_ShaderMgr.getSharedShader();
 	if(shared)
 	{
+		shared->setMatrix("wvm",wvm);
+		shared->setMatrix("wvpm",wvpm);
 		shared->setMatrix("g_mWorld",m);
 		if (m_pOldShader)
 		{
 			((CD3D9Shader*)m_pOldShader)->getD3DXEffect()->CommitChanges();
 		}
 	}
-	Matrix Proj, View;
-	getProjectionMatrix(Proj);
-	getViewMatrix(View);
-	Matrix c0 = Proj * View * m;
-	D3D9HR( m_pD3D9Device->SetVertexShaderConstantF(0, c0, 4) );
+	D3D9HR( m_pD3D9Device->SetVertexShaderConstantF(0, wvpm, 4) );
 	D3D9HR( m_pD3D9Device->SetTransform(D3DTS_WORLD, (D3DXMATRIX*)&mDx) );
 }
 
 void CD3D9RenderSystem::setViewMatrix(const Matrix& m)
 {
 	Matrix mDx=m;mDx.transpose();
+	Matrix Proj;
+	getProjectionMatrix(Proj);
+	Matrix vpm = Proj * m;
+	CD3D9Shader* shared = (CD3D9Shader*)m_ShaderMgr.getSharedShader();
+	if(shared)
+	{
+		shared->setMatrix("vpm", vpm);
+		shared->setMatrix("g_mView", m);
+		if (m_pOldShader)
+		{
+			((CD3D9Shader*)m_pOldShader)->getD3DXEffect()->CommitChanges();
+		}
+	}
 	D3D9HR( m_pD3D9Device->SetTransform(D3DTS_VIEW, (D3DXMATRIX*)&mDx) );
 }
 
