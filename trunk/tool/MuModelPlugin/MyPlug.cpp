@@ -400,7 +400,7 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 								strTexFileName = ChangeExtension(strTexFileName,strExt);
 							}
 							// ----
-							// # lvl 1-3
+							// # lvl 0-2
 							// ----
 							sprintf(szMaterialName,"%s%d",ChangeExtension(GetFilename(szFilename),".sub").c_str(),i);
 							CMaterial* pMaterial = (CMaterial*)m_pRenderNodeMgr->createRenderData("material",szMaterialName);
@@ -408,20 +408,28 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 							pMaterial->setShader("EngineRes\\fx\\diffuseAlphaTest128.fx");
 							pMesh->getMaterials()[i].push_back(szMaterialName);
 							// ----
-							// # lvl 4
+							// # lvl 3-4
 							// ----
-							sprintf(szMaterialName,"%s%d_4",ChangeExtension(GetFilename(szFilename),".sub").c_str(),i);
+							sprintf(szMaterialName,"%s%d_1",ChangeExtension(GetFilename(szFilename),".sub").c_str(),i);
 							pMaterial = (CMaterial*)m_pRenderNodeMgr->createRenderData("material",szMaterialName);
 							pMaterial->setTexture(0,strTexFileName.c_str());
-							pMaterial->setShader("EngineRes\\fx\\MuLvl4.fx");
+							pMaterial->setShader("EngineRes\\fx\\EquipEffect1.fx");
 							pMesh->getMaterials()[i].push_back(szMaterialName);
 							// ----
-							// # lvl 7
+							// # lvl 5-6
 							// ----
-							sprintf(szMaterialName,"%s%d_7",ChangeExtension(GetFilename(szFilename),".sub").c_str(),i);
+							sprintf(szMaterialName,"%s%d_22",ChangeExtension(GetFilename(szFilename),".sub").c_str(),i);
 							pMaterial = (CMaterial*)m_pRenderNodeMgr->createRenderData("material",szMaterialName);
 							pMaterial->setTexture(0,strTexFileName.c_str());
-							pMaterial->setShader("EngineRes\\fx\\MuLvl7.fx");
+							pMaterial->setShader("EngineRes\\fx\\EquipEffect2.fx");
+							pMesh->getMaterials()[i].push_back(szMaterialName);
+							// ----
+							// # lvl 7-
+							// ----
+							sprintf(szMaterialName,"%s%d_3",ChangeExtension(GetFilename(szFilename),".sub").c_str(),i);
+							pMaterial = (CMaterial*)m_pRenderNodeMgr->createRenderData("material",szMaterialName);
+							pMaterial->setTexture(0,strTexFileName.c_str());
+							pMaterial->setShader("EngineRes\\fx\\EquipEffect3.fx");
 							pMesh->getMaterials()[i].push_back(szMaterialName);
 						}
 					}

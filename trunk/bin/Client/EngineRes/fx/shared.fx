@@ -1,6 +1,9 @@
 #ifndef __SHARED_FX
 #define __SHARED_FX
 
+shared float4x4 wvpm;
+shared float4x4 wvm;
+shared float4x4 vpm;
 shared float4x4 g_mView;
 shared float4x4 g_mViewProj;
 shared float4x4 g_mWorld;

@@ -151,7 +151,6 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 		R.SetBlendFunc(true,BLENDOP_ADD,SBF_ZERO,SBF_SOURCE_COLOUR);
 		R.SetAlphaTestFunc(true);
 		R.SetDepthBufferFunc(false,false);
-		R.SetTextureFactor(0x80808080);
 		R.SetTextureColorOP(0,TBOP_SOURCE1,TBS_TFACTOR);
 		R.SetTextureAlphaOP(0,TBOP_SOURCE1,TBS_TEXTURE);
 		R.SetTextureColorOP(1,TBOP_DISABLE);
@@ -204,7 +203,6 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 		{
 			if (*it==pFocusNode)
 			{
-				R.SetTextureFactor(0xFF40FF40);
 				if (GetRenderSystem().prepareMaterial("ObjectFocus"))
 				{
 					float color[4] = {1.0f,0.25f,0.0f,0.5f};

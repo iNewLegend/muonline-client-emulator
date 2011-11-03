@@ -1,5 +1,4 @@
 #include "shared.fx"
-float4 g_vColorFocus;
 
 struct VS_OBJECT_INPUT
 {
@@ -45,7 +44,7 @@ technique Render
 		
 		ZEnable				= True;
 		ZFunc				= LessEqual;
-		ZWriteEnable		= False;
+		ZWriteEnable		= True;
 		
 		VertexShader		= compile vs_2_0 VS();
         PixelShader			= compile ps_2_0 PS();

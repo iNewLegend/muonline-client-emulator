@@ -120,7 +120,7 @@ bool CSkinMesh::setup()
 			if(subMaterials.size()>0)
 			{
 				int nSkinID = subMaterials.size()>m_nSkinID?m_nSkinID:0;
-				pass.strMaterial = m_pMesh->getMaterials()[i][nSkinID];
+				pass.strMaterial = subMaterials[nSkinID];
 			}
 			m_vecPasses.push_back(pass);
 		}
