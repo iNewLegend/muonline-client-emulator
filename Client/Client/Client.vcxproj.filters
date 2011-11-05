@@ -90,6 +90,9 @@
     <ClCompile Include="UIIcon.cpp">
       <Filter>Dialog</Filter>
     </ClCompile>
+    <ClCompile Include="UIGeneralDialog.cpp">
+      <Filter>Dialog</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GlobalFunction.h">
@@ -147,6 +150,9 @@
       <Filter>Global Headers</Filter>
     </ClInclude>
     <ClInclude Include="UIIcon.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="UIGeneralDialog.h">
       <Filter>Dialog</Filter>
     </ClInclude>
   </ItemGroup>

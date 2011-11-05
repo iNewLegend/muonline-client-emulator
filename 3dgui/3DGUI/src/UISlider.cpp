@@ -180,7 +180,7 @@ void CUISlider::OnLButtonUp(POINT point)
 	if(IsPressed())
 	{
 		SetPressed(false);
-		SendEvent(EVENT_SLIDER_VALUE_CHANGED);
+		sendEvent(EVENT_SLIDER_VALUE_CHANGED);
 	}
 }
 
@@ -217,7 +217,7 @@ void CUISlider::SetValueInternal(int nValue)
 {
 	if (SetValue(nValue))
 	{
-		SendEvent(EVENT_SLIDER_VALUE_CHANGED);
+		sendEvent(EVENT_SLIDER_VALUE_CHANGED);
 	}
 }
 

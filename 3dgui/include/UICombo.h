@@ -136,12 +136,17 @@ public:
 	// Shared resource access. Indexed fonts and textures are shared among
 	// all the controls.
 
+	virtual bool IsFocus();
+	virtual void OnFocusOut();
+
+	void FocusDefaultControl();
+
 	bool m_bKeyboardInput;
 
-	void LuaRegisterControlEvent(const char* szID, const char* szLuafun, unsigned int uEvent);
+	void LuaRegisterControlEvent(const char* szID, const char* szLuafun, const char* szEvent);
 	void LuaRegisterEvent(const char* szEvent, const char* szLuafun);
 
-	void RegisterControlEvent(const char* szID, PEVENT pfn, unsigned int uEvent=EVENT_DEFAULT);
+	void RegisterControlEvent(const char* szID, PEVENT pfn, const char* szEvent=EVENT_DEFAULT);
 	void RegisterEvent(const char* szEvent, PEVENT pfn);
 protected:
 	std::map<std::string,std::string>		m_mapLuaEvent;
@@ -152,6 +157,9 @@ protected:
 	double m_fTimeLastRefresh;
 
 	virtual void OnControlRegister();
+
+	// Control events
+	bool OnCycleFocus(bool bForward);
 
 	std::vector<CUIControl*>	m_Controls;
 	std::vector<CUIControl*>	m_AssignControls;

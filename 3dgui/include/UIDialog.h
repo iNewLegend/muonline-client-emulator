@@ -40,6 +40,8 @@ public:
 	CUIDialog* GetChildDialogAtPoint(POINT pt);
 
 	virtual void SetVisible(bool bVisible);
+	virtual void SetFocus(bool bFocus=true);
+	virtual bool CanHaveFocus() { return (m_bVisible && m_bEnabled); }
 
 	virtual void ClientToScreen(RECT& rc);
 	virtual void ScreenToClient(RECT& rc);
@@ -84,6 +86,9 @@ public:
 protected:
 	virtual void OnMove(int x, int y);
 	virtual	bool OnInitDialog();
+
+	// Control events
+	bool OnCycleFocus(bool bForward);
 
 	bool m_bCaption;
 	bool m_bCanMove;

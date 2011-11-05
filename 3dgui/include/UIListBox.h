@@ -26,6 +26,7 @@ public:
 	virtual ~CUIListBox();
 	virtual void	OnControlRegister();
 	virtual void	SetStyle(const std::string& strStyleName);
+	virtual bool    CanHaveFocus() { return (m_bVisible && m_bEnabled); }
 	virtual bool    HandleKeyboard(UINT uMsg, WPARAM wParam, LPARAM lParam);
 	//
 	virtual void	OnMouseMove(POINT point);

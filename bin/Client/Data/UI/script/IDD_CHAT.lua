@@ -5,7 +5,7 @@ editChat = CUIEditBox()
 IDD_CHAT:regControl("IDC_EDIT_BOX_CHAT", editChat)
 
 -- Register Event
-IDD_CHAT:regControlEvent("IDC_EDIT_BOX_CHAT","IDD_CHAT_OnEditChat",1537)
+IDD_CHAT:regControlEvent("IDC_EDIT_BOX_CHAT","IDD_CHAT_OnEditChat","1537")
 
 -- Event Func
 function IDD_CHAT_OnEditChat()

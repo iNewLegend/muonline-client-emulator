@@ -290,7 +290,7 @@ bool CUIEditBox::HandleKeyboard(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					if(m_nCaret != m_nSelStart)
 					{
 						DeleteSelectionText();
-						SendEvent(EVENT_EDITBOX_CHANGE);
+						sendEvent(EVENT_EDITBOX_CHANGE);
 					}
 					else
 					{
@@ -300,7 +300,7 @@ bool CUIEditBox::HandleKeyboard(UINT uMsg, WPARAM wParam, LPARAM lParam)
 							m_wstrPassword.erase(m_nCaret,1);
 						}
 						if(m_Buffer.RemoveChar(m_nCaret))
-							SendEvent(EVENT_EDITBOX_CHANGE);
+							sendEvent(EVENT_EDITBOX_CHANGE);
 					}
 					ResetCaretBlink();
 					bHandled = true;
@@ -419,7 +419,7 @@ void CUIEditBox::OnFocusIn()
 void CUIEditBox::OnFocusOut()
 {
 	CUIControl::OnFocusOut();
-	SendEvent(EVENT_DEFAULT);
+	sendEvent(EVENT_DEFAULT);
 }
 
 bool CUIEditBox::MsgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -449,7 +449,7 @@ bool CUIEditBox::MsgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						if(m_nCaret != m_nSelStart)
 						{
 							DeleteSelectionText();
-							SendEvent(EVENT_EDITBOX_CHANGE);
+							sendEvent(EVENT_EDITBOX_CHANGE);
 						}
 						else if(m_nCaret > 0)
 						{
@@ -461,7 +461,7 @@ bool CUIEditBox::MsgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 								m_wstrPassword.erase(m_nCaret,1);
 							}
 							m_Buffer.RemoveChar(m_nCaret);
-							SendEvent(EVENT_EDITBOX_CHANGE);
+							sendEvent(EVENT_EDITBOX_CHANGE);
 						}
 						ResetCaretBlink();
 					}
@@ -478,7 +478,7 @@ bool CUIEditBox::MsgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						if((WCHAR)wParam == 24)
 						{
 							DeleteSelectionText();
-							SendEvent(EVENT_EDITBOX_CHANGE);
+							sendEvent(EVENT_EDITBOX_CHANGE);
 						}
 					}
 					break;
@@ -490,7 +490,7 @@ bool CUIEditBox::MsgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					if (m_bEditEnabled)
 					{
 						PasteFromClipboard();
-						SendEvent(EVENT_EDITBOX_CHANGE);
+						sendEvent(EVENT_EDITBOX_CHANGE);
 					}
 					break;
 				}
@@ -506,7 +506,7 @@ bool CUIEditBox::MsgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			case VK_RETURN:
 				// Invoke the callback when the user presses Enter.
-				SendEvent(EVENT_EDITBOX_STRING);
+				sendEvent(EVENT_EDITBOX_STRING);
 				break;
 
 				// Junk characters we don't want in the string
@@ -575,7 +575,7 @@ bool CUIEditBox::MsgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						}
 					}
 					ResetCaretBlink();
-					SendEvent(EVENT_EDITBOX_CHANGE);
+					sendEvent(EVENT_EDITBOX_CHANGE);
 				}
 			}
 			return true;

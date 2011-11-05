@@ -30,7 +30,7 @@ void CUICheckBox::SetStyle(const std::string& strStyleName)
 void CUICheckBox::OnPressUp()
 {
 	m_bChecked = !m_bChecked; 
-	SendEvent(EVENT_CHECKBOX_CHANGED); 
+	sendEvent(EVENT_CHECKBOX_CHANGED); 
 }
 
 void CUICheckBox::OnFrameRender(const Matrix& mTransform, double fTime, float fElapsedTime)

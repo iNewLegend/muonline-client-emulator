@@ -31,12 +31,12 @@ dlgChat = CUIDialog()
 dlgChat:create("IDD_EQUIP",IDD_MAIN)
 dlgChat:SetVisible(false)
 
-dlgMove = CUIDialog()
+dlgMove = CUIGeneralDialog()
 dlgMove:create("IDD_MOVE",IDD_MAIN)
 dlgMove:SetVisible(false)
 
 -- Bag
-dlgBag = CUIDialog()
+dlgBag = CUIGeneralDialog()
 dlgBag:create("IDD_BAG",IDD_MAIN)
 dlgBag:SetVisible(false)
 
@@ -56,7 +56,7 @@ dlgAct:create("IDD_ACT",IDD_MAIN)
 dlgAct:SetVisible(false)
 
 -- Setup
-dlgSetup = CUIDialog()
+dlgSetup = CUIGeneralDialog()
 dlgSetup:create("IDD_SETUP",IDD_MAIN)
 dlgSetup:SetVisible(false)
 -- Register Control

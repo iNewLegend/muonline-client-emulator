@@ -5,7 +5,7 @@ IDD_MOVE_listboxMove = CUIListBox()
 IDD_MOVE:regControl("IDC_LISTBOX_MOVE", IDD_MOVE_listboxMove)
 
 -- Register Event
-IDD_MOVE:regControlEvent("IDC_LISTBOX_MOVE","IDD_MOVE_OnBtnOK",1793)
+IDD_MOVE:regControlEvent("IDC_LISTBOX_MOVE","IDD_MOVE_OnBtnOK","1793")
 
 -- Read the MoveMapList in table 'MoveMapList'
 MoveMapList = {}

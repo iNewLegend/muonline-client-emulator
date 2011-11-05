@@ -121,6 +121,7 @@
     <ClCompile Include="RPGSkyTextRender.cpp" />
     <ClCompile Include="RPGSkyUIGraph.cpp" />
     <ClCompile Include="StrRes.cpp" />
+    <ClCompile Include="UIGeneralDialog.cpp" />
     <ClCompile Include="UIIcon.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
@@ -142,6 +143,7 @@
     <ClInclude Include="RPGSkyTextRender.h" />
     <ClInclude Include="RPGSkyUIGraph.h" />
     <ClInclude Include="StrRes.h" />
+    <ClInclude Include="UIGeneralDialog.h" />
     <ClInclude Include="UIIcon.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>

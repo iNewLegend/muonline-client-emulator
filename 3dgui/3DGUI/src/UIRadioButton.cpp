@@ -22,5 +22,5 @@ void CUIRadioButton::OnPressUp()
 {
 	GetParentDialog()->ClearRadioButtonGroup(m_uButtonGroup);
 	m_bChecked = true;
-	SendEvent(EVENT_RADIOBUTTON_CHANGED);
+	sendEvent(EVENT_RADIOBUTTON_CHANGED);
 }
