@@ -105,7 +105,7 @@ void CUIRollup::RemovePage(int nIndex)
 	if(m_nSelected >= (int)m_Pages.size())
 		m_nSelected = m_Pages.size() - 1;
 
-	SendEvent(EVENT_LISTBOX_SELECTION);
+	sendEvent(EVENT_LISTBOX_SELECTION);
 }
 
 void CUIRollup::RemovePageByText(WCHAR *wszText)
@@ -199,7 +199,7 @@ void CUIRollup::SelectPage(int nNewIndex)
 		m_ScrollBar.ShowItem(m_nSelected);
 	}
 
-	SendEvent(EVENT_LISTBOX_SELECTION);
+	sendEvent(EVENT_LISTBOX_SELECTION);
 }
 
 
@@ -286,7 +286,7 @@ bool CUIRollup::HandleKeyboard(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 					// Send notification
 
-					SendEvent(EVENT_LISTBOX_SELECTION);
+					sendEvent(EVENT_LISTBOX_SELECTION);
 				}
 				return true;
 			}
@@ -294,7 +294,7 @@ bool CUIRollup::HandleKeyboard(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			// Space is the hotkey for double-clicking an Page.
 			//
 		case VK_SPACE:
-			SendEvent(EVENT_LISTBOX_ITEM_DBLCLK);
+			sendEvent(EVENT_LISTBOX_ITEM_DBLCLK);
 			return true;
 		}
 		break;
@@ -349,7 +349,7 @@ bool CUIRollup::HandleMouse(UINT uMsg, POINT pt, WPARAM wParam, LPARAM lParam)
 				// updating.
 				if(uMsg == WM_LBUTTONDBLCLK)
 				{
-					SendEvent(EVENT_LISTBOX_ITEM_DBLCLK);
+					sendEvent(EVENT_LISTBOX_ITEM_DBLCLK);
 					return true;
 				}
 
@@ -441,7 +441,7 @@ bool CUIRollup::HandleMouse(UINT uMsg, POINT pt, WPARAM wParam, LPARAM lParam)
 							}
 				}  // End of multi-selection case
 
-				SendEvent(EVENT_LISTBOX_SELECTION);
+				sendEvent(EVENT_LISTBOX_SELECTION);
 			}
 
 			return true;
@@ -467,9 +467,9 @@ bool CUIRollup::HandleMouse(UINT uMsg, POINT pt, WPARAM wParam, LPARAM lParam)
 				// the user has dragged the mouse to make a selection.
 				// Notify the application of this.
 				if(m_nSelStart != m_nSelected)
-					SendEvent(EVENT_LISTBOX_SELECTION);
+					sendEvent(EVENT_LISTBOX_SELECTION);
 
-				SendEvent(EVENT_LISTBOX_SELECTION_END);
+				sendEvent(EVENT_LISTBOX_SELECTION_END);
 			}
 			return false;
 		}
@@ -492,21 +492,21 @@ bool CUIRollup::HandleMouse(UINT uMsg, POINT pt, WPARAM wParam, LPARAM lParam)
 				nPage < m_ScrollBar.GetTrackPos() + m_ScrollBar.GetPageSize())
 			{
 				m_nSelected = nPage;
-				SendEvent(EVENT_LISTBOX_SELECTION);
+				sendEvent(EVENT_LISTBOX_SELECTION);
 			} else
 				if(nPage < (int)m_ScrollBar.GetTrackPos())
 				{
 					// User drags the mouse above window top
 					m_ScrollBar.Scroll(-1);
 					m_nSelected = m_ScrollBar.GetTrackPos();
-					SendEvent(EVENT_LISTBOX_SELECTION);
+					sendEvent(EVENT_LISTBOX_SELECTION);
 				} else
 					if(nPage >= m_ScrollBar.GetTrackPos() + m_ScrollBar.GetPageSize())
 					{
 						// User drags the mouse below window bottom
 						m_ScrollBar.Scroll(1);
 						m_nSelected = __min((int)m_Pages.size(), m_ScrollBar.GetTrackPos() + m_ScrollBar.GetPageSize()) - 1;
-						SendEvent(EVENT_LISTBOX_SELECTION);
+						sendEvent(EVENT_LISTBOX_SELECTION);
 					}
 		}
 		break;

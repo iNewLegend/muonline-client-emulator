@@ -59,5 +59,5 @@ void CUIComboVec3D::setVec3D(const MY3DGUI_VEC3D& vec)
 
 void CUIComboVec3D::OnNumChanged()
 {
-	SendEvent(EVENT_DEFAULT);
+	sendEvent(EVENT_DEFAULT);
 }

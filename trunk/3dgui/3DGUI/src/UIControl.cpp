@@ -381,12 +381,10 @@ bool CUIControl::ContainsPoint(POINT pt)
 	return m_rcBoundingBox.ptInRect(pt);
 }
 
-void CUIControl::SendEvent(unsigned int uEvent)
+void CUIControl::sendEvent(const char* szEvent)
 {
 	if (GetParentDialog())
 	{
-		char szEvent[20]={0};
-		itoa(uEvent,szEvent,10);
 		std::string strEvent=GetID()+szEvent;
 		GetParentDialog()->progressEvent(strEvent);
 	}

@@ -7,7 +7,7 @@ IDD_MESSAGE_BOX:regControl("IDC_BTN_OK", btnOK)
 IDD_MESSAGE_BOX:regControl("IDC_STATIC_INFO", staticINFO)
 
 -- Register Event
-IDD_MESSAGE_BOX:regControlEvent("IDC_BTN_OK","IDD_MESSAGE_BOX_OnBtnExit",1)
+IDD_MESSAGE_BOX:regControlEvent("IDC_BTN_OK","IDD_MESSAGE_BOX_OnBtnExit","0")
 
 -- Event Func
 function IDD_MESSAGE_BOX_OnBtnExit()

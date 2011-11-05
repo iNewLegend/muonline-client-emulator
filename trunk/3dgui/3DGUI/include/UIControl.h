@@ -4,13 +4,11 @@
 // ------------------------------
 // 
 #pragma once
-
 #include "UIGraph.h"
 #include <usp10.h>
 #include <dimm.h>
 #include <winuser.h>
 #include <vector>
-//#include "Timer.h"
 
 class CUICombo;
 
@@ -23,12 +21,6 @@ void UISetHWND(HWND hWnd);
 #define SPI_GETWHEELSCROLLLINES    0x0068
 #endif
 
-#ifndef WM_XBUTTONDOWN
-#define WM_XBUTTONDOWN 0x020B // (not always defined)
-#endif
-#ifndef WM_XBUTTONUP
-#define WM_XBUTTONUP 0x020C // (not always defined)
-#endif
 #ifndef WM_MOUSEWHEEL
 #define WM_MOUSEWHEEL 0x020A // (not always defined)
 #endif
@@ -37,29 +29,29 @@ void UISetHWND(HWND hWnd);
 #endif
 
 // Defines and macros 
-#define EVENT_DEFAULT						0x0001
-#define EVENT_BUTTON_CLICKED				0x0001
-#define EVENT_BUTTON_DBLCLK				    0x0101
+#define EVENT_DEFAULT						"0"
+#define EVENT_BUTTON_CLICKED				"0"
+#define EVENT_BUTTON_DBLCLK				    "_DBLCLK"
 
-#define EVENT_RADIOBUTTON_CHANGED			0x0001
-#define EVENT_CHECKBOX_CHANGED				0x0001
-#define EVENT_LISTBOX_SELECTION_END         0x0001
-#define EVENT_SLIDER_VALUE_CHANGED          0x0001
-#define EVENT_COMBOBOX_SELECTION_CHANGED    0x0001
+#define EVENT_RADIOBUTTON_CHANGED			"0"
+#define EVENT_CHECKBOX_CHANGED				"0"
+#define EVENT_LISTBOX_SELECTION_END         "0"
+#define EVENT_SLIDER_VALUE_CHANGED          "0"
+#define EVENT_COMBOBOX_SELECTION_CHANGED    "0"
 
 
-#define EVENT_EDITBOX_STRING                0x0601
+#define EVENT_EDITBOX_STRING                "_STRING"
 // EVENT_EDITBOX_CHANGE is sent when the listbox content changes
 // due to user input.
-#define EVENT_EDITBOX_CHANGE                0x0602
-#define EVENT_LISTBOX_ITEM_DBLCLK           0x0701
+#define EVENT_EDITBOX_CHANGE                "_CHANGE"
+#define EVENT_LISTBOX_ITEM_DBLCLK           "_DBLCLK"
 // EVENT_LISTBOX_SELECTION is fired off when the selection changes in
 // a single selection list box.
-#define EVENT_LISTBOX_SELECTION             0x0702
+#define EVENT_LISTBOX_SELECTION             "_SELECTION"
 
-#define EVENT_SETFOCUS						0x0901
-#define EVENT_KILLFOCUS						0x0902
-#define EVENT_VISIBLE						0x0903
+#define EVENT_SETFOCUS						"_SETFOCUS"
+#define EVENT_KILLFOCUS						"_KILLFOCUS"
+#define EVENT_VISIBLE						"_VISIBLE"
 // Enums for pre-defined control types
 
 enum UI_CONTROL_TYPE 
@@ -135,18 +127,18 @@ public:
 
 	virtual bool CanHaveFocus() { return false; }
 	virtual void SetFocus(bool bFocus=true);
-	virtual void OnFocusIn() { SendEvent(EVENT_SETFOCUS);}
-	virtual void OnFocusOut() { SendEvent(EVENT_KILLFOCUS); }
+	virtual void OnFocusIn() { sendEvent(EVENT_SETFOCUS);}
+	virtual void OnFocusOut() { sendEvent(EVENT_KILLFOCUS); }
 	virtual void OnMouseEnter() { m_bMouseOver = true; }
 	virtual void OnMouseLeave() { m_bMouseOver = false; }
 	virtual void OnHotkey() {}
-	virtual void SendEvent(unsigned int uEvent);
+	virtual void sendEvent(const char* szEvent);
 
 	virtual bool ContainsPoint(POINT pt);
 
 	virtual void SetEnabled(bool bEnabled) { m_bEnabled = bEnabled; }
 	virtual bool GetEnabled() { return m_bEnabled; }
-	virtual void SetVisible(bool bVisible) { m_bVisible = bVisible; SendEvent(EVENT_VISIBLE);}
+	virtual void SetVisible(bool bVisible) { m_bVisible = bVisible; sendEvent(EVENT_VISIBLE);}
 	virtual bool IsVisible() { return m_bVisible; }
 	virtual bool isStyleVisible(){return m_Style.isVisible();}
 

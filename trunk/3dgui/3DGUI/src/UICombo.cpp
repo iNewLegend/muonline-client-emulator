@@ -730,10 +730,8 @@ void CUICombo::OnFocusOut()
 	}
 }
 
-void CUICombo::LuaRegisterControlEvent(const char* szID, const char* szLuafun, unsigned int uEvent)
+void CUICombo::LuaRegisterControlEvent(const char* szID, const char* szLuafun, const char* szEvent)
 {
-	char szEvent[20]={0};
-	_itoa_s(uEvent,szEvent,10);
 	std::string strEvent;
 	strEvent.append(szID);
 	strEvent.append(szEvent);
@@ -751,10 +749,8 @@ void CUICombo::LuaRegisterEvent(const char* szEvent, const char* szLuafun)
 	m_mapLuaEvent[szEvent]=szLuafun;
 }
 
-void CUICombo::RegisterControlEvent(const char* szID, PEVENT pfn, unsigned int uEvent)
+void CUICombo::RegisterControlEvent(const char* szID, PEVENT pfn, const char* szEvent)
 {
-	char szEvent[20]={0};
-	_itoa_s(uEvent,szEvent,10);
 	std::string strEvent;
 	strEvent.append(szID);
 	strEvent.append(szEvent);

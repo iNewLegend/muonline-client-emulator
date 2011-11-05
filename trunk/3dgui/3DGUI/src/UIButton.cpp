@@ -13,7 +13,7 @@ void CUIButton::OnPressDown()
 
 void CUIButton::OnPressUp()
 {
-	SendEvent(EVENT_BUTTON_CLICKED);
+	sendEvent(EVENT_BUTTON_CLICKED);
 }
 
 bool CUIButton::HandleKeyboard(UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -58,7 +58,7 @@ void CUIButton::OnLButtonDown(POINT point)
 
 void CUIButton::OnLButtonDblClk(POINT point)
 {
-	SendEvent(EVENT_BUTTON_DBLCLK);
+	sendEvent(EVENT_BUTTON_DBLCLK);
 }
 
 void CUIButton::OnLButtonUp(POINT point)

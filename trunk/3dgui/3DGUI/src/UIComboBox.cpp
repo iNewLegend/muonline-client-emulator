@@ -25,7 +25,7 @@ void CUIComboBox::OnSelectionChanged()
 	{
 		m_ListBox.SetVisible(false);
 	}
-	SendEvent(EVENT_COMBOBOX_SELECTION_CHANGED);
+	sendEvent(EVENT_COMBOBOX_SELECTION_CHANGED);
 }
 
 bool CUIComboBox::ContainsPoint(POINT pt) 
@@ -79,7 +79,7 @@ bool CUIComboBox::HandleKeyboard(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				m_ListBox.SetVisible(!m_ListBox.IsVisible());
 				if(!m_ListBox.IsVisible())
 				{
-					SendEvent(EVENT_COMBOBOX_SELECTION_CHANGED);
+					sendEvent(EVENT_COMBOBOX_SELECTION_CHANGED);
 					SetFocus(false);
 				}
 				return true;

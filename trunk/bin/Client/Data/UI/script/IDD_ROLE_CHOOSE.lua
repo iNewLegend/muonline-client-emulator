@@ -10,10 +10,10 @@ dlgRoleCreate:create("IDD_ROLE_CREATE",IDD_ROLE_CHOOSE)
 
 IDD_ROLE_CHOOSE:regControl("IDC_DISPLAY_BACKGROUND", g_UIDisplayCharList)
 -- Register Event
-IDD_ROLE_CHOOSE:regControlEvent("IDC_BTN_BACK", "IDD_ROLE_CHOOSE_OnBtnBack",1);
-IDD_ROLE_CHOOSE:regControlEvent("IDC_BTN_HELP", "IDD_ROLE_CHOOSE_OnBtnHelp",1);
-IDD_ROLE_CHOOSE:regControlEvent("IDC_BTN_OK", "IDD_ROLE_CHOOSE_OnBtnOk",1);
-IDD_ROLE_CHOOSE:regControlEvent("IDC_BTN_CREATE_ROLE", "IDD_ROLE_CHOOSE_OnBtnCreateRole",1);
+IDD_ROLE_CHOOSE:regControlEvent("IDC_BTN_BACK", "IDD_ROLE_CHOOSE_OnBtnBack","0");
+IDD_ROLE_CHOOSE:regControlEvent("IDC_BTN_HELP", "IDD_ROLE_CHOOSE_OnBtnHelp","0");
+IDD_ROLE_CHOOSE:regControlEvent("IDC_BTN_OK", "IDD_ROLE_CHOOSE_OnBtnOk","0");
+IDD_ROLE_CHOOSE:regControlEvent("IDC_BTN_CREATE_ROLE", "IDD_ROLE_CHOOSE_OnBtnCreateRole","0");
 
 --IDD_ROLE_CHOOSE_btnOK.SetVisible(false)
 --

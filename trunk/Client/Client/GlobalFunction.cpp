@@ -8,6 +8,7 @@
 #include "UIIcon.h"
 #include "protocol.h"
 #include "Monster.h"
+#include "UIGeneralDialog.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void InitLua(lua_State * L)
@@ -78,6 +79,10 @@ void InitLua(lua_State * L)
 		.mem("cIndex",		& ItemData::cIndex)
 		.mem("level",		& ItemData::level);
 	// ----
+	lua_tinker::class_<CUIControl>(L, "CUIControl")
+		.con(lua_tinker::constructor<void>())
+		.def("GetParentDialog",	& CUIControl::GetParentDialog());
+	// ----
 	lua_tinker::class_<CUIIcon>(L, "CUIIcon")
 		.inh<CUIControl>()
 		.con(lua_tinker::constructor<void>())
@@ -100,7 +105,9 @@ void InitLua(lua_State * L)
 		.mem("m_vEye",			& CUIDisplayRoleChoose::m_vEye)
 		.mem("m_vLookAt",		& CUIDisplayRoleChoose::m_vLookAt);
 	lua_tinker::set(L, "g_UIDisplayCharList", &CUIDisplayRoleChoose::getInstance());
-
+	// ----
+	lua_tinker::class_<CUIGeneralDialog>(L, "CUIGeneralDialog")
+		.con(lua_tinker::constructor<void>());
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

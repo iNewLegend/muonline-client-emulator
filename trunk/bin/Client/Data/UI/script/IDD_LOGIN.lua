@@ -9,8 +9,8 @@ IDD_LOGIN:regControl("IDC_EDIT_BOX_USER", editUser)
 IDD_LOGIN:regControl("IDC_EDIT_BOX_PASSWORD", editPassword)
 
 -- Register Event
-IDD_LOGIN:regControlEvent("IDC_BTN_LOGIN","IDD_LOGIN_OnBtnLogin",1)
-IDD_LOGIN:regControlEvent("IDC_BTN_BACK","IDD_LOGIN_OnBtnBack",1)
+IDD_LOGIN:regControlEvent("IDC_BTN_LOGIN","IDD_LOGIN_OnBtnLogin","0")
+IDD_LOGIN:regControlEvent("IDC_BTN_BACK","IDD_LOGIN_OnBtnBack","0")
 
 -- Event Func
 function IDD_LOGIN_OnBtnBack()

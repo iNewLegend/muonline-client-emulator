@@ -3,10 +3,10 @@
 -- Register Control
 
 -- Register Event
-IDD_MAIN_DIALOG:regControlEvent("IDC_MAIN_CHAR","IDD_MAIN_DIALOG_OnBtnCharInfo",1)
-IDD_MAIN_DIALOG:regControlEvent("IDC_MAIN_BAG","IDD_MAIN_DIALOG_OnBtnBag",1)
-IDD_MAIN_DIALOG:regControlEvent("IDC_MAIN_MOVE","IDD_MAIN_DIALOG_OnBtnMove",1)
-IDD_MAIN_DIALOG:regControlEvent("IDC_MAIN_SETUP","IDD_MAIN_DIALOG_OnBtnSetup",1)
+IDD_MAIN_DIALOG:regControlEvent("IDC_MAIN_CHAR","IDD_MAIN_DIALOG_OnBtnCharInfo","0")
+IDD_MAIN_DIALOG:regControlEvent("IDC_MAIN_BAG","IDD_MAIN_DIALOG_OnBtnBag","0")
+IDD_MAIN_DIALOG:regControlEvent("IDC_MAIN_MOVE","IDD_MAIN_DIALOG_OnBtnMove","0")
+IDD_MAIN_DIALOG:regControlEvent("IDC_MAIN_SETUP","IDD_MAIN_DIALOG_OnBtnSetup","0")
 
 -- Event Func
 function IDD_MAIN_DIALOG_OnBtnCharInfo()
