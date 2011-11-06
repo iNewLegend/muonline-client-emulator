@@ -10,6 +10,7 @@ struct VS_MODEL_INPUT
 struct VS_MODEL_OUTPUT
 {
     float4  Pos     : POSITION;
+    float3  color   : COLOR;
     float2  UV      : TEXCOORD0;
     float3  normal  : TEXCOORD1;
     float3  viewVec : TEXCOORD2;
@@ -21,6 +22,8 @@ VS_MODEL_OUTPUT VS(VS_MODEL_INPUT i)
 	o.Pos = mul(i.Pos,wvpm);
 	o.UV = i.UV;
 	// Eye-soace lighting
+	o.color = mul(i.Normal,g_mWorld);
+	o.color = 0.5 * (1 + dot(o.color, -g_vLightDir));
 	o.normal = normalize(mul(i.Normal,wvm));
 	o.viewVec = -mul(i.Pos,wvm);
 	return o;
@@ -33,12 +36,12 @@ float4 PS(VS_MODEL_OUTPUT i) : COLOR0
 {
 	float4 color	= tex2D(s0, i.UV);
 	// Apply some fabric style lighting
-	float diffuse = 0.5 * (1 + dot(i.normal, -g_vLightDir));
+	float diffuse = 0.5 * (1 + dot(i.normal, g_vLightDir));
 	float cosView = clamp(dot(normalize(i.viewVec), i.normal), 0.0, 1.0);
 	float shine = pow(1.0 - cosView * cosView, furriness);
 
 	color.xyz+=sheen * shine;
-	//color.xyz*=diffuse;
+	color.xyz*=i.color;
 	//return float4(i.viewVec,1);
 	return color;
 }

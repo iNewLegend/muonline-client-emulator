@@ -93,10 +93,10 @@ CRole* CWorld::pickRole(const Vec3D & vRayPos , const Vec3D & vRayDir)
 	// ----
 	FOR_IN(it,m_mapRole)
 	{
-// 		if((*it)->getType() != MAP_ROLE)
-// 		{
-// 			continue;
-// 		}
+		if(&CPlayerMe::getInstance()==it->second)
+ 		{
+ 			continue;
+ 		}
 		// ----
 		if(it->second->intersect(vRayPos , vRayDir, fMin, fMax) != NULL)
 		{

@@ -32,6 +32,9 @@ IDD_EQUIP:regControlEvent("IDC_IMG_BOOT","IDD_EQUIP_OnBtnBoot","0")
 IDD_EQUIP:regControlEvent("IDC_IMG_BACK", "IDD_EQUIP_OnBtnBack","0")
 IDD_EQUIP:regControlEvent("IDC_IMG_WAPEN1", "IDD_EQUIP_OnBtnRight","0")
 IDD_EQUIP:regControlEvent("IDC_IMG_WAPEN2", "IDD_EQUIP_OnBtnLeft","0")
+
+IDD_EQUIP:regControlEvent("IDC_CLOSE", "IDD_Equip_OnBtnClose",1)
+
 m_PlayerView = CRole()
 
 				m_PlayerView:setClass(1)
@@ -98,4 +101,8 @@ function IDD_EQUIP_OnBtnRight()
 end
 function IDD_EQUIP_OnBtnLeft()
 	ChangeEquip(7)
+end
+
+function IDD_Equip_OnBtnClose()
+	IDD_EQUIP:SetVisible(false)
 end
