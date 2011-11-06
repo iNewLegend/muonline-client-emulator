@@ -19,18 +19,20 @@ dlgMainDialog = CUIDialog()
 dlgMainDialog:create("IDD_MAIN_DIALOG",IDD_MAIN)
 dlgMainDialog:SetVisible(false)
 
-dlgCharInfo = CUIDialog()
-dlgCharInfo:create("IDD_CHAR_INFO",IDD_MAIN)
-dlgCharInfo:SetVisible(false)
-
 dlgChatMessage = CUIDialog()
 dlgChatMessage:create("IDD_CHAT_MESSAGE",IDD_MAIN)
 dlgChatMessage:SetVisible(false)
 
 dlgChat = CUIDialog()
-dlgChat:create("IDD_EQUIP",IDD_MAIN)
+dlgChat:create("IDD_CHAT",IDD_MAIN)
 dlgChat:SetVisible(false)
 
+-- Equip
+dlgEquip = CUIGeneralDialog()
+dlgEquip:create("IDD_EQUIP",IDD_MAIN)
+dlgEquip:SetVisible(false)
+
+-- Move Map List
 dlgMove = CUIGeneralDialog()
 dlgMove:create("IDD_MOVE",IDD_MAIN)
 dlgMove:SetVisible(false)
