@@ -33,7 +33,7 @@ IDD_EQUIP:regControlEvent("IDC_IMG_BACK", "IDD_EQUIP_OnBtnBack","0")
 IDD_EQUIP:regControlEvent("IDC_IMG_WAPEN1", "IDD_EQUIP_OnBtnRight","0")
 IDD_EQUIP:regControlEvent("IDC_IMG_WAPEN2", "IDD_EQUIP_OnBtnLeft","0")
 
-IDD_EQUIP:regControlEvent("IDC_CLOSE", "IDD_Equip_OnBtnClose",1)
+--IDD_EQUIP:regControlEvent("IDC_CLOSE", "IDD_Equip_OnBtnClose","0")
 
 m_PlayerView = CRole()
 

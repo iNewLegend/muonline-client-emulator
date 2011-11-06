@@ -86,12 +86,14 @@ bool CUICombo::Create(const char* szID, CUICombo* pParent)
 	// call it
 	if (lua_pcall(m_pLuaState,0,0,0))
 	{
+		char szTemp[255];
 		const char* errMsg = lua_tostring(m_pLuaState,-1);
+		sprintf(szTemp,"%s : %s", strLua.c_str(), errMsg);
 		lua_settop(m_pLuaState,top);
 #ifdef _DEBUG
-		::printf_s("[LuaScriptModule]: %s\n", errMsg);
+		::printf_s("[LuaScriptModule]: %s\n", szTemp);
 #endif
-		MessageBoxA(NULL,errMsg, "Lua Script Error", 0);
+		MessageBoxA(NULL,szTemp, "Lua Script Error", 0);
 	}
 
 	lua_settop(m_pLuaState,top); // just in case :P
