@@ -43,8 +43,8 @@ bool CUIGeneralDialog::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 		{
 			if(wParam == VK_ESCAPE)
 			{
-				SetVisible(false);
-				return true;
+				//SetVisible(false);
+				//return true;
 			}
 			break;
 		}

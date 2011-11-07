@@ -338,6 +338,10 @@ void CUIControl::SetHotkey(std::string& strHotkey)
 			m_nHotkey = strHotkey[0]+'A'-'a';
 		}
 	}
+	else if (strHotkey == "esc")
+	{
+		m_nHotkey = VK_ESCAPE;
+	}
 }
 
 void CUIControl::SetStyle(const std::string& strStyleName)
