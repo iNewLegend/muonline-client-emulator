@@ -188,7 +188,7 @@
 			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
-    <element type="button" id="IDC_MAIN_SETUP" rect="751,21,32,38" tip="系统设置" sound="sound\iButtonClick.wav">
+    <element type="button" id="IDC_MAIN_SETUP" rect="751,21,32,38" tip="系统设置" hotkey="esc" sound="sound\iButtonClick.wav">
 		<texture filename="ui.tga" rect="257,336,32,38">
 			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
@@ -307,7 +307,7 @@
 
   <dialog id="IDD_SETUP" scale="50,50,50,50" offset="-200,-130,200,130">
     <caption height="32">设置</caption>
-	<element type="button" id="IDC_CLOSE" scale="100,0,100,0" offset="-33,-22,-13,-2"  style="close"></element>
+	<element type="button" id="IDC_CLOSE" scale="100,0,100,0" offset="-33,-22,-13,-2" hotkey="esc" style="close"></element>
 	<element type="radiobutton" id="IDC_SETUP_BTN_GRAPH" facetype="button" style="pushbutton" rect="20,10,80,23">图形选项</element>
     <element type="radiobutton" id="IDC_SETUP_BTN_MUSIC" facetype="button" style="pushbutton" rect="110,10,80,23">音乐音效</element>
     <element type="radiobutton" id="IDC_SETUP_BTN_HOTKEY" facetype="button" style="pushbutton" rect="200,10,80,23">热键设定</element>
@@ -726,14 +726,14 @@
 
   <dialog id="IDD_EQUIP" scale="0,50,0,50" offset=" 0, -230, 320, 230">
     <caption height="32">装备</caption>
-	<element type="button" id="IDC_CLOSE" scale="100,0,100,0" offset="-33,-22,-13,-2"  style="close"></element>
+	<element type="button" id="IDC_CLOSE" scale="100,0,100,0" offset="-33,-22,-13,-2" hotkey="esc" style="close"></element>
 	<element type="static" id="IDC_STATIC_EQUIP_BG" rect="10,2,300,300" style="static02"></element>
 	<element type="display" id="IDC_DISPLAY_PLAYER" rect="20,0,280,250"/>
 	
-	<element type="static" id="IDC_STA_NAME" rect="105,10,85,12">NAME</element>
-	<element type="static"rect="45,30,85,12">等级</element>
-	<element type="static" id="IDC_STA_LEVEL" rect="85,30,85,12">0</element>
-	<element type="static" id="IDC_STA_LEVEL" rect="115,30,85,12">吸血鬼</element>
+	<element type="static" id="IDC_STA_NAME" rect="125,0,100,12">NAME</element>
+	<element type="static"rect="80,18,85,12">等级</element>
+	<element type="static" id="IDC_STA_LEVEL" rect="120,18,85,12">0</element>
+	<element type="static" id="IDC_STA_LEVEL" rect="150,18,85,12">吸血鬼</element>
 	
     <element type="button" id="IDC_IMG_HEAD" rect="20,10,32,32">头盔</element>
 	<element type="button" id="IDC_IMG_ARMOR" rect="20,50,32,32">铠甲</element>
@@ -746,39 +746,79 @@
     <element type="button" id="IDC_IMG_GEAR2" rect="260,130,32,32">戒子</element>
     <element type="button" id="IDC_IMG_MOUNT" rect="260,170,32,32">坐骑</element>
 		
-	<element type="button" id="IDC_IMG_WAPEN1" rect="120,170,32,32">武器</element>
-    <element type="button" id="IDC_IMG_WAPEN2" rect="160,170,32,32">武器</element>
+	<element type="button" id="IDC_IMG_WAPEN1" rect="20,210,32,32">武器</element>
+    <element type="button" id="IDC_IMG_WAPEN2" rect="260,210,32,32">武器</element>
 	
-    <element type="button" id="IDC_BTN_ADD1" rect="260,220,20,20">+</element>
-    <element type="button" id="IDC_BTN_ADD2" rect="260,240,20,20">+</element>
-    <element type="button" id="IDC_BTN_ADD3" rect="260,260,20,20">+</element>
-    <element type="button" id="IDC_BTN_ADD4" rect="260,280,20,20">+</element>
+    <element type="button" id="IDC_BTN_ADD1" rect="260,270,33,33">
+		<texture filename="ui.tga" rect="897,174,33,33">
+			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#FFFF" mouseover="#FFFF" pressed="#FFFF"/>
+		</texture>
+		<texture filename="ui.tga" rect="935,174,33,33">
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#0FFF" mouseover="#FFFF" pressed="#0FFF"/>
+		</texture>
+		<texture filename="ui.tga" rect="973,174,33,33">
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#0FFF" mouseover="#0FFF" pressed="#FFFF"/>
+		</texture>
+	</element>
+    <element type="button" id="IDC_BTN_ADD2" rect="260,305,33,33">
+		<texture filename="ui.tga" rect="897,174,33,33">
+			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#FFFF" mouseover="#FFFF" pressed="#FFFF"/>
+		</texture>
+		<texture filename="ui.tga" rect="935,174,33,33">
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#0FFF" mouseover="#FFFF" pressed="#0FFF"/>
+		</texture>
+		<texture filename="ui.tga" rect="973,174,33,33">
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#0FFF" mouseover="#0FFF" pressed="#FFFF"/>
+		</texture>
+	</element>
+    <element type="button" id="IDC_BTN_ADD3" rect="260,340,33,33">
+		<texture filename="ui.tga" rect="897,174,33,33">
+			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#FFFF" mouseover="#FFFF" pressed="#FFFF"/>
+		</texture>
+		<texture filename="ui.tga" rect="935,174,33,33">
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#0FFF" mouseover="#FFFF" pressed="#0FFF"/>
+		</texture>
+		<texture filename="ui.tga" rect="973,174,33,33">
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#0FFF" mouseover="#0FFF" pressed="#FFFF"/>
+		</texture>
+	</element>
+    <element type="button" id="IDC_BTN_ADD4" rect="260,375,33,33">
+		<texture filename="ui.tga" rect="897,174,33,33">
+			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#FFFF" mouseover="#FFFF" pressed="#FFFF"/>
+		</texture>
+		<texture filename="ui.tga" rect="935,174,33,33">
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#0FFF" mouseover="#FFFF" pressed="#0FFF"/>
+		</texture>
+		<texture filename="ui.tga" rect="973,174,33,33">
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#0FFF" mouseover="#0FFF" pressed="#FFFF"/>
+		</texture>
+	</element>
 	
-	<element type="static" rect="15,200,70,16">经验值</element>
-	<element type="static" id="IDC_STATIC_EXP" rect="85,220,60,16" style="static01">0/0</element>
+	<element type="static" rect="15,250,100,16">经验值</element>
+	<element type="static" id="IDC_STATIC_EXP" rect="100,250,60,16" style="static01">0/0</element>
 	
-	<element type="static" rect="225,200,70,16">升级点数</element>
-	<element type="static" id="IDC_STATIC_POINT" rect="275,220,60,16" style="static01">0</element>
+	<element type="static" rect="180,250,100,16">升级点数</element>
+	<element type="static" id="IDC_STATIC_POINT" rect="260,250,60,16" style="static01">0</element>
 
-	<element type="static" rect="15,220,70,16">攻击力(率)</element>
-	<element type="static" id="IDC_ROLE_FIGHT" rect="95,220,70,16">0~0(0)</element>
-    <element type="static" rect="15,240,70,16">防御力(率)</element>
-	<element type="static" id="IDC_ROLE_DEF" rect="95,240,70,16">0(0)</element>
-    <element type="static" rect="15,260,70,16">攻击速度</element>
-	<element type="static" id="IDC_ROLE_SPEED" rect="95,260,70,16">0</element>
-    <element type="static" rect="15,280,70,16">PK防御率</element>
-	<element type="static" rect="65,280,70,16">0</element>
-    <element type="static" rect="15,300,70,16">生命值(HP)</element>
-	<element type="static" id="IDC_ROLE_HP" rect="95,300,70,16">0/0</element>
-    <element type="static" rect="15,320,70,16">魔法值(MP)</element>
-	<element type="static" id="IDC_ROLE_MP" rect="95,320,70,16">0/0</element>
-    <element type="static" rect="15,340,70,16">技能攻击力</element>
-	<element type="static" rect="95,340,70,16">100%</element>
+	<element type="static" rect="15,270,100,16">攻击力(率)</element>
+	<element type="static" id="IDC_ROLE_FIGHT" rect="100,270,100,16">0~0(0)</element>
+    <element type="static" rect="15,290,100,16">防御力(率)</element>
+	<element type="static" id="IDC_ROLE_DEF" rect="100,290,100,16">0(0)</element>
+    <element type="static" rect="15,310,100,16">攻击速度</element>
+	<element type="static" id="IDC_ROLE_SPEED" rect="100,310,100,16">0</element>
+    <element type="static" rect="15,330,100,16">PK防御率</element>
+	<element type="static" rect="100,330,100,16">0</element>
+    <element type="static" rect="15,350,100,16">生命值(HP)</element>
+	<element type="static" id="IDC_ROLE_HP" rect="100,350,100,16">0/0</element>
+    <element type="static" rect="15,370,100,16">魔法值(MP)</element>
+	<element type="static" id="IDC_ROLE_MP" rect="100,370,100,16">0/0</element>
+    <element type="static" rect="15,390,100,16">技能攻击力</element>
+	<element type="static" rect="100,390,100,16">100%</element>
   </dialog>
 
   <dialog id="IDD_BAG" scale="100,50,100,50" offset="-240,-240,0,240">
     <caption height="32">背包</caption>
-	<element type="button" id="IDC_CLOSE" scale="100,0,100,0" offset="-33,-22,-13,-2"  style="close"></element>
+	<element type="button" id="IDC_CLOSE" scale="100,0,100,0" offset="-33,-22,-13,-2" hotkey="esc" style="close"></element>
     <element type="button" id="IDC_ICON_0" rect="20,10,40,40">0</element>
     <element type="button" id="IDC_ICON_1" rect="60,10,40,40">1</element>
     <element type="button" id="IDC_ICON_2" rect="100,10,40,40">2</element>
@@ -1627,13 +1667,15 @@
     <element type="listbox" id="IDC_LIST_CHAT_MESSAGE" scale="0,0,100,100" offset="10,10,-10,-10"></element>
   </dialog>
   
-  <dialog id="IDD_CHAT" scale="0,100,0,100" offset="10,-93,300,-63">
-    <element type="editbox" id="IDC_EDIT_BOX_CHAT" scale="0,0,100,100" offset="10,5,-10,-5"></element>
+  <dialog id="IDD_CHAT" scale="0,100,0,100" offset="10,-90,433,-63">
+  	<texture filename="ui.tga" rect="275,141,423,27"/>
+    <element type="editbox" id="IDC_EDIT_BOX_CHAT" scale="0,0,100,100" offset="10,5,-10,-5">
+	</element>
   </dialog>
   
   <dialog id="IDD_MOVE" scale="0,0,0,0" offset="0,0,300,600">
 	<caption height="32">Move List</caption>
-	<element type="button" id="IDC_CLOSE" scale="100,0,100,0" offset="-33,-22,-13,-2"  style="close"></element>
+	<element type="button" id="IDC_CLOSE" scale="100,0,100,0" offset="-33,-22,-13,-2" hotkey="esc" style="close"></element>
     <element type="static" id="IDC_STA_MAPNAME" rect="10,5,85,12">Map Name</element>
     <element type="static" id="IDC_STA_LEVEL" rect="100,5,85,12">Level</element>
     <element type="static" id="IDC_STA_MONEY" rect="200,5,85,12">Money</element>

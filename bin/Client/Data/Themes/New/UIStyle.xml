@@ -65,7 +65,7 @@
 		</texture>
 	</element>
 	
-	<element name="combobox,editbox">
+	<element name="combobox">
 		<texture filename="EditBox.bmp" rect="0,0,8,8" center_rect="3,3,1,1">
 				<blend pressed="0.0" hidden="0.5">0.8</blend>
 		</texture>
@@ -221,7 +221,6 @@
 	</element>
 	
 	<element name="editbox.selection">
-
 		<font	format="LEFT|VCENTER">
 			<blend pressed="0.0" hidden="0.5">0.8</blend>
 			<color normal="#F000" hidden="#0000" focus="#F000" mouseover="#F222" pressed="#F333"/>
@@ -237,7 +236,10 @@
 	</element>
 
 	<element name="editbox.caret">
-
+		<texture filename="Button.tga" rect="0,0,32,32">
+			<color normal="#8FFF" focus="#F4FC" mouseover="#FFE8" pressed="#FF40"/>
+			<blend normal="0.6" pressed="0.0" hidden="0.8">0.8</blend>
+		</texture>
 	</element>
 
 	<element name="imeeditbox">
