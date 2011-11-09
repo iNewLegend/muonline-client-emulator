@@ -313,22 +313,9 @@
     <element type="radiobutton" id="IDC_SETUP_BTN_HOTKEY" facetype="button" style="pushbutton" rect="200,10,80,23">热键设定</element>
     <element type="radiobutton" id="IDC_SETUP_BTN_OTHER" facetype="button" style="pushbutton" rect="290,10,80,23">CHAT功能</element>
 	
-    <element type="button" id="IDC_SETUP_BTN_RELOGIN" rect="60,211,80,24">重新登陆</element>
-    <element type="button" id="IDC_SETUP_BTN_DELETE" rect="150,211,80,24">返回选人</element>
-    <element type="button" id="IDC_SETUP_BTN_EXIT" rect="240,211,80,24">退出游戏</element>
-  </dialog>
-
-  <dialog id="IDD_DIALOG_GROUP" rect=" 0, 0, 55, 173">
-    <element type="button" id="IDC_GROUP_BTN_1" rect="2,140,23,10">1</element>
-    <element type="button" id="IDC_GROUP_BTN_2" rect="28,140,23,10">2</element>
-    <element type="button" id="IDC_GROUP_BTN_CLOSE" rect="44,156,9,9">C</element>
-    <element type="button" id="IDC_GROUP_CHK_3" rect="2,151,23,10">3</element>
-    <element type="button" id="IDC_GROUP_BTN_4" rect="28,151,23,10">4</element>
-    <element type="button" id="IDC_GROUP_IMG1" rect="27,3,28,30">1</element>
-    <element type="button" id="IDC_GROUP_IMG2" rect="27,35,28,30">2</element>
-    <element type="button" id="IDC_GROUP_IMG3" rect="27,67,28,30">3</element>
-    <element type="button" id="IDC_GROUP_IMG4" rect="27,99,28,30">4</element>
-    <element type="button" id="IDC_GROUP_BTN_5" rect="2,161,23,10">结界</element>
+    <element type="button" id="IDC_SETUP_BTN_RELOGIN" rect="60,200,80,24">重新登陆</element>
+    <element type="button" id="IDC_SETUP_BTN_DELETE" rect="150,200,80,24">返回选人</element>
+    <element type="button" id="IDC_SETUP_BTN_EXIT" rect="240,200,80,24">退出游戏</element>
   </dialog>
 
   <dialog id="IDD_DIALOG_TALK" rect=" 0, 0, 687, 85">
@@ -651,8 +638,6 @@
   </dialog>
 
   <dialog id="IDD_DIALOG_ENMSTATE" rect=" 0, 0, 97, 171">
-
-
     <element type="button" id="IDC_ENMSTATE_BTN_CLOSE" rect="82,157,12,11">C</element>
     <element type="static" id="IDC_STA1" rect="35,69,53,8">姓名</element>
     <element type="static" id="IDC_STA2" rect="35,98,36,8">等级</element>
@@ -700,17 +685,8 @@
     <element type="button" id="IDC_BTN_UP" rect="116,61,7,7">U</element>
     <element type="button" id="IDC_BTN_DOWN" rect="116,129,7,7">D</element>
   </dialog>
-
-  <dialog id="IDD_DIALOG_HEAD" rect=" 0, 0, 66, 75">
-
-
-    <element type="button" id="IDC_IMG_HEADB" rect="1,10,65,65">人物头象</element>
-    <element type="button" id="IDC_IMG_HEADS" rect="33,43,32,32">人物头象</element>
-    <element type="static" id="IDC_STA_TITLE" rect="48,2,18,8">称号</element>
-    <element type="static" id="IDC_STA_DUKE" rect="15,2,18,8">公爵</element>
-  </dialog>
   
-  <dialog id="IDD_PLAYERHEAD"  offset="0,0,275,100">
+  <dialog id="IDD_PLAYERHEAD"  offset="0,0,275,100" alwaysbottom="true">
   	<texture filename="ui.tga" rect="0,84,275,100"/>
   </dialog>
   
@@ -1085,24 +1061,7 @@
     <element type="static" id="IDC_STA_SYNLEV" rect="54,187,88,19">SYNLEV</element>
   </dialog>
 
-  <dialog id="IDD_DIALOG_SERVER" rect=" 0, 0, 336, 343">
-
-
-    <element type="button" id="IDC_BTN_SERVER1" rect="104,40,127,21">SERVER1</element>
-    <element type="button" id="IDC_STA_SERVER1" rect="104,64,127,9">""</element>
-    <element type="button" id="IDC_STA_SERVER2" rect="104,122,127,9">""</element>
-    <element type="button" id="IDC_STA_SERVER3" rect="104,177,127,9">""</element>
-    <element type="button" id="IDC_STA_SERVER4" rect="104,229,127,9">""</element>
-    <element type="button" id="IDC_STA_SERVER5" rect="104,282,127,9">""</element>
-    <element type="button" id="IDC_BTN_SERVER2" rect="104,98,127,21">SERVER2</element>
-    <element type="button" id="IDC_BTN_SERVER3" rect="104,152,127,21">SERVER3</element>
-    <element type="button" id="IDC_BTN_SERVER4" rect="104,204,127,21">SERVER4</element>
-    <element type="button" id="IDC_BTN_SERVER5" rect="104,257,127,21">SERVER5</element>
-  </dialog>
-
   <dialog id="IDD_DIALOG_SKILL_HOTKEYS" rect=" 0, 0, 429, 128">
-
-
     <element type="button" id="IDC_CHK_HOTKEYF1" rect="22,41,35,33">F1</element>
     <element type="button" id="IDC_CHK_HOTKEYF2" rect="62,41,35,33">F2</element>
     <element type="button" id="IDC_CHK_HOTKEYF3" rect="102,41,35,33">F3</element>
@@ -1337,8 +1296,6 @@
   </dialog>
 
   <dialog id="IDD_DIALOG_NPCEQUIP" rect=" 0, 0, 294, 342">
-
-
     <element type="static" id="IDC_QUERY_NAME" rect="110,28,84,16">姓名</element>
     <element type="static" id="IDC_QUERY_FACTION" rect="110,8,84,16">帮派</element>
     <element type="button" id="IDC_NPCEQUIP_CLOSE" rect="264,309,22,22">C</element>
