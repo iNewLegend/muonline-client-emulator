@@ -1,0 +1,267 @@
+<?xml	version="1.0"	encoding="UTF-8"?>
+<root>
+	<element name="tip">
+		<blend normal="0.6" hidden="0.5">0.8</blend>
+		<texture filename="ui.tga" rect="209,253,12,12" center_rect="5,5,2,2"/>
+		<font offset="6,6,-6,-6" />
+	</element>
+	<element name="null,display">
+		<default>
+			<blend normal="0.9" pressed="0.9" hidden="0.0">0.8</blend>
+			<scale hidden="0.5,0.5,0.5,0.5">0,0,1,1</scale>
+		</default>
+		<blend normal="0.60" pressed="0.4" hidden="0.9">0.8</blend>
+		<rotate hidden="0,90,0" pressed="0,0,0" mouseover="0,0,0">0,0,0</rotate>
+	</element>
+	<element name="dialog">
+		<blend normal="0.60" pressed="0.4" hidden="0.9">0.8</blend>
+		<rotate hidden="-90,00,00" pressed="0,-30,20" mouseover="0,0,0">0,0,0</rotate>
+		<translation hidden="0,0,0">0,0,0</translation>
+		<texture filename="ui.tga" rect="0,514,474,97" center_rect="80,32,320,32"/>
+		<texture filename="ui.tga" offset = "7,32,-7,-7" rect="490,515,512,474"/>
+		<font format="UCENTER|VCENTER" offset="0,10,0,40" scale="0,0,1,0">
+			<color focus="#CFFF" mouseover="#C111" pressed="#FFFF"/>
+		</font>
+	</element>
+	<element name="button,radiobutton_btn" sound="sound\iButtonClick.wav">
+		<blend normal="0.60" pressed="0.4" hidden="0.9">0.8</blend>
+		<translation hidden="0,0,0" pressed="0,0,1" mouseover="0,0,2">0,0,0</translation>
+		<texture filename="Button.tga" rect="0,0,32,32" center_rect="6,6,12,12">
+			<color normal="#8FFF" focus="#F4FC" mouseover="#FFE8" pressed="#FF40"/>
+			<blend normal="0.6" pressed="0.0" hidden="0.8">0.8</blend>
+		</texture>
+	</element>
+	
+	<element name="close" sound="sound\iButtonClick.wav">
+		<blend normal="0.60" pressed="0.4" hidden="0.9">0.8</blend>
+		<texture filename="ui.tga" rect="0,616,20,20">
+			<color normal="#FFFF" focus="#FFFF" mouseover="#0FFF" pressed="#0FFF"/>
+		</texture>
+		<texture filename="ui.tga" rect="0,640,20,20">
+			<color normal="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#0FFF"/>
+		</texture>
+		<texture filename="ui.tga" rect="0,664,20,20">
+			<color normal="0FFF" focus="#0FFF" mouseover="#0FFF" pressed="#FFFF"/>
+		</texture>
+	</element>
+	
+	<element name="radiobutton_btn.checked">
+		<texture filename="Button.tga" rect="32,0,32,32" center_rect="6,6,12,12">
+			<color mouseover="#8FFF"/>
+			<blend normal="0.6" pressed="0.0" hidden="0.8">0.8</blend>
+		</texture>
+	</element>
+	
+	<element name="button,radiobutton_btn,radiobutton_btn.checked">
+		<font format="UCENTER|VCENTER">
+			<blend pressed="0.0" hidden="0.5">0.8</blend>
+			<color normal="#FAAA" disabled="#8888" hidden="#0CCC" focus="#FCCC" mouseover="#FE84" pressed="#FEC0"/>
+		</font>
+	</element>
+	
+	<element name="listbox">
+		<texture filename="ListBG.bmp" rect="0,0,22,125">
+				<blend pressed="0.0" hidden="0.5">0.8</blend>
+		</texture>
+	</element>
+	
+	<element name="combobox">
+		<texture filename="EditBox.bmp" rect="0,0,8,8" center_rect="3,3,1,1">
+				<blend pressed="0.0" hidden="0.5">0.8</blend>
+		</texture>
+	</element>
+
+	<element name="static">
+		<blend pressed="0.0" hidden="0.5">0.8</blend>
+		<font	format="LEFT|VCENTER">
+			<color/>
+		</font>
+	</element>
+	<element name="image">
+		<blend pressed="0.0" hidden="0.5">0.8</blend>
+		<texture>
+			<color pressed="#CFFF"/>
+		</texture>
+	</element>
+
+	<element name="checkbox">
+		<blend pressed="0.0" hidden="0.5">0.8</blend>
+		<texture filename="CheckBox.bmp" rect="1,1,12,12">
+				<offset>0,0,12,12</offset>
+				<scale>0,0,0,0</scale>
+		</texture>
+		<font format="LEFT">
+			<color normal="#CFFF"/>
+			<offset>20,0,0,0</offset>
+		</font>
+	</element>
+
+	<element name="checkbox.checked">
+		<blend pressed="0.0" hidden="0.5">0.8</blend>
+		<texture filename="CheckBox.bmp" rect="61,1,12,12">
+			<offset>0,0,12,12</offset>
+			<scale>0,0,0,0</scale>
+		</texture>
+		<font format="LEFT|VCENTER">
+			<color normal="#CFFF"/>
+			<offset>20,0,0,0</offset>
+		</font>
+	</element>
+
+	<element name="radiobutton">
+		<blend pressed="0.0" hidden="0.5">0.8</blend>
+		<font format="LEFT|VCENTER">
+			<color normal="#CFFF"/>
+		</font>
+		<offset>20,0,0,0</offset>
+	</element>
+
+	<element name="combobox">
+		<texture filename="normal.bmp" rect="0,0,18,17">
+				<color disabled="#0FFF" mouseover="#0FFF" pressed="#0FFF"/>
+				<blend pressed="0.0" hidden="0.5">0.8</blend>
+				<offset>-18,0,0,17</offset>
+				<scale>1,0,1,0</scale>
+		</texture>
+		<texture filename="hover.bmp" rect="0,0,18,17">
+				<color normal="#0FFF" disabled="#0FFF" focus="#0FFF" pressed="#0FFF"/>
+				<blend pressed="0.0" hidden="0.5">0.8</blend>
+				<offset>-18,0,0,17</offset>
+				<scale>1,0,1,0</scale>			
+		</texture>
+		<texture filename="press.bmp" rect="0,0,18,17">
+				<color normal="#0FFF" focus="#0FFF" mouseover="#0FFF"/>
+				<blend pressed="0.0" hidden="0.5">0.8</blend>
+				<offset>-18,0,0,17</offset>
+				<scale>1,0,1,0</scale>
+		</texture>
+		<font>
+			<blend pressed="0.0" hidden="0.5">0.8</blend>
+			<color normal="#CFFF"/>
+			<offset>5,0,-20,0</offset>
+		</font>
+	</element>
+
+	<element name="listbox.item1">
+		<texture filename="ListBoxItem.bmp" rect="0,0,16,16">
+				<blend pressed="0.0" hidden="0.5">0.8</blend>
+		</texture>
+		<font	format="LEFT|VCENTER">
+			<blend pressed="0.0" hidden="0.5">0.8</blend>
+			<color normal="#C999" hidden="#0999" focus="#F999" mouseover="#F999" pressed="#F999"/>
+		</font>
+	</element>
+	<element name="listbox.item2">
+		<texture filename="ListBoxItem.bmp" rect="0,16,16,16">
+				<blend pressed="0.0" hidden="0.5">0.8</blend>
+		</texture>
+		<font	format="LEFT|VCENTER">
+			<blend pressed="0.0" hidden="0.5">0.8</blend>
+			<color normal="#C999" hidden="#0999" focus="#F999" mouseover="#F999" pressed="#F999"/>
+		</font>
+	</element>
+	
+	<element name="listbox.selected">
+		<texture filename="list_item_select.bmp" rect="0,0,15,23">
+				<blend pressed="0.0" hidden="0.5">0.8</blend>
+		</texture>
+		<font	format="LEFT|VCENTER">
+			<blend pressed="0.0" hidden="0.5">0.8</blend>
+			<color/>
+		</font>
+	</element>
+	
+	<element name="scrollbar.button.up">
+		<texture filename="Scrollbar.bmp" rect="0,10,6,10">
+				<color normal="#0FFF" pressed="#0FFF"/>
+				<blend pressed="0.0" hidden="0.5">0.8</blend>
+		</texture>
+			<texture filename="Scrollbar.bmp" rect="0,20,6,10">
+				<color normal="#0FFF" focus="#0FFF" mouseover="#0FFF"/>
+				<blend pressed="0.0" hidden="0.5">0.8</blend>
+		</texture>
+	</element>
+	
+		<element name="scrollbar.button.down">
+		<texture filename="Scrollbar.bmp" rect="6,10,6,10">
+				<color normal="#0FFF" focus="#0FFF" pressed="#0FFF"/>
+				<blend pressed="0.0" hidden="0.5">0.8</blend>
+		</texture>
+			<texture filename="Scrollbar.bmp" rect="6,20,6,10">
+				<color normal="#0FFF" focus="#0FFF" mouseover="#0FFF"/>
+				<blend pressed="0.0" hidden="0.5">0.8</blend>
+		</texture>
+	</element>
+	
+	<element name="scrollbar.slider.button">
+		<texture filename="Scrollbar.bmp" rect="18,0,6,40" center_rect="4,3,1,32">
+				<color disabled="#0" mouseover="#0FFF" pressed="#0FFF"/>
+				<blend pressed="0.0" hidden="0.5">0.8</blend>
+		</texture>
+		<texture filename="Scrollbar.bmp" rect="24,0,6,40" center_rect="4,3,1,32">
+				<color normal="#0FFF" disabled="#0" focus="#0FFF" pressed="#0FFF"/>
+				<blend pressed="0.0" hidden="0.5">0.8</blend>
+		</texture>
+			<texture filename="Scrollbar.bmp" rect="30,0,6,40" center_rect="4,3,1,32">
+				<color normal="#0FFF" disabled="#0" focus="#0FFF" mouseover="#0FFF"/>
+				<blend pressed="0.0" hidden="0.5">0.8</blend>
+		</texture>
+	</element>
+
+	<element name="slider">
+
+	</element>
+	
+	<element name="slider.button" sound="sound\iButtonClick.wav">
+		<blend normal="0.60" pressed="0.4" hidden="0.9">0.8</blend>
+		<texture filename="Button.tga" rect="0,0,32,32" center_rect="6,6,12,12">
+			<color normal="#8FFF" focus="#F4FC" mouseover="#FFE8" pressed="#FF40"/>
+			<blend normal="0.6" pressed="0.0" hidden="0.8">0.8</blend>
+		</texture>
+	</element>
+	
+	<element name="editbox.selection">
+		<font	format="LEFT|VCENTER">
+			<blend pressed="0.0" hidden="0.5">0.8</blend>
+			<color normal="#F000" hidden="#0000" focus="#F000" mouseover="#F222" pressed="#F333"/>
+		</font>
+	</element>
+
+	<element name="editbox">
+		<font	format="VCENTER">
+			<blend pressed="0.0" hidden="0.5">0.8</blend>
+			<color normal="#FDDD" hidden="#0CCC" focus="#FDDD" mouseover="#FDDD" pressed="#FDDD"/>
+			<offset>2,1,-1,-2</offset>
+		</font>
+	</element>
+
+	<element name="editbox.caret">
+		<texture filename="Button.tga" rect="0,0,32,32">
+			<color normal="#8FFF" focus="#F4FC" mouseover="#FFE8" pressed="#FF40"/>
+			<blend normal="0.6" pressed="0.0" hidden="0.8">0.8</blend>
+		</texture>
+	</element>
+
+	<element name="imeeditbox">
+		<font format="LEFT|TOP">
+			<blend pressed="0.0" hidden="0.5">0.8</blend>
+			<color normal="#F888" disabled="#F832" hidden="#F832" focus="#F800" mouseover="#F832" pressed="#F832"/>
+		</font>
+	</element>
+
+	<element name="propertygrid">
+		<texture1 filename="Texture/skin.bmp" name="ListBoxMain" rect="0,100,14,14" center_rect="5,5,3,3"/>
+		<texture1 filename="Texture/skin.bmp" name="ListBoxSelection" rect="32,16,48,32">
+			<blend pressed="0.0" hidden="0.5">0.8</blend>
+			<color normal="#42C2" disabled="#42C2" hidden="#02C2" focus="#42C2" mouseover="#42C2" pressed="#42C2"/>
+		</texture1>
+		<font format="LEFT|TOP">
+			<blend pressed="0.0" hidden="0.5">0.8</blend>
+			<color normal="#F888" disabled="#F832" hidden="#F832" focus="#F800" mouseover="#F832" pressed="#F832"/>
+		</font>
+		<font format="LEFT|TOP">
+			<blend pressed="0.0" hidden="0.5">0.8</blend>
+			<color normal="#F888" disabled="#F832" hidden="#F832" focus="#F800" mouseover="#F832" pressed="#F832"/>
+		</font>
+	</element>
+</root>
