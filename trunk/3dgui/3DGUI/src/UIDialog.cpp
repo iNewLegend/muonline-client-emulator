@@ -88,6 +88,7 @@ CUIDialog::CUIDialog()
 	m_bCaption = false;
 	m_bCanMove = true;
 	m_bExclusive = false;
+	m_bAlwaysBottom = false;
 	m_nCaptionHeight = 0;
 
 	// Create Lua State
@@ -236,6 +237,11 @@ void CUIDialog::XMLParse(const TiXmlElement* pElement)
 	{
 		pElement->Attribute("exclusive",&m_bExclusive);
 	}
+	if (pElement->Attribute("alwaysbottom"))
+	{
+		pElement->Attribute("alwaysbottom",&m_bAlwaysBottom);
+	}
+	
 	// caption
 	{
 		const TiXmlElement *pCaptionElement = pElement->FirstChildElement("caption");
@@ -757,6 +763,10 @@ bool CUIDialog::UnregisterDialog(const CUIDialog *pDialog)
 
 bool CUIDialog::toTop()
 {
+	if (m_bAlwaysBottom)
+	{
+		return false;
+	}
 	CUIDialog* pParentDialog=(CUIDialog*)GetParentDialog();
 	if (pParentDialog==NULL)
 	{
