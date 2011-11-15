@@ -4,7 +4,7 @@
 CHardwareVertexBuffer* CHardwareBufferMgr::CreateVertexBuffer(size_t numVerts, size_t vertexSize,
 																  CHardwareBuffer::Usage usage)
 {
-	CHardwareVertexBuffer* vbuf = GetRenderSystem().newHardwareVertexBuffer();
+	CHardwareVertexBuffer* vbuf = CRenderSystem::getSingleton().newHardwareVertexBuffer();
 	if (vbuf->create(vertexSize, numVerts, usage, false)==false)
 	{
 		S_DEL(vbuf);
@@ -18,7 +18,7 @@ CHardwareVertexBuffer* CHardwareBufferMgr::CreateVertexBuffer(size_t numVerts, s
 CHardwareIndexBuffer* CHardwareBufferMgr::CreateIndexBuffer(size_t numIndexes, CHardwareIndexBuffer::IndexType itype,
 																CHardwareBuffer::Usage usage)
 {
-	CHardwareIndexBuffer* idx = GetRenderSystem().newHardwareIndexBuffer();
+	CHardwareIndexBuffer* idx = CRenderSystem::getSingleton().newHardwareIndexBuffer();
 	if (idx->create(itype, numIndexes, usage, false)==false)
 	{
 		S_DEL(idx);

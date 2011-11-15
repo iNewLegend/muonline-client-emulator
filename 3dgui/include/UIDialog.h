@@ -93,6 +93,7 @@ protected:
 	bool m_bCaption;
 	bool m_bCanMove;
 	bool m_bExclusive;
+	bool m_bAlwaysBottom;
 	std::wstring m_wstrCaption;
 
 	CRect<int>	m_rcCaption;

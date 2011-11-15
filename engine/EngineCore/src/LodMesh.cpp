@@ -6,7 +6,7 @@ void CBoundMesh::draw()const
 {
 	if (indices.size())
 	{
-		CRenderSystem& R = GetRenderSystem();
+		CRenderSystem& R = CRenderSystem::getSingleton();
 		if (R.prepareMaterial("BoundMesh"))
 		{
 			R.SetFillMode(FILL_WIREFRAME);
@@ -69,7 +69,7 @@ void CMeshData::init()
 	// ----
 	// # Create Vertex Declaration.
 	// ----
-	m_pVertexDeclHardware = GetRenderSystem().CreateVertexDeclaration();
+	m_pVertexDeclHardware = CRenderSystem::getSingleton().CreateVertexDeclaration();
 	if (m_setSkinVertex.size()>0)
 	{
 		m_bSkinMesh = true;
@@ -80,7 +80,7 @@ void CMeshData::init()
 		m_uShareVertexSize = sizeof(Vec2D);
 
 		// 当为蒙皮时，只创建固定的公用的纹理UV缓存
-		m_pShareVB = GetRenderSystem().GetHardwareBufferMgr().CreateVertexBuffer(m_setSkinVertex.size(), sizeof(Vec2D));
+		m_pShareVB = CRenderSystem::getSingleton().GetHardwareBufferMgr().CreateVertexBuffer(m_setSkinVertex.size(), sizeof(Vec2D));
 		if (m_pShareVB)
 		{
 			Vec2D* pBuffer = (Vec2D*)m_pShareVB->lock(CHardwareBuffer::HBL_NORMAL);
@@ -102,7 +102,7 @@ void CMeshData::init()
 		m_uSkinVertexSize = 0;
 		m_uShareVertexSize = sizeof(RigidVertex);
 
-		m_pShareVB = GetRenderSystem().GetHardwareBufferMgr().CreateVertexBuffer(m_setRigidVertex.size(), m_uShareVertexSize);
+		m_pShareVB = CRenderSystem::getSingleton().GetHardwareBufferMgr().CreateVertexBuffer(m_setRigidVertex.size(), m_uShareVertexSize);
 		if (m_pShareVB)
 		{
 			unsigned char* pBuffer = (unsigned char*)m_pShareVB->lock(CHardwareBuffer::HBL_NORMAL);
@@ -121,7 +121,7 @@ void CMeshData::init()
 		m_uSkinVertexSize = 0;
 		m_uShareVertexSize = sizeof(RigidNolightVertex);
 
-		m_pShareVB = GetRenderSystem().GetHardwareBufferMgr().CreateVertexBuffer(m_setRigidNolightVertex.size(), m_uShareVertexSize);
+		m_pShareVB = CRenderSystem::getSingleton().GetHardwareBufferMgr().CreateVertexBuffer(m_setRigidNolightVertex.size(), m_uShareVertexSize);
 		if (m_pShareVB)
 		{
 			unsigned char* pBuffer = (unsigned char*)m_pShareVB->lock(CHardwareBuffer::HBL_NORMAL);
@@ -138,7 +138,7 @@ void CMeshData::init()
 	// 填入IB
 	if (m_Indices.size()>0)
 	{
-		m_pIB = GetRenderSystem().GetHardwareBufferMgr().CreateIndexBuffer(m_Indices.size());
+		m_pIB = CRenderSystem::getSingleton().GetHardwareBufferMgr().CreateIndexBuffer(m_Indices.size());
 		if (m_pIB)
 		{
 			unsigned short* indices = (unsigned short*)m_pIB->lock(CHardwareBuffer::HBL_NORMAL);
@@ -153,7 +153,7 @@ void CMeshData::init()
 
 bool CMeshData::SetMeshSource(int nLodLevel, CHardwareVertexBuffer* pSkinVB)const
 {
-	CRenderSystem& R = GetRenderSystem();
+	CRenderSystem& R = CRenderSystem::getSingleton();
 	if (m_bSkinMesh)
 	{
 		if (pSkinVB)
@@ -202,12 +202,12 @@ void CMeshData::drawSub(size_t uSubID, size_t uLodLevel)const
 	{
 		return;
 	}
-	GetRenderSystem().drawIndexedSubset(m_setSubset[uSubID]);
+	CRenderSystem::getSingleton().drawIndexedSubset(m_setSubset[uSubID]);
 }
 
 void CMeshData::draw(size_t uLodLevel)const
 {
-	CRenderSystem& R = GetRenderSystem();
+	CRenderSystem& R = CRenderSystem::getSingleton();
 	for (auto it=m_setSubset.begin(); it!=m_setSubset.end(); it++)
 	{
 		R.drawIndexedSubset(*it);

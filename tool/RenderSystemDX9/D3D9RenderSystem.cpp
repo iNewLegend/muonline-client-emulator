@@ -28,6 +28,8 @@ CD3D9RenderSystem& GetD3D9RenderSystem()
 CD3D9RenderSystem::CD3D9RenderSystem()
 	:m_TextureMgr(this)
 	,m_pD3D9Device(NULL)
+	,m_uShareShaderID(0)
+
 {
 }
 
@@ -54,6 +56,14 @@ CRenderWindow* CD3D9RenderSystem::CreateRenderWindow(WNDPROC pWndProc, const std
 {
 	CD3D9RenderWindow* pD3D9RenderWindow = new CD3D9RenderWindow;
 	pD3D9RenderWindow->Create(pWndProc, strWindowTitle, nWidth, nHeight,bFullScreen);
+	// ----
+	// # Create Common Shared Shader
+	m_uShareShaderID = m_ShaderMgr.registerItem("EngineRes/fx/shared.fx");
+	if(m_uShareShaderID==0)
+	{
+		MessageBoxW(NULL, L"Can't find the shared fx", L"Error", 0);
+	}
+	// ----
 	return pD3D9RenderWindow;
 }
 
@@ -196,6 +206,45 @@ HRESULT CD3D9RenderSystem::OnResetDevice()
 
 	//SetRenderState(D3DSAMP_SRGBTEXTURE, 1);
 	//SetRenderState(D3DRS_SRGBWRITEENABLE, 1);
+
+	SetLightingEnabled(false);
+	SetDepthBufferFunc(true, true, CMPF_LESS_EQUAL);
+	SetAlphaTestFunc(false);
+	SetBlendFunc(true, BLENDOP_ADD,SBF_SOURCE_ALPHA, SBF_ONE_MINUS_SOURCE_ALPHA);
+	SetCullingMode(CULL_NONE);
+
+	SetTexCoordIndex(0, 0);
+	SetTexCoordIndex(1, 0);
+
+	SetTextureColorOP(0,TBOP_MODULATE, TBS_TEXTURE, TBS_DIFFUSE);
+	SetTextureAlphaOP(0,TBOP_MODULATE, TBS_TEXTURE, TBS_DIFFUSE);
+	SetTextureColorOP(1,TBOP_DISABLE);
+	SetTextureAlphaOP(1,TBOP_DISABLE);
+	SetTextureColorOP(2,TBOP_DISABLE);
+	SetTextureAlphaOP(2,TBOP_DISABLE);
+
+	SetSamplerFilter(0, TEXF_POINT, TEXF_POINT, TEXF_POINT);
+	SetSamplerFilter(1, TEXF_POINT, TEXF_POINT, TEXF_POINT);
+	SetSamplerFilter(2, TEXF_POINT, TEXF_POINT, TEXF_POINT);
+
+	//
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, false) );
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_ALPHA|D3DCOLORWRITEENABLE_BLUE|D3DCOLORWRITEENABLE_GREEN|D3DCOLORWRITEENABLE_RED) );
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD) );
+	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_FOGENABLE, false) );
+
+
+	SetFillMode(FILL_SOLID);
+
+	SetSamplerAddressUV(0,ADDRESS_WRAP,ADDRESS_WRAP);
+	SetSamplerAddressUV(1,ADDRESS_WRAP,ADDRESS_WRAP);
+
+	D3D9HR( m_pD3D9Device->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_DISABLE) );
+	D3D9HR( m_pD3D9Device->SetTextureStageState(1, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_DISABLE) );
+
+	//SetVertexShader(NULL);
+	//SetPixelShader(NULL);
+
 	return S_OK;
 }
 
@@ -404,7 +453,7 @@ void CD3D9RenderSystem::setWorldMatrix(const Matrix& m)
 	getViewMatrix(View);
 	Matrix wvpm = Proj * View * m;
 	Matrix wvm = View * m;
-	CD3D9Shader* shared = (CD3D9Shader*)m_ShaderMgr.getSharedShader();
+	CD3D9Shader* shared = (CD3D9Shader*)m_ShaderMgr.getItem(m_uShareShaderID);
 	if(shared)
 	{
 		shared->setMatrix("wvm",wvm);
@@ -425,7 +474,7 @@ void CD3D9RenderSystem::setViewMatrix(const Matrix& m)
 	Matrix Proj;
 	getProjectionMatrix(Proj);
 	Matrix vpm = Proj * m;
-	CD3D9Shader* shared = (CD3D9Shader*)m_ShaderMgr.getSharedShader();
+	CD3D9Shader* shared = (CD3D9Shader*)m_ShaderMgr.getItem(m_uShareShaderID);
 	if(shared)
 	{
 		shared->setMatrix("vpm", vpm);
@@ -654,6 +703,57 @@ void CD3D9RenderSystem::SetCullingMode(CullingMode mode)
 	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_CULLMODE, uCullingMode) );
 }
 
+
+void CD3D9RenderSystem::setShaderFloat(const char* szName, float val)
+{
+	CShader* pShader = m_ShaderMgr.getItem(m_uShareShaderID);
+	// ----
+	if (pShader)
+	{
+		pShader->setFloat(szName, val);
+	}
+}
+
+void CD3D9RenderSystem::setShaderVec2D(const char* szName, const Vec2D& val)
+{
+	CShader* pShader = m_ShaderMgr.getItem(m_uShareShaderID);
+	// ----
+	if (pShader)
+	{
+		pShader->setVec2D(szName, val);
+	}
+}
+
+void CD3D9RenderSystem::setShaderVec3D(const char* szName, const Vec3D& val)
+{
+	CShader* pShader = m_ShaderMgr.getItem(m_uShareShaderID);
+	// ----
+	if (pShader)
+	{
+		pShader->setVec3D(szName, val);
+	}
+}
+
+void CD3D9RenderSystem::setShaderVec4D(const char* szName, const Vec4D& val)
+{
+	CShader* pShader = m_ShaderMgr.getItem(m_uShareShaderID);
+	// ----
+	if (pShader)
+	{
+		pShader->setVec4D(szName, val);
+	}
+}
+
+void CD3D9RenderSystem::setShaderMatrix(const char* szName, const Matrix& mat)
+{
+	CShader* pShader = m_ShaderMgr.getItem(m_uShareShaderID);
+	// ----
+	if (pShader)
+	{
+		pShader->setMatrix(szName, mat);
+	}
+}
+
 void CD3D9RenderSystem::SetPixelShaderConstantF(unsigned int StartRegister,const float* pConstantData,unsigned int Vector4fCount)
 {
 	D3D9HR( m_pD3D9Device->SetPixelShaderConstantF(StartRegister, pConstantData, Vector4fCount) );
@@ -865,61 +965,20 @@ void CD3D9RenderSystem::SetSamplerAddressUV(size_t unit, AddressUV addressU, Add
 	D3D9HR( m_pD3D9Device->SetSamplerState(unit, D3DSAMP_ADDRESSV, AddressUVForD3D9(addressV)) );
 }
 
-void CD3D9RenderSystem::SetupRenderState()
-{
-	SetLightingEnabled(false);
-	SetDepthBufferFunc(true, true, CMPF_LESS_EQUAL);
-	SetAlphaTestFunc(false);
-	SetBlendFunc(true, BLENDOP_ADD,SBF_SOURCE_ALPHA, SBF_ONE_MINUS_SOURCE_ALPHA);
-	SetCullingMode(CULL_NONE);
-
-	SetTexCoordIndex(0, 0);
-	SetTexCoordIndex(1, 0);
-
-	SetTextureColorOP(0,TBOP_MODULATE, TBS_TEXTURE, TBS_DIFFUSE);
-	SetTextureAlphaOP(0,TBOP_MODULATE, TBS_TEXTURE, TBS_DIFFUSE);
-	SetTextureColorOP(1,TBOP_DISABLE);
-	SetTextureAlphaOP(1,TBOP_DISABLE);
-	SetTextureColorOP(2,TBOP_DISABLE);
-	SetTextureAlphaOP(2,TBOP_DISABLE);
-
-	SetSamplerFilter(0, TEXF_POINT, TEXF_POINT, TEXF_POINT);
-	SetSamplerFilter(1, TEXF_POINT, TEXF_POINT, TEXF_POINT);
-	SetSamplerFilter(2, TEXF_POINT, TEXF_POINT, TEXF_POINT);
-
-	//
-	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, false) );
-	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_ALPHA|D3DCOLORWRITEENABLE_BLUE|D3DCOLORWRITEENABLE_GREEN|D3DCOLORWRITEENABLE_RED) );
-	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD) );
-	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_FOGENABLE, false) );
-
-
-	SetFillMode(FILL_SOLID);
-
-	SetSamplerAddressUV(0,ADDRESS_WRAP,ADDRESS_WRAP);
-	SetSamplerAddressUV(1,ADDRESS_WRAP,ADDRESS_WRAP);
-
-	D3D9HR( m_pD3D9Device->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_DISABLE) );
-	D3D9HR( m_pD3D9Device->SetTextureStageState(1, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_DISABLE) );
-
-	//SetVertexShader(NULL);
-	//SetPixelShader(NULL);
-}
-
-void CD3D9RenderSystem::SetTextureStageStateDecolor()
-{
-	//SetRenderState(D3DRS_ALPHABLENDENABLE, false);
-	const static unsigned long dwLuminanceConv = ((int)(128+0.2125f*128)<<16)+((int)(128+0.7154f*128)<<8)+(int)(128+0.0721f*128);
-	Color32 clrLuminanceConv((int)(0.2125f*255), (int)(0.2125f*255), (int)(0.7154f*255), (int)(0.0721f*255));
-	SetTextureFactor(dwLuminanceConv);
-
-	SetTextureColorOP(0,TBOP_DOTPRODUCT, TBS_TEXTURE, TBS_TFACTOR);
-	SetTextureAlphaOP(0,TBOP_DISABLE);
-	SetTextureColorOP(1,TBOP_MODULATE, TBS_CURRENT, TBS_DIFFUSE);
-	SetTextureAlphaOP(1,TBOP_MODULATE, TBS_TEXTURE, TBS_DIFFUSE);
-	//SetTextureAlphaOP(1,TBOP_SOURCE1, TBS_DIFFUSE, TBS_DIFFUSE);
-	//SetTexture(1, GetTexture(0));
-}
+// void CD3D9RenderSystem::SetTextureStageStateDecolor()
+// {
+// 	//SetRenderState(D3DRS_ALPHABLENDENABLE, false);
+// 	const static unsigned long dwLuminanceConv = ((int)(128+0.2125f*128)<<16)+((int)(128+0.7154f*128)<<8)+(int)(128+0.0721f*128);
+// 	Color32 clrLuminanceConv((int)(0.2125f*255), (int)(0.2125f*255), (int)(0.7154f*255), (int)(0.0721f*255));
+// 	SetTextureFactor(dwLuminanceConv);
+// 
+// 	SetTextureColorOP(0,TBOP_DOTPRODUCT, TBS_TEXTURE, TBS_TFACTOR);
+// 	SetTextureAlphaOP(0,TBOP_DISABLE);
+// 	SetTextureColorOP(1,TBOP_MODULATE, TBS_CURRENT, TBS_DIFFUSE);
+// 	SetTextureAlphaOP(1,TBOP_MODULATE, TBS_TEXTURE, TBS_DIFFUSE);
+// 	//SetTextureAlphaOP(1,TBOP_SOURCE1, TBS_DIFFUSE, TBS_DIFFUSE);
+// 	//SetTexture(1, GetTexture(0));
+// }
 
 void CD3D9RenderSystem::SetTexture(unsigned long Stage, unsigned long TextureID)
 {
@@ -1176,11 +1235,11 @@ void SetMesh(int nMeshID)
 //	//m_ChangeMaterial = *Mtl;
 //	m_pD3D9Device->SetMaterial(Mtl);
 //
-//	//if (GetShaderMgr().IsEnable())
+//	//if (m_ShaderMgr.IsEnable())
 //	//{
-//	//	GetShaderMgr().SetValue(PT_DIFFUSE, &Mtl->Diffuse);
-//	//	GetShaderMgr().SetValue(PT_SPECULAR, &Mtl->Specular);
-//	//	GetShaderMgr().SetValue(PT_POWER, &Mtl->Power);
+//	//	m_ShaderMgr.SetValue(PT_DIFFUSE, &Mtl->Diffuse);
+//	//	m_ShaderMgr.SetValue(PT_SPECULAR, &Mtl->Specular);
+//	//	m_ShaderMgr.SetValue(PT_POWER, &Mtl->Power);
 //	//}
 //}
 
@@ -1188,18 +1247,18 @@ void SetMesh(int nMeshID)
 //{
 //	m_pD3D9Device->SetLight(Index, Light);
 //
-//	//if (GetShaderMgr().IsEnable())
+//	//if (m_ShaderMgr.IsEnable())
 //	//{
 //	//	D3DXVECTOR3 vLightDir;
 //	//	D3DXVec3Normalize(&vLightDir, (D3DXVECTOR3*)&Light->Direction);
-//	//	GetShaderMgr().SetValue(PT_LIGHTDIR, &vLightDir);
+//	//	m_ShaderMgr.SetValue(PT_LIGHTDIR, &vLightDir);
 //	//	D3DXVECTOR3 vUp(0,1,0);
 //	//	D3DXVECTOR3 vEyePt(0,0,0);
 //	//	D3DXMATRIX mView,mProj;
 //	//	D3DXMatrixLookAtLH(&mView, &vEyePt, &vLightDir, &vUp);
 //	//	D3DXMatrixOrthoLH(&mProj, 8, 8, -512, 512);
 //	//	D3DXMatrixMultiply(&mView, &mView, &mProj);
-//	//	GetShaderMgr().SetValue(PT_LIGHT_VIEW, &mView);
+//	//	m_ShaderMgr.SetValue(PT_LIGHT_VIEW, &mView);
 //	//}
 //}
 

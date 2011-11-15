@@ -30,7 +30,7 @@ void CNode3DTextRender::updateTextureBuffer(unsigned char* pBuffer, size_t size,
 {
 	if(m_pTextTexture == NULL)
 	{
-		m_pTextTexture = GetRenderSystem().GetTextureMgr().CreateTexture(width, height,1);
+		m_pTextTexture = CRenderSystem::getSingleton().GetTextureMgr().CreateTexture(width, height,1);
 		// ----
 		//GetRenderSystem().GetTextureMgr().CreateDynamicTexture(width, height);
 	}
@@ -46,7 +46,7 @@ void CNode3DTextRender::drawUBB(const CUBB* pUBB)const
 	int nVertexCount = pUBB->m_VB.size();
 	if (nVertexCount)
 	{
-		CRenderSystem & R = GetRenderSystem();
+		CRenderSystem & R = CRenderSystem::getSingleton();
 		// ----
 		R.SetTexture(0, m_pTextTexture);
 		// ----

@@ -204,7 +204,7 @@ void CMeshCoordinate::render(const Vec3D& vCoordShow)
 	{
 		init();
 	}
-	CRenderSystem& R = GetRenderSystem();
+	CRenderSystem& R = CRenderSystem::getSingleton();
 	CGraphics& G=GetGraphics();
 
 	R.setWorldMatrix(getWorldMatrix());

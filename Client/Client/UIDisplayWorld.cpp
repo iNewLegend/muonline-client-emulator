@@ -43,19 +43,13 @@ void CUIDisplayWorld::OnFrameRender(const Matrix& mTransform, double fTime, floa
 		bool bSetFog			= false;
 		// ----
 		CRect<int> rcViewport	= getViewport();
-		CRenderSystem & R		= GetRenderSystem();
-		CShader* pShader		= R.GetShaderMgr().getSharedShader();
+		CRenderSystem & R		= CRenderSystem::getSingleton();
 		// ----
-		if (pShader)
-		{
-			//R.SetPixelShaderConstantF()
-			pShader->setFloat("g_fTime", fTime);
-			pShader->setMatrix("g_mViewProj", m_Camera.GetProjXView());
-			pShader->setVec3D("g_vLightDir", CWorld::getInstance().getLight().vDirection);
-			pShader->setVec3D("g_vEyePot", m_Camera.getEyePt());
-		}
+		R.setShaderFloat("g_fTime",			fTime);
+		R.setShaderMatrix("g_mViewProj",	m_Camera.GetProjXView());
+		R.setShaderVec3D("g_vLightDir",		CWorld::getInstance().getLight().vDirection);
+		R.setShaderVec3D("g_vEyePot",		m_Camera.getEyePt());
 		// ----
-		R.SetupRenderState();
 		R.setWorldMatrix(Matrix::UNIT);
 		// ----
 		R.SetSamplerFilter(0, TEXF_LINEAR, TEXF_LINEAR, TEXF_LINEAR);
@@ -165,7 +159,6 @@ void CUIDisplayWorld::OnFrameRender(const Matrix& mTransform, double fTime, floa
 			//m_SceneEffect.compose();
 		}
 		// ----
-		R.SetupRenderState();
 		R.setViewport(GetParentDialog()->GetBoundingBox());
 		// ----
 		CUIDisplay::OnFrameRender(mTransform,fTime,fElapsedTime);

@@ -17,7 +17,7 @@ CAniTex::~CAniTex()
 
 void CAniTex::Draw(int x, int y, double fTime, Color32 color)
 {
-	CTexture* pTex = GetRenderSystem().GetTextureMgr().getItem(m_nTexID);
+	CTexture* pTex = CRenderSystem::getSingleton().GetTextureMgr().getItem(m_nTexID);
 	if (pTex)
 	{
 		RECT rcDest;
@@ -54,7 +54,7 @@ void CAniTex::Draw(const RECT& rcDest, double fTime, Color32 color)
 		Vec4D((float) rcDest.right,	(float) rcDest.bottom,	0.5f, 1.0f), color, Vec2D(u1, v1),
 		Vec4D((float) rcDest.left,	(float) rcDest.bottom,	0.5f, 1.0f), color, Vec2D(u0, v1),
 	};
-	CRenderSystem& R = GetRenderSystem();
+	CRenderSystem& R = CRenderSystem::getSingleton();
 	R.SetTexture(0, m_nTexID);
 	R.SetFVF(VERTEX_XYZW_DIF_TEX::FVF);
 	R.DrawPrimitiveUP(VROT_TRIANGLE_FAN, 2, v, sizeof(VERTEX_XYZW_DIF_TEX));

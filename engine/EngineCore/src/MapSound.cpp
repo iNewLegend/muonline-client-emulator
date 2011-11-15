@@ -29,7 +29,7 @@ void CMapSound::render()const
 	static size_t s_uTexSund = 0;
 	if(!s_uTexSund)
 	{
-		s_uTexSund = GetRenderSystem().GetTextureMgr().RegisterTexture("sound.tga");
+		s_uTexSund = CRenderSystem::getSingleton().GetTextureMgr().RegisterTexture("sound.tga");
 	}
 	Pos2D posScreen;
 	GetSceneMgr().World2Screen( m_vPos, posScreen );

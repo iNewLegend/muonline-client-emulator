@@ -70,11 +70,11 @@ protected:
 private:
 	std::string m_strParentFilename;
 };
-bool CD3D9Shader::create(const std::string& strFilename)
+
+bool CD3D9Shader::create(const char* szFilename)
 {
-	IDirect3DDevice9* pD3D9Device = GetD3D9RenderSystem().GetD3D9Device();
 	bool bRet = false;
-	IOReadBase* pRead = IOReadBase::autoOpen(strFilename);
+	IOReadBase* pRead = IOReadBase::autoOpen(szFilename);
 	if (pRead)
 	{
 		size_t uFilesize = pRead->GetSize();
@@ -83,7 +83,7 @@ bool CD3D9Shader::create(const std::string& strFilename)
 		{
 			pRead->Read(pBuf, uFilesize);
 			CShaderIncludeManager shaderIncludeManager;
-			shaderIncludeManager.setParentFilename(strFilename);
+			shaderIncludeManager.setParentFilename(szFilename);
 			bRet = createFromMemory(pBuf,uFilesize,&shaderIncludeManager);
 			delete[] pBuf;
 		}
@@ -118,44 +118,46 @@ ID3DXEffect* CD3D9Shader::getD3DXEffect()
 	return m_pEffect;
 }
 
-void CD3D9Shader::setFloat(const std::string& strFloat, float val)
+void CD3D9Shader::setFloat(const char* szName, float val)
 {
-	m_pEffect->SetFloat(strFloat.c_str(),val);
+	m_pEffect->SetFloat(szName,val);
 }
 
-void CD3D9Shader::setVec2D(const std::string& strVec2D, const Vec2D& val)
+void CD3D9Shader::setVec2D(const char* szName, const Vec2D& val)
 {
-	m_pEffect->SetFloatArray(strVec2D.c_str(),(const FLOAT *)&val,2);
-}
-void CD3D9Shader::setVec3D(const std::string& strVec3D, const Vec3D& val)
-{
-	m_pEffect->SetFloatArray(strVec3D.c_str(),(const FLOAT *)&val,3);
-}
-void CD3D9Shader::setVec4D(const std::string& strVec4D, const Vec4D& val)
-{
-	m_pEffect->SetFloatArray(strVec4D.c_str(),(const FLOAT *)&val,4);
+	m_pEffect->SetFloatArray(szName,(const FLOAT *)&val,2);
 }
 
-void CD3D9Shader::setMatrix(const std::string& strMatrix, const Matrix& mat)
+void CD3D9Shader::setVec3D(const char* szName, const Vec3D& val)
+{
+	m_pEffect->SetFloatArray(szName,(const FLOAT *)&val,3);
+}
+
+void CD3D9Shader::setVec4D(const char* szName, const Vec4D& val)
+{
+	m_pEffect->SetFloatArray(szName,(const FLOAT *)&val,4);
+}
+
+void CD3D9Shader::setMatrix(const char* szName, const Matrix& mat)
 {
 	Matrix mDx=mat;mDx.transpose();
-	m_pEffect->SetMatrix(strMatrix.c_str(),(D3DXMATRIX*)&mDx);
+	m_pEffect->SetMatrix(szName,(D3DXMATRIX*)&mDx);
 }
 
-void CD3D9Shader::setTexture(const std::string& strTexture, unsigned long uTexID)
+void CD3D9Shader::setTexture(const char* szName, unsigned long uTexID)
 {
 	CTexture* pTexture = GetD3D9RenderSystem().GetTextureMgr().getLoadedTexture(uTexID);
-	setTexture(strTexture, pTexture);
+	setTexture(szName, pTexture);
 }
 
-void CD3D9Shader::setTexture(const std::string& strTexture, const CTexture* pTexture)
+void CD3D9Shader::setTexture(const char* szName, const CTexture* pTexture)
 {
 	LPDIRECT3DTEXTURE9 pD3DTexture = NULL;
 	if (pTexture)
 	{
 		pD3DTexture=static_cast<const CD3D9Texture*>(pTexture)->GetD3D9Texture();
 	}
-	m_pEffect->SetTexture(strTexture.c_str(), pD3DTexture);
+	m_pEffect->SetTexture(szName, pD3DTexture);
 }
 
 bool CD3D9Shader::begin(const std::string& strTec)

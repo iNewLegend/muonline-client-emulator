@@ -132,7 +132,7 @@ void CSkeletonNode::drawSkeleton(const Matrix& mWorld, CTextRender* pTextRender)
 		return;
 	}
 
-	CRenderSystem& R = GetRenderSystem();
+	CRenderSystem& R = CRenderSystem::getSingleton();
 	CGraphics& G = GetGraphics();
 
 	std::vector<Vec3D> setBonesPoint;
@@ -158,8 +158,6 @@ void CSkeletonNode::drawSkeleton(const Matrix& mWorld, CTextRender* pTextRender)
 	}
 
 	R.SetBlendFunc(true);
-	R.SetTextureColorOP(0,TBOP_MODULATE);
-	R.SetTextureAlphaOP(0,TBOP_MODULATE);
 	if (pTextRender)
 	{
 		for(size_t i=0;i<m_pSkeletonData->m_Bones.size();++i)

@@ -105,6 +105,13 @@ public:
 		CompareFunction stencilFunction = CMPF_LESS_EQUAL);
 	//
 	void SetCullingMode(CullingMode mode);	// 设置剔除模式
+
+	void setShaderFloat(const char* szName, float val);
+	void setShaderVec2D(const char* szName, const Vec2D& val);
+	void setShaderVec3D(const char* szName, const Vec3D& val);
+	void setShaderVec4D(const char* szName, const Vec4D& val);
+	void setShaderMatrix(const char* szName, const Matrix& mat);
+
 	void SetPixelShaderConstantF(unsigned int StartRegister,const float* pConstantData,unsigned int Vector4fCount);
 	void SetTextureFactor(Color32 color);	// 设置纹理因素颜色
 	// TextureOP
@@ -117,10 +124,6 @@ public:
 	void SetSamplerFilter(size_t unit, TextureFilterType MagFilter, TextureFilterType MinFilter, TextureFilterType MipFilter);
 	void SetSamplerAddressUV(size_t unit, AddressUV addressU, AddressUV addressV);
 
-	// 状态初始化
-	void SetupRenderState();
-	// 去色
-	void SetTextureStageStateDecolor();
 	// 设置shader
 	void SetShader(CShader* pShader);
 	void SetShader(unsigned long id);
@@ -184,6 +187,7 @@ protected:
 	IDirect3DDevice9*			m_pD3D9Device;
 
 	CShader*					m_pOldShader;
+	unsigned long				m_uShareShaderID;
 
 	//////////////////////////////////////////////////////////////////////////
 };
