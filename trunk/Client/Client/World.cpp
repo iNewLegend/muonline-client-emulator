@@ -198,18 +198,18 @@ void CWorld::renderDamageInfo()const
 	{
 		Pos2D pos(0,0);
 		// ----
-		GetRenderSystem().world2Screen(it->vPos, pos);
+		CRenderSystem::getSingleton().world2Screen(it->vPos, pos);
 		// ----
 		RECT rc = {pos.x - 40, pos.y - 30, pos.x + 40, pos.y}; 
 		// ----
 		Matrix mWorld;
-		GetRenderSystem().getWorldMatrix(mWorld);
+		CRenderSystem::getSingleton().getWorldMatrix(mWorld);
 		Matrix mNewWorld = mNewWorld*Matrix::newTranslation(Vec3D(pos.x, pos.y, 0.0f));
-		GetRenderSystem().setWorldMatrix(mNewWorld);
+		CRenderSystem::getSingleton().setWorldMatrix(mNewWorld);
 		// ----
 		m_DamageTextRender.drawUBB(&it->ubb);
 		// ----
-		GetRenderSystem().setWorldMatrix(mWorld);
+		CRenderSystem::getSingleton().setWorldMatrix(mWorld);
 		// ----
 		//RPGSkyUIGraph::getInstance().drawText(it->wcsInfo.c_str(), it->wcsInfo.length() ,rc, ALIGN_TYPE_CENTER);
 		//m_DamageTextRender.drawText(it->wcsInfo.c_str(),rc, it->wcsInfo.length(), (UINT)ALIGN_TYPE_CENTER);

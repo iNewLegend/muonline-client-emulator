@@ -17,11 +17,11 @@ void Node3DUIGraph::frameUpdate()
 
 void* Node3DUIGraph::createTexture(const char * szTexture)
 {
-	unsigned long uTex = GetRenderSystem().GetTextureMgr().RegisterTexture(szTexture,1);
+	unsigned long uTex = CRenderSystem::getSingleton().GetTextureMgr().RegisterTexture(szTexture,1);
 	if (uTex<=0)
 	{
 		std::string strTexture = GetStyleMgr().getDir()+szTexture;
-		uTex = GetRenderSystem().GetTextureMgr().RegisterTexture(strTexture,1);
+		uTex = CRenderSystem::getSingleton().GetTextureMgr().RegisterTexture(strTexture,1);
 	}
 	return (void*)uTex;
 }
@@ -35,15 +35,15 @@ void Node3DUIGraph::releaseTexture(void * pTexture)
 
 void Node3DUIGraph::setShader(const char* szShader)
 {
-	static unsigned long s_uShader = GetRenderSystem().GetShaderMgr().registerItem("EngineRes\\fx\\ui.fx");
+	static unsigned long s_uShader = CRenderSystem::getSingleton().GetShaderMgr().registerItem("EngineRes\\fx\\ui.fx");
 	if (szShader==NULL||strlen(szShader)==0)
 	{
-		GetRenderSystem().SetShader(s_uShader);
+		CRenderSystem::getSingleton().SetShader(s_uShader);
 	}
 	else
 	{
-		unsigned long uShader = GetRenderSystem().GetShaderMgr().registerItem(szShader);
-		GetRenderSystem().SetShader(uShader);
+		unsigned long uShader = CRenderSystem::getSingleton().GetShaderMgr().registerItem(szShader);
+		CRenderSystem::getSingleton().SetShader(uShader);
 	}
 	// ----
 }
@@ -74,7 +74,7 @@ void Node3DUIGraph::initDrawText()
 	Matrix		mView;
 	Matrix		mProjection;
 	// ---
-	CRenderSystem & R		= GetRenderSystem();
+	CRenderSystem & R		= CRenderSystem::getSingleton();
 	// ----
 	R.SetLightingEnabled(false);
 	R.SetBlendFunc(true);
@@ -117,7 +117,7 @@ void Node3DUIGraph::DrawText(const wchar_t* wcsText, CUIStyle & style, int nInde
 
 void Node3DUIGraph::drawText(const wchar_t* wcsText, int cchText, const RECT & rc, UINT format, unsigned long color, RECT * prcRet)
 {
-	CRenderSystem & R = GetRenderSystem();
+	CRenderSystem & R = CRenderSystem::getSingleton();
 	// ----
 	R.SetTextureFactor(color);
 	// ----
@@ -157,7 +157,7 @@ Matrix Node3DUIGraph::setUIMatrix(const Matrix & mTransform, const CRect<float> 
 	// ----
 	float fZ	= 50;
 	// ----
-	CRenderSystem & R = GetRenderSystem();
+	CRenderSystem & R = CRenderSystem::getSingleton();
 	// ----
 	R.SetDepthBufferFunc(false, false);
 	// ----

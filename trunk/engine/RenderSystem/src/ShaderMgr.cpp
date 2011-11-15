@@ -2,36 +2,24 @@
 #include "IORead.h"
 #include "RenderSystem.h"
 
-CShaderMgr::CShaderMgr():
-m_uShareShaderID(0)
+CShaderMgr::CShaderMgr()
 {
 }
 CShaderMgr::~CShaderMgr()
 {
 }
 
-bool CShaderMgr::createSharedShader(const std::string& strFilename)
+unsigned long CShaderMgr::registerItem(const char* szFilename)
 {
-	m_uShareShaderID = registerItem(strFilename);
-	return m_uShareShaderID!=0;
-}
-
-CShader* CShaderMgr::getSharedShader()
-{
-	return getItem(m_uShareShaderID);
-}
-
-unsigned long CShaderMgr::registerItem(const std::string& strFilename)
-{
-	if(!IOReadBase::Exists(strFilename))
+	if(!IOReadBase::Exists(szFilename))
 	{
 		return 0;
 	}
-	if (find(strFilename))
+	if (find(szFilename))
 	{
-		return addRef(strFilename);
+		return addRef(szFilename);
 	}
-	CShader* pShader = GetRenderSystem().newShader();
-	pShader->create(strFilename);
-	return add(strFilename, pShader);
+	CShader* pShader = CRenderSystem::getSingleton().newShader();
+	pShader->create(szFilename);
+	return add(szFilename, pShader);
 }

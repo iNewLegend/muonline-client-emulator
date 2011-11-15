@@ -35,13 +35,13 @@ void CSceneEffect::clearTextures()
 	S_DEL(m_pExposureTexture2);
 	S_DEL(m_pBackTexture);
 	// new 
-	{ // Fixed the scene texture release.
-		CShader* pShader = GetRenderSystem().GetShaderMgr().getSharedShader();
-		if (pShader)
-		{
-			pShader->setTexture("g_texScene",(CTexture*)NULL);
-		}
-	}
+//	{ // Fixed the scene texture release.
+// 		CShader* pShader = GetRenderSystem().GetShaderMgr().getSharedShader();
+// 		if (pShader)
+// 		{
+// 			pShader->setTexture("g_texScene",(CTexture*)NULL);
+// 		}
+//	}
 
 	S_DEL(m_pSceneCopyTexture);
 }
@@ -61,7 +61,7 @@ void CSceneEffect::Reset(const CRect<int>& rc)
 	m_nWidth = nWidth;
 	m_nHeight= nHeight;
 
-	CRenderSystem& R = GetRenderSystem();
+	CRenderSystem& R = CRenderSystem::getSingleton();
 	//m_pDepthRenderTarget = R.GetTextureMgr().CreateRenderTarget(512, 512);
 
 	m_pGlowRenderTarget = R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
@@ -213,7 +213,7 @@ void CSceneEffect::Reset(const CRect<int>& rc)
 
 CTexture* CSceneEffect::getSceneTexture()
 {
-	CRenderSystem& R = GetRenderSystem();
+	CRenderSystem& R = CRenderSystem::getSingleton();
 	CTexture* m_pRenderSystemTarget = R.GetRenderTarget();
 	CRect<int> rcSrc;
 	R.getViewport(rcSrc);
@@ -230,10 +230,9 @@ void CSceneEffect::RenderTemporalBloom()
 	}
 	//return;
 	// 1:copy正常画面 2:与上一帧按混合比混合并输出 3:保存此帧用于下次混合
-	CRenderSystem& R = GetRenderSystem();
+	CRenderSystem& R = CRenderSystem::getSingleton();
 
 	CTexture* m_pRenderSystemTarget = R.GetRenderTarget();
-	R.SetupRenderState();
 	R.StretchRect(m_pRenderSystemTarget,NULL,m_pBackTexture,NULL, TEXF_LINEAR);
 	//if(R.BeginFrame())
 	{
@@ -308,7 +307,7 @@ D3DXSaveSurfaceToFileA("F:/项目/NewGame/cc.bmp", D3DXIFF_BMP, m_pSceneTexture, N
 
 void CSceneEffect::RenderBloom()
 {
-	CRenderSystem& R = GetRenderSystem();
+	CRenderSystem& R = CRenderSystem::getSingleton();
 
 	
 	renderTargetBegin();
@@ -346,7 +345,7 @@ void CSceneEffect::RenderBloom()
 
 void CSceneEffect::glowRenderTargetBegin()
 {
-	CRenderSystem& R = GetRenderSystem();
+	CRenderSystem& R = CRenderSystem::getSingleton();
 	m_pRenderSystemTarget = R.GetRenderTarget();
 	R.SetRenderTarget(m_pGlowRenderTarget);
 
@@ -356,7 +355,7 @@ void CSceneEffect::glowRenderTargetBegin()
 
 void CSceneEffect::glowRenderTargetEnd()
 {
-	CRenderSystem& R = GetRenderSystem();
+	CRenderSystem& R = CRenderSystem::getSingleton();
 	// Restore
 	R.SetRenderTarget(m_pRenderSystemTarget);
 	S_DEL(m_pRenderSystemTarget);
@@ -364,14 +363,14 @@ void CSceneEffect::glowRenderTargetEnd()
 
 void CSceneEffect::renderTargetBegin()
 {
-	CRenderSystem& R = GetRenderSystem();
+	CRenderSystem& R = CRenderSystem::getSingleton();
 	m_pRenderSystemTarget = R.GetRenderTarget();
 	R.SetRenderTarget(m_pSceneTexture);
 }
 
 void CSceneEffect::renderTargetGlow()// not good
 {
-	CRenderSystem& R = GetRenderSystem();
+	CRenderSystem& R = CRenderSystem::getSingleton();
 	// first: copy system render target to my render target.
 
 	CRect<int> rect(0,0,m_nWidth,m_nHeight);
@@ -420,15 +419,15 @@ void CSceneEffect::renderTargetGlow()// not good
 
 void CSceneEffect::renderGammaCorrection()
 {
-	CRenderSystem& R = GetRenderSystem();
+	CRenderSystem& R = CRenderSystem::getSingleton();
 	R.SetRenderTarget(m_pSceneTexture);
 	//R.ClearBuffer(false,true,0x0);
-	R.GetShaderMgr().getSharedShader()->setTexture("g_texScene",m_pSceneTexture);
-	//R.SetTexture(0, m_pSceneTexture);
+	//R.GetShaderMgr().getSharedShader()->setTexture("g_texScene",m_pSceneTexture);
+	R.SetTexture(0, m_pSceneTexture);
 
 	if(R.prepareMaterial("GammaCorrection"))
 	{
-		CRenderSystem& R = GetRenderSystem();
+		CRenderSystem& R = CRenderSystem::getSingleton();
 		//R.SetTexture(0,g_samScene) ;
 		R.SetFVF(QuadVertex::FVF);
 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_QuadVB, sizeof(QuadVertex));
@@ -438,7 +437,7 @@ void CSceneEffect::renderGammaCorrection()
 
 void CSceneEffect::renderTargetBloom()
 {
-	CRenderSystem& R = GetRenderSystem();
+	CRenderSystem& R = CRenderSystem::getSingleton();
 	R.SetBlendFunc(true,BLENDOP_ADD,SBF_ONE,SBF_ONE);
 	R.SetTextureColorOP(0,TBOP_MODULATE,TBS_TEXTURE,TBS_DIFFUSE);
 	R.SetTextureAlphaOP(0,TBOP_DISABLE);
@@ -466,7 +465,7 @@ void CSceneEffect::renderTargetBloom()
 
 void CSceneEffect::renderTargetEnd()
 {
-	CRenderSystem& R = GetRenderSystem();
+	CRenderSystem& R = CRenderSystem::getSingleton();
 	// Restore
 	R.SetRenderTarget(m_pRenderSystemTarget);
 	S_DEL(m_pRenderSystemTarget);
@@ -495,7 +494,7 @@ void CSceneEffect::compose(const CRect<int>& rcDest)
 	QuadVB[2].p = Vec4D(fX1, fY1, 0.0f, 1.0f);
 	QuadVB[3].p = Vec4D(fX1, fY0, 0.0f, 1.0f);
 
-	CRenderSystem& R = GetRenderSystem();
+	CRenderSystem& R = CRenderSystem::getSingleton();
 	static bool bcan = true;
 	R.SetCullingMode(CULL_NONE);
 	R.SetLightingEnabled(false);

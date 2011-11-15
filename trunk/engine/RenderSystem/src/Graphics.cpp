@@ -119,7 +119,7 @@ void CGraphics::end()
 {
 	if (!m_pVB || m_nCount==0) return;
 	m_pVB->unlock();
-	CRenderSystem& R = GetRenderSystem();
+	CRenderSystem& R = CRenderSystem::getSingleton();
 	R.SetFVF(VERTEX_XYZ_DIF_TEX::FVF);
 	R.SetStreamSource(0, m_pVB, 0, sizeof(VERTEX_XYZ_DIF_TEX));
 
@@ -211,7 +211,7 @@ void CGraphics::Line2DEnd()
 {
 	if (m_set2DLine.size()>1)
 	{
-		CRenderSystem& R = GetRenderSystem();
+		CRenderSystem& R = CRenderSystem::getSingleton();
 		R.SetFVF(VERTEX_XYZW_DIF::FVF);
 
 		R.DrawPrimitiveUP(VROT_LINE_STRIP, m_set2DLine.size()-1, &m_set2DLine[0], sizeof(VERTEX_XYZW_DIF));
@@ -235,7 +235,7 @@ void CGraphics::Line3DEnd()
 {
 	if (m_set3DLine.size()>1)
 	{
-		CRenderSystem& R = GetRenderSystem();
+		CRenderSystem& R = CRenderSystem::getSingleton();
 		R.SetFVF(VERTEX_XYZ_DIF::FVF);
 
 		R.DrawPrimitiveUP(VROT_LINE_STRIP, m_set3DLine.size()-1, &m_set3DLine[0], sizeof(VERTEX_XYZ_DIF));
@@ -252,8 +252,8 @@ void CGraphics::DrawLine(float x0, float y0, float x1, float y1, Color32 color)
 		Vec3D(x0, y0, 0.0f), color,
 		Vec3D(x1, y1, 0.0f), color,
 	};
-	GetRenderSystem().SetFVF(VERTEX_XYZ_DIF::FVF);
-	GetRenderSystem().DrawPrimitiveUP(VROT_LINE_STRIP, 1, v, sizeof(VERTEX_XYZ_DIF));
+	CRenderSystem::getSingleton().SetFVF(VERTEX_XYZ_DIF::FVF);
+	CRenderSystem::getSingleton().DrawPrimitiveUP(VROT_LINE_STRIP, 1, v, sizeof(VERTEX_XYZ_DIF));
 }
 
 void CGraphics::DrawRect(float x0, float y0, float x1, float y1, Color32 color)
@@ -275,7 +275,7 @@ void CGraphics::DrawRect(float x0, float y0, float x1, float y1, Color32 color)
 		Vec3D(x0, y1, 0.0f), color,
 		Vec3D(x0, y0, 0.0f), color,
 	};
-	CRenderSystem& R = GetRenderSystem();
+	CRenderSystem& R = CRenderSystem::getSingleton();
 	R.SetFVF(VERTEX_XYZ_DIF::FVF);
 	R.DrawPrimitiveUP(VROT_LINE_STRIP, 4, v, sizeof(VERTEX_XYZ_DIF));
 }
@@ -303,7 +303,7 @@ void CGraphics::FillRect(float x0, float y0, float x1, float y1, Color32 color)
 		Vec3D(x1, y1, 0.0f), color,
 		Vec3D(x0, y1, 0.0f), color,
 	};
-	CRenderSystem& R = GetRenderSystem();
+	CRenderSystem& R = CRenderSystem::getSingleton();
 	R.SetFVF(VERTEX_XYZ_DIF::FVF);
 	R.DrawPrimitiveUP(VROT_TRIANGLE_FAN, 2, v, sizeof(VERTEX_XYZ_DIF));
 }
@@ -326,7 +326,7 @@ void CGraphics::FillRect(float x0, float y0, float x1, float y1, Color32 color0,
 		Vec3D(x1, y1, 0.0f), color2,
 		Vec3D(x0, y1, 0.0f), color3,
 	};
-	CRenderSystem& R = GetRenderSystem();
+	CRenderSystem& R = CRenderSystem::getSingleton();
 	R.SetFVF(VERTEX_XYZ_DIF::FVF);
 	R.DrawPrimitiveUP(VROT_TRIANGLE_FAN, 2, v, sizeof(VERTEX_XYZ_DIF));
 }
@@ -345,7 +345,7 @@ void CGraphics::FillRect(const CRect<float>& rcDest, Color32 color, Color32 colo
 
 void CGraphics::drawQuad(const RECT& rcDest, const RECT& rcSrc, int nWidth, int nHeight, Color32 color)
 {
-	CRenderSystem& R = GetRenderSystem();
+	CRenderSystem& R = CRenderSystem::getSingleton();
 	float u0 = ((float)rcSrc.left+0.5f)	/ (float)nWidth;
 	float v0 = ((float)rcSrc.top+0.5f)	/ (float)nHeight;
 	float u1 = ((float)rcSrc.right)		/ (float)nWidth;
@@ -363,14 +363,14 @@ void CGraphics::drawQuad(const RECT& rcDest, const RECT& rcSrc, int nWidth, int 
 
 void CGraphics::drawTex(int destX, int destY, int nTexID, Color32 color, const RECT* prcSrc)
 {
-	CTexture* pTex = GetRenderSystem().GetTextureMgr().getItem(nTexID);
+	CTexture* pTex = CRenderSystem::getSingleton().GetTextureMgr().getItem(nTexID);
 	// ----
 	if (!pTex)
 	{
 		return;
 	}
 	// ----
-	GetRenderSystem().SetTexture(0, nTexID);
+	CRenderSystem::getSingleton().SetTexture(0, nTexID);
 	// ----
 	int nTexWidth = pTex->GetWidth();
 	int nTexHeight = pTex->GetHeight();
@@ -391,14 +391,14 @@ void CGraphics::drawTex(int destX, int destY, int nTexID, Color32 color, const R
 #define PIXEL_OFFSET 0.5f
 void CGraphics::drawTex(const RECT& rcDest, int nTexID, Color32 color, const RECT* prcSrc, const RECT* prcCenterSrc)
 {
-	CTexture* pTex = GetRenderSystem().GetTextureMgr().getItem(nTexID);
+	CTexture* pTex = CRenderSystem::getSingleton().GetTextureMgr().getItem(nTexID);
 	// ----
 	if (!pTex)
 	{
 		return;
 	}
 	// ----
-	GetRenderSystem().SetTexture(0, nTexID);
+	CRenderSystem::getSingleton().SetTexture(0, nTexID);
 	// ----
 	int nTexWidth = pTex->GetWidth();
 	int nTexHeight = pTex->GetHeight();
@@ -495,7 +495,7 @@ void CGraphics::drawTex(const RECT& rcDest, int nTexID, Color32 color, const REC
 			9,9+1,9+5,		9,9+5,9+4,
 			10,10+1,10+5,	10,10+5,10+4};
 
-		CRenderSystem& R = GetRenderSystem();
+		CRenderSystem& R = CRenderSystem::getSingleton();
 		R.SetFVF(VERTEX_XYZ_DIF_TEX::FVF);
 		R.DrawIndexedPrimitiveUP(VROT_TRIANGLE_LIST, 0, 4*4, 3*3*2, index, vertex, sizeof(VERTEX_XYZ_DIF_TEX));
 	}
@@ -514,7 +514,7 @@ void CGraphics::DrawLine3D(const Vec3D& v0,const Vec3D& v1, Color32 color)
 	v[0].c = color;
 	v[1].c = color;
 
-	CRenderSystem& R = GetRenderSystem();
+	CRenderSystem& R = CRenderSystem::getSingleton();
 
 	R.SetFVF(VERTEX_XYZ_DIF::FVF);
 	R.DrawPrimitiveUP(VROT_LINE_STRIP, 1, v, sizeof(VERTEX_XYZ_DIF));
@@ -557,7 +557,7 @@ void CGraphics::drawBBox(const BBox& bbox, Color32 color)
 		0, 4, 1, 5, 2, 6, 3, 7
 
 	};
-	CRenderSystem& R = GetRenderSystem();
+	CRenderSystem& R = CRenderSystem::getSingleton();
 	R.SetTextureColorOP(0,TBOP_SOURCE2, TBS_TEXTURE, TBS_DIFFUSE);
 	R.SetTextureColorOP(1,TBOP_DISABLE);
 	R.SetFVF(VERTEX_XYZ_DIF::FVF);

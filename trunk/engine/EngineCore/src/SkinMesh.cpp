@@ -57,7 +57,7 @@ void CSkinMesh::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)
 		// ----
 		//Matrix mNewWorld = mWorld*m_mWorldMatrix;
 		// ----
-		GetRenderSystem().setWorldMatrix(mNewWorld);
+		CRenderSystem::getSingleton().setWorldMatrix(mNewWorld);
 		// ----
 		renderMesh(eRenderType,m_uLodLevel,m_pVB,1.0f/*m_fTrans*/,0/*m_nAnimTime*/);
 	}
@@ -105,7 +105,7 @@ bool CSkinMesh::setup()
 	// ----
 	if (m_pMesh->m_bSkinMesh)
 	{
-		m_pVB = GetRenderSystem().GetHardwareBufferMgr().CreateVertexBuffer(m_pMesh->getSkinVertexCount(), m_pMesh->getSkinVertexSize(), CHardwareBuffer::HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE);
+		m_pVB = CRenderSystem::getSingleton().GetHardwareBufferMgr().CreateVertexBuffer(m_pMesh->getSkinVertexCount(), m_pMesh->getSkinVertexSize(), CHardwareBuffer::HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE);
 	}
 
 	if (m_vecPasses.empty())
@@ -128,7 +128,7 @@ bool CSkinMesh::setup()
 	m_nOrder=0;
 	for (auto it=m_vecPasses.begin();it!=m_vecPasses.end();it++)
 	{
-		CMaterial& material = GetRenderSystem().getMaterialMgr().getItem(it->strMaterial.c_str());
+		CMaterial& material = CRenderSystem::getSingleton().getMaterialMgr().getItem(it->strMaterial.c_str());
 		m_nOrder+=material.getOrder();
 	}
 	return true;
@@ -178,8 +178,8 @@ void CSkinMesh::setSkin(int nID)
 
 void CSkinMesh::setLightMap(const char* szFilename)
 {
-	m_uLightMapTex = GetRenderSystem().GetTextureMgr().RegisterTexture(szFilename);
-	GetRenderSystem().GetTextureMgr().releaseBuffer(m_uLightMapTex);
+	m_uLightMapTex = CRenderSystem::getSingleton().GetTextureMgr().RegisterTexture(szFilename);
+	CRenderSystem::getSingleton().GetTextureMgr().releaseBuffer(m_uLightMapTex);
 	m_bLightmap = true;
 }
 
@@ -193,12 +193,12 @@ void CSkinMesh::renderMesh(E_MATERIAL_RENDER_TYPE eModelRenderType, size_t uLodL
 		}
 		else for (auto it = m_vecPasses.begin(); it != m_vecPasses.end(); ++it)
 		{
-			E_MATERIAL_RENDER_TYPE RenderType = GetRenderSystem().getMaterialMgr().getItem(it->strMaterial.c_str()).getRenderType();
+			E_MATERIAL_RENDER_TYPE RenderType = CRenderSystem::getSingleton().getMaterialMgr().getItem(it->strMaterial.c_str()).getRenderType();
 			if (RenderType&eModelRenderType)
 			{
 				if (eModelRenderType&MATERIAL_RENDER_ALPHA_TEST)
 				{
-					GetRenderSystem().SetTexture(0,GetRenderSystem().getMaterialMgr().getItem(it->strMaterial.c_str()).uTexture[0]);
+					CRenderSystem::getSingleton().SetTexture(0,CRenderSystem::getSingleton().getMaterialMgr().getItem(it->strMaterial.c_str()).uTexture[0]);
 					m_pMesh->drawSub(it->nSubID,uLodLevel);
 				}
 				else if (eModelRenderType&MATERIAL_RENDER_NO_MATERIAL)
@@ -207,7 +207,7 @@ void CSkinMesh::renderMesh(E_MATERIAL_RENDER_TYPE eModelRenderType, size_t uLodL
 				}
 				else
 				{
-					if (GetRenderSystem().prepareMaterial(it->strMaterial.c_str(),fOpacity))
+					if (CRenderSystem::getSingleton().prepareMaterial(it->strMaterial.c_str(),fOpacity))
 					{
 						if (it->nSubID<0)
 						{
@@ -218,7 +218,7 @@ void CSkinMesh::renderMesh(E_MATERIAL_RENDER_TYPE eModelRenderType, size_t uLodL
 							m_pMesh->drawSub(it->nSubID,uLodLevel);
 						}
 					}
-					GetRenderSystem().finishMaterial();
+					CRenderSystem::getSingleton().finishMaterial();
 					//	GetRenderSystem().GetDevice()->SetStreamSourceFreq(0,1);
 					//	GetRenderSystem().GetDevice()->SetStreamSourceFreq(1,1);
 				}

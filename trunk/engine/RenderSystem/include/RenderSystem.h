@@ -26,6 +26,9 @@ class CRenderSystem
 public:
 	CRenderSystem();
 	virtual ~CRenderSystem();
+
+	static void setSingleton(CRenderSystem* pRenderSystem);
+	static CRenderSystem& getSingleton();
 public:
 	virtual CTextureMgr&		GetTextureMgr() = 0;
 	virtual CMaterialMgr&		getMaterialMgr();
@@ -91,6 +94,13 @@ public:
 	// ----
 	// # 设置纹理因素颜色
 	// ----
+
+	virtual void		setShaderFloat(const char* szName, float val)=0;
+	virtual void		setShaderVec2D(const char* szName, const Vec2D& val)=0;
+	virtual void		setShaderVec3D(const char* szName, const Vec3D& val)=0;
+	virtual void		setShaderVec4D(const char* szName, const Vec4D& val)=0;
+	virtual void		setShaderMatrix(const char* szName, const Matrix& mat)=0;
+
 	virtual void		SetPixelShaderConstantF(unsigned int StartRegister,const float* pConstantData,unsigned int Vector4fCount)=0;
 	virtual void		SetTextureFactor	(Color32 color)		= 0;
 	// ----
@@ -104,14 +114,6 @@ public:
 	// ----
 	virtual void		SetSamplerFilter	(size_t unit, TextureFilterType MagFilter, TextureFilterType MinFilter, TextureFilterType MipFilter) = 0;
 	virtual void		SetSamplerAddressUV	(size_t unit, AddressUV addressU, AddressUV addressV) = 0;
-	// ----
-	// # 状态初始化 !!!
-	// ----
-	virtual void SetupRenderState() = 0;
-	// ----
-	// # 去色 !!!
-	// ----
-	virtual void SetTextureStageStateDecolor() = 0;
 	// ----
 	// # 设置shader
 	// ----
@@ -171,6 +173,3 @@ public:
 private:
 	CMaterialMgr m_MaterialMgr;
 };
-
-void SetRenderSystem(CRenderSystem* pRenderSystem);
-CRenderSystem& GetRenderSystem();

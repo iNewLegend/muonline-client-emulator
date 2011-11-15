@@ -139,7 +139,7 @@ unsigned long CTextureMgr::RegisterTexture(const std::string& strFilename, int n
 		return addRef(strFilename);
 	}
 	//
-	CTexture* pTex = GetRenderSystem().newTexture();
+	CTexture* pTex = CRenderSystem::getSingleton().newTexture();
 	pTex->SetLevels(nLevels);
 	pTex->SetFilename(strFilename);
 	return add(strFilename, pTex);

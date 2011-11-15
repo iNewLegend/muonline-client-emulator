@@ -9,11 +9,11 @@ INT WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// ----
 	// # Initialize everything and go into a render loop
 	// ----
-	try
+	///try
 	{
 		CMainRoot::getInstance().Run();
 	}
-	catch(std::exception & e)
+	//catch(std::exception & e)
 	{
 		// ----
 	}

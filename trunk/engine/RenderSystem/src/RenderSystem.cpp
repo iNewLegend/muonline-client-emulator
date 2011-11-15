@@ -2,22 +2,22 @@
 
 static CRenderSystem* g_pRenderSystem = NULL;
 
-void SetRenderSystem(CRenderSystem* pRenderSystem)
+CRenderSystem::CRenderSystem()
+{
+	g_pRenderSystem = this;
+}
+CRenderSystem::~CRenderSystem()
+{
+}
+
+void CRenderSystem::setSingleton(CRenderSystem* pRenderSystem)
 {
 	g_pRenderSystem = pRenderSystem;
 }
 
-CRenderSystem& GetRenderSystem()
+CRenderSystem& CRenderSystem::getSingleton()
 {
-	//assert(g_pRenderSystem);
 	return *g_pRenderSystem;
-}
-
-CRenderSystem::CRenderSystem()
-{
-}
-CRenderSystem::~CRenderSystem()
-{
 }
 
 void CRenderSystem::world2Screen(const Vec3D& vWorldPos, Pos2D& posScreen)
@@ -75,7 +75,7 @@ bool CRenderSystem::prepareMaterial(/*const */CMaterial& material, float fOpacit
 	}
 	if (material.uShader==-1)
 	{
-		material.uShader = GetShaderMgr().registerItem(material.getShader());
+		material.uShader = GetShaderMgr().registerItem(material.getShader().c_str());
 	}
 	// ----
 	if (material.uShader!=0)

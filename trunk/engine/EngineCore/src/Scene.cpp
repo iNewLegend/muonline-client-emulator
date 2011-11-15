@@ -89,7 +89,7 @@ void CScene::updateRender(const CFrustum& frustum)
 #include "Graphics.h"
 void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)const
 {
-	CRenderSystem& R = GetRenderSystem();
+	CRenderSystem& R = CRenderSystem::getSingleton();
 	//R.setFogEnable(true);
 	R.ClearBuffer(true, true, m_Fog.color);
 	// 
@@ -144,18 +144,18 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 // 		}
 // 		R.finishMaterial();
 // 	}
-	{
-		R.SetCullingMode(CULL_NONE);
-		R.SetShader((CShader*)NULL);
-		R.SetLightingEnabled(false);
-		R.SetBlendFunc(true,BLENDOP_ADD,SBF_ZERO,SBF_SOURCE_COLOUR);
-		R.SetAlphaTestFunc(true);
-		R.SetDepthBufferFunc(false,false);
-		R.SetTextureColorOP(0,TBOP_SOURCE1,TBS_TFACTOR);
-		R.SetTextureAlphaOP(0,TBOP_SOURCE1,TBS_TEXTURE);
-		R.SetTextureColorOP(1,TBOP_DISABLE);
-		R.SetTextureAlphaOP(1,TBOP_DISABLE);
-		R.SetStencilFunc(true,STENCILOP_INCR,CMPF_GREATER);
+// 	{
+// 		R.SetCullingMode(CULL_NONE);
+// 		R.SetShader((CShader*)NULL);
+// 		R.SetLightingEnabled(false);
+// 		R.SetBlendFunc(true,BLENDOP_ADD,SBF_ZERO,SBF_SOURCE_COLOUR);
+// 		R.SetAlphaTestFunc(true);
+// 		R.SetDepthBufferFunc(false,false);
+// 		R.SetTextureColorOP(0,TBOP_SOURCE1,TBS_TFACTOR);
+// 		R.SetTextureAlphaOP(0,TBOP_SOURCE1,TBS_TEXTURE);
+// 		R.SetTextureColorOP(1,TBOP_DISABLE);
+// 		R.SetTextureAlphaOP(1,TBOP_DISABLE);
+// 		R.SetStencilFunc(true,STENCILOP_INCR,CMPF_GREATER);
 		// ----
 		FOR_IN(it,m_RenderNodes)
 		{
@@ -203,7 +203,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 		{
 			if (*it==pFocusNode)
 			{
-				if (GetRenderSystem().prepareMaterial("ObjectFocus"))
+				if (CRenderSystem::getSingleton().prepareMaterial("ObjectFocus"))
 				{
 					float color[4] = {1.0f,0.25f,0.0f,0.5f};
 					R.SetPixelShaderConstantF(0,color,1);
@@ -211,7 +211,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 					// NPC (0xFF40FF40)
 					// Player (0xFF00FFFF)
 					((CRenderNode*)*it)->render(Matrix::UNIT, E_MATERIAL_RENDER_TYPE(MATERIAL_GEOMETRY|MATERIAL_RENDER_ALPHA_TEST));
-					GetRenderSystem().finishMaterial();
+					CRenderSystem::getSingleton().finishMaterial();
 				}
 			}
 			try {

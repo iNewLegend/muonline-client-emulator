@@ -112,7 +112,7 @@ void* CRenderNodeMgr::getRenderData(const char* szClassName, const char* szName)
 {
 	if(strcmp(szClassName,"material")==0)
 	{
-		return &GetRenderSystem().getMaterialMgr().getItem(szName);
+		return &CRenderSystem::getSingleton().getMaterialMgr().getItem(szName);
 	}
 	auto it = m_mapRenderData.find(szClassName);
 	if (it!=m_mapRenderData.end())
@@ -130,7 +130,7 @@ void* CRenderNodeMgr::createRenderData(const char* szClassName, const char* szNa
 {
 	if(strcmp(szClassName,"material")==0)
 	{
-		return &GetRenderSystem().getMaterialMgr().getItem(szName);
+		return &CRenderSystem::getSingleton().getMaterialMgr().getItem(szName);
 	}
 	if(getRenderData(szClassName,szName))
 	{

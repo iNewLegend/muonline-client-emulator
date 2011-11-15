@@ -54,7 +54,7 @@ void CSkeletonData::CalcBonesMatrix(const std::string& strAnim, int time, std::v
 		if (m_Bones[i].m_billboard)
 		{
 			Matrix mtrans;
-			GetRenderSystem().getViewMatrix(mtrans);
+			CRenderSystem::getSingleton().getViewMatrix(mtrans);
 			mtrans.transpose();
 			mtrans.Invert();
 			Vec3D camera = mtrans * Vec3D(0.0f,0.0f,0.0f);

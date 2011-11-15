@@ -220,7 +220,7 @@ void CParticleEmitter::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRend
 	{
 		return;
 	}
-	CRenderSystem& R = GetRenderSystem();
+	CRenderSystem& R = CRenderSystem::getSingleton();
 	// ----
 	R.setWorldMatrix(Matrix::UNIT);
 	// ----
@@ -239,7 +239,7 @@ void CParticleEmitter::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRend
 			{
 				// 获取公告板矩阵
 				Matrix mTrans;
-				GetRenderSystem().getViewMatrix(mTrans);
+				CRenderSystem::getSingleton().getViewMatrix(mTrans);
 				mTrans.Invert();
 
 				if (m_pData->flags == 569) // 圆柱形 Faith shoulders, do cylindrical billboarding
