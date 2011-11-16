@@ -6,6 +6,7 @@
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CDlgMain::CDlgMain()
+	:m_pIconCursor(NULL)
 {
 	// ----
 }
@@ -41,9 +42,9 @@ void CDlgMain::OnFrameMove(double fTime, float fElapsedTime)
 void CDlgMain::OnFrameRender(const Matrix& mTransform, double fTime, float fElapsedTime)
 {
 	CUIMainDialog::OnFrameRender(mTransform, fTime, fElapsedTime);
-	if (m_IconCursor.IsVisible())
+	if (m_pIconCursor.IsVisible())
 	{
-		m_IconCursor.OnFrameRender(mTransform, fTime, fElapsedTime);
+		m_pIconCursor.OnFrameRender(mTransform, fTime, fElapsedTime);
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
