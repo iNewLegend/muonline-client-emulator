@@ -20,10 +20,9 @@ public:
 	virtual bool MsgProc			(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 // ----
 	CUIDisplayWorld & getDisplay(){ return m_DisplayWorld; };
-	CUIIcon&	getIconCursor(){ return m_IconCursor; };
+	CUIIcon*	getIconCursor(){ return m_pIconCursor; };
 private:
 	CUIDisplayWorld	m_DisplayWorld;
-	CUIIcon			m_IconCursor;
-
+	CUIIcon*		m_pIconCursor;
 };
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
