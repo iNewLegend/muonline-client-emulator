@@ -19,6 +19,9 @@ void InitLua(lua_State * L)
 	lua_tinker::def(L,"EnterWorld",		CSEnterWorld);
 	lua_tinker::def(L,"GameClose",		GameClose);
 	lua_tinker::def(L,"SendChat",		CSChat);
+	lua_tinker::set(L, "s_pControlFocus", &CUIControl::s_pControlFocus);
+	lua_tinker::set(L, "s_pControlPressed", &CUIControl::s_pControlPressed);
+	lua_tinker::set(L, "s_pControlMouseOver", &CUIControl::s_pControlMouseOver);
 
 	// ----
 	lua_tinker::class_<CAudio>(L,"Audio")
