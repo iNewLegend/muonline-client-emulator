@@ -2,14 +2,10 @@
 m_DisplayPlayer = CDisplayModel()
 
 m_ListIcon={}
-m_ListIcon[#m_ListIcon+1] = CUIIcon()
-m_ListIcon[#m_ListIcon+1] = CUIIcon()
-m_ListIcon[#m_ListIcon+1] = CUIIcon()
-m_ListIcon[#m_ListIcon+1] = CUIIcon()
-m_ListIcon[#m_ListIcon+1] = CUIIcon()
-m_ListIcon[#m_ListIcon+1] = CUIIcon()
-m_ListIcon[#m_ListIcon+1] = CUIIcon()
-m_ListIcon[#m_ListIcon+1] = CUIIcon()
+
+for i=1,8 do
+ m_ListIcon[#m_ListIcon+1] = CUIIcon()
+end
 
 -- Register Control
 IDD_EQUIP:regControl("IDC_DISPLAY_PLAYER", m_DisplayPlayer)
@@ -32,8 +28,6 @@ IDD_EQUIP:regControlEvent("IDC_IMG_BOOT","IDD_EQUIP_OnBtnBoot","0")
 IDD_EQUIP:regControlEvent("IDC_IMG_BACK", "IDD_EQUIP_OnBtnBack","0")
 IDD_EQUIP:regControlEvent("IDC_IMG_WAPEN1", "IDD_EQUIP_OnBtnRight","0")
 IDD_EQUIP:regControlEvent("IDC_IMG_WAPEN2", "IDD_EQUIP_OnBtnLeft","0")
-
---IDD_EQUIP:regControlEvent("IDC_CLOSE", "IDD_Equip_OnBtnClose","0")
 
 m_PlayerView = CRole()
 
@@ -77,32 +71,13 @@ end
 
 -- Event Func
 function IDD_EQUIP_OnBtnHead()
-	ChangeEquip(0)
-	local nLevel = math.random(20,50)
-	m_PlayerView:setAnim(nLevel)
-end
-function IDD_EQUIP_OnBtnArmor()
-	ChangeEquip(1)
-end
-function IDD_EQUIP_OnBtnGlove()
-	ChangeEquip(2)
-end
-function IDD_EQUIP_OnBtnPant()
-	ChangeEquip(3)
-end
-function IDD_EQUIP_OnBtnBoot()
-	ChangeEquip(4)
-end
-function IDD_EQUIP_OnBtnBack()
-	ChangeEquip(5)
-end
-function IDD_EQUIP_OnBtnRight()
-	ChangeEquip(6)
-end
-function IDD_EQUIP_OnBtnLeft()
-	ChangeEquip(7)
-end
-
-function IDD_Equip_OnBtnClose()
-	IDD_EQUIP:SetVisible(false)
+  for i=1,8 do
+    if m_ListIcon[i] == s_pControlMouseOver then
+	  ChangeEquip(i-1);
+	end
+	
+	if i==0 then
+	  local nLevel = math.random(20,50)
+	  m_PlayerView:setAnim(nLevel)
+	end
 end
