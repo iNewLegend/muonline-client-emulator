@@ -144,7 +144,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 // 		}
 // 		R.finishMaterial();
 // 	}
-// 	{
+ 	{
 // 		R.SetCullingMode(CULL_NONE);
 // 		R.SetShader((CShader*)NULL);
 // 		R.SetLightingEnabled(false);
