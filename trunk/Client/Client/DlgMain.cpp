@@ -42,9 +42,9 @@ void CDlgMain::OnFrameMove(double fTime, float fElapsedTime)
 void CDlgMain::OnFrameRender(const Matrix& mTransform, double fTime, float fElapsedTime)
 {
 	CUIMainDialog::OnFrameRender(mTransform, fTime, fElapsedTime);
-	if (m_pIconCursor.IsVisible())
+	if (m_pIconCursor)
 	{
-		m_pIconCursor.OnFrameRender(mTransform, fTime, fElapsedTime);
+		m_pIconCursor->OnFrameRender(mTransform, fTime, fElapsedTime);
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
