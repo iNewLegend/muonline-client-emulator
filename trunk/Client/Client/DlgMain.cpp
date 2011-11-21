@@ -3,6 +3,7 @@
 #include "FileSystem.h"
 #include "Camera.h"
 #include "RegData.h"
+#include "MainRoot.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CDlgMain::CDlgMain()
@@ -44,7 +45,16 @@ void CDlgMain::OnFrameRender(const Matrix& mTransform, double fTime, float fElap
 	CUIMainDialog::OnFrameRender(mTransform, fTime, fElapsedTime);
 	if (m_pIconCursor)
 	{
-		m_pIconCursor->OnFrameRender(mTransform, fTime, fElapsedTime);
+		POINT cursor;
+		GetCursorPos( &cursor );	
+		::ScreenToClient(CMainRoot::getInstance().GetHWND(), &cursor);
+		CUIControl::updateUIMatrix(mTransform, fTime, fElapsedTime);
+		RECT rc;
+		rc.left		= cursor.x-16;
+		rc.right	= cursor.x+16;
+		rc.top		= cursor.y-16;
+		rc.bottom	= cursor.y+16;
+		m_pIconCursor->getStyle().draw(rc,L"");
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
