@@ -144,7 +144,8 @@ public:
 
 	virtual void SetTip(const std::wstring& wstrTip) { m_wstrTip = wstrTip; }
 	virtual void drawTip(const Matrix& mTransform,const CRect<int>& rc, double fTime, float fElapsedTime);
-
+	
+	virtual CUIStyle& getStyle() {return m_Style;}
 	virtual void SetStyle(const std::string& strStyleName);
 
 	UI_CONTROL_TYPE GetType() const { return m_Type; }
