@@ -1,0 +1,158 @@
+GUNZ 1,0,0,290 launched. build (Nov 30 2011 22:19:47) 
+Log time (11/30/11 22:26:58)
+cmdline = 
+CPU ID = GenuineIntel ( family = 262 , model = 7 , stepping = 10 ) @ 2600 MHz
+D3D_SDK_VERSION = 31 
+Display Device = NVIDIA GeForce GT 220 ( vendor=10de device=a20 subsys=72f10de revision=a2 )
+Display Driver Version = 6.14.0011.9562
+Windows = 5.1 Build 2600 , Service Pack 3 (2096236KB) :  Windows xp..
+Load XML from memory : system/locale.xml- SUCCESS
+Country : (USA), Language : (USA)
+Load Config from file : config.xml- SUCCESS
+Load XML from memory : system/system.xml- SUCCESS
+Load XML from memory : system/strings.xml(0x0009) - SUCCESS
+Load XML from memory : system/cserror.xml(0x0009) - SUCCESS
+Load XML from memory : system/messages.xml(0x0009) - SUCCESS
+Load XML from memory : system/gametypecfg.xml 
+InitializeNotify ok.
+WFog Enabled Device.
+device created.
+Video memory 494.000000 
+shader initialize successful : 1
+main : RGetLenzFlare()->Initialize() 
+Version : 0
+InitialLoading success.
+interface Initialize success
+ZApplication::OnCreate : begin
+0(Ö÷ÉùÒôÇý¶¯³ÌÐò): Hardware Mixing Supported
+1(Realtek HD Audio output): Hardware Mixing Supported
+[[[getMaxChannel48]]]]
+LoadWave: Error loading file
+LoadWave: Error creating hardware sound buffer.
+LoadWave: Error creating hardware sound buffer.
+LoadWave: Error creating hardware sound buffer.
+LoadWave: Error creating hardware sound buffer.
+LoadWave: Error creating hardware sound buffer.
+LoadWave: Error creating hardware sound buffer.
+LoadWave: Error creating hardware sound buffer.
+LoadWave: Error creating hardware sound buffer.
+LoadWave: Error creating hardware sound buffer.
+LoadWave: Error creating hardware sound buffer.
+LoadWave: Error creating hardware sound buffer.
+LoadWave: Error creating hardware sound buffer.
+LoadWave: Error creating hardware sound buffer.
+LoadWave: Error creating hardware sound buffer.
+LoadWave: Error creating hardware sound buffer.
+LoadWave: Error creating hardware sound buffer.
+LoadWave: Error creating hardware sound buffer.
+
+-------------------> Sound Engine Create : 1.380000 
+
+sound engine create.
+Load XML from memory : System/tips.xml(0x0009)- SUCCESS
+start log bipmap
+end of load bitmaps2
+loading pictures : 1.406000 
+warning : bitmap slot_head.tga not found.
+warning : bitmap slot_head.tga not found.
+warning : bitmap icon_gameroom.tga not found.
+IDLResource Loading Success!!
+IDL resources : 18.960001 
+start InitInterface option
+Number of Display mode : 21
+Number of Display mode : 21
+end of InitInterface option ok
+Init maps : no Current ChannelRule 
+Screen Effect Manager Create : 0.204000 
+Screen effect manager create success.
+SFX/ef_hp ampulla.elu mesh Plane57 node 2 face 0 point -> physique 3 Out of Range
+SFX/ef_hp ampulla.elu mesh Plane50 node 2 face 0 point -> physique 3 Out of Range
+SFX/ef_hp ampulla.elu mesh Plane51 node 2 face 0 point -> physique 3 Out of Range
+SFX/ef_hp ampulla.elu mesh Plane52 node 2 face 0 point -> physique 3 Out of Range
+SFX/ef_hp ampulla.elu mesh Plane53 node 2 face 0 point -> physique 3 Out of Range
+SFX/ef_hp ampulla.elu mesh Plane54 node 2 face 0 point -> physique 3 Out of Range
+SFX/ef_hp ampulla.elu mesh Plane56 node 2 face 0 point -> physique 3 Out of Range
+SFX/ef_ap ampulla.elu mesh Plane50 node 2 face 0 point -> physique 3 Out of Range
+SFX/ef_ap ampulla.elu mesh Plane51 node 2 face 0 point -> physique 3 Out of Range
+SFX/ef_ap ampulla.elu mesh Plane52 node 2 face 0 point -> physique 3 Out of Range
+SFX/ef_ap ampulla.elu mesh Plane53 node 2 face 0 point -> physique 3 Out of Range
+SFX/ef_ap ampulla.elu mesh Plane54 node 2 face 0 point -> physique 3 Out of Range
+SFX/ef_ap ampulla.elu mesh Plane56 node 2 face 0 point -> physique 3 Out of Range
+SFX/ef_ap ampulla.elu mesh Plane57 node 2 face 0 point -> physique 3 Out of Range
+SFX/ef_haste ampulla.elu mesh Plane50 node 2 face 0 point -> physique 3 Out of Range
+SFX/ef_haste ampulla.elu mesh Plane51 node 2 face 0 point -> physique 3 Out of Range
+SFX/ef_haste ampulla.elu mesh Plane52 node 2 face 0 point -> physique 3 Out of Range
+SFX/ef_haste ampulla.elu mesh Plane53 node 2 face 0 point -> physique 3 Out of Range
+SFX/ef_haste ampulla.elu mesh Plane54 node 2 face 0 point -> physique 3 Out of Range
+SFX/ef_haste ampulla.elu mesh Plane56 node 2 face 0 point -> physique 3 Out of Range
+SFX/ef_haste ampulla.elu mesh Plane57 node 2 face 0 point -> physique 3 Out of Range
+Effect manager create success.
+Client create success.
+game interface create success.
+
+-------------------> GameInterface Create : 21.698001 
+
+model/man/man-parts_shunter.elu mesh eq_chest_shunter node 34 face 0 point -> physique 3 Out of Range
+model/man/man-parts_dryad.elu mesh eq_chest_dryad node 680 face 0 point -> physique 3 Out of Range
+model/woman/woman-parts_blackdragon.elu mesh eq_legs_blackdragon node 301 face 1 point -> physique 3 Out of Range
+model/woman/woman-parts_eskimo.elu mesh eq_chest_eskimo node 80 face 1 point -> physique 3 Out of Range
+Load character.xml success,
+
+-------------------> Character Loading : 4.656000 
+
+
+-------------------> WeaponMesh Loading : 0.235000 
+
+Load weapon.xml success. 
+
+-------------------> Worlditem Loading : 0.030000 
+
+Load zitem info success.
+Load zBuff info success.
+Init world item manager success.
+Init map Descriptor success.
+Init channel rule manager success.
+Init abuse manager success.
+Init chatting filter. success
+
+-------------------> ETC .. : 17.230001 
+
+main : OnCreate() done
+Reset Device 
+Video memory 494.000000 
+shader initialize successful : 1
+devices Restored. 
+Reset Device 
+Video memory 494.000000 
+shader initialize successful : 1
+devices Restored. 
+Destroy gunz
+Destroy sound engine.
+Destroy sound engine. success
+Destroy console.
+Destroy interface begin 
+destroy client.
+PeerInfoList Released
+clear looks end.
+Widget map clear end.
+desctroy cursor system end.
+clear IDL resource end.
+Final interface end.
+Destroy game interface done.
+clear looks end.
+Widget map clear end.
+desctroy cursor system end.
+Destroy mesh manager.
+Destroy weapon mesh manager.
+Clear SkillManager.
+Clear QuestItemDescMgr.
+Clear MatchItemDescMgr.
+Clear ChattingFilter.
+Clear ChannelRuleMgr.
+destroy game application done.
+interface finalize.
+game input destroy.
+game gonfiguration destroy.
+Bitmap manager destroy Animation bitmap.
+destroy gunz finish.
+Rframe_destory::closeDisplay
