@@ -61,7 +61,8 @@
       <OutputFile>..\lib\$(ProjectName)d.lib</OutputFile>
     </Lib>
     <PostBuildEvent>
-      <Command>xcopy $(ProjectDir)\include\*.h $(ProjectDir)\..\include\ /y</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -78,7 +79,8 @@
       <OutputFile>..\lib\$(ProjectName).lib</OutputFile>
     </Lib>
     <PostBuildEvent>
-      <Command>xcopy $(ProjectDir)\include\*.h $(ProjectDir)\..\include\ /y</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
