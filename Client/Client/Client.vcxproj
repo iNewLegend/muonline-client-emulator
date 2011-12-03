@@ -53,7 +53,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\shared\include;..\..\engine\Media\Audio\Include;..\..\engine\RenderSystem\include;..\..\engine\EngineCore\include;..\..\3dgui\include;..\..\3dgui\lua;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\shared\include;..\..\engine\Media\Audio\Include;..\..\engine\RenderSystem\include;..\..\engine\EngineCore\include;..\..\3dgui\3dgui\include;..\..\3dgui\TextRender\include;..\..\3dgui\lua;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -79,7 +79,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\shared\include;..\..\engine\Media\Audio\Include;..\..\engine\RenderSystem\include;..\..\engine\EngineCore\include;..\..\3dgui\include;..\..\3dgui\lua;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\shared\include;..\..\engine\Media\Audio\Include;..\..\engine\RenderSystem\include;..\..\engine\EngineCore\include;..\..\3dgui\3dgui\include;..\..\3dgui\TextRender\include;..\..\3dgui\lua;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>
