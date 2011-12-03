@@ -85,7 +85,8 @@
       <OutputFile>$(OutDir)$(ProjectName).bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>xcopy $(ProjectDir)\include\*.h $(ProjectDir)\..\include\ /y</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -120,7 +121,8 @@
       <OutputFile>$(OutDir)$(ProjectName).bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>xcopy $(ProjectDir)\include\*.h $(ProjectDir)\..\include\ /y</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
