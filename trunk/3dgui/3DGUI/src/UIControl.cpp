@@ -5,6 +5,7 @@
 CUIControl* CUIControl::s_pControlFocus = NULL;
 CUIControl* CUIControl::s_pControlPressed = NULL;
 CUIControl* CUIControl::s_pControlMouseOver = NULL;
+CUIControl* CUIControl::s_pControlEvent = NULL;
 
 CUIStyle CUIControl::s_TipStyle;
 
@@ -389,6 +390,7 @@ void CUIControl::sendEvent(const char* szEvent)
 {
 	if (GetParentDialog())
 	{
+		s_pControlEvent = this;
 		std::string strEvent=GetID()+szEvent;
 		GetParentDialog()->progressEvent(strEvent);
 	}

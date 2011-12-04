@@ -38,16 +38,18 @@
 		<element type="image" id="IDC_IMAGE_BG" scale="50,50,50,50" offset="-512,-384,511,383" filename="Data/Textures/Title/1.jpg"/>
 	</dialog>
 	<dialog id="IDD_MESSAGE_BOX" scale="50,50,50,50" offset="-200,-50,200,50" exclusive="true">
+        <caption height="32">提示</caption>
 		<element type="static" id="IDC_STATIC_INFO" offset="10,10,380,60">NULL</element>
 		<element type="button" id="IDC_BTN_OK" rect="160,70,80,18">确定</element>
 	</dialog>
 	<dialog id="IDD_MESSAGE_BOX1" scale="50,50,50,50" offset="-200,-50,200,50" exclusive="true">
+		<caption height="32">提示</caption>
 		<element type="static" id="IDC_STATIC_INFO" offset="0,10,400,40"></element>
 		<element type="button" id="IDC_BTN_OK" rect="118,45,64,18">确定</element>
 		<element type="button" id="IDC_BTN_CANCEL" rect="218,45,64,18">取消</element>
 	</dialog>
 	<dialog id="IDD_SERVER_LIST" scale="50,50,50,50" offset="-100,-220,100,250" canmove="false">
-		<caption height="20">ServerList</caption>
+		<caption height="32">ServerList</caption>
 		<element type="listbox" id="IDC_LISTBOX_SERVER" scale="0,0,100,100" offset="10,10,-10,-40"/>
 		<element type="button" id="IDC_BTN_OK" scale="50,100,50,100" offset="-30,-30,30,-10">OK</element>
 	</dialog>

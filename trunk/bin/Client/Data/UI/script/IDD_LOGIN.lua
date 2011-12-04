@@ -21,6 +21,6 @@ function IDD_LOGIN_OnBtnBack()
 end
 
 function IDD_LOGIN_OnBtnLogin()
-	MessageBox(L"Logining...",-1)
+	MessageBox(L"µÇÂ¼ÖÐ...",-1)
 	LoginServer(ws2s(editUser:GetText()),ws2s(editPassword:GetText()))
 end

@@ -182,7 +182,12 @@ public:
 	static CUIControl* s_pControlFocus;        // The control which has focus
 	static CUIControl* s_pControlPressed;      // The control currently pressed
 	static CUIControl* s_pControlMouseOver;    // The control which is hovered over
+	static CUIControl* s_pControlEvent;			// The control which is event
 
+	static CUIControl* getControlFocus()	{return s_pControlFocus;}
+	static CUIControl* getControlPressed()	{return s_pControlPressed;}
+	static CUIControl* getControlMouseOver(){return s_pControlMouseOver;}
+	static CUIControl* getControlEvent()	{return s_pControlEvent;}
 	virtual void ClientToScreen(RECT& rc);
 	void screenToClient(POINT& pt);
 	CRect<int> screenToClient(const CRect<int>& rc);
