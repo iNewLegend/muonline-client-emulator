@@ -5,6 +5,4 @@ class C3DMapSceneObj : public C3DMapObj
 {
 public:
 	virtual int		getObjType	()				{return MAP_3DSIMPLE;}
-protected:
-	__int64			m_ObjectID;
 };

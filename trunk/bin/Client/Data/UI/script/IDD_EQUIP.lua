@@ -10,24 +10,11 @@ end
 -- Register Control
 IDD_EQUIP:regControl("IDC_DISPLAY_PLAYER", m_DisplayPlayer)
 
-IDD_EQUIP:regControl("IDC_IMG_HEAD", m_ListIcon[1])
-IDD_EQUIP:regControl("IDC_IMG_ARMOR", m_ListIcon[2])
-IDD_EQUIP:regControl("IDC_IMG_GLOVE", m_ListIcon[3])
-IDD_EQUIP:regControl("IDC_IMG_PANT", m_ListIcon[4])
-IDD_EQUIP:regControl("IDC_IMG_BOOT", m_ListIcon[5])
-IDD_EQUIP:regControl("IDC_IMG_BACK", m_ListIcon[6])
-IDD_EQUIP:regControl("IDC_IMG_WAPEN1", m_ListIcon[7])
-IDD_EQUIP:regControl("IDC_IMG_WAPEN2", m_ListIcon[8])
+for i=1,8 do
+	IDD_EQUIP:regControl("IDC_IMG_"..i, m_ListIcon[i])
+	IDD_EQUIP:regControlEvent("IDC_IMG_"..i,"IDD_EQUIP_OnIcon","0")-- Register Event
+end
 
--- Register Event
-IDD_EQUIP:regControlEvent("IDC_IMG_HEAD","IDD_EQUIP_OnIcon","0")
-IDD_EQUIP:regControlEvent("IDC_IMG_ARMOR","IDD_EQUIP_OnIcon","0")
-IDD_EQUIP:regControlEvent("IDC_IMG_GLOVE","IDD_EQUIP_OnIcon","0")
-IDD_EQUIP:regControlEvent("IDC_IMG_PANT","IDD_EQUIP_OnIcon","0")
-IDD_EQUIP:regControlEvent("IDC_IMG_BOOT","IDD_EQUIP_OnIcon","0")
-IDD_EQUIP:regControlEvent("IDC_IMG_BACK", "IDD_EQUIP_OnIcon","0")
-IDD_EQUIP:regControlEvent("IDC_IMG_WAPEN1", "IDD_EQUIP_OnIcon","0")
-IDD_EQUIP:regControlEvent("IDC_IMG_WAPEN2", "IDD_EQUIP_OnIcon","0")
 
 m_PlayerView = CRole()
 
@@ -72,16 +59,14 @@ end
 
 -- Event Func
 function IDD_EQUIP_OnIcon()
-	local event = getControlMouseOver()
 	local id = 0;
 	for i=1,8 do
-		if m_ListIcon[i] == event then
+		if m_ListIcon[i]:isEvent() then
 			id = i-1;
 		end
 	end
 	
 	ChangeEquip(id)
-	MessageBox(L("id"..id))
 	
 	if id==0 then
 	  local nLevel = math.random(20,50)

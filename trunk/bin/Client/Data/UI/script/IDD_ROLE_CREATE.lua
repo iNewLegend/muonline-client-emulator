@@ -12,7 +12,6 @@ IDD_ROLE_CREATE:regControl("IDC_EDT_NAME", m_EdtName )
 -- Register Event
 IDD_ROLE_CREATE:regControlEvent("IDC_BTN_OK", "IDD_ROLE_CREATE_OnBtnOk","0")
 IDD_ROLE_CREATE:regControlEvent("IDC_BTN_EXIT", "IDD_ROLE_CREATE_OnBtnExit","0")
---IDD_ROLE_CREATE:regControlEvent("IDC_BTN_RESET", "IDD_ROLE_CREATE_OnBtnReset","0")
 
 IDD_ROLE_CREATE:regControlEvent("IDC_BTN_ROLE1", "IDD_ROLE_CREATE_OnBtnRole1","0")
 IDD_ROLE_CREATE:regControlEvent("IDC_BTN_ROLE2", "IDD_ROLE_CREATE_OnBtnRole2","0")

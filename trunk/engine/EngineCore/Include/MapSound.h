@@ -8,7 +8,6 @@ public:
 	CMapSound();
 	virtual ~CMapSound();
 private:
-	Pos2D	m_posCell;
 	bool	m_bFocus;
 	CSound* m_pSound;
 	// info
@@ -22,9 +21,6 @@ private:
 public:
 	static bool s_bStroke;
 public:
-	virtual Pos2D getCellPos(){return m_posCell;}
-	virtual void SetCellPos( Pos2D& posCell ){m_posCell = posCell;}
-
 	virtual void render()const;
 	virtual int  GetObjType(){return MAP_SOUND;}
 	virtual bool IsFocus();

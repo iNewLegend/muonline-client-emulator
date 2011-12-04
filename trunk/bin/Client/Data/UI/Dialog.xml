@@ -37,7 +37,7 @@
 		<element type="display" id="IDC_DISPLAY_WORLD" scale="0,0,100,100"/>
 		<element type="image" id="IDC_IMAGE_BG" scale="50,50,50,50" offset="-512,-384,511,383" filename="Data/Textures/Title/1.jpg"/>
 	</dialog>
-	<dialog id="IDD_MESSAGE_BOX" scale="50,50,50,50" offset="-200,-50,200,50" exclusive="true">
+	<dialog id="IDD_MESSAGE_BOX" scale="50,50,50,50" offset="-200,-70,200,70" exclusive="true">
         <caption height="32">提示</caption>
 		<element type="static" id="IDC_STATIC_INFO" offset="10,10,380,60">NULL</element>
 		<element type="button" id="IDC_BTN_OK" rect="160,70,80,18">确定</element>
@@ -49,19 +49,19 @@
 		<element type="button" id="IDC_BTN_CANCEL" rect="218,45,64,18">取消</element>
 	</dialog>
 	<dialog id="IDD_SERVER_LIST" scale="50,50,50,50" offset="-100,-220,100,250" canmove="false">
-		<caption height="32">ServerList</caption>
+		<caption height="32">游戏服务器列表</caption>
 		<element type="listbox" id="IDC_LISTBOX_SERVER" scale="0,0,100,100" offset="10,10,-10,-40"/>
-		<element type="button" id="IDC_BTN_OK" scale="50,100,50,100" offset="-30,-30,30,-10">OK</element>
+		<element type="button" id="IDC_BTN_OK" scale="50,100,50,100" offset="-30,-30,30,-10">确定</element>
 	</dialog>
-	<dialog id="IDD_LOGIN" scale="50,50,50,50" offset="-120,120,120,240" canmove="false">
-		<caption height="20">Login</caption>
-		<element type="static" id="IDC_STATIC_USER" rect="15,15,0,25">User</element>
-		<element type="static" id="IDC_STATIC_PASSWORD" rect="15,45,0,25">Password</element>
-		<element type="editbox" id="IDC_EDIT_BOX_USER" rect="75,15,90,18">test</element>
-		<element type="checkbox" id="IDC_CHECK_BOX_SAVE" rect="180,18,60,14" tip="Save user name.">Save</element>
+	<dialog id="IDD_LOGIN" scale="50,50,50,50" offset="-120,120,120,260" canmove="false">
+		<caption height="32">登录</caption>
+		<element type="static" id="IDC_STATIC_USER" rect="15,15,0,25">用户名</element>
+		<element type="static" id="IDC_STATIC_PASSWORD" rect="15,45,0,25">密码</element>
+		<element type="editbox" id="IDC_EDIT_BOX_USER" rect="75,15,90,18">test1</element>
+		<element type="checkbox" id="IDC_CHECK_BOX_SAVE" rect="180,18,60,14" tip="保存用户名.">保存</element>
 		<element type="editbox" id="IDC_EDIT_BOX_PASSWORD" rect="75,45,90,18" password="true">123</element>
-		<element type="button" id="IDC_BTN_LOGIN" rect="40,75,70,20">Login</element>
-		<element type="button" id="IDC_BTN_BACK" rect="130,75,70,20">Back</element>
+		<element type="button" id="IDC_BTN_LOGIN" rect="40,75,70,20">登录</element>
+		<element type="button" id="IDC_BTN_BACK" rect="130,75,70,20">返回</element>
 		<element type="static" id="IDC_STATIC_INFO"  scale="50,0,50,0" offset="-90,-20,90,0"></element>
 	</dialog>
 	<dialog id="IDD_ROLE_CHOOSE" scale="0,0,100,100" style="null">
@@ -69,7 +69,6 @@
 		<element type="button" id="IDC_BTN_CREATE_ROLE" scale="0,100,0,100" offset="10,-34,70,-10">创建角色</element>
 		<element type="button" id="IDC_BTN_BACK" scale="0,100,0,100" offset="80,-34,140,-10">退出</element>
 		<element type="button" id="IDC_BTN_OK" scale="100,100,100,100" offset="-70,-34,-10,-10">确定</element>
-		<element type="button" id="IDC_BTN_HELP" scale="100,0,100,0" offset="-70,10,-10,34">帮助</element>
 	</dialog>
 
 	<dialog id="IDD_ROLE_CREATE" scale="50,50,50,50" offset="-230,-190,230,190" style="null">
@@ -713,19 +712,19 @@
 	<element type="static" id="IDC_STA_LEVEL" rect="120,18,85,12">0</element>
 	<element type="static" id="IDC_STA_LEVEL" rect="150,18,85,12">吸血鬼</element>
 	
-    <element type="button" id="IDC_IMG_HEAD" rect="20,10,32,32">头盔</element>
-	<element type="button" id="IDC_IMG_ARMOR" rect="20,50,32,32">铠甲</element>
-	<element type="button" id="IDC_IMG_GLOVE" rect="20,90,32,32">手套</element>
-	<element type="button" id="IDC_IMG_PANT" rect="20,130,32,32">护腿</element>
-	<element type="button" id="IDC_IMG_BOOT" rect="20,170,32,32">鞋子</element>
-    <element type="button" id="IDC_IMG_BACK" rect="260,10,32,32">背部</element>
-	<element type="button" id="IDC_IMG_NECK" rect="260,50,32,32">项链</element>
-    <element type="button" id="IDC_IMG_GEAR1" rect="260,90,32,32">戒子</element>
-    <element type="button" id="IDC_IMG_GEAR2" rect="260,130,32,32">戒子</element>
-    <element type="button" id="IDC_IMG_MOUNT" rect="260,170,32,32">坐骑</element>
+    <element type="button" id="IDC_IMG_1" rect="20,10,32,32">头盔</element>
+	<element type="button" id="IDC_IMG_2" rect="20,50,32,32">铠甲</element>
+	<element type="button" id="IDC_IMG_3" rect="20,90,32,32">手套</element>
+	<element type="button" id="IDC_IMG_4" rect="20,130,32,32">护腿</element>
+	<element type="button" id="IDC_IMG_5" rect="20,170,32,32">鞋子</element>
+    <element type="button" id="IDC_IMG_6" rect="260,10,32,32">背部</element>
+	<element type="button" id="IDC_IMG_7" rect="260,50,32,32">项链</element>
+    <element type="button" id="IDC_IMG_8" rect="260,90,32,32">戒子</element>
+    <element type="button" id="IDC_IMG_9" rect="260,130,32,32">戒子</element>
+    <element type="button" id="IDC_IMG_10" rect="260,170,32,32">坐骑</element>
 		
-	<element type="button" id="IDC_IMG_WAPEN1" rect="20,210,32,32">武器</element>
-    <element type="button" id="IDC_IMG_WAPEN2" rect="260,210,32,32">武器</element>
+	<element type="button" id="IDC_IMG_11" rect="20,210,32,32">武器</element>
+    <element type="button" id="IDC_IMG_12" rect="260,210,32,32">武器</element>
 	
     <element type="button" id="IDC_BTN_ADD1" rect="260,270,33,33">
 		<texture filename="ui.tga" rect="897,174,33,33">

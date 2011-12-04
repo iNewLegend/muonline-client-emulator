@@ -112,7 +112,11 @@ CUIDialog::CUIDialog()
 			.def("IsVisible",	&CUIControl::IsVisible)
 			.def("SetVisible",	&CUIControl::SetVisible)
 			.def("SetText",		&CUIControl::SetText)
-			.def("GetText",		&CUIControl::GetText);
+			.def("GetText",		&CUIControl::GetText)
+			.def("isPressed", &CUICombo::IsPressed)
+			.def("isFocus", &CUICombo::IsFocus)
+			.def("isMouseOver", &CUICombo::IsMouseOver)
+			.def("isEvent", &CUICombo::IsEvent);
 
 		lua_tinker::class_<CUIStatic>(m_pLuaState,"CUIStatic")
 			.inh<CUIControl>()

@@ -204,7 +204,7 @@ void CWorld::renderDamageInfo()const
 		// ----
 		Matrix mWorld;
 		CRenderSystem::getSingleton().getWorldMatrix(mWorld);
-		Matrix mNewWorld = mNewWorld*Matrix::newTranslation(Vec3D(pos.x, pos.y, 0.0f));
+		Matrix mNewWorld = mWorld*Matrix::newTranslation(Vec3D(pos.x, pos.y, 0.0f));
 		CRenderSystem::getSingleton().setWorldMatrix(mNewWorld);
 		// ----
 		m_DamageTextRender.drawUBB(&it->ubb);
