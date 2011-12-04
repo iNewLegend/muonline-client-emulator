@@ -21,6 +21,20 @@ technique Render
 {
     pass P0
     {
+		Lighting			= False;
+		CullMode			= None;
+		
+		AlphaTestEnable		= False;
+
+		AlphaBlendEnable	= True;
+		BlendOp				= Add;
+		SrcBlend			= SrcAlpha;
+		DestBlend			= InvSrcAlpha;
+
+		ZEnable				= False;
+		ZFunc				= LessEqual;
+		ZWriteEnable		= False;
+
 	VertexShader = NULL;
         PixelShader  = compile ps_2_0 PS();
     }
