@@ -44,14 +44,11 @@ bool CMapSound::IsFocus()
 }
 
 //-------------------------------------------------------------
-void CMapSound::setPos(const Vec3D& vPos)
-{
-	m_vPos = vPos;
-//	if(m_pSound)
-//		DXSet2DSoundPos(m_pSound, vPos.x, vPos.z);
-	m_posCell.x = vPos.x;
-	m_posCell.y = vPos.z;
-}
+// void CMapSound::setPos(const Vec3D& vPos)
+// {
+// //	if(m_pSound)
+// //		DXSet2DSoundPos(m_pSound, vPos.x, vPos.z);
+// }
 
 bool CMapSound::intersect(const Vec3D& vRayPos , const Vec3D& vRayDir,Vec3D& vCoord)
 {

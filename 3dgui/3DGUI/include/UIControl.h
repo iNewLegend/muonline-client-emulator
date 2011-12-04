@@ -176,6 +176,8 @@ public:
 	virtual bool IsPressed(){return this==s_pControlPressed;}
 	void SetPressed(bool bPressed);
 	virtual bool IsFocus(){return this==s_pControlFocus;}
+	virtual bool IsMouseOver(){return this==s_pControlMouseOver;}
+	virtual bool IsEvent(){return this==s_pControlEvent;}
 	static void ClearFocus();
 	static void clearFocus();
 

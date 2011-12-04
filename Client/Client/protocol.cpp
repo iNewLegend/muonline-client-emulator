@@ -30,6 +30,20 @@ void ProtocolCore(unsigned char protoNum, const unsigned char* aRecv, int aLen)
 					SCLoginResult(*((PMSG_RESULT*)aRecv));
 				}
 				break;
+
+				default:
+					{
+						char szTemp[15];
+						OutputDebugString("0xF1 msg:");
+						OutputDebugString(itoa(aRecv[0],szTemp,16));
+						OutputDebugString(itoa(aRecv[1],szTemp,16));
+						OutputDebugString(itoa(aRecv[2],szTemp,16));
+						OutputDebugString(itoa(aRecv[4],szTemp,16));
+						OutputDebugString(itoa(aRecv[4],szTemp,16));
+						OutputDebugString(itoa(aRecv[6],szTemp,16));
+						OutputDebugString("\n");
+					}
+					break;
 			}
 		}
 		break; /* CASE OxF1 */
@@ -44,17 +58,39 @@ void ProtocolCore(unsigned char protoNum, const unsigned char* aRecv, int aLen)
 				}
 				break;
 
-				case 0x01:
-				{
-
-				}
-				break;
+// 				case 0x01:
+// 				{
+// 
+// 				}
+// 				break;
+// 
+// 				case 0x02:
+// 					{
+// 						char szTemp[255];
+// 						OutputDebugString(itoa(((PMSG_RESULT*)aRecv)->result,szTemp,10));
+// 						
+// 					}
+// 					break;
 
 				case 0x03: /* (SERVER->CLIENT) ENTER_WORLD */
 				{
 					SCEnterWorld(*((PMSG_CHARMAPJOINRESULT*)aRecv));
 				}
 				break;
+
+				default:
+					{
+						char szTemp[15];
+						OutputDebugString("0xF3 msg:");
+						OutputDebugString(itoa(aRecv[0],szTemp,16));
+						OutputDebugString(itoa(aRecv[1],szTemp,16));
+						OutputDebugString(itoa(aRecv[2],szTemp,16));
+						OutputDebugString(itoa(aRecv[4],szTemp,16));
+						OutputDebugString(itoa(aRecv[4],szTemp,16));
+						OutputDebugString(itoa(aRecv[6],szTemp,16));
+						OutputDebugString("\n");
+					}
+					break;
 			}
 		}
 		break; /* CASE 0xF3 */
@@ -130,6 +166,20 @@ void ProtocolCore(unsigned char protoNum, const unsigned char* aRecv, int aLen)
 			SCTeleport(*((PMSG_TELEPORT_RESULT*)aRecv));
 		}
 		break;
+
+		default:
+			{
+				char szTemp[15];
+				OutputDebugString("unkonw msg:");
+				OutputDebugString(itoa(aRecv[0],szTemp,16));
+				OutputDebugString(itoa(aRecv[1],szTemp,16));
+				OutputDebugString(itoa(aRecv[2],szTemp,16));
+				OutputDebugString(itoa(aRecv[4],szTemp,16));
+				OutputDebugString(itoa(aRecv[4],szTemp,16));
+				OutputDebugString(itoa(aRecv[6],szTemp,16));
+				OutputDebugString("\n");
+			}
+			break;
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -275,6 +325,10 @@ void SCCharList(const unsigned char * msg)
 		{
 			pChar = & pCList[i];
 			// ----
+			if (aIndex==-1)
+			{
+				CUIDisplayRoleChoose::getInstance().m_nSelectIndex = pChar->Index;
+			}
 			aIndex = pChar->Index;
 			// ----
 			if(aIndex > MAX_VISUAL_ROLE)

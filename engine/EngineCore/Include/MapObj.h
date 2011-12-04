@@ -41,9 +41,6 @@ public:
 	virtual int				getObjType	()						{return m_nType;}
 	virtual void			release		()						{delete this;}
 
-	virtual Pos2D			getCellPos	()						{return Pos2D();}
-	virtual void			SetCellPos	( Pos2D& posCell )		{}
-
 	virtual bool			IsFocus		()						{return false;}
 public:
 	int				m_nType;
