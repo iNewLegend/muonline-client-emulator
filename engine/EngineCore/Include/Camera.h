@@ -25,7 +25,12 @@ public:
 public:
 	virtual void GetPickRay(Vec3D& pRayPos, Vec3D& pRayDir,int x, int y,const RECT& rc);		// Ê°È¡
 	virtual void World2Screen(const Vec3D& vWorldPos, Pos2D& posScreen);
-
+	GSET_VAR(float,m_f,Radius);
+	GSET_VAR(float,m_f,DefaultRadius);
+	GSET_VAR(float,m_f,MinRadius);
+	GSET_VAR(float,m_f,MaxRadius);
+	GSET_VAR(float,m_f,MinPitchAngle);
+	GSET_VAR(float,m_f,MaxPitchAngle);
 
 protected:
 	CFrustum	m_Frustum;			// ÊÓ×¶

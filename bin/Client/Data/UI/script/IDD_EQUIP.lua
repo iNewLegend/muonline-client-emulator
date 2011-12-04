@@ -20,14 +20,14 @@ IDD_EQUIP:regControl("IDC_IMG_WAPEN1", m_ListIcon[7])
 IDD_EQUIP:regControl("IDC_IMG_WAPEN2", m_ListIcon[8])
 
 -- Register Event
-IDD_EQUIP:regControlEvent("IDC_IMG_HEAD","IDD_EQUIP_OnBtnHead","0")
-IDD_EQUIP:regControlEvent("IDC_IMG_ARMOR","IDD_EQUIP_OnBtnArmor","0")
-IDD_EQUIP:regControlEvent("IDC_IMG_GLOVE","IDD_EQUIP_OnBtnGlove","0")
-IDD_EQUIP:regControlEvent("IDC_IMG_PANT","IDD_EQUIP_OnBtnPant","0")
-IDD_EQUIP:regControlEvent("IDC_IMG_BOOT","IDD_EQUIP_OnBtnBoot","0")
-IDD_EQUIP:regControlEvent("IDC_IMG_BACK", "IDD_EQUIP_OnBtnBack","0")
-IDD_EQUIP:regControlEvent("IDC_IMG_WAPEN1", "IDD_EQUIP_OnBtnRight","0")
-IDD_EQUIP:regControlEvent("IDC_IMG_WAPEN2", "IDD_EQUIP_OnBtnLeft","0")
+IDD_EQUIP:regControlEvent("IDC_IMG_HEAD","IDD_EQUIP_OnIcon","0")
+IDD_EQUIP:regControlEvent("IDC_IMG_ARMOR","IDD_EQUIP_OnIcon","0")
+IDD_EQUIP:regControlEvent("IDC_IMG_GLOVE","IDD_EQUIP_OnIcon","0")
+IDD_EQUIP:regControlEvent("IDC_IMG_PANT","IDD_EQUIP_OnIcon","0")
+IDD_EQUIP:regControlEvent("IDC_IMG_BOOT","IDD_EQUIP_OnIcon","0")
+IDD_EQUIP:regControlEvent("IDC_IMG_BACK", "IDD_EQUIP_OnIcon","0")
+IDD_EQUIP:regControlEvent("IDC_IMG_WAPEN1", "IDD_EQUIP_OnIcon","0")
+IDD_EQUIP:regControlEvent("IDC_IMG_WAPEN2", "IDD_EQUIP_OnIcon","0")
 
 m_PlayerView = CRole()
 
@@ -47,6 +47,7 @@ m_PlayerView = CRole()
 m_DisplayPlayer:setRenderNode(m_PlayerView)
 m_DisplayPlayer.m_vEye=Vec3D(0.0,1.0,-3)
 m_DisplayPlayer.m_vLookAt=Vec3D(0.0,1.0,0.0)
+
 
 function ChangeEquip(id)
 	local nIndex = math.random(0,10)
@@ -70,13 +71,19 @@ function ChangeEquip(id)
 end
 
 -- Event Func
-function IDD_EQUIP_OnBtnHead()
-  for i=1,8 do
-    if m_ListIcon[i] == s_pControlMouseOver then
-	  ChangeEquip(i-1);
+function IDD_EQUIP_OnIcon()
+	local event = getControlMouseOver()
+	local id = 0;
+	for i=1,8 do
+		if m_ListIcon[i] == event then
+			id = i-1;
+		end
 	end
 	
-	if i==0 then
+	ChangeEquip(id)
+	MessageBox(L("id"..id))
+	
+	if id==0 then
 	  local nLevel = math.random(20,50)
 	  m_PlayerView:setAnim(nLevel)
 	end

@@ -4,6 +4,9 @@
 
 CUIDisplayWorld::CUIDisplayWorld()
 {
+	m_Camera.setRadius(10.0f);
+	m_Camera.setMinRadius(5.0f);
+	m_Camera.setMaxRadius(15.0f);
 	m_Camera.setYawAngle(PI / 4);
 	m_Camera.setPitchAngle( - PI / 4);
 }
