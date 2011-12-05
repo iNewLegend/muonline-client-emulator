@@ -19,11 +19,38 @@ dlgRoleCreate:SetVisible(false)
 
 -- Event Func
 function IDD_ROLE_CHOOSE_OnBtnBack()
-	IDD_SERVER_LIST:SetVisible(true)
-	IDD_ROLE_CHOOSE:SetVisible(false)
+	OnServerList()
 end
 
 function IDD_ROLE_CHOOSE_OnBtnOk()
+
+if g_bLocal then
+				g_World:create(0)
+				-- 
+				g_PlayerMe:setRoleName(L"Local")
+				-- Init Equip
+				g_PlayerMe:setClass(1)
+				g_PlayerMe:setSkeleton()
+				g_PlayerMe:setEquip(0,1)
+				g_PlayerMe:setEquip(1,1)
+				g_PlayerMe:setEquip(2,1)
+				g_PlayerMe:setEquip(3,1)
+				g_PlayerMe:setEquip(4,1)
+				g_PlayerMe:setEquip(6,1)
+				g_PlayerMe:setEquipSkin(0,0)
+				g_PlayerMe:setEquipSkin(1,1)
+				g_PlayerMe:setEquipSkin(2,2)
+				g_PlayerMe:setEquipSkin(3,3)
+				g_PlayerMe:setEquipSkin(4,0)
+				--
+				g_PlayerMe:setCellPos(167,127)
+				g_PlayerMe:setDir(1)
+				g_PlayerMe:setActionState(0)
+				g_World:addRole(g_PlayerMe)
+				----
+				OnEnterWorld()
+				return
+end
 	MessageBox(L"Enter World......",-1)
 	EnterWorld(g_UIDisplayCharList:GetSelectIndex())
 end

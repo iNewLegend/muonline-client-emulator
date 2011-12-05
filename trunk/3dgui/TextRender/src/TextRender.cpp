@@ -347,10 +347,10 @@ void CTextRender::Free()
 	FT_Done_FreeType((FT_Library)m_library); 
 }
 
-void CTextRender::buildUBB(CUBB* pUBB, const wchar_t* wcsText, const RECT& rc, int cchText, UINT format, unsigned long dwColor)
+void CTextRender::buildUBB(CUBB* pUBB, const wchar_t* wcsText, int nShowWidth, int cchText, UINT format, unsigned long dwColor)
 {
 	// ³õÊ¼»¯
-	pUBB->Init(rc,m_nH,format);
+	pUBB->Init(nShowWidth,m_nH,format);
 	// ----
 	pUBB->setColor(dwColor);
 	// ----
@@ -407,8 +407,18 @@ void CTextRender::buildUBB(CUBB* pUBB, const wchar_t* wcsText, const RECT& rc, i
 void CTextRender::drawText(const wchar_t* wcsText, const RECT& rc, int cchText, UINT format, unsigned long dwColor)
 {
 	CUBB ubb;
-	buildUBB(&ubb, wcsText, rc, cchText, format, dwColor);
-	drawUBB(&ubb);
+	buildUBB(&ubb, wcsText, rc.right - rc.left, cchText, format, dwColor);
+	int x = rc.left;
+	int y = rc.top;
+	if (format & ALIGN_TYPE_VCENTER)
+	{
+		y+=((rc.bottom - rc.top)-ubb.getMaxHeight())/2;
+	}
+	else if (format & ALIGN_TYPE_BOTTOM)
+	{
+		y+=(rc.bottom - rc.top)-ubb.getMaxHeight();
+	}
+	drawUBB(x, y, &ubb);
 }
 
 void CTextRender::drawText(const wchar_t* wcsText, int x, int y, unsigned long dwColor)
@@ -426,9 +436,10 @@ void CTextRender::drawText(const wchar_t* wcsText)
 void CTextRender::calcUBBRect(const wchar_t* wcsText, RECT& rc)
 {
 	CUBB ubb;
-	buildUBB(&ubb, wcsText, rc);
+	buildUBB(&ubb, wcsText, rc.right - rc.left);
 	if(!ubb.m_VB.empty())
 	{
-		rc = ubb.getRect();
+		rc.right = rc.left+ubb.getMaxWidth();
+		rc.bottom = rc.top+ubb.getMaxHeight();
 	}
 }

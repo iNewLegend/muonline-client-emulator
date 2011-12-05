@@ -42,9 +42,10 @@ struct TexCharInfo
 
 enum UBB_ALIGN_TYPE
 {
-	ALIGN_TYPE_LEFT,
-	ALIGN_TYPE_CENTER,
-	ALIGN_TYPE_RIGHT,
+	ALIGN_TYPE_CENTER	=1,
+	ALIGN_TYPE_RIGHT	=1<<1,
+	ALIGN_TYPE_VCENTER	=1<<2,
+	ALIGN_TYPE_BOTTOM	=1<<3,
 };
 
 enum UBB_TAG_TYPE
@@ -113,12 +114,13 @@ public:
 	CUBB(); 
 	~CUBB();
 
-	void	Init						(const RECT& rc, int nFontSize, int nAlignType=ALIGN_TYPE_LEFT); 
+	void	Init						(int nShowWidth, int nFontSize, int nAlignType=0); 
 	void	ParseTag					(wchar_t* wcsTagt);
 	void	AddChar						(const TexCharInfo* charInfo);
-	RECT	getRect						();
 	void	updateTextLine				();
-	void	setColor(DWORD dwColor)		{m_dwColor = dwColor;}	
+	void	setColor(DWORD dwColor)		{m_dwColor = dwColor;}
+	int		getMaxWidth					(){return m_nMaxWidth;}
+	int		getMaxHeight				(){return m_nMaxHeight;}
 public:
 	std::vector<VERTEX_TEXT> m_VB;
 protected:
@@ -136,10 +138,7 @@ protected:
 
 	int		m_nFontSize;
 
-	int		m_nShowLeft;
-	int		m_nShowTop;
 	int		m_nShowWidth;
-	int		m_nShowHeight;
 
 	int		m_nMaxWidth;
 	int		m_nMaxHeight;

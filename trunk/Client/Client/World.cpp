@@ -200,16 +200,9 @@ void CWorld::renderDamageInfo()const
 		// ----
 		CRenderSystem::getSingleton().world2Screen(it->vPos, pos);
 		// ----
-		RECT rc = {pos.x - 40, pos.y - 30, pos.x + 40, pos.y}; 
+		//RECT rc = {pos.x - 40, pos.y - 30, pos.x + 40, pos.y}; 
 		// ----
-		Matrix mWorld;
-		CRenderSystem::getSingleton().getWorldMatrix(mWorld);
-		Matrix mNewWorld = mWorld*Matrix::newTranslation(Vec3D(pos.x, pos.y, 0.0f));
-		CRenderSystem::getSingleton().setWorldMatrix(mNewWorld);
-		// ----
-		m_DamageTextRender.drawUBB(&it->ubb);
-		// ----
-		CRenderSystem::getSingleton().setWorldMatrix(mWorld);
+		m_DamageTextRender.drawUBB(pos.x, pos.y,&it->ubb);
 		// ----
 		//RPGSkyUIGraph::getInstance().drawText(it->wcsInfo.c_str(), it->wcsInfo.length() ,rc, ALIGN_TYPE_CENTER);
 		//m_DamageTextRender.drawText(it->wcsInfo.c_str(),rc, it->wcsInfo.length(), (UINT)ALIGN_TYPE_CENTER);
@@ -227,8 +220,7 @@ void CWorld::addDamageInfo(Vec3D vPos,const std::wstring & wcsInfo)
 	DamageInfo damageInfo;
 	damageInfo.vPos = vPos;
 	damageInfo.wcsInfo = wcsInfo;
-	RECT rc = {- 40, - 30, 40, 0}; 
-	m_DamageTextRender.buildUBB(&damageInfo.ubb,wcsInfo.c_str(),rc,wcsInfo.length(),ALIGN_TYPE_CENTER);
+	m_DamageTextRender.buildUBB(&damageInfo.ubb,wcsInfo.c_str(),80,wcsInfo.length(),ALIGN_TYPE_CENTER);
 	// ----
 	m_dequeDamageInfo.push_back(damageInfo);
 }

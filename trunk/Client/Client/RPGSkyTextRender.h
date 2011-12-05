@@ -15,7 +15,7 @@ public:
 	CNode3DTextRender();
 	// ----
 	virtual void updateTextureBuffer	(unsigned char * pBuffer, size_t size, size_t width, size_t height);
-	virtual void drawUBB				(const CUBB* pUBB)const;
+	virtual void drawUBB				(int x, int y, const CUBB* pUBB)const;
 protected:
 	CTexture*	 m_pTextTexture;
 };

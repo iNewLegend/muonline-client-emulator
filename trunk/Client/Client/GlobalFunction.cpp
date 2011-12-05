@@ -99,14 +99,14 @@ void InitLua(lua_State * L)
 		.mem("m_vEye",		& CUIDisplayModel::m_vEye)
 		.mem("m_vLookAt",	& CUIDisplayModel::m_vLookAt);
 	// ----
-	lua_tinker::class_<CUIDisplayRoleChoose>(L, "CUIDisplayRoleChoose")
+	lua_tinker::class_<CUIDisplayRoleList>(L, "CUIDisplayRoleChoose")
 		.inh<CUIControl>()
 		.con(lua_tinker::constructor<void>())
-		.def("GetSelectIndex",	& CUIDisplayRoleChoose::getSelectIndex)
-		.def("LoadModel",		& CUIDisplayRoleChoose::LoadModel)
-		.mem("m_vEye",			& CUIDisplayRoleChoose::m_vEye)
-		.mem("m_vLookAt",		& CUIDisplayRoleChoose::m_vLookAt);
-	lua_tinker::set(L, "g_UIDisplayCharList", &CUIDisplayRoleChoose::getInstance());
+		.def("GetSelectIndex",	& CUIDisplayRoleList::getSelectIndex)
+		.def("LoadModel",		& CUIDisplayRoleList::LoadModel)
+		.mem("m_vEye",			& CUIDisplayRoleList::m_vEye)
+		.mem("m_vLookAt",		& CUIDisplayRoleList::m_vLookAt);
+	lua_tinker::set(L, "g_UIDisplayCharList", &CUIDisplayRoleList::getInstance());
 	// ----
 	lua_tinker::class_<CUIGeneralDialog>(L, "CUIGeneralDialog")
 		.inh<CUIDialog>()

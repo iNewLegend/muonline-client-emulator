@@ -31,8 +31,8 @@ public:
 	void drawText(const wchar_t* wcsText);
 
 	// ubb
-	void buildUBB(CUBB* pUBB, const wchar_t* wcsText, const RECT& rc, int cchText = -1, UINT format = 0, unsigned long dwColor = 0xffffffff);
-	virtual void drawUBB(const CUBB* pUBB)const=0;
+	void buildUBB(CUBB* pUBB, const wchar_t* wcsText, int nShowWidth, int cchText = -1, UINT format = 0, unsigned long dwColor = 0xffffffff);
+	virtual void drawUBB(int x, int y, const CUBB* pUBB)const=0;
 	void drawText(const wchar_t* wcsText, const RECT& rc, int cchText = -1, UINT format = 0, unsigned long dwColor = 0xffffffff);
 	void drawText(const wchar_t* wcsText, int x, int y, unsigned long dwColor = 0xffffffff);
 	void calcUBBRect(const wchar_t* wcsText, RECT& rc);

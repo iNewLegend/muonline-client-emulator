@@ -8,7 +8,7 @@ CUBB::~CUBB()
 {
 }
 
-void CUBB::Init(const RECT& rc, int nFontSize, int nAlignType)
+void CUBB::Init(int nShowWidth, int nFontSize, int nAlignType)
 {
 	m_nFontSize = nFontSize;
 
@@ -35,10 +35,7 @@ void CUBB::Init(const RECT& rc, int nFontSize, int nAlignType)
 	m_TagTypeRecords[TAG_TYPE_COLOR].push_back(m_dwColor);
 	m_TagTypeRecords[TAG_TYPE_SIZE].push_back(m_nSize);
 
-	m_nShowLeft = rc.left;
-	m_nShowTop = rc.top;
-	m_nShowWidth = rc.right - rc.left;
-	m_nShowHeight = rc.bottom - rc.top;
+	m_nShowWidth = nShowWidth;
 
 	m_nMaxWidth = 0;
 	m_nMaxHeight = 0;
@@ -204,7 +201,7 @@ void CUBB::ParseTag(wchar_t* wcsTagt)
 						}
 						else if (wcscmp(pwszParameter,L"left")==0)
 						{
-							m_nAlignType = ALIGN_TYPE_LEFT;
+							m_nAlignType = 0;
 						}
 						else if (wcscmp(pwszParameter,L"right")==0)
 						{
@@ -366,16 +363,16 @@ void CUBB::updateTextLine()
 	m_nLineEnd = m_VB.size();
 	if (m_nLineBegin < m_nLineEnd)
 	{
-		int nOffsetX = m_nShowLeft;
-		int nOffsetY = m_nMaxHeight+m_nLineHeight+m_nShowTop;
+		int nOffsetX = 0;
+		int nOffsetY = m_nMaxHeight+m_nLineHeight;
 		// 文本对其设置
-		if (m_nAlignType == ALIGN_TYPE_CENTER)
+		if (m_nAlignType & ALIGN_TYPE_CENTER)
 		{
-			nOffsetX += (m_nShowWidth-m_nLineWidth)/2;
+			nOffsetX = (m_nShowWidth-m_nLineWidth)/2;
 		}
-		else if (m_nAlignType == ALIGN_TYPE_RIGHT)
+		else if (m_nAlignType & ALIGN_TYPE_RIGHT)
 		{
-			nOffsetX += m_nShowWidth-m_nLineWidth;
+			nOffsetX = m_nShowWidth-m_nLineWidth;
 		}
 		for (int i = m_nLineBegin; i < m_nLineEnd; i++)
 		{
@@ -390,14 +387,4 @@ void CUBB::updateTextLine()
 		// begin重置
 		m_nLineBegin = m_nLineEnd;
 	}
-}
-
-RECT CUBB::getRect()
-{
-	RECT rc;
-	rc.left = m_nShowLeft;
-	rc.top = m_nShowTop;
-	rc.right = rc.left+m_nMaxWidth;
-	rc.bottom = rc.top+m_nMaxHeight;
-	return rc;
 }
