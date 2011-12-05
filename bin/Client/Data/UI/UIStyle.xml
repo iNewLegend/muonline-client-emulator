@@ -19,7 +19,7 @@
 		<translation hidden="0,0,0">0,0,0</translation>
 		<texture filename="ui.tga" rect="0,514,474,97" center_rect="80,32,320,32"/>
 		<texture filename="ui.tga" offset = "7,32,-7,-7" rect="490,515,512,474"/>
-		<font format="UCENTER|VCENTER" offset="0,10,0,40" scale="0,0,1,0">
+		<font format="UCENTER|VCENTER" offset="0,0,0,32" scale="0,0,1,0">
 			<color focus="#CFFF" mouseover="#C111" pressed="#FFFF"/>
 		</font>
 	</element>
