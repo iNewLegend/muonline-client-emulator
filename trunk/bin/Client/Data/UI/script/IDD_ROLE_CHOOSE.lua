@@ -1,10 +1,8 @@
 -- Create Control
 --m_DisplayBackground = CUIDisplayRoleChoose()
-IDD_ROLE_CHOOSE_btnOK = CUIButton()
 
 dlgRoleCreate = CUIDialog()
 -- Register Control
-IDD_ROLE_CHOOSE:regControl("IDC_BTN_OK", IDD_ROLE_CHOOSE_btnOK)
 
 dlgRoleCreate:create("IDD_ROLE_CREATE",IDD_ROLE_CHOOSE)
 
