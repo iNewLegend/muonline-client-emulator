@@ -180,6 +180,9 @@
     <ClCompile Include="src\UIStyle.cpp" />
     <ClCompile Include="src\UniBuffer.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Program Files\Tencent\TM2009\Users\351119125\Image\$6OPA[%40AMGGB8WP`6`XW%4005.gif" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
