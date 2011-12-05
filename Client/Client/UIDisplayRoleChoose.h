@@ -13,16 +13,14 @@
 #define MAX_VISUAL_ROLE 5
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-class CUIDisplayRoleChoose : public CUIDisplay, public TSingleton<CUIDisplayRoleChoose>
+class CUIDisplayRoleList : public CUIDisplay, public TSingleton<CUIDisplayRoleList>
 {
 public:
 	Vec3D				m_vEye;
 	Vec3D				m_vLookAt;
-	CRole*				m_pRole[MAX_VISUAL_ROLE];
-	int					m_nSelectIndex;
 	// ----
-	CUIDisplayRoleChoose();
-	~CUIDisplayRoleChoose();
+	CUIDisplayRoleList();
+	~CUIDisplayRoleList();
 	// ----
 	void			LoadModel		(const char * szFilename);
 	void			OnFrameMove		(double fTime, float fElapsedTime);
@@ -35,9 +33,12 @@ public:
 	void			SetLookAt		(const Vec3D& vLookAt)	{ m_vLookAt = vLookAt; }
 	const Vec3D		GetLookAt		()const					{ return m_vLookAt; }
 	// ----
-	int				getSelectIndex	()const					{ return m_nSelectIndex; }
-	void			setSelectIndex	(int nSelectIndex)		{ m_nSelectIndex = nSelectIndex; }
+	GSET_VAR		(int, m_n, SelectIndex);
+	void			clearAllRole	();
+	CRole*			getRole			(int nIndex);
 private:
+	int					m_nSelectIndex;
+	CRole*				m_pRole[MAX_VISUAL_ROLE];
 	iRenderNode*		m_pModelObject;
 	Matrix				m_mProj;
 	Matrix				m_mView;

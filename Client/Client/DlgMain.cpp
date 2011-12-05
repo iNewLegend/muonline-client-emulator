@@ -4,10 +4,12 @@
 #include "Camera.h"
 #include "RegData.h"
 #include "MainRoot.h"
+#include "RPGSkyUIGraph.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CDlgMain::CDlgMain()
 	:m_pIconCursor(NULL)
+	,m_bShowFPS(true)
 {
 	// ----
 }
@@ -55,6 +57,26 @@ void CDlgMain::OnFrameRender(const Matrix& mTransform, double fTime, float fElap
 		rc.top		= cursor.y-16;
 		rc.bottom	= cursor.y+16;
 		m_pIconCursor->getStyle().draw(rc,L"");
+	}
+	// draw fps
+	// ----
+	if (m_bShowFPS)
+	{
+		static float s_fElapsedTime = 1.0f;
+		static float s_fFPS = 1.0f;
+		s_fElapsedTime+=fElapsedTime;
+		if (/*s_fElapsedTime>1.0f||*/1.0f/fElapsedTime<30)
+		{
+			s_fElapsedTime = 0.0f;
+			s_fFPS = 1.0f/fElapsedTime;
+		}
+		// ----
+		wchar_t wszFps[256];
+		RECT rc 	={250, 5 , 350, 25};
+		swprintf(wszFps,L"FPS=%.2f",s_fFPS);
+		CUIControl::updateUIMatrix(mTransform, fTime, fElapsedTime);
+		Node3DUIGraph::getInstance().drawText(wszFps, lstrlenW(wszFps), rc, ALIGN_TYPE_CENTER);
+
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

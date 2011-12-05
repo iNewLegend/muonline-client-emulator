@@ -87,14 +87,14 @@ bool CUIComboBox::HandleKeyboard(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			case VK_UP:
 				if(!m_ListBox.IsVisible())
 				{
-					m_ListBox.SelectItem(m_ListBox.GetSelectedIndex()-1);
+					m_ListBox.SelectItem(m_ListBox.getSelectedIndex()-1);
 				}
 				return true;
 			case VK_RIGHT:
 			case VK_DOWN:
 				if(!m_ListBox.IsVisible())
 				{
-					m_ListBox.SelectItem(m_ListBox.GetSelectedIndex()+1);
+					m_ListBox.SelectItem(m_ListBox.getSelectedIndex()+1);
 				}
 				return true;
 			}
@@ -152,11 +152,11 @@ void CUIComboBox::OnMouseWheel(POINT point,short wheelDelta)
 	{
 		if(zDelta > 0)
 		{
-			m_ListBox.SelectItem(m_ListBox.GetSelectedIndex()-1);
+			m_ListBox.SelectItem(m_ListBox.getSelectedIndex()-1);
 		}
 		else
 		{
-			m_ListBox.SelectItem(m_ListBox.GetSelectedIndex()+1);
+			m_ListBox.SelectItem(m_ListBox.getSelectedIndex()+1);
 		}
 	}
 }
@@ -174,13 +174,13 @@ void CUIComboBox::OnHotkey()
 		SetFocus();
 	}
 
-	if(m_ListBox.GetSelectedIndex()>=m_ListBox.GetItemCount()-1)
+	if(m_ListBox.getSelectedIndex()>=m_ListBox.GetItemCount()-1)
 	{
 		m_ListBox.SelectItem(0);
 	}
 	else
 	{
-		m_ListBox.SelectItem(m_ListBox.GetSelectedIndex()+1);
+		m_ListBox.SelectItem(m_ListBox.getSelectedIndex()+1);
 	}
 }
 
@@ -212,7 +212,7 @@ bool CUIComboBox::AddItem(const wchar_t* wcsText, void* pData)
 
 const wchar_t* CUIComboBox::GetText()const
 {
-	const UIListBoxItem* pItem = m_ListBox.GetSelectedItem();
+	const UIListBoxItem* pItem = m_ListBox.getSelectedItem();
 	if(pItem)
 	{
 		return pItem->wstrText.c_str();

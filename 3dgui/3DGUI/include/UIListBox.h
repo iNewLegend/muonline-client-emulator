@@ -55,11 +55,12 @@ public:
 	int		getItemIndexByPoint(POINT point);
 	int		getItemIndexByData(void* pData);
 
-	UIListBoxItem*	GetItem(int nIndex)const;
-	const std::wstring& GetItemText(int nInde);
-	int				GetSelectedIndex(int nPreviousSelected = -1)const;
-	void*			GetSelectedData(int nPreviousSelected = -1);
-	UIListBoxItem*	GetSelectedItem(int nPreviousSelected = -1)const;
+	UIListBoxItem*	getItem(int nIndex)const;
+	const wchar_t*	getItemText(int nInde)const;
+	int				getSelectedIndex(int nPreviousSelected = -1)const;
+	const wchar_t*	getSelectedText(int nPreviousSelected = -1)const;
+	void*			getSelectedData(int nPreviousSelected = -1);
+	UIListBoxItem*	getSelectedItem(int nPreviousSelected = -1)const;
 
 	bool    ContainsItem(const wchar_t* wcsText, UINT iStart=0);
 	int     FindItem(const wchar_t* wcsText, UINT iStart=0)const;

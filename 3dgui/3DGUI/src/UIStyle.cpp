@@ -17,32 +17,23 @@ inline unsigned int StrToTextFormat(const char* szFormat)
 	const char* pszFormat=strtok(szFormatList,"|");
 	while(pszFormat)
 	{
-		if (strcmp("TOP",pszFormat)==0)
+		if (strcmp("VCENTER",pszFormat)==0)
 		{
-			//uFormat |= DTL_TOP;
-		}
-		else if (strcmp("VCENTER",pszFormat)==0)
-		{
-			//uFormat |= DTL_VCENTER;
+			uFormat |= ALIGN_TYPE_VCENTER;
 		}
 		else if (strcmp("BOTTOM",pszFormat)==0)
 		{
-			//uFormat |= DTL_BOTTOM;
+			uFormat |= ALIGN_TYPE_BOTTOM;
 		}
-		if (strcmp("LEFT",pszFormat)==0)
+
+		if (strcmp("UCENTER",pszFormat)==0)
 		{
-			//uFormat |= DTL_LEFT;
-			uFormat=ALIGN_TYPE_LEFT;
-		}
-		else if (strcmp("UCENTER",pszFormat)==0)
-		{
-			//uFormat |= DTL_CENTER;
-			uFormat=ALIGN_TYPE_CENTER;
+
+			uFormat|=ALIGN_TYPE_CENTER;
 		}
 		else if (strcmp("RIGHT",pszFormat)==0)
 		{
-			//uFormat |= DTL_RIGHT;
-			uFormat=ALIGN_TYPE_RIGHT;
+			uFormat|=ALIGN_TYPE_RIGHT;
 		}
 		pszFormat=strtok(NULL,"|");
 	}

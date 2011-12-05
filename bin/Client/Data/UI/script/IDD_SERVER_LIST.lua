@@ -1,3 +1,5 @@
+g_bLocal = false;
+
 -- Create Control
 listboxServer = CUIListBox()
 
@@ -15,48 +17,24 @@ for line in io.lines("server.ini") do
 	_, _, name, ip, port = string.find(line, "([%a.%d]+)[%s]+([%a.%d]+)[%s]+([%d]+)")
 	listboxServer:addItem(L(name))
 end
+listboxServer:selectItem(0);
 
 -- Event Func
 function IDD_SERVER_LIST_OnBtnOK()
 	-- g_Audio:PlayMusic("Data/Music/castle.mp3",true,255)
 	local serverIndex = listboxServer:getSelectedIndex()
-	-- no server
-	if serverIndex < 0 then
-		MessageBox(L"You did not select a server!")
-		return
-	end
+
 	-- Connect Server
 	local index = 0;
 	for line in io.lines("server.ini") do
 		_, _, name, ip, port = string.find(line, "([%a.%d]+)[%s]+([%a.%d]+)[%s]+([%d]+)")
 		if index == serverIndex then
-			if index == 0 then
-				g_World:create(0)
-				-- 
-				g_PlayerMe:setRoleName(L"Local")
-				-- Init Equip
-				g_PlayerMe:setClass(1)
-				g_PlayerMe:setSkeleton()
-				g_PlayerMe:setEquip(0,1)
-				g_PlayerMe:setEquip(1,1)
-				g_PlayerMe:setEquip(2,1)
-				g_PlayerMe:setEquip(3,1)
-				g_PlayerMe:setEquip(4,1)
-				g_PlayerMe:setEquip(6,1)
-				g_PlayerMe:setEquipSkin(0,0)
-				g_PlayerMe:setEquipSkin(1,1)
-				g_PlayerMe:setEquipSkin(2,2)
-				g_PlayerMe:setEquipSkin(3,3)
-				g_PlayerMe:setEquipSkin(4,0)
-				--
-				g_PlayerMe:setCellPos(167,127)
-				g_PlayerMe:setDir(1)
-				g_PlayerMe:setActionState(0)
-				g_World:addRole(g_PlayerMe)
-				----
-				OnEnterWorld()
+			if name == "local" then
+				g_bLocal = true;
+				OnRoleChoose();
 			-- Connecting
 			elseif ConnectServer(ip,port) then
+				g_bLocal = false;
 				IDD_SERVER_LIST:SetVisible(false)
 				IDD_LOGIN:SetVisible(true)
 			else

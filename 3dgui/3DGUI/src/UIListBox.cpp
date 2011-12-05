@@ -114,7 +114,7 @@ void CUIListBox::RemoveAllItems()
 	m_ScrollBar.SetTrackRange(0, 1);
 }
 
-UIListBoxItem* CUIListBox::GetItem(int nIndex)const
+UIListBoxItem* CUIListBox::getItem(int nIndex)const
 {
 	if(nIndex < 0 || nIndex >= (int)m_Items.size())
 		return NULL;
@@ -122,15 +122,14 @@ UIListBoxItem* CUIListBox::GetItem(int nIndex)const
 	return m_Items[nIndex];
 }
 
-const std::wstring& CUIListBox::GetItemText(int nInde)
+const wchar_t* CUIListBox::getItemText(int nInde)const
 {
-	UIListBoxItem* pItem = GetItem(nInde);
+	UIListBoxItem* pItem = getItem(nInde);
 	if (pItem)
 	{
-		return pItem->wstrText;
+		return pItem->wstrText.c_str();
 	}
-	static const std::wstring wstrNULL=L"";
-	return wstrNULL;
+	return NULL;
 }
 
 // For single-selection listbox, returns the index of the selected item.
@@ -139,7 +138,7 @@ const std::wstring& CUIListBox::GetItemText(int nInde)
 // subsequent searches, the app passes the returned index back to GetSelectedIndex as.
 // nPreviousSelected.
 // Returns -1 on error or if no item is selected.
-int CUIListBox::GetSelectedIndex(int nPreviousSelected)const
+int CUIListBox::getSelectedIndex(int nPreviousSelected)const
 {
 	if(nPreviousSelected < -1)
 		return -1;
@@ -164,9 +163,14 @@ int CUIListBox::GetSelectedIndex(int nPreviousSelected)const
 	}
 }
 
-void* CUIListBox::GetSelectedData(int nPreviousSelected)
+const wchar_t* CUIListBox::getSelectedText(int nPreviousSelected)const
 {
-	UIListBoxItem* pUIListBoxItem = GetSelectedItem(nPreviousSelected);
+	return getItemText(getSelectedIndex(nPreviousSelected));
+}
+
+void* CUIListBox::getSelectedData(int nPreviousSelected)
+{
+	UIListBoxItem* pUIListBoxItem = getSelectedItem(nPreviousSelected);
 	if (pUIListBoxItem)
 	{
 		return pUIListBoxItem->pData;
@@ -174,9 +178,9 @@ void* CUIListBox::GetSelectedData(int nPreviousSelected)
 	return NULL;
 }
 
-UIListBoxItem* CUIListBox::GetSelectedItem(int nPreviousSelected)const
+UIListBoxItem* CUIListBox::getSelectedItem(int nPreviousSelected)const
 {
-	return GetItem(GetSelectedIndex(nPreviousSelected));
+	return getItem(getSelectedIndex(nPreviousSelected));
 }
 
 bool CUIListBox::ContainsItem(const wchar_t* wcsText, UINT iStart)
@@ -238,7 +242,7 @@ void* CUIListBox::getItemDataByText(const wchar_t* wcsText)
 
 void* CUIListBox::getItemDataByIndex(size_t index)
 {
-	UIListBoxItem* pItem=GetItem(index);
+	UIListBoxItem* pItem=getItem(index);
 	if(pItem)
 	{
 		return pItem->pData;

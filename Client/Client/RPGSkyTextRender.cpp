@@ -41,11 +41,18 @@ void CNode3DTextRender::updateTextureBuffer(unsigned char* pBuffer, size_t size,
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void CNode3DTextRender::drawUBB(const CUBB* pUBB)const
+void CNode3DTextRender::drawUBB(int x, int y, const CUBB* pUBB)const
 {
+
 	int nVertexCount = pUBB->m_VB.size();
 	if (nVertexCount)
 	{
+		Matrix mWorld;
+		CRenderSystem::getSingleton().getWorldMatrix(mWorld);
+		Matrix mNewWorld = mWorld*Matrix::newTranslation(Vec3D(x, y, 0.0f));
+		// ----
+		CRenderSystem::getSingleton().setWorldMatrix(mNewWorld);
+		// ----
 		CRenderSystem & R = CRenderSystem::getSingleton();
 		// ----
 		R.SetTexture(0, m_pTextTexture);
@@ -69,6 +76,8 @@ void CNode3DTextRender::drawUBB(const CUBB* pUBB)const
 		R.DrawIndexedPrimitiveUP(VROT_TRIANGLE_LIST, 0, nVertexCount, nVertexCount / 2, & s_DrawTextIB, &pUBB->m_VB[0], sizeof(VERTEX_TEXT));
 		// ----
 		R.SetShader((CShader*)NULL);
+		// ----
+		CRenderSystem::getSingleton().setWorldMatrix(mWorld);
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -68,10 +68,24 @@ IDD_MAIN:regEvent("ROLE_CHOOSE","OnRoleChoose")
 IDD_MAIN:regEvent("ENTER_WORLD","OnEnterWorld")
 
 -- Event Func
-function OnRoleChoose()
-	IDD_MAIN:setControlVisible("IDC_IMAGE_BG",false)
-	--MessageBox(L"正在获取人物列表……",-1)
+
+function OnServerList()
 	CloseMessageBox()
+	IDD_MAIN:setControlVisible("IDC_IMAGE_BG",true)
+	IDD_SERVER_LIST:SetVisible(true)
+	IDD_LOGIN:SetVisible(false)
+	dlgRoleChoose:SetVisible(false)
+	dlgMainDialog:SetVisible(false)
+	IDD_CHAT_MESSAGE:SetVisible(false)
+	dlgMinmap:SetVisible(false)
+	dlgPlayerHead:SetVisible(false)
+	dlgAct:SetVisible(false)
+end
+
+function OnRoleChoose()
+	CloseMessageBox()
+	IDD_MAIN:setControlVisible("IDC_IMAGE_BG",false)
+	IDD_SERVER_LIST:SetVisible(false)
 	IDD_LOGIN:SetVisible(false)
 	dlgRoleChoose:SetVisible(true)
 	--OnShowRoleChoose()

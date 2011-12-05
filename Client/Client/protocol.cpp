@@ -319,36 +319,25 @@ void SCCharList(const unsigned char * msg)
 	// ----
 	int	aIndex						= -1;
 	// ----
-	if(pCLCount->Count <= MAX_VISUAL_ROLE)
+	CUIDisplayRoleList::getInstance().clearAllRole();
+	for(size_t i = 0 ; i< pCLCount->Count ; i++)
 	{
-		for(size_t i = 0 ; i< pCLCount->Count ; i++)
+		pChar = & pCList[i];
+		// ----
+		if (aIndex==-1)
 		{
-			pChar = & pCList[i];
-			// ----
-			if (aIndex==-1)
-			{
-				CUIDisplayRoleChoose::getInstance().m_nSelectIndex = pChar->Index;
-			}
-			aIndex = pChar->Index;
-			// ----
-			if(aIndex > MAX_VISUAL_ROLE)
-			{
-				continue;
-			}
-			// ----
-			S_DEL(CUIDisplayRoleChoose::getInstance().m_pRole[aIndex]);
-			// ----
-			CRole * pRole = new CRole();
-			// ----
-			pRole->setRoleName(s2ws(pChar->Name).c_str());
-			pRole->setLevel(pChar->Level);
-			pRole->setSet(pChar->charSet);
-			pRole->setPos(Vec3D(i,0,0));
-			pRole->setActionState(CRole::STAND);
-			pRole->updateWorldMatrix();
-			// ----
-			CUIDisplayRoleChoose::getInstance().m_pRole[aIndex] = pRole;
+			CUIDisplayRoleList::getInstance().setSelectIndex(pChar->Index);
 		}
+		aIndex = pChar->Index;
+		// ----
+		CRole * pRole = CUIDisplayRoleList::getInstance().getRole(aIndex);
+		// ----
+		pRole->setRoleName(s2ws(pChar->Name).c_str());
+		pRole->setLevel(pChar->Level);
+		pRole->setSet(pChar->charSet);
+		pRole->setPos(Vec3D(i,0,0));
+		pRole->setActionState(CRole::STAND);
+		pRole->updateWorldMatrix();
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -365,7 +354,7 @@ void CSEnterWorld(unsigned char uIndex)
 {
 	if(uIndex <= MAX_VISUAL_ROLE)
 	{
-		CRole* pRole = CUIDisplayRoleChoose::getInstance().m_pRole[uIndex];
+		CRole* pRole = CUIDisplayRoleList::getInstance().getRole(uIndex);
 		// ----
 		if(pRole != NULL)
 		{

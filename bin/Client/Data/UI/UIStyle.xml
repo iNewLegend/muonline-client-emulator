@@ -26,9 +26,14 @@
 	<element name="button,radiobutton_btn" sound="sound\iButtonClick.wav">
 		<blend normal="0.60" pressed="0.4" hidden="0.9">0.8</blend>
 		<translation hidden="0,0,0" pressed="0,0,1" mouseover="0,0,2">0,0,0</translation>
-		<texture filename="Button.tga" rect="0,0,32,32" center_rect="6,6,12,12">
-			<color normal="#8FFF" focus="#F4FC" mouseover="#FFE8" pressed="#FF40"/>
-			<blend normal="0.6" pressed="0.0" hidden="0.8">0.8</blend>
+		<texture filename="ui.tga" rect="278,418,82,33">
+			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
+		</texture>
+		<texture filename="ui.tga" rect="378,418,82,33">
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#0FFF"/>
+		</texture>
+		<texture filename="ui.tga" rect="478,418,82,33">
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
 	
