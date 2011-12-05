@@ -54,3 +54,6 @@ function IDD_ROLE_CREATE_OnBtnRole3()
 	m_StaProInfo:SetText(L"shit3")
 	IDD_ROLE_CREATE_Index = 2
 end
+
+-- OnVisible
+IDD_ROLE_CREATE_OnBtnRole1()

@@ -68,20 +68,22 @@
 		<element type="button" id="IDC_DISPLAY_BACKGROUND" scale="0,0,100,100" style="null"></element>
 		<element type="button" id="IDC_BTN_CREATE_ROLE" scale="0,100,0,100" offset="10,-43,92,-10">创建角色</element>
 		<element type="button" id="IDC_BTN_BACK" scale="0,100,0,100" offset="100,-43,182,-10">退出</element>
-		<element type="button" id="IDC_BTN_OK" scale="50,100,50,100" offset="-41,-43,-41,-10">确定</element>
+		<element type="button" id="IDC_BTN_OK" scale="50,100,50,100" offset="-41,-43,41,-10">确定</element>
 	</dialog>
 
-	<dialog id="IDD_ROLE_CREATE" scale="50,50,50,50" offset="-230,-190,230,190" style="null">
-		<element type="button" id="IDC_DISPLAY_ROLE" rect="0,-10,400,310" style="null"></element>
+	<dialog id="IDD_ROLE_CREATE" scale="0,0,100,100" style="null">
+		<element type="image" id="IDC_IMAGE_BG" scale="50,50,50,50" offset="-512,-384,511,383" filename="Data/Textures/Title/1.jpg"/>
+		<element type="button" id="IDC_DISPLAY_ROLE" scale="50,50,50,50" offset="-200,-150,200,150" style="null"></element>
 
-		<element type="button" id="IDC_BTN_ROLE1" rect="340,110,82,33">魔法师</element>
-		<element type="button" id="IDC_BTN_ROLE2" rect="340,135,82,33">剑士</element>
-		<element type="button" id="IDC_BTN_ROLE3" rect="340,160,82,33">弓箭手</element>
-		<element type="button" id="IDC_BTN_OK" rect="340,300,82,33">确定</element>
-		<element type="button" id="IDC_BTN_EXIT" rect="400,300,82,33">取消</element>
-		<element type="static" rect="10,300,40,20">ID:</element>
-		<element type="editbox" id="IDC_EDT_NAME" rect="50,300,200,20"></element>
-		<element type="static" id="IDC_STA_INFO" rect="10,320,440,40">AAAAA</element>
+		<element type="button" id="IDC_BTN_ROLE1" scale="0,50,0,50" offset="50,-120,132,-87">魔法师</element>
+		<element type="button" id="IDC_BTN_ROLE2" scale="0,50,0,50" offset="50,-80,132,-47">剑士</element>
+		<element type="button" id="IDC_BTN_ROLE3" scale="0,50,0,50" offset="50,-40,132,-7">弓箭手</element>
+		<element type="static" id="IDC_STA_INFO" scale="0,50,0,50" offset="50,80,132,113">介绍：</element>
+		
+		<element type="static" scale="50,100,50,100" offset="-100,-130,-60,-100">名字：</element>
+		<element type="editbox" id="IDC_EDT_NAME" scale="50,100,50,100" offset="-60,-130,60,-100"></element>
+		<element type="button" id="IDC_BTN_OK" scale="50,100,50,100" offset="-100,-83,-18,-50">确定</element>
+		<element type="button" id="IDC_BTN_EXIT" scale="50,100,50,100" offset="0,-83,80,-50">取消</element>
 	</dialog>
 	
   <dialog id="IDD_ACT" scale="0,100,0,100" offset="0,-88,190,-63">
