@@ -36,6 +36,7 @@ public:
 	GSET_VAR		(int, m_n, SelectIndex);
 	void			clearAllRole	();
 	CRole*			getRole			(int nIndex);
+	void			delRole			(int nIndex);
 private:
 	int					m_nSelectIndex;
 	CRole*				m_pRole[MAX_VISUAL_ROLE];

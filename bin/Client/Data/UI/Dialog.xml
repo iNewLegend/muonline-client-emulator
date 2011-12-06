@@ -67,8 +67,10 @@
 	<dialog id="IDD_ROLE_CHOOSE" scale="0,0,100,100" style="null">
 		<element type="button" id="IDC_DISPLAY_BACKGROUND" scale="0,0,100,100" style="null"></element>
 		<element type="button" id="IDC_BTN_CREATE_ROLE" scale="0,100,0,100" offset="10,-43,92,-10">创建角色</element>
-		<element type="button" id="IDC_BTN_BACK" scale="0,100,0,100" offset="100,-43,182,-10">退出</element>
-		<element type="button" id="IDC_BTN_OK" scale="50,100,50,100" offset="-41,-43,41,-10">确定</element>
+		<element type="button" id="IDC_BTN_DELETE_CHAR" scale="0,100,0,100" offset="100,-43,182,-10">删除角色</element>
+		
+		<element type="button" id="IDC_BTN_OK" scale="50,100,50,100" offset="-100,-83,-18,-50">进入游戏</element>
+		<element type="button" id="IDC_BTN_BACK" scale="50,100,50,100" offset="0,-83,80,-50">返回登录</element>
 	</dialog>
 
 	<dialog id="IDD_ROLE_CREATE" scale="0,0,100,100" style="null">

@@ -23,7 +23,7 @@ function IDD_ROLE_CREATE_OnBtnOk()
 		MessageBox(L"名字太短，大于4位！")
 		return
 	end
-	RoleCreate(ws2s(m_EdtName:GetText()),IDD_ROLE_CREATE_Index)
+	CharCreate(ws2s(m_EdtName:GetText()),IDD_ROLE_CREATE_Index)
 	IDD_ROLE_CREATE:SetVisible(false)
 end
 

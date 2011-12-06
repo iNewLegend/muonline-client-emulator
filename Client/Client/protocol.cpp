@@ -58,19 +58,17 @@ void ProtocolCore(unsigned char protoNum, const unsigned char* aRecv, int aLen)
 				}
 				break;
 
-// 				case 0x01:
-// 				{
-// 
-// 				}
-// 				break;
-// 
-// 				case 0x02:
-// 					{
-// 						char szTemp[255];
-// 						OutputDebugString(itoa(((PMSG_RESULT*)aRecv)->result,szTemp,10));
-// 						
-// 					}
-// 					break;
+ 				case 0x01:
+ 				{
+					SCCharCreateResult(*((PMSG_CHARCREATERESULT*)aRecv));
+ 				}
+ 				break;
+
+				case 0x02:
+					{
+						CharDeleteResult(*((PMSG_RESULT*)aRecv));
+					}
+					break;
 
 				case 0x03: /* (SERVER->CLIENT) ENTER_WORLD */
 				{
@@ -166,12 +164,6 @@ void ProtocolCore(unsigned char protoNum, const unsigned char* aRecv, int aLen)
 			SCTeleport(*((PMSG_TELEPORT_RESULT*)aRecv));
 		}
 		break;
-
-		case GMSG_TELEPORT:
-			{
-				SCTeleport(*((PMSG_TELEPORT_RESULT*)aRecv));
-			}
-			break;
 
 		case GMSG_ITEM_VIEWPORT_CREATE:
 			{
@@ -362,23 +354,101 @@ void SCCharList(const unsigned char * msg)
 		// ----
 		CRole * pRole = CUIDisplayRoleList::getInstance().getRole(aIndex);
 		// ----
-		pRole->setRoleName(s2ws(pChar->Name).c_str());
-		pRole->setLevel(pChar->Level);
-		pRole->setSet(pChar->CharSet);
-		pRole->setPos(Vec3D(i,0,0));
-		pRole->setActionState(CRole::STAND);
-		pRole->updateWorldMatrix();
+		if (pRole)
+		{
+			pRole->setRoleName(s2ws(pChar->Name).c_str());
+			pRole->setLevel(pChar->Level);
+			pRole->setSet(pChar->CharSet);
+			pRole->setPos(Vec3D(aIndex,0,0));
+			pRole->setActionState(CRole::STAND);
+			pRole->updateWorldMatrix();
+		}
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void CSRoleCreate(const char* szName, unsigned char uClass)
+void CSCharCreate(const char* szName, unsigned char uClass)
 {
 	PMSG_CHARCREATE msg(szName, uClass<<5);
 	// ----
 	NETWORK.send(& msg);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void SCCharCreateResult(PMSG_CHARCREATERESULT & msg)
+{
+	CUIDisplayRoleList::getInstance().setSelectIndex(msg.pos);
+	// ----
+	switch(msg.Result)
+	{
+	case 0:
+		{
+			LUA_MessageBox(L"创建人物失败！");
+		}
+		break;
+
+	case 1:
+		{
+			// ----
+			CRole * pRole = CUIDisplayRoleList::getInstance().getRole(msg.pos);
+			// ----
+			if (pRole)
+			{
+				pRole->setRoleName(s2ws(msg.Name).c_str());
+				pRole->setLevel(msg.Level);
+				pRole->setSet(msg.Equipment);
+				pRole->setPos(Vec3D(msg.pos,0,0));
+				pRole->setActionState(CRole::STAND);
+				pRole->updateWorldMatrix();
+			}
+		}
+		break;
+
+	case 2:
+		{
+			LUA_MessageBox(L"可创建人物数量已达到上限！");
+		}
+		break;
+
+	default:
+		{
+			wchar_t wszTemp[255];
+			swprintf(wszTemp,L"创建人物失败！ID=%d",msg.Result);
+			LUA_MessageBox(wszTemp);
+		}
+		break;
+	}
+}
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void CharDelete(unsigned char uIndex,const char* szLastJoominNumber)
+{
+	if(uIndex <= MAX_VISUAL_ROLE)
+	{
+		CRole* pRole = CUIDisplayRoleList::getInstance().getRole(uIndex);
+		// ----
+		if(pRole != NULL)
+		{
+			PMSG_CHARDELETE msg(ws2s(pRole->getName()).c_str(), szLastJoominNumber);
+			// ----
+			NETWORK.send(& msg);
+		}
+	}
+}
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void CharDeleteResult(PMSG_RESULT & msg)
+{
+	if (msg.result==0)
+	{
+		LUA_MessageBox(L"删除人物失败！");
+	}
+	else
+	{
+		CUIDisplayRoleList::getInstance().delRole(CUIDisplayRoleList::getInstance().getSelectIndex());
+	}
+}
+
 
 void CSEnterWorld(unsigned char uIndex)
 {
@@ -758,7 +828,7 @@ void SCItemViewportDestroy(const unsigned char* msg)
 
 void SCRefill(PMSG_REFILL & msg)//20%
 {
-	char szTemp[256]
+	char szTemp[256];
 	sprintf(szTemp, "IPos=%d, Life=%d, Shield=%d", msg.IPos, MAKE_NUMBERW(msg.LifeH,msg.LifeL), MAKE_NUMBERW(msg.btShieldH,msg.btShieldL));
 	OutputDebugString(szTemp);
 }
@@ -766,7 +836,7 @@ void SCRefill(PMSG_REFILL & msg)//20%
 
 void SCManaSend(PMSG_MANASEND & msg)//20%
 {
-	char szTemp[256]
+	char szTemp[256];
 	sprintf(szTemp, "IPos=%d, Mana=%d, BP=%d", msg.IPos, MAKE_NUMBERW(msg.ManaH,msg.ManaL), MAKE_NUMBERW(msg.BPH,msg.BPL));
 	OutputDebugString(szTemp);
 }

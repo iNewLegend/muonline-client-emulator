@@ -15,7 +15,8 @@ void InitLua(lua_State * L)
 {
 	lua_tinker::def(L,"ConnectServer",	CSConnectServer);
 	lua_tinker::def(L,"LoginServer",	CSLoginServer);
-	lua_tinker::def(L,"RoleCreate",		CSRoleCreate);
+	lua_tinker::def(L,"CharCreate",		CSCharCreate);
+	lua_tinker::def(L,"CharDelete",		CharDelete);
 	lua_tinker::def(L,"EnterWorld",		CSEnterWorld);
 	lua_tinker::def(L,"GameClose",		GameClose);
 	lua_tinker::def(L,"SendChat",		CSChat);

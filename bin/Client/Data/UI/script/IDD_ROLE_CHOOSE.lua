@@ -8,9 +8,10 @@ dlgRoleCreate:create("IDD_ROLE_CREATE",IDD_ROLE_CHOOSE)
 
 IDD_ROLE_CHOOSE:regControl("IDC_DISPLAY_BACKGROUND", g_UIDisplayCharList)
 -- Register Event
-IDD_ROLE_CHOOSE:regControlEvent("IDC_BTN_BACK", "IDD_ROLE_CHOOSE_OnBtnBack","0");
 IDD_ROLE_CHOOSE:regControlEvent("IDC_BTN_OK", "IDD_ROLE_CHOOSE_OnBtnOk","0");
+IDD_ROLE_CHOOSE:regControlEvent("IDC_BTN_BACK", "IDD_ROLE_CHOOSE_OnBtnBack","0");
 IDD_ROLE_CHOOSE:regControlEvent("IDC_BTN_CREATE_ROLE", "IDD_ROLE_CHOOSE_OnBtnCreateRole","0");
+IDD_ROLE_CHOOSE:regControlEvent("IDC_BTN_DELETE_CHAR", "IDD_ROLE_CHOOSE_OnBtnDeleteChar","0");
 
 --
 dlgRoleCreate:SetVisible(false)
@@ -55,4 +56,8 @@ end
 
 function IDD_ROLE_CHOOSE_OnBtnCreateRole()
 	dlgRoleCreate:SetVisible(true)
+end
+
+function IDD_ROLE_CHOOSE_OnBtnDeleteChar()
+	CharDelete(g_UIDisplayCharList:GetSelectIndex(),"111111")
 end

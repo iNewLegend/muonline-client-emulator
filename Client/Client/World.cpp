@@ -157,6 +157,13 @@ void CWorld::create(UCHAR uMapID)
 {
 	if(uMapID != m_CurMap)
 	{
+		m_pData = NULL;
+		m_pSceneData = NULL;
+		m_OctreeRoot.clearNodes();
+		m_RenderNodes.clear();
+		m_FocusNode.clearChildren();
+		this->clearChildren();
+		// ----
 		m_CurMap	= uMapID;
 		// ----
 		char szMapFilname[256];
