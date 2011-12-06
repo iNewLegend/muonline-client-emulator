@@ -29,7 +29,11 @@ void SCLoginResult			(PMSG_RESULT & msg);
 void CSGetCharList			();																	// 0xF3
 void SCCharList				(const unsigned char * msg);										// (leo123:  not sure) 0xF3
 // ----
-void CSRoleCreate			(const char* szName, unsigned char uClass);
+void CSCharCreate			(const char* szName, unsigned char uClass);							// 0xF3:0x01
+void SCCharCreateResult		(PMSG_CHARCREATERESULT & msg);	
+// ----
+void CharDelete				(unsigned char uIndex,const char* szLastJoominNumber);				// 0xF3:0x02
+void CharDeleteResult		(PMSG_RESULT & msg);
 // ----
 void CSEnterWorld			(unsigned char uIndex);
 void SCEnterWorld			(PMSG_CHARMAPJOINRESULT & msg);
