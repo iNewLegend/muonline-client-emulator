@@ -17,50 +17,58 @@
 
 void ProtocolCore			(unsigned char protoNum, const unsigned char * aRecv, int aLen);
 // ----
-void SCChatMsg				(PMSG_CHATDATA & msg);														// 0x00
-void SCNotice				(PMSG_NOTICE & msg);														// 0x0D
+void SCChatMsg				(PMSG_CHATDATA & msg);												// 0x00
+void SCNotice				(PMSG_NOTICE & msg);												// 0x0D
 // ----
-bool CSConnectServer		(const char * szIP, int nPort);												// It's not a msg, it's socket connection.
+bool CSConnectServer		(const char * szIP, int nPort);										// It's not a msg, it's socket connection.
 void SCPJoinResult			(PMSG_JOINRESULT & msg);
 // ----
 void CSLoginServer			(const char * pszAccount, const char * pszPsw);
 void SCLoginResult			(PMSG_RESULT & msg);
 // ----
-void CSGetCharList			();																			// 0xF3
-void SCCharList				(const unsigned char * msg);												// (leo123:  not sure) 0xF3
+void CSGetCharList			();																	// 0xF3
+void SCCharList				(const unsigned char * msg);										// (leo123:  not sure) 0xF3
 // ----
 void CSRoleCreate			(const char* szName, unsigned char uClass);
 // ----
 void CSEnterWorld			(unsigned char uIndex);
 void SCEnterWorld			(PMSG_CHARMAPJOINRESULT & msg);
 // ----
-void CSMoveDataLoadingOK	();																			// 0xF3:0x12
+void CSMoveDataLoadingOK	();																	// 0xF3:0x12
 // ----
 void CSChat(const char* szChat);
 // ----
-void SCCheckMainExe			(PMSG_CHECK_MAINEXE& msg);													// 0x3
+void SCCheckMainExe			(PMSG_CHECK_MAINEXE& msg);											// 0x3
 // ----
-void CSLiveClient			();																			// 0xE
+void CSLiveClient			();																	// 0xE
 // ----
-void SCPlayerViewportCreate	(const unsigned char* msg);													// 0x12
+void SCPlayerViewportCreate	(const unsigned char* msg);											// 0x12
 // ----
-void SCMonsterViewportCreate(const unsigned char* msg);													// 0x13
+void SCMonsterViewportCreate(const unsigned char* msg);											// 0x13
 // ----
-void SCViewportDestroy		(const unsigned char* msg);													// 0x14
+void SCViewportDestroy		(const unsigned char* msg);											// 0x14
 // ----
 void CSMove					(int x, int y, std::deque<char> path, unsigned char uTargetDir);	// 0xD7
-void SCMove					(PMSG_RECVMOVE & msg);														// 0xD7
+void SCMove					(PMSG_RECVMOVE & msg);												// 0xD7
 // ----
 void CSAttack				(unsigned char AttackAction, int Number, unsigned char DirDis);
 void SCAttack				(PMSG_ATTACKRESULT & msg);
 // ----
-void SCKillPlayer			(PMSG_KILLPLAYER & msg);													// 0x16
+void SCKillPlayer			(PMSG_KILLPLAYER & msg);											// 0x16
 // ----
-void SCDiePlayer			(PMSG_DIEPLAYER & msg);														// 0x17
+void SCDiePlayer			(PMSG_DIEPLAYER & msg);												// 0x17
 // ----
-void SCAction				(PMSG_ACTIONRESULT & msg);													// 0x18
+void SCAction				(PMSG_ACTIONRESULT & msg);											// 0x18
 // ----
-void SCTeleport				(PMSG_TELEPORT_RESULT & msg);												// 0x1C
+void SCTeleport				(PMSG_TELEPORT_RESULT & msg);										// 0x1C
+// ----
+void SCItemViewportCreate	(const unsigned char* msg);											// 0x20
+// ----
+void SCItemViewportDestroy	(const unsigned char* msg);											// 0x21
+// ----
+void SCRefill				(PMSG_REFILL & msg);												// 0x26
+// ----
+void SCManaSend				(PMSG_MANASEND & msg);												// 0x27
 //-----------------------------------------------------------------------------------------------------------
 
 //void MsgSendV2(LPOBJ lpObj, unsigned char* Msg, int size);

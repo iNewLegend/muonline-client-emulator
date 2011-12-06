@@ -21,32 +21,6 @@
 
 class CRole : public C3DMapObj
 {
-private:
-	char			m_szTemp[CLASS_TEMP_SIZE];
-protected:
-	unsigned long	m_uID;
-	// ----
-	std::wstring	m_wstrName;
-	// ----
-	int				m_nLevel;
-	int				m_nClass;
-	// ----
-	float			m_fHeadRotate;
-	float			m_fCurrentHeadRotate;
-	// ----
-	std::deque<char>m_Path;
-	// ----
-	unsigned char	m_uActionState;
-	unsigned char	m_uWeaponState;
-	unsigned char	m_uSafeState;
-	// ----
-	float			m_fWalkSpeed;
-	Vec3D			m_vNextPos;
-	// ----
-	unsigned char	m_uDir;
-	unsigned char	m_uTargetDir;
-	// ----
-	float			m_fRoleHeight;
 public:
 	CRole();
 	~CRole();
@@ -55,7 +29,7 @@ public:
 	void			damage			(int nDamage, unsigned char uDamageType, int nShieldDamage);
 	// ----
 	void			setSkeleton		();
-	void			setSet			(const CHARSET & charSet);
+	void			setSet			(const unsigned char* charSet);
 	void			setEquip		(int nType, int nEquipID);
 	void			setEquipSkin	(int nType, int nSkinID);
 	// ----
@@ -94,6 +68,9 @@ public:
 	std::deque<char>& getPath		()							{ return m_Path; };
 	// ----
 	void			moveStep();
+
+	CHARACTER_DATA&	getCharacterData(){return m_CharacterData;}
+	void			setCharacterData(const CHARACTER_DATA& data);
 	enum /* ActionStateType */
 	{
 		STAND,
@@ -118,6 +95,34 @@ public:
 		WS_BOW,
 		WS_CROSSBOW
 	};
+private:
+	char			m_szTemp[CLASS_TEMP_SIZE];
+protected:
+	unsigned long	m_uID;
+	// ----
+	std::wstring	m_wstrName;
+	// ----
+	int				m_nLevel;
+	int				m_nClass;
+	// ----
+	float			m_fHeadRotate;
+	float			m_fCurrentHeadRotate;
+	// ----
+	std::deque<char>m_Path;
+	// ----
+	unsigned char	m_uActionState;
+	unsigned char	m_uWeaponState;
+	unsigned char	m_uSafeState;
+	// ----
+	float			m_fWalkSpeed;
+	Vec3D			m_vNextPos;
+	// ----
+	unsigned char	m_uDir;
+	unsigned char	m_uTargetDir;
+	// ----
+	float			m_fRoleHeight;
+	// ----
+	CHARACTER_DATA	m_CharacterData;
 };
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

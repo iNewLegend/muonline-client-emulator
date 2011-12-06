@@ -167,6 +167,36 @@ void ProtocolCore(unsigned char protoNum, const unsigned char* aRecv, int aLen)
 		}
 		break;
 
+		case GMSG_TELEPORT:
+			{
+				SCTeleport(*((PMSG_TELEPORT_RESULT*)aRecv));
+			}
+			break;
+
+		case GMSG_ITEM_VIEWPORT_CREATE:
+			{
+				SCItemViewportCreate(aRecv);	
+			}
+			break;
+
+		case GMSG_ITEM_VIEWPORT_DESTROY:
+			{
+				SCItemViewportDestroy(aRecv);	
+			}
+			break;
+
+		case GMSG_REFILL:
+			{
+				SCRefill(*((PMSG_REFILL*)aRecv));
+			}
+			break;
+
+		case GMSG_MANA_SEND:
+			{
+				SCManaSend(*((PMSG_MANASEND*)aRecv));
+			}
+			break;
+			
 		default:
 			{
 				char szTemp[15];
@@ -334,7 +364,7 @@ void SCCharList(const unsigned char * msg)
 		// ----
 		pRole->setRoleName(s2ws(pChar->Name).c_str());
 		pRole->setLevel(pChar->Level);
-		pRole->setSet(pChar->charSet);
+		pRole->setSet(pChar->CharSet);
 		pRole->setPos(Vec3D(i,0,0));
 		pRole->setActionState(CRole::STAND);
 		pRole->updateWorldMatrix();
@@ -368,11 +398,13 @@ void CSEnterWorld(unsigned char uIndex)
 
 void SCEnterWorld(PMSG_CHARMAPJOINRESULT& msg)
 {
-	CWorld::getInstance().create(msg.MapNumber);
+	CWorld::getInstance().create(msg.data.MapNumber);
 	// ----
-	CPlayerMe::getInstance().setCellPos(msg.MapX,msg.MapY);
+	CPlayerMe::getInstance().setCellPos(msg.data.MapX,msg.data.MapY);
 	// ----
 	CWorld::getInstance().addRole(&CPlayerMe::getInstance());
+	// ----
+	CPlayerMe::getInstance().setCharacterData(msg.data);
 	// ----
 	CMainRoot::getInstance().getMainDialog().postMsg("ENTER_WORLD");
 }
@@ -458,29 +490,32 @@ void SCPlayerViewportCreate(const unsigned char * msg)
 			// ---
 			pPlayer->setID(uID);
 			//pPlayer->setLevel(pChar->Level);
-			pPlayer->setRoleName(s2ws(pPlayerViewport->Id).c_str());
-			pPlayer->setSet(pPlayerViewport->charSet);
-			pPlayer->setCellPos(pPlayerViewport->X ,pPlayerViewport->Y);
-			// ---- 
-			// # Warning! not sure, just let him dont still dead.
-			// ---- 
 			pPlayer->setActionState(CRole::STAND);
-			pPlayer->setDir(S2CDIR(pPlayerViewport->DirAndPkLevel >> 4));
-			// ----
 			CWorld::getInstance().addRole(pPlayer);
 		}
-		else
-		{
-			pPlayer->setRoleName(s2ws(pPlayerViewport->Id).c_str());
-			pPlayer->setSet(pPlayerViewport->charSet);
-			pPlayer->setCellPos(pPlayerViewport->X, pPlayerViewport->Y);
-			// ---- 
-			// # Warning! not sure, just let him dont still dead.
-			// ---- 
-			pPlayer->setActionState(CRole::STAND); 
-			pPlayer->setDir(S2CDIR(pPlayerViewport->DirAndPkLevel>>4));
-		}
+		// ----20%
+		// Set Name For Test
+		char szName[256];
+		sprintf(szName,"%s[br]PKLevel=%d[br]btViewSkillCount=%d",
+			pPlayerViewport->Id,
+			pPlayerViewport->DirAndPkLevel&0xF,
+			pPlayerViewport->btViewSkillCount);
+		pPlayer->setRoleName(s2ws(szName).c_str());
 		// ----
+		// Equip
+		pPlayer->setSet(pPlayerViewport->CharSet);
+		// ----
+		// Postion
+		pPlayer->setCellPos(pPlayerViewport->X ,pPlayerViewport->Y);
+		// ---- 
+		// # Warning! not sure, just let him dont still dead.
+		// ---- 
+		//pPlayer->setDir(S2CDIR(pPlayerViewport->DirAndPkLevel >> 4));
+		// ----
+		// Move to Target
+		pPlayer->setTargetCellPos(pPlayerViewport->TX, pPlayerViewport->TY);
+		pPlayer->setTargetDir(S2CDIR(pPlayerViewport->DirAndPkLevel >> 4));
+		// ----0%
 		for(j = 0 ; j < pPlayerViewport->btViewSkillCount ; ++j)
 		{
 			msg++;
@@ -524,17 +559,16 @@ void SCMonsterViewportCreate(const unsigned char * msg)
 			// ----
 			pMonster->setID(uID);
 			pMonster->setType(uMonsterType);
-			pMonster->setCellPos(pMonsterViewport->X, pMonsterViewport->Y);
-			pMonster->setDir(S2CDIR(pMonsterViewport->Path >> 4));
-			// ----
 			CWorld::getInstance().addRole(pMonster);
 		}
-		else
-		{
-			pMonster->setCellPos(pMonsterViewport->X, pMonsterViewport->Y);
-			pMonster->setDir(S2CDIR(pMonsterViewport->Path >> 4));
-		}
 		// ----
+		// Move to Target
+		pMonster->setCellPos(pMonsterViewport->X, pMonsterViewport->Y);
+		pMonster->setTargetCellPos(pMonsterViewport->TX, pMonsterViewport->TY);
+		//pMonster->setDir(S2CDIR(pMonsterViewport->Path >> 4));
+		pMonster->setTargetDir(S2CDIR(pMonsterViewport->Path >> 4));
+
+		// ----0%
 		for(j = 0 ; j < pMonsterViewport->btViewSkillCount ; j++)
 		{
 			msg++;
@@ -707,5 +741,33 @@ void SCTeleport(PMSG_TELEPORT_RESULT & msg)
 	CPlayerMe::getInstance().setDir(S2CDIR(msg.Dir >> 4));
 	// ----
 	CSMoveDataLoadingOK();
+}
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void SCItemViewportCreate(const unsigned char* msg)
+{
+
+}
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void SCItemViewportDestroy(const unsigned char* msg)
+{
+
+}
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void SCRefill(PMSG_REFILL & msg)//20%
+{
+	char szTemp[256]
+	sprintf(szTemp, "IPos=%d, Life=%d, Shield=%d", msg.IPos, MAKE_NUMBERW(msg.LifeH,msg.LifeL), MAKE_NUMBERW(msg.btShieldH,msg.btShieldL));
+	OutputDebugString(szTemp);
+}
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void SCManaSend(PMSG_MANASEND & msg)//20%
+{
+	char szTemp[256]
+	sprintf(szTemp, "IPos=%d, Mana=%d, BP=%d", msg.IPos, MAKE_NUMBERW(msg.ManaH,msg.ManaL), MAKE_NUMBERW(msg.BPH,msg.BPL));
+	OutputDebugString(szTemp);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
