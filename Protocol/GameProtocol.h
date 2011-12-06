@@ -54,9 +54,9 @@ enum e_GAME_POROTOCOL_MSG_COMMON
 	GMSG_CLIENT_TIME				= 0x0E,		// Only C2S.
 	GMSG_WEATHER					= 0x0F,		// Only S2C.
 
-	GMSG_CHAR_VIEWPORT_CREATE		= 0x12,		// Only S2C.
-	GMSG_MONSTER_VIEWPORT_CREATE	= 0x13, 	// Only S2C.
-	GMSG_VIEWPORT_DESTROY			= 0x14,		// Only S2C.
+	GMSG_CHAR_VIEWPORT_CREATE		= 0x12,		// Only S2C. Dynamic Array
+	GMSG_MONSTER_VIEWPORT_CREATE	= 0x13, 	// Only S2C. Dynamic Array
+	GMSG_VIEWPORT_DESTROY			= 0x14,		// Only S2C. Dynamic Array
 
 	GMSG_KILL_PLAYER				= 0x16,
 	GMSG_DIE_PLAYER					= 0x17,		// Only S2C.
@@ -107,14 +107,6 @@ static const char* EQUIP_TYPE_NAME[ET_MAX]=
 	"back",
 	"left",
 	"right",
-};
-
-struct CHARSET
-{
-	unsigned char CharSet[CHAR_SET_SIZE];	// F
-	void setEquip(EQUIP_TYPE eEqupID,unsigned char id){((eEqupID-1)%2)?SET_CHAR_L(CharSet[(eEqupID-1)/2],id):SET_CHAR_H(CharSet[(eEqupID-1)/2],id);}
-	unsigned char  getEquip(EQUIP_TYPE eEqupID)const{return ((eEqupID-1)%2)?GET_CHAR_L(CharSet[(eEqupID-1)/2]):GET_CHAR_H(CharSet[(eEqupID-1)/2]);}
-	unsigned char  getWeapon()const{return CharSet[1];}
 };
 //////////////////////////////////////////////////////////////////////////
 
@@ -538,7 +530,6 @@ struct PMSG_CHARCREATERESULT
 	union
 	{
 		BYTE Equipment[24];	// 13
-		CHARSET	charSet;
 	};
 };
 
@@ -2012,11 +2003,7 @@ struct PMSG_CHARLIST
 	char Name[10];	// 1
 	unsigned short Level;	// C
 	unsigned char CtlCode;	// E
-	union
-	{
-		unsigned char CharSet[CHAR_SET_SIZE];	// F
-		CHARSET	charSet;
-	};
+	unsigned char CharSet[CHAR_SET_SIZE];	// F
 	unsigned char btGuildStatus;	// 21
 
 };
@@ -2080,10 +2067,9 @@ struct PMSG_WEATHER
 *	HeadCode : 0xF3
 *	SubCode  : 0x03
 */
-struct PMSG_CHARMAPJOINRESULT
+
+struct CHARACTER_DATA
 {
-	PBMSG_HEAD h;	// C3:F3:03
-	unsigned char subcode;	// 3
 	unsigned char MapX;	// 4
 	unsigned char MapY;	// 5
 	unsigned char MapNumber;	// 6
@@ -2116,6 +2102,13 @@ struct PMSG_CHARMAPJOINRESULT
 	unsigned short Leadership;	// 36
 	unsigned short wMinusPoint;	// 38
 	unsigned short wMaxMinusPoint;	// 3A
+};
+
+struct PMSG_CHARMAPJOINRESULT
+{
+	PBMSG_HEAD h;	// C3:F3:03
+	unsigned char subcode;	// 3
+	CHARACTER_DATA data;
 };
 
 /* * * * * * * * * * * * * * * * * * * * * 
@@ -2228,11 +2221,7 @@ struct PMSG_VIEWPORTCREATE
 	unsigned char NumberL;
 	unsigned char X;
 	unsigned char Y;
-	union
-	{
-		unsigned char CharSet[CHAR_SET_SIZE];	// F
-		CHARSET	charSet;
-	};
+	unsigned char CharSet[CHAR_SET_SIZE];	// F
 	//unsigned long ViewSkillState;
 	char Id[10];
 	unsigned char TX;
@@ -2255,11 +2244,7 @@ struct PMSG_VIEWPORTCREATE_CHANGE
 	unsigned char TX;
 	unsigned char TY;
 	unsigned char DirAndPkLevel;
-	union
-	{
-		unsigned char CharSet[CHAR_SET_SIZE];	// F
-		CHARSET	charSet;
-	};
+	unsigned char CharSet[CHAR_SET_SIZE];	// F
 	//unsigned char CharSet[18]; //para o illusion temple
 	unsigned char btViewSkillCount;
 };
