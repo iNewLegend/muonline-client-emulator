@@ -279,8 +279,6 @@ void CWorld::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 	// ----
 	m_DamageTextRender.OnFrameMove();
 	updateDamageInfo(fTime, fElapsedTime);
-	// ----
-	m_Messages.frameMove(fTime, fElapsedTime);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

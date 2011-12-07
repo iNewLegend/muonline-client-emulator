@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Dialog">
-      <UniqueIdentifier>{040a4fb3-0206-498c-9713-c1c9f0c6bc8a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="NetWork">
       <UniqueIdentifier>{ef54e8af-6c5c-4a01-b361-c8109b2d49f3}</UniqueIdentifier>
     </Filter>
@@ -42,18 +39,6 @@
     <ClCompile Include="MainRoot.cpp">
       <Filter>Global Sources</Filter>
     </ClCompile>
-    <ClCompile Include="DlgMain.cpp">
-      <Filter>Dialog</Filter>
-    </ClCompile>
-    <ClCompile Include="UIDisplayModel.cpp">
-      <Filter>Dialog</Filter>
-    </ClCompile>
-    <ClCompile Include="UIDisplayRoleChoose.cpp">
-      <Filter>Dialog</Filter>
-    </ClCompile>
-    <ClCompile Include="UIDisplayWorld.cpp">
-      <Filter>Dialog</Filter>
-    </ClCompile>
     <ClCompile Include="ClientNetWork.cpp">
       <Filter>NetWork</Filter>
     </ClCompile>
@@ -84,14 +69,26 @@
     <ClCompile Include="World.cpp">
       <Filter>World</Filter>
     </ClCompile>
-    <ClCompile Include="Messages.cpp">
-      <Filter>Global Sources</Filter>
+    <ClCompile Include="DlgMain.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="UIIcon.cpp">
-      <Filter>Dialog</Filter>
+    <ClCompile Include="UIChatList.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIDisplayModel.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIDisplayRoleChoose.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIDisplayWorld.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="UIGeneralDialog.cpp">
-      <Filter>Dialog</Filter>
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIIcon.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -103,18 +100,6 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Global Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="DlgMain.h">
-      <Filter>Dialog</Filter>
-    </ClInclude>
-    <ClInclude Include="UIDisplayModel.h">
-      <Filter>Dialog</Filter>
-    </ClInclude>
-    <ClInclude Include="UIDisplayRoleChoose.h">
-      <Filter>Dialog</Filter>
-    </ClInclude>
-    <ClInclude Include="UIDisplayWorld.h">
-      <Filter>Dialog</Filter>
     </ClInclude>
     <ClInclude Include="ClientNetWork.h">
       <Filter>NetWork</Filter>
@@ -146,14 +131,26 @@
     <ClInclude Include="World.h">
       <Filter>World</Filter>
     </ClInclude>
-    <ClInclude Include="Messages.h">
-      <Filter>Global Headers</Filter>
-    </ClInclude>
     <ClInclude Include="UIIcon.h">
-      <Filter>Dialog</Filter>
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgMain.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIChatList.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIDisplayModel.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIDisplayRoleChoose.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIDisplayWorld.h">
+      <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="UIGeneralDialog.h">
-      <Filter>Dialog</Filter>
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

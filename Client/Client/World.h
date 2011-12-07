@@ -6,7 +6,6 @@
 #include "TSingleton.h"
 #include "Role.h"
 #include "RPGSkyTextRender.h"
-#include "Messages.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 #define PLAYER_VIEW_RANGE	16
@@ -31,8 +30,6 @@ protected:
 	// ----
 	CNode3DTextRender				m_DamageTextRender;	
 public:
-	CMessages						m_Messages;
-	// ----
 	CWorld();
 	~CWorld();
 	// ----

@@ -1,12 +1,33 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <root>
 	<dialog id="scrollbar" style="null">
-		<element type="slider" id="IDC_SLIDER" scale="0,0,100,100" offset="0,16,0,-16" tip="slider">=</element>
-		<element type="button" id="IDC_BTN_UP" scale="0,0,100,0" offset="0,0,0,16" tip="Up.">=</element>
-		<element type="button" id="IDC_BTN_DOWN" scale="0,100,100,100" offset="0,-16,0,0" tip="Down.">=</element>
+		<element type="slider" id="IDC_SLIDER" scale="0,0,100,100" offset="0,17,0,-17" tip="slider">
+		</element>
+		<element type="button" id="IDC_BTN_UP" scale="0,0,100,0" offset="0,0,0,17" tip="Up.">
+			<texture filename="ui.tga" rect="0,700,18,17">
+				<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#FFFF" mouseover="#FFFF" pressed="#FFFF"/>
+			</texture>
+			<texture filename="ui.tga" rect="20,700,18,17">
+				<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#0FFF" mouseover="#FFFF" pressed="#0FFF"/>
+			</texture>
+			<texture filename="ui.tga" rect="40,700,18,17">
+				<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#0FFF" mouseover="#0FFF" pressed="#FFFF"/>
+			</texture>
+		</element>
+		<element type="button" id="IDC_BTN_DOWN" scale="0,100,100,100" offset="0,-16,0,0" tip="Down.">
+			<texture filename="ui.tga" rect="0,720,18,17">
+				<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#FFFF" mouseover="#FFFF" pressed="#FFFF"/>
+			</texture>
+			<texture filename="ui.tga" rect="20,720,18,17">
+				<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#0FFF" mouseover="#FFFF" pressed="#0FFF"/>
+			</texture>
+			<texture filename="ui.tga" rect="40,720,18,17">
+				<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#0FFF" mouseover="#0FFF" pressed="#FFFF"/>
+			</texture>
+		</element>
 	</dialog>
 	<dialog id="listbox" style="null">
-		<element type="scrollbar" id="IDC_SCROLLBAR_LEFT" scale="100,0,100,100" offset="-23,3,-3,-3" tip="scrollbar"></element>
+		<element type="scrollbar" id="IDC_SCROLLBAR_LEFT" scale="100,0,100,100" offset="-18,0,0,0" tip="scrollbar"></element>
 	</dialog>
 	<dialog id="combobox" style="null">
 		<element type="listbox" id="IDC_LISTBOX" scale="0,100,100,100" offset="0,1,0,100" tip="combobox"></element>
