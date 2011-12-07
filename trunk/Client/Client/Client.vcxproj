@@ -108,7 +108,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainRoot.cpp" />
     <ClCompile Include="DlgMain.cpp" />
-    <ClCompile Include="Messages.cpp" />
+    <ClCompile Include="UIChatList.cpp" />
     <ClCompile Include="UIDisplayModel.cpp" />
     <ClCompile Include="UIDisplayRoleChoose.cpp" />
     <ClCompile Include="UIDisplayWorld.cpp" />
@@ -128,9 +128,9 @@
   <ItemGroup>
     <ClInclude Include="GlobalFunction.h" />
     <ClInclude Include="MainRoot.h" />
-    <ClInclude Include="Messages.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="DlgMain.h" />
+    <ClInclude Include="UIChatList.h" />
     <ClInclude Include="UIDisplayModel.h" />
     <ClInclude Include="UIDisplayRoleChoose.h" />
     <ClInclude Include="UIDisplayWorld.h" />

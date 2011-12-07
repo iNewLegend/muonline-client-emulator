@@ -7,6 +7,7 @@
 #include "Npc.h"
 #include "PlayerMe.h"
 #include "World.h"
+#include "UIChatList.h"
 #include "GlobalFunction.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -214,43 +215,39 @@ bool CSConnectServer(const char* szIP, int nPort)
 
 void SCChatMsg(PMSG_CHATDATA & msg)
 {
-	//wchar_t wID[20]		= {0};
-	//wchar_t wMsg[70]	= {0};
-	//wchar_t temp[100]	= {0};
-	// ----
-	std::wstring wcsID = s2ws(msg.chatid);
-	std::wstring wcsMsg = s2ws(msg.chatmsg);
 	std::wstring wcsMessgae;
-	// ----
-	//MultiByteToWideChar(1, 0, msg.chatid, 10, wID, sizeof(wID));
-	//MultiByteToWideChar(1, 0, msg.chatmsg, 60, wMsg, sizeof(wMsg));
 	// ----
 	if(msg.chatid[0] > 0)
 	{
 		wcsMessgae.append(L"[color=128,128,255]");
-		wcsMessgae.append(wcsID);
+		wcsMessgae.append(s2ws(msg.chatid));
 		wcsMessgae.append(L" : [/color]");
-		wcsMessgae.append(wcsMsg);
+		wcsMessgae.append(s2ws(msg.chatmsg));
 		//swprintf(temp, L"%s : %s", wID, wMsg);
-		CWorld::getInstance().m_Messages.addTextBase(wcsMessgae.c_str(), CColors::White());
+		// ----
+		CUIChatList::getInstance().addMessage(wcsMessgae.c_str());
 	}
 	else
 	{
-		CWorld::getInstance().m_Messages.addTextBase(wcsMsg.c_str(), CColors::Yellow());
+		wcsMessgae.append(L"[color=255,255,128]");
+		wcsMessgae.append(s2ws(msg.chatmsg));
+		wcsMessgae.append(L" : [/color]");
+		// ----
+		CUIChatList::getInstance().addMessage(wcsMessgae.c_str());
 	}
-	// ----
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void SCNotice(PMSG_NOTICE & msg)
 {
-	wchar_t wMsg[300]	= {0};
-	// ----
-	MultiByteToWideChar(1258, 0, msg.Notice, sizeof(msg.Notice), wMsg, sizeof(wMsg));
-	// ----
 	if(msg.type == 1)
 	{
-		CWorld::getInstance().m_Messages.addTextBase(wMsg, CColors::LightBlue());
+		std::wstring wcsMessgae;
+		wcsMessgae.append(L"[color=128,128,255]");
+		wcsMessgae.append(s2ws(msg.Notice));
+		wcsMessgae.append(L" : [/color]");
+		// ----
+		CUIChatList::getInstance().addMessage(wcsMessgae.c_str());
 	}
 
 }
