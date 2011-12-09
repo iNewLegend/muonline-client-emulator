@@ -221,21 +221,21 @@ void CUICombo::XMLParseControls(const TiXmlElement* pElement)
 		// ¹«¹²ÊôÐÔ
 		if (pControl)
 		{
+			pControl->XMLParse(pControlElement);
 			if (pControl->isCombo())
 			{
 				((CUICombo*)pControl)->OnControlRegister();
 				// 
 				if (!pControlElement->FirstChildElement("element"))
 				{
-					SetID(strElement.c_str());
+					//SetID(strElement.c_str());
 					const TiXmlElement *pRootElement = pElement->GetDocument()->RootElement();
 					if (pRootElement)
 					{
-						create(pRootElement);
+						((CUICombo*)pControl)->create(pRootElement);
 					}
 				}
 			}
-			pControl->XMLParse(pControlElement);
 		}
 		pControlElement = pControlElement->NextSiblingElement("element");
 	}
