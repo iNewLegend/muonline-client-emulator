@@ -224,7 +224,16 @@ void CUICombo::XMLParseControls(const TiXmlElement* pElement)
 			if (pControl->isCombo())
 			{
 				((CUICombo*)pControl)->OnControlRegister();
-				((CUICombo*)pControl)->LoadXml(UIGetDialogRes().c_str(), strElement.c_str());
+				// 
+				if (!pControlElement->FirstChildElement("element"))
+				{
+					SetID(strElement.c_str());
+					const TiXmlElement *pRootElement = pElement->GetDocument()->RootElement();
+					if (pRootElement)
+					{
+						create(pRootElement);
+					}
+				}
 			}
 			pControl->XMLParse(pControlElement);
 		}
@@ -289,25 +298,6 @@ bool CUICombo::create(const TiXmlElement* pRootElement)
 		pDialogElement = pDialogElement->NextSiblingElement("dialog");
 	}
 	return true;
-}
-
-bool CUICombo::LoadXml(const char* szFilename, const char* szDialog)
-{
-	TiXmlDocument myDocument;
-	myDocument.LoadFile(szFilename, TIXML_ENCODING_UTF8);
-	if (myDocument.Error())
-	{
-		return false;
-	}
-
-	//获得根元素，即root。
-	TiXmlElement *pRootElement = myDocument.RootElement();
-	if (pRootElement==NULL)
-	{
-		return false;
-	}
-	SetID(szDialog);
-	return create(pRootElement);
 }
 
 void CUICombo::RemoveControl(const char* szID)
