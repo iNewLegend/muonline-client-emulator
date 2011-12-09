@@ -45,7 +45,6 @@ public:
 public:
 	virtual bool Create(const char* szID, CUICombo* pParent=NULL);
 	virtual bool create(const TiXmlElement* pRootElement);
-	bool LoadXml(const char* szFilename, const char* szDialog);
 	//bool loadFromMemory(const unsigned char* pBufferSize,  const char* szDialog);
 
 	virtual bool isCombo(){return true;}
