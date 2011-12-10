@@ -2,13 +2,15 @@
 #include "GlobalFunction.h"
 #include "lua_tinker.h"
 #include "Audio.h"
-#include "UIDisplayModel.h"
-#include "MainRoot.h"
-#include "UIDisplayRoleChoose.h"
-#include "UIIcon.h"
 #include "protocol.h"
+#include "MainRoot.h"
 #include "Monster.h"
 #include "UIGeneralDialog.h"
+#include "UIDisplayModel.h"
+#include "UIDisplayRoleChoose.h"
+#include "UIChatList.h"
+#include "UIIcon.h"
+
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void InitLua(lua_State * L)
@@ -24,10 +26,8 @@ void InitLua(lua_State * L)
 	lua_tinker::def(L, "getControlPressed",		CUIControl::getControlPressed);
 	lua_tinker::def(L, "getControlMouseOver",	CUIControl::getControlMouseOver);
 	lua_tinker::def(L, "getControlEvent",		CUIControl::getControlEvent);
-
-
-
 	// ----
+	// Audio
 	lua_tinker::class_<CAudio>(L,"Audio")
 		.con(lua_tinker::constructor<void>())
 		.def("PlayMusic",	& CAudio::PlayBGM)
@@ -39,16 +39,18 @@ void InitLua(lua_State * L)
 		.def("SetSeVolume",	& CAudio::SetSeVolume);
 	lua_tinker::set(L, "g_Audio", & GetAudio());
 	// ----
+	// Vec3D
 	lua_tinker::class_<Vec3D>(L, "Vec3D")
 		.con(lua_tinker::constructor<float,float,float>())
 		.mem("x",	& Vec3D::x)
 		.mem("y",	& Vec3D::y)
 		.mem("z",	& Vec3D::z);
 	// ----
+	// Render Node
 	lua_tinker::class_<CRenderNode>(L, "CRenderNode")
 		.con(lua_tinker::constructor<void>());
-
 	// ----
+	// Character Data
 	lua_tinker::class_<CHARACTER_DATA>(L, "CHARACTER_DATA")
 		.con(lua_tinker::constructor<void>())
 		.mem("Exp",				& CHARACTER_DATA::Exp)
@@ -76,8 +78,8 @@ void InitLua(lua_State * L)
 		.mem("Leadership",		& CHARACTER_DATA::Leadership)
 		.mem("wMinusPoint",		& CHARACTER_DATA::wMinusPoint)
 		.mem("wMaxMinusPoint",	& CHARACTER_DATA::wMaxMinusPoint);
-	
 	// ----
+	// Character
 	lua_tinker::class_<CRole>(L, "CRole")
 		.inh<CRenderNode>()
 		.con(lua_tinker::constructor<void>())
@@ -95,33 +97,39 @@ void InitLua(lua_State * L)
 		.def("setEquip",		& CPlayerMe::setEquip)
 		.def("setEquipSkin",	& CPlayerMe::setEquipSkin);
 	// ----
+	// Monster
 	lua_tinker::class_<CMonster>(L, "CMonster")
 		.inh<CRole>()
 		.con(lua_tinker::constructor<void>())
 		.def("setType",			& CMonster::setType);
 	// ----
+	// PlayerMe
 	lua_tinker::class_<CPlayerMe>(L, "CPlayerMe")
 		.inh<CRole>()
 		.con(lua_tinker::constructor<void>());
 	lua_tinker::set(L, "g_PlayerMe", &CPlayerMe::getInstance());
 	// ----
+	// World
 	lua_tinker::class_<CWorld>(L, "CWorld")
 		.con(lua_tinker::constructor<void>())
 		.def("create",		& CWorld::create)
 		.def("addRole",		& CWorld::addRole);
 	lua_tinker::set(L, "g_World", &CWorld::getInstance());
 	// ----
+	// Item Data
 	lua_tinker::class_<ItemData>(L, "ItemData")
 		.con(lua_tinker::constructor<void>())
 		.mem("cType",		& ItemData::cType)
 		.mem("cIndex",		& ItemData::cIndex)
 		.mem("level",		& ItemData::level);
 	// ----
+	// Icon
 	lua_tinker::class_<CUIIcon>(L, "CUIIcon")
 		.inh<CUIControl>()
 		.con(lua_tinker::constructor<void>())
 		.def("setItemData",	& CUIIcon::setItemData);
 	// ----
+	// Display Model
 	lua_tinker::class_<CUIDisplayModel>(L, "CDisplayModel")
 		.inh<CUIControl>()
 		.con(lua_tinker::constructor<void>())
@@ -131,6 +139,7 @@ void InitLua(lua_State * L)
 		.mem("m_vEye",		& CUIDisplayModel::m_vEye)
 		.mem("m_vLookAt",	& CUIDisplayModel::m_vLookAt);
 	// ----
+	// Character Select
 	lua_tinker::class_<CUIDisplayRoleList>(L, "CUIDisplayRoleChoose")
 		.inh<CUIControl>()
 		.con(lua_tinker::constructor<void>())
@@ -140,6 +149,14 @@ void InitLua(lua_State * L)
 		.mem("m_vLookAt",		& CUIDisplayRoleList::m_vLookAt);
 	lua_tinker::set(L, "g_UIDisplayCharList", &CUIDisplayRoleList::getInstance());
 	// ----
+	// Chat List
+	lua_tinker::class_<CUIChatList>(L, "CUIChatList")
+		.inh<CUIListBox>()
+		.con(lua_tinker::constructor<void>())
+		.def("addMessage",	& CUIChatList::addMessage);
+	lua_tinker::set(L, "g_UIChatList", &CUIChatList::getInstance());
+	// ----
+	// General Dialog
 	lua_tinker::class_<CUIGeneralDialog>(L, "CUIGeneralDialog")
 		.inh<CUIDialog>()
 		.con(lua_tinker::constructor<void>());

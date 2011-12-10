@@ -1646,7 +1646,12 @@
   </dialog>
   
   <dialog id="IDD_CHAT_MESSAGE" scale="0,100,0,100" offset="10,-263,300,-93">
-    <element type="listbox" id="IDC_LIST_CHAT_MESSAGE" scale="0,0,100,100" offset="10,10,-10,-10"></element>
+	<texture filename="ui.tga" rect="490,515,512,474">
+		<color normal="#2FFF" focus="#2FFF" mouseover="#4FFF" pressed="#4FFF"/>
+	</texture>
+    <element type="listbox" id="IDC_LIST_CHAT_MESSAGE" scale="0,0,100,100" offset="10,10,-10,-10">
+		<element type="scrollbar" id="IDC_SCROLLBAR_LEFT" scale="0,0,0,100" offset="0,0,18,0" tip="scrollbar"></element>
+	</element>
   </dialog>
   
   <dialog id="IDD_CHAT" scale="0,100,0,100" offset="10,-90,433,-63">
