@@ -8,7 +8,7 @@ IDD_SERVER_LIST:regControl("IDC_LISTBOX_SERVER", listboxServer)
 
 -- Register Event
 IDD_SERVER_LIST:regControlEvent("IDC_BTN_OK","IDD_SERVER_LIST_OnBtnOK","0")
-IDD_SERVER_LIST:regControlEvent("IDC_LISTBOX_SERVER","IDD_SERVER_LIST_OnBtnOK","1793")
+IDD_SERVER_LIST:regControlEvent("IDC_LISTBOX_SERVER","IDD_SERVER_LIST_OnBtnOK","DBLCLK")
 
 listboxServer:selectByText(L"k")
 

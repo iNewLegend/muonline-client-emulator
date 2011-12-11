@@ -31,7 +31,7 @@ void UISetHWND(HWND hWnd);
 // Defines and macros 
 #define EVENT_DEFAULT						"0"
 #define EVENT_BUTTON_CLICKED				"0"
-#define EVENT_BUTTON_DBLCLK				    "_DBLCLK"
+#define EVENT_BUTTON_DBLCLK				    "DBLCLK"
 
 #define EVENT_RADIOBUTTON_CHANGED			"0"
 #define EVENT_CHECKBOX_CHANGED				"0"
@@ -40,18 +40,18 @@ void UISetHWND(HWND hWnd);
 #define EVENT_COMBOBOX_SELECTION_CHANGED    "0"
 
 
-#define EVENT_EDITBOX_STRING                "_STRING"
+#define EVENT_EDITBOX_STRING                "STRING"
 // EVENT_EDITBOX_CHANGE is sent when the listbox content changes
 // due to user input.
-#define EVENT_EDITBOX_CHANGE                "_CHANGE"
-#define EVENT_LISTBOX_ITEM_DBLCLK           "_DBLCLK"
+#define EVENT_EDITBOX_CHANGE                "CHANGE"
+#define EVENT_LISTBOX_ITEM_DBLCLK           "DBLCLK"
 // EVENT_LISTBOX_SELECTION is fired off when the selection changes in
 // a single selection list box.
-#define EVENT_LISTBOX_SELECTION             "_SELECTION"
+#define EVENT_LISTBOX_SELECTION             "SELECTION"
 
-#define EVENT_SETFOCUS						"_SETFOCUS"
-#define EVENT_KILLFOCUS						"_KILLFOCUS"
-#define EVENT_VISIBLE						"_VISIBLE"
+#define EVENT_SETFOCUS						"SETFOCUS"
+#define EVENT_KILLFOCUS						"KILLFOCUS"
+#define EVENT_VISIBLE						"VISIBLE"
 // Enums for pre-defined control types
 
 enum UI_CONTROL_TYPE 
