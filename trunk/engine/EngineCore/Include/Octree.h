@@ -14,10 +14,16 @@ public:
 
 	~Octree()
 	{
-		clearNodes();
+		m_setNode.clear();
+		deleteChild();
+	}
+	
+	void deleteChild()
+	{
 		if (pChild)
 		{
 			delete[] pChild;
+			pChild = NULL;
 		}
 	}
 
@@ -48,11 +54,10 @@ public:
 		if (depth>0)
 		{
 			depth--;
-			if (pChild)
+			if (!pChild)
 			{
-				delete[] pChild;
+				pChild = new Octree[8];
 			}
-			pChild = new Octree[8];
 			BBox childBoxs[8];
 			for (size_t i=0;i<8;++i)
 			{

@@ -78,7 +78,7 @@
 		<caption height="32">登录</caption>
 		<element type="static" id="IDC_STATIC_USER" rect="15,15,0,25">用户名</element>
 		<element type="static" id="IDC_STATIC_PASSWORD" rect="15,45,0,25">密码</element>
-		<element type="editbox" id="IDC_EDIT_BOX_USER" rect="75,15,90,18">test1</element>
+		<element type="editbox" id="IDC_EDIT_BOX_USER" rect="75,15,90,18">test</element>
 		<element type="checkbox" id="IDC_CHECK_BOX_SAVE" rect="180,18,60,14" tip="保存用户名.">保存</element>
 		<element type="editbox" id="IDC_EDIT_BOX_PASSWORD" rect="75,45,90,18" password="true">123</element>
 		<element type="button" id="IDC_BTN_LOGIN" rect="40,75,82,33">登录</element>
