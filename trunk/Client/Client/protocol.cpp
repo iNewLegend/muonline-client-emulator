@@ -255,7 +255,7 @@ void SCNotice(PMSG_NOTICE & msg)
 
 void SCPJoinResult(PMSG_JOINRESULT& msg)
 {
-	ULONG uPlayerID = MAKE_NUMBERW(msg.NumberH, msg.NumberL);
+	ULONG uPlayerID = MAKE_NUMBERW(msg.NumberH, msg.NumberL)+0x8000;
 	// ----
 	CPlayerMe::getInstance().setID(uPlayerID);
 }
@@ -546,10 +546,6 @@ void SCPlayerViewportCreate(const unsigned char * msg)
 		// ----
 		 pPlayer		= (CRole*)CWorld::getInstance().getRole(uID);
 		// ----
-		if(uID > 40000)
-		{
-			pPlayer = & CPlayerMe::getInstance();
-		}
 		// ----
 		if(pPlayer == NULL)
 		{
