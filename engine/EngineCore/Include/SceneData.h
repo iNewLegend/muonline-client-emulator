@@ -103,7 +103,7 @@ public:
 	void Add2Hash(int x,int y);
 	bool CheckHash(int x,int y);
 
-	std::vector<bool> m_Searched;
+	long m_SearchedFlag;
 protected:
 	std::string					m_strFilename;
 	int							m_nWidth;

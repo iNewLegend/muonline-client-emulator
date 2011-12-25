@@ -80,6 +80,10 @@ bool CSkinMesh::intersectSelf(const Vec3D& vRayPos , const Vec3D& vRayDir, float
 
 bool CSkinMesh::setup()
 {
+	if (m_pData==(void*)-1)
+	{
+		return false;
+	}
 	if (m_pMesh==m_pData)
 	{
 		if (m_pData==NULL)

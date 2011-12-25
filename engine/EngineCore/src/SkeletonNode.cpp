@@ -70,6 +70,10 @@ void CSkeletonNode::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderT
 }
 bool CSkeletonNode::setup()
 {
+	if (m_pData==(void*)-1)
+	{
+		return false;
+	}
 	if (m_pSkeletonData==m_pData)
 	{
 		if (m_pData==NULL)

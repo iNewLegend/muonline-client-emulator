@@ -156,6 +156,13 @@ void CRenderNode::setChildBindingBone(const char* szName, const char* szBoneName
 
 bool CRenderNode::load(const char* szFilename)
 {
+	char szTemp[256];
+	if (m_pData==(void*)-1)
+	{
+		sprintf(szTemp,"Error: This Node is s broken! Trying to load file \"%s\".\n", szFilename);
+		OutputDebugString(szTemp);
+		return false;
+	}
 	if (m_pData)
 	{
 		return false;
@@ -165,9 +172,9 @@ bool CRenderNode::load(const char* szFilename)
 	// ----
 	if (!CRenderNodeMgr::getInstance().loadRenderNode(szFilename,this))
 	{
-		char szTemp[256];
-		sprintf(szTemp,"Load file \"%s\" error.\n", szFilename);
+		sprintf(szTemp,"Error: Loading file \"%s\" failed.\n", szFilename);
 		OutputDebugString(szTemp);
+		m_pData=(void*)-1;
 		return false;
 	}
 	return true;
