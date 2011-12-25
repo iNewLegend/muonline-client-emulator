@@ -56,7 +56,7 @@
 
 	<dialog id="IDD_MAIN" scale="0,0,100,100" style="null">
 		<element type="display" id="IDC_DISPLAY_WORLD" scale="0,0,100,100"/>
-		<element type="image" id="IDC_IMAGE_BG" scale="50,50,50,50" offset="-512,-384,511,383" filename="Data/Textures/Title/1.jpg"/>
+		<e2lement type="image" id="IDC_IMAGE_BG" scale="50,50,50,50" offset="-512,-384,511,383" filename="Data/Textures/Title/1.jpg"/>
 	</dialog>
 	<dialog id="IDD_MESSAGE_BOX" scale="50,50,50,50" offset="-200,-70,200,70" exclusive="true">
         <caption height="32">提示</caption>
