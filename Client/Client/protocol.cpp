@@ -349,16 +349,17 @@ void SCCharList(const unsigned char * msg)
 		}
 		aIndex = pChar->Index;
 		// ----
-		CRole * pRole = CUIDisplayRoleList::getInstance().getRole(aIndex);
+		CRole * pPlayer = (CRole*)CWorld::getInstance().getRole(aIndex);
 		// ----
-		if (pRole)
+		if (!pPlayer)
 		{
-			pRole->setRoleName(s2ws(pChar->Name).c_str());
-			pRole->setLevel(pChar->Level);
-			pRole->setSet(pChar->CharSet);
-			pRole->setPos(Vec3D(aIndex,0,0));
-			pRole->setActionState(CRole::STAND);
-			pRole->updateWorldMatrix();
+			pPlayer = new CRole();
+			pPlayer->setRoleName(s2ws(pChar->Name).c_str());
+			pPlayer->setLevel(pChar->Level);
+			pPlayer->setSet(pChar->CharSet);
+			pPlayer->setPos(Vec3D(aIndex,0,0));
+			pPlayer->setActionState(CRole::STAND);
+			pPlayer->updateWorldMatrix();
 		}
 	}
 }
@@ -386,17 +387,19 @@ void SCCharCreateResult(PMSG_CHARCREATERESULT & msg)
 
 	case 1:
 		{
+			CRole * pPlayer = (CRole*)CWorld::getInstance().getRole(msg.pos);
 			// ----
-			CRole * pRole = CUIDisplayRoleList::getInstance().getRole(msg.pos);
-			// ----
-			if (pRole)
+			if (!pPlayer)
 			{
-				pRole->setRoleName(s2ws(msg.Name).c_str());
-				pRole->setLevel(msg.Level);
-				pRole->setSet(msg.Equipment);
-				pRole->setPos(Vec3D(msg.pos,0,0));
-				pRole->setActionState(CRole::STAND);
-				pRole->updateWorldMatrix();
+				pPlayer = new CRole();
+				// ---
+				pPlayer->setID(msg.pos);
+				pPlayer->setRoleName(s2ws(msg.Name).c_str());
+				pPlayer->setLevel(msg.Level);
+				pPlayer->setPos(Vec3D(msg.pos,0,0));
+				pPlayer->setActionState(CRole::STAND);
+				pPlayer->updateWorldMatrix();
+				CWorld::getInstance().addRole(pPlayer);
 			}
 		}
 		break;
@@ -418,18 +421,12 @@ void SCCharCreateResult(PMSG_CHARCREATERESULT & msg)
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void CharDelete(unsigned char uIndex,const char* szLastJoominNumber)
+void CharDelete(const char* szName, const char* szLastJoominNumber)
 {
-	if(uIndex <= MAX_VISUAL_ROLE)
+	if(szName)
 	{
-		CRole* pRole = CUIDisplayRoleList::getInstance().getRole(uIndex);
-		// ----
-		if(pRole != NULL)
-		{
-			PMSG_CHARDELETE msg(ws2s(pRole->getName()).c_str(), szLastJoominNumber);
-			// ----
-			NETWORK.send(& msg);
-		}
+		PMSG_CHARDELETE msg(szName, szLastJoominNumber);
+		NETWORK.send(& msg);
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -442,23 +439,22 @@ void CharDeleteResult(PMSG_RESULT & msg)
 	}
 	else
 	{
-		CUIDisplayRoleList::getInstance().delRole(CUIDisplayRoleList::getInstance().getSelectIndex());
+		CRole* pPlayer = (CRole*)*CWorld::getInstance().getFocusNodes().getChildObj().begin();
+		if (pPlayer)
+		{
+			CWorld::getInstance().removeChild(pPlayer);
+			delete pPlayer;
+		}
 	}
 }
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-void CSEnterWorld(unsigned char uIndex)
+void CSEnterWorld(const char* szName)
 {
-	if(uIndex <= MAX_VISUAL_ROLE)
+	if (szName)
 	{
-		CRole* pRole = CUIDisplayRoleList::getInstance().getRole(uIndex);
-		// ----
-		if(pRole != NULL)
-		{
-			PMSG_CHARMAPJOIN msg(ws2s(pRole->getName()).c_str());
-			// ----
-			NETWORK.send(& msg);
-		}
+		PMSG_CHARMAPJOIN msg(szName);
+		NETWORK.send(& msg);
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
