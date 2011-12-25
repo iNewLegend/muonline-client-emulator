@@ -16,6 +16,7 @@ struct TerrainCell
 	Color32			color;
 	float			fHeight;
 	unsigned char	uAttribute;
+	long			SearchedFlag;
 };
 
 //////////////////////////////////////////////////////////////////////////
