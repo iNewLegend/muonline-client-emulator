@@ -275,6 +275,10 @@ bool CScene::setup()
 {
 	if (m_pSceneData==m_pData)
 	{
+		if (m_pData==NULL)
+		{
+			CRenderNodeMgr::getInstance().PushMTLoading(this);
+		}
 		return false;
 	}
 	m_pSceneData = (CSceneData*)m_pData;
