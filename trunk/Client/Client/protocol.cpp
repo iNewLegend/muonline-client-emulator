@@ -555,8 +555,8 @@ void SCPlayerViewportCreate(const unsigned char * msg)
 		// ----20%
 		// Set Name For Test
 		char szName[256];
-		sprintf(szName,"%s[br]PKLevel=%d[br]btViewSkillCount=%d",
-			pPlayerViewport->Id,
+		sprintf(szName,"%s[br]%d[br]PK%d[br]ViewSkillCount=%d",
+			pPlayerViewport->Id,uID,
 			pPlayerViewport->DirAndPkLevel&0xF,
 			pPlayerViewport->btViewSkillCount);
 		pPlayer->setRoleName(s2ws(szName).c_str());
