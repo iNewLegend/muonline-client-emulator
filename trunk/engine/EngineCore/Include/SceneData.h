@@ -21,13 +21,9 @@ enum E_TERRAIN_ATT_TYPE
 class CSceneData:public iSceneData
 {
 public:
-	virtual GSET_CONST_VAR	(BBox&,				m_,BBox);
-	virtual GSET_CONST_VAR	(size_t,			m_,OctreeDepth);
 	virtual GSET_CONST_VAR	(Fog&,				m_,Fog);
 	virtual GSET_CONST_VAR	(DirectionalLight&,	m_,Light);
 private:
-	BBox				m_BBox;
-	size_t				m_OctreeDepth;
 	Fog					m_Fog;
 	DirectionalLight	m_Light;
 public:

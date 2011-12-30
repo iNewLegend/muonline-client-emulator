@@ -10,6 +10,7 @@ CScene::CScene()
 	,m_pSceneData(NULL)
 	,m_bRefreshViewport(NULL)
 {
+	m_OctreeRoot.create(BBox(-512.0f,-512.0f,-512.0f,512.0f,512.0f,512.0f),7);
 }
 
 CScene::~CScene()
@@ -282,7 +283,7 @@ bool CScene::setup()
 		return false;
 	}
 	m_pSceneData = (CSceneData*)m_pData;
-	m_OctreeRoot.create(m_pSceneData->getBBox(),m_pSceneData->getOctreeDepth());
+	//m_OctreeRoot.create(m_pSceneData->getBBox(),m_pSceneData->getOctreeDepth());
 	return true;
 }
 
