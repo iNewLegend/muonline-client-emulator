@@ -70,8 +70,8 @@ IDD_MAIN:regEvent("ENTER_WORLD","OnEnterWorld")
 -- Event Func
 IDD_MAIN:setControlVisible("IDC_IMAGE_BG",false)
 
-	g_World:create(77)
-	g_PlayerMe:setCellPos(229,152)
+	--g_World:create(77)
+	--g_PlayerMe:setCellPos(229,152)
 	
 function OnServerList()
 	CloseMessageBox()
@@ -84,8 +84,8 @@ function OnServerList()
 	dlgMinmap:SetVisible(false)
 	dlgPlayerHead:SetVisible(false)
 	dlgAct:SetVisible(false)
-	g_World:create(77)
-	g_PlayerMe:setCellPos(229,152)
+	--g_World:create(77)
+	--g_PlayerMe:setCellPos(229,152)
 end
 
 function OnRoleChoose()
@@ -95,14 +95,14 @@ function OnRoleChoose()
 	IDD_LOGIN:SetVisible(false)
 	dlgRoleChoose:SetVisible(true)
 	--OnShowRoleChoose()
-	--g_UIDisplayCharList:LoadModel("data\\logo\\logo05.bmd")
+	g_UIDisplayCharList:LoadModel("data\\logo\\logo05.bmd")
 	--g_UIDisplayCharList.m_vEye=Vec3D(2.0,2.0,-7.0)
 	--g_UIDisplayCharList.m_vLookAt=Vec3D(2.0,1.0,-0.0)
 	--g_UIDisplayCharList:SetEye(vEye)
 	--g_UIDisplayCharList:SetLookAt(vLookAt)
 	
-	g_World:create(78)
-	g_PlayerMe:setCellPos(229,152)
+	--g_World:create(78)
+	--g_PlayerMe:setCellPos(229,152)
 end
 
 function OnEnterWorld()
