@@ -1317,12 +1317,6 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 	}
 	// object data filename
 	iSceneData* pSceneData = (iSceneData*)m_pRenderNodeMgr->createRenderData("scene",szFilename);
-	BBox bboxObject;
-	float fLength = 256;//max(pScene->getTerrainData()->GetWidth(),pScene->getTerrainData()->GetHeight());
-	bboxObject.vMin = Vec3D(-10.0f,-fLength*0.5f-10.0f,-10.0f);
-	bboxObject.vMax = Vec3D(fLength+10.0f,fLength*0.5f+10.0f,fLength+10.0f);
-	pSceneData->setBBox(bboxObject);
-	pSceneData->setOctreeDepth(6);
 	pRenderNode->setData(pSceneData);
 	importSceneTerrainData(pRenderNode, pSceneData, ChangeExtension(szFilename,".map").c_str());
 	// Loading the object.
@@ -1350,9 +1344,7 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 			pObjectRenderNode->setPos(vPos);
 			pObjectRenderNode->setRotate(vRotate);
 			pObjectRenderNode->setScale(vScale);
-			BBox localBox;
-			localBox.vMin=Vec3D(-2.0f,-2.0f,-2.0f);
-			localBox.vMax=Vec3D( 2.0f, 2.0f, 2.0f);
+			BBox localBox(-2.0f, -2.0f, -2.0f, 2.0f, 2.0f, 2.0f);
 			pObjectRenderNode->setLocalBBox(localBox);
 			pObjectRenderNode->updateWorldBBox();
 			pObjectRenderNode->updateWorldMatrix();
