@@ -18,6 +18,7 @@ class BBox
 {
 public:
 	BBox();
+	BBox(float fMinX, float fMinY, float fMinZ, float fMaxX, float fMaxY, float fMaxZ);
 	Vec3D vMin,vMax;
 	BBox operator+ (const BBox &b) const;
 	BBox& operator+= (const BBox &b);
