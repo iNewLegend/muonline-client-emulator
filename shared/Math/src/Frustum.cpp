@@ -12,6 +12,16 @@ BBox::BBox()
 	vMax.z=FLT_MIN;
 };
 
+BBox::BBox(float fMinX, float fMinY, float fMinZ, float fMaxX, float fMaxY, float fMaxZ)
+{
+	vMin.x=fMinX;
+	vMin.y=fMinY;
+	vMin.z=fMinZ;
+	vMax.x=fMaxX;
+	vMax.y=fMaxY;
+	vMax.z=fMaxZ;
+}
+
 BBox BBox::operator+ (const BBox &b) const
 {
 	BBox box;
