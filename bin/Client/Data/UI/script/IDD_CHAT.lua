@@ -11,5 +11,4 @@ IDD_CHAT:regControlEvent("IDC_EDIT_BOX_CHAT","IDD_CHAT_OnEditChat","STRING")
 function IDD_CHAT_OnEditChat()
 	SendChat(ws2s(editChat:GetText()))
 	editChat:SetText(L"")
-	--MessageBox(editChat:GetText(),0)
 end
