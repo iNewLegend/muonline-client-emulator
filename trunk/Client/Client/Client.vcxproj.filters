@@ -28,6 +28,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
+    <Filter Include="UI\Common">
+      <UniqueIdentifier>{8cb965ff-148f-4014-b4b0-b7b9501d177f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Chat">
+      <UniqueIdentifier>{f72908e2-71e4-428b-8b1b-11a5f68acce3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GlobalFunction.cpp">
@@ -57,12 +63,6 @@
     <ClCompile Include="Role.cpp">
       <Filter>Role</Filter>
     </ClCompile>
-    <ClCompile Include="RPGSkyTextRender.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="RPGSkyUIGraph.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="StrRes.cpp">
       <Filter>Data</Filter>
     </ClCompile>
@@ -70,9 +70,6 @@
       <Filter>World</Filter>
     </ClCompile>
     <ClCompile Include="DlgMain.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="UIChatList.cpp">
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="UIDisplayModel.cpp">
@@ -89,6 +86,15 @@
     </ClCompile>
     <ClCompile Include="UIIcon.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="RPGSkyTextRender.cpp">
+      <Filter>UI\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="RPGSkyUIGraph.cpp">
+      <Filter>UI\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="UIChatList.cpp">
+      <Filter>UI\Chat</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -119,12 +125,6 @@
     <ClInclude Include="Role.h">
       <Filter>Role</Filter>
     </ClInclude>
-    <ClInclude Include="RPGSkyTextRender.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="RPGSkyUIGraph.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="StrRes.h">
       <Filter>Data</Filter>
     </ClInclude>
@@ -135,9 +135,6 @@
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="DlgMain.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="UIChatList.h">
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="UIDisplayModel.h">
@@ -151,6 +148,15 @@
     </ClInclude>
     <ClInclude Include="UIGeneralDialog.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="RPGSkyUIGraph.h">
+      <Filter>UI\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="RPGSkyTextRender.h">
+      <Filter>UI\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="UIChatList.h">
+      <Filter>UI\Chat</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
