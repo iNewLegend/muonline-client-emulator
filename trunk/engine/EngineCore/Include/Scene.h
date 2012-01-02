@@ -16,7 +16,7 @@ public:
 public:
 	virtual int				getType					(){return NODE_BASE;}
 	virtual void			getRenderNodes			(const CFrustum& frustum, std::set<iRenderNode*>& setNode);
-	void					updateRender			(const CFrustum& frustum);
+	virtual void			updateRender			(const CFrustum& frustum);
 	bool					updateNode				(iRenderNode* pNode);
 	// ----
 	virtual void			frameMove				(const Matrix& mWorld, double fTime, float fElapsedTime);
@@ -61,7 +61,6 @@ public:
 	// ----
 	void					CalcLightMap			();
 	// ----
-	GSET_VAR				(bool,				m_b,ShowNode);
 	GSET_VAR				(bool,				m_b,ShowNodeBBox);
 	GSET_VAR				(bool,				m_b,ShowOctreeBox);
 	GSET_VAR				(bool,				m_b,RefreshViewport);
@@ -77,7 +76,6 @@ protected:
 	LIST_RENDER_NODE		m_setLightObj;
 	bool					m_bRefreshViewport;
 	CFocusNode				m_FocusNode;        // The node which has focus
-	bool					m_bShowNode;
 	bool					m_bShowAnimNode;
 	bool					m_bShowNodeBBox;
 	bool					m_bShowOctreeBox;

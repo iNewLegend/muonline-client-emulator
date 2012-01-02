@@ -3,8 +3,7 @@
 #include "RenderNodeMgr.h"
 
 CScene::CScene()
-	:m_bShowNode(true)
-	,m_bShowNodeBBox(false)
+	:m_bShowNodeBBox(false)
 	,m_Fog(32.0f,48.0f,0.01f,0xFFF23344)
 	,m_Light(Vec4D(1.0f,1.0f,1.0f,1.0f),Vec4D(1.0f,1.0f,1.0f,1.0f),Vec4D(1.0f,1.0f,1.0f,1.0f),Vec3D(-1.0f,-1.0f,-1.0f))
 	,m_pSceneData(NULL)
@@ -59,30 +58,20 @@ bool CScene::updateNode(iRenderNode* pNode)
 
 void CScene::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
-	setup();
-	// ----
-	FOR_IN(it,m_mapChildNode)
+	FOR_IN(it,m_RenderNodes)
 	{
-		(*it)->frameMove(Matrix::UNIT,fTime,fElapsedTime);
+		(*it)->frameMove(mWorld, fTime, fElapsedTime);
 	}
 }
 
 void CScene::updateRender(const CFrustum& frustum)
 {
-	if (!m_bRefreshViewport)
+	static CFrustum s_frustum;
+	if (m_bRefreshViewport || s_frustum!=frustum)
 	{
-		static CFrustum s_frustum;
-		if (s_frustum==frustum)
-		{
-			return;
-		}
 		s_frustum=frustum;
-	}
-	m_bRefreshViewport = false;
-	//
-	m_RenderNodes.clear();
-	if (m_bShowNode)
-	{
+		m_bRefreshViewport = false;
+		m_RenderNodes.clear();
 		getRenderNodes(frustum, m_RenderNodes);
 	}
 }
@@ -124,39 +113,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 	R.setFogEnable(m_Fog.fEnd>0.0f);
 	R.SetDirectionalLight(0, m_Light);
 	Vec3D vLightDir = Vec3D(-0.8f,-1.0f,0.0f).normalize();
-// 	if (m_pTerrain)
-// 	{
-// 		m_pTerrain->render(mWorld,MATERIAL_GEOMETRY);
-// 	}
-// 	if (m_pTerrain)
-// 	{
-// 		//if(m_pTerrain->prepare())
-// 		{
-// 			if(R.prepareMaterial("LightDecal"))
-// 			{
-// 				R.SetBlendFunc(true,BLENDOP_ADD,SBF_DEST_COLOUR,SBF_ONE);
-// 				// ----
-// 				FOR_IN(itLight,m_setLightObj)
-// 				{
-// 					const Vec3D& vLightPos = (*itLight)->getPos();
-// 					//m_pTerrain->drawLightDecal(vLightPos.x,vLightPos.z,3.0f,0xFFFFFFFF);
-// 				}
-// 			}
-// 		}
-// 		R.finishMaterial();
-// 	}
  	{
-// 		R.SetCullingMode(CULL_NONE);
-// 		R.SetShader((CShader*)NULL);
-// 		R.SetLightingEnabled(false);
-// 		R.SetBlendFunc(true,BLENDOP_ADD,SBF_ZERO,SBF_SOURCE_COLOUR);
-// 		R.SetAlphaTestFunc(true);
-// 		R.SetDepthBufferFunc(false,false);
-// 		R.SetTextureColorOP(0,TBOP_SOURCE1,TBS_TFACTOR);
-// 		R.SetTextureAlphaOP(0,TBOP_SOURCE1,TBS_TEXTURE);
-// 		R.SetTextureColorOP(1,TBOP_DISABLE);
-// 		R.SetTextureAlphaOP(1,TBOP_DISABLE);
-// 		R.SetStencilFunc(true,STENCILOP_INCR,CMPF_GREATER);
 		// ----
 		FOR_IN(it,m_RenderNodes)
 		{
@@ -247,11 +204,6 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 				return;
 			}
 		}
-		//
-		//if (m_pSceneData)
-		//{
-		////	m_pTerrain->render(Matrix::UNIT,MATERIAL_ALPHA);
-		//}
 		DirectionalLight light(Vec4D(0.3f,0.3f,0.3f,0.3f),Vec4D(0.6f,0.6f,0.6f,0.6f),Vec4D(0.6f,0.6f,0.6f,0.6f),Vec3D(0.0f,-1.0f,1.0f));
 		R.SetDirectionalLight(0,light);
 
@@ -291,7 +243,16 @@ void CScene::addChild(iRenderNode* pChild)
 {
 	// 临时放在这里
 	setup();
-	//
+	// ----
+	if (pChild->getLocalBBox().vMin.x == FLT_MAX)
+	{
+		BBox box(-2.0f,-1.0f,-2.0f, 2.0f,2.0f,2.0f);
+		pChild->setLocalBBox(box);
+	}
+	// ----
+	pChild->updateWorldBBox();
+	pChild->updateWorldMatrix();
+	// ----
 	CRenderNode::addChild(pChild);
 	// ----
 	if (m_OctreeRoot.addNode(pChild->getWorldBBox(), pChild))

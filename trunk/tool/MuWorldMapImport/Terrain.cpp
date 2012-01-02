@@ -509,8 +509,6 @@ bool CMyPlug::importSceneTerrainData(iRenderNode* pRenderNode, iSceneData* pScen
 			if (pMeshNode)
 			{
 				pMeshNode->setLocalBBox(bbox);
-				pMeshNode->updateWorldBBox();
-				pMeshNode->updateWorldMatrix();
 				pMeshNode->setData(pMesh);
 				pRenderNode->addChild(pMeshNode);
 			}

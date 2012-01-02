@@ -48,6 +48,13 @@ void InitLua(lua_State * L)
 	// ----
 	// Render Node
 	lua_tinker::class_<CRenderNode>(L, "CRenderNode")
+		.con(lua_tinker::constructor<void>())
+		.def("setName",& CRenderNode::setName)
+		.def("setFilename",	& CRenderNode::setFilename);
+	// ----
+	// SkeletonNode Node
+	lua_tinker::class_<CSkeletonNode>(L, "CSkeletonNode")
+		.inh<CRenderNode>()
 		.con(lua_tinker::constructor<void>());
 	// ----
 	// Character Data

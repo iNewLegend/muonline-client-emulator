@@ -46,6 +46,15 @@ public:
 		}
 		return true;
 	}
+	bool operator!=(const CFrustum & frustum)
+	{
+		for(int i = 0 ; i < 8 ; i ++)
+		{
+			if(m_vtx[i]!=frustum.m_vtx[i])
+				return true;
+		}
+		return false;
+	}
 	//
 	Vec3D getEyePoint()const;
 	//¹¹½¨ÊÓ×¶

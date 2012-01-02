@@ -359,7 +359,8 @@ void SCCharList(const unsigned char * msg)
 			pPlayer->setSet(pChar->CharSet);
 			pPlayer->setPos(Vec3D(aIndex,0,0));
 			pPlayer->setActionState(CRole::STAND);
-			pPlayer->updateWorldMatrix();
+			BBox localBox(-2.0f,-2.0f,-2.0f, 2.0f, 2.0f, 2.0f);
+			pPlayer->setLocalBBox(localBox);
 		}
 	}
 }
@@ -398,7 +399,8 @@ void SCCharCreateResult(PMSG_CHARCREATERESULT & msg)
 				pPlayer->setLevel(msg.Level);
 				pPlayer->setPos(Vec3D(msg.pos,0,0));
 				pPlayer->setActionState(CRole::STAND);
-				pPlayer->updateWorldMatrix();
+				BBox localBox(-2.0f,-2.0f,-2.0f, 2.0f, 2.0f, 2.0f);
+				pPlayer->setLocalBBox(localBox);
 				CWorld::getInstance().addRole(pPlayer);
 			}
 		}
