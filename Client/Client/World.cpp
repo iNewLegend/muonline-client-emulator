@@ -115,19 +115,27 @@ CRole* CWorld::pickRole(const Vec3D & vRayPos , const Vec3D & vRayDir)
 
 bool CWorld::addRole(CRole * pRole)
 {
-	bool bReturn = false;
-	// ----
-	if(pRole != false)
+	if (!pRole)
 	{
-		if(m_mapRole.find(pRole->getID()) == m_mapRole.end())
-		{
-			m_mapRole[pRole->getID()] = pRole;
-			// ----
-			bReturn = true;
-		}
+		return false;
 	}
 	// ----
-	return bReturn;
+	if (pRole->getLocalBBox().vMin.x == FLT_MAX)
+	{
+		BBox box(-0.5f,0.0f,-0.5f, 0.5f,2.0f,0.5f);
+		pRole->setLocalBBox(box);
+	}
+	// ----
+	pRole->updateWorldBBox();
+	pRole->updateWorldMatrix();
+	// ----
+	if(m_mapRole.find(pRole->getID()) == m_mapRole.end())
+	{
+		m_mapRole[pRole->getID()] = pRole;
+		return true;
+	}
+	// ----
+	return false;
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -233,21 +241,62 @@ void CWorld::addDamageInfo(Vec3D vPos,const std::wstring & wcsInfo)
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+void CWorld::updateRender(const CFrustum& frustum)
+{
+	//CScene::updateRender(frustum);
+	static CFrustum s_frustum;
+	if (m_bRefreshViewport || s_frustum!=frustum)
+	{
+		s_frustum=frustum;
+		m_bRefreshViewport = false;
+		m_RenderNodes.clear();
+		getRenderNodes(frustum, m_RenderNodes);
+		// ----
+		if (CWorld::getInstance().getSceneData())
+		{
+			Pos2D pos;
+			CPlayerMe::getInstance().GetCellPos(pos);
+			unsigned char uTileID = CWorld::getInstance().getSceneData()->getCellTileID(pos.x, pos.y ,0);
+			// ----
+			// # hide the house wall
+			if (uTileID==4)
+			{
+				for(auto it = m_RenderNodes.begin(); it!=m_RenderNodes.end();)
+				{
+					auto temp = it++;
+					if (std::string((*temp)->getFilename()).find("HouseWall05.bmd") != std::string::npos||
+						std::string((*temp)->getFilename()).find("HouseWall06.bmd") != std::string::npos)
+						//if (strcmp((*it)->getFilename(),"125")==0 || strcmp((*it)->getName(),"126")==0)
+					{
+						m_RenderNodes.erase(temp);
+					}
+				}
+			}
+		}
+	}
+	// ----
+	for(auto it = m_mapRole.begin() ; it != m_mapRole.end() ; it++)
+	{
+		removeRenderNode(it->second);
+		// ----
+		CrossRet crossRet = frustum.CheckAABBVisible(it->second->getWorldBBox());
+		// ----
+		if(cross_exclude != crossRet)
+		{
+			m_RenderNodes.insert(it->second);
+		}
+	}
+}
+
 void CWorld::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
 	// ----
 	FOR_IN(it,m_mapRole)
 	{
-		it->second->frameMoveRole(Matrix::UNIT, fTime, fElapsedTime);
+		it->second->frameMoveRole(mWorld, fTime, fElapsedTime);
 	}
 	// ----
-	FOR_IN(it,m_RenderNodes)
-	{
-		if((*it)->getType())
-		{
-			(*it)->frameMove(Matrix::UNIT, fTime, fElapsedTime);
-		}
-	}
+	CScene::frameMove(mWorld, fTime, fElapsedTime);
 	// ----
 	// # Delete the old roles
 	// ----
@@ -288,50 +337,5 @@ void CWorld::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 	// ----
 	renderDamageInfo();
 	//m_Messages.frameRender();
-}
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-void CWorld::getRenderNodes(const CFrustum& frustum, std::set<iRenderNode*>& setNode)
-{
-	CrossRet crossRet;
-	// ----
-	CScene::getRenderNodes(frustum, setNode);
-	// ----
-	for(auto it = m_mapRole.begin() ; it != m_mapRole.end() ; it++)
-	{
-		crossRet = frustum.CheckAABBVisible(it->second->getWorldBBox());
-		// ----
-		if(cross_exclude != crossRet)
-		{
-			setNode.insert(it->second);
-		}
-	}
-	// ----
-	if (CWorld::getInstance().getSceneData())
-	{
-		Pos2D pos;
-		CPlayerMe::getInstance().GetCellPos(pos);
-		unsigned char uTileID = CWorld::getInstance().getSceneData()->getCellTileID(pos.x, pos.y ,0);
-		// ----
-		// # hide the house wall
-		if (uTileID==4)
-		{
-			for(auto it = setNode.begin(); it!=setNode.end();)
-			{
-				auto temp = it++;
-				if (std::string((*temp)->getFilename()).find("HouseWall05.bmd") != std::string::npos||
-					std::string((*temp)->getFilename()).find("HouseWall06.bmd") != std::string::npos)
-					//if (strcmp((*it)->getFilename(),"125")==0 || strcmp((*it)->getName(),"126")==0)
-				{
-					m_RenderNodes.erase(temp);
-				}           
-			}
-
-			FOR_IN(it,setNode)
-			{
-
-			}
-		}
-	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

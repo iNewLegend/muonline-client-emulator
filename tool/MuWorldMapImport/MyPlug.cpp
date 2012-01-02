@@ -1344,10 +1344,6 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 			pObjectRenderNode->setPos(vPos);
 			pObjectRenderNode->setRotate(vRotate);
 			pObjectRenderNode->setScale(vScale);
-			BBox localBox(-2.0f, -2.0f, -2.0f, 2.0f, 2.0f, 2.0f);
-			pObjectRenderNode->setLocalBBox(localBox);
-			pObjectRenderNode->updateWorldBBox();
-			pObjectRenderNode->updateWorldMatrix();
 			pRenderNode->addChild(pObjectRenderNode);
 			pObjInfo++;
 		}
