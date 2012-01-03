@@ -27,9 +27,12 @@ void CUIDisplayWorld::OnFrameMove(double fTime, float fElapsedTime)
 	{
 		CRect<int> rcViewport	= getViewport();
 		// ----
-		m_Camera.SetProjParams(PI / 3, rcViewport.getWidth(), rcViewport.getHeight(), 0.1f, CWorld::getInstance().getFog().fEnd);
+		m_Camera.setProjParams(PI / 3, rcViewport.getWidth(), rcViewport.getHeight(), 0.1f, CWorld::getInstance().getFog().fEnd);
 		m_Camera.FrameMove(fElapsedTime);
-		m_Camera.setTargetPos(CPlayerMe::getInstance().getPos());
+		// ----
+		Vec3D vPos = CPlayerMe::getInstance().getPos();
+		vPos.y+=CPlayerMe::getInstance().getRoleHeight()*0.6f;
+		m_Camera.setTargetPos(vPos);
 		// ----
 		CUIDisplay::OnFrameMove(fTime, fElapsedTime);
 		// ----
@@ -42,16 +45,15 @@ void CUIDisplayWorld::OnFrameRender(const Matrix& mTransform, double fTime, floa
 {
 	if(IsVisible() == true)
 	{
-		bool bBloom				= false;
+		bool bBloom				= true;
 		bool bCamma				= false;
-		bool bSkyBox			= false;
 		bool bSetFog			= false;
 		// ----
 		CRect<int> rcViewport	= getViewport();
 		CRenderSystem & R		= CRenderSystem::getSingleton();
 		// ----
 		R.setShaderFloat("g_fTime",			fTime);
-		R.setShaderMatrix("g_mViewProj",	m_Camera.GetProjXView());
+		R.setShaderMatrix("g_mViewProj",	m_Camera.getProjXView());
 		R.setShaderVec3D("g_vLightDir",		CWorld::getInstance().getLight().vDirection);
 		R.setShaderVec3D("g_vEyePot",		m_Camera.getEyePt());
 		// ----
@@ -76,15 +78,6 @@ void CUIDisplayWorld::OnFrameRender(const Matrix& mTransform, double fTime, floa
 			R.setViewport(rcViewport);
 		}
 		// ----
-		if(bSkyBox == true)
-		{
-			// # Render SkyBox
-			// ----
-			//m_SkyBox.Render(m_Camera.GetViewMatrix());
-			// ----
-			//pShader->setTexture("g_texEnvironment", m_SkyBox.m_pCubeMap);*/
-		}
-		// ----
 		if(bSetFog == true)
 		{
 			// # Set Fog
@@ -102,7 +95,7 @@ void CUIDisplayWorld::OnFrameRender(const Matrix& mTransform, double fTime, floa
 			R.setViewMatrix(m_Camera.getViewMatrix());
 			R.setWorldMatrix(Matrix::UNIT);
 			// ----
-			CWorld::getInstance().updateRender(m_Camera.GetFrustum());
+			CWorld::getInstance().updateRender(m_Camera.getFrustum());
 			CWorld::getInstance().render(Matrix::UNIT,MATERIAL_NORMAL);
 		}
 		// ----
@@ -132,35 +125,35 @@ void CUIDisplayWorld::OnFrameRender(const Matrix& mTransform, double fTime, floa
 		// ----
 		if(true == true)
 		{
-			m_SceneEffect.glowRenderTargetBegin();
+			//m_SceneEffect.glowRenderTargetBegin();
 			// ----
-			R.ClearBuffer(false, true, 0x00000000);
+			//R.ClearBuffer(false, true, 0x00000000);
 			// ----
 			//CWorld::getInstance().renderGlow();
 			// ----
-			m_SceneEffect.glowRenderTargetEnd();
-			m_SceneEffect.RenderBloom();
+			//m_SceneEffect.glowRenderTargetEnd();
+			//m_SceneEffect.RenderBloom();
 		}
 		// ----
 		if(true == true)
 		{
-			m_SceneEffect.renderTargetBegin();
+			//m_SceneEffect.renderTargetBegin();
 			// ----
-			R.ClearBuffer(false, true, 0x00000000);
+			//R.ClearBuffer(false, true, 0x00000000);
 			// ----
 			//m_SceneEffect.renderTargetViewportBegin();
 			// ----
 			{
-				R.setProjectionMatrix(m_Camera.getProjMatrix());
-				R.setViewMatrix(m_Camera.getViewMatrix());
+			//	R.setProjectionMatrix(m_Camera.getProjMatrix());
+			//	R.setViewMatrix(m_Camera.getViewMatrix());
 				// ----
 				//CWorld::getInstance().renderGlow();
 			}
 			// ----
 			//m_SceneEffect.renderTargetViewportEnd();
 			//m_SceneEffect.renderTargetGlow();
-			m_SceneEffect.renderTargetBloom();
-			m_SceneEffect.renderTargetEnd();
+			//m_SceneEffect.renderTargetBloom();
+			//m_SceneEffect.renderTargetEnd();
 			//m_SceneEffect.compose();
 		}
 		// ----
@@ -278,7 +271,7 @@ void CUIDisplayWorld::MoveCamera(int x, int y)
 	// ----
 	mCameraRot.rotationYawPitchRoll(m_Camera.getYawAngle(), 0, 0);
 	// ----
-	vPos	+= mCameraRot * Vec3D(x, 0, y) * 0.001f * m_Camera.GetRadius();
+	vPos	+= mCameraRot * Vec3D(x, 0, y) * 0.001f * m_Camera.getRadius();
 	// ----
 	vPos.y	= CWorld::getInstance().getHeight(vPos.x, vPos.z);
 	// ----
@@ -332,7 +325,7 @@ void CUIDisplayWorld::OnMouseWheel(POINT point, short wheelDelta)
 	{
 		if(wheelDelta != 0)
 		{
-			m_Camera.addMouseDelta(Vec3D(0, 0, - wheelDelta / 12.0f * m_Camera.GetRadius()));
+			m_Camera.addMouseDelta(Vec3D(0, 0, - wheelDelta / 12.0f * m_Camera.getRadius()));
 		}
 	}
 }

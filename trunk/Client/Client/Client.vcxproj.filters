@@ -75,9 +75,6 @@
     <ClCompile Include="UIDisplayModel.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="UIDisplayRoleChoose.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="UIDisplayWorld.cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -138,9 +135,6 @@
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="UIDisplayModel.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="UIDisplayRoleChoose.h">
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="UIDisplayWorld.h">

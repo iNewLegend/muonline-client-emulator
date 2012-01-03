@@ -2,7 +2,6 @@
 #include "protocol.h"
 #include "MainRoot.h"
 #include "SimpleModulus.h"
-#include "UIDisplayRoleChoose.h"
 #include "Monster.h"
 #include "Npc.h"
 #include "PlayerMe.h"
@@ -338,14 +337,19 @@ void SCCharList(const unsigned char * msg)
 	// ----
 	int	aIndex						= -1;
 	// ----
-	CUIDisplayRoleList::getInstance().clearAllRole();
+	CWorld::getInstance().delRole(0);
+	CWorld::getInstance().delRole(1);
+	CWorld::getInstance().delRole(2);
+	CWorld::getInstance().delRole(3);
+	CWorld::getInstance().delRole(4);
+	// ----
 	for(size_t i = 0 ; i< pCLCount->Count ; i++)
 	{
 		pChar = & pCList[i];
 		// ----
 		if (aIndex==-1)
 		{
-			CUIDisplayRoleList::getInstance().setSelectIndex(pChar->Index);
+			//CUIDisplayRoleList::getInstance().setSelectIndex(pChar->Index);
 		}
 		aIndex = pChar->Index;
 		// ----
@@ -359,8 +363,7 @@ void SCCharList(const unsigned char * msg)
 			pPlayer->setSet(pChar->CharSet);
 			pPlayer->setPos(Vec3D(aIndex,0,0));
 			pPlayer->setActionState(CRole::STAND);
-			BBox localBox(-2.0f,-2.0f,-2.0f, 2.0f, 2.0f, 2.0f);
-			pPlayer->setLocalBBox(localBox);
+			CWorld::getInstance().addRole(pPlayer);
 		}
 	}
 }
@@ -376,7 +379,7 @@ void CSCharCreate(const char* szName, unsigned char uClass)
 
 void SCCharCreateResult(PMSG_CHARCREATERESULT & msg)
 {
-	CUIDisplayRoleList::getInstance().setSelectIndex(msg.pos);
+	//CUIDisplayRoleList::getInstance().setSelectIndex(msg.pos);
 	// ----
 	switch(msg.Result)
 	{
@@ -399,8 +402,6 @@ void SCCharCreateResult(PMSG_CHARCREATERESULT & msg)
 				pPlayer->setLevel(msg.Level);
 				pPlayer->setPos(Vec3D(msg.pos,0,0));
 				pPlayer->setActionState(CRole::STAND);
-				BBox localBox(-2.0f,-2.0f,-2.0f, 2.0f, 2.0f, 2.0f);
-				pPlayer->setLocalBBox(localBox);
 				CWorld::getInstance().addRole(pPlayer);
 			}
 		}

@@ -30,7 +30,6 @@ public:
 	void clearTextures();
 	void Reset(const CRect<int>& rc);
 	void RenderTemporalBloom();
-	void RenderBloom();
 	float GetSceneExposure();
 
 	void glowRenderTargetBegin();

@@ -305,44 +305,6 @@ D3DXSaveSurfaceToFileA("F:/项目/NewGame/cc.bmp", D3DXIFF_BMP, m_pSceneTexture, N
 	return m_fAdaptedLum;
 }
 
-void CSceneEffect::RenderBloom()
-{
-	CRenderSystem& R = CRenderSystem::getSingleton();
-
-	
-	renderTargetBegin();
-	//R.ClearBuffer(true, true, 0xFFFFFFFF);
-	//renderTargetGlow();
-	renderTargetBloom();
-	renderTargetEnd();
-//	compose();
-	// test
-	//R.SetRenderTarget(m_pDepthRenderTarget);
-	//if (R.BeginFrame())
-	//{
-	//	
-	//}
-	//R.EndFrame();
-	//m_pDepthRenderTarget->SaveToFile(L"D:/Depth.bmp");
-
-	//R.GetBackBuffer()
-	//void *pContainer = NULL;
-	//IDirect3DTexture9 *pTexture = NULL;
-	//HRESULT hr = pSurface->GetContainer(IID_IDirect3DTexture9, &pContainer);
-//	if (SUCCEEDED(hr) && pContainer)
-	//{
-	//	pTexture = (IDirect3DTexture9 *)pContainer;
-	//}
-
-	//int nAlpha = min(m_fBloomVal*255,255);
-	//unsigned long dwFactor = nAlpha<<24;
-
-	//R.SetShader(-1);
-
-
-	//D3DXSaveSurfaceToFileW(L"D:/m_pSceneTexture.bmp", D3DXIFF_BMP, m_pSceneTexture, NULL, NULL);
-}
-
 void CSceneEffect::glowRenderTargetBegin()
 {
 	CRenderSystem& R = CRenderSystem::getSingleton();
@@ -438,29 +400,47 @@ void CSceneEffect::renderGammaCorrection()
 void CSceneEffect::renderTargetBloom()
 {
 	CRenderSystem& R = CRenderSystem::getSingleton();
-	R.SetBlendFunc(true,BLENDOP_ADD,SBF_ONE,SBF_ONE);
-	R.SetTextureColorOP(0,TBOP_MODULATE,TBS_TEXTURE,TBS_DIFFUSE);
-	R.SetTextureAlphaOP(0,TBOP_DISABLE);
-	R.SetFVF(SceneBloomVertex::FVF);
+	R.SetFVF(QuadVertex::FVF);
 
-	R.SetCullingMode(CULL_NONE);
-	R.SetLightingEnabled(false);
-	R.SetDepthBufferFunc(false,false);
-	// 第三步：生成光晕-纵横模糊
-	for (int nBloomCount = 0; nBloomCount<1; nBloomCount++)
+	// 横模糊
+	if (R.prepareMaterial("Bloom1"))
 	{
-		// 横模糊
 		R.SetRenderTarget(m_pTextureScene1);
 		R.ClearBuffer(false,true,0x0);
 		R.SetTexture(0, m_pSceneTexture);
-		R.DrawPrimitiveUP(VROT_TRIANGLE_LIST, 26, m_BloomHVB, sizeof(SceneBloomVertex));
+		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_QuadVB, sizeof(QuadVertex));
+	}
 
-		// 纵模糊
+	// 纵模糊
+	if (R.prepareMaterial("Bloom2"))
+	{
 		R.SetRenderTarget(m_pSceneTexture);
 		R.ClearBuffer(false,true,0x0);
 		R.SetTexture(0, m_pTextureScene1);
-		R.DrawPrimitiveUP(VROT_TRIANGLE_LIST, 26, m_BloomVVB, sizeof(SceneBloomVertex));
+		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_QuadVB, sizeof(QuadVertex));
 	}
+// 	CRenderSystem& R = CRenderSystem::getSingleton();
+// 	R.SetBlendFunc(true,BLENDOP_ADD,SBF_ONE,SBF_ONE);
+// 	R.SetTextureColorOP(0,TBOP_MODULATE,TBS_TEXTURE,TBS_DIFFUSE);
+// 	R.SetTextureAlphaOP(0,TBOP_DISABLE);
+// 	R.SetFVF(SceneBloomVertex::FVF);
+// 
+// 	R.SetCullingMode(CULL_NONE);
+// 	R.SetLightingEnabled(false);
+// 	R.SetDepthBufferFunc(false,false);
+
+// 		// 横模糊
+// 		R.SetRenderTarget(m_pTextureScene1);
+// 		R.ClearBuffer(false,true,0x0);
+// 		R.SetTexture(0, m_pSceneTexture);
+// 		R.DrawPrimitiveUP(VROT_TRIANGLE_LIST, 26, m_BloomHVB, sizeof(SceneBloomVertex));
+// 
+// 		// 纵模糊
+// 		R.SetRenderTarget(m_pSceneTexture);
+// 		R.ClearBuffer(false,true,0x0);
+// 		R.SetTexture(0, m_pTextureScene1);
+// 		R.DrawPrimitiveUP(VROT_TRIANGLE_LIST, 26, m_BloomVVB, sizeof(SceneBloomVertex));
+
 }
 
 void CSceneEffect::renderTargetEnd()
@@ -505,44 +485,43 @@ void CSceneEffect::compose(const CRect<int>& rcDest)
 
 	R.SetTexCoordIndex(0, 0);
 
-	//if(R.BeginFrame())
 	{
 		R.SetTexture(0, m_pSceneTexture);
 		R.SetFVF(QuadVertex::FVF);
 
-		if (m_bHDR)
-		{
-			// 减低亮度
-			R.SetBlendFunc(bcan,BLENDOP_REVSUBTRACT,SBF_ONE,SBF_ONE);
-			//r->BlendOP(BLENDOP_REVSUBTRACT);BLENDOP_REVSUBTRACT
-			float fLumScale = m_fHDRKey/m_fAdaptedLum;
-
-
-			if (fLumScale > 1.0f)// 加亮屏幕操作
-			{
-				fLumScale -= 1.0f;
-				unsigned char ucFactor = min(255,fLumScale*255);
-				Color32 clrFactor(ucFactor,255,255,255);
-				R.SetTextureFactor(clrFactor);
-				R.SetBlendFunc(bcan,BLENDOP_ADD,SBF_DEST_COLOUR,SBF_SOURCE_ALPHA);
-
-				R.SetTextureColorOP(0,TBOP_SOURCE1,TBS_TFACTOR);
-				R.SetTextureAlphaOP(0,TBOP_SOURCE1,TBS_TFACTOR);
-
-				R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, QuadVB, sizeof(QuadVertex));
-			}
-			else// 减暗屏幕操作
-			{
-				unsigned char ucFactor = min(255,fLumScale*255);
-				Color32 clrFactor(ucFactor,ucFactor,ucFactor,ucFactor);
-				R.SetTextureFactor(clrFactor);
-				R.SetBlendFunc(bcan,BLENDOP_ADD,SBF_DEST_COLOUR,SBF_ZERO);
-
-				R.SetTextureColorOP(0,TBOP_SOURCE1,TBS_TFACTOR);
-				R.SetTextureAlphaOP(0,TBOP_DISABLE);
-				R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, QuadVB, sizeof(QuadVertex));
-			}
-		}
+// 		if (m_bHDR)
+// 		{
+// 			// 减低亮度
+// 			R.SetBlendFunc(bcan,BLENDOP_REVSUBTRACT,SBF_ONE,SBF_ONE);
+// 			//r->BlendOP(BLENDOP_REVSUBTRACT);BLENDOP_REVSUBTRACT
+// 			float fLumScale = m_fHDRKey/m_fAdaptedLum;
+// 
+// 
+// 			if (fLumScale > 1.0f)// 加亮屏幕操作
+// 			{
+// 				fLumScale -= 1.0f;
+// 				unsigned char ucFactor = min(255,fLumScale*255);
+// 				Color32 clrFactor(ucFactor,255,255,255);
+// 				R.SetTextureFactor(clrFactor);
+// 				R.SetBlendFunc(bcan,BLENDOP_ADD,SBF_DEST_COLOUR,SBF_SOURCE_ALPHA);
+// 
+// 				R.SetTextureColorOP(0,TBOP_SOURCE1,TBS_TFACTOR);
+// 				R.SetTextureAlphaOP(0,TBOP_SOURCE1,TBS_TFACTOR);
+// 
+// 				R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, QuadVB, sizeof(QuadVertex));
+// 			}
+// 			else// 减暗屏幕操作
+// 			{
+// 				unsigned char ucFactor = min(255,fLumScale*255);
+// 				Color32 clrFactor(ucFactor,ucFactor,ucFactor,ucFactor);
+// 				R.SetTextureFactor(clrFactor);
+// 				R.SetBlendFunc(bcan,BLENDOP_ADD,SBF_DEST_COLOUR,SBF_ZERO);
+// 
+// 				R.SetTextureColorOP(0,TBOP_SOURCE1,TBS_TFACTOR);
+// 				R.SetTextureAlphaOP(0,TBOP_DISABLE);
+// 				R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, QuadVB, sizeof(QuadVertex));
+// 			}
+// 		}
 
 		R.SetSamplerFilter(0, TEXF_POINT, TEXF_POINT, TEXF_POINT);
 		// 添加光晕

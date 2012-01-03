@@ -110,7 +110,6 @@
     <ClCompile Include="DlgMain.cpp" />
     <ClCompile Include="UIChatList.cpp" />
     <ClCompile Include="UIDisplayModel.cpp" />
-    <ClCompile Include="UIDisplayRoleChoose.cpp" />
     <ClCompile Include="UIDisplayWorld.cpp" />
     <ClCompile Include="ClientNetWork.cpp" />
     <ClCompile Include="protocol.cpp" />
@@ -132,7 +131,6 @@
     <ClInclude Include="DlgMain.h" />
     <ClInclude Include="UIChatList.h" />
     <ClInclude Include="UIDisplayModel.h" />
-    <ClInclude Include="UIDisplayRoleChoose.h" />
     <ClInclude Include="UIDisplayWorld.h" />
     <ClInclude Include="ClientNetWork.h" />
     <ClInclude Include="protocol.h" />

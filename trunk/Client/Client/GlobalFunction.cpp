@@ -7,7 +7,6 @@
 #include "Monster.h"
 #include "UIGeneralDialog.h"
 #include "UIDisplayModel.h"
-#include "UIDisplayRoleChoose.h"
 #include "UIChatList.h"
 #include "UIIcon.h"
 
@@ -119,10 +118,39 @@ void InitLua(lua_State * L)
 		.con(lua_tinker::constructor<void>());
 	lua_tinker::set(L, "g_PlayerMe", &CPlayerMe::getInstance());
 	// ----
+	// Camera
+	lua_tinker::class_<CCamera>(L,"CCamera")
+		.con(lua_tinker::constructor<void>())
+		.def("setRadius",			&CCamera::setRadius)
+		.def("getRadius",			&CCamera::getRadius)
+
+		.def("setDefaultRadius",	&CCamera::setDefaultRadius)
+		.def("getDefaultRadius",	&CCamera::getDefaultRadius)
+
+		.def("setMinRadius",		&CCamera::setMinRadius)
+		.def("getMinRadius",		&CCamera::getMinRadius)
+
+		.def("setMaxRadius",		&CCamera::setMaxRadius)
+		.def("getMaxRadius",		&CCamera::getMaxRadius)
+
+		.def("setYawAngle",			&CCamera::setYawAngle)
+		.def("getYawAngle",			&CCamera::getYawAngle)
+
+		.def("setPitchAngle",		&CCamera::setPitchAngle)
+		.def("getPitchAngle",		&CCamera::getPitchAngle)
+
+		.def("setMinPitchAngle",	&CCamera::setMinPitchAngle)
+		.def("getMinPitchAngle",	&CCamera::getMinPitchAngle)
+
+		.def("setMaxPitchAngle",	&CCamera::setMaxPitchAngle)
+		.def("getMaxPitchAngle",	&CCamera::getMaxPitchAngle);
+	lua_tinker::set(L, "g_Camera", &CMainRoot::getInstance().getMainDialog().getDisplay().getCamera());
+	// ----
 	// World
 	lua_tinker::class_<CWorld>(L, "CWorld")
 		.con(lua_tinker::constructor<void>())
 		.def("create",		& CWorld::create)
+		.def("addChild",	& CWorld::addChild)
 		.def("addRole",		& CWorld::addRole);
 	lua_tinker::set(L, "g_World", &CWorld::getInstance());
 	// ----
@@ -148,16 +176,6 @@ void InitLua(lua_State * L)
 		.def("getRenderNode",	& CUIDisplayModel::getRenderNode)
 		.mem("m_vEye",		& CUIDisplayModel::m_vEye)
 		.mem("m_vLookAt",	& CUIDisplayModel::m_vLookAt);
-	// ----
-	// Character Select
-	lua_tinker::class_<CUIDisplayRoleList>(L, "CUIDisplayRoleChoose")
-		.inh<CUIControl>()
-		.con(lua_tinker::constructor<void>())
-		.def("getSelectCharName",	& CUIDisplayRoleList::getSelectCharName)
-		.def("LoadModel",		& CUIDisplayRoleList::LoadModel)
-		.mem("m_vEye",			& CUIDisplayRoleList::m_vEye)
-		.mem("m_vLookAt",		& CUIDisplayRoleList::m_vLookAt);
-	lua_tinker::set(L, "g_UIDisplayCharList", &CUIDisplayRoleList::getInstance());
 	// ----
 	// Chat List
 	lua_tinker::class_<CUIChatList>(L, "CUIChatList")
