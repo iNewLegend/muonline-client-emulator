@@ -65,7 +65,7 @@ void CCamera::MoveAroundTarget()
 void CCamera::FrameMove(float fElapsedTime)
 {
 	// Get amount of velocity based on the keyboard input and drag (if any)
-	UpdateVelocity(fElapsedTime);
+	updateVelocity(fElapsedTime);
 
 	// Simple euler method to calculate position delta
 	//Vec3D vPosDelta = m_vVelocity * fElapsedTime;
@@ -101,7 +101,7 @@ void CCamera::GetPickRay(Vec3D& vRayPos, Vec3D& vRayDir, int x, int y,const RECT
 
 void CCamera::World2Screen(const Vec3D& vWorldPos, Pos2D& posScreen)
 {
-	Matrix mProjXView = this->GetProjXView();
+	Matrix mProjXView = this->getProjXView();
 	Vec4D vOut = mProjXView*Vec4D(vWorldPos,1);
 	float fW = vOut.w;
 	posScreen.x = int(m_nSceneWidth*(0.5f+vOut.x*0.5f/fW));

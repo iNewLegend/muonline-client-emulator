@@ -7,10 +7,10 @@ CBaseCamera::CBaseCamera()
     Vec3D vLookatPt = Vec3D(0.0f,0.0f,1.0f);
 
     // Setup the view matrix
-    SetViewParams(vEyePt, vLookatPt);
+    setViewParams(vEyePt, vLookatPt);
 
     // Setup the projection matrix
-    SetProjParams(3.14159f/4, 800, 600, 1.0f, 1000.0f);
+    setProjParams(3.14159f/4, 800, 600, 1.0f, 1000.0f);
 
     m_fYawAngle = 0.0f;
     m_fPitchAngle = 0.0f;
@@ -29,7 +29,7 @@ CBaseCamera::CBaseCamera()
 }
 
 
-void CBaseCamera::SetViewParams(Vec3D& vEyePt, Vec3D& vLookatPt)
+void CBaseCamera::setViewParams(Vec3D& vEyePt, Vec3D& vLookatPt)
 {
     m_vDefaultEye = m_vEyePt = vEyePt;
     m_vDefaultLookAt = m_vLookAt = vLookatPt;
@@ -52,7 +52,7 @@ void CBaseCamera::SetViewParams(Vec3D& vEyePt, Vec3D& vLookatPt)
     m_fPitchAngle = -atan2f(pZBasis->y, fLen);
 }
 
-void CBaseCamera::SetProjParams(float fFOV, int nWidth, int nHeight, float fNearPlane, float fFarPlane)
+void CBaseCamera::setProjParams(float fFOV, int nWidth, int nHeight, float fNearPlane, float fFarPlane)
 {
     // Set attributes for the projection matrix
     m_fFOV			= fFOV;
@@ -65,13 +65,13 @@ void CBaseCamera::SetProjParams(float fFOV, int nWidth, int nHeight, float fNear
 	m_mProjMatrix.MatrixPerspectiveFovLH(fFOV, m_fAspect, fNearPlane, fFarPlane);
 }
 
-void CBaseCamera::SetFarClip(float fFarPlane)
+void CBaseCamera::setFarClip(float fFarPlane)
 {
 	m_fFarPlane   = fFarPlane;
 	m_mProjMatrix.MatrixPerspectiveFovLH(m_fFOV, m_fAspect, m_fNearPlane, fFarPlane);
 }
 
-void CBaseCamera::UpdateVelocity(float fElapsedTime)
+void CBaseCamera::updateVelocity(float fElapsedTime)
 {
     Matrix mRotDelta;
     m_vRotVelocity = m_vMouseDelta * m_fRotationScaler;
@@ -123,9 +123,9 @@ void CBaseCamera::UpdateVelocity(float fElapsedTime)
     }
 }
 
-void CBaseCamera::Reset()
+void CBaseCamera::reset()
 {
-    SetViewParams(m_vDefaultEye, m_vDefaultLookAt);
+    setViewParams(m_vDefaultEye, m_vDefaultLookAt);
 }
 
 

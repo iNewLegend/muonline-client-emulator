@@ -5,22 +5,18 @@
 #include "Matrix.h"
 #include "Common.h"
 
-#define GET_VAR(y,z)				auto get##y()		{ return z; };
-
 class CBaseCamera
 {
 public:
 	CBaseCamera();
-	virtual void	FrameMove(float fElapsedTime) = 0;
-
 	// Functions to change camera matrices
-	virtual void Reset(); 
-	virtual void SetViewParams(Vec3D& vEyePt, Vec3D& vLookatPt);
-	virtual void SetProjParams(float fFOV, int nWidth, int nHeight, float fNearPlane, float fFarPlane);
-	virtual void SetFarClip(float fFarPlane);
+	virtual void reset(); 
+	virtual void setViewParams(Vec3D& vEyePt, Vec3D& vLookatPt);
+	virtual void setProjParams(float fFOV, int nWidth, int nHeight, float fNearPlane, float fFarPlane);
+	virtual void setFarClip(float fFarPlane);
 	// Functions to change behavior
-	virtual void SetDrag(bool bMovementDrag, float fTotalDragTimeToZero = 0.25f) { m_bMovementDrag = bMovementDrag; m_fTotalDragTimeToZero = fTotalDragTimeToZero; }
-	virtual void SetScalers(float fRotationScaler = 0.01f, float fMoveScaler = 5.0f)  { m_fRotationScaler = fRotationScaler; m_fMoveScaler = fMoveScaler; }
+	virtual void setDrag(bool bMovementDrag, float fTotalDragTimeToZero = 0.25f) { m_bMovementDrag = bMovementDrag; m_fTotalDragTimeToZero = fTotalDragTimeToZero; }
+	virtual void setScalers(float fRotationScaler = 0.01f, float fMoveScaler = 5.0f)  { m_fRotationScaler = fRotationScaler; m_fMoveScaler = fMoveScaler; }
 
 	// Functions to get state
 	virtual GSET_CONST_VAR(Matrix&, m_m,ViewMatrix);
@@ -34,10 +30,10 @@ public:
 	virtual GSET_CONST_VAR(float, m_f,YawAngle);
 	virtual GSET_CONST_VAR(float, m_f,PitchAngle);
 
-	virtual void	addMouseDelta(Vec3D vMouseDelta){m_vMouseDelta+=vMouseDelta;}
+	virtual void addMouseDelta(Vec3D vMouseDelta){m_vMouseDelta+=vMouseDelta;}
 protected:
 	// 更新周转率
-	virtual void UpdateVelocity(float fElapsedTime);
+	virtual void updateVelocity(float fElapsedTime);
 	Matrix			m_mViewMatrix;			// View matrix 
 	Matrix			m_mProjMatrix;			// Projection matrix
 

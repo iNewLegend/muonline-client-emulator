@@ -6,7 +6,7 @@ dlgRoleCreate = CUIDialog()
 
 dlgRoleCreate:create("IDD_ROLE_CREATE",IDD_ROLE_CHOOSE)
 
-IDD_ROLE_CHOOSE:regControl("IDC_DISPLAY_BACKGROUND", g_UIDisplayCharList)
+--IDD_ROLE_CHOOSE:regControl("IDC_DISPLAY_BACKGROUND", g_UIDisplayCharList)
 -- Register Event
 IDD_ROLE_CHOOSE:regControlEvent("IDC_BTN_OK", "IDD_ROLE_CHOOSE_OnBtnOk","0");
 IDD_ROLE_CHOOSE:regControlEvent("IDC_BTN_BACK", "IDD_ROLE_CHOOSE_OnBtnBack","0");
@@ -51,7 +51,7 @@ if g_bLocal then
 				return
 end
 	MessageBox(L"Enter World......",-1)
-	EnterWorld(g_UIDisplayCharList:GetSelectIndex())
+	--EnterWorld(g_UIDisplayCharList:GetSelectIndex())
 end
 
 function IDD_ROLE_CHOOSE_OnBtnCreateRole()
@@ -59,5 +59,5 @@ function IDD_ROLE_CHOOSE_OnBtnCreateRole()
 end
 
 function IDD_ROLE_CHOOSE_OnBtnDeleteChar()
-	CharDelete(g_UIDisplayCharList:GetSelectIndex(),"111111")
+	--CharDelete(g_UIDisplayCharList:GetSelectIndex(),"111111")
 end

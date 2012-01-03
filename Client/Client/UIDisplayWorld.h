@@ -50,7 +50,7 @@ public:
 	// ----
 	virtual bool CanHaveFocus		() { return (m_bVisible && m_bEnabled); }
 	// ----
-	const CCamera& GetCamera		() { return m_Camera ; }
+	const CCamera& getCamera		() { return m_Camera ; }
 	// ----
 	virtual void OnSize				(const CRect<int> & rc);
 };

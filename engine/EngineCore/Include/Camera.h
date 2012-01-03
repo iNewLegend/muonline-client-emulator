@@ -16,12 +16,11 @@ public:
 	virtual void MoveTargetWithPlane();
 	virtual void MoveAroundTarget();
 
-	virtual Vec3D	GetViewDir() const		{ return m_vLookAt - m_vEyePt; }
-	virtual Vec3D   GetCrossDir() const     { return (m_vLookAt - m_vEyePt).cross(Vec3D(0,1,0));}
-	virtual Matrix	GetProjXView() const	{ return m_mProjMatrix*m_mViewMatrix; }
-	virtual float	GetRadius() const		{ return m_fRadius; }
+	virtual Vec3D	getViewDir() const		{ return m_vLookAt - m_vEyePt; }
+	virtual Vec3D   getCrossDir() const     { return (m_vLookAt - m_vEyePt).cross(Vec3D(0,1,0));}
+	virtual Matrix	getProjXView() const	{ return m_mProjMatrix*m_mViewMatrix; }
+	virtual CFrustum& getFrustum()	{ return m_Frustum; }
 	virtual int		BoxCrossF(BBox & bbox)	{ return m_Frustum.CheckAABBVisible(bbox); }
-	virtual CFrustum& GetFrustum()	{ return m_Frustum; }
 public:
 	virtual void GetPickRay(Vec3D& pRayPos, Vec3D& pRayDir,int x, int y,const RECT& rc);		// ʰȡ
 	virtual void World2Screen(const Vec3D& vWorldPos, Pos2D& posScreen);

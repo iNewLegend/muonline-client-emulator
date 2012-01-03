@@ -72,6 +72,9 @@ public:
 	CHARACTER_DATA&	getCharacterData(){return m_CharacterData;}
 	CHARACTER_DATA*	getCharacterDataForLua(){return &m_CharacterData;}
 	void			setCharacterData(const CHARACTER_DATA& data);
+
+	GSET_VAR(float,m_f,RoleHeight);
+
 	enum /* ActionStateType */
 	{
 		STAND,
