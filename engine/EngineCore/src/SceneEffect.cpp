@@ -74,7 +74,6 @@ void CSceneEffect::Reset(const CRect<int>& rc)
 	//m_pExposureTexture = R.GetTextureMgr().CreateRenderTarget(1,1);
 	m_pBackTexture = R.GetTextureMgr().CreateRenderTarget(512, 512);//.CreateDynamicTexture(512,512);
 
-
 	float fU0 = 0.0f;
 	float fV0 = 0.0f;
 	float fU1 = 1.0f;
@@ -104,109 +103,6 @@ void CSceneEffect::Reset(const CRect<int>& rc)
 	m_FloodLumVB[1].p = Vec4D(fX0, fY0, 0.0f, 1.0f);
 	m_FloodLumVB[2].p = Vec4D(fX1, fY1, 0.0f, 1.0f);
 	m_FloodLumVB[3].p = Vec4D(fX1, fY0, 0.0f, 1.0f);
-
-	unsigned long BloomWeights[7] = 
-	{
-		0,
-		225,
-		155,
-		83,
-		35,
-		11,
-		3,
-	};
-
-	float fBloomWeights[7] = 
-	{
-		0.8f,
-		0.08f,
-		0.04f,
-		0.03f,
-		0.026f,
-		0.018f,
-		0.013f
-		/*0.199471f,
-		0.176033f,
-		0.120985f,
-		0.064759f,
-		0.026995f,
-		0.008764f,
-		0.002216f,*/
-	};
-
-	for (size_t i=0;i<13;++i)
-	{
-		int nBaseID = i*6;
-
-		m_BloomHVB[nBaseID+0].t = Vec2D(fU0, fV1);
-		m_BloomHVB[nBaseID+1].t = Vec2D(fU0, fV0);
-		m_BloomHVB[nBaseID+2].t = Vec2D(fU1, fV0);
-		m_BloomHVB[nBaseID+3].t = Vec2D(fU0, fV1);
-		m_BloomHVB[nBaseID+4].t = Vec2D(fU1, fV0);
-		m_BloomHVB[nBaseID+5].t = Vec2D(fU1, fV1);
-
-		m_BloomVVB[nBaseID+0].t = Vec2D(fU0, fV1);
-		m_BloomVVB[nBaseID+1].t = Vec2D(fU0, fV0);
-		m_BloomVVB[nBaseID+2].t = Vec2D(fU1, fV0);
-		m_BloomVVB[nBaseID+3].t = Vec2D(fU0, fV1);
-		m_BloomVVB[nBaseID+4].t = Vec2D(fU1, fV0);
-		m_BloomVVB[nBaseID+5].t = Vec2D(fU1, fV1);
-
-		m_BloomHVB[nBaseID+0].p = Vec4D(fX0,  fY1, 0.0f, 1.0f);
-		m_BloomHVB[nBaseID+1].p = Vec4D(fX0,  fY0, 0.0f, 1.0f);
-		m_BloomHVB[nBaseID+2].p = Vec4D(fX1,  fY0, 0.0f, 1.0f);
-		m_BloomHVB[nBaseID+3].p = Vec4D(fX0,  fY1, 0.0f, 1.0f);
-		m_BloomHVB[nBaseID+4].p = Vec4D(fX1,  fY0, 0.0f, 1.0f);
-		m_BloomHVB[nBaseID+5].p = Vec4D(fX1,  fY1, 0.0f, 1.0f);
-
-		m_BloomVVB[nBaseID+0].p = Vec4D(fX0,  fY1, 0.0f, 1.0f);
-		m_BloomVVB[nBaseID+1].p = Vec4D(fX0,  fY0, 0.0f, 1.0f);
-		m_BloomVVB[nBaseID+2].p = Vec4D(fX1,  fY0, 0.0f, 1.0f);
-		m_BloomVVB[nBaseID+3].p = Vec4D(fX0,  fY1, 0.0f, 1.0f);
-		m_BloomVVB[nBaseID+4].p = Vec4D(fX1,  fY0, 0.0f, 1.0f);
-		m_BloomVVB[nBaseID+5].p = Vec4D(fX1,  fY1, 0.0f, 1.0f);
-	}
-	int nBaseID = 0;
-	float fOffset = 1;
-	for(int i = 0; i < 7; i++)
-	{
-		unsigned long Alpha =254.0f*fBloomWeights[i]+1;
-		unsigned long color = (255<<24)+(Alpha<<16)+(Alpha<<8)+Alpha;
-		if (i == 0)
-		{
-			for (int n = 0; n < 6; n++)
-			{
-				m_BloomHVB[nBaseID+n].c = color;
-				m_BloomVVB[nBaseID+n].c = color;
-			}
-			nBaseID += 6;
-		}
-		else
-		{
-			for (int n = 0; n < 12; n++)
-			{
-				m_BloomHVB[nBaseID+n].c = color;
-				m_BloomVVB[nBaseID+n].c = color;
-			}
-			for(size_t n=0;n<6;++n)
-			{
-				m_BloomHVB[nBaseID+n].p.x -= fOffset*i;
-			}
-			for(size_t n=6;n<12;++n)
-			{
-				m_BloomHVB[nBaseID+n].p.x += fOffset*i;
-			}
-			for(size_t n=0;n<6;++n)
-			{
-				m_BloomVVB[nBaseID+n].p.y -= fOffset*i;
-			}
-			for(size_t n=6;n<12;++n)
-			{
-				m_BloomVVB[nBaseID+n].p.y += fOffset*i;
-			}
-			nBaseID += 12;
-		}
-	}
 
 	m_bInitialized = true;
 }
@@ -419,28 +315,6 @@ void CSceneEffect::renderTargetBloom()
 		R.SetTexture(0, m_pTextureScene1);
 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_QuadVB, sizeof(QuadVertex));
 	}
-// 	CRenderSystem& R = CRenderSystem::getSingleton();
-// 	R.SetBlendFunc(true,BLENDOP_ADD,SBF_ONE,SBF_ONE);
-// 	R.SetTextureColorOP(0,TBOP_MODULATE,TBS_TEXTURE,TBS_DIFFUSE);
-// 	R.SetTextureAlphaOP(0,TBOP_DISABLE);
-// 	R.SetFVF(SceneBloomVertex::FVF);
-// 
-// 	R.SetCullingMode(CULL_NONE);
-// 	R.SetLightingEnabled(false);
-// 	R.SetDepthBufferFunc(false,false);
-
-// 		// ºáÄ£ºý
-// 		R.SetRenderTarget(m_pTextureScene1);
-// 		R.ClearBuffer(false,true,0x0);
-// 		R.SetTexture(0, m_pSceneTexture);
-// 		R.DrawPrimitiveUP(VROT_TRIANGLE_LIST, 26, m_BloomHVB, sizeof(SceneBloomVertex));
-// 
-// 		// ×ÝÄ£ºý
-// 		R.SetRenderTarget(m_pSceneTexture);
-// 		R.ClearBuffer(false,true,0x0);
-// 		R.SetTexture(0, m_pTextureScene1);
-// 		R.DrawPrimitiveUP(VROT_TRIANGLE_LIST, 26, m_BloomVVB, sizeof(SceneBloomVertex));
-
 }
 
 void CSceneEffect::renderTargetEnd()

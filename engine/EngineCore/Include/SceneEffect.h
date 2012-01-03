@@ -75,10 +75,6 @@ protected:
 	float m_fHDRKey;
 	// ·ºÀÄÁÁ¶È
 	SceneBloomVertex m_FloodLumVB[4];
-	// ºá×ÝÄ£ºý
-	SceneBloomVertex m_BloomHVB[78];
-	SceneBloomVertex m_BloomVVB[78];
 
-	WORD m_BloomIB[13*6];
 	bool m_bInitialized;
 };
