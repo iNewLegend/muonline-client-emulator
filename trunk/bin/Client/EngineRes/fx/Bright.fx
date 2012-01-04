@@ -1,6 +1,6 @@
 #include "shared.fx"
 
-float Luminance = 0.07f;
+float Luminance = 0.08f;
 static const float fMiddleGray = 0.18f;
 static const float fWhiteCutoff = 0.8f;
 
