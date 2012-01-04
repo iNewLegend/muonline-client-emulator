@@ -55,7 +55,7 @@ float4 PS(float2 Tex : TEXCOORD0) : COLOR0
     float4 Color = 0;
     for (int i = 0; i < g_cKernelSize; i++)
     {    
-        Color += tex2D( s0, Tex + PixelKernel[i].xy*1/600.0f ) * BlurWeights[i];
+        Color += tex2D( s0, Tex + PixelKernel[i].xy*inv_width_height ) * BlurWeights[i];
     }
 	return Color * BloomScale;
 }
@@ -69,26 +69,12 @@ technique Render
 		
 		AlphaTestEnable		= False;
 
-		AlphaBlendEnable	= True;
-		BlendOp				= Add;
-		SrcBlend			= One;
-		DestBlend			= One;
+		AlphaBlendEnable	= False;
 
 		ZEnable				= False;
 		ZFunc				= LessEqual;
 		ZWriteEnable		= False;
 
-		ColorOp[0]			= Modulate;
-		ColorArg1[0]		= Texture;
-		ColorArg2[0]		= Diffuse;
-
-		AlphaOp[0]			= Modulate;
-		AlphaArg1[0]		= Texture;
-		AlphaArg2[0]		= Diffuse;
-
-		ColorOp[1]			= Disable;
-		AlphaOP[1]			= Disable;
-		 
 		VertexShader		= NULL;
         PixelShader			= compile ps_2_0 PS();
     }

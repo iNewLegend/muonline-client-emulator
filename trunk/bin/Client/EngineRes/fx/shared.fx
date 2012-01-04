@@ -15,6 +15,7 @@ shared float3 g_vLightDir;
 shared float3 g_vDiffuse;
 shared float3 g_vSpecular;
 shared float2 g_fScaleUV;
+shared float2 inv_width_height;
 shared float g_fPower;
 shared float g_fTime;
 
