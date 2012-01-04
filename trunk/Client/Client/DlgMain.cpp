@@ -58,16 +58,25 @@ void CDlgMain::OnFrameRender(const Matrix& mTransform, double fTime, float fElap
 		rc.bottom	= cursor.y+16;
 		m_pIconCursor->getStyle().draw(rc,L"");
 	}
-	// draw fps
 	// ----
+	// draw fps
 	if (m_bShowFPS)
 	{
+		static int s_nFrame = 0;
 		static float s_fElapsedTime = 1.0f;
 		static float s_fFPS = 1.0f;
 		s_fElapsedTime+=fElapsedTime;
-		if (/*s_fElapsedTime>1.0f||*/1.0f/fElapsedTime<30)
+		++s_nFrame;
+		// ----
+		if (s_nFrame==100)
 		{
+			s_fFPS = 100.0f/s_fElapsedTime;
+			s_nFrame = 0;
 			s_fElapsedTime = 0.0f;
+		}
+		// ----
+		if (1.0f/fElapsedTime<30)
+		{
 			s_fFPS = 1.0f/fElapsedTime;
 		}
 		// ----
@@ -76,7 +85,6 @@ void CDlgMain::OnFrameRender(const Matrix& mTransform, double fTime, float fElap
 		swprintf(wszFps,L"FPS=%.2f",s_fFPS);
 		CUIControl::updateUIMatrix(mTransform, fTime, fElapsedTime);
 		Node3DUIGraph::getInstance().drawText(wszFps, lstrlenW(wszFps), rc, ALIGN_TYPE_CENTER);
-
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

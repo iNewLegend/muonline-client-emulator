@@ -11,7 +11,7 @@ m_bHDR(false),
 m_bInitialized(false),
 m_pDepthRenderTarget(NULL),
 m_pGlowRenderTarget(NULL),
-m_pSceneTexture(NULL),
+m_pSceneTex(NULL),
 m_pExposureTexture(NULL),
 m_pExposureTexture2(NULL),
 m_pBackTexture(NULL),
@@ -30,7 +30,7 @@ void CSceneEffect::clearTextures()
 {
 	S_DEL(m_pGlowRenderTarget);
 	S_DEL(m_pDepthRenderTarget);
-	S_DEL(m_pSceneTexture);
+	S_DEL(m_pSceneTex);
 	S_DEL(m_pExposureTexture);
 	S_DEL(m_pExposureTexture2);
 	S_DEL(m_pBackTexture);
@@ -66,43 +66,46 @@ void CSceneEffect::Reset(const CRect<int>& rc)
 
 	m_pGlowRenderTarget = R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
 
-	m_pSceneTexture = R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
-	m_pTextureScene1 = R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
+	m_pSceneTex = R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
+	m_pTexScene4x = R.GetTextureMgr().CreateRenderTarget(nWidth*0.25f,nHeight*0.25f);
+	m_pTexScene8x1 = R.GetTextureMgr().CreateRenderTarget(nWidth*0.0625f,nHeight*0.0625f);
+	m_pTexScene8x2 = R.GetTextureMgr().CreateRenderTarget(nWidth*0.0625f,nHeight*0.0625f);
 
 	m_pSceneCopyTexture = R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
 
 	//m_pExposureTexture = R.GetTextureMgr().CreateRenderTarget(1,1);
 	m_pBackTexture = R.GetTextureMgr().CreateRenderTarget(512, 512);//.CreateDynamicTexture(512,512);
 
-	float fU0 = 0.0f;
-	float fV0 = 0.0f;
-	float fU1 = 1.0f;
-	float fV1 = 1.0f;
+	m_Quad[0].t = Vec2D(0.0f, 1.0f);
+	m_Quad[1].t = Vec2D(0.0f, 0.0f);
+	m_Quad[2].t = Vec2D(1.0f, 1.0f);
+	m_Quad[3].t = Vec2D(1.0f, 0.0f);
 
-	float fX0 = - 0.5f;
-	float fY0 = - 0.5f;
-	float fX1 =(float)nWidth - 0.5f;
-	float fY1 =(float)nHeight - 0.5f;
+	m_Quad[0].p = Vec4D(-0.5f,				(float)nHeight-0.5f,	0.0f, 1.0f);
+	m_Quad[1].p = Vec4D(-0.5f,				-0.5f,					0.0f, 1.0f);
+	m_Quad[2].p = Vec4D((float)nWidth-0.5f,	(float)nHeight-0.5f,	0.0f, 1.0f);
+	m_Quad[3].p = Vec4D((float)nWidth-0.5f,	-0.5f,					0.0f, 1.0f);
 
-	m_QuadVB[0].t = Vec2D(fU0, fV1);
-	m_QuadVB[1].t = Vec2D(fU0, fV0);
-	m_QuadVB[2].t = Vec2D(fU1, fV1);
-	m_QuadVB[3].t = Vec2D(fU1, fV0);
+	m_Quad4x[0].t = Vec2D(0.0f, 1.0f);
+	m_Quad4x[1].t = Vec2D(0.0f, 0.0f);
+	m_Quad4x[2].t = Vec2D(1.0f, 1.0f);
+	m_Quad4x[3].t = Vec2D(1.0f, 0.0f);
 
-	m_QuadVB[0].p = Vec4D(fX0, fY1, 0.0f, 1.0f);
-	m_QuadVB[1].p = Vec4D(fX0, fY0, 0.0f, 1.0f);
-	m_QuadVB[2].p = Vec4D(fX1, fY1, 0.0f, 1.0f);
-	m_QuadVB[3].p = Vec4D(fX1, fY0, 0.0f, 1.0f);
+	m_Quad4x[0].p = Vec4D(-0.5f,					(float)nHeight*0.25f-0.5f,	0.0f, 1.0f);
+	m_Quad4x[1].p = Vec4D(-0.5f,					-0.5f,						0.0f, 1.0f);
+	m_Quad4x[2].p = Vec4D((float)nWidth*0.25f-0.5f,	(float)nHeight*0.25f-0.5f,	0.0f, 1.0f);
+	m_Quad4x[3].p = Vec4D((float)nWidth*0.25f-0.5f,	-0.5f,						0.0f, 1.0f);
+	
 
-	m_FloodLumVB[0].t = Vec2D(fU0, fV1);
-	m_FloodLumVB[1].t = Vec2D(fU0, fV0);
-	m_FloodLumVB[2].t = Vec2D(fU1, fV1);
-	m_FloodLumVB[3].t = Vec2D(fU1, fV0);
+	m_Quad8x[0].t = Vec2D(0.0f, 1.0f);
+	m_Quad8x[1].t = Vec2D(0.0f, 0.0f);
+	m_Quad8x[2].t = Vec2D(1.0f, 1.0f);
+	m_Quad8x[3].t = Vec2D(1.0f, 0.0f);
 
-	m_FloodLumVB[0].p = Vec4D(fX0, fY1, 0.0f, 1.0f);
-	m_FloodLumVB[1].p = Vec4D(fX0, fY0, 0.0f, 1.0f);
-	m_FloodLumVB[2].p = Vec4D(fX1, fY1, 0.0f, 1.0f);
-	m_FloodLumVB[3].p = Vec4D(fX1, fY0, 0.0f, 1.0f);
+	m_Quad8x[0].p = Vec4D(-0.5f,						(float)nHeight*0.0625f-0.5f,	0.0f, 1.0f);
+	m_Quad8x[1].p = Vec4D(-0.5f,						-0.5f,							0.0f, 1.0f);
+	m_Quad8x[2].p = Vec4D((float)nWidth*0.0625f-0.5f,	(float)nHeight*0.0625f-0.5f,	0.0f, 1.0f);
+	m_Quad8x[3].p = Vec4D((float)nWidth*0.0625f-0.5f,	-0.5f,							0.0f, 1.0f);
 
 	m_bInitialized = true;
 }
@@ -147,7 +150,7 @@ void CSceneEffect::RenderTemporalBloom()
 
 		R.SetTexture(0,m_pBackTexture) ;
 		R.SetFVF(QuadVertex::FVF);
-		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_QuadVB, sizeof(QuadVertex));
+		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
 	//	R.EndFrame();
 	}
 	//保存当前的画面 以备下一帧调用
@@ -223,7 +226,7 @@ void CSceneEffect::renderTargetBegin()
 {
 	CRenderSystem& R = CRenderSystem::getSingleton();
 	m_pRenderSystemTarget = R.GetRenderTarget();
-	R.SetRenderTarget(m_pSceneTexture);
+	R.SetRenderTarget(m_pSceneTex);
 }
 
 void CSceneEffect::renderTargetGlow()// not good
@@ -232,7 +235,7 @@ void CSceneEffect::renderTargetGlow()// not good
 	// first: copy system render target to my render target.
 
 	CRect<int> rect(0,0,m_nWidth,m_nHeight);
-	R.StretchRect(m_pGlowRenderTarget, NULL, m_pSceneTexture, &rect, TEXF_POINT);
+	R.StretchRect(m_pGlowRenderTarget, NULL, m_pSceneTex, &rect, TEXF_POINT);
 
 	return;
 	if (m_bHDR)
@@ -245,15 +248,15 @@ void CSceneEffect::renderTargetGlow()// not good
 	{
 		
 		// 一定要把空白区域值为黑色
-		R.SetTexture(0, m_pSceneTexture);
-		R.SetFVF(SceneBloomVertex::FVF);
+		R.SetTexture(0, m_pSceneTex);
+	//	R.SetFVF(SceneBloomVertex::FVF);
 
 
 		R.SetBlendFunc(false);
 		// Increase the contrast
 		//R.SetTextureColorOP(0,TBOP_DOTPRODUCT3,TBS_TEXTURE,TBS_DIFFUSE);
 		R.SetTextureColorOP(0,TBOP_MODULATE,TBS_TEXTURE,TBS_TEXTURE);
-		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_QuadVB, sizeof(SceneBloomVertex));
+		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
 
 		{
 			int nInvExposure= (int)(m_fAdaptedLum * m_fAdaptedLum * 255.0f);
@@ -263,7 +266,7 @@ void CSceneEffect::renderTargetGlow()// not good
 
 		// To reduce the brightness
 		R.SetTextureColorOP(0,TBOP_SUBTRACT,TBS_TEXTURE,TBS_TFACTOR);
-		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_QuadVB, sizeof(SceneBloomVertex));
+		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
 
 
 		//R.SetBlendFunc(true,BLENDOP_ADD,SBF_ONE,SBF_ONE);
@@ -278,17 +281,17 @@ void CSceneEffect::renderTargetGlow()// not good
 void CSceneEffect::renderGammaCorrection()
 {
 	CRenderSystem& R = CRenderSystem::getSingleton();
-	R.SetRenderTarget(m_pSceneTexture);
+	R.SetRenderTarget(m_pSceneTex);
 	//R.ClearBuffer(false,true,0x0);
 	//R.GetShaderMgr().getSharedShader()->setTexture("g_texScene",m_pSceneTexture);
-	R.SetTexture(0, m_pSceneTexture);
+	R.SetTexture(0, m_pSceneTex);
 
 	if(R.prepareMaterial("GammaCorrection"))
 	{
 		CRenderSystem& R = CRenderSystem::getSingleton();
 		//R.SetTexture(0,g_samScene) ;
 		R.SetFVF(QuadVertex::FVF);
-		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_QuadVB, sizeof(QuadVertex));
+		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
 		R.finishMaterial();
 	}
 }
@@ -298,23 +301,93 @@ void CSceneEffect::renderTargetBloom()
 	CRenderSystem& R = CRenderSystem::getSingleton();
 	R.SetFVF(QuadVertex::FVF);
 
-	// 横模糊
-	if (R.prepareMaterial("Bloom1"))
+	// ----
+	Vec2D inv_width_height(1.0f/m_nWidth,1.0f/m_nHeight);
+	Vec2D inv_width_height4x(1.0f/m_nWidth/4.0f,1.0f/m_nHeight/4.0f);
+	Vec2D inv_width_height8x(1.0f/m_nWidth/8.0f,1.0f/m_nHeight/8.0f);
+
+	// ----
+	R.setShaderVec2D("inv_width_height",	inv_width_height4x);
+
+	// Down Filter 4x
+	if (R.prepareMaterial("Filter4"))
 	{
-		R.SetRenderTarget(m_pTextureScene1);
-		R.ClearBuffer(false,true,0x0);
-		R.SetTexture(0, m_pSceneTexture);
-		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_QuadVB, sizeof(QuadVertex));
+
+		R.SetRenderTarget(m_pTexScene4x);
+		R.SetTexture(0, m_pSceneTex);
+		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
 	}
 
-	// 纵模糊
-	if (R.prepareMaterial("Bloom2"))
+	// ----
+	R.setShaderVec2D("inv_width_height",	inv_width_height8x);
+
+	// Down Filter 4x
+	if (R.prepareMaterial("Filter4"))
 	{
-		R.SetRenderTarget(m_pSceneTexture);
-		R.ClearBuffer(false,true,0x0);
-		R.SetTexture(0, m_pTextureScene1);
-		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_QuadVB, sizeof(QuadVertex));
+		R.SetRenderTarget(m_pTexScene8x1);
+		R.SetTexture(0, m_pTexScene4x);
+		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
 	}
+
+	// Bright Pass
+	if (R.prepareMaterial("Bright"))
+	{
+		R.SetRenderTarget(m_pTexScene8x2);
+		R.SetTexture(0, m_pTexScene8x1);
+		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
+	}
+	
+	// Bloom Horizontal
+	if (R.prepareMaterial("BloomH"))
+	{
+		R.SetRenderTarget(m_pTexScene8x1);
+		R.SetTexture(0, m_pTexScene8x2);
+		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
+	}
+
+	// Bloom Vertical
+	if (R.prepareMaterial("BloomV"))
+	{
+		R.SetRenderTarget(m_pTexScene8x2);
+		R.SetTexture(0, m_pTexScene8x1);
+		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
+	}
+
+	// Bloom Horizontal
+	if (R.prepareMaterial("BloomH"))
+	{
+		R.SetRenderTarget(m_pTexScene8x1);
+		R.SetTexture(0, m_pTexScene8x2);
+		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
+	}
+
+	// Bloom Vertical
+	if (R.prepareMaterial("BloomV"))
+	{
+		R.SetRenderTarget(m_pTexScene8x2);
+		R.SetTexture(0, m_pTexScene8x1);
+		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
+	}
+
+	// ----
+	R.setShaderVec2D("inv_width_height",	inv_width_height4x);
+
+	// Up Filter 4x
+ 	if (R.prepareMaterial("Combine"))
+ 	{
+ 		R.SetRenderTarget(m_pTexScene4x);
+ 		R.SetTexture(0, m_pTexScene8x2);
+ 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
+ 	}
+
+// 	// Combine 4x
+// 	if (R.prepareMaterial("Combine"))
+// 	{
+// 		R.SetRenderTarget(m_pTexScene8x2);
+// 		R.SetTexture(0, m_pSceneTex);
+// 		R.SetTexture(0, m_pTexScene4x);
+// 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
+// 	}
 }
 
 void CSceneEffect::renderTargetEnd()
@@ -327,6 +400,7 @@ void CSceneEffect::renderTargetEnd()
 
 void CSceneEffect::compose(const CRect<int>& rcDest)
 {
+	CRenderSystem& R = CRenderSystem::getSingleton();
 	QuadVertex QuadVB[4];
 	float fU0 = 0.0f;
 	float fV0 = 0.0f;
@@ -348,62 +422,12 @@ void CSceneEffect::compose(const CRect<int>& rcDest)
 	QuadVB[2].p = Vec4D(fX1, fY1, 0.0f, 1.0f);
 	QuadVB[3].p = Vec4D(fX1, fY0, 0.0f, 1.0f);
 
-	CRenderSystem& R = CRenderSystem::getSingleton();
-	static bool bcan = true;
-	R.SetCullingMode(CULL_NONE);
-	R.SetLightingEnabled(false);
-	R.SetDepthBufferFunc(false,false);
-	R.SetBlendFunc(bcan,BLENDOP_ADD,SBF_ONE,SBF_ONE);
-
-	R.SetTextureColorOP(0,TBOP_SOURCE1);
-
-	R.SetTexCoordIndex(0, 0);
-
+	// Combine 4x
+	if (R.prepareMaterial("CombineAdd"))
 	{
-		R.SetTexture(0, m_pSceneTexture);
-		R.SetFVF(QuadVertex::FVF);
-
-// 		if (m_bHDR)
-// 		{
-// 			// 减低亮度
-// 			R.SetBlendFunc(bcan,BLENDOP_REVSUBTRACT,SBF_ONE,SBF_ONE);
-// 			//r->BlendOP(BLENDOP_REVSUBTRACT);BLENDOP_REVSUBTRACT
-// 			float fLumScale = m_fHDRKey/m_fAdaptedLum;
-// 
-// 
-// 			if (fLumScale > 1.0f)// 加亮屏幕操作
-// 			{
-// 				fLumScale -= 1.0f;
-// 				unsigned char ucFactor = min(255,fLumScale*255);
-// 				Color32 clrFactor(ucFactor,255,255,255);
-// 				R.SetTextureFactor(clrFactor);
-// 				R.SetBlendFunc(bcan,BLENDOP_ADD,SBF_DEST_COLOUR,SBF_SOURCE_ALPHA);
-// 
-// 				R.SetTextureColorOP(0,TBOP_SOURCE1,TBS_TFACTOR);
-// 				R.SetTextureAlphaOP(0,TBOP_SOURCE1,TBS_TFACTOR);
-// 
-// 				R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, QuadVB, sizeof(QuadVertex));
-// 			}
-// 			else// 减暗屏幕操作
-// 			{
-// 				unsigned char ucFactor = min(255,fLumScale*255);
-// 				Color32 clrFactor(ucFactor,ucFactor,ucFactor,ucFactor);
-// 				R.SetTextureFactor(clrFactor);
-// 				R.SetBlendFunc(bcan,BLENDOP_ADD,SBF_DEST_COLOUR,SBF_ZERO);
-// 
-// 				R.SetTextureColorOP(0,TBOP_SOURCE1,TBS_TFACTOR);
-// 				R.SetTextureAlphaOP(0,TBOP_DISABLE);
-// 				R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, QuadVB, sizeof(QuadVertex));
-// 			}
-// 		}
-
-		R.SetSamplerFilter(0, TEXF_POINT, TEXF_POINT, TEXF_POINT);
-		// 添加光晕
-		R.SetBlendFunc(false,BLENDOP_ADD,SBF_ONE,SBF_ONE);
-		R.SetTextureColorOP(0,TBOP_SOURCE1,TBS_TEXTURE);
-		R.SetTextureAlphaOP(0,TBOP_DISABLE);
+		//R.SetRenderTarget(m_pTexScene8x2);
+		R.SetTexture(0, m_pSceneTex);
+		R.SetTexture(1, m_pTexScene4x);
 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, QuadVB, sizeof(QuadVertex));
-		R.SetSamplerFilter(0, TEXF_LINEAR, TEXF_LINEAR, TEXF_LINEAR);
-		//	R.EndFrame();
 	}
 }
