@@ -12,14 +12,6 @@ struct QuadVertex
 	Vec2D t;
 };
 
-struct SceneBloomVertex
-{
-	enum _FVF { FVF=(FVF_XYZRHW|FVF_DIFFUSE|FVF_TEX1) };
-	Vec4D		p;
-	Color32		c;
-	Vec2D		t;
-};
-
 #define BLOOM_MODEL 1
 class CSceneEffect
 {
@@ -52,8 +44,10 @@ protected:
 	CTexture*	m_pRenderSystemTarget;
 	CTexture*	m_pDepthRenderTarget;
 	// 泛光渲染到贴图
-	CTexture*	m_pSceneTexture;
-	CTexture*	m_pTextureScene1;
+	CTexture*	m_pSceneTex;
+	CTexture*	m_pTexScene4x;
+	CTexture*	m_pTexScene8x1;
+	CTexture*	m_pTexScene8x2;
 
 	CTexture*	m_pExposureTexture;
 	CTexture*	m_pExposureTexture2;
@@ -68,13 +62,13 @@ protected:
 	bool m_bHDR;
 	// 模糊度
 	float m_fBloomVal;
-	QuadVertex m_QuadVB[4];
+	QuadVertex m_Quad[4];
+	QuadVertex m_Quad4x[4];
+	QuadVertex m_Quad8x[4];
 	// 适应的光
 	float m_fAdaptedLum;
 	// 适应的光
 	float m_fHDRKey;
-	// 泛滥亮度
-	SceneBloomVertex m_FloodLumVB[4];
 
 	bool m_bInitialized;
 };
