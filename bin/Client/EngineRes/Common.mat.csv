@@ -6,5 +6,10 @@ Coordinate2,,alphaPlane
 GammaCorrection,EngineRes/Textures/Camma.tga,GammaCorrection
 LightDecal,EngineRes/Textures/LightDecal.jpg,LightDecal
 ObjectFocus,,ObjectFocus
-Bloom1,,Bloom1
-Bloom2,,Bloom2
+_FXAA,,FXAA
+BloomH,,BloomH
+BloomV,,BloomV
+Filter4,,Filter4
+Bright,,Bright
+Combine,,Combine
+CombineAdd,,CombineAdd
