@@ -227,6 +227,7 @@ void CSceneEffect::renderTargetBegin()
 	CRenderSystem& R = CRenderSystem::getSingleton();
 	m_pRenderSystemTarget = R.GetRenderTarget();
 	R.SetRenderTarget(m_pSceneTex);
+	//R.SetSamplerFilter(0, TEXF_POINT, TEXF_POINT, TEXF_POINT);
 }
 
 void CSceneEffect::renderTargetGlow()// not good
@@ -380,6 +381,7 @@ void CSceneEffect::renderTargetBloom()
  		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
  	}
 
+	R.setShaderVec2D("inv_width_height",	inv_width_height);
 // 	// Combine 4x
 // 	if (R.prepareMaterial("Combine"))
 // 	{
@@ -430,4 +432,6 @@ void CSceneEffect::compose(const CRect<int>& rcDest)
 		R.SetTexture(1, m_pTexScene4x);
 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, QuadVB, sizeof(QuadVertex));
 	}
+
+	//R.SetSamplerFilter(0, TEXF_LINEAR, TEXF_LINEAR, TEXF_LINEAR);
 }
