@@ -209,3 +209,35 @@ void CRenderNode::updateWorldBBox()
 	m_WorldBBox.vMin	= vCenter - vExtent;
 	m_WorldBBox.vMax	= vCenter + vExtent;
 }
+
+Matrix CRenderNode::getShadowMatrix(const Vec3D& vLight,float fHeight)const
+{
+	Matrix mLight;
+	float fDot=-sqrtf(vLight.x*vLight.x+vLight.z*vLight.z)/vLight.y;
+	//MessageBoxW(NULL,f2ws(fDot,6,6).c_str(),L"",0);
+	Vec3D vEye(getPos().x,fHeight,getPos().z);
+	mLight.MatrixLookAtLH(vEye,vEye+vLight,Vec3D(0,1.0f,0));
+	Matrix mInvertLight=mLight;
+	mInvertLight.Invert();
+	Matrix mTransLight(
+		1,0,0,0,
+		0,1,0,0,
+		0,fDot,0,0,
+		0,0,0,1);
+
+	Matrix mTrans;
+	Matrix mRotate;
+	Matrix mScale;
+	mTrans.translation(getPos());
+	mRotate.rotate(getRotate());
+	mScale.scale(getScale());
+
+	return mInvertLight*mTransLight*mLight*mTrans*mRotate*mScale;
+}
+
+
+void CRenderNode::renderShadow(const Matrix& mWorld, const Vec3D& vLight,float fHeight)const
+{
+	Matrix mNewWorld = mWorld*getShadowMatrix(vLight,fHeight);//m_mWorld;
+	render(mNewWorld, E_MATERIAL_RENDER_TYPE(MATERIAL_GEOMETRY|MATERIAL_RENDER_ALPHA_TEST));
+}

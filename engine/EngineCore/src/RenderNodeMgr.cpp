@@ -3,7 +3,6 @@
 #include "FileSystem.h"
 #include "RenderSystem.h"
 #include "Scene.h"
-#include "3DMapSceneObj.h"
 #include "SceneData.h"
 
 static iRenderNode* s_pThreadRenderNode = NULL;
@@ -24,7 +23,6 @@ DWORD WINAPI LoadingThreads (LPVOID pScene)
 iRenderNode* newSkeletonNode(){return new CSkeletonNode;}
 iRenderNode* newParticleEmitter(){return new CParticleEmitter;}
 iRenderNode* newSkinMesh(){return new CSkinMesh;};
-iRenderNode* newMapSceneObj(){return new C3DMapSceneObj;};
 
 void* newSkeletonData(){return new CSkeletonData;}
 void* newParticleData(){return new ParticleData;}
@@ -37,7 +35,6 @@ CRenderNodeMgr::CRenderNodeMgr()
 	registerRenderNode("skeleton",	(P_FUNC_NEW_RENDER_NODE)newSkeletonNode/*(P_FUNC_NEW_RENDER_NODE)&[](){return new CSkeletonNode;}*/);
 	registerRenderNode("particle",	(P_FUNC_NEW_RENDER_NODE)newParticleEmitter);
 	registerRenderNode("mesh",		(P_FUNC_NEW_RENDER_NODE)newSkinMesh);
-	registerRenderNode("sceneobject",(P_FUNC_NEW_RENDER_NODE)newMapSceneObj);
 	
 	registerRenderData("skeleton",	(P_FUNC_NEW_RENDER_DATA)newSkeletonData);
 	registerRenderData("particle",	(P_FUNC_NEW_RENDER_DATA)newParticleData);

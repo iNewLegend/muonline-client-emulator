@@ -1,8 +1,11 @@
 #pragma once
-#include "MapObj.h"
+#include "Pos2D.h"
+#include "Vec3D.h"
+#include "Frustum.h"
+#include "SkeletonNode.h"
 
 class CSound;
-class CMapSound : public CMapObj
+class CMapSound : public CSkeletonNode
 {
 public:
 	CMapSound();
@@ -22,7 +25,6 @@ public:
 	static bool s_bStroke;
 public:
 	virtual void render()const;
-	virtual int  GetObjType(){return MAP_SOUND;}
 	virtual bool IsFocus();
 	virtual void setPos(const Vec3D& vPos);
 

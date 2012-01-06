@@ -1,7 +1,7 @@
 #pragma once
-#include "3DMapObj.h"
+#include "SkeletonNode.h"
 
-class C3DMapEffect 	:	public C3DMapObj 
+class C3DMapEffect 	:	public CSkeletonNode 
 {
 public:
 	static bool s_bStroke;
@@ -29,7 +29,7 @@ public:
 public:
 	void SetRotate(float fHorizontal, float fVertical);
 	virtual void Show(void* pInfo);
-	virtual int getObjType(){return MAP_3DEFFECT;}
+	//virtual int getObjType(){return MAP_3DEFFECT;}
 	virtual void Die(){m_bDie = true;}
 public:
 	bool	NeedSave(){return m_bSave;}

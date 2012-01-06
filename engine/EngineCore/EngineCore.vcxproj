@@ -87,8 +87,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Include\3DMapEffect.h" />
-    <ClInclude Include="Include\3DMapObj.h" />
-    <ClInclude Include="Include\3DMapSceneObj.h" />
     <ClInclude Include="include\Animated.h" />
     <ClInclude Include="Include\AnimMgr.h" />
     <ClInclude Include="Include\BaseCamera.h" />
@@ -101,7 +99,6 @@
     <ClInclude Include="Include\iSkeleton.h" />
     <ClInclude Include="include\LodMesh.h" />
     <ClInclude Include="Include\Log.h" />
-    <ClInclude Include="Include\MapObj.h" />
     <ClInclude Include="Include\MapSound.h" />
     <ClInclude Include="Include\MeshCoordinate.h" />
     <ClInclude Include="Include\Octree.h" />
@@ -120,8 +117,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\3DMapEffect.cpp" />
-    <ClCompile Include="src\3DMapObj.cpp" />
-    <ClCompile Include="src\3DMapSceneObj.cpp" />
     <ClCompile Include="src\AnimMgr.cpp" />
     <ClCompile Include="src\BaseCamera.cpp" />
     <ClCompile Include="src\Camera.cpp" />

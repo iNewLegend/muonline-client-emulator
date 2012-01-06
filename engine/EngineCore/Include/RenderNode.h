@@ -56,6 +56,9 @@ public:
 	virtual bool			load				(const char* szFilename);
 	//----
 	void					setChildBindingBone	(const char* szName, const char* szBoneName);
+
+	virtual Matrix	getShadowMatrix	(const Vec3D& vLight,float fHeight)const;
+	virtual void	renderShadow	(const Matrix& mWorld, const Vec3D& vLight,float fHeight)const;
 protected:
 	iRenderNode*			m_pParent;
 	LIST_RENDER_NODE		m_mapChildNode;

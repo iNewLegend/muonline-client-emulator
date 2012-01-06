@@ -1,7 +1,7 @@
 #include "MyPlug.h"
 #include "IORead.h"
 #include "FileSystem.h"
-#include "3DMapSceneObj.h"
+#include "windows.h"
 
 extern "C" {
 #include "jpeg\jpeglib.h"
@@ -524,8 +524,9 @@ bool CMyPlug::exportTerrainAtt(iSceneData * pSceneData, const std::string& strFi
 	int nMapID = getMapIDFromFilename(strFilename);
 	// att
 	// for server.att
-	std::string strServerAttFile = GetParentPath(strFilename)+"(Server)Terrain"+ws2s(i2ws(nMapID))+".att";
-	FILE* f=fopen(strServerAttFile.c_str(),"wb+");
+	char szServerAttFile[256];
+	sprintf(szServerAttFile,"%s(Server)Terrain%d.att",GetParentPath(strFilename).c_str(),nMapID);
+	FILE* f=fopen(szServerAttFile,"wb+");
 	if (f)
 	{
 		char buffer[ATT_FILE_SERVER_SIZE];
