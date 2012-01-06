@@ -1,7 +1,5 @@
 #pragma once
 #include "Terrain.h"
-#include "MapObj.h"
-#include "3DMapSceneObj.h"
 #include "3DMapEffect.h"
 #include "Octree.h"
 #include "FocusNode.h"
@@ -49,7 +47,7 @@ public:
 	// ----
 	// # Åö×²
 	// ----
-	CMapObj*				pickNode				(const Vec3D& vRayPos , const Vec3D& vRayDir);
+	CRenderNode*			pickNode				(const Vec3D& vRayPos , const Vec3D& vRayDir);
 	bool					pick					(const Vec3D& vRayPos, const Vec3D& vRayDir, Vec3D* pPos)const;
 	float					getHeight				(float x, float y)const;
 	unsigned char			getPath					(int sx,int sy,int tx,int ty, std::deque<char>& path);

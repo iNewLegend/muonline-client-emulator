@@ -18,22 +18,22 @@ CScene::~CScene()
 }
 
 static Vec3D vEyeForNodeSort;
-bool sortNode(CRenderNode* p1, CRenderNode* p2)
-{
-	CMapObj* p11 = (CMapObj*)p1;
-	CMapObj* p22 = (CMapObj*)p2;
-	if (p11->getOrder()!=p22->getOrder())
-	{
-		return p11->getOrder()>p22->getOrder();
-	}
-	return p11>p22;
+//bool sortNode(CRenderNode* p1, CRenderNode* p2)
+//{
+// 	CMapObj* p11 = (CMapObj*)p1;
+// 	CMapObj* p22 = (CMapObj*)p2;
+// 	if (p11->getOrder()!=p22->getOrder())
+// 	{
+// 		return p11->getOrder()>p22->getOrder();
+// 	}
+// 	return p11>p22;
 //	//float fLength = (vEyeForNodeSort-p1->getPos()).lengthSquared()-(vEyeForNodeSort-p2->getPos()).lengthSquared();
 //	//if (fLength!=0)
 //	//{
 //	//	return fLength>0;
 //	//}
 //	return p1->getModelFilename()>p2->getModelFilename();
-}
+//}
 
 void CScene::getRenderNodes(const CFrustum& frustum, std::set<iRenderNode*>& setNode)
 {
@@ -89,7 +89,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 		// ----
 		FOR_IN(it,m_RenderNodes)
 		{
-		//	(*it)->renderDebug();
+		//	GetGraphics().drawBBox((*it)->getLocalBBox(),0xFFFF4400);
 		}
 	}
 	//if (m_setFocusNodes.size()>0)
@@ -118,7 +118,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 		FOR_IN(it,m_RenderNodes)
 		{
 			try {
-				CMapObj* pObj = (CMapObj*)(*it);
+				CRenderNode* pObj = (CRenderNode*)(*it);
 				if(pObj)
 				{
 					//if(pObj->GetObjType() == MAP_3DOBJ)
@@ -173,7 +173,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 				}
 			}
 			try {
-				CMapObj* pObj = (CMapObj*)(*it);
+				CRenderNode* pObj = (CRenderNode*)(*it);
 				if(pObj)
 				{
 						Vec4D vColor(1.0f,1.0f,1.0f,1.0f);
@@ -327,7 +327,7 @@ void CScene::del3DMapEffect(const Vec3D& vWorldPos)
 void CScene::del3DMapEffect(C3DMapEffect* pEffect)
 {
 	m_OctreeRoot.eraseNode(pEffect);
-	if(pEffect->getObjType() == MAP_3DEFFECT || pEffect->getObjType() == MAP_3DEFFECTNEW)
+	//if(pEffect->getObjType() == MAP_3DEFFECT || pEffect->getObjType() == MAP_3DEFFECTNEW)
 	{
 		pEffect->Die();
 	}
@@ -366,18 +366,18 @@ void CScene::updateOctreeByFocus()
 #include "float.h"
 
 #include "intersect.h"
-CMapObj* CScene::pickNode(const Vec3D& vRayPos, const Vec3D& vRayDir)
+CRenderNode* CScene::pickNode(const Vec3D& vRayPos, const Vec3D& vRayDir)
 {
-	CMapObj* pNode = NULL;
+	CRenderNode* pNode = NULL;
 	float fFocusMin = FLT_MAX;
 	FOR_IN(it,m_RenderNodes)
 	{
 		float fMin, fMax;
-		if (((CMapObj*)(*it))->intersect(vRayPos , vRayDir, fMin, fMax))
+		if (((CRenderNode*)(*it))->intersect(vRayPos , vRayDir, fMin, fMax))
 		{
 			if (fFocusMin>fMin)
 			{
-				pNode = (CMapObj*)*it;
+				pNode = (CRenderNode*)*it;
 				fFocusMin=fMax;
 			}
 		}

@@ -20,7 +20,5 @@ public:
 	// ----
 	virtual void	frameMoveRole	(const Matrix& mWorld, double fTime, float fElapsedTime);
 	virtual void	setActionState	(unsigned char uActionState);
-	// ----
-	virtual int		GetObjType		(){return MAP_ROLE;}
 };
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

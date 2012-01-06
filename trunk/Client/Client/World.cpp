@@ -254,9 +254,7 @@ void CWorld::updateRender(const CFrustum& frustum)
 		// ----
 		if (CWorld::getInstance().getSceneData())
 		{
-			Pos2D pos;
-			CPlayerMe::getInstance().GetCellPos(pos);
-			unsigned char uTileID = CWorld::getInstance().getSceneData()->getCellTileID(pos.x, pos.y ,0);
+			unsigned char uTileID = CWorld::getInstance().getSceneData()->getCellTileID(CPlayerMe::getInstance().getCellPosX(), CPlayerMe::getInstance().getCellPosY() ,0);
 			// ----
 			// # hide the house wall
 			if (uTileID==4)

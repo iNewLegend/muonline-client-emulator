@@ -2,7 +2,9 @@
 #pragma once /* Role.h */
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#include "3DMapObj.h" 
+#include <deque> 
+#include "SkeletonNode.h"
+#include "Pos2D.h"
 #include "..\..\Protocol\prodef.h"
 #include "..\..\Protocol\GameProtocol.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -19,7 +21,7 @@
 
 
 
-class CRole : public C3DMapObj
+class CRole : public CSkeletonNode
 {
 public:
 	CRole();
@@ -48,7 +50,6 @@ public:
 	UCHAR			getWeaponState	()const						{ return m_uWeaponState; };
 	virtual void	playWalkSound	();
 	// ----
-	virtual int		GetObjType		()							{ return MAP_ROLE; }
 	virtual bool	isDynamic		()							{ return true; }
 	virtual void	frameMove		(const Matrix& mWorld, double fTime, float fElapsedTime);
 	virtual void	frameMoveRole	(const Matrix& mWorld, double fTime, float fElapsedTime);
@@ -72,7 +73,7 @@ public:
 	CHARACTER_DATA&	getCharacterData(){return m_CharacterData;}
 	CHARACTER_DATA*	getCharacterDataForLua(){return &m_CharacterData;}
 	void			setCharacterData(const CHARACTER_DATA& data);
-
+	virtual void			release		()						{delete this;}
 	GSET_VAR(float,m_f,RoleHeight);
 
 	enum /* ActionStateType */
@@ -102,6 +103,7 @@ public:
 private:
 	char			m_szTemp[CLASS_TEMP_SIZE];
 protected:
+	// ----
 	unsigned long	m_uID;
 	// ----
 	std::wstring	m_wstrName;
@@ -127,6 +129,8 @@ protected:
 	float			m_fRoleHeight;
 	// ----
 	CHARACTER_DATA	m_CharacterData;
+	// ----
+	Pos2D			m_posCell;
 };
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

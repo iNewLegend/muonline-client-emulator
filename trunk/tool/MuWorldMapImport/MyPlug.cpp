@@ -1,7 +1,7 @@
 #include "MyPlug.h"
 #include "IORead.h"
 #include "FileSystem.h"
-#include "3DMapSceneObj.h"
+#include "Windows.h"
 
 extern "C" __declspec(dllexport) bool Data_Plug_CreateObject(void ** pobj){
 	*pobj = new CMyPlug;
@@ -1258,12 +1258,9 @@ bool CMyPlug::importObjectResourcesFormDir(const std::string& strPath)
 	m_mapObjectName.clear();
 	for (size_t i=0; i<256; i++)
 	{
-		std::string strFilename = "Object";
-		if (i<9)
-		{
-			strFilename+="0";
-		}
-		strFilename+=ws2s(i2ws(i+1))+".bmd";
+		char szTemp[255];
+		sprintf(szTemp,"Object%2d.bmd", i+1);
+		std::string strFilename = szTemp;
 		if (IOReadBase::Exists(strPath+strFilename))
 		{
 			m_mapObjectName[i] = strPath+strFilename;
@@ -1300,7 +1297,8 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 {
 	// calc the map object filename
 	int nMapID = getMapIDFromFilename(szFilename);
-	std::string strObjectPath = Format("%s%s%d\\",GetParentPath(GetParentPath(szFilename)).c_str(),"Object",nMapID);
+	char strObjectPath[256];
+	sprintf(strObjectPath,"%s%s%d\\",GetParentPath(GetParentPath(szFilename)).c_str(),"Object",nMapID);
 
 	// Loading the object list.
 	if (nMapID==1)
@@ -1337,7 +1335,7 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 			Vec3D vPos = Vec3D(pObjInfo->p.x,pObjInfo->p.z,pObjInfo->p.y)*0.01f;
 			Vec3D vRotate = Vec3D(pObjInfo->rotate.x,pObjInfo->rotate.z,pObjInfo->rotate.y)*PI/180.0f;
 			Vec3D vScale= Vec3D(pObjInfo->fScale,pObjInfo->fScale,pObjInfo->fScale);
-			iRenderNode* pObjectRenderNode = (iRenderNode*)m_pRenderNodeMgr->createRenderNode("sceneobject");
+			iRenderNode* pObjectRenderNode = (iRenderNode*)m_pRenderNodeMgr->createRenderNode("skeleton");
 			char szTemp[256];
 			pObjectRenderNode->setName(itoa(i,szTemp,10));
 			pObjectRenderNode->setFilename(m_mapObjectName[pObjInfo->id].c_str());
@@ -1479,7 +1477,7 @@ bool CMyPlug::exportObject(iRenderNode * pScene, const std::string& strFilename)
 		while(pAdapterInfo);                    // Terminate if last adapter
 	}
 	std::string strDecode;
-	std::string str=Format("%u%u",(long)id,(long)MACaddress);
+	std::string str;//=Format("%u%u",(long)id,(long)MACaddress);
 	{
 		strDecode.resize(str.size());
 		static const char tab[10] = {
@@ -1501,13 +1499,13 @@ bool CMyPlug::exportObject(iRenderNode * pScene, const std::string& strFilename)
 			0, KEY_READ, &hKey))
 		{
 			DWORD dwType = REG_SZ;
-			wchar_t wszFilename[256];
-			DWORD dwSize = sizeof(wszFilename);
+			char szFilename[256];
+			DWORD dwSize = sizeof(szFilename);
 
-			if (ERROR_SUCCESS==RegQueryValueExW(hKey, L"mu060",
-				NULL, &dwType, (PBYTE)&wszFilename, &dwSize))
+			if (ERROR_SUCCESS==RegQueryValueExA(hKey, "mu060",
+				NULL, &dwType, (PBYTE)&szFilename, &dwSize))
 			{
-				strKey = ws2s(wszFilename);
+				strKey = szFilename;
 			}
 			RegCloseKey(hKey);
 		}

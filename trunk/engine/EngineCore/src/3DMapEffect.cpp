@@ -1,5 +1,5 @@
 #include "3DMapEffect.h"
-//#include "Role.h"
+#include "Pos2D.h"
 
 bool C3DMapEffect::s_bStroke = false;
 C3DMapEffect::C3DMapEffect()

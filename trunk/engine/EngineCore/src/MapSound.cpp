@@ -7,7 +7,7 @@ bool CMapSound::s_bStroke = false;
 
 CMapSound::CMapSound()
 {
-	m_nType = MAP_SOUND;
+	//m_nType = MAP_SOUND;
 	m_pSound = NULL;
 	m_dwInterval = 0;
 	m_bActive = false;
