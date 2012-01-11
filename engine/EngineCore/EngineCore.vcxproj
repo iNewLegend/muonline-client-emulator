@@ -89,6 +89,7 @@
     <ClInclude Include="Include\3DMapEffect.h" />
     <ClInclude Include="include\Animated.h" />
     <ClInclude Include="Include\AnimMgr.h" />
+    <ClInclude Include="Include\AStar.h" />
     <ClInclude Include="Include\BaseCamera.h" />
     <ClInclude Include="Include\Camera.h" />
     <ClInclude Include="Include\FocusNode.h" />
@@ -118,6 +119,7 @@
   <ItemGroup>
     <ClCompile Include="src\3DMapEffect.cpp" />
     <ClCompile Include="src\AnimMgr.cpp" />
+    <ClCompile Include="src\AStar.cpp" />
     <ClCompile Include="src\BaseCamera.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\FocusNode.cpp" />

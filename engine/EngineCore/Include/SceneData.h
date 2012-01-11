@@ -2,6 +2,7 @@
 #include "iScene.h"
 #include "RenderSystem.h"
 #include <deque>
+#include "AStar.h"
 
 enum E_TERRAIN_ATT_TYPE
 {
@@ -16,9 +17,8 @@ enum E_TERRAIN_ATT_TYPE
 #define ATTRIBUTE_BREAK		(0x01<<2)
 #define ATTRIBUTE_UNVISIBLE	(0x01<<3)
 
-
 // 地图文件数据
-class CSceneData:public iSceneData
+class CSceneData:public iSceneData, public AStar
 {
 public:
 	virtual GSET_CONST_VAR	(Fog&,				m_,Fog);
@@ -74,32 +74,9 @@ public:
 
 	std::vector<TerrainCell>&		getCells()	{return m_Cells;}
 
+	virtual void		add2Hash(int x,int y);
+	virtual bool		checkHash(int x,int y);
 	unsigned char		getPath(int sx,int sy,int tx,int ty, std::deque<char>& path);
-	//////////////////启发式搜索(A*)寻路/////////////////////////////////
-#define MAX_NODE 		100 //允许同时存在多少待扩展节点
-#define MAX_ALLNODE 	1000 //允许节点数
-	struct Node
-	{
-		int x,y,f,level,n;
-	};
-	//待扩展节点的资料
-	Node node[MAX_NODE];
-	//节点的资料
-	struct AllNode
-	{
-		unsigned char dir;
-		int father;
-	}
-	m_allnode[MAX_ALLNODE];
-
-	int m_nNodeCount; //目前的待扩展节点数
-	int m_nAllNodeCount; //目前的节点数
-	void AddNode(int x,int y,int tx,int ty,unsigned char dir,int level,int father);
-	Node GetNode();
-	void Add2Hash(int x,int y);
-	bool CheckHash(int x,int y);
-
-	long m_SearchedFlag;
 protected:
 	std::string					m_strFilename;
 	int							m_nWidth;
