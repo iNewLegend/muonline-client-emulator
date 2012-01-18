@@ -86,8 +86,9 @@ void D3D9CheckResRef(LPDIRECT3DRESOURCE9 pRes)
 		pRes->Release();
 		if (nCount>1)
 		{
-			std::wstring wstr = FormatW(L"ref count > 0, count=%d", nCount);
-			MessageBoxW(NULL,wstr.c_str(),L"Error",MB_OK);
+			char szTemp[255];
+			sprintf(szTemp,"ref count > 0, count=%d", nCount);
+			MessageBoxW(NULL,szTemp,"Error",MB_OK);
 		}
 	}
 }
