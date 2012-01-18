@@ -50,9 +50,6 @@ const int _MAX_NAMESIZE	=16;
 #define ARGB(a,r,g,b)          ((COLORREF) ((BYTE)(r)| (((WORD)(BYTE)(g))<<8)| (((unsigned long)(BYTE)(b))<<16)| (((unsigned long)(BYTE)(a))<<24)))
 #endif
 
-// function
-bool SafeCopy(char * pTarget, const char * pSource, int nBufLen = 0);
-
 // ÆäËü
 #include <assert.h>
 
@@ -95,31 +92,9 @@ void	LogSave		(const char* fmt, ...);
 // while(...) { ...; DEAD_LOOP_BREAK(xCount, 10000) }
 #define		DEAD_LOOP_BREAK(x,n)	{ if(++(x) > (n)){ ASSERT(!"DEAD_LOCK_BREAK"); break; } }
 
-#define		TYPENAME	typename
-
-template<TYPENAME T>
+template<typename T>
 	inline void		safe_release(T*& pT)			{ pT->Release(); pT=NULL; }
 #define		SafeRelease	safe_release
 
 std::string ws2s(const std::wstring& ws);
 std::wstring s2ws(const std::string& s);
-std::wstring i2ws(int i, int nRadix=10);
-std::wstring f2ws(float f,const int slen,const int alen);
-std::string Format(const char* pszFormat, ...);
-std::wstring FormatW(const wchar_t* pwszFormat, ...);
-void Tokenizer(const std::string& in, std::vector<std::string>& out, const std::string& delimiters=",");
-void TokenizerW(const std::wstring& in, std::vector<std::wstring>& out, const std::wstring& delimiters=L",");
-void hexStdStr2Date(const std::string& str, void* pDate, size_t size);
-std::string date2HexStdStr(void* pDate, size_t size);
-
-	template <typename T>
-	void hexStdStr2Date(const std::string& str, T& date)
-	{
-		hexStdStr2Date(str,&date,sizeof(T));
-	}
-
-	template <typename T>
-	std::string date2HexStdStr(const T& date)
-	{
-		return date2HexStdStr(&date, sizeof(T));
-	}

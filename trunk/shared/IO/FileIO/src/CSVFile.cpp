@@ -34,7 +34,7 @@ bool CCsvFile::readLine(std::vector<std::string>& line)
 			{
 				if ('\n' == c)
 				{
-					if(strKey.length()>0)
+					if(line.size()>0)
 					{
 						break;
 					}
@@ -43,11 +43,16 @@ bool CCsvFile::readLine(std::vector<std::string>& line)
 				{
 					strKey.push_back(c);
 				}
+				else if (',' == c)
+				{
+					line.push_back(strKey);
+					strKey.clear();
+				}
 				m_pRead->Read(&c,1);
 			}
-			if (strKey.length()>0)
+			if (line.size()>0)
 			{
-				Tokenizer(strKey,line);
+				line.push_back(strKey);
 				return true;
 			}
 		}
