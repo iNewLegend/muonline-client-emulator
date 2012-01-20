@@ -88,7 +88,7 @@ void D3D9CheckResRef(LPDIRECT3DRESOURCE9 pRes)
 		{
 			char szTemp[255];
 			sprintf(szTemp,"ref count > 0, count=%d", nCount);
-			MessageBoxW(NULL,szTemp,"Error",MB_OK);
+			MessageBoxA(NULL,szTemp,"Error",MB_OK);
 		}
 	}
 }
