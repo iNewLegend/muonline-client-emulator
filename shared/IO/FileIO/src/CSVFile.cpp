@@ -123,9 +123,10 @@ int CCsvFile::getKeyIndex(const char* szKey)const
 
 const char* CCsvFile::getStr(unsigned long uKeyIndex, const char* szDefault)const
 {
-	if (m_nColumnCount>uKeyIndex)
+	int id = m_nLine*m_nColumnCount+uKeyIndex;
+	if (id<m_date.size())
 	{
-		return m_date[m_nLine*m_nColumnCount+uKeyIndex];
+		return m_date[id];
 	}
 	return szDefault;
 }
@@ -217,15 +218,22 @@ CCsvFile& CCsvFile::seek(unsigned long uKeyIndex, int nVal)
 	return *this;
 }
 
+CCsvFile& operator[](const char* szVal)
+{
+	return seek(0,szVal);
+}
+
+CCsvFile& operator[](int nVal)
+{
+	return seek(0,nVal);
+}
+
 CCsvFile& CCsvFile::seek(const char* szVal)
 {
 	return seek(0,szVal);
 }
 
 CCsvFile& CCsvFile::seek(int nVal)
-{
-	return seek(0,nVal);
-}
 
 CCsvFile& CCsvFile::Seek(const char* szKey, const char* szVal)
 {

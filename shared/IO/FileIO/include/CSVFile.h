@@ -19,10 +19,11 @@ public:
 	float		getFloat(const char* szKey, float fDefault=0.0f);
 	unsigned long getHex(const char* szKey, unsigned long uDefault=0x00000000);
 	bool		seekNextLine();
-	CCsvFile&		seek(unsigned long uKeyIndex, const char* szVal);
-	CCsvFile&		seek(unsigned long uKeyIndex, int nVal);
-	CCsvFile&		seek(const char* szVal);
-	CCsvFile&		seek(int nVal);
+	CCsvFile&	seek(unsigned long uKeyIndex, const char* szVal);
+	CCsvFile&	seek(unsigned long uKeyIndex, int nVal);
+
+	CCsvFile&	operator[](const char* szVal);
+	CCsvFile&	operator[](int nVal);
 	CCsvFile&		Seek(const char* szKey, const char* szVal);
 	CCsvFile&		Seek(const char* szKey, int nVal);
 protected:
