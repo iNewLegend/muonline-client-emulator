@@ -1,96 +1,119 @@
 #include "CSVFile.h"
 #include <algorithm>
+#include "IORead.h"
 
 CCsvFile::CCsvFile()
+	:m_nLine(0)
+	,m_buffer(NULL)
 {
-	m_pRead = NULL;
-	m_length = 0;
 }
 
 CCsvFile::CCsvFile(const char* szFilename)
+	:m_nLine(0)
+	,m_buffer(NULL)
 {
-	m_pRead = NULL;
-	m_length = 0;
 	open(szFilename);
 }
 
 CCsvFile::~CCsvFile()
 {
-	close();
-}
-#include "..\..\..\Common\Include\common.h"
-bool CCsvFile::readLine(std::vector<std::string>& line)
-{
-	if (m_pRead)
+	if (m_buffer)
 	{
-		line.clear();
-		std::string strKey;
-		
-		char c;
-		m_pRead->Read(&c,1);
-		if (!m_pRead->IsEof())
-		{
-			while(!m_pRead->IsEof())
-			{
-				if ('\n' == c)
-				{
-					if(line.size()>0)
-					{
-						break;
-					}
-				}
-				else if ('\r' != c)
-				{
-					strKey.push_back(c);
-				}
-				else if (',' == c)
-				{
-					line.push_back(strKey);
-					strKey.clear();
-				}
-				m_pRead->Read(&c,1);
-			}
-			if (line.size()>0)
-			{
-				line.push_back(strKey);
-				return true;
-			}
-		}
+		delete[] m_buffer;
 	}
-	return false;
+	m_date.clear();
 }
 
 bool CCsvFile::open(const char* szFilename)
 {
-	close();
-	m_pRead = IOReadBase::autoOpen(szFilename);
-	if (m_pRead)
+	m_nLine = 0;
+	IOReadBase* f = IOReadBase::autoOpen(szFilename);
+	if (f)
 	{
-		if (readLine(m_Key))
+		if (m_buffer)
 		{
-			//seekNextLine();
-			return true;
+			delete[] m_buffer;
 		}
-		close();
+		m_date.clear();
+		int nLength = f->GetSize();
+		m_buffer = new char[nLength+1];
+		f->Read(m_buffer,nLength);
+		m_buffer[nLength]=0;
+		IOReadBase::autoClose(f);
+
+		return open(m_buffer,nLength);
 	}
+
 	return false;
 }
 
-void CCsvFile::close()
+bool CCsvFile::open(char* buffer, int nLength)
 {
-	m_LineBuffer.clear();
-	if (m_pRead)
+	// ----
+	m_nColumnCount = 0;
+	for (int i=0; i<nLength-1; ++i)
 	{
-		IOReadBase::autoClose(m_pRead);
+		if (buffer[i]==0x0D)
+		{
+			if (buffer[i+1] == 0x0A)
+			{
+				m_nColumnCount++;
+				break;
+			}
+		}
+		else if (buffer[i]==',')
+		{
+			m_nColumnCount++;
+		}
 	}
+	if (m_nColumnCount==0)
+	{
+		return false;
+	}
+	// ----
+	int line = 0;
+	char* pEnd = buffer+nLength;
+
+	bool bString = false;
+	m_date.push_back(buffer);
+	while (buffer!=pEnd)
+	{
+		switch (*buffer)
+		{
+		case 0x0D:
+			if (buffer[1] == 0x0A)
+			{
+				*buffer = 0;
+				buffer++;
+				*buffer = 0;
+				m_date.push_back(buffer+1);
+			}
+			break;
+
+		case '"':
+			{
+				bString=!bString;
+			}
+			break;
+
+		case ',':
+			if (!bString)
+			{
+				*buffer = 0;
+				m_date.push_back(buffer+1);
+			}
+			break;
+		}
+		buffer++;
+	}
+	return true;
 }
 
 int CCsvFile::getKeyIndex(const char* szKey)const
 {
-	int nCount = m_Key.size();
-	for (int i = 0; i < nCount; i++)
+	for (int i = 0; i < m_nColumnCount; i++)
 	{
-		if (strcmp(m_Key[i].c_str(),szKey)==0)
+		if (strcmp(m_date[i],szKey)==0)
 		{
 			return i;
 		}
@@ -100,9 +123,9 @@ int CCsvFile::getKeyIndex(const char* szKey)const
 
 const char* CCsvFile::getStr(unsigned long uKeyIndex, const char* szDefault)const
 {
-	if (m_LineBuffer.size()>uKeyIndex)
+	if (m_nColumnCount>uKeyIndex)
 	{
-		return m_LineBuffer[uKeyIndex].c_str();
+		return m_date[m_nLine*m_nColumnCount+uKeyIndex];
 	}
 	return szDefault;
 }
@@ -161,14 +184,13 @@ unsigned long CCsvFile::getHex(const char* szKey, unsigned long uDefault)
 
 bool CCsvFile::seekNextLine()
 {
-	return readLine(m_LineBuffer);
+	m_nLine++;
+	return m_nLine*m_nColumnCount+m_nColumnCount<=m_date.size();
 }
 
 
-bool CCsvFile::seek(unsigned long uKeyIndex, const char* szVal)
+CCsvFile& CCsvFile::seek(unsigned long uKeyIndex, const char* szVal)
 {
-	//m_pRead->Seek(0,SEEK_SET);
-	//seekNextLine();
 	do 
 	{
 		const char* szRet = getStr(uKeyIndex, NULL);
@@ -176,42 +198,42 @@ bool CCsvFile::seek(unsigned long uKeyIndex, const char* szVal)
 		{
 			if (strcmp(szRet,szVal)==0)
 			{
-				return true;
+				return *this;
 			}
 		}
 	} while (seekNextLine());
-	return false;
+	return *this;
 }
 
-bool CCsvFile::seek(unsigned long uKeyIndex, int nVal)
+CCsvFile& CCsvFile::seek(unsigned long uKeyIndex, int nVal)
 {
 	do
 	{
 		if (nVal == getInt(uKeyIndex,-1))
 		{
-			return true;
+			return *this;
 		}
 	} while (seekNextLine());
-	return false;
+	return *this;
 }
 
-bool CCsvFile::seek(const char* szVal)
+CCsvFile& CCsvFile::seek(const char* szVal)
 {
 	return seek(0,szVal);
 }
 
-bool CCsvFile::seek(int nVal)
+CCsvFile& CCsvFile::seek(int nVal)
 {
 	return seek(0,nVal);
 }
 
-bool CCsvFile::Seek(const char* szKey, const char* szVal)
+CCsvFile& CCsvFile::Seek(const char* szKey, const char* szVal)
 {
 	int nKeyIndex = getKeyIndex(szKey);
 	return seek(nKeyIndex,szVal);
 }
 
-bool CCsvFile::Seek(const char* szKey, int nVal)
+CCsvFile& CCsvFile::Seek(const char* szKey, int nVal)
 {
 	int nKeyIndex = getKeyIndex(szKey);
 	return seek(nKeyIndex,nVal);

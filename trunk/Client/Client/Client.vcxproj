@@ -119,7 +119,7 @@
     <ClCompile Include="Role.cpp" />
     <ClCompile Include="RPGSkyTextRender.cpp" />
     <ClCompile Include="RPGSkyUIGraph.cpp" />
-    <ClCompile Include="StrRes.cpp" />
+    <ClCompile Include="Res.cpp" />
     <ClCompile Include="UIGeneralDialog.cpp" />
     <ClCompile Include="UIIcon.cpp" />
     <ClCompile Include="World.cpp" />
@@ -140,7 +140,7 @@
     <ClInclude Include="Role.h" />
     <ClInclude Include="RPGSkyTextRender.h" />
     <ClInclude Include="RPGSkyUIGraph.h" />
-    <ClInclude Include="StrRes.h" />
+    <ClInclude Include="Res.h" />
     <ClInclude Include="UIGeneralDialog.h" />
     <ClInclude Include="UIIcon.h" />
     <ClInclude Include="World.h" />

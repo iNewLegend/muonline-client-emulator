@@ -10,8 +10,6 @@
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 #define PLAYER_BMD_PATCH	"Data\\Player\\player.bmd"
-#define ITEM_CVS_PATCH		"Data\\CSV\\Item.csv"
-#define EQUIP_CVS_PATCH		"Data\\CSV\\Equip.csv"
 // ----
 #define DIR_COUNT			8
 #define CLASS_TEMP_SIZE		256
