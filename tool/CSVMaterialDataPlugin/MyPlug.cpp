@@ -46,7 +46,6 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 			}
 		}
 	}
-	csv.close();
 	return true;
 }
 

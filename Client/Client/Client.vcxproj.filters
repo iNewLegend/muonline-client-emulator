@@ -63,9 +63,6 @@
     <ClCompile Include="Role.cpp">
       <Filter>Role</Filter>
     </ClCompile>
-    <ClCompile Include="StrRes.cpp">
-      <Filter>Data</Filter>
-    </ClCompile>
     <ClCompile Include="World.cpp">
       <Filter>World</Filter>
     </ClCompile>
@@ -92,6 +89,9 @@
     </ClCompile>
     <ClCompile Include="UIChatList.cpp">
       <Filter>UI\Chat</Filter>
+    </ClCompile>
+    <ClCompile Include="Res.cpp">
+      <Filter>Data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -122,9 +122,6 @@
     <ClInclude Include="Role.h">
       <Filter>Role</Filter>
     </ClInclude>
-    <ClInclude Include="StrRes.h">
-      <Filter>Data</Filter>
-    </ClInclude>
     <ClInclude Include="World.h">
       <Filter>World</Filter>
     </ClInclude>
@@ -151,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="UIChatList.h">
       <Filter>UI\Chat</Filter>
+    </ClInclude>
+    <ClInclude Include="Res.h">
+      <Filter>Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
