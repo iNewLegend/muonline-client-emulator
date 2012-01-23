@@ -86,6 +86,8 @@ bool CCsvFile::open(char* buffer, int nLength)
 				*buffer = 0;
 				buffer++;
 				*buffer = 0;
+				line++;
+				m_date.resize(line*m_nColumnCount);
 				m_date.push_back(buffer+1);
 			}
 			break;
@@ -192,6 +194,10 @@ bool CCsvFile::seekNextLine()
 
 CCsvFile& CCsvFile::seek(unsigned long uKeyIndex, const char* szVal)
 {
+	if (uKeyIndex==0)
+	{
+		m_nLine=0;
+	}
 	do 
 	{
 		const char* szRet = getStr(uKeyIndex, NULL);
@@ -208,6 +214,10 @@ CCsvFile& CCsvFile::seek(unsigned long uKeyIndex, const char* szVal)
 
 CCsvFile& CCsvFile::seek(unsigned long uKeyIndex, int nVal)
 {
+	if (uKeyIndex==0)
+	{
+		m_nLine=0;
+	}
 	do
 	{
 		if (nVal == getInt(uKeyIndex,-1))
@@ -217,23 +227,6 @@ CCsvFile& CCsvFile::seek(unsigned long uKeyIndex, int nVal)
 	} while (seekNextLine());
 	return *this;
 }
-
-CCsvFile& operator[](const char* szVal)
-{
-	return seek(0,szVal);
-}
-
-CCsvFile& operator[](int nVal)
-{
-	return seek(0,nVal);
-}
-
-CCsvFile& CCsvFile::seek(const char* szVal)
-{
-	return seek(0,szVal);
-}
-
-CCsvFile& CCsvFile::seek(int nVal)
 
 CCsvFile& CCsvFile::Seek(const char* szKey, const char* szVal)
 {
@@ -245,4 +238,25 @@ CCsvFile& CCsvFile::Seek(const char* szKey, int nVal)
 {
 	int nKeyIndex = getKeyIndex(szKey);
 	return seek(nKeyIndex,nVal);
+}
+
+int CCsvFile::operator[](unsigned long uKeyIndex)
+{
+	const char* szVal = getStr(uKeyIndex, NULL);
+	if (szVal)
+	{
+		return atoi(szVal);
+	}
+	return 0;
+}
+
+int CCsvFile::operator[](const char* szKey)
+{
+	unsigned long uKeyIndex = getKeyIndex(szKey);
+	const char* szVal = getStr(uKeyIndex, NULL);
+	if (szVal)
+	{
+		return atoi(szVal);
+	}
+	return 0;
 }

@@ -21,11 +21,10 @@ public:
 	bool		seekNextLine();
 	CCsvFile&	seek(unsigned long uKeyIndex, const char* szVal);
 	CCsvFile&	seek(unsigned long uKeyIndex, int nVal);
-
-	CCsvFile&	operator[](const char* szVal);
-	CCsvFile&	operator[](int nVal);
-	CCsvFile&		Seek(const char* szKey, const char* szVal);
-	CCsvFile&		Seek(const char* szKey, int nVal);
+	CCsvFile&	Seek(const char* szKey, const char* szVal);
+	CCsvFile&	Seek(const char* szKey, int nVal);
+	int			operator[](const char* szKey);
+	int			operator[](unsigned long uKeyIndex);
 protected:
 	int					m_nLine;
 	std::vector<char*>	m_date;
