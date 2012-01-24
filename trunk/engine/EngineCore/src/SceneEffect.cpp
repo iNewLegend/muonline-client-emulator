@@ -9,13 +9,11 @@ m_fAdaptedLum(0.5f),
 m_fHDRKey(0.3f),
 m_bHDR(false),
 m_bInitialized(false),
-m_pDepthRenderTarget(NULL),
-m_pGlowRenderTarget(NULL),
-m_pSceneTex(NULL),
-m_pExposureTexture(NULL),
-m_pExposureTexture2(NULL),
-m_pBackTexture(NULL),
-m_pSceneCopyTexture(NULL),
+m_pGeometryMRT(NULL),
+m_pDepthMRT(NULL),
+m_pNormalMRT(NULL),
+m_pGlowRT(NULL),
+m_pSceneRT(NULL),
 m_nWidth(0),
 m_nHeight(0)
 {
@@ -28,12 +26,11 @@ CSceneEffect::~CSceneEffect()
 
 void CSceneEffect::clearTextures()
 {
-	S_DEL(m_pGlowRenderTarget);
-	S_DEL(m_pDepthRenderTarget);
-	S_DEL(m_pSceneTex);
-	S_DEL(m_pExposureTexture);
-	S_DEL(m_pExposureTexture2);
-	S_DEL(m_pBackTexture);
+	S_DEL(m_pGlowRT);
+	S_DEL(m_pGeometryMRT);
+	S_DEL(m_pDepthMRT);
+	S_DEL(m_pNormalMRT);
+	S_DEL(m_pSceneRT);
 	// new 
 //	{ // Fixed the scene texture release.
 // 		CShader* pShader = GetRenderSystem().GetShaderMgr().getSharedShader();
@@ -42,8 +39,6 @@ void CSceneEffect::clearTextures()
 // 			pShader->setTexture("g_texScene",(CTexture*)NULL);
 // 		}
 //	}
-
-	S_DEL(m_pSceneCopyTexture);
 }
 
 void CSceneEffect::Reset(const CRect<int>& rc)
@@ -62,19 +57,17 @@ void CSceneEffect::Reset(const CRect<int>& rc)
 	m_nHeight= nHeight;
 
 	CRenderSystem& R = CRenderSystem::getSingleton();
-	//m_pDepthRenderTarget = R.GetTextureMgr().CreateRenderTarget(512, 512);
 
-	m_pGlowRenderTarget = R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
+	m_pGeometryMRT	= R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
+	m_pDepthMRT		= R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
+	m_pNormalMRT	= R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
 
-	m_pSceneTex = R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
-	m_pTexScene4x = R.GetTextureMgr().CreateRenderTarget(nWidth*0.25f,nHeight*0.25f);
-	m_pTexScene8x1 = R.GetTextureMgr().CreateRenderTarget(nWidth*0.0625f,nHeight*0.0625f);
-	m_pTexScene8x2 = R.GetTextureMgr().CreateRenderTarget(nWidth*0.0625f,nHeight*0.0625f);
+	m_pGlowRT		= R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
 
-	m_pSceneCopyTexture = R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
-
-	//m_pExposureTexture = R.GetTextureMgr().CreateRenderTarget(1,1);
-	m_pBackTexture = R.GetTextureMgr().CreateRenderTarget(512, 512);//.CreateDynamicTexture(512,512);
+	m_pSceneRT		= R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
+	m_pSceneRT4x	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.25f,nHeight*0.25f);
+	m_pSceneRT8x1	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.0625f,nHeight*0.0625f);
+	m_pSceneRT8x2	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.0625f,nHeight*0.0625f);
 
 	m_Quad[0].t = Vec2D(0.0f, 1.0f);
 	m_Quad[1].t = Vec2D(0.0f, 0.0f);
@@ -108,57 +101,6 @@ void CSceneEffect::Reset(const CRect<int>& rc)
 	m_Quad8x[3].p = Vec4D((float)nWidth*0.0625f-0.5f,	-0.5f,							0.0f, 1.0f);
 
 	m_bInitialized = true;
-}
-
-CTexture* CSceneEffect::getSceneTexture()
-{
-	CRenderSystem& R = CRenderSystem::getSingleton();
-	CTexture* m_pRenderSystemTarget = R.GetRenderTarget();
-	CRect<int> rcSrc;
-	R.getViewport(rcSrc);
-	R.StretchRect(m_pRenderSystemTarget,&rcSrc,m_pSceneCopyTexture,NULL, TEXF_LINEAR);
-	S_DEL(m_pRenderSystemTarget);
-	return m_pSceneCopyTexture;
-}
-
-void CSceneEffect::RenderTemporalBloom()
-{
-	if (false==m_bInitialized)
-	{
-		return;
-	}
-	//return;
-	// 1:copy正常画面 2:与上一帧按混合比混合并输出 3:保存此帧用于下次混合
-	CRenderSystem& R = CRenderSystem::getSingleton();
-
-	CTexture* m_pRenderSystemTarget = R.GetRenderTarget();
-	R.StretchRect(m_pRenderSystemTarget,NULL,m_pBackTexture,NULL, TEXF_LINEAR);
-	//if(R.BeginFrame())
-	{
-		int nAlpha =227; min(m_fBloomVal*255,255);
-		unsigned long dwFactor = (nAlpha<<24)+0xFF0000;
-		R.SetTextureFactor(dwFactor);
-		R.SetCullingMode(CULL_NONE);// CULL_CCW
-		R.SetLightingEnabled(false);
-		R.SetBlendFunc(false,BLENDOP_ADD,SBF_SOURCE_ALPHA,SBF_ONE_MINUS_SOURCE_ALPHA);
-		R.SetDepthBufferFunc(false,false);
-		R.SetTextureColorOP(0,TBOP_SOURCE1,TBS_TEXTURE);
-		R.SetTextureAlphaOP(0,TBOP_SOURCE1,TBS_TFACTOR);
-
-		R.SetTextureColorOP(1,TBOP_DISABLE);
-		R.SetTextureAlphaOP(1,TBOP_DISABLE);
-
-		R.SetTexture(0,m_pBackTexture) ;
-		R.SetFVF(QuadVertex::FVF);
-		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
-	//	R.EndFrame();
-	}
-	//保存当前的画面 以备下一帧调用
-	//R.EndFrame();
-	R.StretchRect(m_pRenderSystemTarget,NULL,m_pBackTexture,NULL, TEXF_LINEAR);
-	//m_pBackTexture->SaveToFile("D:/BackCopy.bmp");
-	//R.BeginFrame();
-	S_DEL(m_pRenderSystemTarget);
 }
 
 float CSceneEffect::GetSceneExposure()
@@ -204,29 +146,14 @@ D3DXSaveSurfaceToFileA("F:/项目/NewGame/cc.bmp", D3DXIFF_BMP, m_pSceneTexture, N
 	return m_fAdaptedLum;
 }
 
-void CSceneEffect::glowRenderTargetBegin()
-{
-	CRenderSystem& R = CRenderSystem::getSingleton();
-	m_pRenderSystemTarget = R.GetRenderTarget();
-	R.SetRenderTarget(m_pGlowRenderTarget);
-
-	//RECT rect={0,0,255,255};
-	//R.setViewport(rect);
-}
-
-void CSceneEffect::glowRenderTargetEnd()
-{
-	CRenderSystem& R = CRenderSystem::getSingleton();
-	// Restore
-	R.SetRenderTarget(m_pRenderSystemTarget);
-	S_DEL(m_pRenderSystemTarget);
-}
-
 void CSceneEffect::renderTargetBegin()
 {
 	CRenderSystem& R = CRenderSystem::getSingleton();
-	m_pRenderSystemTarget = R.GetRenderTarget();
-	R.SetRenderTarget(m_pSceneTex);
+	m_pSystemRT = R.GetRenderTarget();
+	R.SetRenderTarget(0,m_pSceneRT);
+	//R.SetRenderTarget(1,m_pDepthMRT);
+	//R.SetRenderTarget(2,m_pNormalMRT);
+
 	//R.SetSamplerFilter(0, TEXF_POINT, TEXF_POINT, TEXF_POINT);
 }
 
@@ -236,7 +163,7 @@ void CSceneEffect::renderTargetGlow()// not good
 	// first: copy system render target to my render target.
 
 	CRect<int> rect(0,0,m_nWidth,m_nHeight);
-	R.StretchRect(m_pGlowRenderTarget, NULL, m_pSceneTex, &rect, TEXF_POINT);
+	R.StretchRect(m_pGlowRT, NULL, m_pSceneRT, &rect, TEXF_POINT);
 
 	return;
 	if (m_bHDR)
@@ -249,7 +176,7 @@ void CSceneEffect::renderTargetGlow()// not good
 	{
 		
 		// 一定要把空白区域值为黑色
-		R.SetTexture(0, m_pSceneTex);
+		R.SetTexture(0, m_pSceneRT);
 	//	R.SetFVF(SceneBloomVertex::FVF);
 
 
@@ -282,10 +209,10 @@ void CSceneEffect::renderTargetGlow()// not good
 void CSceneEffect::renderGammaCorrection()
 {
 	CRenderSystem& R = CRenderSystem::getSingleton();
-	R.SetRenderTarget(m_pSceneTex);
+	R.SetRenderTarget(0,m_pSceneRT);
 	//R.ClearBuffer(false,true,0x0);
 	//R.GetShaderMgr().getSharedShader()->setTexture("g_texScene",m_pSceneTexture);
-	R.SetTexture(0, m_pSceneTex);
+	R.SetTexture(0, m_pSceneRT);
 
 	if(R.prepareMaterial("GammaCorrection"))
 	{
@@ -314,8 +241,8 @@ void CSceneEffect::renderTargetBloom()
 	if (R.prepareMaterial("Filter4"))
 	{
 
-		R.SetRenderTarget(m_pTexScene4x);
-		R.SetTexture(0, m_pSceneTex);
+		R.SetRenderTarget(0,m_pSceneRT4x);
+		R.SetTexture(0, m_pSceneRT);
 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
 	}
 
@@ -325,48 +252,48 @@ void CSceneEffect::renderTargetBloom()
 	// Down Filter 4x
 	if (R.prepareMaterial("Filter4"))
 	{
-		R.SetRenderTarget(m_pTexScene8x1);
-		R.SetTexture(0, m_pTexScene4x);
+		R.SetRenderTarget(0,m_pSceneRT8x1);
+		R.SetTexture(0, m_pSceneRT4x);
 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
 	}
 
 	// Bright Pass
 	if (R.prepareMaterial("Bright"))
 	{
-		R.SetRenderTarget(m_pTexScene8x2);
-		R.SetTexture(0, m_pTexScene8x1);
+		R.SetRenderTarget(0,m_pSceneRT8x2);
+		R.SetTexture(0, m_pSceneRT8x1);
 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
 	}
 	
 	// Bloom Horizontal
 	if (R.prepareMaterial("BloomH"))
 	{
-		R.SetRenderTarget(m_pTexScene8x1);
-		R.SetTexture(0, m_pTexScene8x2);
+		R.SetRenderTarget(0,m_pSceneRT8x1);
+		R.SetTexture(0, m_pSceneRT8x2);
 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
 	}
 
 	// Bloom Vertical
 	if (R.prepareMaterial("BloomV"))
 	{
-		R.SetRenderTarget(m_pTexScene8x2);
-		R.SetTexture(0, m_pTexScene8x1);
+		R.SetRenderTarget(0,m_pSceneRT8x2);
+		R.SetTexture(0, m_pSceneRT8x1);
 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
 	}
 
 	// Bloom Horizontal
 	if (R.prepareMaterial("BloomH"))
 	{
-		R.SetRenderTarget(m_pTexScene8x1);
-		R.SetTexture(0, m_pTexScene8x2);
+		R.SetRenderTarget(0,m_pSceneRT8x1);
+		R.SetTexture(0, m_pSceneRT8x2);
 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
 	}
 
 	// Bloom Vertical
 	if (R.prepareMaterial("BloomV"))
 	{
-		R.SetRenderTarget(m_pTexScene8x2);
-		R.SetTexture(0, m_pTexScene8x1);
+		R.SetRenderTarget(0,m_pSceneRT8x2);
+		R.SetTexture(0, m_pSceneRT8x1);
 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
 	}
 
@@ -376,8 +303,8 @@ void CSceneEffect::renderTargetBloom()
 	// Up Filter 4x
  	if (R.prepareMaterial("Combine"))
  	{
- 		R.SetRenderTarget(m_pTexScene4x);
- 		R.SetTexture(0, m_pTexScene8x2);
+ 		R.SetRenderTarget(0,m_pSceneRT4x);
+ 		R.SetTexture(0, m_pSceneRT8x2);
  		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
  	}
 
@@ -396,8 +323,8 @@ void CSceneEffect::renderTargetEnd()
 {
 	CRenderSystem& R = CRenderSystem::getSingleton();
 	// Restore
-	R.SetRenderTarget(m_pRenderSystemTarget);
-	S_DEL(m_pRenderSystemTarget);
+	R.SetRenderTarget(0,m_pSystemRT);
+	S_DEL(m_pSystemRT);
 }
 
 void CSceneEffect::compose(const CRect<int>& rcDest)
@@ -428,8 +355,8 @@ void CSceneEffect::compose(const CRect<int>& rcDest)
 	if (R.prepareMaterial("CombineAdd"))
 	{
 		//R.SetRenderTarget(m_pTexScene8x2);
-		R.SetTexture(0, m_pSceneTex);
-		R.SetTexture(1, m_pTexScene4x);
+		R.SetTexture(0, m_pSceneRT);
+		R.SetTexture(1, m_pSceneRT4x);
 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, QuadVB, sizeof(QuadVertex));
 	}
 

@@ -299,26 +299,14 @@ CTexture* CD3D9RenderSystem::GetRenderTarget()
 	return pRenderTarget;
 }
 
-void CD3D9RenderSystem::SetRenderTarget(CTexture* pRenderTarget)
+void CD3D9RenderSystem::SetRenderTarget(int index, CTexture* pRenderTarget)
 {
 	LPDIRECT3DSURFACE9 pD3D9Surface = NULL;
 	if (pRenderTarget)
 	{
 		pD3D9Surface = ((CD3D9Texture*)pRenderTarget)->GetD3D9Surface();
 	}
-	D3D9HR( m_pD3D9Device->SetRenderTarget(0, pD3D9Surface) );
-	/*HRESULT hr = m_pD3D9Device->SetRenderTarget(0, pD3D9Surface);
-	if(FAILED(hr))
-	{
-		if (D3DERR_INVALIDCALL == hr)
-		{
-			::MessageBoxA(0, "pRenderTarget = NULL and RenderTargetIndex = 0\npRenderTarget is != NULL and the render target is invalid.", 0, 0);
-		}
-		else
-		{
-			::MessageBoxA(0, "NULL", 0, 0);
-		}
-	}*/
+	D3D9HR( m_pD3D9Device->SetRenderTarget(index, pD3D9Surface) );
 }
 
 CTexture* CD3D9RenderSystem::GetDepthStencil()

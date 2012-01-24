@@ -21,11 +21,7 @@ public:
 public:
 	void clearTextures();
 	void Reset(const CRect<int>& rc);
-	void RenderTemporalBloom();
 	float GetSceneExposure();
-
-	void glowRenderTargetBegin();
-	void glowRenderTargetEnd();
 
 	void renderTargetBegin();
 	void renderTargetGlow();
@@ -34,29 +30,24 @@ public:
 	void renderTargetEnd();
 	void compose(const CRect<int>& rcDest);
 
-	// new
-	CTexture* getSceneTexture();
 protected:
 	CRect<int> m_Rect;
 	int	m_nWidth;
 	int m_nHeight;
-	CTexture*	m_pGlowRenderTarget;
-	CTexture*	m_pRenderSystemTarget;
-	CTexture*	m_pDepthRenderTarget;
-	// 泛光渲染到贴图
-	CTexture*	m_pSceneTex;
-	CTexture*	m_pTexScene4x;
-	CTexture*	m_pTexScene8x1;
-	CTexture*	m_pTexScene8x2;
+	CTexture*	m_pGlowRT;
+	CTexture*	m_pSystemRT;
 
-	CTexture*	m_pExposureTexture;
-	CTexture*	m_pExposureTexture2;
+	CTexture*	m_pGeometryMRT;
+	CTexture*	m_pDepthMRT;
+	CTexture*	m_pNormalMRT;
+
+	CTexture*	m_pSceneRT;
+	CTexture*	m_pSceneRT4x;
+	CTexture*	m_pSceneRT8x1;
+	CTexture*	m_pSceneRT8x2;
 
 	//new
 	CTexture*	m_pSceneCopyTexture;
-
-	// 画面备份贴图
-	CTexture*	m_pBackTexture;
 
 	// HDR
 	bool m_bHDR;
