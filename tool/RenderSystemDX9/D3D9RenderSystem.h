@@ -68,7 +68,7 @@ public:
 	// ----
 	//
 	CTexture* GetRenderTarget();
-	void SetRenderTarget(CTexture* pRenderTarget);
+	void SetRenderTarget(int index, CTexture* pRenderTarget);
 	//
 	CTexture* GetDepthStencil();
 	void SetDepthStencil(CTexture* pDepthStencil);

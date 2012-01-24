@@ -53,7 +53,7 @@ public:
 	virtual CTexture*	GetRenderTarget		() = 0;
 	virtual CTexture*	GetDepthStencil		() = 0;
 	// ----
-	virtual void		SetRenderTarget		(CTexture* pRenderTarget)	= 0;
+	virtual void		SetRenderTarget		(int index, CTexture* pRenderTarget)	= 0;
 	virtual void		SetDepthStencil		(CTexture* pDepthStencil)	= 0;
 	// ----
 	virtual void		setViewport			(const CRect<int>& rect)	= 0;
