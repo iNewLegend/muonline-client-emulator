@@ -144,7 +144,7 @@ void CD3D9Texture::createRenderTarget(int nWidth, int nHeight)
 		nHeight,
 		1,
 		D3DUSAGE_RENDERTARGET,
-		D3DFMT_A8R8G8B8,
+		D3DFMT_A16B16G16R16F,
 		D3DPOOL_DEFAULT,
 		&m_pd3dTexture,
 		NULL);
@@ -153,7 +153,6 @@ void CD3D9Texture::createRenderTarget(int nWidth, int nHeight)
 	{
 		m_pd3dTexture->GetSurfaceLevel(0 , &m_pD3D9Surface);
 	}
-	//D3D9CheckResRef(m_pd3dTexture);
 }
 
 void CD3D9Texture::createDepthStencil(int nWidth, int nHeight)

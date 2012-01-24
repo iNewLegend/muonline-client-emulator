@@ -4,18 +4,18 @@
 #include "Color.h"
 
 CSceneEffect::CSceneEffect():
-m_fBloomVal(0.2f),
-m_fAdaptedLum(0.5f),
-m_fHDRKey(0.3f),
-m_bHDR(false),
-m_bInitialized(false),
-m_pGeometryMRT(NULL),
-m_pDepthMRT(NULL),
-m_pNormalMRT(NULL),
-m_pGlowRT(NULL),
-m_pSceneRT(NULL),
-m_nWidth(0),
-m_nHeight(0)
+m_fBloomVal(0.2f)
+,m_fAdaptedLum(0.5f)
+,m_fHDRKey(0.3f)
+,m_bHDR(false)
+,m_bInitialized(false)
+,m_pPosMRT(NULL)
+,m_pNormalMRT(NULL)
+,m_pLightRT(NULL)
+,m_pDiffuseRT(NULL)
+,m_nWidth(0)
+,m_nHeight(0)
+,m_nFlag(1)
 {
 }
 
@@ -26,11 +26,10 @@ CSceneEffect::~CSceneEffect()
 
 void CSceneEffect::clearTextures()
 {
-	S_DEL(m_pGlowRT);
-	S_DEL(m_pGeometryMRT);
-	S_DEL(m_pDepthMRT);
+	S_DEL(m_pLightRT);
+	S_DEL(m_pPosMRT);
 	S_DEL(m_pNormalMRT);
-	S_DEL(m_pSceneRT);
+	S_DEL(m_pDiffuseRT);
 	// new 
 //	{ // Fixed the scene texture release.
 // 		CShader* pShader = GetRenderSystem().GetShaderMgr().getSharedShader();
@@ -58,13 +57,11 @@ void CSceneEffect::Reset(const CRect<int>& rc)
 
 	CRenderSystem& R = CRenderSystem::getSingleton();
 
-	m_pGeometryMRT	= R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
-	m_pDepthMRT		= R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
+	m_pDiffuseRT	= R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
+	m_pPosMRT		= R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
 	m_pNormalMRT	= R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
+	m_pLightRT		= R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
 
-	m_pGlowRT		= R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
-
-	m_pSceneRT		= R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
 	m_pSceneRT4x	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.25f,nHeight*0.25f);
 	m_pSceneRT8x1	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.0625f,nHeight*0.0625f);
 	m_pSceneRT8x2	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.0625f,nHeight*0.0625f);
@@ -150,20 +147,21 @@ void CSceneEffect::renderTargetBegin()
 {
 	CRenderSystem& R = CRenderSystem::getSingleton();
 	m_pSystemRT = R.GetRenderTarget();
-	R.SetRenderTarget(0,m_pSceneRT);
-	//R.SetRenderTarget(1,m_pDepthMRT);
-	//R.SetRenderTarget(2,m_pNormalMRT);
+	R.SetRenderTarget(0,m_pDiffuseRT);
+	R.SetRenderTarget(1,m_pPosMRT);
+	R.SetRenderTarget(2,m_pNormalMRT);
 
 	//R.SetSamplerFilter(0, TEXF_POINT, TEXF_POINT, TEXF_POINT);
 }
 
 void CSceneEffect::renderTargetGlow()// not good
 {
+	return;
 	CRenderSystem& R = CRenderSystem::getSingleton();
 	// first: copy system render target to my render target.
 
 	CRect<int> rect(0,0,m_nWidth,m_nHeight);
-	R.StretchRect(m_pGlowRT, NULL, m_pSceneRT, &rect, TEXF_POINT);
+	R.StretchRect(m_pLightRT, NULL, m_pDiffuseRT, &rect, TEXF_POINT);
 
 	return;
 	if (m_bHDR)
@@ -176,7 +174,7 @@ void CSceneEffect::renderTargetGlow()// not good
 	{
 		
 		// 一定要把空白区域值为黑色
-		R.SetTexture(0, m_pSceneRT);
+		R.SetTexture(0, m_pDiffuseRT);
 	//	R.SetFVF(SceneBloomVertex::FVF);
 
 
@@ -209,10 +207,10 @@ void CSceneEffect::renderTargetGlow()// not good
 void CSceneEffect::renderGammaCorrection()
 {
 	CRenderSystem& R = CRenderSystem::getSingleton();
-	R.SetRenderTarget(0,m_pSceneRT);
+	R.SetRenderTarget(0,m_pDiffuseRT);
 	//R.ClearBuffer(false,true,0x0);
 	//R.GetShaderMgr().getSharedShader()->setTexture("g_texScene",m_pSceneTexture);
-	R.SetTexture(0, m_pSceneRT);
+	R.SetTexture(0, m_pDiffuseRT);
 
 	if(R.prepareMaterial("GammaCorrection"))
 	{
@@ -237,12 +235,36 @@ void CSceneEffect::renderTargetBloom()
 	// ----
 	R.setShaderVec2D("inv_width_height",	inv_width_height4x);
 
+	R.SetRenderTarget(1,NULL);
+	R.SetRenderTarget(2,NULL);
+	R.SetRenderTarget(3,NULL);
+	// Down Filter 4x
+	if (R.prepareMaterial("DeferredLighting"))
+	{
+		R.SetRenderTarget(0,m_pLightRT);
+		R.SetTexture(0, m_pPosMRT);
+		R.SetTexture(1, m_pNormalMRT);
+		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
+	}
+
 	// Down Filter 4x
 	if (R.prepareMaterial("Filter4"))
 	{
 
 		R.SetRenderTarget(0,m_pSceneRT4x);
-		R.SetTexture(0, m_pSceneRT);
+		//R.SetTexture(0, m_pDiffuseRT);
+		switch (m_nFlag)
+		{
+		case 0:
+			R.SetTexture(0, m_pDiffuseRT);
+			break;
+		case 1:
+			R.SetTexture(0, m_pPosMRT);
+			break;
+		case 2:
+			R.SetTexture(0, m_pNormalMRT);
+			break;
+		}
 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
 	}
 
@@ -317,6 +339,13 @@ void CSceneEffect::renderTargetBloom()
 // 		R.SetTexture(0, m_pTexScene4x);
 // 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
 // 	}
+	if (R.prepareMaterial("DeferredCombine"))
+	{
+		R.SetRenderTarget(0,m_pLightRT);
+		R.SetTexture(0, m_pLightRT);
+		R.SetTexture(1, m_pDiffuseRT);
+		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
+	}
 }
 
 void CSceneEffect::renderTargetEnd()
@@ -355,7 +384,20 @@ void CSceneEffect::compose(const CRect<int>& rcDest)
 	if (R.prepareMaterial("CombineAdd"))
 	{
 		//R.SetRenderTarget(m_pTexScene8x2);
-		R.SetTexture(0, m_pSceneRT);
+		switch (m_nFlag)
+		{
+		case 0:
+			R.SetTexture(0, m_pDiffuseRT);
+			break;
+		case 1:
+			R.SetTexture(0, m_pPosMRT);
+			break;
+		case 2:
+			R.SetTexture(0, m_pNormalMRT);
+			break;
+		}
+		R.SetTexture(0, m_pLightRT);
+		
 		R.SetTexture(1, m_pSceneRT4x);
 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, QuadVB, sizeof(QuadVertex));
 	}
