@@ -29,19 +29,18 @@ public:
 	void renderTargetBloom();
 	void renderTargetEnd();
 	void compose(const CRect<int>& rcDest);
-
+	void setDebug(int flag){m_nFlag = flag;}
 protected:
 	CRect<int> m_Rect;
 	int	m_nWidth;
 	int m_nHeight;
-	CTexture*	m_pGlowRT;
 	CTexture*	m_pSystemRT;
 
-	CTexture*	m_pGeometryMRT;
-	CTexture*	m_pDepthMRT;
+	CTexture*	m_pDiffuseRT;
+	CTexture*	m_pPosMRT;
 	CTexture*	m_pNormalMRT;
+	CTexture*	m_pLightRT;
 
-	CTexture*	m_pSceneRT;
 	CTexture*	m_pSceneRT4x;
 	CTexture*	m_pSceneRT8x1;
 	CTexture*	m_pSceneRT8x2;
@@ -62,4 +61,5 @@ protected:
 	float m_fHDRKey;
 
 	bool m_bInitialized;
+	int		m_nFlag;
 };

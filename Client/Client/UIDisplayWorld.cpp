@@ -216,6 +216,23 @@ bool CUIDisplayWorld::HandleKeyboard(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					}
 					break;
 
+					case VK_F9:
+						{
+							m_SceneEffect.setDebug(0);
+						}
+						break;
+
+					case VK_F10:
+						{
+							m_SceneEffect.setDebug(1);
+						}
+						break;
+
+					case VK_F11:
+						{
+							m_SceneEffect.setDebug(2);
+						}
+						break;
 					default:
 					{
 						bReturn = false;

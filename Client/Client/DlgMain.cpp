@@ -65,6 +65,7 @@ void CDlgMain::OnFrameRender(const Matrix& mTransform, double fTime, float fElap
 		static int s_nFrame = 0;
 		static float s_fElapsedTime = 1.0f;
 		static float s_fFPS = 1.0f;
+		static float s_fMinFPS = 1.0f;
 		s_fElapsedTime+=fElapsedTime;
 		++s_nFrame;
 		// ----
@@ -77,12 +78,12 @@ void CDlgMain::OnFrameRender(const Matrix& mTransform, double fTime, float fElap
 		// ----
 		if (1.0f/fElapsedTime<30)
 		{
-			s_fFPS = 1.0f/fElapsedTime;
+			s_fMinFPS = 1.0f/fElapsedTime;
 		}
 		// ----
 		wchar_t wszFps[256];
-		RECT rc 	={250, 5 , 350, 25};
-		swprintf(wszFps,L"FPS=%.2f",s_fFPS);
+		RECT rc 	={250, 5 , 450, 25};
+		swprintf(wszFps,L"FPS=%.2f~%.2f",s_fMinFPS,s_fFPS);
 		CUIControl::updateUIMatrix(mTransform, fTime, fElapsedTime);
 		Node3DUIGraph::getInstance().drawText(wszFps, lstrlenW(wszFps), rc, ALIGN_TYPE_CENTER);
 	}

@@ -437,7 +437,7 @@ float4 PS( in float2 Tex : TEXCOORD0 ) : COLOR0
 {
     float3 ColorOrig = FxaaPixelShader( Tex );
 
-    ColorOrig += tex2D( s1, Tex );
+    //ColorOrig += tex2D( s1, Tex );
 
     return float4( ColorOrig, 1.0f );
 }
