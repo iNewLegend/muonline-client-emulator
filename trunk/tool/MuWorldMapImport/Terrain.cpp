@@ -326,6 +326,7 @@ bool CMyPlug::importSceneTerrainData(iRenderNode* pRenderNode, iSceneData* pScen
 					RigidNolightVertex vertex;
 
 					float fHeight = pSceneData->getVertexHeight(grassX,y);
+					Vec3D vNormal = pSceneData->getVertexNormal(grassX,y);
 					Color32 color = pSceneData->getVertexColor(grassX,y);
 
 					bbox.vMin.y = min(fHeight,bbox.vMin.y);
@@ -351,6 +352,7 @@ bool CMyPlug::importSceneTerrainData(iRenderNode* pRenderNode, iSceneData* pScen
 	vertex.n=vertex.n.normalize();*/
 
 					vertex.p.set( (float)grassX, fHeight, (float)y );
+					vertex.n = vNormal;
 					vertex.c = color;
 					vertex.uv.set( (float)grassX,(float)y );
 					setVertices.push_back(vertex);
@@ -431,6 +433,9 @@ bool CMyPlug::importSceneTerrainData(iRenderNode* pRenderNode, iSceneData* pScen
 						float fHeight1 = pSceneData->getVertexHeight(x,y);
 						float fHeight2 = pSceneData->getVertexHeight(x+1,y+1);
 
+						Vec3D vNormal1 = pSceneData->getVertexNormal(x,y);
+						Vec3D vNormal2 = pSceneData->getVertexNormal(x+1,y+1);
+
 						Color32 color1 = pSceneData->getVertexColor(x,y);
 						Color32 color2 = pSceneData->getVertexColor(x+1,y+1);
 
@@ -439,21 +444,25 @@ bool CMyPlug::importSceneTerrainData(iRenderNode* pRenderNode, iSceneData* pScen
 						RigidNolightVertex vertex;
 
 						vertex.p.set( (float)x, fHeight1, (float)y );
+						vertex.n = vNormal1;
 						vertex.c = color1;
 						vertex.uv.set( (float)fTexU,1.0f );
 						setVertices.push_back(vertex);
 
 						vertex.p.set( (float)x, fHeight1+1.5f, (float)y );
+						vertex.n = vNormal1;
 						vertex.c = color1;
 						vertex.uv.set( (float)fTexU,0.0f );
 						setVertices.push_back(vertex);
 
 						vertex.p.set( (float)(x+1), fHeight2+1.5f, (float)(y+1) );
+						vertex.n = vNormal2;
 						vertex.c = color2;
 						vertex.uv.set( (float)fTexU+0.25f,0.0f );
 						setVertices.push_back(vertex);
 
 						vertex.p.set( (float)(x+1), fHeight2, (float)(y+1) );
+						vertex.n = vNormal2;
 						vertex.c = color2;
 						vertex.uv.set( (float)fTexU+0.25f,1.0f );
 						setVertices.push_back(vertex);

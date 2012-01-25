@@ -116,8 +116,9 @@ void CMeshData::init()
 	else if (m_setRigidNolightVertex.size()>0)
 	{
 		m_pVertexDeclHardware->AddElement(0, 0, VET_FLOAT3, VES_POSITION);
-		m_pVertexDeclHardware->AddElement(0, 12, VET_COLOUR, VES_DIFFUSE);
-		m_pVertexDeclHardware->AddElement(0, 16, VET_FLOAT2, VES_TEXTURE_COORDINATES);
+		m_pVertexDeclHardware->AddElement(0, 12, VET_FLOAT3, VES_NORMAL);
+		m_pVertexDeclHardware->AddElement(0, 24, VET_COLOUR, VES_DIFFUSE);
+		m_pVertexDeclHardware->AddElement(0, 28, VET_FLOAT2, VES_TEXTURE_COORDINATES);
 		m_uSkinVertexSize = 0;
 		m_uShareVertexSize = sizeof(RigidNolightVertex);
 

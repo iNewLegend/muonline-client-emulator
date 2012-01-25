@@ -2,17 +2,17 @@
 
 struct VS_MODEL_INPUT
 {
-    float4  Pos     : POSITION;
-    float3  Normal  : NORMAL;
-    float2  UV0     : TEXCOORD0;
+    float4  pos     : POSITION;
+    float3  normal  : NORMAL;
+    float2  uv     : TEXCOORD0;
 };
 
 struct VS_MODEL_OUTPUT
 {
-    float4  Pos     : POSITION;
-    float2  UV0     : TEXCOORD0;
+    float4  postion : POSITION;
+    float2  uv      : TEXCOORD0;
     float4  pos     : TEXCOORD1;
-    float3  Normal  : TEXCOORD2;
+    float3  normal  : TEXCOORD2;
 };
 
 struct PS_OUTPUT
@@ -25,10 +25,10 @@ struct PS_OUTPUT
 VS_MODEL_OUTPUT VS(VS_MODEL_INPUT i)
 {
 	VS_MODEL_OUTPUT o;
-	o.UV0 = i.UV0;
-	o.Pos = mul(i.Pos,wvpm);
-	o.Normal = (mul(i.Normal,g_mWorld)+1)*0.5f;
-	o.pos = mul(i.Pos,g_mWorld);
+	o.uv = i.uv;
+	o.postion = mul(i.pos,wvpm);
+	o.normal = mul(i.normal,g_mWorld);//+1)*0.5f;
+	o.pos = mul(i.pos,g_mWorld);
 	return o;
 }
 
@@ -36,8 +36,8 @@ sampler s0: register(s0);
 PS_OUTPUT PS(VS_MODEL_OUTPUT i)
 {
 	PS_OUTPUT o;
-	o.color	= tex2D(s0, i.UV0);
-	o.normal = float4(i.Normal,1);
+	o.color	= tex2D(s0, i.uv);
+	o.normal = float4(i.normal,1);
 	o.pos = i.pos;
 	return o;
 }
@@ -59,15 +59,6 @@ technique Render
 		ZFunc				= LessEqual;
 		ZWriteEnable		= True;
 
-		ColorOp[0]			= Modulate;
-		ColorArg1[0]		= Texture;
-		ColorArg2[0]		= Diffuse;
-
-		AlphaOp[0]			= SelectArg1;
-		AlphaArg1[0]		= Texture;
-
-		ColorOp[1]			= Disable;
-		AlphaOP[1]			= Disable;
         VertexShader = compile vs_2_0 VS();
         PixelShader  = compile ps_2_0 PS();
     }

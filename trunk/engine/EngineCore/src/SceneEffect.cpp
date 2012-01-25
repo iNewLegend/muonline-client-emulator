@@ -238,12 +238,29 @@ void CSceneEffect::renderTargetBloom()
 	R.SetRenderTarget(1,NULL);
 	R.SetRenderTarget(2,NULL);
 	R.SetRenderTarget(3,NULL);
-	// Down Filter 4x
+	// DeferredLighting
 	if (R.prepareMaterial("DeferredLighting"))
 	{
 		R.SetRenderTarget(0,m_pLightRT);
 		R.SetTexture(0, m_pPosMRT);
 		R.SetTexture(1, m_pNormalMRT);
+
+		static int nLightMap = -1;
+		if (nLightMap==-1)
+		{
+			nLightMap = R.GetTextureMgr().RegisterTexture("Data\\World1\\TerrainLight.OZJ");
+		}
+		R.SetSamplerFilter(2, TEXF_LINEAR, TEXF_POINT, TEXF_LINEAR);
+		R.SetTexture(2, nLightMap);
+		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
+	}
+
+	if (R.prepareMaterial("DeferredPoint"))
+	{
+		R.SetRenderTarget(0,m_pLightRT);
+		R.SetTexture(0, m_pPosMRT);
+		R.SetTexture(1, m_pNormalMRT);
+
 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
 	}
 
@@ -252,19 +269,8 @@ void CSceneEffect::renderTargetBloom()
 	{
 
 		R.SetRenderTarget(0,m_pSceneRT4x);
-		//R.SetTexture(0, m_pDiffuseRT);
-		switch (m_nFlag)
-		{
-		case 0:
-			R.SetTexture(0, m_pDiffuseRT);
-			break;
-		case 1:
-			R.SetTexture(0, m_pPosMRT);
-			break;
-		case 2:
-			R.SetTexture(0, m_pNormalMRT);
-			break;
-		}
+		R.SetTexture(0, m_pLightRT);
+
 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
 	}
 
@@ -318,7 +324,7 @@ void CSceneEffect::renderTargetBloom()
 		R.SetTexture(0, m_pSceneRT8x1);
 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
 	}
-
+	R.SetSamplerFilter(0, TEXF_LINEAR, TEXF_POINT, TEXF_LINEAR);
 	// ----
 	R.setShaderVec2D("inv_width_height",	inv_width_height4x);
 
@@ -339,9 +345,11 @@ void CSceneEffect::renderTargetBloom()
 // 		R.SetTexture(0, m_pTexScene4x);
 // 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
 // 	}
+
+
 	if (R.prepareMaterial("DeferredCombine"))
 	{
-		R.SetRenderTarget(0,m_pLightRT);
+		R.SetRenderTarget(0,m_pDiffuseRT);
 		R.SetTexture(0, m_pLightRT);
 		R.SetTexture(1, m_pDiffuseRT);
 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
@@ -395,8 +403,11 @@ void CSceneEffect::compose(const CRect<int>& rcDest)
 		case 2:
 			R.SetTexture(0, m_pNormalMRT);
 			break;
+		case 3:
+			R.SetTexture(0, m_pLightRT);
+			break;
 		}
-		R.SetTexture(0, m_pLightRT);
+		R.SetSamplerFilter(1, TEXF_LINEAR, TEXF_POINT, TEXF_LINEAR);
 		
 		R.SetTexture(1, m_pSceneRT4x);
 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, QuadVB, sizeof(QuadVertex));

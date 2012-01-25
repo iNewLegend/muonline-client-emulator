@@ -4,11 +4,14 @@ sampler s0: register(s0);
 sampler s1: register(s1);
 float4 PS( in float2 uv : TEXCOORD0 ) : COLOR0
 {
-	float4 color = tex2D(s0, uv);
-	float3 diffuse = tex2D(s1, uv);
-
-	color.rgb*=diffuse;
-	color.rgb += color.a;
+	float3 pos = tex2D(s0, uv);
+	float3 normal = tex2D(s1, uv);
+	float3 lightDir = g_vPointLight - pos;
+	
+	float3 L = normalize(lightDir);
+	float len = length(lightDir);
+	float d = saturate(dot(normal, L));
+	float4 color = d*(1-smoothstep(len,0,4))*float4(0.5,0.4,0.1,0);
     return color;
 }
 
@@ -21,7 +24,10 @@ technique Render
 		
 		AlphaTestEnable		= False;
 
-		AlphaBlendEnable	= False;
+		AlphaBlendEnable	= True;
+		BlendOp				= Add;
+		SrcBlend			= One;
+		DestBlend			= One;
 
 		ZEnable				= False;
 		ZFunc				= LessEqual;

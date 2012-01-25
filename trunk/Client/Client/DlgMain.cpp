@@ -97,15 +97,44 @@ bool CDlgMain::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case WM_KEYDOWN:
 		case WM_SYSKEYDOWN:
 		{
-			if(wParam == VK_RETURN)
+			switch(wParam)
 			{
-				CUIDialog * pDialog = getChildDialog("IDD_CHAT");
-				// ----
-				if(pDialog != NULL)
+			case VK_F9:
 				{
-					pDialog->SetVisible( ! pDialog->IsVisible());
+					m_DisplayWorld.getSceneEffect().setDebug(0);
 				}
+				break;
+
+			case VK_F10:
+				{
+					m_DisplayWorld.getSceneEffect().setDebug(1);
+				}
+				break;
+
+			case VK_F11:
+				{
+					m_DisplayWorld.getSceneEffect().setDebug(2);
+				}
+				break;
+			
+			case VK_F12:
+				{
+					m_DisplayWorld.getSceneEffect().setDebug(3);
+				}
+				break;
+
+			case VK_RETURN:
+				{
+					CUIDialog * pDialog = getChildDialog("IDD_CHAT");
+					// ----
+					if(pDialog != NULL)
+					{
+						pDialog->SetVisible( ! pDialog->IsVisible());
+					}
+				}
+				break;
 			}
+
 			break;
 		}
 	}

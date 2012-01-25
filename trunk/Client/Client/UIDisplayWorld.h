@@ -53,5 +53,7 @@ public:
 	const CCamera& getCamera		() { return m_Camera ; }
 	// ----
 	virtual void OnSize				(const CRect<int> & rc);
+	// ----
+	CSceneEffect&	getSceneEffect	() {return m_SceneEffect;}
 };
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

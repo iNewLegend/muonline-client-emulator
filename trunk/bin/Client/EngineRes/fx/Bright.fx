@@ -9,13 +9,13 @@ float4 PS( in float2 Tex : TEXCOORD0 ) : COLOR0
 {
     float3 ColorOut = tex2D( s0, Tex );
 
-    ColorOut *= fMiddleGray / ( Luminance + 0.001f );
-    ColorOut *= ( 1.0f + ( ColorOut / ( fWhiteCutoff * fWhiteCutoff ) ) );
-    ColorOut -= 5.0f;
+   // ColorOut *= fMiddleGray / ( Luminance + 0.001f );
+   // ColorOut *= ( 1.0f + ( ColorOut / ( fWhiteCutoff * fWhiteCutoff ) ) );
+    ColorOut -= 1.0f;
 
     ColorOut = max( ColorOut, 0.0f );
 
-    ColorOut /= ( 10.0f + ColorOut );
+   // ColorOut /= ( 10.0f + ColorOut );
 
     return float4( ColorOut, 1.0f );
 }
