@@ -9,6 +9,7 @@ shared float4x4 g_mViewProj;
 shared float4x4 g_mWorld;
 shared float4x4 g_mWorldViewProj;
 shared float4x4 g_mLightView;
+shared float3 g_vPointLight;
 shared float3 g_vEyePot;
 shared float3 g_vViewDir;
 shared float3 g_vLightDir;

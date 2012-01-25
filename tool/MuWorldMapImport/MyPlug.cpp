@@ -1315,6 +1315,8 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 	}
 	// object data filename
 	iSceneData* pSceneData = (iSceneData*)m_pRenderNodeMgr->createRenderData("scene",szFilename);
+	std::string strLightMap = GetParentPath(szFilename)+"TerrainLight.ozj";
+	pSceneData->setLightMap(strLightMap.c_str());
 	pRenderNode->setData(pSceneData);
 	importSceneTerrainData(pRenderNode, pSceneData, ChangeExtension(szFilename,".map").c_str());
 	// Loading the object.

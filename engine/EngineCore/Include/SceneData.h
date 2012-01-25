@@ -74,11 +74,15 @@ public:
 
 	std::vector<TerrainCell>&		getCells()	{return m_Cells;}
 
+	virtual const char*	getLightMap()const{return m_strLightMap.c_str();}
+	virtual void		setLightMap(const char* szFilename){m_strLightMap=szFilename;}
+
 	virtual void		add2Hash(int x,int y);
 	virtual bool		checkHash(int x,int y);
 	unsigned char		getPath(int sx,int sy,int tx,int ty, std::deque<char>& path);
 protected:
 	std::string					m_strFilename;
+	std::string					m_strLightMap;
 	int							m_nWidth;
 	int							m_nHeight;
 

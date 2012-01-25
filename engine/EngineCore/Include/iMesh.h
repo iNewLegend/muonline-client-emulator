@@ -68,6 +68,7 @@ struct RigidVertex
 struct RigidNolightVertex
 {
 	Vec3D	p;
+	Vec3D	n;
 	Color32	c;
 	Vec2D	uv;
 };

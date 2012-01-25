@@ -71,6 +71,9 @@ public:
 	virtual bool			hasGrass(int nCellX, int nCellY)const=0;
 
 	virtual std::vector<TerrainCell>& getCells()=0;
+
+	virtual const char*		getLightMap()const=0;
+	virtual void			setLightMap(const char* szFilename)=0;
 public:
 	virtual void					setFog					(const Fog& fog)=0;
 	virtual void					setLight				(const DirectionalLight& light)=0;

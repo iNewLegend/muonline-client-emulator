@@ -172,41 +172,8 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 					CRenderSystem::getSingleton().finishMaterial();
 				}
 			}
-			try {
-				CRenderNode* pObj = (CRenderNode*)(*it);
-				if(pObj)
-				{
-						Vec4D vColor(1.0f,1.0f,1.0f,1.0f);
-						if (m_pSceneData)
-						{
-							vColor = m_pSceneData->getColor((*it)->getPos().x,(*it)->getPos().z);
-						}
-						vColor.w=1.0f;
-
-						DirectionalLight light(vColor*0.5f,vColor+0.3f,Vec4D(1.0f,1.0f,1.0f,1.0f),vLightDir);
-						R.SetDirectionalLight(0,light);
-					// ----
-					FOR_IN(itLight,m_setLightObj)
-					{
-						if (((*itLight)->getPos()-(*it)->getPos()).length()<3.0f)
-						{
-							PointLight light(Vec4D(0.0f,0.0f,0.0f,1.0f),Vec4D(1.0f,0.0f,0.0f,1.0f),
-								Vec4D(1.0f,1.0f,1.0f,1.0f),(*itLight)->getPos(),3.0f);
-							R.setPointLight(1,light);
-							R.LightEnable(1,true);
-						}
-					}
-					(*it)->render(Matrix::UNIT,MATERIAL_GEOMETRY);
-					R.LightEnable(1,false);
-				}
-			}catch(...)
-			{
-				return;
-			}
+			(*it)->render(Matrix::UNIT,MATERIAL_GEOMETRY);
 		}
-		DirectionalLight light(Vec4D(0.3f,0.3f,0.3f,0.3f),Vec4D(0.6f,0.6f,0.6f,0.6f),Vec4D(0.6f,0.6f,0.6f,0.6f),Vec3D(0.0f,-1.0f,1.0f));
-		R.SetDirectionalLight(0,light);
-
 		Fog fogForGlow;
 		fogForGlow = m_Fog;
 		//fogForGlow.fStart = m_Fog.fStart;
