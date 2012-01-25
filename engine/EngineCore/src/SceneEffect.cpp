@@ -264,12 +264,20 @@ void CSceneEffect::renderTargetBloom()
 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
 	}
 
+	if (R.prepareMaterial("DeferredCombine"))
+	{
+		R.SetRenderTarget(0,m_pDiffuseRT);
+		R.SetTexture(0, m_pLightRT);
+		R.SetTexture(1, m_pDiffuseRT);
+		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
+	}
+
 	// Down Filter 4x
 	if (R.prepareMaterial("Filter4"))
 	{
 
 		R.SetRenderTarget(0,m_pSceneRT4x);
-		R.SetTexture(0, m_pLightRT);
+		R.SetTexture(0, m_pDiffuseRT);
 
 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
 	}
@@ -345,15 +353,6 @@ void CSceneEffect::renderTargetBloom()
 // 		R.SetTexture(0, m_pTexScene4x);
 // 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
 // 	}
-
-
-	if (R.prepareMaterial("DeferredCombine"))
-	{
-		R.SetRenderTarget(0,m_pDiffuseRT);
-		R.SetTexture(0, m_pLightRT);
-		R.SetTexture(1, m_pDiffuseRT);
-		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
-	}
 }
 
 void CSceneEffect::renderTargetEnd()
