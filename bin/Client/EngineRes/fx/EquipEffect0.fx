@@ -1,4 +1,5 @@
 #include "shared.fx"
+#include "modelShared.fx"
 
 struct VS_MODEL_INPUT
 {
