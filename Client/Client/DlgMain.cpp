@@ -99,27 +99,26 @@ bool CDlgMain::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			switch(wParam)
 			{
-			case VK_F9:
+			case VK_F9:// 切换曝光效果
 				{
-					m_DisplayWorld.getSceneEffect().setDebug(0);
 				}
 				break;
 
-			case VK_F10:
+			case VK_F10:// 切换景深
 				{
-					m_DisplayWorld.getSceneEffect().setDebug(1);
 				}
 				break;
 
-			case VK_F11:
+			case VK_F12:// 切换阴影效果
 				{
-					m_DisplayWorld.getSceneEffect().setDebug(2);
 				}
 				break;
 			
-			case VK_F12:
+			case VK_F11:// 切换RT
 				{
-					m_DisplayWorld.getSceneEffect().setDebug(3);
+					static int s_nFlag = 0;
+					s_nFlag++;
+					m_DisplayWorld.getSceneEffect().setDebug(s_nFlag%7);
 				}
 				break;
 

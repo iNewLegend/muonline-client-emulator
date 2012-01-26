@@ -114,7 +114,6 @@
     <ClInclude Include="Include\SkinMesh.h" />
     <ClInclude Include="Include\Terrain.h" />
     <ClInclude Include="Include\SceneData.h" />
-    <ClInclude Include="Include\TerrainDecal.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\3DMapEffect.cpp" />
@@ -137,7 +136,6 @@
     <ClCompile Include="src\SkeletonNode.cpp" />
     <ClCompile Include="src\SkinMesh.cpp" />
     <ClCompile Include="src\SceneData.cpp" />
-    <ClCompile Include="src\TerrainDecal.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
