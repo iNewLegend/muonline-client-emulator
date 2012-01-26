@@ -15,7 +15,7 @@ m_fBloomVal(0.2f)
 ,m_pDiffuseRT(NULL)
 ,m_nWidth(0)
 ,m_nHeight(0)
-,m_nFlag(1)
+,m_nFlag(0)
 {
 }
 
@@ -404,6 +404,15 @@ void CSceneEffect::compose(const CRect<int>& rcDest)
 			break;
 		case 3:
 			R.SetTexture(0, m_pLightRT);
+			break;
+		case 4:
+			R.SetTexture(0, m_pSceneRT4x);
+			break;
+		case 5:
+			R.SetTexture(0, m_pSceneRT8x1);
+			break;
+		case 6:
+			R.SetTexture(0, m_pSceneRT8x2);
 			break;
 		}
 		R.SetSamplerFilter(1, TEXF_LINEAR, TEXF_POINT, TEXF_LINEAR);

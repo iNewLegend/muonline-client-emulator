@@ -12,7 +12,6 @@ struct QuadVertex
 	Vec2D t;
 };
 
-#define BLOOM_MODEL 1
 class CSceneEffect
 {
 public:

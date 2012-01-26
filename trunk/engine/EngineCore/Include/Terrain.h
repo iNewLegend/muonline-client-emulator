@@ -1,6 +1,5 @@
 #pragma once
 #include "SceneData.h"
-#include "TerrainDecal.h"
 #include "RenderSystem.h"
 #include "RenderNode.h"
 #include "SkinMesh.h"
@@ -50,15 +49,6 @@ struct EditRecord
 	std::map<EditTarget,EditValue> mapItem;
 };
 typedef std::map<EditTarget,EditValue>  MAP_EDIT_RECORD;
-
-
-// class CTerrain:public CRenderNode
-//{
-//public:
-	// 贴花
-//	CTerrainDecal						m_LightMapDecal;
-//	CTerrainDecal						m_LightDecal;
-//};
 
 // void CTerrain::updateIB()
 // {
@@ -225,30 +215,4 @@ typedef std::map<EditTarget,EditValue>  MAP_EDIT_RECORD;
 }
 
 void CTerrain::drawLightDecal(float x, float y, float fSize, Color32 color)
-{
-	if (!m_LightDecal.setIB())
-	{
-		return;
-	}
-	CRenderSystem& R = GetRenderSystem();
-	R.SetSamplerAddressUV(0,ADDRESS_BORDER,ADDRESS_BORDER);
-	// 打开纹理矩阵
-
-	float fScale = 0.5f/fSize;
-	// －贴花中心Ｕ×缩放比＋０.５纹理偏移
-	float fPosX = 0.5f-x*fScale;
-	// １－（－贴花中心Ｖ×缩放比＋０.５纹理偏移）
-	float fPosY = 0.5f+y*fScale;
-	//
-	Matrix mLightDecalTrans = Matrix(
-		fScale,0,fPosX,0,
-		0,-fScale,fPosY,0,
-		0,0,0,0,
-		0,0,0,0);
-	R.setTextureMatrix(0,TTF_COUNT2,mLightDecalTrans);
-	m_LightDecal.Draw((int)x,(int)y);
-
-	//
-	R.setTextureMatrix(0,TTF_DISABLE);
-	R.SetSamplerAddressUV(0,ADDRESS_WRAP,ADDRESS_WRAP);
-}*/
+*/
