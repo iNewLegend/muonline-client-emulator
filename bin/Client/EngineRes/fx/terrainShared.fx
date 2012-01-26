@@ -1,5 +1,6 @@
 #ifndef __TERRAIN_SHARED_FX
 #define __TERRAIN_SHARED_FX
+#include "shared.fx"
 
 struct VS_TERRAIN_INPUT
 {

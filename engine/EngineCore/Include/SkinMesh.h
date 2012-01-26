@@ -67,7 +67,7 @@ public:
 	void			setLightMap		(const char* szFilename);	// SetLightMap
 	virtual std::vector<ModelRenderPass>&	getRenderPasses(){return m_vecPasses;}
 	virtual			GSET_CONST_VAR	(int,	m_n,Order);
-	void			renderMesh(E_MATERIAL_RENDER_TYPE eModelRenderType, size_t uLodLevel, CHardwareVertexBuffer* pSkinVB, float fOpacity, int nAnimTime)const;
+	void			renderMesh(E_MATERIAL_RENDER_TYPE eModelRenderType, size_t uLodLevel, CHardwareVertexBuffer* pSkinVB)const;
 protected:
 	CHardwareVertexBuffer*			m_pVB;				// ¶¥µã»º³å
 	CMeshData*						m_pMesh;

@@ -59,7 +59,7 @@ void CSkinMesh::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)
 		// ----
 		CRenderSystem::getSingleton().setWorldMatrix(mNewWorld);
 		// ----
-		renderMesh(eRenderType,m_uLodLevel,m_pVB,1.0f/*m_fTrans*/,0/*m_nAnimTime*/);
+		renderMesh(eRenderType,m_uLodLevel,m_pVB);
 	}
 	// ----
 	CRenderNode::render(mNewWorld, eRenderType);
@@ -187,7 +187,7 @@ void CSkinMesh::setLightMap(const char* szFilename)
 	m_bLightmap = true;
 }
 
-void CSkinMesh::renderMesh(E_MATERIAL_RENDER_TYPE eModelRenderType, size_t uLodLevel, CHardwareVertexBuffer* pSkinVB, float fOpacity, int nAnimTime)const
+void CSkinMesh::renderMesh(E_MATERIAL_RENDER_TYPE eModelRenderType, size_t uLodLevel, CHardwareVertexBuffer* pSkinVB)const
 {
 	if (m_pMesh->SetMeshSource(uLodLevel,pSkinVB))
 	{
@@ -211,7 +211,7 @@ void CSkinMesh::renderMesh(E_MATERIAL_RENDER_TYPE eModelRenderType, size_t uLodL
 				}
 				else
 				{
-					if (CRenderSystem::getSingleton().prepareMaterial(it->strMaterial.c_str(),fOpacity))
+					if (CRenderSystem::getSingleton().prepareMaterial(it->strMaterial.c_str()))
 					{
 						if (it->nSubID<0)
 						{
@@ -222,7 +222,6 @@ void CSkinMesh::renderMesh(E_MATERIAL_RENDER_TYPE eModelRenderType, size_t uLodL
 							m_pMesh->drawSub(it->nSubID,uLodLevel);
 						}
 					}
-					CRenderSystem::getSingleton().finishMaterial();
 					//	GetRenderSystem().GetDevice()->SetStreamSourceFreq(0,1);
 					//	GetRenderSystem().GetDevice()->SetStreamSourceFreq(1,1);
 				}

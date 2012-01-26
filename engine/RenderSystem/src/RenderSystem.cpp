@@ -51,12 +51,12 @@ CMaterialMgr& CRenderSystem::getMaterialMgr()
 	return m_MaterialMgr;
 }
 
-bool CRenderSystem::prepareMaterial(const char* szMaterialName, float fOpacity)
+bool CRenderSystem::prepareMaterial(const char* szMaterialName)
 {
-	return prepareMaterial(getMaterialMgr().getItem(szMaterialName),fOpacity);
+	return prepareMaterial(getMaterialMgr().getItem(szMaterialName));
 }
 
-bool CRenderSystem::prepareMaterial(/*const */CMaterial& material, float fOpacity) // 由于使用了自动注册纹理的机制,很遗憾的导致不能用“const”
+bool CRenderSystem::prepareMaterial(/*const */CMaterial& material) // 由于使用了自动注册纹理的机制,很遗憾的导致不能用“const”
 {
 	CTextureMgr& TM = GetTextureMgr();
 	for (size_t i=0;i<8;++i)
@@ -73,21 +73,36 @@ bool CRenderSystem::prepareMaterial(/*const */CMaterial& material, float fOpacit
 			break;
 		}
 	}
-	if (material.uShader==-1)
-	{
-		material.uShader = GetShaderMgr().registerItem(material.getShader().c_str());
-	}
-	// ----
-	if (material.uShader!=0)
-	{
-		SetShader(material.uShader);
-	}
+	SetShader(material.strShader.c_str());
 	return true;
 }
-void CRenderSystem::finishMaterial()
+
+CShader* CRenderSystem::registerShader(const char* szName, const char* szFilename)
 {
-	SetShader((CShader*)NULL);
-	setResultARGToTemp(0,false);
-	setResultARGToTemp(1,false);
-	setResultARGToTemp(2,false);
+	CShader* pShader = getShader(szName);
+	if (pShader)
+	{
+		return pShader;
+	}
+	// New Shader
+	pShader = CRenderSystem::getSingleton().newShader();
+	// Create shader faild!
+	if (!pShader->create(szFilename))
+	{
+		delete pShader;
+		return NULL;
+	}
+	//
+	m_mapShaders[szName] = pShader;
+	return pShader;
+}
+
+CShader* CRenderSystem::getShader(const char* szName)
+{
+	auto it = m_mapShaders.find(szName);
+	if (it!=m_mapShaders.end())
+	{
+		return it->second;
+	}
+	return NULL;
 }

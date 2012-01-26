@@ -62,8 +62,6 @@ bool CD3D9RenderWindow::Init()
 		return false;//DXUT_ERR(L"Direct3DCreate9", DXUTERR_NODIRECT3D);
 	}
 	GetDXUTState().SetDXUTInited(true);
-	// 设置shader 是否有效
-	///GetShaderMgr().SetEnable(true);
 	return true;
 }
 

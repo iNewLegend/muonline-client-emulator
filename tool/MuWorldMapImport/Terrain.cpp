@@ -291,9 +291,7 @@ bool CMyPlug::importSceneTerrainData(iRenderNode* pRenderNode, iSceneData* pScen
 			char szTexture[256];
 			sprintf(szTexture,"%s%s",GetParentPath(szFilename).c_str(),szTerrainMaterial[i][1]);
 			pMaterial->setTexture(0,szTexture);
-			char szShaderFilename[255];
-			sprintf(szShaderFilename,"EngineRes\\fx\\%s.fx",szTerrainMaterial[i][2]);
-			pMaterial->setShader(szShaderFilename);
+			pMaterial->strShader=szTerrainMaterial[i][2];
 		}
 	}
 	// ----

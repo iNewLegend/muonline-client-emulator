@@ -37,13 +37,7 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 		{
 			pMaterial->setTexture(0,getRealFilename(szParentDir,csv.getStr("Diffuse","")).c_str());
 			//material.m_fOpacity		=csv.getFloat("Opacity");
-			const char* szPass		=csv.getStr("Pass","diffuseAlphaTest64");
-			if (szPass)
-			{
-				char szShaderFilename[255];
-				sprintf(szShaderFilename,"EngineRes\\fx\\%s.fx",szPass);
-				pMaterial->setShader(szShaderFilename);
-			}
+			pMaterial->strShader = csv.getStr("Pass","diffuseAlphaTest64");
 		}
 	}
 	return true;

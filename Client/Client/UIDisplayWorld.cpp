@@ -63,6 +63,7 @@ void CUIDisplayWorld::OnFrameRender(const Matrix& mTransform, double fTime, floa
 		// ----
 		R.SetSamplerFilter(0, TEXF_LINEAR, TEXF_LINEAR, TEXF_LINEAR);
 		R.SetSamplerFilter(1, TEXF_LINEAR, TEXF_LINEAR, TEXF_LINEAR);
+		R.SetSamplerFilter(2, TEXF_LINEAR, TEXF_LINEAR, TEXF_LINEAR);
 		// ----
 		R.setProjectionMatrix(m_Camera.getProjMatrix());
 		R.setViewMatrix(m_Camera.getViewMatrix());
@@ -107,6 +108,9 @@ void CUIDisplayWorld::OnFrameRender(const Matrix& mTransform, double fTime, floa
 		// ----
 		if((bBloom == true) || (bCamma == true))
 		{
+			R.SetSamplerFilter(0, TEXF_LINEAR, TEXF_POINT, TEXF_LINEAR);
+			R.SetSamplerFilter(1, TEXF_LINEAR, TEXF_POINT, TEXF_LINEAR);
+			R.SetSamplerFilter(2, TEXF_LINEAR, TEXF_POINT, TEXF_LINEAR);
 			//m_SceneEffect.RenderTemporalBloom();
 			//m_SceneEffect.RenderBloom();
 			// ----
@@ -123,40 +127,6 @@ void CUIDisplayWorld::OnFrameRender(const Matrix& mTransform, double fTime, floa
 			m_SceneEffect.compose(rcViewport);
 			// ----
 			R.setViewport(rcViewport);
-		}
-		// ----
-		if(true == true)
-		{
-			//m_SceneEffect.glowRenderTargetBegin();
-			// ----
-			//R.ClearBuffer(false, true, 0x00000000);
-			// ----
-			//CWorld::getInstance().renderGlow();
-			// ----
-			//m_SceneEffect.glowRenderTargetEnd();
-			//m_SceneEffect.RenderBloom();
-		}
-		// ----
-		if(true == true)
-		{
-			//m_SceneEffect.renderTargetBegin();
-			// ----
-			//R.ClearBuffer(false, true, 0x00000000);
-			// ----
-			//m_SceneEffect.renderTargetViewportBegin();
-			// ----
-			{
-			//	R.setProjectionMatrix(m_Camera.getProjMatrix());
-			//	R.setViewMatrix(m_Camera.getViewMatrix());
-				// ----
-				//CWorld::getInstance().renderGlow();
-			}
-			// ----
-			//m_SceneEffect.renderTargetViewportEnd();
-			//m_SceneEffect.renderTargetGlow();
-			//m_SceneEffect.renderTargetBloom();
-			//m_SceneEffect.renderTargetEnd();
-			//m_SceneEffect.compose();
 		}
 		// ----
 		R.setViewport(GetParentDialog()->GetBoundingBox());

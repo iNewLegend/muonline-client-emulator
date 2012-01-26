@@ -7,7 +7,6 @@
 #include "HardwareVertexBuffer.h"
 #include "HardwareIndexBuffer.h"
 #include "HardwareBufferMgr.h"
-#include "ShaderMgr.h"
 #include "VertexDeclaration.h"
 #include "Pos2D.h"
 #include "Rect.h"
@@ -33,7 +32,6 @@ public:
 	virtual CTextureMgr&		GetTextureMgr() = 0;
 	virtual CMaterialMgr&		getMaterialMgr();
 	virtual CHardwareBufferMgr&	GetHardwareBufferMgr() = 0;
-	virtual CShaderMgr&			GetShaderMgr() = 0;
 	virtual CRenderWindow*		CreateRenderWindow(WNDPROC pWndProc, const std::wstring& strWindowTitle, int32 nWidth, int32 nHeight, bool bFullScreen = false) = 0;
 	// ----
 	// # new
@@ -106,7 +104,6 @@ public:
 	// ----
 	// # TextureOP
 	// ----
-	virtual void		setResultARGToTemp	(size_t unit, bool bResultARGToTemp=true) = 0;
 	virtual void		SetTextureColorOP	(size_t unit, TextureBlendOperation op = TBOP_MODULATE,
 												TextureBlendSource src1 = TBS_TEXTURE, TextureBlendSource src2 = TBS_DIFFUSE) = 0;
 	virtual void		SetTextureAlphaOP	(size_t unit, TextureBlendOperation op,
@@ -118,7 +115,7 @@ public:
 	// # …Ë÷√shader
 	// ----
 	virtual void SetShader(CShader* pShader) = 0;
-	virtual void SetShader(unsigned long id) = 0;
+	virtual void SetShader(const char* szShader) = 0;
 	// ----
 	// # Light
 	// ----
@@ -167,9 +164,13 @@ public:
 	void GetPickRay(Vec3D& vRayPos, Vec3D& vRayDir,int x, int y);
 
 	// set material
-	bool prepareMaterial(const char* szMaterialName, float fOpacity=1.0f);
-	bool prepareMaterial(CMaterial& material, float fOpacity=1.0f);
-	void finishMaterial();
-private:
+	bool prepareMaterial(const char* szMaterialName);
+	bool prepareMaterial(CMaterial& material);
+	// Shader
+	CShader* registerShader(const char* szName, const char* szFilename);
+	CShader* getShader(const char* szName);
+	virtual void commond(const char* szCommond) = 0;
+protected:
 	CMaterialMgr m_MaterialMgr;
+	std::map<std::string,CShader*>	m_mapShaders;
 };

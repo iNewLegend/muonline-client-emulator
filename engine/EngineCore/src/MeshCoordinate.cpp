@@ -209,40 +209,35 @@ void CMeshCoordinate::render(const Vec3D& vCoordShow)
 
 	R.setWorldMatrix(getWorldMatrix());
 
-	if (R.prepareMaterial("Coordinate1"))
+	R.SetShader("Coordinate1");
+	SetMeshSource();
+	draw();
+
+	G.DrawLine3D(m_CoordLines[CLT_X].vBegin,m_CoordLines[CLT_X].vEnd,vCoordShow.x>0?COORD_SELECT_COLOR:COORD_X_COLOR);
+	G.DrawLine3D(m_CoordLines[CLT_X_Y].vBegin,m_CoordLines[CLT_X_Y].vEnd,(vCoordShow.x>0&&vCoordShow.y>0)?COORD_SELECT_COLOR:COORD_X_COLOR);
+	G.DrawLine3D(m_CoordLines[CLT_X_Z].vBegin,m_CoordLines[CLT_X_Z].vEnd,(vCoordShow.x>0&&vCoordShow.z>0)?COORD_SELECT_COLOR:COORD_X_COLOR);
+
+	G.DrawLine3D(m_CoordLines[CLT_Y].vBegin,m_CoordLines[CLT_Y].vEnd,vCoordShow.y>0?COORD_SELECT_COLOR:COORD_Y_COLOR);
+	G.DrawLine3D(m_CoordLines[CLT_Y_X].vBegin,m_CoordLines[CLT_Y_X].vEnd,(vCoordShow.x>0&&vCoordShow.y>0)?COORD_SELECT_COLOR:COORD_Y_COLOR);
+	G.DrawLine3D(m_CoordLines[CLT_Y_Z].vBegin,m_CoordLines[CLT_Y_Z].vEnd,(vCoordShow.y>0&&vCoordShow.z>0)?COORD_SELECT_COLOR:COORD_Y_COLOR);
+
+	G.DrawLine3D(m_CoordLines[CLT_Z].vBegin,m_CoordLines[CLT_Z].vEnd,vCoordShow.z>0?COORD_SELECT_COLOR:COORD_Z_COLOR);
+	G.DrawLine3D(m_CoordLines[CLT_Z_X].vBegin,m_CoordLines[CLT_Z_X].vEnd,(vCoordShow.x>0&&vCoordShow.z>0)?COORD_SELECT_COLOR:COORD_Z_COLOR);
+	G.DrawLine3D(m_CoordLines[CLT_Z_Y].vBegin,m_CoordLines[CLT_Z_Y].vEnd,(vCoordShow.y>0&&vCoordShow.z>0)?COORD_SELECT_COLOR:COORD_Z_COLOR);
+
+
+	R.SetShader("Coordinate2");
+	if (vCoordShow.x>0&&vCoordShow.y>0)
 	{
-		SetMeshSource();
-		draw();
-
-		G.DrawLine3D(m_CoordLines[CLT_X].vBegin,m_CoordLines[CLT_X].vEnd,vCoordShow.x>0?COORD_SELECT_COLOR:COORD_X_COLOR);
-		G.DrawLine3D(m_CoordLines[CLT_X_Y].vBegin,m_CoordLines[CLT_X_Y].vEnd,(vCoordShow.x>0&&vCoordShow.y>0)?COORD_SELECT_COLOR:COORD_X_COLOR);
-		G.DrawLine3D(m_CoordLines[CLT_X_Z].vBegin,m_CoordLines[CLT_X_Z].vEnd,(vCoordShow.x>0&&vCoordShow.z>0)?COORD_SELECT_COLOR:COORD_X_COLOR);
-
-		G.DrawLine3D(m_CoordLines[CLT_Y].vBegin,m_CoordLines[CLT_Y].vEnd,vCoordShow.y>0?COORD_SELECT_COLOR:COORD_Y_COLOR);
-		G.DrawLine3D(m_CoordLines[CLT_Y_X].vBegin,m_CoordLines[CLT_Y_X].vEnd,(vCoordShow.x>0&&vCoordShow.y>0)?COORD_SELECT_COLOR:COORD_Y_COLOR);
-		G.DrawLine3D(m_CoordLines[CLT_Y_Z].vBegin,m_CoordLines[CLT_Y_Z].vEnd,(vCoordShow.y>0&&vCoordShow.z>0)?COORD_SELECT_COLOR:COORD_Y_COLOR);
-
-		G.DrawLine3D(m_CoordLines[CLT_Z].vBegin,m_CoordLines[CLT_Z].vEnd,vCoordShow.z>0?COORD_SELECT_COLOR:COORD_Z_COLOR);
-		G.DrawLine3D(m_CoordLines[CLT_Z_X].vBegin,m_CoordLines[CLT_Z_X].vEnd,(vCoordShow.x>0&&vCoordShow.z>0)?COORD_SELECT_COLOR:COORD_Z_COLOR);
-		G.DrawLine3D(m_CoordLines[CLT_Z_Y].vBegin,m_CoordLines[CLT_Z_Y].vEnd,(vCoordShow.y>0&&vCoordShow.z>0)?COORD_SELECT_COLOR:COORD_Z_COLOR);
-
-		R.finishMaterial();
-	}
-	if (R.prepareMaterial("Coordinate2"))
-	{
-		if (vCoordShow.x>0&&vCoordShow.y>0)
-		{
 		//	G.fillQuad(Vec3D(0,0,0),m_CoordLines[CLT_X_Y].vBegin,m_CoordLines[CLT_X_Y].vEnd,m_CoordLines[CLT_Y_X].vBegin,COORD_PLANE_COLOR);
-		}
-		if (vCoordShow.y>0&&vCoordShow.z>0)
-		{
+	}
+	if (vCoordShow.y>0&&vCoordShow.z>0)
+	{
 		//	G.fillQuad(Vec3D(0,0,0),m_CoordLines[CLT_Y_Z].vBegin,m_CoordLines[CLT_Y_Z].vEnd,m_CoordLines[CLT_Z_Y].vBegin,COORD_PLANE_COLOR);
-		}
-		if (vCoordShow.z>0&&vCoordShow.x>0)
-		{
+	}
+	if (vCoordShow.z>0&&vCoordShow.x>0)
+	{
 		//	G.fillQuad(Vec3D(0,0,0),m_CoordLines[CLT_Z_X].vBegin,m_CoordLines[CLT_Z_X].vEnd,m_CoordLines[CLT_X_Z].vBegin,COORD_PLANE_COLOR);
-		}
-		R.finishMaterial();
 	}
 
 // 	R.SetBlendFunc(true);

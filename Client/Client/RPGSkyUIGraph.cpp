@@ -35,15 +35,13 @@ void Node3DUIGraph::releaseTexture(void * pTexture)
 
 void Node3DUIGraph::setShader(const char* szShader)
 {
-	static unsigned long s_uShader = CRenderSystem::getSingleton().GetShaderMgr().registerItem("EngineRes\\fx\\ui.fx");
 	if (szShader==NULL||strlen(szShader)==0)
 	{
-		CRenderSystem::getSingleton().SetShader(s_uShader);
+		CRenderSystem::getSingleton().SetShader("ui");
 	}
 	else
 	{
-		unsigned long uShader = CRenderSystem::getSingleton().GetShaderMgr().registerItem(szShader);
-		CRenderSystem::getSingleton().SetShader(uShader);
+		CRenderSystem::getSingleton().SetShader(szShader);
 	}
 	// ----
 }

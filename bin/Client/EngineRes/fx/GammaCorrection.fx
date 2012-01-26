@@ -12,11 +12,14 @@ struct VS_OUTPUT
 	float3  UV0		: TEXCOORD0;
 };
 float3 LuminanceConv = { 0.2125f, 0.7154f, 0.0721f };
+
+sampler s0: register(s0);
+sampler s1: register(s1);
 float4 PS(VS_OUTPUT i) : COLOR0
 {
-	float3 color = tex2D(g_samScene, i.UV0).xyz;
+	float3 color = tex2D(s0, i.UV0).rgb;
 	float fIndex = max(dot( color, LuminanceConv ),0.08f);
-	float3 color1 = tex2D(g_samDiffuse, float2(fIndex,0.0f)).xyz;
+	float3 color1 = tex2D(s1, float2(fIndex,0.0f)).rgb;
 	
 	return float4(color*color1/fIndex,1.0f);
 }
@@ -36,8 +39,8 @@ technique Render
 		AlphaBlendEnable	= False;
 
 		ZEnable				= False;
-		ZWriteEnable		= False
-
+		ZWriteEnable		= False;
+		
 		ColorOp[0]			= Modulate;
 		ColorArg1[0]		= Texture;
 		ColorArg2[0]		= Diffuse;
