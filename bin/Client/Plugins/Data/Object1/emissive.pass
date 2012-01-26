@@ -1,6 +1,0 @@
-LightingEnabled(false);
-CullingMode(NONE);
-AlphaTestFunc(false);
-BlendFunc(true, ADD, ONE, ONE);
-TextureColorOP(0, MODULATE, TEXTURE, TFACTOR);
-TextureAlphaOP(0, DISABLE);
