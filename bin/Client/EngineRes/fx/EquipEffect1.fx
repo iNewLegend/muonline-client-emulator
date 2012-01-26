@@ -1,49 +1,19 @@
 #include "shared.fx"
+#include "modelShared.fx"
 
-struct VS_MODEL_INPUT
-{
-    float4  Pos     : POSITION;
-	float3  Normal  : NORMAL;
-    float2  UV     : TEXCOORD0;
-};
-
-struct VS_MODEL_OUTPUT
-{
-    float4  Pos     : POSITION;
-    float3  color   : COLOR;
-    float2  UV      : TEXCOORD0;
-    float3  normal  : TEXCOORD1;
-    float3  viewVec : TEXCOORD2;
-};
-
-VS_MODEL_OUTPUT VS(VS_MODEL_INPUT i)
-{
-	VS_MODEL_OUTPUT o;
-	o.Pos = mul(i.Pos,wvpm);
-	o.UV = i.UV;
-	// Eye-soace lighting
-	o.color = mul(i.Normal,g_mWorld);
-	o.color = 0.5 * (1 + dot(o.color, -g_vLightDir));
-	o.normal = normalize(mul(i.Normal,wvm));
-	o.viewVec = -mul(i.Pos,wvm);
-	return o;
-}
-//float4 lightDir: register(c2);
-float furriness = 25.0f;
+float furriness = 60.0f;
 float sheen = 0.68f;
-sampler s0: register(s0);
-float4 PS(VS_MODEL_OUTPUT i) : COLOR0
+PS_OUTPUT PS(VS_MODEL_OUTPUT i)
 {
-	float4 color	= tex2D(s0, i.UV);
-	// Apply some fabric style lighting
-	float diffuse = 0.5 * (1 + dot(i.normal, g_vLightDir));
-	float cosView = clamp(dot(normalize(i.viewVec), i.normal), 0.0, 1.0);
+	PS_OUTPUT o;
+	o.color	= tex2D(s0, i.uv);
+	o.normal = float4(i.normal,1);
+	o.pos = i.pos;
+	float3 V = -normalize(i.pos - g_vEyePot);
+	float cosView = clamp(dot(V, i.normal), 0.0, 1.0);
 	float shine = pow(1.0 - cosView * cosView, furriness);
-
-	color.xyz+=sheen * shine;
-	color.xyz*=i.color;
-	//return float4(i.viewVec,1);
-	return color;
+	o.color.xyz+=sheen * shine;
+	return o;
 }
 
 technique Render
@@ -63,7 +33,7 @@ technique Render
 		ZFunc				= LessEqual;
 		ZWriteEnable		= True;
 
-        VertexShader		= compile vs_2_0 VS();
+        VertexShader		= compile vs_2_0 MODEL_VS();
         PixelShader			= compile ps_2_0 PS();
     }
 }

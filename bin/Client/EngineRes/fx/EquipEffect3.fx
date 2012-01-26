@@ -5,7 +5,7 @@ PS_OUTPUT PS(VS_MODEL_OUTPUT i)
 {
 	PS_OUTPUT o;
 	o.color	= tex2D(s0, i.uv);
-	o.color.rgb	+= float3(1.8,1.8,0.1)*(sin(i.normal.x*8+i.pos.x*10+g_fTime*3)+cos(i.normal.z*10+i.pos.z*7+g_fTime*3));
+	o.color.rgb	+= float3(0.8,0.8,0.1)*pow(sin(i.normal.x*12+i.pos.x*10+g_fTime*3)+sin(i.normal.z*10+i.pos.z*13+g_fTime*3),4);
 	o.normal = float4(i.normal,1);
 	o.pos = i.pos;
 	return o;
