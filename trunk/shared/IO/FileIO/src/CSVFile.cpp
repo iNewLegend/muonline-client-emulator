@@ -87,7 +87,7 @@ bool CCsvFile::open(char* buffer, int nLength)
 				buffer++;
 				*buffer = 0;
 				line++;
-				m_date.resize(line*m_nColumnCount);
+				m_date.resize(line*m_nColumnCount,buffer);
 				m_date.push_back(buffer+1);
 			}
 			break;
