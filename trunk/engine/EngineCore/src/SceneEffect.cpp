@@ -30,14 +30,6 @@ void CSceneEffect::clearTextures()
 	S_DEL(m_pPosMRT);
 	S_DEL(m_pNormalMRT);
 	S_DEL(m_pDiffuseRT);
-	// new 
-//	{ // Fixed the scene texture release.
-// 		CShader* pShader = GetRenderSystem().GetShaderMgr().getSharedShader();
-// 		if (pShader)
-// 		{
-// 			pShader->setTexture("g_texScene",(CTexture*)NULL);
-// 		}
-//	}
 }
 
 void CSceneEffect::Reset(const CRect<int>& rc)
@@ -207,19 +199,13 @@ void CSceneEffect::renderTargetGlow()// not good
 void CSceneEffect::renderGammaCorrection()
 {
 	CRenderSystem& R = CRenderSystem::getSingleton();
+	R.SetShader("GammaCorrection");
 	R.SetRenderTarget(0,m_pDiffuseRT);
 	//R.ClearBuffer(false,true,0x0);
-	//R.GetShaderMgr().getSharedShader()->setTexture("g_texScene",m_pSceneTexture);
 	R.SetTexture(0, m_pDiffuseRT);
-
-	if(R.prepareMaterial("GammaCorrection"))
-	{
-		CRenderSystem& R = CRenderSystem::getSingleton();
-		//R.SetTexture(0,g_samScene) ;
-		R.SetFVF(QuadVertex::FVF);
-		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
-		R.finishMaterial();
-	}
+	//R.SetTexture(0,g_samScene) ;
+	R.SetFVF(QuadVertex::FVF);
+	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
 }
 
 void CSceneEffect::renderTargetBloom()
@@ -239,110 +225,85 @@ void CSceneEffect::renderTargetBloom()
 	R.SetRenderTarget(2,NULL);
 	R.SetRenderTarget(3,NULL);
 	// DeferredLighting
-	if (R.prepareMaterial("DeferredLighting"))
+	R.SetShader("DeferredLighting");
+	R.SetRenderTarget(0,m_pLightRT);
+	R.SetTexture(0, m_pPosMRT);
+	R.SetTexture(1, m_pNormalMRT);
+	static int nLightMap = -1;
+	if (nLightMap==-1)
 	{
-		R.SetRenderTarget(0,m_pLightRT);
-		R.SetTexture(0, m_pPosMRT);
-		R.SetTexture(1, m_pNormalMRT);
-
-		static int nLightMap = -1;
-		if (nLightMap==-1)
-		{
-			nLightMap = R.GetTextureMgr().RegisterTexture("Data\\World1\\TerrainLight.OZJ");
-		}
-		R.SetSamplerFilter(2, TEXF_LINEAR, TEXF_POINT, TEXF_LINEAR);
-		R.SetTexture(2, nLightMap);
-		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
+		nLightMap = R.GetTextureMgr().RegisterTexture("Data\\World1\\TerrainLight.OZJ");
 	}
+	R.SetTexture(2, nLightMap);
+	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
 
-	if (R.prepareMaterial("DeferredPoint"))
-	{
-		R.SetRenderTarget(0,m_pLightRT);
-		R.SetTexture(0, m_pPosMRT);
-		R.SetTexture(1, m_pNormalMRT);
+	R.SetShader("DeferredPoint");
+	R.SetRenderTarget(0,m_pLightRT);
+	R.SetTexture(0, m_pPosMRT);
+	R.SetTexture(1, m_pNormalMRT);
 
-		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
-	}
+	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
 
-	if (R.prepareMaterial("DeferredCombine"))
-	{
-		R.SetRenderTarget(0,m_pDiffuseRT);
-		R.SetTexture(0, m_pLightRT);
-		R.SetTexture(1, m_pDiffuseRT);
-		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
-	}
+	R.SetShader("DeferredCombine");
+	R.SetRenderTarget(0,m_pDiffuseRT);
+	R.SetTexture(0, m_pLightRT);
+	R.SetTexture(1, m_pDiffuseRT);
+	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
 
 	// Down Filter 4x
-	if (R.prepareMaterial("Filter4"))
-	{
-
-		R.SetRenderTarget(0,m_pSceneRT4x);
-		R.SetTexture(0, m_pDiffuseRT);
-
-		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
-	}
+	R.SetShader("Filter4");
+	R.SetRenderTarget(0,m_pSceneRT4x);
+	R.SetTexture(0, m_pDiffuseRT);
+	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
 
 	// ----
 	R.setShaderVec2D("inv_width_height",	inv_width_height8x);
 
 	// Down Filter 4x
-	if (R.prepareMaterial("Filter4"))
-	{
-		R.SetRenderTarget(0,m_pSceneRT8x1);
-		R.SetTexture(0, m_pSceneRT4x);
-		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
-	}
+	R.SetShader("Filter4");
+	R.SetRenderTarget(0,m_pSceneRT8x1);
+	R.SetTexture(0, m_pSceneRT4x);
+	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
+
 
 	// Bright Pass
-	if (R.prepareMaterial("Bright"))
-	{
-		R.SetRenderTarget(0,m_pSceneRT8x2);
-		R.SetTexture(0, m_pSceneRT8x1);
-		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
-	}
+	R.SetShader("Bright");
+	R.SetRenderTarget(0,m_pSceneRT8x2);
+	R.SetTexture(0, m_pSceneRT8x1);
+	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
 	
 	// Bloom Horizontal
-	if (R.prepareMaterial("BloomH"))
-	{
-		R.SetRenderTarget(0,m_pSceneRT8x1);
-		R.SetTexture(0, m_pSceneRT8x2);
-		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
-	}
+	R.SetShader("BloomH");
+	R.SetRenderTarget(0,m_pSceneRT8x1);
+	R.SetTexture(0, m_pSceneRT8x2);
+	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
 
 	// Bloom Vertical
-	if (R.prepareMaterial("BloomV"))
-	{
-		R.SetRenderTarget(0,m_pSceneRT8x2);
-		R.SetTexture(0, m_pSceneRT8x1);
-		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
-	}
+	R.SetShader("BloomV");
+	R.SetRenderTarget(0,m_pSceneRT8x2);
+	R.SetTexture(0, m_pSceneRT8x1);
+	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
 
 	// Bloom Horizontal
-	if (R.prepareMaterial("BloomH"))
-	{
-		R.SetRenderTarget(0,m_pSceneRT8x1);
-		R.SetTexture(0, m_pSceneRT8x2);
-		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
-	}
+	R.SetShader("BloomH");
+	R.SetRenderTarget(0,m_pSceneRT8x1);
+	R.SetTexture(0, m_pSceneRT8x2);
+	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
 
 	// Bloom Vertical
-	if (R.prepareMaterial("BloomV"))
-	{
-		R.SetRenderTarget(0,m_pSceneRT8x2);
-		R.SetTexture(0, m_pSceneRT8x1);
-		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
-	}
-	R.SetSamplerFilter(0, TEXF_LINEAR, TEXF_POINT, TEXF_LINEAR);
+	R.SetShader("BloomV");
+	R.SetRenderTarget(0,m_pSceneRT8x2);
+	R.SetTexture(0, m_pSceneRT8x1);
+	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
+
 	// ----
 	R.setShaderVec2D("inv_width_height",	inv_width_height4x);
 
 	// Up Filter 4x
- 	if (R.prepareMaterial("Combine"))
- 	{
- 		R.SetRenderTarget(0,m_pSceneRT4x);
- 		R.SetTexture(0, m_pSceneRT8x2);
- 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
- 	}
+	R.SetShader("Combine");
+	R.SetRenderTarget(0,m_pSceneRT4x);
+	R.SetTexture(0, m_pSceneRT8x2);
+	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
 
 	R.setShaderVec2D("inv_width_height",	inv_width_height);
 // 	// Combine 4x
@@ -388,38 +349,31 @@ void CSceneEffect::compose(const CRect<int>& rcDest)
 	QuadVB[3].p = Vec4D(fX1, fY0, 0.0f, 1.0f);
 
 	// Combine 4x
-	if (R.prepareMaterial("CombineAdd"))
+	R.SetShader("CombineAdd");
+	switch (m_nFlag)
 	{
-		//R.SetRenderTarget(m_pTexScene8x2);
-		switch (m_nFlag)
-		{
-		case 0:
-			R.SetTexture(0, m_pDiffuseRT);
-			break;
-		case 1:
-			R.SetTexture(0, m_pPosMRT);
-			break;
-		case 2:
-			R.SetTexture(0, m_pNormalMRT);
-			break;
-		case 3:
-			R.SetTexture(0, m_pLightRT);
-			break;
-		case 4:
-			R.SetTexture(0, m_pSceneRT4x);
-			break;
-		case 5:
-			R.SetTexture(0, m_pSceneRT8x1);
-			break;
-		case 6:
-			R.SetTexture(0, m_pSceneRT8x2);
-			break;
-		}
-		R.SetSamplerFilter(1, TEXF_LINEAR, TEXF_POINT, TEXF_LINEAR);
-		
-		R.SetTexture(1, m_pSceneRT4x);
-		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, QuadVB, sizeof(QuadVertex));
+	case 0:
+		R.SetTexture(0, m_pDiffuseRT);
+		break;
+	case 1:
+		R.SetTexture(0, m_pPosMRT);
+		break;
+	case 2:
+		R.SetTexture(0, m_pNormalMRT);
+		break;
+	case 3:
+		R.SetTexture(0, m_pLightRT);
+		break;
+	case 4:
+		R.SetTexture(0, m_pSceneRT4x);
+		break;
+	case 5:
+		R.SetTexture(0, m_pSceneRT8x1);
+		break;
+	case 6:
+		R.SetTexture(0, m_pSceneRT8x2);
+		break;
 	}
-
-	//R.SetSamplerFilter(0, TEXF_LINEAR, TEXF_LINEAR, TEXF_LINEAR);
+	R.SetTexture(1, m_pSceneRT4x);
+	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, QuadVB, sizeof(QuadVertex));
 }

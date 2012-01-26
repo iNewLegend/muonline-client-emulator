@@ -7,15 +7,12 @@ void CBoundMesh::draw()const
 	if (indices.size())
 	{
 		CRenderSystem& R = CRenderSystem::getSingleton();
-		if (R.prepareMaterial("BoundMesh"))
-		{
-			R.SetFillMode(FILL_WIREFRAME);
-			R.DrawIndexedPrimitiveUP(VROT_TRIANGLE_LIST,
-				0, indices.size(), indices.size()/3,
-				&indices[0], &pos[0], sizeof(Vec3D));
-			R.SetFillMode(FILL_SOLID);
-			R.finishMaterial();
-		}
+		R.SetShader("BoundMesh");
+		R.SetFillMode(FILL_WIREFRAME);
+		R.DrawIndexedPrimitiveUP(VROT_TRIANGLE_LIST,
+			0, indices.size(), indices.size()/3,
+			&indices[0], &pos[0], sizeof(Vec3D));
+		R.SetFillMode(FILL_SOLID);
 	}
 }
 

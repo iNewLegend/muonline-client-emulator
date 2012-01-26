@@ -28,8 +28,6 @@ CD3D9RenderSystem& GetD3D9RenderSystem()
 CD3D9RenderSystem::CD3D9RenderSystem()
 	:m_TextureMgr(this)
 	,m_pD3D9Device(NULL)
-	,m_uShareShaderID(0)
-
 {
 }
 
@@ -47,22 +45,10 @@ CHardwareBufferMgr& CD3D9RenderSystem::GetHardwareBufferMgr()
 	return m_D3D9HardwareBufferMgr;
 }
 
-CShaderMgr& CD3D9RenderSystem::GetShaderMgr()
-{
-	return m_ShaderMgr;
-}
-
 CRenderWindow* CD3D9RenderSystem::CreateRenderWindow(WNDPROC pWndProc, const std::wstring& strWindowTitle, int32 nWidth, int32 nHeight, bool bFullScreen)
 {
 	CD3D9RenderWindow* pD3D9RenderWindow = new CD3D9RenderWindow;
 	pD3D9RenderWindow->Create(pWndProc, strWindowTitle, nWidth, nHeight,bFullScreen);
-	// ----
-	// # Create Common Shared Shader
-	m_uShareShaderID = m_ShaderMgr.registerItem("EngineRes/fx/shared.fx");
-	if(m_uShareShaderID==0)
-	{
-		MessageBoxW(NULL, L"Can't find the shared fx", L"Error", 0);
-	}
 	// ----
 	return pD3D9RenderWindow;
 }
@@ -105,7 +91,7 @@ HRESULT CD3D9RenderSystem::OnResetDevice()
 	// ----
 	// # Reset All Shader
 	// ----
-	myMgrTransform(m_ShaderMgr.m_Items, &CD3D9Shader::OnResetDevice);
+	myMapTransform(m_mapShaders, &CD3D9Shader::OnResetDevice);
 
 	//FillMemory(m_Lights, 8*sizeof(D3DLIGHT9), NULL);
 	//FillMemory(m_LightEnable, 8*sizeof(bool), NULL);
@@ -269,7 +255,7 @@ void CD3D9RenderSystem::OnLostDevice()
 	// ----
 	// # Lost All Shader
 	// ----
-	myMgrTransform(m_ShaderMgr.m_Items, &CD3D9Shader::OnLostDevice);
+	myMapTransform(m_mapShaders, &CD3D9Shader::OnLostDevice);
 }
 
 void CD3D9RenderSystem::OnDestroyDevice()
@@ -286,7 +272,7 @@ void CD3D9RenderSystem::OnDestroyDevice()
 	// ----
 	// # Destroy All Shader
 	// ----
-	myMgrTransform(m_ShaderMgr.m_Items, &CD3D9Shader::OnDestroyDevice);
+	myMapTransform(m_mapShaders, &CD3D9Shader::OnDestroyDevice);
 }
 
 CTexture* CD3D9RenderSystem::GetRenderTarget()
@@ -441,17 +427,15 @@ void CD3D9RenderSystem::setWorldMatrix(const Matrix& m)
 	getViewMatrix(View);
 	Matrix wvpm = Proj * View * m;
 	Matrix wvm = View * m;
-	CD3D9Shader* shared = (CD3D9Shader*)m_ShaderMgr.getItem(m_uShareShaderID);
-	if(shared)
+
+	m_mapShaders.begin()->second->setMatrix("wvm",wvm);
+	m_mapShaders.begin()->second->setMatrix("wvpm",wvpm);
+	m_mapShaders.begin()->second->setMatrix("g_mWorld",m);
+	if (m_pOldShader)
 	{
-		shared->setMatrix("wvm",wvm);
-		shared->setMatrix("wvpm",wvpm);
-		shared->setMatrix("g_mWorld",m);
-		if (m_pOldShader)
-		{
-			((CD3D9Shader*)m_pOldShader)->getD3DXEffect()->CommitChanges();
-		}
+		((CD3D9Shader*)m_pOldShader)->getD3DXEffect()->CommitChanges();
 	}
+
 	D3D9HR( m_pD3D9Device->SetVertexShaderConstantF(0, wvpm, 4) );
 	D3D9HR( m_pD3D9Device->SetTransform(D3DTS_WORLD, (D3DXMATRIX*)&mDx) );
 }
@@ -462,15 +446,12 @@ void CD3D9RenderSystem::setViewMatrix(const Matrix& m)
 	Matrix Proj;
 	getProjectionMatrix(Proj);
 	Matrix vpm = Proj * m;
-	CD3D9Shader* shared = (CD3D9Shader*)m_ShaderMgr.getItem(m_uShareShaderID);
-	if(shared)
+
+	m_mapShaders.begin()->second->setMatrix("vpm", vpm);
+	m_mapShaders.begin()->second->setMatrix("g_mView", m);
+	if (m_pOldShader)
 	{
-		shared->setMatrix("vpm", vpm);
-		shared->setMatrix("g_mView", m);
-		if (m_pOldShader)
-		{
-			((CD3D9Shader*)m_pOldShader)->getD3DXEffect()->CommitChanges();
-		}
+		((CD3D9Shader*)m_pOldShader)->getD3DXEffect()->CommitChanges();
 	}
 	D3D9HR( m_pD3D9Device->SetTransform(D3DTS_VIEW, (D3DXMATRIX*)&mDx) );
 }
@@ -694,52 +675,27 @@ void CD3D9RenderSystem::SetCullingMode(CullingMode mode)
 
 void CD3D9RenderSystem::setShaderFloat(const char* szName, float val)
 {
-	CShader* pShader = m_ShaderMgr.getItem(m_uShareShaderID);
-	// ----
-	if (pShader)
-	{
-		pShader->setFloat(szName, val);
-	}
+	m_mapShaders.begin()->second->setFloat(szName, val);
 }
 
 void CD3D9RenderSystem::setShaderVec2D(const char* szName, const Vec2D& val)
 {
-	CShader* pShader = m_ShaderMgr.getItem(m_uShareShaderID);
-	// ----
-	if (pShader)
-	{
-		pShader->setVec2D(szName, val);
-	}
+	m_mapShaders.begin()->second->setVec2D(szName, val);
 }
 
 void CD3D9RenderSystem::setShaderVec3D(const char* szName, const Vec3D& val)
 {
-	CShader* pShader = m_ShaderMgr.getItem(m_uShareShaderID);
-	// ----
-	if (pShader)
-	{
-		pShader->setVec3D(szName, val);
-	}
+	m_mapShaders.begin()->second->setVec3D(szName, val);
 }
 
 void CD3D9RenderSystem::setShaderVec4D(const char* szName, const Vec4D& val)
 {
-	CShader* pShader = m_ShaderMgr.getItem(m_uShareShaderID);
-	// ----
-	if (pShader)
-	{
-		pShader->setVec4D(szName, val);
-	}
+	m_mapShaders.begin()->second->setVec4D(szName, val);
 }
 
 void CD3D9RenderSystem::setShaderMatrix(const char* szName, const Matrix& mat)
 {
-	CShader* pShader = m_ShaderMgr.getItem(m_uShareShaderID);
-	// ----
-	if (pShader)
-	{
-		pShader->setMatrix(szName, mat);
-	}
+	m_mapShaders.begin()->second->setMatrix(szName, mat);
 }
 
 void CD3D9RenderSystem::SetPixelShaderConstantF(unsigned int StartRegister,const float* pConstantData,unsigned int Vector4fCount)
@@ -864,10 +820,10 @@ inline unsigned long TextureBlendSourceForD3D9(TextureBlendSource src)
 	}
 }
 
-void CD3D9RenderSystem::setResultARGToTemp(size_t unit, bool bResultARGToTemp)
-{
-	D3D9HR( m_pD3D9Device->SetTextureStageState(unit, D3DTSS_RESULTARG, bResultARGToTemp?D3DTA_TEMP:D3DTA_CURRENT));
-}
+// void CD3D9RenderSystem::setResultARGToTemp(size_t unit, bool bResultARGToTemp)
+// {
+// 	D3D9HR( m_pD3D9Device->SetTextureStageState(unit, D3DTSS_RESULTARG, bResultARGToTemp?D3DTA_TEMP:D3DTA_CURRENT));
+// }
 
 void CD3D9RenderSystem::SetTextureColorOP(size_t unit, TextureBlendOperation op, TextureBlendSource src1, TextureBlendSource src2)
 {
@@ -1032,9 +988,9 @@ void CD3D9RenderSystem::SetShader(CShader* pShader)
 	}
 }
 
-void CD3D9RenderSystem::SetShader(unsigned long id)
+void CD3D9RenderSystem::SetShader(const char* szShader)
 {
-	SetShader(m_ShaderMgr.getItem(id));
+	SetShader(getShader(szShader));
 }
 
 void CD3D9RenderSystem::SetFVF(unsigned long FVF)
@@ -1284,8 +1240,10 @@ void CD3D9RenderSystem::SetTexCoordIndex(unsigned long stage, unsigned long inde
 	D3D9HR( m_pD3D9Device->SetTextureStageState(stage, D3DTSS_TEXCOORDINDEX, uIndex) );
 }
 
-	// Material
-	//if (m_Material != m_ChangeMaterial)
-	//{
-	//Vec4D vFactorColor(1.0f, 1.0f, 1.0f, 1.0f);
-	//D3D9HR( m_pD3D9Device->SetPixelShaderConstantF(  0, (float*)&vFactorColor, 1) );
+void CD3D9RenderSystem::commond(const char* szCommond)
+{
+	if (strcmp(szCommond,"resetshader")==0)
+	{
+		myMapTransform(m_mapShaders, &CD3D9Shader::OnResetDevice);
+	}
+}

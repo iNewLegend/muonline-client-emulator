@@ -331,5 +331,4 @@ void CParticleEmitter::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRend
 			}
 		}
 	}
-	R.finishMaterial();
 }

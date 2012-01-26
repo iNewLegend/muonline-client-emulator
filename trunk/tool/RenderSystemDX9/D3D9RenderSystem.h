@@ -35,6 +35,16 @@ void myMgrTransform(_InContainer& _Container, _Ret (T::*_pFunc)(void))
 	}
 }
 
+template<class _InContainer, class T, class _Ret>
+inline
+	void myMapTransform(_InContainer& _Container, _Ret (T::*_pFunc)(void))
+{
+	for (auto it=_Container.begin(); it!=_Container.end(); it++)
+	{
+		(((T*)it->second)->*_pFunc)();
+	}
+}
+
 class CD3D9RenderSystem : public CRenderSystem
 {
 public:
@@ -45,7 +55,6 @@ public:
 public:
 	CTextureMgr& GetTextureMgr();
 	CHardwareBufferMgr& GetHardwareBufferMgr();
-	CShaderMgr& GetShaderMgr();
 	CRenderWindow* CreateRenderWindow(WNDPROC pWndProc, const std::wstring& strWindowTitle, int32 nWidth, int32 nHeight, bool bFullScreen = false);
 	// 创建设备
 	//virtual HRESULT OnCreateDevice(LPDIRECT3DDEVICE9 pd3dDevice);
@@ -115,7 +124,6 @@ public:
 	void SetPixelShaderConstantF(unsigned int StartRegister,const float* pConstantData,unsigned int Vector4fCount);
 	void SetTextureFactor(Color32 color);	// 设置纹理因素颜色
 	// TextureOP
-	void setResultARGToTemp(size_t unit, bool bResultARGToTemp=true);
 	void SetTextureColorOP(size_t unit, TextureBlendOperation op = TBOP_MODULATE,
 		TextureBlendSource src1 = TBS_TEXTURE, TextureBlendSource src2 = TBS_DIFFUSE);
 	void SetTextureAlphaOP(size_t unit, TextureBlendOperation op,
@@ -126,7 +134,7 @@ public:
 
 	// 设置shader
 	void SetShader(CShader* pShader);
-	void SetShader(unsigned long id);
+	void SetShader(const char* szShader);
 	//
 	void SetMaterial(const Vec4D& vAmbient, const Vec4D& vDiffuse);
 	// Light
@@ -171,6 +179,7 @@ public:
 	void setFogEnable(bool bEnable);
 
 	void StretchRect(CTexture* pSource,const CRect<int>* pSourceRect,CTexture* pDest,const CRect<int>* pDestRect,TextureFilterType filter);
+	void commond(const char* szCommond);
 protected:
 	void SetTexture(unsigned long Stage, IDirect3DTexture9* pD3D9Texture);
 	//
@@ -182,12 +191,10 @@ protected:
 	// ----
 	CTextureMgr					m_TextureMgr;
 	CHardwareBufferMgr			m_D3D9HardwareBufferMgr;
-	CShaderMgr					m_ShaderMgr;
 	// ----
 	IDirect3DDevice9*			m_pD3D9Device;
 
 	CShader*					m_pOldShader;
-	unsigned long				m_uShareShaderID;
 
 	//////////////////////////////////////////////////////////////////////////
 };

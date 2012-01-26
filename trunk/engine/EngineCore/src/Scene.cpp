@@ -161,16 +161,14 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 		{
 			if (*it==pFocusNode)
 			{
-				if (CRenderSystem::getSingleton().prepareMaterial("ObjectFocus"))
-				{
-					float color[4] = {1.0f,0.25f,0.0f,0.5f};
-					R.SetPixelShaderConstantF(0,color,1);
-					// monster (0xFFFF4040)
-					// NPC (0xFF40FF40)
-					// Player (0xFF00FFFF)
-					((CRenderNode*)*it)->render(Matrix::UNIT, E_MATERIAL_RENDER_TYPE(MATERIAL_GEOMETRY|MATERIAL_RENDER_ALPHA_TEST));
-					CRenderSystem::getSingleton().finishMaterial();
-				}
+				CRenderSystem::getSingleton().SetShader("ObjectFocus");
+				float color[4] = {1.0f,0.25f,0.0f,0.5f};
+				R.SetPixelShaderConstantF(0,color,1);
+				// monster (0xFFFF4040)
+				// NPC (0xFF40FF40)
+				// Player (0xFF00FFFF)
+				((CRenderNode*)*it)->render(Matrix::UNIT, E_MATERIAL_RENDER_TYPE(MATERIAL_GEOMETRY|MATERIAL_RENDER_ALPHA_TEST));
+
 			}
 			(*it)->render(Matrix::UNIT,MATERIAL_GEOMETRY);
 		}

@@ -148,17 +148,14 @@ void CSkeletonNode::drawSkeleton(const Matrix& mWorld, CTextRender* pTextRender)
 		setBonesPoint[i]=mNewWorld*m_setBonesMatrix[i]*mInvLocal*Vec3D(0,0,0);
 	}
 
-	if (R.prepareMaterial("Skeleton"))
+	R.SetShader("Skeleton");
+	R.SetDepthBufferFunc(false,false);
+	for(size_t i=0;i<m_pSkeletonData->m_Bones.size();++i)
 	{
-		R.SetDepthBufferFunc(false,false);
-		for(size_t i=0;i<m_pSkeletonData->m_Bones.size();++i)
+		if (m_pSkeletonData->m_Bones[i].m_uParent!=255)
 		{
-			if (m_pSkeletonData->m_Bones[i].m_uParent!=255)
-			{
-				G.DrawLine3D(setBonesPoint[m_pSkeletonData->m_Bones[i].m_uParent],setBonesPoint[i],0xFFFFFFFF);
-			}
+			G.DrawLine3D(setBonesPoint[m_pSkeletonData->m_Bones[i].m_uParent],setBonesPoint[i],0xFFFFFFFF);
 		}
-		R.finishMaterial();
 	}
 
 	R.SetBlendFunc(true);

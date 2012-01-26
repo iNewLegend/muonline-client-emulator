@@ -36,10 +36,8 @@ void CD3D9Shader::OnDestroyDevice()
 class CShaderIncludeManager:public ID3DXInclude
 {
 public:
-	void setParentFilename(std::string strFilename)
-	{
-		m_strParentFilename = strFilename;
-	}
+	void setParentFilename(const char* szFilename){m_strParentFilename = szFilename;}
+	const char* getParentFilename(){return m_strParentFilename.c_str();}
 protected:
 	STDMETHOD(Open)(THIS_ D3DXINCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID *ppData, UINT *pBytes)
 	{
@@ -107,7 +105,12 @@ bool CD3D9Shader::createFromMemory(void* pBuf, int nSize,LPD3DXINCLUDE pInclude)
 	// output any error messages
 	if(errorBuffer)
 	{
-		::MessageBoxA(0, (char*)errorBuffer->GetBufferPointer(), 0, 0);
+		const char* szFilenam = NULL;
+		if (pInclude)
+		{
+			szFilenam = ((CShaderIncludeManager*)pInclude)->getParentFilename();
+		}
+		::MessageBoxA(0, (char*)errorBuffer->GetBufferPointer(), szFilenam, 0);
 		S_REL(errorBuffer);
 	}
 	return m_pEffect!=NULL;

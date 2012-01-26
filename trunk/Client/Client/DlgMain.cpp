@@ -99,6 +99,10 @@ bool CDlgMain::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			switch(wParam)
 			{
+			case VK_F5:// 刷新Shader
+				{
+					CRenderSystem::getSingleton().commond("resetshader");
+				}
 			case VK_F9:// 切换曝光效果
 				{
 				}

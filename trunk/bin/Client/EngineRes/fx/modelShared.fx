@@ -1,5 +1,6 @@
 #ifndef __MODEL_SHARED_FX
 #define __MODEL_SHARED_FX
+#include "shared.fx"
 
 struct VS_MODEL_INPUT
 {

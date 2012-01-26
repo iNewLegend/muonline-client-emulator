@@ -21,11 +21,6 @@ class CMaterial
 {
 public:
 	CMaterial()
-		:uShader(-1)
-		,vAmbient(0.6f,0.6f,0.6f,0.6f)
-		,vDiffuse(1.0f,1.0f,1.0f,1.0f)
-		,m_fOpacity(1.0f)
-		,cEmissive(255,255,255,255)
 	{
 		for (size_t i=0; i<8; ++i)
 		{
@@ -53,10 +48,6 @@ public:
 	int	getOrder()
 	{
 		int nOrder=0;
-		if (m_fOpacity<1.0f)
-		{
-			nOrder--;
-		}
 		/*if (bAlphaTest&&bBlend)
 		{
 			nOrder--;
@@ -75,11 +66,6 @@ public:
 		}*/
 		return nOrder;
 	}
-
-	void SetEmissiveColor(const Color32& color)
-	{
-		cEmissive = color;
-	}
 	// Texture
 	void setTexture(int id, const char* szFilename)
 	{
@@ -90,32 +76,9 @@ public:
 	{
 		return strTexture[id];
 	}
-	// Shader
-	void setShader(const std::string& strFilename)
-	{
-		strShader=strFilename;
-		uShader=-1;
-	}
-	const std::string& getShader()
-	{
-		return strShader;
-	}
 private:
 	std::string		strTexture[8];
-	std::string		strShader;
 public:
-	// ----
-	// # texture
-	// ----
+	std::string		strShader;
 	unsigned long	uTexture[8];
-	// ----
-	unsigned long	uShader;
-	// ----
-	// # color
-	// ----
-	Vec4D			vAmbient;
-	Vec4D			vDiffuse;
-	// ----
-	float			m_fOpacity;
-	Color32			cEmissive;
 };

@@ -135,7 +135,6 @@
     <ClInclude Include="include\Texture.h" />
     <ClInclude Include="include\VertexDeclaration.h" />
     <ClInclude Include="include\HardwareBufferMgr.h" />
-    <ClInclude Include="include\ShaderMgr.h" />
     <ClInclude Include="include\TextureMgr.h" />
   </ItemGroup>
   <ItemGroup>
@@ -150,7 +149,6 @@
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\VertexDeclaration.cpp" />
     <ClCompile Include="src\HardwareBufferMgr.cpp" />
-    <ClCompile Include="src\ShaderMgr.cpp" />
     <ClCompile Include="src\TextureMgr.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
