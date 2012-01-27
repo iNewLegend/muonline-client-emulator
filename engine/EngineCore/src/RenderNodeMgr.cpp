@@ -141,6 +141,11 @@ void* CRenderNodeMgr::createRenderData(const char* szClassName, const char* szNa
 	return pData;
 }
 
+int CRenderNodeMgr::registerTexture(const char* szFilename)
+{
+	return CRenderSystem::getSingleton().GetTextureMgr().RegisterTexture(szFilename);
+}
+
 typedef bool ( * PFN_DATA_Plug_CreateObject)(void ** pobj);
 
 CDataPlugBase* CRenderNodeMgr::getPlugByExtension(const char* szExt)

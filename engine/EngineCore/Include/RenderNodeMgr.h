@@ -27,6 +27,7 @@ public:
 	virtual void*			createRenderData(const char* szClassName);
 	virtual void*			getRenderData(const char* szClassName, const char* szName);
 	virtual void*			createRenderData(const char* szClassName, const char* szName);
+	virtual int				registerTexture(const char* szFilename);
 
 	CDataPlugBase*			getPlugByExtension(const char* szExt);
 	bool					loadPlugs(const char* szFilename);
