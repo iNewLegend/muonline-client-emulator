@@ -49,6 +49,7 @@ public:
 	virtual void*			createRenderData(const char* szClassName)=0;
 	virtual void*			getRenderData(const char* szClassName, const char* szName)=0;
 	virtual void*			createRenderData(const char* szClassName, const char* szName)=0;
+	virtual int				registerTexture(const char* szFilename)=0;
 };
 
 class CDataPlugBase
