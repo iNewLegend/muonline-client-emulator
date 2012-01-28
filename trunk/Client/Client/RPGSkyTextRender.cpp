@@ -43,7 +43,6 @@ void CNode3DTextRender::updateTextureBuffer(unsigned char* pBuffer, size_t size,
 
 void CNode3DTextRender::drawUBB(int x, int y, const CUBB* pUBB)const
 {
-
 	int nVertexCount = pUBB->m_VB.size();
 	if (nVertexCount)
 	{
