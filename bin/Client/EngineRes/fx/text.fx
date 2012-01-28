@@ -35,7 +35,7 @@ technique Render
 		ZFunc				= LessEqual;
 		ZWriteEnable		= False;
 
-	VertexShader = NULL;
+		VertexShader = NULL;
         PixelShader  = compile ps_2_0 PS();
     }
 }
