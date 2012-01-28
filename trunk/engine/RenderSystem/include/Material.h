@@ -24,7 +24,7 @@ public:
 	{
 		for (size_t i=0; i<8; ++i)
 		{
-			uTexture[i] = -1;
+			uTexture[i] = 0;
 		}
 	}
 
@@ -76,9 +76,8 @@ public:
 	{
 		return strTexture[id];
 	}
-private:
-	std::string		strTexture[8];
 public:
 	std::string		strShader;
+	std::string		strTexture[8];
 	unsigned long	uTexture[8];
 };

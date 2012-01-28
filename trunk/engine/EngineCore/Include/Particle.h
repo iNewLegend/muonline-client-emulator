@@ -28,6 +28,7 @@ public:
 	virtual void	render		(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType=MATERIAL_NORMAL)const;
 	void			update		(const Matrix& mWorld, ParticleData& particleData, float fElapsedTime);
 public:
+	CMaterial			m_Material;
 	ParticleData*		m_pData;		// 粒子发射器指针
 	std::list<Particle>	m_Particles;	// 粒子堆
 	int					m_nTime;		// 时间

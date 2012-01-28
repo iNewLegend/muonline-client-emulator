@@ -149,7 +149,6 @@ void CSkeletonNode::drawSkeleton(const Matrix& mWorld, CTextRender* pTextRender)
 	}
 
 	R.SetShader("Skeleton");
-	R.SetDepthBufferFunc(false,false);
 	for(size_t i=0;i<m_pSkeletonData->m_Bones.size();++i)
 	{
 		if (m_pSkeletonData->m_Bones[i].m_uParent!=255)
@@ -158,7 +157,6 @@ void CSkeletonNode::drawSkeleton(const Matrix& mWorld, CTextRender* pTextRender)
 		}
 	}
 
-	R.SetBlendFunc(true);
 	if (pTextRender)
 	{
 		for(size_t i=0;i<m_pSkeletonData->m_Bones.size();++i)

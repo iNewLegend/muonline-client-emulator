@@ -2,7 +2,6 @@
 #include "Shader.h"
 #include "RenderSystemCommon.h"
 #include "TextureMgr.h"
-#include "MaterialMgr.h"
 #include "RenderWindow.h"
 #include "HardwareVertexBuffer.h"
 #include "HardwareIndexBuffer.h"
@@ -10,6 +9,7 @@
 #include "VertexDeclaration.h"
 #include "Pos2D.h"
 #include "Rect.h"
+#include "Material.h"
 
 #if defined(_DEBUG)
 #pragma comment(lib, "commond.lib")
@@ -30,7 +30,6 @@ public:
 	static CRenderSystem& getSingleton();
 public:
 	virtual CTextureMgr&		GetTextureMgr() = 0;
-	virtual CMaterialMgr&		getMaterialMgr();
 	virtual CHardwareBufferMgr&	GetHardwareBufferMgr() = 0;
 	virtual CRenderWindow*		CreateRenderWindow(WNDPROC pWndProc, const std::wstring& strWindowTitle, int32 nWidth, int32 nHeight, bool bFullScreen = false) = 0;
 	// ----
@@ -57,8 +56,6 @@ public:
 	virtual void		setViewport			(const CRect<int>& rect)	= 0;
 	virtual void		getViewport			(CRect<int>& rect)			= 0;
 	// ----
-	// # 填充模式
-	// ----
 	virtual void		SetFillMode			(FillMode mode) = 0;
 	// ----
 	// # set matrix
@@ -75,24 +72,8 @@ public:
 	virtual void		getProjectionMatrix	(Matrix& m)const = 0;
 	virtual void		getTextureMatrix	(unsigned char uTexChannel, Matrix& m)const = 0;
 	// ----
-	// # Func
-	// ----
-	virtual void		SetDepthBufferFunc	(bool bDepthTest = true, bool bDepthWrite = true,						// 深度检测
-												CompareFunction depthFunction = CMPF_LESS_EQUAL ) = 0;
-	virtual void		SetAlphaTestFunc	(bool bAlphaTest = true, CompareFunction func = CMPF_GREATER_EQUAL,		// ALPHA检测
-												unsigned char value = 0x80) = 0;
-	virtual void		SetBlendFunc		(bool bBlend = true, SceneBlendOperation op = BLENDOP_ADD,				// 混合参数
-												SceneBlendFactor src = SBF_SOURCE_ALPHA, SceneBlendFactor dest = SBF_ONE_MINUS_SOURCE_ALPHA) = 0;
-	virtual void		SetStencilFunc		(bool bStencil, StencilOP op=STENCILOP_INCR,							// 模板检测
-												CompareFunction stencilFunction = CMPF_LESS_EQUAL) = 0;
-	// ----
-	// # 设置剔除模式
-	// ----
-	virtual void		SetCullingMode		(CullingMode mode)	= 0;
-	// ----
-	// # 设置纹理因素颜色
-	// ----
-
+	virtual void		SetStencilFunc(bool bStencil, StencilOP op=STENCILOP_INCR,							// 模板检测
+								CompareFunction stencilFunction = CMPF_LESS_EQUAL) = 0;// ----
 	virtual void		setShaderFloat(const char* szName, float val)=0;
 	virtual void		setShaderVec2D(const char* szName, const Vec2D& val)=0;
 	virtual void		setShaderVec3D(const char* szName, const Vec3D& val)=0;
@@ -101,13 +82,6 @@ public:
 
 	virtual void		SetPixelShaderConstantF(unsigned int StartRegister,const float* pConstantData,unsigned int Vector4fCount)=0;
 	virtual void		SetTextureFactor	(Color32 color)		= 0;
-	// ----
-	// # TextureOP
-	// ----
-	virtual void		SetTextureColorOP	(size_t unit, TextureBlendOperation op = TBOP_MODULATE,
-												TextureBlendSource src1 = TBS_TEXTURE, TextureBlendSource src2 = TBS_DIFFUSE) = 0;
-	virtual void		SetTextureAlphaOP	(size_t unit, TextureBlendOperation op,
-												TextureBlendSource src1 = TBS_TEXTURE, TextureBlendSource src2 = TBS_DIFFUSE) = 0;
 	// ----
 	virtual void		SetSamplerFilter	(size_t unit, TextureFilterType MagFilter, TextureFilterType MinFilter, TextureFilterType MipFilter) = 0;
 	virtual void		SetSamplerAddressUV	(size_t unit, AddressUV addressU, AddressUV addressV) = 0;
@@ -121,9 +95,6 @@ public:
 	// ----
 	virtual void SetDirectionalLight(unsigned long uIndex,const DirectionalLight& light) = 0;
 	virtual void setPointLight(unsigned long uIndex,const PointLight& light) = 0;
-	virtual void LightEnable(unsigned long Index, bool bEnable) = 0;
-	virtual void SetLightingEnabled(bool bEnable) = 0;
-	virtual void SetTexCoordIndex(unsigned long stage, unsigned long index) = 0;
 	// ----
 	// # 设置纹理
 	// ----
@@ -164,13 +135,11 @@ public:
 	void GetPickRay(Vec3D& vRayPos, Vec3D& vRayDir,int x, int y);
 
 	// set material
-	bool prepareMaterial(const char* szMaterialName);
-	bool prepareMaterial(CMaterial& material);
+	bool prepareMaterial(const CMaterial& material);
 	// Shader
 	CShader* registerShader(const char* szName, const char* szFilename);
 	CShader* getShader(const char* szName);
 	virtual void commond(const char* szCommond) = 0;
 protected:
-	CMaterialMgr m_MaterialMgr;
 	std::map<std::string,CShader*>	m_mapShaders;
 };

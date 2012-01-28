@@ -102,7 +102,6 @@ void CUIDisplayWorld::OnFrameRender(const Matrix& mTransform, double fTime, floa
 			CWorld::getInstance().render(Matrix::UNIT,MATERIAL_NORMAL);
 		}
 		// ----
-		R.SetCullingMode(CULL_NONE);
 		R.setWorldMatrix(Matrix::UNIT);
 		R.ClearBuffer(true, false, 0x0);
 		// ----

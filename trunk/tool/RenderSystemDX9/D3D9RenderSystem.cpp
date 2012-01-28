@@ -99,7 +99,6 @@ HRESULT CD3D9RenderSystem::OnResetDevice()
 	m_pOldShader = NULL;
 
 //////////////////////////////////////////////////////////////////////////
-	SetAlphaTestFunc(false);
 	SetStencilFunc(false);
 	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_STENCILREF,       0x0) );
 	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_STENCILMASK,      0xffffffff) );
@@ -146,7 +145,7 @@ HRESULT CD3D9RenderSystem::OnResetDevice()
 	DirectionalLight light(Vec4D(1.0f,1.0f,1.0f,1.0f),Vec4D(1.0f,1.0f,1.0f,1.0f),Vec4D(1.0f,1.0f,1.0f,1.0f),Vec3D(-1.0f,-1.0f,-1.0f));
 
 	SetDirectionalLight(0,light);
-	LightEnable(0, true);
+	D3D9HR( m_pD3D9Device->LightEnable(0, true) );
 
 	// 设置默认的顶点采样器状态
 	SetSamplerFilter(0, TEXF_LINEAR, TEXF_LINEAR, TEXF_LINEAR);
@@ -193,21 +192,7 @@ HRESULT CD3D9RenderSystem::OnResetDevice()
 	//SetRenderState(D3DSAMP_SRGBTEXTURE, 1);
 	//SetRenderState(D3DRS_SRGBWRITEENABLE, 1);
 
-	SetLightingEnabled(false);
-	SetDepthBufferFunc(true, true, CMPF_LESS_EQUAL);
-	SetAlphaTestFunc(false);
-	SetBlendFunc(true, BLENDOP_ADD,SBF_SOURCE_ALPHA, SBF_ONE_MINUS_SOURCE_ALPHA);
-	SetCullingMode(CULL_NONE);
-
-	SetTexCoordIndex(0, 0);
-	SetTexCoordIndex(1, 0);
-
-	SetTextureColorOP(0,TBOP_MODULATE, TBS_TEXTURE, TBS_DIFFUSE);
-	SetTextureAlphaOP(0,TBOP_MODULATE, TBS_TEXTURE, TBS_DIFFUSE);
-	SetTextureColorOP(1,TBOP_DISABLE);
-	SetTextureAlphaOP(1,TBOP_DISABLE);
-	SetTextureColorOP(2,TBOP_DISABLE);
-	SetTextureAlphaOP(2,TBOP_DISABLE);
+	m_pD3D9Device->SetRenderState(D3DRS_LIGHTING, false);
 
 	SetSamplerFilter(0, TEXF_POINT, TEXF_POINT, TEXF_POINT);
 	SetSamplerFilter(1, TEXF_POINT, TEXF_POINT, TEXF_POINT);
@@ -545,103 +530,6 @@ inline unsigned long CompareFunctionForD3D9(CompareFunction cmpFunc)
 	}
 }
 
-void CD3D9RenderSystem::SetDepthBufferFunc(bool bDepthTest, bool bDepthWrite, CompareFunction depthFunction)
-{
-	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_ZENABLE, bDepthTest) );
-	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_ZWRITEENABLE, bDepthWrite) );
-	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_DEPTHBIAS, CompareFunctionForD3D9(depthFunction)) );
-}
-
-void CD3D9RenderSystem::SetAlphaTestFunc(bool bAlphaTest, CompareFunction func, unsigned char value)
-{
-	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_ALPHATESTENABLE, bAlphaTest) );
-	if (bAlphaTest)
-	{
-		D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_ALPHAFUNC, CompareFunctionForD3D9(func)) );
-		D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_ALPHAREF, value) );
-	}
-}
-
-inline unsigned long BlendOperationForD3D9(SceneBlendOperation op)
-{
-	switch(op)
-	{
-	case BLENDOP_ADD:
-		return D3DBLENDOP_ADD;
-		break;
-	case BLENDOP_SUBTRACT:
-		return D3DBLENDOP_SUBTRACT;
-		break;
-	case BLENDOP_REVSUBTRACT:
-		return D3DBLENDOP_REVSUBTRACT;
-		break;
-	case BLENDOP_MIN:
-		return D3DBLENDOP_MIN;
-		break;
-	case BLENDOP_MAX:
-		return D3DBLENDOP_MAX;
-		break;
-	default:
-		return D3DBLENDOP_ADD;
-	}
-}
-
-inline unsigned long BlendFactorForD3D9(SceneBlendFactor factor)
-{
-	// 没有用到的D3D9的混合因素
-	//D3DBLEND_SRCALPHASAT        = 11,
-	//D3DBLEND_BOTHSRCALPHA       = 12,
-	//D3DBLEND_BOTHINVSRCALPHA    = 13,
-	//D3DBLEND_BLENDFACTOR        = 14, /* Only supported if D3DPBLENDCAPS_BLENDFACTOR is on */
-	//D3DBLEND_INVBLENDFACTOR     = 15, /* Only supported if D3DPBLENDCAPS_BLENDFACTOR is on */
-	switch(factor)
-	{
-	case SBF_ONE:
-		return D3DBLEND_ONE;
-		break;
-	case SBF_ZERO:
-		return D3DBLEND_ZERO;
-		break;
-	case SBF_DEST_COLOUR:
-		return D3DBLEND_DESTCOLOR;
-		break;
-	case SBF_SOURCE_COLOUR:
-		return D3DBLEND_SRCCOLOR;
-		break;
-	case SBF_ONE_MINUS_DEST_COLOUR:
-		return D3DBLEND_INVDESTCOLOR;
-		break;
-	case SBF_ONE_MINUS_SOURCE_COLOUR:
-		return D3DBLEND_INVSRCCOLOR;
-		break;
-	case SBF_DEST_ALPHA:
-		return D3DBLEND_DESTALPHA;
-		break;
-	case SBF_SOURCE_ALPHA:
-		return D3DBLEND_SRCALPHA;
-		break;
-	case SBF_ONE_MINUS_DEST_ALPHA:
-		return D3DBLEND_INVDESTALPHA;
-		break;
-	case SBF_ONE_MINUS_SOURCE_ALPHA:
-		return D3DBLEND_INVSRCALPHA;
-		break;
-	default:
-		return D3DBLEND_ONE;
-	}
-}
-
-void CD3D9RenderSystem::SetBlendFunc(bool bBlend, SceneBlendOperation op, SceneBlendFactor src, SceneBlendFactor dest)
-{
-	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_ALPHABLENDENABLE, bBlend) );
-	if (bBlend)
-	{
-		D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_BLENDOP, BlendOperationForD3D9(op)) );
-		D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_SRCBLEND, BlendFactorForD3D9(src)) );
-		D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_DESTBLEND, BlendFactorForD3D9(dest)) );
-	}
-}
-
 void CD3D9RenderSystem::SetStencilFunc(bool bStencil, StencilOP op, CompareFunction stencilFunction)
 {
 	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_STENCILENABLE, bStencil) );
@@ -651,27 +539,6 @@ void CD3D9RenderSystem::SetStencilFunc(bool bStencil, StencilOP op, CompareFunct
 		D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP(op)) );
 	}
 }
-
-void CD3D9RenderSystem::SetCullingMode(CullingMode mode)
-{
-	unsigned long uCullingMode = D3DCULL_CCW;
-	switch(mode)
-	{
-	case CULL_NONE:
-		uCullingMode = D3DCULL_NONE;
-		break;
-	case CULL_CLOCK_WISE:
-		uCullingMode = D3DCULL_CW;
-		break;
-	case CULL_ANTI_CLOCK_WISE:
-		uCullingMode = D3DCULL_CCW;
-		break;
-	default:
-		uCullingMode = D3DCULL_CCW;
-	}
-	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_CULLMODE, uCullingMode) );
-}
-
 
 void CD3D9RenderSystem::setShaderFloat(const char* szName, float val)
 {
@@ -707,142 +574,6 @@ void CD3D9RenderSystem::SetTextureFactor(Color32 color)
 {
 	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_TEXTUREFACTOR, color.c) );
 	Vec4D vFactorColor(color);
-}
-
-inline unsigned long  TextureBlendOperationForD3D9(TextureBlendOperation op)
-{
-	//D3DTOP_ADDSIGNED2X          =  9,   // as above but left  1 bit
-	//// Linear alpha blend with pre-multiplied arg1 input: Arg1 + Arg2*(1-Alpha)
-	//D3DTOP_BLENDTEXTUREALPHAPM  = 15, // texture alpha
-	//// Specular mapping
-	//D3DTOP_PREMODULATE            = 17,     // modulate with next texture before use
-	//D3DTOP_MODULATEALPHA_ADDCOLOR = 18,     // Arg1.RGB + Arg1.A*Arg2.RGB
-	//// COLOROP only
-	//D3DTOP_MODULATECOLOR_ADDALPHA = 19,     // Arg1.RGB*Arg2.RGB + Arg1.A
-	//// COLOROP only
-	//D3DTOP_MODULATEINVALPHA_ADDCOLOR = 20,  // (1-Arg1.A)*Arg2.RGB + Arg1.RGB
-	//// COLOROP only
-	//D3DTOP_MODULATEINVCOLOR_ADDALPHA = 21,  // (1-Arg1.RGB)*Arg2.RGB + Arg1.A
-	//// COLOROP only
-
-	//// Bump mapping
-	//D3DTOP_BUMPENVMAP           = 22, // per pixel env map perturbation
-	//D3DTOP_BUMPENVMAPLUMINANCE  = 23, // with luminance channel
-	//// Triadic ops
-	//D3DTOP_MULTIPLYADD          = 25, // Arg0 + Arg1*Arg2
-	switch(op)
-	{
-	case TBOP_DISABLE:
-		return D3DTOP_DISABLE;
-		break;
-	case TBOP_SOURCE1:
-		return D3DTOP_SELECTARG1;
-		break;
-	case TBOP_SOURCE2:
-		return D3DTOP_SELECTARG2;
-		break;
-	case TBOP_MODULATE:
-		return D3DTOP_MODULATE;
-		break;
-	case TBOP_MODULATE_X2:
-		return D3DTOP_MODULATE2X;
-		break;
-	case TBOP_MODULATE_X4:
-		return D3DTOP_MODULATE4X;
-		break;
-	case TBOP_ADD:
-		return D3DTOP_ADD;
-		break;
-	case TBOP_ADD_SIGNED:
-		return D3DTOP_ADDSIGNED;
-		break;
-	case TBOP_ADD_SMOOTH:
-		return D3DTOP_ADDSMOOTH;
-		break;
-	case TBOP_SUBTRACT:
-		return D3DTOP_SUBTRACT;
-		break;
-	case TBOP_BLEND_DIFFUSE_ALPHA:
-		return D3DTOP_BLENDDIFFUSEALPHA;
-		break;
-	case TBOP_BLEND_TEXTURE_ALPHA:
-		return D3DTOP_BLENDTEXTUREALPHA;
-		break;
-	case TBOP_BLEND_CURRENT_ALPHA:
-		return D3DTOP_BLENDCURRENTALPHA;
-		break;
-	case TBOP_BLEND_MANUAL:
-		return D3DTOP_BLENDFACTORALPHA;//?
-		break;
-	case TBOP_DOTPRODUCT:
-		return D3DTOP_DOTPRODUCT3;
-		break;
-	case TBOP_BLEND_DIFFUSE_COLOUR:
-		return D3DTOP_LERP;
-		break;
-	default:
-		return D3DTOP_DISABLE;
-	}
-}
-
-inline unsigned long TextureBlendSourceForD3D9(TextureBlendSource src)
-{
-//D3DTA_SELECTMASK        0x0000000f  // mask for arg selector
-//D3DTA_TEMP              0x00000005  // select temporary register color (read/write)
-//D3DTA_CONSTANT          0x00000006  // select texture stage constant
-//D3DTA_COMPLEMENT        0x00000010  // take 1.0 - x (read modifier)
-//D3DTA_ALPHAREPLICATE    0x00000020  // replicate alpha to color components (read modifier)
-	switch(src)
-	{
-	case TBS_CURRENT:
-		return D3DTA_CURRENT;
-		break;
-	case TBS_TEXTURE:
-		return D3DTA_TEXTURE;
-		break;
-	case TBS_DIFFUSE:
-		return D3DTA_DIFFUSE;
-		break;
-	case TBS_SPECULAR:
-		return D3DTA_SPECULAR;
-		break;
-	case TBS_MANUAL:
-		return D3DTA_TFACTOR;// ?
-		break;
-	case TBS_TFACTOR:
-		return D3DTA_TFACTOR;
-		break;
-	case TBS_TEMP:
-		return D3DTA_TEMP;
-		break;
-	default:
-		return D3DTA_DIFFUSE;
-	}
-}
-
-// void CD3D9RenderSystem::setResultARGToTemp(size_t unit, bool bResultARGToTemp)
-// {
-// 	D3D9HR( m_pD3D9Device->SetTextureStageState(unit, D3DTSS_RESULTARG, bResultARGToTemp?D3DTA_TEMP:D3DTA_CURRENT));
-// }
-
-void CD3D9RenderSystem::SetTextureColorOP(size_t unit, TextureBlendOperation op, TextureBlendSource src1, TextureBlendSource src2)
-{
-	D3D9HR( m_pD3D9Device->SetTextureStageState(unit, D3DTSS_COLOROP, TextureBlendOperationForD3D9(op)) );
-	if (TBOP_DISABLE != op)
-	{
-		D3D9HR( m_pD3D9Device->SetTextureStageState(unit, D3DTSS_COLORARG1, TextureBlendSourceForD3D9(src1)) );
-		D3D9HR( m_pD3D9Device->SetTextureStageState(unit, D3DTSS_COLORARG2, TextureBlendSourceForD3D9(src2)) );
-	}
-}
-
-void CD3D9RenderSystem::SetTextureAlphaOP(size_t unit, TextureBlendOperation op, TextureBlendSource src1, TextureBlendSource src2)
-{
-	D3D9HR( m_pD3D9Device->SetTextureStageState(unit, D3DTSS_ALPHAOP, TextureBlendOperationForD3D9(op)) );
-	if (TBOP_DISABLE != op)
-	{
-		D3D9HR( m_pD3D9Device->SetTextureStageState(unit, D3DTSS_ALPHAARG1, TextureBlendSourceForD3D9(src1)) );
-		D3D9HR( m_pD3D9Device->SetTextureStageState(unit, D3DTSS_ALPHAARG2, TextureBlendSourceForD3D9(src2)) );
-	}
 }
 
 inline D3DTEXTUREFILTERTYPE TextureFilterTypeForD3D9(TextureFilterType filter)
@@ -1205,40 +936,6 @@ void SetMesh(int nMeshID)
 //	//	m_ShaderMgr.SetValue(PT_LIGHT_VIEW, &mView);
 //	//}
 //}
-
-void CD3D9RenderSystem::LightEnable(unsigned long Index, bool bEnable)
-{
-	//LEList.bChangeValue[Index] = Enable;
-	//LEList.nIndex.push_back(Index);
-	D3D9HR( m_pD3D9Device->LightEnable(Index, bEnable) );
-}
-
-void CD3D9RenderSystem::SetLightingEnabled(bool bEnable)
-{
-	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_LIGHTING, bEnable) );
-}
-
-void CD3D9RenderSystem::SetTexCoordIndex(unsigned long stage, unsigned long index)
-{
-	DWORD uIndex=0;
-	if (index&TCI_CAMERASPACE_NORMAL)
-	{
-		uIndex|=D3DTSS_TCI_CAMERASPACENORMAL;
-	}
-	if (index&TCI_CAMERASPACE_POSITION)
-	{
-		uIndex|=D3DTSS_TCI_CAMERASPACEPOSITION;
-	}
-	if (index&TCI_CAMERASPACE_REFLECTION_VECTOR)
-	{
-		uIndex|=D3DTSS_TCI_CAMERASPACEREFLECTIONVECTOR;
-	}
-	if (index&TCI_SPHEREMAP)
-	{
-		uIndex|=D3DTSS_TCI_SPHEREMAP;
-	}
-	D3D9HR( m_pD3D9Device->SetTextureStageState(stage, D3DTSS_TEXCOORDINDEX, uIndex) );
-}
 
 void CD3D9RenderSystem::commond(const char* szCommond)
 {

@@ -46,26 +46,11 @@ void CRenderSystem::GetPickRay(Vec3D& vRayPos, Vec3D& vRayDir,int x, int y)
 	::GetPickRay(vRayPos,vRayDir,x,y,mView,mProj,rc.getRECT());
 }
 
-CMaterialMgr& CRenderSystem::getMaterialMgr()
-{
-	return m_MaterialMgr;
-}
-
-bool CRenderSystem::prepareMaterial(const char* szMaterialName)
-{
-	return prepareMaterial(getMaterialMgr().getItem(szMaterialName));
-}
-
-bool CRenderSystem::prepareMaterial(/*const */CMaterial& material) // 由于使用了自动注册纹理的机制,很遗憾的导致不能用“const”
+bool CRenderSystem::prepareMaterial(const CMaterial& material)
 {
 	CTextureMgr& TM = GetTextureMgr();
 	for (size_t i=0;i<8;++i)
 	{
-		if (material.uTexture[i]==-1)
-		{
-			material.uTexture[i] = TM.RegisterTexture(material.getTexture(i));
-		}
-		// ----
 		SetTexture(i, material.uTexture[i]);
 		// ----
 		if (material.uTexture[i]==0)
@@ -76,7 +61,7 @@ bool CRenderSystem::prepareMaterial(/*const */CMaterial& material) // 由于使用了
 	SetShader(material.strShader.c_str());
 	return true;
 }
-
+                                                                     
 CShader* CRenderSystem::registerShader(const char* szName, const char* szFilename)
 {
 	CShader* pShader = getShader(szName);

@@ -25,29 +25,7 @@ struct LightAnim
 	void setup(int time, int l);
 };
 
-
 //////////////////////////////////////////////////////////////////////////
-struct ModelRenderPass
-{
-	ModelRenderPass()
-		:nOrder(0)
-		,p(0)
-	{
-	}
-	int nOrder;
-	float p;
-	// Geoset ID
-	int nSubID;
-	std::string strMaterial;
-	bool operator< (const ModelRenderPass &m) const
-	{
-		// sort order method
-		if (nOrder!=m.nOrder)
-			return nOrder<m.nOrder;
-		else
-			return p<m.p;
-	}
-};
 
 class CHardwareVertexBuffer;
 class CMeshData;
@@ -64,17 +42,14 @@ public:
 	bool			prepare			()const;
 	void			setLOD			(unsigned long uLodID);		// 设置LodID
 	void			setSkin			(int nID);
-	void			setLightMap		(const char* szFilename);	// SetLightMap
-	virtual std::vector<ModelRenderPass>&	getRenderPasses(){return m_vecPasses;}
+	virtual std::vector<CMaterial>&	getRenderPasses(){return m_vecMaterial;}
 	virtual			GSET_CONST_VAR	(int,	m_n,Order);
 	void			renderMesh(E_MATERIAL_RENDER_TYPE eModelRenderType, size_t uLodLevel, CHardwareVertexBuffer* pSkinVB)const;
 protected:
 	CHardwareVertexBuffer*			m_pVB;				// 顶点缓冲
 	CMeshData*						m_pMesh;
 	unsigned long					m_uLodLevel;		// Current Lod Level
-	unsigned long					m_uLightMapTex;		//
-	bool							m_bLightmap;
-	std::vector<ModelRenderPass>	m_vecPasses;			// 渲染过程集
+	std::vector<CMaterial>			m_vecMaterial;			// 渲染过程集
 	int								m_nOrder;
 	int								m_nSkinID;
 };

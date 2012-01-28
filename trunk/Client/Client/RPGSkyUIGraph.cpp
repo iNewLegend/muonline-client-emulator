@@ -74,12 +74,6 @@ void Node3DUIGraph::initDrawText()
 	// ---
 	CRenderSystem & R		= CRenderSystem::getSingleton();
 	// ----
-	R.SetLightingEnabled(false);
-	R.SetBlendFunc(true);
-	R.SetTextureColorOP(0,TBOP_MODULATE, TBS_TEXTURE,TBS_DIFFUSE);
-	R.SetTextureAlphaOP(0,TBOP_MODULATE, TBS_TEXTURE,TBS_DIFFUSE);
-	R.SetDepthBufferFunc(false, false);
-	// ----
 	R.getViewport(rcViewport);
 	R.getViewMatrix(mView);
 	R.getProjectionMatrix(mProjection);
@@ -119,13 +113,11 @@ void Node3DUIGraph::drawText(const wchar_t* wcsText, int cchText, const RECT & r
 	// ----
 	R.SetTextureFactor(color);
 	// ----
-	R.SetTextureColorOP(1, TBOP_MODULATE, TBS_CURRENT,TBS_TFACTOR);
-	R.SetTextureAlphaOP(1 ,TBOP_MODULATE, TBS_CURRENT,TBS_TFACTOR);
+	//R.SetTextureColorOP(1, TBOP_MODULATE, TBS_CURRENT,TBS_TFACTOR);
+	//R.SetTextureAlphaOP(1 ,TBOP_MODULATE, TBS_CURRENT,TBS_TFACTOR);
 	// ----
 	s_RPGSkyTextRender.drawText(wcsText,rc, cchText, format, color);
-	// ----
-	R.SetTextureColorOP(1, TBOP_DISABLE);
-	R.SetTextureAlphaOP(1, TBOP_DISABLE);
+
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -156,8 +148,6 @@ Matrix Node3DUIGraph::setUIMatrix(const Matrix & mTransform, const CRect<float> 
 	float fZ	= 50;
 	// ----
 	CRenderSystem & R = CRenderSystem::getSingleton();
-	// ----
-	R.SetDepthBufferFunc(false, false);
 	// ----
 	R.getViewport(rcViewport);
 	// ----

@@ -104,17 +104,9 @@ public:
 	void getTextureMatrix(unsigned char uTexChannel, Matrix& m)const;
 
 	// Func
-	void SetDepthBufferFunc(bool bDepthTest = true, bool bDepthWrite = true,				// 深度检测
-		CompareFunction depthFunction = CMPF_LESS_EQUAL );
-	void SetAlphaTestFunc(bool bAlphaTest = true, CompareFunction func = CMPF_GREATER_EQUAL,// ALPHA检测
-		unsigned char value = 0x80);
-	void SetBlendFunc(bool bBlend = true, SceneBlendOperation op = BLENDOP_ADD,				// 混合参数
-		SceneBlendFactor src = SBF_SOURCE_ALPHA, SceneBlendFactor dest = SBF_ONE_MINUS_SOURCE_ALPHA);
 	void SetStencilFunc(bool bStencil, StencilOP op=STENCILOP_INCR,							// 模板检测
 		CompareFunction stencilFunction = CMPF_LESS_EQUAL);
 	//
-	void SetCullingMode(CullingMode mode);	// 设置剔除模式
-
 	void setShaderFloat(const char* szName, float val);
 	void setShaderVec2D(const char* szName, const Vec2D& val);
 	void setShaderVec3D(const char* szName, const Vec3D& val);
@@ -123,11 +115,6 @@ public:
 
 	void SetPixelShaderConstantF(unsigned int StartRegister,const float* pConstantData,unsigned int Vector4fCount);
 	void SetTextureFactor(Color32 color);	// 设置纹理因素颜色
-	// TextureOP
-	void SetTextureColorOP(size_t unit, TextureBlendOperation op = TBOP_MODULATE,
-		TextureBlendSource src1 = TBS_TEXTURE, TextureBlendSource src2 = TBS_DIFFUSE);
-	void SetTextureAlphaOP(size_t unit, TextureBlendOperation op,
-		TextureBlendSource src1 = TBS_TEXTURE, TextureBlendSource src2 = TBS_DIFFUSE);
 	//
 	void SetSamplerFilter(size_t unit, TextureFilterType MagFilter, TextureFilterType MinFilter, TextureFilterType MipFilter);
 	void SetSamplerAddressUV(size_t unit, AddressUV addressU, AddressUV addressV);
@@ -140,11 +127,7 @@ public:
 	// Light
 	void SetDirectionalLight(unsigned long uIndex,const DirectionalLight& light);
 	void setPointLight(unsigned long uIndex,const PointLight& light);
-	void LightEnable(unsigned long Index, bool bEnable);
-	void SetLightingEnabled(bool bEnable);
 	//
-	void SetTexCoordIndex(unsigned long stage, unsigned long index);
-
 	// 设置纹理
 	void SetTexture(unsigned long Stage, unsigned long TextureID);
 	void SetTexture(unsigned long Stage, const CTexture* pTexture);

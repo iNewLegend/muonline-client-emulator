@@ -224,13 +224,13 @@ void CParticleEmitter::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRend
 	// ----
 	R.setWorldMatrix(Matrix::UNIT);
 	// ----
-	CMaterial& material = R.getMaterialMgr().getItem(m_pData->m_strMaterialName.c_str());
-	if (!(material.getRenderType()&eRenderType))
+	//CMaterial& material = R.getMaterialMgr().getItem(m_pData->m_strMaterialName.c_str());
+	//if (!(m_Material.getRenderType()&eRenderType))
 	{
-		return;
+	//	return;
 	}
 	// ----
-	if (R.prepareMaterial(material))
+	if (R.prepareMaterial(m_Material))
 	{
 		Vec3D bv0,bv1,bv2,bv3;
 		{

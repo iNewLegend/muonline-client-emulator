@@ -7,8 +7,6 @@
 CSkinMesh::CSkinMesh()
 	:m_pVB(NULL)
 	,m_pMesh(NULL)
-	,m_uLightMapTex(0)
-	,m_bLightmap(false)
 	,m_uLodLevel(0)
 	,m_nSkinID(0)
 {
@@ -112,28 +110,44 @@ bool CSkinMesh::setup()
 		m_pVB = CRenderSystem::getSingleton().GetHardwareBufferMgr().CreateVertexBuffer(m_pMesh->getSkinVertexCount(), m_pMesh->getSkinVertexSize(), CHardwareBuffer::HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE);
 	}
 
-	if (m_vecPasses.empty())
+	if (m_vecMaterial.empty())
 	{
 		for (size_t i=0; i<m_pMesh->getMaterials().size();++i)
 		{
-			ModelRenderPass pass;
-			pass.nSubID = i;
-
-			std::vector<std::string>& subMaterials = m_pMesh->getMaterials()[i];
+			std::vector<CMaterial>& subMaterials = m_pMesh->getMaterials()[i];
 
 			if(subMaterials.size()>0)
 			{
 				int nSkinID = subMaterials.size()>m_nSkinID?m_nSkinID:0;
-				pass.strMaterial = subMaterials[nSkinID];
+				m_vecMaterial.push_back(subMaterials[nSkinID]);
 			}
-			m_vecPasses.push_back(pass);
+			else
+			{
+				CMaterial mat;
+				m_vecMaterial.push_back(mat);
+			}
+		}
+		CTextureMgr& TM = CRenderSystem::getSingleton().GetTextureMgr();
+		for (auto it=m_vecMaterial.begin(); it!=m_vecMaterial.end(); ++it)
+		{
+			for (size_t i=0;i<8;++i)
+			{
+				if (it->strTexture[i].size()>0)
+				{
+					it->uTexture[i]=TM.RegisterTexture(it->strTexture[i].c_str());
+				}
+				else
+				{
+					it->uTexture[i]=0;
+				}
+			}
 		}
 	}
 	m_nOrder=0;
-	for (auto it=m_vecPasses.begin();it!=m_vecPasses.end();it++)
+	for (auto it=m_vecMaterial.begin();it!=m_vecMaterial.end();it++)
 	{
-		CMaterial& material = CRenderSystem::getSingleton().getMaterialMgr().getItem(it->strMaterial.c_str());
-		m_nOrder+=material.getOrder();
+		//CMaterial& material = CRenderSystem::getSingleton().getMaterialMgr().getItem(it->strMaterial.c_str());
+		//m_nOrder+=material.getOrder();
 	}
 	return true;
 }
@@ -167,24 +181,14 @@ void CSkinMesh::setSkin(int nID)
 		return;
 	}
 	// ----
-	for (auto it=m_vecPasses.begin();it!=m_vecPasses.end();it++)
+	for (int i=0; i< m_vecMaterial.size(); ++i)
 	{
-		if(m_pMesh->getMaterials().size()>it->nSubID)
-		{
-			std::vector<std::string>& subMaterials = m_pMesh->getMaterials()[it->nSubID];
-			if (subMaterials.size()>m_nSkinID)
-			{
-				it->strMaterial = subMaterials[m_nSkinID];
-			}
+		std::vector<CMaterial>& subMaterials = m_pMesh->getMaterials()[i];
+		if (subMaterials.size()>m_nSkinID)
+		{                
+			m_vecMaterial[i] = subMaterials[m_nSkinID];
 		}
 	}
-}
-
-void CSkinMesh::setLightMap(const char* szFilename)
-{
-	m_uLightMapTex = CRenderSystem::getSingleton().GetTextureMgr().RegisterTexture(szFilename);
-	CRenderSystem::getSingleton().GetTextureMgr().releaseBuffer(m_uLightMapTex);
-	m_bLightmap = true;
 }
 
 void CSkinMesh::renderMesh(E_MATERIAL_RENDER_TYPE eModelRenderType, size_t uLodLevel, CHardwareVertexBuffer* pSkinVB)const
@@ -195,32 +199,25 @@ void CSkinMesh::renderMesh(E_MATERIAL_RENDER_TYPE eModelRenderType, size_t uLodL
 		{
 			m_pMesh->draw();
 		}
-		else for (auto it = m_vecPasses.begin(); it != m_vecPasses.end(); ++it)
+		else for (int i=0; i< m_vecMaterial.size(); ++i)
 		{
-			E_MATERIAL_RENDER_TYPE RenderType = CRenderSystem::getSingleton().getMaterialMgr().getItem(it->strMaterial.c_str()).getRenderType();
+			E_MATERIAL_RENDER_TYPE RenderType = MATERIAL_GEOMETRY;//CRenderSystem::getSingleton().getMaterialMgr().getItem(it->strMaterial.c_str()).getRenderType();
 			if (RenderType&eModelRenderType)
 			{
 				if (eModelRenderType&MATERIAL_RENDER_ALPHA_TEST)
 				{
-					CRenderSystem::getSingleton().SetTexture(0,CRenderSystem::getSingleton().getMaterialMgr().getItem(it->strMaterial.c_str()).uTexture[0]);
-					m_pMesh->drawSub(it->nSubID,uLodLevel);
+					//CRenderSystem::getSingleton().SetTexture(0,CRenderSystem::getSingleton().getMaterialMgr().getItem(it->strMaterial.c_str()).uTexture[0]);
+					//m_pMesh->drawSub(i,uLodLevel);
 				}
 				else if (eModelRenderType&MATERIAL_RENDER_NO_MATERIAL)
 				{
-					m_pMesh->drawSub(it->nSubID,uLodLevel);
+					m_pMesh->drawSub(i,uLodLevel);
 				}
 				else
 				{
-					if (CRenderSystem::getSingleton().prepareMaterial(it->strMaterial.c_str()))
+					if (CRenderSystem::getSingleton().prepareMaterial(m_vecMaterial[i]))
 					{
-						if (it->nSubID<0)
-						{
-							m_pMesh->draw(uLodLevel);
-						}
-						else
-						{
-							m_pMesh->drawSub(it->nSubID,uLodLevel);
-						}
+						m_pMesh->drawSub(i,uLodLevel);
 					}
 					//	GetRenderSystem().GetDevice()->SetStreamSourceFreq(0,1);
 					//	GetRenderSystem().GetDevice()->SetStreamSourceFreq(1,1);

@@ -176,8 +176,9 @@ void CWorld::create(UCHAR uMapID)
 		// ----
 		char szMapFilname[256];
 		sprintf(szMapFilname,"Data\\World%d\\EncTerrain%d.obj", m_CurMap+1, m_CurMap+1);
-		load(szMapFilname);
-		setup();
+		setFilename(szMapFilname);
+		//load();
+		//setup();
 		// ----
 		//GetAudio().LoadMusic("Data\\Music\\main_theme.mp3");
 		//GetAudio().PlayMusic(true,20);
@@ -288,6 +289,7 @@ void CWorld::updateRender(const CFrustum& frustum)
 
 void CWorld::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
+	setup();
 	// ----
 	FOR_IN(it,m_mapRole)
 	{
