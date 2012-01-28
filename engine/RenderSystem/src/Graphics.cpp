@@ -558,8 +558,8 @@ void CGraphics::drawBBox(const BBox& bbox, Color32 color)
 
 	};
 	CRenderSystem& R = CRenderSystem::getSingleton();
-	R.SetTextureColorOP(0,TBOP_SOURCE2, TBS_TEXTURE, TBS_DIFFUSE);
-	R.SetTextureColorOP(1,TBOP_DISABLE);
+	//R.SetTextureColorOP(0,TBOP_SOURCE2, TBS_TEXTURE, TBS_DIFFUSE);
+	//R.SetTextureColorOP(1,TBOP_DISABLE);
 	R.SetFVF(VERTEX_XYZ_DIF::FVF);
 	R.DrawIndexedPrimitiveUP(VROT_LINE_LIST, 0, 8, 12, idx, vtx, sizeof(VERTEX_XYZ_DIF));
 }

@@ -58,6 +58,7 @@ bool CScene::updateNode(iRenderNode* pNode)
 
 void CScene::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
+	setup();
 	FOR_IN(it,m_RenderNodes)
 	{
 		(*it)->frameMove(mWorld, fTime, fElapsedTime);
@@ -85,7 +86,6 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 	// 
 	if (m_bShowNodeBBox)
 	{
-		R.SetDepthBufferFunc(true,true);
 		// ----
 		FOR_IN(it,m_RenderNodes)
 		{
@@ -191,6 +191,10 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 
 bool CScene::setup()
 {
+	if (m_pData==(void*)-1)
+	{
+		return false;
+	}
 	if (m_pSceneData==m_pData)
 	{
 		if (m_pData==NULL)
@@ -207,7 +211,7 @@ bool CScene::setup()
 void CScene::addChild(iRenderNode* pChild)
 {
 	// 临时放在这里
-	setup();
+	//setup();
 	// ----
 	if (pChild->getLocalBBox().vMin.x == FLT_MAX)
 	{

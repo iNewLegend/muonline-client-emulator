@@ -2,6 +2,7 @@
 #include "Vec2D.h"
 #include "Frustum.h"
 #include "RenderSystemCommon.h"
+#include "Material.h"
 
 struct VertexIndex
 {
@@ -84,5 +85,5 @@ public:
 	virtual std::vector<RigidNolightVertex>&		getRigidNolightVertices()=0;
 	virtual std::vector<unsigned short>&			getIndices()=0;
 	virtual std::vector<IndexedSubset>&				getSubsets()=0;
-	virtual std::vector<std::vector<std::string>>&	getMaterials()=0;
+	virtual std::vector<std::vector<CMaterial>>&	getMaterials()=0;
 };

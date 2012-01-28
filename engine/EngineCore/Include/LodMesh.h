@@ -37,7 +37,7 @@ public:
 	virtual std::vector<RigidNolightVertex>&		getRigidNolightVertices(){return m_setRigidNolightVertex;}
 	virtual std::vector<unsigned short>&			getIndices(){return m_Indices;}
 	virtual std::vector<IndexedSubset>&				getSubsets(){return m_setSubset;}
-	virtual std::vector<std::vector<std::string>>&	getMaterials(){return m_setMaterial;}
+	virtual std::vector<std::vector<CMaterial>>&	getMaterials(){return m_setMaterial;}
 	
 	bool				SetMeshSource(int nLodLevel=0, CHardwareVertexBuffer* pSkinVB=NULL)const;
 	void				drawSub(size_t uSubID, size_t uLodLevel=0)const;
@@ -66,5 +66,5 @@ protected:
 	std::vector<unsigned short>				m_Indices;
 
 	std::vector<IndexedSubset>				m_setSubset;				// Sub IndexedSubset
-	std::vector<std::vector<std::string>>	m_setMaterial;	// Sub Material
+	std::vector<std::vector<CMaterial>>		m_setMaterial;	// Sub Material
 };

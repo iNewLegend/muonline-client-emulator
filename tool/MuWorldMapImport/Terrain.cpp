@@ -250,50 +250,39 @@ bool CMyPlug::importTerrainData(iSceneData * pSceneData, const std::string& strF
 bool CMyPlug::importSceneTerrainData(iRenderNode* pRenderNode, iSceneData* pSceneData, const char* szFilename)
 {
 	importTerrainData(pSceneData,szFilename);
-	const char* szTerrainMaterial[31][3]={
-		{"Terrain.0_0","TileGrass01.ozj","terrainTileX4"},
-		{"Terrain.0_1","TileGrass02.ozj","terrainTileX2"},
-		{"Terrain.0_2","TileGround01.ozj","terrainTileX4"},
-		{"Terrain.0_3","TileGround02.ozj","terrainTileX2"},
-		{"Terrain.0_4","TileGround03.ozj","terrainTileX2"},
-		{"Terrain.0_5","TileWater01.ozj","terrainWater"},
-		{"Terrain.0_6","TileWood01.ozj","terrainTileX2"},
-		{"Terrain.0_7","TileRock01.ozj","terrainTileX2"},
-		{"Terrain.0_8","TileRock02.ozj","terrainTileX2"},
-		{"Terrain.0_9","TileRock03.ozj","terrainTileX2"},
-		{"Terrain.0_10","TileRock04.ozj","terrainTileX2"},
-		{"Terrain.0_11","TileRock05.ozj","terrainTileX2"},
-		{"Terrain.0_12","TileRock06.ozj","terrainTileX2"},
-		{"Terrain.0_13","TileRock07.ozj","terrainTileX2"},
-		{"Terrain.0_14","TileRock08.ozj","terrainTileX2"},
-		{"Terrain.1_0","TileGrass01.ozj","terrainTileAlphaX4"},
-		{"Terrain.1_1","TileGrass02.ozj","terrainTileAlphaX2"},
-		{"Terrain.1_2","TileGround01.ozj","terrainTileAlphaX4"},
-		{"Terrain.1_3","TileGround02.ozj","terrainTileAlphaX2"},
-		{"Terrain.1_4","TileGround03.ozj","terrainTileAlphaX2"},
-		{"Terrain.1_5","TileWater01.ozj","terrainWaterAlpha"},
-		{"Terrain.1_6","TileWood01.ozj","terrainTileAlphaX2"},
-		{"Terrain.1_7","TileRock01.ozj","terrainTileAlphaX2"},
-		{"Terrain.1_8","TileRock02.ozj","terrainTileAlphaX2"},
-		{"Terrain.1_9","TileRock03.ozj","terrainTileAlphaX2"},
-		{"Terrain.1_10","TileRock04.ozj","terrainTileAlphaX2"},
-		{"Terrain.1_11","TileRock05.ozj","terrainTileAlphaX2"},
-		{"Terrain.1_12","TileRock06.ozj","terrainTileAlphaX2"},
-		{"Terrain.1_13","TileRock07.ozj","terrainTileAlphaX2"},
-		{"Terrain.1_14","TileRock08.ozj","terrainTileAlphaX2"},
-		{"Terrain.Grass","TileGrass01.OZT","terrainGrass"}
+	const char* szTerrainMaterial[30][2]={
+		{"TileGrass01.ozj","terrainTileX4"},
+		{"TileGrass02.ozj","terrainTileX2"},
+		{"TileGround01.ozj","terrainTileX4"},
+		{"TileGround02.ozj","terrainTileX2"},
+		{"TileGround03.ozj","terrainTileX2"},
+		{"TileWater01.ozj","terrainWater"},
+		{"TileWood01.ozj","terrainTileX2"},
+		{"TileRock01.ozj","terrainTileX2"},
+		{"TileRock02.ozj","terrainTileX2"},
+		{"TileRock03.ozj","terrainTileX2"},
+		{"TileRock04.ozj","terrainTileX2"},
+		{"TileRock05.ozj","terrainTileX2"},
+		{"TileRock06.ozj","terrainTileX2"},
+		{"TileRock07.ozj","terrainTileX2"},
+		{"TileRock08.ozj","terrainTileX2"},
+		{"TileGrass01.ozj","terrainTileAlphaX4"},
+		{"TileGrass02.ozj","terrainTileAlphaX2"},
+		{"TileGround01.ozj","terrainTileAlphaX4"},
+		{"TileGround02.ozj","terrainTileAlphaX2"},
+		{"TileGround03.ozj","terrainTileAlphaX2"},
+		{"TileWater01.ozj","terrainWaterAlpha"},
+		{"TileWood01.ozj","terrainTileAlphaX2"},
+		{"TileRock01.ozj","terrainTileAlphaX2"},
+		{"TileRock02.ozj","terrainTileAlphaX2"},
+		{"TileRock03.ozj","terrainTileAlphaX2"},
+		{"TileRock04.ozj","terrainTileAlphaX2"},
+		{"TileRock05.ozj","terrainTileAlphaX2"},
+		{"TileRock06.ozj","terrainTileAlphaX2"},
+		{"TileRock07.ozj","terrainTileAlphaX2"},
+		{"TileRock08.ozj","terrainTileAlphaX2"}
 	};
-	for (int i=0; i<31; ++i)
-	{
-		CMaterial* pMaterial = (CMaterial*)m_pRenderNodeMgr->createRenderData("material",szTerrainMaterial[i][0]);
-		if(pMaterial)
-		{
-			char szTexture[256];
-			sprintf(szTexture,"%s%s",GetParentPath(szFilename).c_str(),szTerrainMaterial[i][1]);
-			pMaterial->setTexture(0,szTexture);
-			pMaterial->strShader=szTerrainMaterial[i][2];
-		}
-	}
+	CMaterial mat;
 	// ----
 	// # Create Grasses
 	// ----
@@ -397,8 +386,12 @@ bool CMyPlug::importSceneTerrainData(iRenderNode* pRenderNode, iSceneData* pScen
 					// ----
 					// # Material
 					// ----
+					char szTexture[256];
+					sprintf(szTexture,"%s%s",GetParentPath(szFilename).c_str(),szTerrainMaterial[it->first+nLayer*15][0]);
+					mat.strTexture[0] = szTexture;
+					mat.strShader = szTerrainMaterial[it->first+nLayer*15][1];
 					pMesh->getMaterials().resize(pMesh->getSubsets().size());
-					pMesh->getMaterials()[pMesh->getSubsets().size()-1].push_back(szTerrainMaterial[it->first+nLayer*15][0]);
+					pMesh->getMaterials()[pMesh->getSubsets().size()-1].push_back(mat);
 					// ----
 					// # Indices
 					// ----
@@ -500,8 +493,17 @@ bool CMyPlug::importSceneTerrainData(iRenderNode* pRenderNode, iSceneData* pScen
 			// ----
 			// # Material
 			// ----
+			char szGrassTexture[256];
+			sprintf(szGrassTexture,"%s%s",GetParentPath(szFilename).c_str(),"TileGrass01.OZT");
+			mat.strTexture[0] = szGrassTexture;
+			mat.strShader = "terrainGrass";
+			OutputDebugString(szGrassTexture);
+			OutputDebugString("\n");
+			sprintf(szGrassTexture,"%d",mat.uTexture[0]);
+			OutputDebugString(szGrassTexture);
+			OutputDebugString("\n");
 			pMesh->getMaterials().resize(pMesh->getSubsets().size());
-			pMesh->getMaterials()[pMesh->getSubsets().size()-1].push_back("Terrain.Grass");
+			pMesh->getMaterials()[pMesh->getSubsets().size()-1].push_back(mat);
 			// ----
 			// # Box
 			// ----

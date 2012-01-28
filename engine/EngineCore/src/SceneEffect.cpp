@@ -170,10 +170,8 @@ void CSceneEffect::renderTargetGlow()// not good
 	//	R.SetFVF(SceneBloomVertex::FVF);
 
 
-		R.SetBlendFunc(false);
 		// Increase the contrast
 		//R.SetTextureColorOP(0,TBOP_DOTPRODUCT3,TBS_TEXTURE,TBS_DIFFUSE);
-		R.SetTextureColorOP(0,TBOP_MODULATE,TBS_TEXTURE,TBS_TEXTURE);
 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
 
 		{
@@ -183,7 +181,6 @@ void CSceneEffect::renderTargetGlow()// not good
 		}
 
 		// To reduce the brightness
-		R.SetTextureColorOP(0,TBOP_SUBTRACT,TBS_TEXTURE,TBS_TFACTOR);
 		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
 
 

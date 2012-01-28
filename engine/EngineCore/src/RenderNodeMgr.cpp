@@ -107,10 +107,6 @@ void* CRenderNodeMgr::createRenderData(const char* szClassName)
 
 void* CRenderNodeMgr::getRenderData(const char* szClassName, const char* szName)
 {
-	if(strcmp(szClassName,"material")==0)
-	{
-		return &CRenderSystem::getSingleton().getMaterialMgr().getItem(szName);
-	}
 	auto it = m_mapRenderData.find(szClassName);
 	if (it!=m_mapRenderData.end())
 	{
@@ -125,10 +121,6 @@ void* CRenderNodeMgr::getRenderData(const char* szClassName, const char* szName)
 
 void* CRenderNodeMgr::createRenderData(const char* szClassName, const char* szName)
 {
-	if(strcmp(szClassName,"material")==0)
-	{
-		return &CRenderSystem::getSingleton().getMaterialMgr().getItem(szName);
-	}
 	if(getRenderData(szClassName,szName))
 	{
 		return NULL;
@@ -139,11 +131,6 @@ void* CRenderNodeMgr::createRenderData(const char* szClassName, const char* szNa
 		m_mapRenderData[szClassName][szName] = pData;
 	}
 	return pData;
-}
-
-int CRenderNodeMgr::registerTexture(const char* szFilename)
-{
-	return CRenderSystem::getSingleton().GetTextureMgr().RegisterTexture(szFilename);
 }
 
 typedef bool ( * PFN_DATA_Plug_CreateObject)(void ** pobj);
