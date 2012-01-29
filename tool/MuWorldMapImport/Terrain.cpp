@@ -3,10 +3,6 @@
 #include "FileSystem.h"
 #include "windows.h"
 
-extern "C" {
-#include "jpeg\jpeglib.h"
-}
-
 #define MAP_FILE_SIZE 65536*3+2
 #define HEIGHT_HEAD_SIZE 1082
 #define OZJ_HEAD_SIZE 24
@@ -156,72 +152,6 @@ bool CMyPlug::importTerrainData(iSceneData * pSceneData, const std::string& strF
 			}
 			IOReadBase::autoClose(pRead);
 		}
-		// TerrainLight
-		std::string strTerrainLight = GetParentPath(strFilename)+"TerrainLight.ozj";
-		pRead = IOReadBase::autoOpen(strTerrainLight);
-		if (pRead)
-		{
-			size_t uFileSize = pRead->GetSize();
-			char* buffer = new char[uFileSize];
-			pRead->Read(buffer,uFileSize);
-
-			//////////////////////////////////////////////////////////////////////////
-			// 声明并初始化解压缩对象，同时制定错误信息管理器
-			struct jpeg_decompress_struct cinfo;
-			struct jpeg_error_mgr jerr;
-
-			cinfo.err = jpeg_std_error(&jerr);
-			jpeg_create_decompress(&cinfo);
-
-			//////////////////////////////////////////////////////////////////////////
-			// 打开jpg图像文件，并指定为解压缩对象的源文件
-			jpeg_stdio_src(&cinfo, buffer+OZJ_HEAD_SIZE, uFileSize-OZJ_HEAD_SIZE);
-
-			//////////////////////////////////////////////////////////////////////////
-			// 读取图像信息
-			jpeg_read_header(&cinfo, TRUE);
-
-			//////////////////////////////////////////////////////////////////////////
-			// 根据图像信息申请一个图像缓冲区
-			BYTE* data = new BYTE[cinfo.image_width*cinfo.image_height*cinfo.num_components];
-			//////////////////////////////////////////////////////////////////////////
-			// 开始解压缩
-			jpeg_start_decompress(&cinfo);
-
-			JSAMPROW row_pointer[1];
-			while (cinfo.output_scanline < cinfo.output_height)
-			{
-				row_pointer[0] = &data[(cinfo.output_height - cinfo.output_scanline-1)*cinfo.image_width*cinfo.num_components];
-				jpeg_read_scanlines(&cinfo,row_pointer ,
-					1);
-			}
-			jpeg_finish_decompress(&cinfo);
-
-			//////////////////////////////////////////////////////////////////////////
-			// 释放资源
-			jpeg_destroy_decompress(&cinfo);
-			delete[] buffer;
-			IOReadBase::autoClose(pRead);
-
-			unsigned char* pImg = (unsigned char*)data;
-			for (int y=0; y<254; ++y)
-			{
-				for (int x=0; x<254; ++x)
-				{
-					Color32 c = pSceneData->getVertexColor(x,y);
-					c.r = *pImg;
-					pImg++;
-					c.g = *pImg;
-					pImg++;
-					c.b = *pImg;
-					pImg++;
-					pSceneData->setVertexColor(x,y,c);
-				}
-				pImg+=2*3;
-			}
-			delete[] data;
-		}
-
 		// TerrainHeight
 		std::string strHeightFilename = GetParentPath(strFilename)+"TerrainHeight.ozb";
 		pRead = IOReadBase::autoOpen(strHeightFilename);
@@ -495,13 +425,8 @@ bool CMyPlug::importSceneTerrainData(iRenderNode* pRenderNode, iSceneData* pScen
 			// ----
 			char szGrassTexture[256];
 			sprintf(szGrassTexture,"%s%s",GetParentPath(szFilename).c_str(),"TileGrass01.OZT");
-			mat.strTexture[0] = szGrassTexture;
+			mat.strTexture[0] = "Data\\World1\\TerrainLight.OZJ";//szGrassTexture;
 			mat.strShader = "terrainGrass";
-			OutputDebugString(szGrassTexture);
-			OutputDebugString("\n");
-			sprintf(szGrassTexture,"%d",mat.uTexture[0]);
-			OutputDebugString(szGrassTexture);
-			OutputDebugString("\n");
 			pMesh->getMaterials().resize(pMesh->getSubsets().size());
 			pMesh->getMaterials()[pMesh->getSubsets().size()-1].push_back(mat);
 			// ----
@@ -719,89 +644,6 @@ bool CMyPlug::exportTerrainAtt(iSceneData * pSceneData, const std::string& strFi
 
 bool CMyPlug::exportTerrainLightmap(iSceneData * pSceneData, const std::string& strFilename)
 {
-	unsigned char buffer[LIGHT_MAP_SIZE];
-	unsigned char* p = buffer;
-	for (int x=0; x<256*2*3; ++x)
-	{
-		*p =0;++p;
-	}
-	for (int y=253; y>=0; --y)
-	{
-
-		for (int x=0; x<254; ++x)
-		{
-			Color32 c = pSceneData->getVertexColor(x,y);
-			*p = c.r;
-			p++;
-			*p = c.g;
-			p++;
-			*p = c.b;
-			p++;
-		}
-		for (int i=0;i<6;++i)
-		{
-			*p =0;++p;
-		}
-	}
-
-	{
-		// 申请并初始化jpeg压缩对象，同时要指定错误处理器
-		struct jpeg_compress_struct jcs;
-
-		// 声明错误处理器，并赋值给jcs.err域
-		struct jpeg_error_mgr jem;
-		jcs.err = jpeg_std_error(&jem);
-
-		jpeg_create_compress(&jcs);
-
-		// 指定压缩后的图像所存放的目标
-		char jpgBuffer[LIGHT_MAP_SIZE];
-		int nJpgSize = 0;
-		jpeg_stdio_dest(&jcs, jpgBuffer, &nJpgSize);
-		// 设置压缩参数，主要参数有图像宽、高、色彩通道数（１：索引图像，３：其他），色彩空间（JCS_GRAYSCALE表示灰度图，JCS_RGB表示彩色图像），压缩质量等，如下：
-		jcs.image_width = 256;    // 为图的宽和高，单位为像素 
-		jcs.image_height = 256;
-		jcs.input_components = 3;   // 在此为1,表示灰度图， 如果是彩色位图，则为3 
-		jcs.in_color_space = JCS_RGB; //JCS_GRAYSCALE表示灰度图，JCS_RGB表示彩色图像 
-
-		jpeg_set_defaults(&jcs); 
-		jpeg_set_quality (&jcs, 80, true);
-		// 上面的工作准备完成后，就可以压缩了，
-		// 压缩过程非常简单，首先调用jpeg_start_compress，然后可以对每一行进行压缩，也可以对若干行进行压缩，甚至可以对整个的图像进行一次压缩，
-		// 压缩完成后，记得要调用jpeg_finish_compress函数，如下：
-
-		jpeg_start_compress(&jcs, TRUE);
-
-		JSAMPROW row_pointer[1];   // 一行位图
-		int row_stride = jcs.image_width*3;  // 每一行的字节数 如果不是索引图,此处需要乘以3
-
-		// 对每一行进行压缩
-		while (jcs.next_scanline < jcs.image_height)
-		{
-			row_pointer[0] = & buffer[jcs.next_scanline * row_stride];
-			jpeg_write_scanlines(&jcs, row_pointer, 1);
-		}
-
-		jpeg_finish_compress(&jcs);
-
-		if (LIGHT_MAP_SIZE<nJpgSize)
-		{
-			MessageBoxA(NULL,"LIGHT_MAP_SIZE<nJpgSize","LightMap Error", 0);
-		}
-		FILE* f=fopen(strFilename.c_str(),"wb+");
-		if (f)
-		{
-			fseek(f,OZJ_HEAD_SIZE,SEEK_SET);
-			fwrite(jpgBuffer,nJpgSize,1,f);
-			fclose(f);
-		}
-		f=fopen(ChangeExtension(strFilename,".jpg").c_str(),"wb+");
-		if (f)
-		{
-			fwrite(jpgBuffer,nJpgSize,1,f);
-			fclose(f);
-		}
-	}
 	return true;
 }
 
@@ -837,7 +679,6 @@ bool CMyPlug::exportTerrainData(iSceneData * pSceneData, const std::string& strF
 {
 	//////////////////////////////////////////////////////////////////////////
 	exportTerrainAtt(pSceneData, strFilename);
-	exportTerrainLightmap(pSceneData, GetParentPath(strFilename)+"TerrainLight.ozj");
 	exportTerrainHeight(pSceneData, GetParentPath(strFilename)+"TerrainHeight.ozb");
 
 	// Calc MU's map id from filename.
