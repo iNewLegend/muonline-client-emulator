@@ -48,17 +48,17 @@ void CRenderSystem::GetPickRay(Vec3D& vRayPos, Vec3D& vRayDir,int x, int y)
 
 bool CRenderSystem::prepareMaterial(const CMaterial& material)
 {
+	SetShader(material.strShader.c_str());
 	CTextureMgr& TM = GetTextureMgr();
 	for (size_t i=0;i<8;++i)
 	{
-		SetTexture(i, material.uTexture[i]);
-		// ----
 		if (material.uTexture[i]==0)
 		{
 			break;
 		}
+		// ----
+		SetTexture(i, material.uTexture[i]);
 	}
-	SetShader(material.strShader.c_str());
 	return true;
 }
                                                                      

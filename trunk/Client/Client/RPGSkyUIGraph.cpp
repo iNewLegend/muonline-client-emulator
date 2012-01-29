@@ -111,7 +111,7 @@ void Node3DUIGraph::drawText(const wchar_t* wcsText, int cchText, const RECT & r
 {
 	CRenderSystem & R = CRenderSystem::getSingleton();
 	// ----
-	R.SetTextureFactor(color);
+	//R.SetTextureFactor(color);
 	// ----
 	//R.SetTextureColorOP(1, TBOP_MODULATE, TBS_CURRENT,TBS_TFACTOR);
 	//R.SetTextureAlphaOP(1 ,TBOP_MODULATE, TBS_CURRENT,TBS_TFACTOR);

@@ -40,8 +40,6 @@ public:
 	virtual CHardwareVertexBuffer*	newHardwareVertexBuffer	() = 0;
 	virtual CHardwareIndexBuffer*	newHardwareIndexBuffer	() = 0;
 	// ----
-	virtual void		OnFrameMove			() = 0;
-	// ----
 	virtual bool		BeginFrame()		= 0;	// 帧渲染开始
 	virtual void		EndFrame()			= 0;	// 帧渲染结束
 	// ----
@@ -81,7 +79,6 @@ public:
 	virtual void		setShaderMatrix(const char* szName, const Matrix& mat)=0;
 
 	virtual void		SetPixelShaderConstantF(unsigned int StartRegister,const float* pConstantData,unsigned int Vector4fCount)=0;
-	virtual void		SetTextureFactor	(Color32 color)		= 0;
 	// ----
 	virtual void		SetSamplerFilter	(size_t unit, TextureFilterType MagFilter, TextureFilterType MinFilter, TextureFilterType MipFilter) = 0;
 	virtual void		SetSamplerAddressUV	(size_t unit, AddressUV addressU, AddressUV addressV) = 0;
@@ -106,8 +103,6 @@ public:
 	virtual CTexture* GetTexture(unsigned long Stage) = 0;
 	// ----
 	virtual CVertexDeclaration* CreateVertexDeclaration() = 0;
-	// ----
-	virtual void SetMaterial(const Vec4D& vAmbient, const Vec4D& vDiffuse) = 0;
 	// 顶点
 	virtual void SetVB(int nVBID) = 0;
 	// 设置FVF顶点格式

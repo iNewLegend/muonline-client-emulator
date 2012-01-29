@@ -70,8 +70,6 @@ public:
 	virtual CHardwareVertexBuffer*	newHardwareVertexBuffer	();
 	virtual CHardwareIndexBuffer*	newHardwareIndexBuffer	();
 	// ----
-	void OnFrameMove();
-	// ----
 	bool BeginFrame();	// 帧渲染开始
 	void EndFrame();	// 帧渲染结束
 	// ----
@@ -114,7 +112,6 @@ public:
 	void setShaderMatrix(const char* szName, const Matrix& mat);
 
 	void SetPixelShaderConstantF(unsigned int StartRegister,const float* pConstantData,unsigned int Vector4fCount);
-	void SetTextureFactor(Color32 color);	// 设置纹理因素颜色
 	//
 	void SetSamplerFilter(size_t unit, TextureFilterType MagFilter, TextureFilterType MinFilter, TextureFilterType MipFilter);
 	void SetSamplerAddressUV(size_t unit, AddressUV addressU, AddressUV addressV);
@@ -122,8 +119,6 @@ public:
 	// 设置shader
 	void SetShader(CShader* pShader);
 	void SetShader(const char* szShader);
-	//
-	void SetMaterial(const Vec4D& vAmbient, const Vec4D& vDiffuse);
 	// Light
 	void SetDirectionalLight(unsigned long uIndex,const DirectionalLight& light);
 	void setPointLight(unsigned long uIndex,const PointLight& light);

@@ -177,7 +177,7 @@ void CSceneEffect::renderTargetGlow()// not good
 		{
 			int nInvExposure= (int)(m_fAdaptedLum * m_fAdaptedLum * 255.0f);
 			Color32 clrFactor(nInvExposure,nInvExposure,nInvExposure,nInvExposure);
-			R.SetTextureFactor(clrFactor);
+			//R.SetTextureFactor(clrFactor);
 		}
 
 		// To reduce the brightness
