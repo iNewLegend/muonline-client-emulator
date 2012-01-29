@@ -1,7 +1,6 @@
 #include "D3D9RenderSystem.h"
 #include "D3D9RenderSystemCommon.h"
 
-//#include "VB.h"
 #include "D3D9Shader.h"
 #include "D3D9Texture.h"
 #include "D3D9RenderWindow.h"
@@ -137,9 +136,6 @@ HRESULT CD3D9RenderSystem::OnResetDevice()
 	//{
 	//	//ShowShadowVolume
 	//}
-
-	// 设置默认材质
-	SetMaterial(Vec4D(0.2f,0.2f,0.2f,0.2f),Vec4D(0.8f,0.8f,0.8f,0.8f));
 
 	// 设置默认灯光
 	DirectionalLight light(Vec4D(1.0f,1.0f,1.0f,1.0f),Vec4D(1.0f,1.0f,1.0f,1.0f),Vec4D(1.0f,1.0f,1.0f,1.0f),Vec3D(-1.0f,-1.0f,-1.0f));
@@ -322,13 +318,6 @@ CHardwareIndexBuffer* CD3D9RenderSystem::newHardwareIndexBuffer()
 {
 	CHardwareIndexBuffer* pBuffer = new CD3D9HardwareIndexBuffer;
 	return pBuffer;
-}
-
-void CD3D9RenderSystem::OnFrameMove()
-{
-	//m_TextureMgr.OnFrameMove();
-	//OnResetDevice();
-	//FillMemory(m_nTexture, 8*sizeof(IDirect3DTexture9*), NULL);
 }
 
 bool CD3D9RenderSystem::BeginFrame()
@@ -570,12 +559,6 @@ void CD3D9RenderSystem::SetPixelShaderConstantF(unsigned int StartRegister,const
 	D3D9HR( m_pD3D9Device->SetPixelShaderConstantF(StartRegister, pConstantData, Vector4fCount) );
 }
 
-void CD3D9RenderSystem::SetTextureFactor(Color32 color)
-{
-	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_TEXTUREFACTOR, color.c) );
-	Vec4D vFactorColor(color);
-}
-
 inline D3DTEXTUREFILTERTYPE TextureFilterTypeForD3D9(TextureFilterType filter)
 {
 	switch(filter)
@@ -640,21 +623,6 @@ void CD3D9RenderSystem::SetSamplerAddressUV(size_t unit, AddressUV addressU, Add
 	D3D9HR( m_pD3D9Device->SetSamplerState(unit, D3DSAMP_ADDRESSV, AddressUVForD3D9(addressV)) );
 }
 
-// void CD3D9RenderSystem::SetTextureStageStateDecolor()
-// {
-// 	//SetRenderState(D3DRS_ALPHABLENDENABLE, false);
-// 	const static unsigned long dwLuminanceConv = ((int)(128+0.2125f*128)<<16)+((int)(128+0.7154f*128)<<8)+(int)(128+0.0721f*128);
-// 	Color32 clrLuminanceConv((int)(0.2125f*255), (int)(0.2125f*255), (int)(0.7154f*255), (int)(0.0721f*255));
-// 	SetTextureFactor(dwLuminanceConv);
-// 
-// 	SetTextureColorOP(0,TBOP_DOTPRODUCT, TBS_TEXTURE, TBS_TFACTOR);
-// 	SetTextureAlphaOP(0,TBOP_DISABLE);
-// 	SetTextureColorOP(1,TBOP_MODULATE, TBS_CURRENT, TBS_DIFFUSE);
-// 	SetTextureAlphaOP(1,TBOP_MODULATE, TBS_TEXTURE, TBS_DIFFUSE);
-// 	//SetTextureAlphaOP(1,TBOP_SOURCE1, TBS_DIFFUSE, TBS_DIFFUSE);
-// 	//SetTexture(1, GetTexture(0));
-// }
-
 void CD3D9RenderSystem::SetTexture(unsigned long Stage, unsigned long TextureID)
 {
 	CTexture* pTexture = GetTextureMgr().getLoadedTexture(TextureID);
@@ -705,18 +673,22 @@ CVertexDeclaration* CD3D9RenderSystem::CreateVertexDeclaration()
 
 void CD3D9RenderSystem::SetShader(CShader* pShader)
 {
+	D3DPERF_SetMarker(0,L"setshader_begin");
 	if (m_pOldShader!=pShader)
 	{
 		if (m_pOldShader)
 		{
+			D3DPERF_SetMarker(0,L"material_old_end");
 			m_pOldShader->end();
 		}
 		if (pShader)
 		{
+			D3DPERF_SetMarker(0,L"material_new_begin");
 			pShader->begin("Render");
 		}
 		m_pOldShader=pShader;
 	}
+	D3DPERF_SetMarker(0,L"setshader_end");
 }
 
 void CD3D9RenderSystem::SetShader(const char* szShader)
@@ -837,17 +809,6 @@ void CD3D9RenderSystem::StretchRect(CTexture* pSourceTexture,const CRect<int>* p
 	D3D9HR( m_pD3D9Device->StretchRect(pD3D9SourceSurface, pSourceRect==NULL?NULL:&pSourceRect->getRECT(), pD3D9DestSurface, pDestRect==NULL?NULL:&pDestRect->getRECT(), TextureFilterTypeForD3D9(filter)) );
 }
 
-void CD3D9RenderSystem::SetMaterial(const Vec4D& vAmbient, const Vec4D& vDiffuse)
-{
-	D3DMATERIAL9 mtrl;
-	mtrl.Ambient	= *(const D3DXCOLOR*)&vAmbient;//D3DXCOLOR(0.2,0.2,0.2,0.2);
-	mtrl.Diffuse	= *(const D3DXCOLOR*)&vDiffuse;//D3DXCOLOR(0.8,0.8,0.8,0.8);
-	mtrl.Specular	= D3DXCOLOR(1.0f,1.0f,1.0f,1.0f);
-	mtrl.Emissive	= D3DXCOLOR(0,0,0,0);
-	mtrl.Power		= 72;
-	D3D9HR( m_pD3D9Device->SetMaterial(&mtrl) );
-}
-
 void CD3D9RenderSystem::SetDirectionalLight(unsigned long uIndex,const DirectionalLight& light)
 {
 	D3DLIGHT9 D3D9Light;
@@ -887,10 +848,6 @@ void CD3D9RenderSystem::SetVB(int nVBID)
 	//		SetStreamSource(0, (LPDIRECT3DVERTEXBUFFER9)pChunk->m_pBuffer, pSub->dwStart, pSub->dwVertexSize);
 	//	}
 	//}
-}
-
-void SetMesh(int nMeshID)
-{
 }
 
 //LPDIRECT3DVERTEXBUFFER9 CreateVertexBuffer(size_t vertexSize, size_t numVerts, HardwareBuffer::Usage usage, bool useShadowBuffer = false)

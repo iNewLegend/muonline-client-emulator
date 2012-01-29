@@ -425,7 +425,7 @@ bool CMyPlug::importSceneTerrainData(iRenderNode* pRenderNode, iSceneData* pScen
 			// ----
 			char szGrassTexture[256];
 			sprintf(szGrassTexture,"%s%s",GetParentPath(szFilename).c_str(),"TileGrass01.OZT");
-			mat.strTexture[0] = "Data\\World1\\TerrainLight.OZJ";//szGrassTexture;
+			mat.strTexture[0] = szGrassTexture;
 			mat.strShader = "terrainGrass";
 			pMesh->getMaterials().resize(pMesh->getSubsets().size());
 			pMesh->getMaterials()[pMesh->getSubsets().size()-1].push_back(mat);
