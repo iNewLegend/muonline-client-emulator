@@ -24,8 +24,8 @@ public:
 	virtual void Filter(int nSrcLevel, int nFilter);										// Éú³Éminmap
 	virtual	void SaveToFile(const std::string& strFilename)=0;								// ±£´æ
 	//
-	void	SetFilename(const std::string& strFilename){m_strFilename = strFilename;}
-	const std::string& GetFilename(){return m_strFilename;}
+	void	SetFilename(const char* szFilename){m_strFilename = szFilename;}
+	const char* GetFilename(){return m_strFilename.c_str();}
 	void	SetLevels(int nLevels)	{m_nLevels = nLevels;}
 	int		GetLevels()				{return m_nLevels;}
 	int		GetWidth()				{return m_nWidth;}

@@ -22,7 +22,7 @@ public:
 	virtual CTexture*		CreateRenderTarget(int nWidth, int nHeight);
 	virtual CTexture*		CreateDepthStencil(int nWidth, int nHeight);
 
-	unsigned long			RegisterTexture(const std::string& strFilename, int nLevels = -1);
+	unsigned long			RegisterTexture(const char* szFilename, int nLevels = -1);
 	CTexture*				getLoadedTexture(unsigned long uTexID);
 	void					releaseBuffer(int nIndex);
 	void					releaseBuffer(const std::string& strFilename);

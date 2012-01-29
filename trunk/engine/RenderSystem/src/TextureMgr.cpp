@@ -128,21 +128,21 @@ CTexture* CTextureMgr::CreateDepthStencil(int nWidth, int nHeight)
 	return pTex;
 }
 
-unsigned long CTextureMgr::RegisterTexture(const std::string& strFilename, int nLevels)
+unsigned long CTextureMgr::RegisterTexture(const char* szFilename, int nLevels)
 {
-	if(!IOReadBase::Exists(strFilename))
+	if(!IOReadBase::Exists(szFilename))
 	{
 		return 0;
 	}
-	if (find(strFilename))
+	if (find(szFilename))
 	{
-		return addRef(strFilename);
+		return addRef(szFilename);
 	}
 	//
 	CTexture* pTex = CRenderSystem::getSingleton().newTexture();
 	pTex->SetLevels(nLevels);
-	pTex->SetFilename(strFilename);
-	return add(strFilename, pTex);
+	pTex->SetFilename(szFilename);
+	return add(szFilename, pTex);
 }
 
 CTexture* CTextureMgr::getLoadedTexture(unsigned long uTexID)

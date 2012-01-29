@@ -216,7 +216,7 @@ CCsvFile& CCsvFile::seek(unsigned long uKeyIndex, int nVal)
 {
 	if (uKeyIndex==0)
 	{
-		m_nLine=0;
+		m_nLine=1;
 	}
 	do
 	{
