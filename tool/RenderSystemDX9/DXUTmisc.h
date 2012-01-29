@@ -6,22 +6,14 @@ void DXUTOutputDebugStringW(LPCWSTR strMsg, ...);
 void DXUTOutputDebugStringA(LPCSTR strMsg, ...);
 HRESULT WINAPI DXUTTrace(const CHAR* strFile, DWORD dwLine, HRESULT hr, const WCHAR* strMsg, bool bPopMsgBox);
 
-#ifdef UNICODE
-#define DXUTOutputDebugString DXUTOutputDebugStringW
-#else
-#define DXUTOutputDebugString DXUTOutputDebugStringA
-#endif
-
 // These macros are very similar to dxerr's but it special cases the HRESULT defined
 // by DXUT to pop better message boxes. 
 #if defined(DEBUG) || defined(_DEBUG)
 #define DXUT_ERR(str,hr)           DXUTTrace(__FILE__, (DWORD)__LINE__, hr, str, false)
 #define DXUT_ERR_MSGBOX(str,hr)    DXUTTrace(__FILE__, (DWORD)__LINE__, hr, str, true)
-#define DXUTTRACE                  DXUTOutputDebugString
 #else
 #define DXUT_ERR(str,hr)           (hr)
 #define DXUT_ERR_MSGBOX(str,hr)    (hr)
-#define DXUTTRACE                  (__noop)
 #endif
 
 // Direct3D9 dynamic linking support -- calls top-level D3D9 APIs with graceful

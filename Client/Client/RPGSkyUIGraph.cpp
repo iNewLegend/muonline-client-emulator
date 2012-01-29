@@ -21,7 +21,7 @@ void* Node3DUIGraph::createTexture(const char * szTexture)
 	if (uTex<=0)
 	{
 		std::string strTexture = GetStyleMgr().getDir()+szTexture;
-		uTex = CRenderSystem::getSingleton().GetTextureMgr().RegisterTexture(strTexture,1);
+		uTex = CRenderSystem::getSingleton().GetTextureMgr().RegisterTexture(strTexture.c_str(),1);
 	}
 	return (void*)uTex;
 }
