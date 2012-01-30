@@ -30,5 +30,8 @@ technique Render
 
 		ColorOp[1]			= Disable;
 		AlphaOP[1]			= Disable;
+		
+		VertexShader		= NULL;
+        PixelShader			= NULL;
     }
 }
