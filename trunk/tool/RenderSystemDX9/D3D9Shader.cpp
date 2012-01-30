@@ -167,7 +167,7 @@ bool CD3D9Shader::begin(const std::string& strTec)
 {
 	m_pEffect->SetTechnique(strTec.c_str());
 	UINT cPasses;
-	m_pEffect->Begin(&cPasses, 0);
+	m_pEffect->Begin(&cPasses, D3DXFX_DONOTSAVESTATE);
 	m_pEffect->BeginPass(0);
 	//m_pEffect->CommitChanges();
 	return true;

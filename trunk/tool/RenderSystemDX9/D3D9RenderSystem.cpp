@@ -673,22 +673,18 @@ CVertexDeclaration* CD3D9RenderSystem::CreateVertexDeclaration()
 
 void CD3D9RenderSystem::SetShader(CShader* pShader)
 {
-	D3DPERF_SetMarker(0,L"setshader_begin");
 	if (m_pOldShader!=pShader)
 	{
 		if (m_pOldShader)
 		{
-			D3DPERF_SetMarker(0,L"material_old_end");
 			m_pOldShader->end();
 		}
 		if (pShader)
 		{
-			D3DPERF_SetMarker(0,L"material_new_begin");
 			pShader->begin("Render");
 		}
 		m_pOldShader=pShader;
 	}
-	D3DPERF_SetMarker(0,L"setshader_end");
 }
 
 void CD3D9RenderSystem::SetShader(const char* szShader)
