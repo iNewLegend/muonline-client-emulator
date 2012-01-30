@@ -11,7 +11,7 @@ float4 PS( in float2 uv : TEXCOORD0 ) : COLOR0
 	float3 L = normalize(lightDir);
 	float len = length(lightDir);
 	float d = saturate(dot(normal, L));
-	float4 color = d*(1-smoothstep(len,0,4))*float4(1.5,0.5,0.1,0);
+	float4 color = d*(1-smoothstep(len,0,4))*float4(0.8,0.8,0.5,0);
     return color;
 }
 

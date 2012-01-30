@@ -23,12 +23,13 @@ VS_OUTPUT VS(VS_TERRAIN_INPUT i)
 	o.color = i.color;
 	return o;
 }
-
+sampler s1: register(s1);
+sampler s2: register(s2);
 float4 PS(VS_OUTPUT i) : COLOR0
 {
-	float4 cDiffuse	= tex2D(g_samDiffuse, i.uv);
+	float4 cDiffuse	= tex2D(s0, i.uv);
 	float3 cLight	= i.color.rgb;//tex2D(g_samLight, i.UV1);
-	float3 vNormal	= normalize(tex2D(g_samNormal, i.uv).xzy-0.5);
+	float3 vNormal	= normalize(tex2D(s1, i.uv).xzy-0.5);
 	//vNormal.z=-vNormal.z;
 	float4 color;
 	color.a = i.color.a;
@@ -38,7 +39,7 @@ float4 PS(VS_OUTPUT i) : COLOR0
 	color *= cDiffuse;
 
 	{
-		float3 cSpecular= tex2D(g_samSpecular, i.uv).xyz;
+		float3 cSpecular= tex2D(s2, i.uv).xyz;
 		float3 reflVec = normalize(reflect(normalize(i.ViewDir), vNormal));
 		float fSpec = pow(saturate(dot(reflVec, normalize(i.LightDir))),32)*cLight;
 		//reflVec = normalize(reflect(-reflVec, normalize(i.LightDir)));

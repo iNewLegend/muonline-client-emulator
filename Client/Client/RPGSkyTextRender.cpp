@@ -73,8 +73,6 @@ void CNode3DTextRender::drawUBB(int x, int y, const CUBB* pUBB)const
 		// ----
 		R.DrawIndexedPrimitiveUP(VROT_TRIANGLE_LIST, 0, nVertexCount, nVertexCount / 2, & s_DrawTextIB, &pUBB->m_VB[0], sizeof(VERTEX_TEXT));
 		// ----
-		R.SetShader((CShader*)NULL);
-		// ----
 		CRenderSystem::getSingleton().setWorldMatrix(mWorld);
 	}
 }

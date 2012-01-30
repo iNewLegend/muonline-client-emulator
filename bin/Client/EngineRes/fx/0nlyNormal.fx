@@ -7,12 +7,14 @@ struct VS_OUTPUT
     float3  Normal  : TEXCOORD2;
     float4  Color   : COLOR;
 };
-
+sampler s0: register(s0);
+sampler s1: register(s1);
+sampler s2: register(s2);
 float4 PS(VS_OUTPUT i) : COLOR0
 {
-	float4 cDiffuse	= tex2D(g_samDiffuse, i.UV0);
-	float3 cLight	= tex2D(g_samLight, i.UV1).xyz;
-	float3 cNormal	= tex2D(g_samNormal, i.UV0).xyz;
+	float4 cDiffuse	= tex2D(s0, i.UV0);
+	float3 cLight	= tex2D(s1, i.UV1).xyz;
+	float3 cNormal	= tex2D(s2, i.UV0).xyz;
 	
 	float3 vNormal	= cNormal*2-1;
 	float4 color;
