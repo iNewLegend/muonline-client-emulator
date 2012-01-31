@@ -170,7 +170,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 				((CRenderNode*)*it)->render(Matrix::UNIT, E_MATERIAL_RENDER_TYPE(MATERIAL_GEOMETRY|MATERIAL_RENDER_ALPHA_TEST));
 
 			}
-			(*it)->render(Matrix::UNIT,MATERIAL_GEOMETRY);
+			(*it)->render(Matrix::UNIT,eRenderType);
 		}
 		Fog fogForGlow;
 		fogForGlow = m_Fog;
@@ -178,14 +178,14 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 		fogForGlow.fEnd = m_Fog.fEnd*2.0f;
 		R.setFog(fogForGlow);
 		//
-		FOR_IN(it,m_RenderNodes)
-		{
-		//	(*it)->render(Matrix::UNIT,MATERIAL_ALPHA);
-		}
-		FOR_IN(it,m_RenderNodes)
-		{
-		//	(*it)->render(Matrix::UNIT,MATERIAL_GLOW);
-		}
+// 		FOR_IN(it,m_RenderNodes)
+// 		{
+// 		//	(*it)->render(Matrix::UNIT,MATERIAL_ALPHA);
+// 		}
+// 		FOR_IN(it,m_RenderNodes)
+// 		{
+// 		//	(*it)->render(Matrix::UNIT,MATERIAL_GLOW);
+// 		}
 	}
 }
 

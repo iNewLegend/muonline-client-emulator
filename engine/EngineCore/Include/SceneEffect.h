@@ -5,6 +5,7 @@
 #include "Vec3D.h"
 #include "Vec4D.h"
 #include "RenderSystem.h"
+#include "InterfacePlug.h"
 struct QuadVertex
 {
 	enum _FVF { FVF = (FVF_XYZRHW | FVF_TEX1) };
@@ -21,7 +22,7 @@ public:
 	void clearTextures();
 	void Reset(const CRect<int>& rc);
 	float GetSceneExposure();
-
+	void render(iRenderNode* pRenderNode);
 	void renderTargetBegin();
 	void renderTargetGlow();
 	void renderGammaCorrection();

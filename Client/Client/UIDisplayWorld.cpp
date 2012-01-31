@@ -45,7 +45,6 @@ void CUIDisplayWorld::OnFrameRender(const Matrix& mTransform, double fTime, floa
 {
 	if(IsVisible() == true)
 	{
-		bool bBloom				= true;
 		bool bCamma				= false;
 		bool bSetFog			= false;
 		// ----
@@ -67,66 +66,12 @@ void CUIDisplayWorld::OnFrameRender(const Matrix& mTransform, double fTime, floa
 		// ----
 		R.setProjectionMatrix(m_Camera.getProjMatrix());
 		R.setViewMatrix(m_Camera.getViewMatrix());
-		// ----
-		if((bBloom == true) || (bCamma == true))
-		{
-			m_SceneEffect.renderTargetBegin();
-			// ----
-			CRect<int> rcRenderTarget(0,0,rcViewport.getWidth(),rcViewport.getHeight());
-			// ----
-			R.setViewport(rcRenderTarget);
-		}
-		else
-		{
-			R.setViewport(rcViewport);
-		}
-		// ----
-		if(bSetFog == true)
-		{
-			// # Set Fog
-			// ----
-			//R.ClearBuffer(true, true, GetFog().dwColor);
-			// ----
-			//GetRenderSystem().setFog(16.0f, 32.0f, 0.04f, 0xFF000044);
-			//GetRenderSystem().setFogEnable(false);
-		}
-		// ----
-		{
-			// # Render World
-			// ----
-			R.setProjectionMatrix(m_Camera.getProjMatrix());
-			R.setViewMatrix(m_Camera.getViewMatrix());
-			R.setWorldMatrix(Matrix::UNIT);
-			// ----
-			CWorld::getInstance().updateRender(m_Camera.getFrustum());
-			CWorld::getInstance().render(Matrix::UNIT,MATERIAL_NORMAL);
-		}
-		// ----
 		R.setWorldMatrix(Matrix::UNIT);
-		R.ClearBuffer(true, false, 0x0);
 		// ----
-		if((bBloom == true) || (bCamma == true))
-		{
-			R.SetSamplerFilter(0, TEXF_LINEAR, TEXF_POINT, TEXF_LINEAR);
-			R.SetSamplerFilter(1, TEXF_LINEAR, TEXF_POINT, TEXF_LINEAR);
-			R.SetSamplerFilter(2, TEXF_LINEAR, TEXF_POINT, TEXF_LINEAR);
-			//m_SceneEffect.RenderTemporalBloom();
-			//m_SceneEffect.RenderBloom();
-			// ----
-			if(bCamma == true)
-			{
-				m_SceneEffect.renderGammaCorrection();
-			}
-			// ----
-			if(bBloom == true)
-			{
-				m_SceneEffect.renderTargetBloom();
-			}
-			m_SceneEffect.renderTargetEnd();
-			m_SceneEffect.compose(rcViewport);
-			// ----
-			R.setViewport(rcViewport);
-		}
+		// # Render World
+		// ----
+		CWorld::getInstance().updateRender(m_Camera.getFrustum());
+		m_SceneEffect.render(&CWorld::getInstance());
 		// ----
 		R.setViewport(GetParentDialog()->GetBoundingBox());
 		// ----
