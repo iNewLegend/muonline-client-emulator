@@ -92,6 +92,25 @@ void CSceneEffect::Reset(const CRect<int>& rc)
 	m_bInitialized = true;
 }
 
+void CSceneEffect::render(iRenderNode* pRenderNode)
+{
+	CRenderSystem& R = CRenderSystem::getSingleton();
+	CRect<int> rcRenderTarget(0,0,m_nWidth,m_nHeight);
+	R.setViewport(rcRenderTarget);
+	// ----
+	renderTargetBegin();
+	// ----
+	pRenderNode->render(Matrix::UNIT,MATERIAL_GEOMETRY);
+	// ----
+	R.SetSamplerFilter(0, TEXF_LINEAR, TEXF_POINT, TEXF_LINEAR);
+	R.SetSamplerFilter(1, TEXF_LINEAR, TEXF_POINT, TEXF_LINEAR);
+	R.SetSamplerFilter(2, TEXF_LINEAR, TEXF_POINT, TEXF_LINEAR);
+	//renderGammaCorrection();
+	renderTargetBloom();
+	renderTargetEnd();
+	compose(rcRenderTarget);
+}
+
 float CSceneEffect::GetSceneExposure()
 {	/*const RECT rect0 = {0,0,255,255};
 const RECT rect1 = {256,0,256+64,64};
