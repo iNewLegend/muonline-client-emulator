@@ -41,7 +41,8 @@ protected:
 	CTexture*	m_pNormalMRT;
 	CTexture*	m_pLightRT;
 
-	CTexture*	m_pSceneRT4x;
+	CTexture*	m_pSceneRT4x1;
+	CTexture*	m_pSceneRT4x2;
 	CTexture*	m_pSceneRT8x1;
 	CTexture*	m_pSceneRT8x2;
 
