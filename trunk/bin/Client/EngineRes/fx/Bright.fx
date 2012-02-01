@@ -22,7 +22,7 @@ float4 PS( in float2 Tex : TEXCOORD0 ) : COLOR0
 
     for (int i = 0; i < 4; i++)
     {
-        color += tex2D( s0, Tex + PixelCoordsDownFilter[i].xy*inv_width_height );
+        color += tex2D( s0, Tex + PixelCoords[i].xy);
     }
 
     color *= 0.25f;

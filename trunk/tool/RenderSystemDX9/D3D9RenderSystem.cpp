@@ -422,7 +422,7 @@ void CD3D9RenderSystem::setViewMatrix(const Matrix& m)
 	Matrix vpm = Proj * m;
 
 	m_mapShaders.begin()->second->setMatrix("vpm", vpm);
-	m_mapShaders.begin()->second->setMatrix("g_mView", m);
+	m_mapShaders.begin()->second->setMatrix("vm", m);
 	if (m_pOldShader)
 	{
 		((CD3D9Shader*)m_pOldShader)->getD3DXEffect()->CommitChanges();
@@ -534,19 +534,9 @@ void CD3D9RenderSystem::setShaderFloat(const char* szName, float val)
 	m_mapShaders.begin()->second->setFloat(szName, val);
 }
 
-void CD3D9RenderSystem::setShaderVec2D(const char* szName, const Vec2D& val)
+void CD3D9RenderSystem::setShaderFloatArray(const char* szName, const void* pVal, int nCount)
 {
-	m_mapShaders.begin()->second->setVec2D(szName, val);
-}
-
-void CD3D9RenderSystem::setShaderVec3D(const char* szName, const Vec3D& val)
-{
-	m_mapShaders.begin()->second->setVec3D(szName, val);
-}
-
-void CD3D9RenderSystem::setShaderVec4D(const char* szName, const Vec4D& val)
-{
-	m_mapShaders.begin()->second->setVec4D(szName, val);
+	m_mapShaders.begin()->second->setFloatArray(szName, (const float*)pVal, nCount);
 }
 
 void CD3D9RenderSystem::setShaderMatrix(const char* szName, const Matrix& mat)

@@ -106,9 +106,7 @@ public:
 		CompareFunction stencilFunction = CMPF_LESS_EQUAL);
 	//
 	void setShaderFloat(const char* szName, float val);
-	void setShaderVec2D(const char* szName, const Vec2D& val);
-	void setShaderVec3D(const char* szName, const Vec3D& val);
-	void setShaderVec4D(const char* szName, const Vec4D& val);
+	void setShaderFloatArray(const char* szName, const void* pVal, int nCount);
 	void setShaderMatrix(const char* szName, const Matrix& mat);
 
 	void SetPixelShaderConstantF(unsigned int StartRegister,const float* pConstantData,unsigned int Vector4fCount);

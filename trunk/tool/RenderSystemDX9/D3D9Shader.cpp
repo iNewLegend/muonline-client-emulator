@@ -126,19 +126,9 @@ void CD3D9Shader::setFloat(const char* szName, float val)
 	m_pEffect->SetFloat(szName,val);
 }
 
-void CD3D9Shader::setVec2D(const char* szName, const Vec2D& val)
+void CD3D9Shader::setFloatArray(const char* szName, const float* pVal, int nCount)
 {
-	m_pEffect->SetFloatArray(szName,(const FLOAT *)&val,2);
-}
-
-void CD3D9Shader::setVec3D(const char* szName, const Vec3D& val)
-{
-	m_pEffect->SetFloatArray(szName,(const FLOAT *)&val,3);
-}
-
-void CD3D9Shader::setVec4D(const char* szName, const Vec4D& val)
-{
-	m_pEffect->SetFloatArray(szName,(const FLOAT *)&val,4);
+	m_pEffect->SetFloatArray(szName,pVal,nCount);
 }
 
 void CD3D9Shader::setMatrix(const char* szName, const Matrix& mat)
