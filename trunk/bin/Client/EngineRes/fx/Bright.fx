@@ -6,27 +6,12 @@ static const float fWhiteCutoff = 0.8f;
 
 float fBrightPassThreshold = 0.6;             // Values greater than this are accepted for the bright pass
 
-float2 PixelCoordsDownFilter[16] =
+float2 PixelCoordsDownFilter[4] =
 {
-    { 1.5,  -1.5 },
-    { 1.5,  -0.5 },
-    { 1.5,   0.5 },
-    { 1.5,   1.5 },
-
-    { 0.5,  -1.5 },
     { 0.5,  -0.5 },
     { 0.5,   0.5 },
-    { 0.5,   1.5 },
-
-    {-0.5,  -1.5 },
     {-0.5,  -0.5 },
     {-0.5,   0.5 },
-    {-0.5,   1.5 },
-
-    {-1.5,  -1.5 },
-    {-1.5,  -0.5 },
-    {-1.5,   0.5 },
-    {-1.5,   1.5 },
 };
 
 
@@ -35,12 +20,12 @@ float4 PS( in float2 Tex : TEXCOORD0 ) : COLOR0
 {
     float3 color = 0;
 
-    for (int i = 0; i < 16; i++)
+    for (int i = 0; i < 4; i++)
     {
         color += tex2D( s0, Tex + PixelCoordsDownFilter[i].xy*inv_width_height );
     }
 
-    color *= ( 1.0f / 16.0f );
+    color *= 0.25f;
 
     float luminance = max( color.r, max( color.g, color.b ) );
     if( luminance < fBrightPassThreshold )
