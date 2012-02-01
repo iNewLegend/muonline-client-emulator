@@ -54,7 +54,8 @@ void CSceneEffect::Reset(const CRect<int>& rc)
 	m_pNormalMRT	= R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
 	m_pLightRT		= R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
 
-	m_pSceneRT4x	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.25f,nHeight*0.25f);
+	m_pSceneRT4x1	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.25f,nHeight*0.25f);
+	m_pSceneRT4x2	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.25f,nHeight*0.25f);
 	m_pSceneRT8x1	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.0625f,nHeight*0.0625f);
 	m_pSceneRT8x2	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.0625f,nHeight*0.0625f);
 
@@ -231,11 +232,9 @@ void CSceneEffect::renderTargetBloom()
 
 	// ----
 	Vec2D inv_width_height(1.0f/m_nWidth,1.0f/m_nHeight);
-	Vec2D inv_width_height4x(1.0f/m_nWidth/4.0f,1.0f/m_nHeight/4.0f);
-	Vec2D inv_width_height8x(1.0f/m_nWidth/8.0f,1.0f/m_nHeight/8.0f);
+	Vec2D inv_width_height4x(4.0f/m_nWidth,4.0f/m_nHeight);
+	Vec2D inv_width_height8x(8.0f/m_nWidth,8.0f/m_nHeight);
 
-	// ----
-	R.setShaderVec2D("inv_width_height",	inv_width_height4x);
 
 	R.SetRenderTarget(1,NULL);
 	R.SetRenderTarget(2,NULL);
@@ -266,60 +265,81 @@ void CSceneEffect::renderTargetBloom()
 	R.SetTexture(1, m_pDiffuseRT);
 	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
 
-	// Down Filter 4x
-	R.SetShader("Filter4");
-	R.SetRenderTarget(0,m_pSceneRT4x);
-	R.SetTexture(0, m_pDiffuseRT);
-	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
-
-	// ----
-	R.setShaderVec2D("inv_width_height",	inv_width_height8x);
-
-	// Down Filter 4x
-	R.SetShader("Filter4");
-	R.SetRenderTarget(0,m_pSceneRT8x1);
-	R.SetTexture(0, m_pSceneRT4x);
-	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
-
-
-	// Bright Pass
-	R.SetShader("Bright");
-	R.SetRenderTarget(0,m_pSceneRT8x2);
-	R.SetTexture(0, m_pSceneRT8x1);
-	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
-	
-	// Bloom Horizontal
-	R.SetShader("BloomH");
-	R.SetRenderTarget(0,m_pSceneRT8x1);
-	R.SetTexture(0, m_pSceneRT8x2);
-	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
-
-	// Bloom Vertical
-	R.SetShader("BloomV");
-	R.SetRenderTarget(0,m_pSceneRT8x2);
-	R.SetTexture(0, m_pSceneRT8x1);
-	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
-
-	// Bloom Horizontal
-	R.SetShader("BloomH");
-	R.SetRenderTarget(0,m_pSceneRT8x1);
-	R.SetTexture(0, m_pSceneRT8x2);
-	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
-
-	// Bloom Vertical
-	R.SetShader("BloomV");
-	R.SetRenderTarget(0,m_pSceneRT8x2);
-	R.SetTexture(0, m_pSceneRT8x1);
-	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
-
 	// ----
 	R.setShaderVec2D("inv_width_height",	inv_width_height4x);
 
-	// Up Filter 4x
-	R.SetShader("Combine");
-	R.SetRenderTarget(0,m_pSceneRT4x);
-	R.SetTexture(0, m_pSceneRT8x2);
+	// Bright Pass
+	R.SetShader("Bright");
+	R.SetRenderTarget(0,m_pSceneRT4x1);
+	R.SetTexture(0, m_pDiffuseRT);
 	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
+
+	// Bloom Horizontal
+	R.SetShader("BloomH");
+	R.SetRenderTarget(0,m_pSceneRT4x2);
+	R.SetTexture(0, m_pSceneRT4x1);
+	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
+
+	// Bloom Vertical
+	R.SetShader("BloomV");
+	R.SetRenderTarget(0,m_pSceneRT4x1);
+	R.SetTexture(0, m_pSceneRT4x2);
+	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
+
+	//// Down Filter 4x
+	//R.SetShader("Filter4");
+	//R.SetRenderTarget(0,m_pSceneRT4x);
+	//R.SetTexture(0, m_pDiffuseRT);
+	//R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
+
+	//// ----
+	//R.setShaderVec2D("inv_width_height",	inv_width_height8x);
+
+	//// Down Filter 4x
+	//R.SetShader("Filter4");
+	//R.SetRenderTarget(0,m_pSceneRT8x1);
+	//R.SetTexture(0, m_pSceneRT4x);
+	//R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
+
+
+	//// Bright Pass
+	//R.SetShader("Bright");
+	//R.SetRenderTarget(0,m_pSceneRT8x2);
+	//R.SetTexture(0, m_pSceneRT8x1);
+	//R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
+	//
+	//// Bloom Horizontal
+	//R.SetShader("BloomH");
+	//R.SetRenderTarget(0,m_pSceneRT8x1);
+	//R.SetTexture(0, m_pSceneRT8x2);
+	//R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
+
+	//// Bloom Vertical
+	//R.SetShader("BloomV");
+	//R.SetRenderTarget(0,m_pSceneRT8x2);
+	//R.SetTexture(0, m_pSceneRT8x1);
+	//R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
+
+	//// Bloom Horizontal
+	//R.SetShader("BloomH");
+	//R.SetRenderTarget(0,m_pSceneRT8x1);
+	//R.SetTexture(0, m_pSceneRT8x2);
+	//R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
+
+	//// Bloom Vertical
+	//R.SetShader("BloomV");
+	//R.SetRenderTarget(0,m_pSceneRT8x2);
+	//R.SetTexture(0, m_pSceneRT8x1);
+	//R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad8x, sizeof(QuadVertex));
+
+	//// ----
+	//R.setShaderVec2D("inv_width_height",	inv_width_height4x);
+
+	//// Up Filter 4x
+	//R.SetShader("Combine");
+	//R.SetRenderTarget(0,m_pSceneRT4x);
+	//R.SetTexture(0, m_pSceneRT8x2);
+	//R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
 
 	R.setShaderVec2D("inv_width_height",	inv_width_height);
 // 	// Combine 4x
@@ -381,15 +401,15 @@ void CSceneEffect::compose(const CRect<int>& rcDest)
 		R.SetTexture(0, m_pLightRT);
 		break;
 	case 4:
-		R.SetTexture(0, m_pSceneRT4x);
+		R.SetTexture(0, m_pSceneRT4x1);
 		break;
 	case 5:
-		R.SetTexture(0, m_pSceneRT8x1);
+		R.SetTexture(0, m_pSceneRT4x2);
 		break;
 	case 6:
 		R.SetTexture(0, m_pSceneRT8x2);
 		break;
 	}
-	R.SetTexture(1, m_pSceneRT4x);
+	R.SetTexture(1, m_pSceneRT4x1);
 	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, QuadVB, sizeof(QuadVertex));
 }
