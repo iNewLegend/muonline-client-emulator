@@ -31,14 +31,13 @@ float2 TexelCoordsDownFilter[16]
 sampler s0: register(s0);
 float4 DownFilter( in float2 Tex : TEXCOORD0 ) : COLOR0
 {
-    float4 Color = 0;
-
+    float4 color = 0;
     for (int i = 0; i < 16; i++)
     {
-        Color += tex2D( s0, Tex + PixelCoordsDownFilter[i].xy*inv_width_height );
+        color += tex2D( s0, Tex + PixelCoordsDownFilter[i].xy*inv_width_height );
     }
-
-    return Color / 16;
+	color *= (1.0f / 16.0f);
+    return color;
 }
 
 technique Render
