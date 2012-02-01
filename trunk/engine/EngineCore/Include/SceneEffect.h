@@ -41,10 +41,11 @@ protected:
 	CTexture*	m_pNormalMRT;
 	CTexture*	m_pLightRT;
 
+	CTexture*	m_pSceneRT2x;
 	CTexture*	m_pSceneRT4x1;
 	CTexture*	m_pSceneRT4x2;
-	CTexture*	m_pSceneRT8x1;
-	CTexture*	m_pSceneRT8x2;
+	//CTexture*	m_pSceneRT8x1;
+	//CTexture*	m_pSceneRT8x2;
 
 	//new
 	CTexture*	m_pSceneCopyTexture;
@@ -54,6 +55,7 @@ protected:
 	// 模糊度
 	float m_fBloomVal;
 	QuadVertex m_Quad[4];
+	QuadVertex m_Quad2x[4];
 	QuadVertex m_Quad4x[4];
 	QuadVertex m_Quad8x[4];
 	// 适应的光

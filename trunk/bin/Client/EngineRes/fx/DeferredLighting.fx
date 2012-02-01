@@ -10,7 +10,7 @@ float4 PS( in float2 uv : TEXCOORD0 ) : COLOR0
 	float3 lightmap = tex2D(s2, float2(pos.x/256,-pos.z/256));
 	//normal = normalize(2*normal-1);
 	float d = saturate(dot(normal, -g_vLightDir));
-	d += 0.3f; //ambient
+	d += 0.2f; //ambient
 	float4 color = d;
 	color.rgb*=lightmap;
 	float3 V = normalize(pos - g_vEyePot);

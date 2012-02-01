@@ -54,10 +54,11 @@ void CSceneEffect::Reset(const CRect<int>& rc)
 	m_pNormalMRT	= R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
 	m_pLightRT		= R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
 
+	m_pSceneRT2x	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.5f,nHeight*0.5f);
 	m_pSceneRT4x1	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.25f,nHeight*0.25f);
 	m_pSceneRT4x2	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.25f,nHeight*0.25f);
-	m_pSceneRT8x1	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.0625f,nHeight*0.0625f);
-	m_pSceneRT8x2	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.0625f,nHeight*0.0625f);
+	//m_pSceneRT8x1	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.0625f,nHeight*0.0625f);
+	//m_pSceneRT8x2	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.0625f,nHeight*0.0625f);
 
 	m_Quad[0].t = Vec2D(0.0f, 1.0f);
 	m_Quad[1].t = Vec2D(0.0f, 0.0f);
@@ -69,6 +70,17 @@ void CSceneEffect::Reset(const CRect<int>& rc)
 	m_Quad[2].p = Vec4D((float)nWidth-0.5f,	(float)nHeight-0.5f,	0.0f, 1.0f);
 	m_Quad[3].p = Vec4D((float)nWidth-0.5f,	-0.5f,					0.0f, 1.0f);
 
+	
+	m_Quad2x[0].t = Vec2D(0.0f, 1.0f);
+	m_Quad2x[1].t = Vec2D(0.0f, 0.0f);
+	m_Quad2x[2].t = Vec2D(1.0f, 1.0f);
+	m_Quad2x[3].t = Vec2D(1.0f, 0.0f);
+
+	m_Quad2x[0].p = Vec4D(-0.5f,					(float)nHeight*0.5f-0.5f,	0.0f, 1.0f);
+	m_Quad2x[1].p = Vec4D(-0.5f,					-0.5f,						0.0f, 1.0f);
+	m_Quad2x[2].p = Vec4D((float)nWidth*0.5f-0.5f,	(float)nHeight*0.5f-0.5f,	0.0f, 1.0f);
+	m_Quad2x[3].p = Vec4D((float)nWidth*0.5f-0.5f,	-0.5f,						0.0f, 1.0f);
+
 	m_Quad4x[0].t = Vec2D(0.0f, 1.0f);
 	m_Quad4x[1].t = Vec2D(0.0f, 0.0f);
 	m_Quad4x[2].t = Vec2D(1.0f, 1.0f);
@@ -78,6 +90,7 @@ void CSceneEffect::Reset(const CRect<int>& rc)
 	m_Quad4x[1].p = Vec4D(-0.5f,					-0.5f,						0.0f, 1.0f);
 	m_Quad4x[2].p = Vec4D((float)nWidth*0.25f-0.5f,	(float)nHeight*0.25f-0.5f,	0.0f, 1.0f);
 	m_Quad4x[3].p = Vec4D((float)nWidth*0.25f-0.5f,	-0.5f,						0.0f, 1.0f);
+
 	
 
 	m_Quad8x[0].t = Vec2D(0.0f, 1.0f);
@@ -232,8 +245,9 @@ void CSceneEffect::renderTargetBloom()
 
 	// ----
 	Vec2D inv_width_height(1.0f/m_nWidth,1.0f/m_nHeight);
+	Vec2D inv_width_height2x(2.0f/m_nWidth,2.0f/m_nHeight);
 	Vec2D inv_width_height4x(4.0f/m_nWidth,4.0f/m_nHeight);
-	Vec2D inv_width_height8x(8.0f/m_nWidth,8.0f/m_nHeight);
+	Vec2D inv_width_height8x(16.0f/m_nWidth,16.0f/m_nHeight);
 
 
 	R.SetRenderTarget(1,NULL);
@@ -266,12 +280,33 @@ void CSceneEffect::renderTargetBloom()
 	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
 
 	// ----
+	R.setShaderVec2D("inv_width_height",	inv_width_height2x);
+
+	// Bright Pass & Down Filter 2x
+	R.SetShader("Bright");
+	R.SetRenderTarget(0,m_pSceneRT2x);
+	R.SetTexture(0, m_pDiffuseRT);
+	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad2x, sizeof(QuadVertex));
+
+	// ----
 	R.setShaderVec2D("inv_width_height",	inv_width_height4x);
 
-	// Bright Pass
-	R.SetShader("Bright");
+	// Down Filter 2x
+	R.SetShader("Filter");
 	R.SetRenderTarget(0,m_pSceneRT4x1);
-	R.SetTexture(0, m_pDiffuseRT);
+	R.SetTexture(0, m_pSceneRT2x);
+	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
+
+	// Bloom Horizontal
+	R.SetShader("BloomH");
+	R.SetRenderTarget(0,m_pSceneRT4x2);
+	R.SetTexture(0, m_pSceneRT4x1);
+	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
+
+	// Bloom Vertical
+	R.SetShader("BloomV");
+	R.SetRenderTarget(0,m_pSceneRT4x1);
+	R.SetTexture(0, m_pSceneRT4x2);
 	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
 
 	// Bloom Horizontal
@@ -401,13 +436,13 @@ void CSceneEffect::compose(const CRect<int>& rcDest)
 		R.SetTexture(0, m_pLightRT);
 		break;
 	case 4:
-		R.SetTexture(0, m_pSceneRT4x1);
+		R.SetTexture(0, m_pSceneRT2x);
 		break;
 	case 5:
-		R.SetTexture(0, m_pSceneRT4x2);
+		R.SetTexture(0, m_pSceneRT4x1);
 		break;
 	case 6:
-		R.SetTexture(0, m_pSceneRT8x2);
+		R.SetTexture(0, m_pSceneRT4x2);
 		break;
 	}
 	R.SetTexture(1, m_pSceneRT4x1);
