@@ -73,9 +73,7 @@ public:
 	virtual void		SetStencilFunc(bool bStencil, StencilOP op=STENCILOP_INCR,							// Ä£°å¼ì²â
 								CompareFunction stencilFunction = CMPF_LESS_EQUAL) = 0;// ----
 	virtual void		setShaderFloat(const char* szName, float val)=0;
-	virtual void		setShaderVec2D(const char* szName, const Vec2D& val)=0;
-	virtual void		setShaderVec3D(const char* szName, const Vec3D& val)=0;
-	virtual void		setShaderVec4D(const char* szName, const Vec4D& val)=0;
+	virtual void		setShaderFloatArray(const char* szName, const void* pVal, int nCount)=0;
 	virtual void		setShaderMatrix(const char* szName, const Matrix& mat)=0;
 
 	virtual void		SetPixelShaderConstantF(unsigned int StartRegister,const float* pConstantData,unsigned int Vector4fCount)=0;

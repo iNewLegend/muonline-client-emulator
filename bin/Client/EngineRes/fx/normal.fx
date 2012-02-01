@@ -19,7 +19,7 @@ VS_OUTPUT VS(VS_TERRAIN_INPUT i)
 	float3x3 mTangent = transpose(float3x3(vBinormal,i.normal,vTangent));
 	o.LightDir = normalize(mul(mTangent,-g_vLightDir));
 	o.ViewDir= normalize(mul(mTangent,i.pos.xyz-g_vEyePot));
-	o.pos = mul(i.pos,g_mViewProj);
+	o.pos = mul(i.pos,vpm);
 	o.color = i.color;
 	return o;
 }

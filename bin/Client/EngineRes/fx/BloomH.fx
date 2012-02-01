@@ -53,9 +53,11 @@ sampler s0: register(s0);
 float4 PS(float2 Tex : TEXCOORD0) : COLOR0
 {
     float4 Color = 0;
+	Tex.x-=inv_width_height.x*7;
     for (int i = 0; i < g_cKernelSize; i++)
-    {    
-        Color += tex2D( s0, Tex + PixelKernel[i].xy*inv_width_height ) * BlurWeights[i];
+    {
+		Tex.x+=inv_width_height.x;
+        Color += tex2D( s0, Tex ) * BlurWeights[i];
     }
 	return Color * BloomScale;
 }

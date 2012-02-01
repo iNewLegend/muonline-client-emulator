@@ -52,10 +52,9 @@ void CUIDisplayWorld::OnFrameRender(const Matrix& mTransform, double fTime, floa
 		CRenderSystem & R		= CRenderSystem::getSingleton();
 		// ----
 		R.setShaderFloat("g_fTime",			fTime);
-		R.setShaderMatrix("g_mViewProj",	m_Camera.getProjXView());
-		R.setShaderVec3D("g_vLightDir",		CWorld::getInstance().getLight().vDirection);
-		R.setShaderVec3D("g_vEyePot",		m_Camera.getEyePt());
-		R.setShaderVec3D("g_vPointLight",	CPlayerMe::getInstance().getPos()+Vec3D(0.0f,2.0f,0.0f));
+		R.setShaderFloatArray("g_vLightDir",	&CWorld::getInstance().getLight().vDirection, 3);
+		R.setShaderFloatArray("g_vEyePot",		&m_Camera.getEyePt(), 3);
+		R.setShaderFloatArray("g_vPointLight",	&(CPlayerMe::getInstance().getPos()+Vec3D(0.0f,2.0f,0.0f)), 3);
 		
 		// ----
 		R.setWorldMatrix(Matrix::UNIT);

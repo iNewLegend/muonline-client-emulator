@@ -280,8 +280,15 @@ void CSceneEffect::renderTargetBloom()
 	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
 
 	// ----
-	R.setShaderVec2D("inv_width_height",	inv_width_height2x);
-
+	R.setShaderFloatArray("inv_width_height",	&inv_width_height, 2);
+	float PixelCoordsDownFilter1[8] =
+	{
+		0.5*inv_width_height.x,  -0.5*inv_width_height.y,
+		0.5*inv_width_height.x,   0.5*inv_width_height.y,
+		-0.5*inv_width_height.x,  -0.5*inv_width_height.y,
+		-0.5*inv_width_height.x,   0.5*inv_width_height.y,
+	};
+	//R.setShaderFloatArray("PixelCoords", PixelCoordsDownFilter1, 8);
 	// Bright Pass & Down Filter 2x
 	R.SetShader("Bright");
 	R.SetRenderTarget(0,m_pSceneRT2x);
@@ -289,14 +296,44 @@ void CSceneEffect::renderTargetBloom()
 	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad2x, sizeof(QuadVertex));
 
 	// ----
-	R.setShaderVec2D("inv_width_height",	inv_width_height4x);
+	R.setShaderFloatArray("inv_width_height",	&inv_width_height2x, 2);
 
+	float PixelCoordsDownFilter[32] =
+	{
+		1.5*inv_width_height2x.x,  -1.5*inv_width_height2x.y,
+		1.5*inv_width_height2x.x,  -0.5*inv_width_height2x.y,
+		1.5*inv_width_height2x.x,   0.5*inv_width_height2x.y,
+		1.5*inv_width_height2x.x,   1.5*inv_width_height2x.y,
+
+		0.5*inv_width_height2x.x,  -1.5*inv_width_height2x.y,
+		0.5*inv_width_height2x.x,  -0.5*inv_width_height2x.y,
+		0.5*inv_width_height2x.x,   0.5*inv_width_height2x.y,
+		0.5*inv_width_height2x.x,   1.5*inv_width_height2x.y,
+
+		-0.5*inv_width_height2x.x,  -1.5*inv_width_height2x.y,
+		-0.5*inv_width_height2x.x,  -0.5*inv_width_height2x.y,
+		-0.5*inv_width_height2x.x,   0.5*inv_width_height2x.y,
+		-0.5*inv_width_height2x.x,   1.5*inv_width_height2x.y,
+
+		-1.5*inv_width_height2x.x,  -1.5*inv_width_height2x.y,
+		-1.5*inv_width_height2x.x,  -0.5*inv_width_height2x.y,
+		-1.5*inv_width_height2x.x,   0.5*inv_width_height2x.y,
+		-1.5*inv_width_height2x.x,   1.5*inv_width_height2x.y,
+	};
+
+	static int test = 0;
+	if (test==0)
+	{
+		test++;
+		R.setShaderFloatArray("PixelCoords", PixelCoordsDownFilter, 32);
+	}
 	// Down Filter 2x
 	R.SetShader("Filter");
 	R.SetRenderTarget(0,m_pSceneRT4x1);
 	R.SetTexture(0, m_pSceneRT2x);
 	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
 
+	R.setShaderFloatArray("inv_width_height",	&inv_width_height4x, 2);
 	// Bloom Horizontal
 	R.SetShader("BloomH");
 	R.SetRenderTarget(0,m_pSceneRT4x2);
@@ -376,7 +413,7 @@ void CSceneEffect::renderTargetBloom()
 	//R.SetTexture(0, m_pSceneRT8x2);
 	//R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
 
-	R.setShaderVec2D("inv_width_height",	inv_width_height);
+	R.setShaderFloatArray("inv_width_height",	&inv_width_height, 2);
 // 	// Combine 4x
 // 	if (R.prepareMaterial("Combine"))
 // 	{
@@ -420,7 +457,14 @@ void CSceneEffect::compose(const CRect<int>& rcDest)
 	QuadVB[3].p = Vec4D(fX1, fY0, 0.0f, 1.0f);
 
 	// Combine 4x
-	R.SetShader("CombineAdd");
+	if (m_nFlag==0)
+	{
+		R.SetShader("CombineAdd");
+	}
+	else
+	{
+		R.SetShader("Combine");
+	}
 	switch (m_nFlag)
 	{
 	case 0:

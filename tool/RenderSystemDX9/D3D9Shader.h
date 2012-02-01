@@ -15,9 +15,7 @@ public:
 	ID3DXEffect* getD3DXEffect();
 public:
 	void setFloat(const char* szName, float val);
-	void setVec2D(const char* szName, const Vec2D& val);
-	void setVec3D(const char* szName, const Vec3D& val);
-	void setVec4D(const char* szName, const Vec4D& val);
+	void setFloatArray(const char* szName, const float* pVal, int nCount);
 	void setMatrix(const char* szName, const Matrix& mat);
 	void setTexture(const char* szName, unsigned long uTexID);
 	void setTexture(const char* szName, const CTexture* pTexture);
