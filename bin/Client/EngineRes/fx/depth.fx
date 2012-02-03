@@ -18,7 +18,7 @@ VS_OUTPUT VS(VS_INPUT i)
 	VS_OUTPUT o;
 	o.uv = i.uv;
 	o.postion = mul(i.pos,g_mWorld*lvm);
-	o.pos = o.postion ;
+	o.pos = o.postion;
 	return o;
 }
 

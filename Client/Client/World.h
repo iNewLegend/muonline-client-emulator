@@ -48,9 +48,9 @@ public:
 	virtual void	frameMove			(const Matrix& mWorld, double fTime, float fElapsedTime);
 	virtual void	render				(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType=MATERIAL_NORMAL)const;
 	// ----
+	void			renderDamageInfo	()const;
 protected:
 	// ----
 	void			updateDamageInfo	(double fTime, float fElapsedTime);
-	void			renderDamageInfo	()const;
 };
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

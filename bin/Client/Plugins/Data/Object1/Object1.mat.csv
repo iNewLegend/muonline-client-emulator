@@ -1,11 +1,6 @@
 Name,Diffuse,pass,Opacity,TexAnimY
-candle01.sub1,candle2.OZJ,emissive,,
-carriage01.sub2,horse_drawn_03.OZJ,emissive,,
-house03.sub4,light_02.OZJ,emissive,-1,
-house05.sub2,ston02.OZJ,emissive,0.5,-1
-housewall02.sub4,light_02.OZJ,emissive,-1,
-streetlight01.sub1,StreetLight_brightness2.OZJ,emissive,,
-waterspout01.sub3,ston02.OZJ,emissive,,-0.8
+1house05.sub2,ston02.OZJ,emissive,0.5,-1
+1waterspout01.sub3,ston02.OZJ,emissive,,-0.8
 light02.sub0,,,,
 light03.sub0,,,,
 firelight01.par0,..\Effect\Fire02.OZJ,fire,,

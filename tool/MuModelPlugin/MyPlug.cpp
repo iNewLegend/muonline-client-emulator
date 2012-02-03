@@ -4,6 +4,7 @@
 #include "MUBmd.h"
 #include "Material.h"
 #include "Windows.h"
+#include "IniFile.h"
 
 extern "C" __declspec(dllexport) bool Data_Plug_CreateObject(void ** pobj){
 	*pobj = new CMyPlug;
@@ -485,17 +486,57 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 		std::string strParentDirName = GetFilename(strParentDir);
 
 		std::string strMyPath ="Plugins\\Data\\"+strParentDirName+"\\";
-		std::string strMatFilename = strMyPath+GetFilename(ChangeExtension(szFilename,".mat.csv"));
+		std::string strMatFilename = strMyPath+GetFilename(ChangeExtension(szFilename,".mat"));
 		std::string strParFilename = strMyPath+GetFilename(ChangeExtension(szFilename,".par.csv"));
 		if (!IOReadBase::Exists(strMatFilename))
 		{
-			strMatFilename=strMyPath+strParentDirName+".mat.csv";
+			strMatFilename=strMyPath+strParentDirName+".mat";
 		}
 		if (!IOReadBase::Exists(strParFilename))
 		{
 			strParFilename=strMyPath+strParentDirName+".par.csv";
 		}
-		m_pRenderNodeMgr->loadRenderNode(strMatFilename.c_str(),pRenderNode);
+		// set material
+		{
+			CIniFile ini;
+			if (ini.readIniFile(strMatFilename.c_str()))
+			{
+				for (auto itSection=ini.m_isSection.begin(); itSection!=ini.m_isSection.end(); ++itSection)
+				{
+					if (itSection->m_strName.length()<2)
+					{
+						continue;
+					}
+					if (itSection->m_strName[0]!='m')
+					{
+						continue;
+					}
+					int matID = atoi(&itSection->m_strName[1]);
+					if (matID<0||matID>=pMesh->getMaterials().size())
+					{
+						continue;
+					}
+					auto& mats = pMesh->getMaterials()[matID];
+					if (mats.size()<=0)
+					{
+						mats.resize(1);
+					}
+					auto& mat = mats[0];
+					for (auto iteEntry=itSection->m_ieEntry.begin(); iteEntry!=itSection->m_ieEntry.end(); ++iteEntry)
+					{
+						if (iteEntry->m_strName=="shader") mat.strShader=iteEntry->m_strValue;
+						else if (iteEntry->m_strName=="s0") mat.strTexture[0]=iteEntry->m_strValue;
+						else if (iteEntry->m_strName=="s1") mat.strTexture[1]=iteEntry->m_strValue;
+						else if (iteEntry->m_strName=="s2") mat.strTexture[2]=iteEntry->m_strValue;
+						else if (iteEntry->m_strName=="s3") mat.strTexture[3]=iteEntry->m_strValue;
+						else if (iteEntry->m_strName=="s4") mat.strTexture[4]=iteEntry->m_strValue;
+						else if (iteEntry->m_strName=="s5") mat.strTexture[5]=iteEntry->m_strValue;
+						else if (iteEntry->m_strName=="s6") mat.strTexture[6]=iteEntry->m_strValue;
+						else if (iteEntry->m_strName=="s7") mat.strTexture[7]=iteEntry->m_strValue;
+					}
+				}
+			}
+		}
 		m_pRenderNodeMgr->loadRenderNode(strParFilename.c_str(),pRenderNode);
 		//////////////////////////////////////////////////////////////////////////
 		//iRenderNode* pRenderNode = m_pRenderNodeMgr->createRenderNode("Skeleton");

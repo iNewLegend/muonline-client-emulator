@@ -18,12 +18,12 @@ using namespace std;
     E_OK                调用成功
     E_OPEN_FILE_FAILED    打开文件错我
 */
-int CIniFile::ReadIniFile(char* szFilename)
+bool CIniFile::readIniFile(const char* szFilename)
 {
     ifstream fIniFile(szFilename);
     if(fIniFile == NULL)
     {
-        return E_OPEN_FILE_FAILED;
+        return false;
     }
     char szLine[MAX_COLS] = {0};
     while (fIniFile.getline(szLine,MAX_COLS))
@@ -33,19 +33,19 @@ int CIniFile::ReadIniFile(char* szFilename)
 
         if( *p == '[')
         {
-            RemoveComment( p );
+            removeComment( p );
             char* pEnd = strchr( p ,']');
             if( pEnd == NULL)
                 continue;
             *pEnd = 0;
             IniSection is;
-            is.m_isName = string( p + 1 );
+            is.m_strName = string( p + 1 );
             m_isSection.push_back(is);
             continue;
         }
         //是否为;
 
-        Trim( p );
+        trim( p );
         if( *p == ';')
         {
             m_isSection[m_isSection.size() - 1].m_icComment.push_back(p + 1);
@@ -74,7 +74,7 @@ int CIniFile::ReadIniFile(char* szFilename)
     }
     fIniFile.close();
 
-    return E_OK;
+    return true;
 }
 /*
 功能
@@ -85,15 +85,15 @@ int CIniFile::ReadIniFile(char* szFilename)
     E_OK        调用成功
     E_OPEN_FILE_FAILED    打开文件错误
 */
-int CIniFile::WriteIniFile(char* szFilename)
+bool CIniFile::writeIniFile(const char* szFilename)
 {
     ofstream fIniFile(szFilename);
     if(fIniFile == NULL)
-        return E_OPEN_FILE_FAILED;
+        return false;
     for (size_t i = 0; i < m_isSection.size();++i)
     {
         fIniFile.write("[",1);
-        fIniFile.write(m_isSection[i].m_isName.c_str(),m_isSection[i].m_isName.length());
+        fIniFile.write(m_isSection[i].m_strName.c_str(),m_isSection[i].m_strName.length());
         fIniFile.write("]",1);
         fIniFile << endl;
         for (size_t j = 0; j < m_isSection[i].m_ieEntry.size();++ j)
@@ -105,7 +105,7 @@ int CIniFile::WriteIniFile(char* szFilename)
         }
     }
     fIniFile.close();
-    return E_OK;
+    return true;
 }
 /*
 功能
@@ -116,7 +116,7 @@ int CIniFile::WriteIniFile(char* szFilename)
 返回值
     E_OK    调用成功
 */
-int CIniFile::Trim(char* &szString)
+void CIniFile::trim(char* &szString)
 {
     char* p = szString;
     while (*p == ' ' || *p == '/t')
@@ -131,10 +131,26 @@ int CIniFile::Trim(char* &szString)
         -- p;
     }
     *( p + 1 ) = 0;
-    
-
-    return E_OK;
 }
+
+/*
+功能
+    删除注释
+参数
+    szLine    in    传入的字符串
+            out 删除注释后的字符串
+返回值
+    E_OK    调用成功
+*/
+int CIniFile::removeComment(char* szLine)
+{
+    char* p = strchr(szLine,';');
+    if( p == NULL)
+        return 0;
+    *p = 0;
+    return 0;
+}
+
 
 //////////////////////////////////////////////////////////////////////
 std::string IniGetStr(const char *pszFileName, const char *pszTitle, const char *pszSubTitle)

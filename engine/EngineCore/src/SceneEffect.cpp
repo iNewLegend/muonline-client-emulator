@@ -12,6 +12,7 @@ m_fBloomVal(0.2f)
 ,m_pPosMRT(NULL)
 ,m_pNormalMRT(NULL)
 ,m_pLightRT(NULL)
+,m_pShadowMapRT(NULL)
 ,m_pDiffuseRT(NULL)
 ,m_nWidth(0)
 ,m_nHeight(0)
@@ -27,6 +28,7 @@ CSceneEffect::~CSceneEffect()
 void CSceneEffect::clearTextures()
 {
 	S_DEL(m_pLightRT);
+	S_DEL(m_pShadowMapRT);
 	S_DEL(m_pPosMRT);
 	S_DEL(m_pNormalMRT);
 	S_DEL(m_pDiffuseRT);
@@ -53,6 +55,7 @@ void CSceneEffect::Reset(const CRect<int>& rc)
 	m_pPosMRT		= R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
 	m_pNormalMRT	= R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
 	m_pLightRT		= R.GetTextureMgr().CreateRenderTarget(nWidth,nHeight);
+	m_pShadowMapRT	= R.GetTextureMgr().CreateRenderTarget(512,512);
 
 	m_pSceneRT2x	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.5f,nHeight*0.5f);
 	m_pSceneRT4x1	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.25f,nHeight*0.25f);
@@ -112,13 +115,26 @@ void CSceneEffect::render(iRenderNode* pRenderNode)
 	CRect<int> rcRenderTarget(0,0,m_nWidth,m_nHeight);
 	R.setViewport(rcRenderTarget);
 	// ----
-	renderTargetBegin();
+	m_pSystemRT = R.GetRenderTarget();
+	R.SetRenderTarget(0,m_pDiffuseRT);
+	R.SetRenderTarget(1,m_pPosMRT);
+	R.SetRenderTarget(2,m_pNormalMRT);
 	// ----
 	pRenderNode->render(Matrix::UNIT,MATERIAL_GEOMETRY);
+
+	R.SetRenderTarget(1,NULL);
+	R.SetRenderTarget(2,NULL);
+	R.SetRenderTarget(3,NULL);
 	// ----
 	R.SetSamplerFilter(0, TEXF_LINEAR, TEXF_POINT, TEXF_LINEAR);
 	R.SetSamplerFilter(1, TEXF_LINEAR, TEXF_POINT, TEXF_LINEAR);
 	R.SetSamplerFilter(2, TEXF_LINEAR, TEXF_POINT, TEXF_LINEAR);
+
+	// ----
+	R.SetRenderTarget(0,m_pShadowMapRT);
+	R.SetShader("depth");
+	pRenderNode->render(Matrix::UNIT,E_MATERIAL_RENDER_TYPE(MATERIAL_GEOMETRY|MATERIAL_RENDER_NO_MATERIAL));
+	
 	//renderGammaCorrection();
 	renderTargetBloom();
 	renderTargetEnd();
@@ -172,9 +188,7 @@ void CSceneEffect::renderTargetBegin()
 {
 	CRenderSystem& R = CRenderSystem::getSingleton();
 	m_pSystemRT = R.GetRenderTarget();
-	R.SetRenderTarget(0,m_pDiffuseRT);
-	R.SetRenderTarget(1,m_pPosMRT);
-	R.SetRenderTarget(2,m_pNormalMRT);
+
 
 	//R.SetSamplerFilter(0, TEXF_POINT, TEXF_POINT, TEXF_POINT);
 }
@@ -249,10 +263,6 @@ void CSceneEffect::renderTargetBloom()
 	Vec2D inv_width_height4x(4.0f/m_nWidth,4.0f/m_nHeight);
 	Vec2D inv_width_height8x(16.0f/m_nWidth,16.0f/m_nHeight);
 
-
-	R.SetRenderTarget(1,NULL);
-	R.SetRenderTarget(2,NULL);
-	R.SetRenderTarget(3,NULL);
 	// DeferredLighting
 	R.SetShader("DeferredLighting");
 	R.SetRenderTarget(0,m_pLightRT);
@@ -486,7 +496,7 @@ void CSceneEffect::compose(const CRect<int>& rcDest)
 		R.SetTexture(0, m_pSceneRT4x1);
 		break;
 	case 6:
-		R.SetTexture(0, m_pSceneRT4x2);
+		R.SetTexture(0, m_pShadowMapRT);
 		break;
 	}
 	R.SetTexture(1, m_pSceneRT4x1);

@@ -86,11 +86,6 @@ public:
 	virtual void SetShader(CShader* pShader) = 0;
 	virtual void SetShader(const char* szShader) = 0;
 	// ----
-	// # Light
-	// ----
-	virtual void SetDirectionalLight(unsigned long uIndex,const DirectionalLight& light) = 0;
-	virtual void setPointLight(unsigned long uIndex,const PointLight& light) = 0;
-	// ----
 	// # …Ë÷√Œ∆¿Ì
 	// ----
 	virtual void SetTexture(unsigned long Stage, unsigned long TextureID) = 0;

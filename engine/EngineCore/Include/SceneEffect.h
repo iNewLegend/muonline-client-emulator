@@ -40,6 +40,7 @@ protected:
 	CTexture*	m_pPosMRT;
 	CTexture*	m_pNormalMRT;
 	CTexture*	m_pLightRT;
+	CTexture*	m_pShadowMapRT;
 
 	CTexture*	m_pSceneRT2x;
 	CTexture*	m_pSceneRT4x1;
