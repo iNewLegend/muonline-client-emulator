@@ -1,132 +1,139 @@
-// INI文件
-// 仙剑修，2001.11.19
-
-#include <windows.h>
-#include <string>
-#include <stdio.h>
-#include <assert.h>
-#include <string.h>
 #include "IniFile.h"
-//#include "logfile.h"
-#include "common.h"
+#include <fstream>
+using namespace std;
 
-CIniFile::CIniFile(const char * pFilename, const char * pSection)
+//一行最大字符数为260
+
+#define MAX_COLS 260
+
+#define E_OK                0x00L
+#define E_OPEN_FILE_FAILED    0x01L
+
+/*
+功能
+    读取INI文件
+参数
+    szFilename    in    读入的INI文件名称
+返回值
+    E_OK                调用成功
+    E_OPEN_FILE_FAILED    打开文件错我
+*/
+int CIniFile::ReadIniFile(char* szFilename)
 {
-	if(pFilename && strlen(pFilename) < INIWORDSIZE)
-	{
-		strcpy(m_bufFilename, pFilename);
-	}
-	else
-	{
-		m_bufFilename[0] = 0;
-	//	LOGERROR("CIniFile::CIniFile() parameter error.");
-	}
+    ifstream fIniFile(szFilename);
+    if(fIniFile == NULL)
+    {
+        return E_OPEN_FILE_FAILED;
+    }
+    char szLine[MAX_COLS] = {0};
+    while (fIniFile.getline(szLine,MAX_COLS))
+    {
+        char* p = szLine;
+        //是否为[]
 
-	if(pSection && strlen(pSection) < INIWORDSIZE)
-	{
-		strcpy(m_bufSection, pSection);
-	}
-	else
-	{
-		m_bufSection[0] = 0;
-	//	LOGERROR("CIniFile::CIniFile() parameter error.");
-	}
+        if( *p == '[')
+        {
+            RemoveComment( p );
+            char* pEnd = strchr( p ,']');
+            if( pEnd == NULL)
+                continue;
+            *pEnd = 0;
+            IniSection is;
+            is.m_isName = string( p + 1 );
+            m_isSection.push_back(is);
+            continue;
+        }
+        //是否为;
+
+        Trim( p );
+        if( *p == ';')
+        {
+            m_isSection[m_isSection.size() - 1].m_icComment.push_back(p + 1);
+            continue;
+        }
+        //否则视为entry
+
+        //p = szLine;
+
+        char* pTemp = strchr( p,'=');
+        if(pTemp == NULL)
+        {
+            continue;
+        }
+        *pTemp = 0;
+        //创建一个Entry
+
+        IniEntry ie;
+        ie.m_strName = p ;
+        ie.m_strValue = pTemp + 1;
+        //将Entry加入到响应的Section
+
+        m_isSection[m_isSection.size() - 1 ].m_ieEntry.push_back(ie);
+
+        memset(szLine,0,MAX_COLS);
+    }
+    fIniFile.close();
+
+    return E_OK;
 }
-
-CIniFile::~CIniFile()
+/*
+功能
+    将CIniFile中的内容写入文件
+参数
+    szFilename    in    生成的INI文件名称
+返回值
+    E_OK        调用成功
+    E_OPEN_FILE_FAILED    打开文件错误
+*/
+int CIniFile::WriteIniFile(char* szFilename)
 {
+    ofstream fIniFile(szFilename);
+    if(fIniFile == NULL)
+        return E_OPEN_FILE_FAILED;
+    for (size_t i = 0; i < m_isSection.size();++i)
+    {
+        fIniFile.write("[",1);
+        fIniFile.write(m_isSection[i].m_isName.c_str(),m_isSection[i].m_isName.length());
+        fIniFile.write("]",1);
+        fIniFile << endl;
+        for (size_t j = 0; j < m_isSection[i].m_ieEntry.size();++ j)
+        {
+            fIniFile.write(m_isSection[i].m_ieEntry[j].m_strName.c_str(),m_isSection[i].m_ieEntry[j].m_strName.length());
+            fIniFile.write("=",1);
+            fIniFile.write(m_isSection[i].m_ieEntry[j].m_strValue.c_str(),m_isSection[i].m_ieEntry[j].m_strValue.length());
+            fIniFile << endl;
+        }
+    }
+    fIniFile.close();
+    return E_OK;
 }
-
-void	CIniFile::SetSection(const char * pSect)
+/*
+功能
+    删除前后的空格（' ','/t','/r','/n'）
+参数
+    szString        in    传入的字符串
+                    out 去除空格后的字符串
+返回值
+    E_OK    调用成功
+*/
+int CIniFile::Trim(char* &szString)
 {
-	if(pSect && strlen(pSect) < INIWORDSIZE)
-	{
-		strcpy(m_bufSection, pSect);
-	}
-	else
-	{
-		m_bufSection[0] = 0;
-	//	LOGERROR("CIniFile::SetSection()  parameter error.");
-	}
-}
+    char* p = szString;
+    while (*p == ' ' || *p == '/t')
+    {
+        p ++;
+    }
+    szString = p;
 
-bool	CIniFile::GetString(char * bufString, const char * pKey, int nBufSize)
-{
-	if(bufString)
-		bufString[0] = 0;
-	else
-	{
-//		LOGERROR("CIniFile::GetString() parameter error.");
-		return false;
-	}
+    p = szString + strlen(szString) - 1;
+    while ( *p == ' ' || *p == '/t' || *p == '/r' || *p == '/n')
+    {
+        -- p;
+    }
+    *( p + 1 ) = 0;
+    
 
-	int	nSectLen = strlen(m_bufSection);
-//	ASSERT(nSectLen < INIWORDSIZE);
-	int	nKeyLen = strlen(pKey);
-//	ASSERT(nKeyLen < INIWORDSIZE);
-	FILE * pFile = fopen(m_bufFilename, "r");
-	if(nSectLen && nKeyLen && pFile)
-	{
-		char buf[INIWORDSIZE+INIDATASIZE];
-		do
-		{
-			fgets(buf, INIWORDSIZE+INIDATASIZE-1, pFile);
-			buf[INIWORDSIZE+INIDATASIZE-1] = 0;
-			if(buf[0] == '[' && buf[nSectLen+1] == ']' && strnicmp(buf+1, m_bufSection, nSectLen) == 0)
-			{
-				do
-				{
-					fgets(buf, INIWORDSIZE+INIDATASIZE-1, pFile);
-					buf[INIWORDSIZE+INIDATASIZE-1] = 0;
-					if(buf[0] && buf[0] != ';' 
-							&& (buf[nKeyLen] == '=' || buf[nKeyLen] == ' ' || buf[nKeyLen] == '\t')
-							&& strnicmp(buf, pKey, nKeyLen) == 0)
-					{
-						int		pos = nKeyLen;
-						while(buf[pos] == ' ' || buf[pos] == '\t')		// 去掉前空
-							pos++;
-						if(buf[pos] == '=')		// 去掉'='
-							pos++;
-						while(buf[pos] == ' ' || buf[pos] == '\t')		// 去掉前空
-							pos++;
-						strncpy(bufString, buf + pos, nBufSize-1);
-						bufString[nBufSize-1] = 0;
-						if(bufString[0] && bufString[strlen(bufString)-1] == '\n')		// fgets 会多取一个 '\n' 字符
-							bufString[strlen(bufString)-1] = 0;
-						while(bufString[0] && (bufString[strlen(bufString)-1] == ' '
-												|| bufString[strlen(bufString)-1] == '\t'))		// 去掉尾空
-							bufString[strlen(bufString)-1] = 0;
-						if(pFile)
-							fclose(pFile);
-						return true;
-					}
-				}while(!feof(pFile) && buf[0] != '[');
-			}
-		}while(!feof(pFile));
-	}
-	if(pFile)
-		fclose(pFile);
-	return false;
-}
-
-bool CIniFile::getString(std::string& str, const std::string& strKey)
-{
-	char buf[INIWORDSIZE];
-	if (GetString(buf,strKey.c_str(),INIWORDSIZE))
-	{
-		str = buf;
-		return true;
-	}
-	return false;	
-}
-
-int		CIniFile::GetInt(const char * pKey)
-{
-	char buf[INIWORDSIZE];		//??
-	if(GetString(buf, pKey, INIWORDSIZE))
-		return atoi(buf);
-	else
-		return 0;
+    return E_OK;
 }
 
 //////////////////////////////////////////////////////////////////////

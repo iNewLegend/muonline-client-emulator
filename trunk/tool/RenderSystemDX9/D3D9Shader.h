@@ -17,9 +17,8 @@ public:
 	void setFloat(const char* szName, float val);
 	void setFloatArray(const char* szName, const float* pVal, int nCount);
 	void setMatrix(const char* szName, const Matrix& mat);
-	void setTexture(const char* szName, unsigned long uTexID);
 	void setTexture(const char* szName, const CTexture* pTexture);
-	bool begin(const std::string& strTec);
+	bool begin(const char* szTec);
 	void end();
 private:
 	ID3DXEffect* m_pEffect;

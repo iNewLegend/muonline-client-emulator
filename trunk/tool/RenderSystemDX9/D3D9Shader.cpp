@@ -137,12 +137,6 @@ void CD3D9Shader::setMatrix(const char* szName, const Matrix& mat)
 	m_pEffect->SetMatrix(szName,(D3DXMATRIX*)&mDx);
 }
 
-void CD3D9Shader::setTexture(const char* szName, unsigned long uTexID)
-{
-	CTexture* pTexture = GetD3D9RenderSystem().GetTextureMgr().getLoadedTexture(uTexID);
-	setTexture(szName, pTexture);
-}
-
 void CD3D9Shader::setTexture(const char* szName, const CTexture* pTexture)
 {
 	LPDIRECT3DTEXTURE9 pD3DTexture = NULL;
@@ -153,9 +147,9 @@ void CD3D9Shader::setTexture(const char* szName, const CTexture* pTexture)
 	m_pEffect->SetTexture(szName, pD3DTexture);
 }
 
-bool CD3D9Shader::begin(const std::string& strTec)
+bool CD3D9Shader::begin(const char* szTec)
 {
-	m_pEffect->SetTechnique(strTec.c_str());
+	m_pEffect->SetTechnique(szTec);
 	UINT cPasses;
 	m_pEffect->Begin(&cPasses, D3DXFX_DONOTSAVESTATE);
 	m_pEffect->BeginPass(0);
