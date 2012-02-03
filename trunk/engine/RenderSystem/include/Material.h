@@ -40,7 +40,7 @@ public:
 		//}
 		else if (bBlend)
 		{
-			return MATERIAL_GLOW;
+		return MATERIAL_GLOW;
 		}*/
 		return MATERIAL_GEOMETRY;
 	}
