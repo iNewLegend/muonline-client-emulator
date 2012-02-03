@@ -117,10 +117,6 @@ public:
 	// …Ë÷√shader
 	void SetShader(CShader* pShader);
 	void SetShader(const char* szShader);
-	// Light
-	void SetDirectionalLight(unsigned long uIndex,const DirectionalLight& light);
-	void setPointLight(unsigned long uIndex,const PointLight& light);
-	//
 	// …Ë÷√Œ∆¿Ì
 	void SetTexture(unsigned long Stage, unsigned long TextureID);
 	void SetTexture(unsigned long Stage, const CTexture* pTexture);

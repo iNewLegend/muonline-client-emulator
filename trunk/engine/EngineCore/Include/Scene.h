@@ -62,7 +62,6 @@ public:
 	GSET_VAR				(bool,				m_b,ShowNodeBBox);
 	GSET_VAR				(bool,				m_b,ShowOctreeBox);
 	GSET_VAR				(bool,				m_b,RefreshViewport);
-	GSET_CONST_VAR			(DirectionalLight&,	m_,Light);
 	GSET_CONST_VAR			(Fog&,				m_,Fog);
 	GSET_CONST_VAR			(Vec3D&,			m_v,TargetPos);
 	// ----
@@ -79,6 +78,5 @@ protected:
 	bool					m_bShowOctreeBox;
 
 	Fog						m_Fog;
-	DirectionalLight		m_Light;
 	Vec3D					m_vTargetPos;
 };

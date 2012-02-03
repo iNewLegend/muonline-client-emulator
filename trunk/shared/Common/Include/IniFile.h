@@ -24,7 +24,7 @@ struct IniEntry
 //Section
 struct IniSection 
 {
-	string m_isName;
+	string m_strName;
 	vector<IniEntry> m_ieEntry;
 	vector<string> m_icComment;
 };
@@ -33,16 +33,16 @@ class CIniFile
 {
 public:
 	//从INI文件中读取参数
-	int ReadIniFile(char* szFilename);
+	bool readIniFile(const char* szFilename);
 
 	//将参数写入INI文件
-	int WriteIniFile(char* szFilename);
+	bool writeIniFile(const char* szFilename);
 
 	//删除字符串两端的空格
-	int Trim(char* &szString);
+	void trim(char* &szString);
 
 	//去除字符串中的注释
-	int RemoveComment(char* szLine);
+	int removeComment(char* szLine);
 
 	vector<IniSection> m_isSection;
 };

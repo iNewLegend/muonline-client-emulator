@@ -137,11 +137,7 @@ HRESULT CD3D9RenderSystem::OnResetDevice()
 	//	//ShowShadowVolume
 	//}
 
-	// 设置默认灯光
-	DirectionalLight light(Vec4D(1.0f,1.0f,1.0f,1.0f),Vec4D(1.0f,1.0f,1.0f,1.0f),Vec4D(1.0f,1.0f,1.0f,1.0f),Vec3D(-1.0f,-1.0f,-1.0f));
-
-	SetDirectionalLight(0,light);
-	D3D9HR( m_pD3D9Device->LightEnable(0, true) );
+	D3D9HR( m_pD3D9Device->LightEnable(0, false) );
 
 	// 设置默认的顶点采样器状态
 	SetSamplerFilter(0, TEXF_LINEAR, TEXF_LINEAR, TEXF_LINEAR);
@@ -402,9 +398,9 @@ void CD3D9RenderSystem::setWorldMatrix(const Matrix& m)
 	Matrix wvpm = Proj * View * m;
 	Matrix wvm = View * m;
 
-	m_mapShaders.begin()->second->setMatrix("wvm",wvm);
-	m_mapShaders.begin()->second->setMatrix("wvpm",wvpm);
-	m_mapShaders.begin()->second->setMatrix("g_mWorld",m);
+	setShaderMatrix("wvm",wvm);
+	setShaderMatrix("wvpm",wvpm);
+	setShaderMatrix("g_mWorld",m);
 	if (m_pOldShader)
 	{
 		((CD3D9Shader*)m_pOldShader)->getD3DXEffect()->CommitChanges();
@@ -421,8 +417,8 @@ void CD3D9RenderSystem::setViewMatrix(const Matrix& m)
 	getProjectionMatrix(Proj);
 	Matrix vpm = Proj * m;
 
-	m_mapShaders.begin()->second->setMatrix("vpm", vpm);
-	m_mapShaders.begin()->second->setMatrix("vm", m);
+	setShaderMatrix("vpm", vpm);
+	setShaderMatrix("vm", m);
 	if (m_pOldShader)
 	{
 		((CD3D9Shader*)m_pOldShader)->getD3DXEffect()->CommitChanges();
@@ -793,32 +789,6 @@ void CD3D9RenderSystem::StretchRect(CTexture* pSourceTexture,const CRect<int>* p
 		pD3D9DestSurface = ((CD3D9Texture*)pDestTexture)->GetD3D9Surface();
 	}
 	D3D9HR( m_pD3D9Device->StretchRect(pD3D9SourceSurface, pSourceRect==NULL?NULL:&pSourceRect->getRECT(), pD3D9DestSurface, pDestRect==NULL?NULL:&pDestRect->getRECT(), TextureFilterTypeForD3D9(filter)) );
-}
-
-void CD3D9RenderSystem::SetDirectionalLight(unsigned long uIndex,const DirectionalLight& light)
-{
-	D3DLIGHT9 D3D9Light;
-	ZeroMemory( &D3D9Light, sizeof(D3D9Light) );
-	D3D9Light.Type		= D3DLIGHT_DIRECTIONAL;
-	D3D9Light.Ambient	= *(D3DXCOLOR*)(&light.vAmbient);
-	D3D9Light.Diffuse	= *(D3DXCOLOR*)(&light.vDiffuse);
-	D3D9Light.Specular	= *(D3DXCOLOR*)(&light.vSpecular);
-	D3D9Light.Direction = *(D3DXVECTOR3*)(&light.vDirection);
-	D3D9HR( m_pD3D9Device->SetLight(uIndex, &D3D9Light) );
-}
-
-void CD3D9RenderSystem::setPointLight(unsigned long uIndex,const PointLight& light)
-{
-	D3DLIGHT9 D3D9Light;
-	ZeroMemory( &D3D9Light, sizeof(D3D9Light) );
-	D3D9Light.Attenuation1 = 1.0f/light.fRange;
-	D3D9Light.Type		= D3DLIGHT_POINT;
-	D3D9Light.Ambient	= *(D3DXCOLOR*)(&light.vAmbient);
-	D3D9Light.Diffuse	= *(D3DXCOLOR*)(&light.vDiffuse);
-	D3D9Light.Specular	= *(D3DXCOLOR*)(&light.vSpecular);
-	D3D9Light.Position = *(D3DXVECTOR3*)(&light.vPosition);
-	D3D9Light.Range = light.fRange;
-	D3D9HR( m_pD3D9Device->SetLight(uIndex, &D3D9Light) );
 }
 
 void CD3D9RenderSystem::SetVB(int nVBID)

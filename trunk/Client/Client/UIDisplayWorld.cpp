@@ -41,21 +41,42 @@ void CUIDisplayWorld::OnFrameMove(double fTime, float fElapsedTime)
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+Matrix calcLightMatrix(const BBox& bbox, const Vec3D& vLightDir)
+{
+	float fLength = (bbox.vMax-bbox.vMin).length();
+	Vec3D vLookAt=(bbox.vMax+bbox.vMin)*0.5f;
+	Vec3D vEyePt = vLookAt - vLightDir*fLength*0.5f;
+
+	Vec3D vUp(0,1,0); 
+	Matrix mView, mProj;
+	mView.MatrixLookAtLH(vEyePt,vLookAt,vUp);
+	mProj.MatrixOrthoLH(fLength,fLength, 0, fLength);
+	Matrix mLight = mProj*mView;
+	return mLight;
+}
+
+
 void CUIDisplayWorld::OnFrameRender(const Matrix& mTransform, double fTime, float fElapsedTime)
 {
 	if(IsVisible() == true)
 	{
-		bool bCamma				= false;
-		bool bSetFog			= false;
+		Vec3D vLightDir(-0.274226f,-0.68f,0.68f);
 		// ----
 		CRect<int> rcViewport	= getViewport();
 		CRenderSystem & R		= CRenderSystem::getSingleton();
 		// ----
 		R.setShaderFloat("g_fTime",			fTime);
-		R.setShaderFloatArray("g_vLightDir",	&CWorld::getInstance().getLight().vDirection, 3);
+		R.setShaderFloatArray("g_vLightDir",	&vLightDir, 3);
 		R.setShaderFloatArray("g_vEyePot",		&m_Camera.getEyePt(), 3);
 		R.setShaderFloatArray("g_vPointLight",	&(CPlayerMe::getInstance().getPos()+Vec3D(0.0f,2.0f,0.0f)), 3);
 		
+		// Light Matrix
+		const Vec3D& vEyePoint = CPlayerMe::getInstance().getPos();
+		BBox lightBox(vEyePoint.x-10,vEyePoint.y-10,vEyePoint.z-10,
+			vEyePoint.x+10,vEyePoint.y+10,vEyePoint.z+10);
+		Matrix mLight = calcLightMatrix(lightBox, vLightDir);
+		R.setShaderMatrix("lvm", mLight);
+
 		// ----
 		R.setWorldMatrix(Matrix::UNIT);
 		// ----
@@ -71,6 +92,7 @@ void CUIDisplayWorld::OnFrameRender(const Matrix& mTransform, double fTime, floa
 		// ----
 		CWorld::getInstance().updateRender(m_Camera.getFrustum());
 		m_SceneEffect.render(&CWorld::getInstance());
+		CWorld::getInstance().renderDamageInfo();
 		// ----
 		R.setViewport(GetParentDialog()->GetBoundingBox());
 		// ----

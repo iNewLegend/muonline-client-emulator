@@ -5,7 +5,6 @@
 CScene::CScene()
 	:m_bShowNodeBBox(false)
 	,m_Fog(32.0f,48.0f,0.01f,0xFFF23344)
-	,m_Light(Vec4D(1.0f,1.0f,1.0f,1.0f),Vec4D(1.0f,1.0f,1.0f,1.0f),Vec4D(1.0f,1.0f,1.0f,1.0f),Vec3D(-1.0f,-1.0f,-1.0f))
 	,m_pSceneData(NULL)
 	,m_bRefreshViewport(NULL)
 {
@@ -77,12 +76,30 @@ void CScene::updateRender(const CFrustum& frustum)
 	}
 }
 
+Matrix CalcLightMatrix(const BBox& bbox, const Vec3D& vLightDir)
+{
+	float fLength = (bbox.vMax-bbox.vMin).length();
+	Vec3D vLookAt=(bbox.vMax+bbox.vMin)*0.5f;
+	Vec3D vEyePt = vLookAt - vLightDir*fLength*0.5f;
+
+	Vec3D vUp(0,1,0); 
+	Matrix mView, mProj;
+	mView.MatrixLookAtLH(vEyePt,vLookAt,vUp);
+	mProj.MatrixOrthoLH(fLength,fLength, 0, fLength);
+	Matrix mLight = mProj*mView;
+	return mLight;
+}
+
 #include "Graphics.h"
 void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)const
 {
 	CRenderSystem& R = CRenderSystem::getSingleton();
 	//R.setFogEnable(true);
 	R.ClearBuffer(true, true, m_Fog.color);
+// 	if (MATERIAL_SHADOW==eRenderType)
+// 	{
+// 		return;
+// 	}
 	// 
 	if (m_bShowNodeBBox)
 	{
@@ -109,46 +126,9 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 // 		}
 	}
 	//
-	R.setFog(m_Fog);
-	R.setFogEnable(m_Fog.fEnd>0.0f);
-	R.SetDirectionalLight(0, m_Light);
-	Vec3D vLightDir = Vec3D(-0.8f,-1.0f,0.0f).normalize();
+	//R.setFog(m_Fog);
+	//R.setFogEnable(m_Fog.fEnd>0.0f);
  	{
-		// ----
-		FOR_IN(it,m_RenderNodes)
-		{
-			try {
-				CRenderNode* pObj = (CRenderNode*)(*it);
-				if(pObj)
-				{
-					//if(pObj->GetObjType() == MAP_3DOBJ)
-					{
-					/*	C3DMapObj* p3DObj = (C3DMapObj*)pObj;
-						float fHeight = 0.0f;
-						if (m_pSceneData)
-						{
-							fHeight = m_pScene->getHeight(p3DObj->getPos().x,p3DObj->getPos().z);
-						}
-						p3DObj->renderShadow(Matrix::UNIT,vLightDir,fHeight);
-						// ----
-						FOR_IN(itLight,m_setLightObj)
-						{
-							Vec3D vDir = (*it)->getPos()-(*itLight)->getPos();
-							if (vDir.length()<3.0f)
-							{
-								vDir.normalize();
-								vDir.y=-1;
-								vDir.normalize();
-								p3DObj->renderShadow(Matrix::UNIT,vDir,fHeight);
-							}
-						}*/
-					}
-				}
-			}catch(...)
-			{ 
-				return;
-			}
-		}
 		// ----
 		R.SetStencilFunc(false);
 		// ----
@@ -159,24 +139,23 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 		}
 		FOR_IN(it,m_RenderNodes)
 		{
-			if (*it==pFocusNode)
-			{
-				CRenderSystem::getSingleton().SetShader("ObjectFocus");
-				float color[4] = {1.0f,0.25f,0.0f,0.5f};
-				R.SetPixelShaderConstantF(0,color,1);
-				// monster (0xFFFF4040)
-				// NPC (0xFF40FF40)
-				// Player (0xFF00FFFF)
-				((CRenderNode*)*it)->render(Matrix::UNIT, E_MATERIAL_RENDER_TYPE(MATERIAL_GEOMETRY|MATERIAL_RENDER_ALPHA_TEST));
-
-			}
+// 			if (*it==pFocusNode)
+// 			{
+// 				CRenderSystem::getSingleton().SetShader("ObjectFocus");
+// 				float color[4] = {1.0f,0.25f,0.0f,0.5f};
+// 				R.SetPixelShaderConstantF(0,color,1);
+// 				// monster (0xFFFF4040)
+// 				// NPC (0xFF40FF40)
+// 				// Player (0xFF00FFFF)
+// 				((CRenderNode*)*it)->render(Matrix::UNIT, E_MATERIAL_RENDER_TYPE(MATERIAL_GEOMETRY|MATERIAL_RENDER_ALPHA_TEST));
+// 			}
 			(*it)->render(Matrix::UNIT,eRenderType);
 		}
-		Fog fogForGlow;
-		fogForGlow = m_Fog;
+		//Fog fogForGlow;
+		//fogForGlow = m_Fog;
 		//fogForGlow.fStart = m_Fog.fStart;
-		fogForGlow.fEnd = m_Fog.fEnd*2.0f;
-		R.setFog(fogForGlow);
+		//fogForGlow.fEnd = m_Fog.fEnd*2.0f;
+		//R.setFog(fogForGlow);
 		//
 // 		FOR_IN(it,m_RenderNodes)
 // 		{
