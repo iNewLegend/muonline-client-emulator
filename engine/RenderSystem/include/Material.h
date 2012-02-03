@@ -66,16 +66,6 @@ public:
 		}*/
 		return nOrder;
 	}
-	// Texture
-	void setTexture(int id, const char* szFilename)
-	{
-		strTexture[id]	= szFilename;
-		uTexture[id]	= -1;
-	}
-	const std::string& getTexture(int id)
-	{
-		return strTexture[id];
-	}
 public:
 	std::string		strShader;
 	std::string		strTexture[8];
