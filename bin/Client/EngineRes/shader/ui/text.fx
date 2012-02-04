@@ -1,5 +1,3 @@
-#include "shared.fx"
-
 struct PS_TEXT_INPUT
 {
     float4  Diffuse : COLOR;

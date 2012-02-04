@@ -3,7 +3,7 @@
 sampler s0: register(s0);
 float4 PS(float2 uv : TEXCOORD0):COLOR0
 {
-    return tex2D(s0, uv);
+    return tex2D(s0, uv)*(sin(g_fTime*20)+1);
 }
 
 technique Render
@@ -22,7 +22,7 @@ technique Render
 
 	ZEnable				= True;
 	ZFunc				= LessEqual;
-	ZWriteEnable		= True;
+	ZWriteEnable		= False;
 
         VertexShader = NULL;
         PixelShader = compile ps_2_0 PS();

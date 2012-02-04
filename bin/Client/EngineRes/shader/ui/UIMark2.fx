@@ -1,5 +1,3 @@
-#include "shared.fx"
-
 technique Render
 {
     pass P0
@@ -7,18 +5,16 @@ technique Render
 		Lighting			= False;
 		CullMode			= None;
 		
-		AlphaTestEnable		= True;
-		AlphaFunc			= GreaterEqual;
-		AlphaRef			= 64;
+		AlphaTestEnable		= False;
 		
-		AlphaBlendEnable	= TRUE;
+		AlphaBlendEnable	= True;
 		BlendOp				= Add;
-		SrcBlend			= ZERO;
-		DestBlend			= ONE;
+		SrcBlend			= SrcAlpha;
+		DestBlend			= InvSrcAlpha;
 
 		ZEnable				= True;
-		ZFunc				= LessEqual;
-		ZWriteEnable		= True;
+		ZFunc				= Less;
+		ZWriteEnable		= False;
 
 		ColorOp[0]			= Modulate;
 		ColorArg1[0]		= Texture;
