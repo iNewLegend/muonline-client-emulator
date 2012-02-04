@@ -18,9 +18,12 @@ public:
 	void setFloatArray(const char* szName, const float* pVal, int nCount);
 	void setMatrix(const char* szName, const Matrix& mat);
 	void setTexture(const char* szName, const CTexture* pTexture);
+	void setRenderType(int nRenderType);
+	int  getRenderType();
 	bool begin(const char* szTec);
 	void end();
 private:
+	int m_nRenderType;
 	ID3DXEffect* m_pEffect;
 	static ID3DXEffectPool* ms_pEffectPool;    //¹²Ïí³Ø
 };

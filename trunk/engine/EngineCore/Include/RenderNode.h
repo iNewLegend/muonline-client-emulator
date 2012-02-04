@@ -42,7 +42,7 @@ public:
 	//----
 	virtual	int				getType				(){return NODE_BASE;}
 	virtual void			frameMove			(const Matrix& mWorld, double fTime, float fElapsedTime);
-	virtual void			render				(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType=MATERIAL_NORMAL)const;
+	virtual void			render				(const Matrix& mWorld, int nRenderType)const;
 	iRenderNode*			getChild			(const char* szName);
 	const iRenderNode*		getChild			(const char* szName)const;
 	virtual void			addChild			(iRenderNode* pChild);

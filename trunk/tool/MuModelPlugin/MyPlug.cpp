@@ -5,6 +5,7 @@
 #include "Material.h"
 #include "Windows.h"
 #include "IniFile.h"
+#include <map>
 
 extern "C" __declspec(dllexport) bool Data_Plug_CreateObject(void ** pobj){
 	*pobj = new CMyPlug;

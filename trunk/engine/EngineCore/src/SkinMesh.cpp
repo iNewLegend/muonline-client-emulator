@@ -9,6 +9,7 @@ CSkinMesh::CSkinMesh()
 	,m_pMesh(NULL)
 	,m_uLodLevel(0)
 	,m_nSkinID(0)
+	,m_nRenderType(0)
 {
 }
 
@@ -42,25 +43,21 @@ void CSkinMesh::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime
 	updateWorldBBox();
 }
 
-void CSkinMesh::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)const
+void CSkinMesh::render(const Matrix& mWorld, int nRenderType)const
 {
 	Matrix mNewWorld = mWorld*m_mWorldMatrix;
 	// ----
-	if (m_pMesh)
+	if (m_nRenderType&nRenderType && m_pMesh)
 	{
-		if (eRenderType==MATERIAL_NONE)
-		{
-			return;
-		}
 		// ----
 		//Matrix mNewWorld = mWorld*m_mWorldMatrix;
 		// ----
 		CRenderSystem::getSingleton().setWorldMatrix(mNewWorld);
 		// ----
-		renderMesh(eRenderType,m_uLodLevel,m_pVB);
+		renderMesh(nRenderType,m_uLodLevel,m_pVB);
 	}
 	// ----
-	CRenderNode::render(mNewWorld, eRenderType);
+	CRenderNode::render(mNewWorld, nRenderType);
 }
 
 bool CSkinMesh::intersectSelf(const Vec3D& vRayPos , const Vec3D& vRayDir, float &tmin ,float &tmax)const
@@ -102,12 +99,15 @@ bool CSkinMesh::setup()
 	// # 设置默认LOD
 	// ----
 	setLOD(0);
+
+	auto& R = CRenderSystem::getSingleton();
+
 	// ----
 	// # 如果是几何体动画 则进行重建VB
 	// ----
 	if (m_pMesh->m_bSkinMesh)
 	{
-		m_pVB = CRenderSystem::getSingleton().GetHardwareBufferMgr().CreateVertexBuffer(m_pMesh->getSkinVertexCount(), m_pMesh->getSkinVertexSize(), CHardwareBuffer::HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE);
+		m_pVB = R.GetHardwareBufferMgr().CreateVertexBuffer(m_pMesh->getSkinVertexCount(), m_pMesh->getSkinVertexSize(), CHardwareBuffer::HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE);
 	}
 
 	if (m_vecMaterial.empty())
@@ -127,26 +127,35 @@ bool CSkinMesh::setup()
 				m_vecMaterial.push_back(mat);
 			}
 		}
-		CTextureMgr& TM = CRenderSystem::getSingleton().GetTextureMgr();
+		m_nRenderType = 0;
 		for (auto it=m_vecMaterial.begin(); it!=m_vecMaterial.end(); ++it)
 		{
+			// Texture
 			for (size_t i=0;i<8;++i)
 			{
-				if (it->strTexture[i].size()>0)
+				if (it->strTexture[i].length()>0)
 				{
-					it->uTexture[i]=TM.RegisterTexture(it->strTexture[i].c_str());
+					it->uTexture[i]=R.GetTextureMgr().RegisterTexture(it->strTexture[i].c_str());
 				}
 				else
 				{
 					it->uTexture[i]=0;
 				}
 			}
+			// Shader
+			CShader* pShader = R.getShader(it->strShader.c_str());
+			if (!pShader)
+			{
+				continue;
+			}
+			int renderType = pShader->getRenderType();
+			m_nRenderType |= renderType;
 		}
 	}
 	m_nOrder=0;
 	for (auto it=m_vecMaterial.begin();it!=m_vecMaterial.end();it++)
 	{
-		//CMaterial& material = CRenderSystem::getSingleton().getMaterialMgr().getItem(it->strMaterial.c_str());
+		//CMaterial& material = R.getMaterialMgr().getItem(it->strMaterial.c_str());
 		//m_nOrder+=material.getOrder();
 	}
 	return true;
@@ -191,37 +200,50 @@ void CSkinMesh::setSkin(int nID)
 	}
 }
 
-void CSkinMesh::renderMesh(E_MATERIAL_RENDER_TYPE eModelRenderType, size_t uLodLevel, CHardwareVertexBuffer* pSkinVB)const
+void CSkinMesh::renderMesh(int eModelRenderType, size_t uLodLevel, CHardwareVertexBuffer* pSkinVB)const
 {
 	if (m_pMesh->SetMeshSource(uLodLevel,pSkinVB))
 	{
 		if (eModelRenderType==(MATERIAL_ALL|MATERIAL_RENDER_NO_MATERIAL))
 		{
-			m_pMesh->draw();
+			m_pMesh->draw(uLodLevel);
 		}
-		else for (int i=0; i< m_vecMaterial.size(); ++i)
+		else for (int i=0; i<m_vecMaterial.size(); ++i)
 		{
-			E_MATERIAL_RENDER_TYPE RenderType = MATERIAL_GEOMETRY;//CRenderSystem::getSingleton().getMaterialMgr().getItem(it->strMaterial.c_str()).getRenderType();
-			if (RenderType&eModelRenderType)
+			auto& mat = m_vecMaterial[i];
+			auto& R = CRenderSystem::getSingleton();
+			CShader* pShader = R.getShader(mat.strShader.c_str());
+			if (!pShader)
 			{
-				if (eModelRenderType&MATERIAL_RENDER_ALPHA_TEST)
+				continue;
+			}
+			int renderType = pShader->getRenderType();
+			// No Render Type
+			if (renderType&eModelRenderType==0)
+			{
+				continue;
+			}
+			//
+			if (eModelRenderType&MATERIAL_RENDER_ALPHA_TEST)
+			{
+			}
+			else if (eModelRenderType&MATERIAL_RENDER_NO_MATERIAL)
+			{
+				m_pMesh->drawSub(i,uLodLevel);
+			}
+			else
+			{
+				R.SetShader(pShader);
+				for (size_t j=0;j<8;++j)
 				{
-					//CRenderSystem::getSingleton().SetTexture(0,CRenderSystem::getSingleton().getMaterialMgr().getItem(it->strMaterial.c_str()).uTexture[0]);
-					//m_pMesh->drawSub(i,uLodLevel);
-				}
-				else if (eModelRenderType&MATERIAL_RENDER_NO_MATERIAL)
-				{
-					m_pMesh->drawSub(i,uLodLevel);
-				}
-				else
-				{
-					if (CRenderSystem::getSingleton().prepareMaterial(m_vecMaterial[i]))
+					if (mat.uTexture[j]==0)
 					{
-						m_pMesh->drawSub(i,uLodLevel);
+						break;
 					}
-					//	GetRenderSystem().GetDevice()->SetStreamSourceFreq(0,1);
-					//	GetRenderSystem().GetDevice()->SetStreamSourceFreq(1,1);
+					// ----
+					R.SetTexture(i, mat.uTexture[j]);
 				}
+				m_pMesh->drawSub(i,uLodLevel);
 			}
 		}
 	}

@@ -147,6 +147,16 @@ void CD3D9Shader::setTexture(const char* szName, const CTexture* pTexture)
 	m_pEffect->SetTexture(szName, pD3DTexture);
 }
 
+void CD3D9Shader::setRenderType(int nRenderType)
+{
+	m_nRenderType = nRenderType;
+}
+
+int CD3D9Shader::getRenderType()
+{
+	return m_nRenderType;
+}
+
 bool CD3D9Shader::begin(const char* szTec)
 {
 	m_pEffect->SetTechnique(szTec);

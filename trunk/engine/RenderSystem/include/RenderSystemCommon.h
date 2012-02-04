@@ -144,18 +144,6 @@ enum VertexElementType
 };
 //----------------------------------------------------------------
 
-enum TextureTransformFlag
-{
-	TTF_DISABLE         = 0,    // texture coordinates are passed directly
-	TTF_COUNT1          = 1,    // rasterizer should expect 1-D texture coords
-	TTF_COUNT2          = 2,    // rasterizer should expect 2-D texture coords
-	TTF_COUNT3          = 3,    // rasterizer should expect 3-D texture coords
-	TTF_COUNT4          = 4,    // rasterizer should expect 4-D texture coords
-	TTF_PROJECTED       = 256,  // texcoords to be divided by COUNTth element
-};
-//----------------------------------------------------------------
-
-
 enum FillMode
 {
 	FILL_POINT               = 1,
@@ -312,4 +300,18 @@ struct IndexedSubset
 	unsigned short vcount;	// num vertices
 	unsigned short istart;	// first index
 	unsigned short icount;	// num indices
+};
+
+enum E_MATERIAL_RENDER_TYPE
+{
+	MATERIAL_NONE				= 0,
+	MATERIAL_GEOMETRY			= 1<<0,
+	MATERIAL_ALPHA				= 1<<1,
+	MATERIAL_GLOW				= 1<<2,
+	MATERIAL_BUMP				= 1<<3,
+	MATERIAL_NORMAL				= MATERIAL_GEOMETRY+MATERIAL_ALPHA+MATERIAL_GLOW,
+	MATERIAL_ALL				= MATERIAL_NORMAL+MATERIAL_BUMP,
+	MATERIAL_RENDER_ALPHA_TEST	= 1<<4,
+	MATERIAL_RENDER_NO_MATERIAL	= 1<<5,
+	MATERIAL_SHADOW				= 1<<6,
 };

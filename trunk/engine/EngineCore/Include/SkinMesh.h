@@ -36,7 +36,7 @@ public:
 	~CSkinMesh();
 	virtual int		getType			() {return NODE_MESH;}
 	virtual void	frameMove		(const Matrix& mWorld, double fTime, float fElapsedTime);
-	virtual void	render			(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType=MATERIAL_NORMAL)const;
+	virtual void	render			(const Matrix& mWorld, int nRenderType)const;
 	virtual bool	intersectSelf	(const Vec3D& vRayPos , const Vec3D& vRayDir, float &tmin ,float &tmax)const;
 	virtual bool	setup			();
 	bool			prepare			()const;
@@ -44,12 +44,13 @@ public:
 	void			setSkin			(int nID);
 	virtual std::vector<CMaterial>&	getRenderPasses(){return m_vecMaterial;}
 	virtual			GSET_CONST_VAR	(int,	m_n,Order);
-	void			renderMesh(E_MATERIAL_RENDER_TYPE eModelRenderType, size_t uLodLevel, CHardwareVertexBuffer* pSkinVB)const;
+	void			renderMesh(int eModelRenderType, size_t uLodLevel, CHardwareVertexBuffer* pSkinVB)const;
 protected:
 	CHardwareVertexBuffer*			m_pVB;				// 顶点缓冲
 	CMeshData*						m_pMesh;
 	unsigned long					m_uLodLevel;		// Current Lod Level
 	std::vector<CMaterial>			m_vecMaterial;			// 渲染过程集
+	int								m_nRenderType;
 	int								m_nOrder;
 	int								m_nSkinID;
 };

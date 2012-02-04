@@ -46,7 +46,7 @@ public:
 	// ----
 	virtual void	updateRender		(const CFrustum& frustum);
 	virtual void	frameMove			(const Matrix& mWorld, double fTime, float fElapsedTime);
-	virtual void	render				(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType=MATERIAL_NORMAL)const;
+	virtual void	render				(const Matrix& mWorld, int nRenderType)const;
 	// ----
 	void			renderDamageInfo	()const;
 protected:

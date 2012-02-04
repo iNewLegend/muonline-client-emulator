@@ -331,9 +331,9 @@ void CWorld::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void CWorld::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)const
+void CWorld::render(const Matrix& mWorld, int nRenderType)const
 {
-	CScene::render(Matrix::UNIT, eRenderType);
+	CScene::render(Matrix::UNIT, nRenderType);
 	// ----
 	//renderDamageInfo();
 	//m_Messages.frameRender();

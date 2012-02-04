@@ -214,7 +214,7 @@ void CParticleEmitter::update(const Matrix& mWorld, ParticleData& particleData, 
 	}
 }
 
-void CParticleEmitter::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)const
+void CParticleEmitter::render(const Matrix& mWorld, int nRenderType)const
 {
 	if(!m_pData)
 	{
@@ -225,7 +225,7 @@ void CParticleEmitter::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRend
 	R.setWorldMatrix(Matrix::UNIT);
 	// ----
 	//CMaterial& material = R.getMaterialMgr().getItem(m_pData->m_strMaterialName.c_str());
-	//if (!(m_Material.getRenderType()&eRenderType))
+	//if (!(m_Material.getRenderType()&nRenderType))
 	{
 	//	return;
 	}

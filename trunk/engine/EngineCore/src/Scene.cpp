@@ -91,12 +91,12 @@ Matrix CalcLightMatrix(const BBox& bbox, const Vec3D& vLightDir)
 }
 
 #include "Graphics.h"
-void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)const
+void CScene::render(const Matrix& mWorld, int nRenderType)const
 {
 	CRenderSystem& R = CRenderSystem::getSingleton();
 	//R.setFogEnable(true);
 	R.ClearBuffer(true, true, m_Fog.color);
-// 	if (MATERIAL_SHADOW==eRenderType)
+// 	if (MATERIAL_SHADOW==nRenderType)
 // 	{
 // 		return;
 // 	}
@@ -149,7 +149,7 @@ void CScene::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)con
 // 				// Player (0xFF00FFFF)
 // 				((CRenderNode*)*it)->render(Matrix::UNIT, E_MATERIAL_RENDER_TYPE(MATERIAL_GEOMETRY|MATERIAL_RENDER_ALPHA_TEST));
 // 			}
-			(*it)->render(Matrix::UNIT,eRenderType);
+			(*it)->render(Matrix::UNIT,nRenderType);
 		}
 		//Fog fogForGlow;
 		//fogForGlow = m_Fog;

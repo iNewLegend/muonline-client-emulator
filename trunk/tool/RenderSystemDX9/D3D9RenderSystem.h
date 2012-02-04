@@ -80,8 +80,6 @@ public:
 	CTexture* GetDepthStencil();
 	void SetDepthStencil(CTexture* pDepthStencil);
 
-
-
 	void setViewport(const CRect<int>& rect);
 	void getViewport(CRect<int>& rect);
 	//
@@ -94,7 +92,6 @@ public:
 	void setWorldMatrix(const Matrix& m);
 	void setViewMatrix(const Matrix& m);
 	void setProjectionMatrix(const Matrix& m);
-	void setTextureMatrix(unsigned char uTexChannel, TextureTransformFlag flag, const Matrix& m = Matrix::ZERO);
 	// get matrix
 	void getWorldMatrix(Matrix& m)const;
 	void getViewMatrix(Matrix& m)const;
@@ -146,9 +143,6 @@ public:
 	void DrawIndexedPrimitiveUP(VertexRenderOperationType PrimitiveType,unsigned long MinVertexIndex,unsigned long NumVertices,unsigned long PrimitiveCount,const void* pIndexData,const void* pVertexStreamZeroData,unsigned long VertexStreamZeroStride);
 	
 	void drawIndexedSubset(const IndexedSubset& subset);
-
-	void setFog(const Fog& fog);
-	void setFogEnable(bool bEnable);
 
 	void StretchRect(CTexture* pSource,const CRect<int>* pSourceRect,CTexture* pDest,const CRect<int>* pDestRect,TextureFilterType filter);
 	void commond(const char* szCommond);

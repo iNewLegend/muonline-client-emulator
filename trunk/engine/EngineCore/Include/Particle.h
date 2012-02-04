@@ -25,7 +25,7 @@ public:
 	virtual int		getType		() {return NODE_PARTICLE;}
 	virtual bool	init		(void* pData);
 	virtual void	frameMove	(const Matrix& mWorld, double fTime, float fElapsedTime);
-	virtual void	render		(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType=MATERIAL_NORMAL)const;
+	virtual void	render		(const Matrix& mWorld, int nRenderType)const;
 	void			update		(const Matrix& mWorld, ParticleData& particleData, float fElapsedTime);
 public:
 	CMaterial			m_Material;
