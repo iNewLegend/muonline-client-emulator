@@ -1,5 +1,3 @@
-#include "shared.fx"
-
 technique Render
 {
     pass P0

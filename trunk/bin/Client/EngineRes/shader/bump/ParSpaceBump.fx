@@ -18,9 +18,7 @@ VS_OUTPUT VS(VS_INPUT i)
 	VS_OUTPUT o;
 	o.UV = i.UV;
 	o.Pos = mul(i.Pos,vpm);
-	o.UV2 = o.Pos.xyzw;///o.Pos.w*0.5f;
-	//o.UV2.y=-o.UV2.y;
-	//o.UV2+=0.5f;
+	o.UV2 = o.Pos.xyzw;
 
 	return o;
 }

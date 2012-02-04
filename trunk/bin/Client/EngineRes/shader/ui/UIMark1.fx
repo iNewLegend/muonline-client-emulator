@@ -4,29 +4,32 @@ technique Render
     {
 		Lighting			= False;
 		CullMode			= None;
-
-		AlphaTestEnable		= False;
-
-		AlphaBlendEnable	= True;
+		
+		AlphaTestEnable		= True;
+		AlphaFunc			= GreaterEqual;
+		AlphaRef			= 64;
+		
+		AlphaBlendEnable	= TRUE;
 		BlendOp				= Add;
-		SrcBlend			= One;
-		DestBlend			= One;
+		SrcBlend			= ZERO;
+		DestBlend			= ONE;
 
 		ZEnable				= True;
 		ZFunc				= LessEqual;
-		ZWriteEnable		= False;
+		ZWriteEnable		= True;
 
 		ColorOp[0]			= Modulate;
 		ColorArg1[0]		= Texture;
 		ColorArg2[0]		= Diffuse;
 
-		AlphaOp[0]			= SelectArg1;
-		AlphaArg1[0]		= Diffuse;
+		AlphaOp[0]			= Modulate;
+		AlphaArg1[0]		= Texture;
+		AlphaArg2[0]		= Diffuse;
 
 		ColorOp[1]			= Disable;
 		AlphaOP[1]			= Disable;
-
-        VertexShader		= NULL;
+		
+		VertexShader		= NULL;
         PixelShader			= NULL;
     }
 }
