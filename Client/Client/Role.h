@@ -51,7 +51,7 @@ public:
 	virtual bool	isDynamic		()							{ return true; }
 	virtual void	frameMove		(const Matrix& mWorld, double fTime, float fElapsedTime);
 	virtual void	frameMoveRole	(const Matrix& mWorld, double fTime, float fElapsedTime);
-	virtual void	render			(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType=MATERIAL_NORMAL)const;
+	virtual void	render			(const Matrix& mWorld, int nRenderType)const;
 	virtual void	animate			(const Matrix& mWorld, double fTime, float fElapsedTime);
 	// ----
 	void			setID			(ULONG uID)					{ m_uID = uID; };

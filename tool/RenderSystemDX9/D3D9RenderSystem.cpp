@@ -432,32 +432,6 @@ void CD3D9RenderSystem::setProjectionMatrix(const Matrix& m)
 	D3D9HR( m_pD3D9Device->SetTransform(D3DTS_PROJECTION, (D3DXMATRIX*)&mDx) );
 }
 
-void CD3D9RenderSystem::setTextureMatrix(unsigned char uTexChannel, TextureTransformFlag flag, const Matrix& m)
-{
-	unsigned long uD3D9Flag = D3DTTFF_DISABLE;
-	switch(flag)
-	{
-	case TTF_COUNT1:
-		uD3D9Flag = D3DTTFF_COUNT1;
-		break;
-	case TTF_COUNT2:
-		uD3D9Flag = D3DTTFF_COUNT2;
-		break;
-	case TTF_COUNT3:
-		uD3D9Flag = D3DTTFF_COUNT3;
-		break;
-	case TTF_COUNT4:
-		uD3D9Flag = D3DTTFF_COUNT4;
-		break;
-	case TTF_PROJECTED:
-		uD3D9Flag = D3DTTFF_PROJECTED;
-		break;
-	}
-	D3D9HR( m_pD3D9Device->SetTextureStageState(uTexChannel, D3DTSS_TEXTURETRANSFORMFLAGS, uD3D9Flag) );
-	Matrix mDx=m;mDx.transpose();
-	m_pD3D9Device->SetTransform((D3DTRANSFORMSTATETYPE)(D3DTS_TEXTURE0 + uTexChannel), (D3DXMATRIX*)&mDx);
-}
-
 void CD3D9RenderSystem::getWorldMatrix(Matrix& m)const
 {
 	D3D9HR( m_pD3D9Device->GetTransform(D3DTS_WORLD, (D3DXMATRIX*)&m) );
@@ -757,23 +731,6 @@ void CD3D9RenderSystem::DrawIndexedPrimitiveUP(VertexRenderOperationType Primiti
 void CD3D9RenderSystem::drawIndexedSubset(const IndexedSubset& subset)
 {
 	D3D9HR( m_pD3D9Device->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, subset.vbase, subset.vstart, subset.vcount, subset.istart, subset.icount/3) );
-}
-
-void CD3D9RenderSystem::setFog(const Fog& fog)
-{
-	#define FtoDW(x) *((DWORD*)(&x))
-	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_FOGSTART,		FtoDW(fog.fStart)) );
-	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_FOGEND,			FtoDW(fog.fEnd)) );
-	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_FOGDENSITY,		FtoDW(fog.fDensity)) );
-	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_FOGCOLOR,		fog.color.c) );
-
-	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_FOGVERTEXMODE,	D3DFOG_NONE) );	
-	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_FOGTABLEMODE,	D3DFOG_LINEAR) );
-}
-
-void CD3D9RenderSystem::setFogEnable(bool bEnable)
-{
-	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_FOGENABLE,	bEnable) );
 }
 
 void CD3D9RenderSystem::StretchRect(CTexture* pSourceTexture,const CRect<int>* pSourceRect,CTexture* pDestTexture,const CRect<int>* pDestRect,TextureFilterType filter)

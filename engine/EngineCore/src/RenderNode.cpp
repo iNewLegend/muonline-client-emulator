@@ -36,12 +36,12 @@ void CRenderNode::frameMove(const Matrix& mWorld, double fTime, float fElapsedTi
 	updateWorldMatrix();
 }
 
-void CRenderNode::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)const
+void CRenderNode::render(const Matrix& mWorld, int nRenderType)const
 {
 	Matrix mNewWorld = mWorld*m_mWorldMatrix;
 	FOR_IN(it,m_mapChildNode)
 	{
-		(*it)->render(mNewWorld, eRenderType);
+		(*it)->render(mNewWorld, nRenderType);
 	}
 }
 
@@ -239,5 +239,5 @@ Matrix CRenderNode::getShadowMatrix(const Vec3D& vLight,float fHeight)const
 void CRenderNode::renderShadow(const Matrix& mWorld, const Vec3D& vLight,float fHeight)const
 {
 	Matrix mNewWorld = mWorld*getShadowMatrix(vLight,fHeight);//m_mWorld;
-	render(mNewWorld, E_MATERIAL_RENDER_TYPE(MATERIAL_GEOMETRY|MATERIAL_RENDER_ALPHA_TEST));
+	render(mNewWorld, MATERIAL_GEOMETRY|MATERIAL_RENDER_ALPHA_TEST);
 }

@@ -133,7 +133,7 @@ void CSceneEffect::render(iRenderNode* pRenderNode)
 	// ----
 	R.SetRenderTarget(0,m_pShadowMapRT);
 	R.SetShader("depth");
-	pRenderNode->render(Matrix::UNIT,E_MATERIAL_RENDER_TYPE(MATERIAL_GEOMETRY|MATERIAL_RENDER_NO_MATERIAL));
+	pRenderNode->render(Matrix::UNIT,MATERIAL_GEOMETRY|MATERIAL_RENDER_NO_MATERIAL);
 	
 	//renderGammaCorrection();
 	renderTargetBloom();

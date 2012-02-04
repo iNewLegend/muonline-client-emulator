@@ -1,6 +1,7 @@
 #pragma once
 #include "InterfacePlug.h"
 #include "iScene.h"
+#include <map>
 
 int getMapIDFromFilename(const std::string& strFilename);
 class CMyPlug : public CDataPlugBase  

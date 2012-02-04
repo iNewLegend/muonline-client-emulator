@@ -18,7 +18,7 @@ public:
 	bool					updateNode				(iRenderNode* pNode);
 	// ----
 	virtual void			frameMove				(const Matrix& mWorld, double fTime, float fElapsedTime);
-	virtual void			render					(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType=MATERIAL_NORMAL)const;
+	virtual void			render					(const Matrix& mWorld, int nRenderType)const;
 	// ----
 	virtual void			addChild				(iRenderNode* pChild);
 	virtual bool			removeChild				(iRenderNode* pChild);

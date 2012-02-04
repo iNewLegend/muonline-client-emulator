@@ -61,7 +61,6 @@ public:
 	virtual void		setWorldMatrix		(const Matrix& m) = 0;
 	virtual void		setViewMatrix		(const Matrix& m) = 0;
 	virtual void		setProjectionMatrix	(const Matrix& m) = 0;
-	virtual void		setTextureMatrix	(unsigned char uTexChannel, TextureTransformFlag flag, const Matrix& m = Matrix::ZERO) = 0;
 	// ----
 	// # get matrix
 	// ----
@@ -113,9 +112,6 @@ public:
 	virtual void DrawIndexedPrimitiveUP(VertexRenderOperationType PrimitiveType,unsigned long MinVertexIndex,unsigned long NumVertices,unsigned long PrimitiveCount,const void* pIndexData,const void* pVertexStreamZeroData,unsigned long VertexStreamZeroStride) = 0;
 
 	virtual void drawIndexedSubset(const IndexedSubset& subset) = 0;
-
-	virtual void setFog(const Fog& fog) = 0;
-	virtual void setFogEnable(bool bEnable) = 0;
 
 	virtual void StretchRect(CTexture* pSource,const CRect<int>* pSourceRect,CTexture* pDest,const CRect<int>* pDestRect,TextureFilterType filter) = 0;
 	//

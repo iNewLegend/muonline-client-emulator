@@ -49,7 +49,7 @@ void CSkeletonNode::frameMove(const Matrix& mWorld, double fTime, float fElapsed
 	CRenderNode::frameMove(mNewWorld,fTime,fElapsedTime);
 }
 
-void CSkeletonNode::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderType)const
+void CSkeletonNode::render(const Matrix& mWorld, int nRenderType)const
 {
 	Matrix mNewWorld = mWorld;
 	if (m_pParent&&m_pParent->getType()==NODE_SKELETON)
@@ -66,7 +66,7 @@ void CSkeletonNode::render(const Matrix& mWorld, E_MATERIAL_RENDER_TYPE eRenderT
 			}
 		}
 	}
-	CRenderNode::render(mNewWorld,eRenderType);
+	CRenderNode::render(mNewWorld,nRenderType);
 }
 bool CSkeletonNode::setup()
 {
