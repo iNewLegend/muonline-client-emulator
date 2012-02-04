@@ -219,7 +219,7 @@ void CSkinMesh::renderMesh(int eModelRenderType, size_t uLodLevel, CHardwareVert
 			}
 			int renderType = pShader->getRenderType();
 			// No Render Type
-			if (renderType&eModelRenderType==0)
+			if ((renderType&eModelRenderType)==0)
 			{
 				continue;
 			}
@@ -241,7 +241,7 @@ void CSkinMesh::renderMesh(int eModelRenderType, size_t uLodLevel, CHardwareVert
 						break;
 					}
 					// ----
-					R.SetTexture(i, mat.uTexture[j]);
+					R.SetTexture(j, mat.uTexture[j]);
 				}
 				m_pMesh->drawSub(i,uLodLevel);
 			}

@@ -95,7 +95,7 @@ void CScene::render(const Matrix& mWorld, int nRenderType)const
 {
 	CRenderSystem& R = CRenderSystem::getSingleton();
 	//R.setFogEnable(true);
-	R.ClearBuffer(true, true, m_Fog.color);
+
 // 	if (MATERIAL_SHADOW==nRenderType)
 // 	{
 // 		return;

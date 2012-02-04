@@ -1,2 +1,3 @@
 [m3]
-shader=emissive
+s0=EngineRes\Textures\Normal.jpg
+shader=bump
