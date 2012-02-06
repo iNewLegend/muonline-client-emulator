@@ -601,13 +601,18 @@ void CD3D9RenderSystem::SetTexture(unsigned long Stage, const CTexture* pTexture
 
 void CD3D9RenderSystem::SetTexture(unsigned long Stage, IDirect3DTexture9* pD3D9Texture)
 {
-	IDirect3DTexture9* pOldD3D9Texture = NULL;
-	D3D9HR( m_pD3D9Device->GetTexture(Stage,(IDirect3DBaseTexture9**) &pOldD3D9Texture) );
-	if (pOldD3D9Texture != pD3D9Texture)
-	{
-		D3D9HR( m_pD3D9Device->SetTexture(Stage, pD3D9Texture) );
-	}	
-	S_REL(pOldD3D9Texture);
+ 	if (m_TextureBack[Stage]!=pD3D9Texture)
+ 	{
+ 		m_TextureBack[Stage]=pD3D9Texture;
+ 		D3D9HR( m_pD3D9Device->SetTexture(Stage, pD3D9Texture) );
+ 	}
+// 	IDirect3DTexture9* pOldD3D9Texture = NULL;
+// 	D3D9HR( m_pD3D9Device->GetTexture(Stage,(IDirect3DBaseTexture9**) &pOldD3D9Texture) );
+// 	if (pOldD3D9Texture != pD3D9Texture)
+// 	{
+// 		D3D9HR( m_pD3D9Device->SetTexture(Stage, pD3D9Texture) );
+// 	}	
+// 	S_REL(pOldD3D9Texture);
 }
 
 CTexture* CD3D9RenderSystem::GetTexture(unsigned long Stage)
@@ -746,21 +751,6 @@ void CD3D9RenderSystem::StretchRect(CTexture* pSourceTexture,const CRect<int>* p
 		pD3D9DestSurface = ((CD3D9Texture*)pDestTexture)->GetD3D9Surface();
 	}
 	D3D9HR( m_pD3D9Device->StretchRect(pD3D9SourceSurface, pSourceRect==NULL?NULL:&pSourceRect->getRECT(), pD3D9DestSurface, pDestRect==NULL?NULL:&pDestRect->getRECT(), TextureFilterTypeForD3D9(filter)) );
-}
-
-void CD3D9RenderSystem::SetVB(int nVBID)
-{
-	//CVBPool& VBPool = GetVBPool();
-	//VBSub* pSub = (VBSub*)VBPool.GetSub(nVBID);
-	//if (pSub)
-	//{
-	//	CVBChunk* pChunk = (CVBChunk*)VBPool.GetChunk(pSub->dwChunkID);
-	//	if (pChunk)
-	//	{
-	//		SetFVF(pSub->dwFVF);
-	//		SetStreamSource(0, (LPDIRECT3DVERTEXBUFFER9)pChunk->m_pBuffer, pSub->dwStart, pSub->dwVertexSize);
-	//	}
-	//}
 }
 
 //LPDIRECT3DVERTEXBUFFER9 CreateVertexBuffer(size_t vertexSize, size_t numVerts, HardwareBuffer::Usage usage, bool useShadowBuffer = false)

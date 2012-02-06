@@ -446,15 +446,11 @@ technique Render
 {
   pass
   {
-		Lighting			= False;
-		CullMode			= None;
-		
+
+		CullMode		= None;
 		AlphaTestEnable		= False;
-
 		AlphaBlendEnable	= False;
-
-		ZEnable				= False;
-		ZFunc				= LessEqual;
+		ZEnable			= False;
 		ZWriteEnable		= False;
 		
         VertexShader = null;

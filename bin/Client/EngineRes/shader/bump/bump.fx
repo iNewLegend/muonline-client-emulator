@@ -40,19 +40,18 @@ technique Render
 {
     pass P0
     {
-		Lighting			= False;
-		CullMode			= None;
+	CullMode		= None;
 
-		AlphaTestEnable		= False;
+	AlphaTestEnable		= False;
 
-		AlphaBlendEnable	= True;
-		BlendOp				= Add;
-		SrcBlend			= SrcAlpha;
-		DestBlend			= InvSrcAlpha;
+	AlphaBlendEnable	= True;
+	BlendOp			= Add;
+	SrcBlend		= SrcAlpha;
+	DestBlend		= InvSrcAlpha;
 
-		ZEnable				= True;
-		ZFunc				= LessEqual;
-		ZWriteEnable		= False;
+	ZEnable			= True;
+	ZFunc			= LessEqual;
+	ZWriteEnable		= False;
 	
         VertexShader = compile vs_2_0 VS();
         PixelShader  = compile ps_2_0 PS();

@@ -32,7 +32,6 @@ technique Render
 {
     pass P0
     {
-		Lighting			= False;
 		CullMode			= CW;
 
 		AlphaTestEnable		= False;

@@ -126,8 +126,6 @@ public:
 		CHardwareBuffer::Usage usage=CHardwareBuffer::HBU_STATIC);
 	CHardwareIndexBuffer* CreateIndexBuffer(size_t numIndexes, CHardwareIndexBuffer::IndexType itype = CHardwareIndexBuffer::IT_16BIT,
 		CHardwareBuffer::Usage usage=CHardwareBuffer::HBU_STATIC);
-	// 顶点
-	void SetVB(int nVBID);
 	// 设置FVF顶点格式
 	void SetFVF(unsigned long FVF);
 	//
@@ -161,7 +159,7 @@ protected:
 	IDirect3DDevice9*			m_pD3D9Device;
 
 	CShader*					m_pOldShader;
-
+	IDirect3DTexture9*			m_TextureBack[8];
 	//////////////////////////////////////////////////////////////////////////
 };
 
