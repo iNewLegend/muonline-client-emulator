@@ -1,0 +1,12 @@
+[p0]
+bone=0
+par=fire.par
+PosX=0
+PosY=0.2
+PosZ=0
+
+[l0]
+bone=0
+PosX=0
+PosY=0.2
+PosZ=0
