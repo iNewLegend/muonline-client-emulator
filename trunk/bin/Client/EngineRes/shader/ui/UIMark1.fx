@@ -2,7 +2,6 @@ technique Render
 {
     pass P0
     {
-		Lighting			= False;
 		CullMode			= None;
 		
 		AlphaTestEnable		= True;
@@ -15,7 +14,6 @@ technique Render
 		DestBlend			= ONE;
 
 		ZEnable				= True;
-		ZFunc				= LessEqual;
 		ZWriteEnable		= True;
 
 		ColorOp[0]			= Modulate;

@@ -19,18 +19,14 @@ technique Render
 {
     pass P0
     {
-		Lighting			= False;
-		CullMode			= None;
-		
+
+		CullMode		= None;
 		AlphaTestEnable		= False;
-
-		AlphaBlendEnable	= True;
-		BlendOp				= Add;
-		SrcBlend			= One;
-		DestBlend			= One;
-
-		ZEnable				= False;
-		ZFunc				= LessEqual;
+	AlphaBlendEnable	= True;
+	BlendOp				= Add;
+	SrcBlend			= One;
+	DestBlend			= One;
+		ZEnable			= False;
 		ZWriteEnable		= False;
 		
         VertexShader = null;

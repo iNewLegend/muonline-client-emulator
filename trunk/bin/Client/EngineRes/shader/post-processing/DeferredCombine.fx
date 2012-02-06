@@ -16,15 +16,11 @@ technique Render
 {
     pass P0
     {
-		Lighting			= False;
-		CullMode			= None;
-		
+
+		CullMode		= None;
 		AlphaTestEnable		= False;
-
 		AlphaBlendEnable	= False;
-
-		ZEnable				= False;
-		ZFunc				= LessEqual;
+		ZEnable			= False;
 		ZWriteEnable		= False;
 		
         VertexShader = null;

@@ -95,8 +95,6 @@ public:
 	virtual CTexture* GetTexture(unsigned long Stage) = 0;
 	// ----
 	virtual CVertexDeclaration* CreateVertexDeclaration() = 0;
-	// 顶点
-	virtual void SetVB(int nVBID) = 0;
 	// 设置FVF顶点格式
 	virtual void SetFVF(unsigned long FVF) = 0;
 	//
