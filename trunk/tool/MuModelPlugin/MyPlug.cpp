@@ -538,7 +538,6 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 				}
 			}
 		}
-		m_pRenderNodeMgr->loadRenderNode(strParFilename.c_str(),pRenderNode);
 		//////////////////////////////////////////////////////////////////////////
 		//iRenderNode* pRenderNode = m_pRenderNodeMgr->createRenderNode("Skeleton");
 	}

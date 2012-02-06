@@ -37,9 +37,9 @@ void CalcSpreadMatrix(float Spread1,float Spread2, float w, float l)
 	a[0]=randfloat(-Spread1,Spread1)/2.0f;
 	a[1]=randfloat(-Spread2,Spread2)/2.0f;
 
-	SpreadMat.m[0][0]*=l;
-	SpreadMat.m[1][1]*=l;
-	SpreadMat.m[2][2]*=w;
+	SpreadMat._11*=l;
+	SpreadMat._22*=l;
+	SpreadMat._33*=w;
 
 	for(i=0;i<2;i++)
 	{		
@@ -66,7 +66,6 @@ void CalcSpreadMatrix(float Spread1,float Spread2, float w, float l)
 bool CParticleEmitter::init(void* pData)
 {
 	m_pData = (ParticleData*)pData;
-	m_nBindingBoneID = m_pData->m_nBoneID;
 	return true;
 }
 
@@ -77,7 +76,7 @@ void CParticleEmitter::frameMove(const Matrix& mWorld, double fTime, float fElap
 	if (m_pParent&&m_pParent->getType()==NODE_SKELETON)
 	{
 		CSkeletonNode* pSkeletonNode = (CSkeletonNode*)m_pParent;
-		const Matrix& matBone = pSkeletonNode->getBonesMatrix()[m_pData->m_nBoneID];
+		const Matrix& matBone = pSkeletonNode->getBonesMatrix()[m_nBindingBoneID];
 		// ----
 		mNewWorld = matBone*mNewWorld;
 	}
@@ -117,90 +116,73 @@ void CParticleEmitter::update(const Matrix& mWorld, ParticleData& particleData, 
 
 		m_fRem = fToSpawn - (float)nToSpawn;
 
-		bool bEnabled = particleData.m_Enabled.getValue(m_nTime)!=0;
-		if (bEnabled)
+		for (int i=0; i<nToSpawn; i++)
 		{
-			float w		= particleData.m_Areal.getValue(m_nTime) * 0.5f;
-			float l		= particleData.m_Areaw.getValue(m_nTime) * 0.5f;
-			float spd	= particleData.m_Speed.getValue(m_nTime);
-			float var	= particleData.m_Variation.getValue(m_nTime);
-			float spr	= particleData.m_Spread.getValue(m_nTime);
-			float spr2	= particleData.m_Lat.getValue(m_nTime);
+			Particle p;
 
-			for (int i=0; i<nToSpawn; i++)
+			//Spread Calculation
+			Matrix mWorldRot = mWorld;
+			mWorldRot._14=0;
+			mWorldRot._24=0;
+			mWorldRot._34=0;
+
+			CalcSpreadMatrix(particleData.m_Spread1,particleData.m_Spread2,1.0f,1.0f);
+			Matrix mRot = mWorldRot * SpreadMat;
+
+			p.vPos = m_vPos + Vec3D(randfloat(-particleData.m_Areaw,particleData.m_Areaw), 0, randfloat(-particleData.m_Areal,particleData.m_Areal));
+			p.vPos = mWorld * p.vPos;
+
+			Vec3D vDir = mRot * Vec3D(0,1,0);
+			p.vDown = Vec3D(0,-1.0f,0);
+			p.vSpeed = vDir.normalize() * randfloat(particleData.m_fSpeed1, particleData.m_fSpeed2);
+
+			if(!particleData.m_bBillboard)
 			{
-				Particle p;
+				Vec3D look = p.vDir;
+				look.x=p.vDir.y;
+				look.y=p.vDir.z;
+				look.z=p.vDir.x;
 
-				//Spread Calculation
-				Matrix mWorldRot = mWorld;
-				mWorldRot._14=0;
-				mWorldRot._24=0;
-				mWorldRot._34=0;
+				Vec3D up = (look % p.vDir).normalize();
+				Vec3D right = (up % p.vDir).normalize();
+				up = (p.vDir % right).normalize();
 
-				CalcSpreadMatrix(spr,spr,1.0f,1.0f);
-				Matrix mRot = mWorldRot * SpreadMat;
-
-				p.vPos = particleData.m_vPos + Vec3D(randfloat(-l,l), 0, randfloat(-w,w));
-				p.vPos = mWorld * p.vPos;
-
-				Vec3D vDir = mRot * Vec3D(0,1,0);
-				p.vDown = Vec3D(0,-1.0f,0);
-				p.vSpeed = vDir.normalize() * spd * (1.0f+randfloat(-var,var));
-
-				if(!particleData.m_bBillboard)
-				{
-					Vec3D look = p.vDir;
-					look.x=p.vDir.y;
-					look.y=p.vDir.z;
-					look.z=p.vDir.x;
-
-					Vec3D up = (look % p.vDir).normalize();
-					Vec3D right = (up % p.vDir).normalize();
-					up = (p.vDir % right).normalize();
-
-					// calculate the billboard matrix
-					p.mFace.m[0][1] = right.x;
-					p.mFace.m[1][1] = right.y;
-					p.mFace.m[2][1] = right.z;
-					p.mFace.m[0][2] = up.x;
-					p.mFace.m[1][2] = up.y;
-					p.mFace.m[2][2] = up.z;
-					p.mFace.m[0][0] = p.vDir.x;
-					p.mFace.m[1][0] = p.vDir.y;
-					p.mFace.m[2][0] = p.vDir.z;
-				}
-
-				p.fLife = 0;
-				p.fMaxLife = particleData.m_Lifespan.getValue(m_nTime);
-
-				p.vOrigin = p.vPos;
-
-				p.nTile = randint(0, particleData.m_nRows*particleData.m_nCols-1);
-
-				m_Particles.push_back(p);
+				// calculate the billboard matrix
+				p.mFace.m[0][1] = right.x;
+				p.mFace.m[1][1] = right.y;
+				p.mFace.m[2][1] = right.z;
+				p.mFace.m[0][2] = up.x;
+				p.mFace.m[1][2] = up.y;
+				p.mFace.m[2][2] = up.z;
+				p.mFace.m[0][0] = p.vDir.x;
+				p.mFace.m[1][0] = p.vDir.y;
+				p.mFace.m[2][0] = p.vDir.z;
 			}
+
+			p.fLife = 0;
+			p.fMaxLife = particleData.m_Lifespan;
+
+			p.vOrigin = p.vPos;
+
+			p.nTile = randint(0, particleData.m_nRows*particleData.m_nCols-1);
+
+			m_Particles.push_back(p);
 		}
 	}
 	float mspeed	= 1.0f;
-	float fGrav		= particleData.m_Gravity.getValue(m_nTime);
-	float fDeaccel	= particleData.m_Deacceleration.getValue(m_nTime);
 	for (auto it = m_Particles.begin(); it != m_Particles.end();)
 	{
 		Particle &p = *it;
 		// 计算出当前速度
-		p.vSpeed += (p.vDown * fGrav  - p.vDir * fDeaccel) * fElapsedTime;
+		p.vSpeed += (p.vDown * particleData.m_fGravity  - p.vDir * particleData.m_fDampen) * fElapsedTime;
 
-		if (particleData.m_fSlowdown>0)// ????????????????
-		{
-			mspeed = expf(-1.0f * particleData.m_fSlowdown * p.fLife);
-		}
-		p.vPos += p.vSpeed * mspeed * fElapsedTime;
+		p.vPos += p.vSpeed * fElapsedTime;
 
 		p.fLife += fElapsedTime;
 		float rlife = p.fLife / p.fMaxLife;
 		// 通过当前生命时间计算出当前粒子大小和颜色
-		p.fSize = lifeRamp<float>(rlife, particleData.m_fLifeMid, particleData.m_Sizes[0], particleData.m_Sizes[1], particleData.m_Sizes[2]);
-		p.color = lifeRamp<Color32>(rlife, particleData.m_fLifeMid, particleData.m_Colors[0], particleData.m_Colors[1], particleData.m_Colors[2]);
+		p.fSize = lifeRamp<float>(rlife, particleData.m_fLifeMid, particleData.m_fSize1, particleData.m_fSize2, particleData.m_fSize3);
+		p.color = lifeRamp<Color32>(rlife, particleData.m_fLifeMid, particleData.m_fColor1, particleData.m_fColor2, particleData.m_fColor3);
 
 		// 杀死过期粒子
 		if (rlife >= 1.0f) 
