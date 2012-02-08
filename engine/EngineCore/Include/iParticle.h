@@ -8,7 +8,7 @@ public:
 	{
 		Vec2D tc[4];
 	};
-	Animated<float> m_Rate;//产生率
+	float m_Rate;//产生率
 	float m_Spread1, m_Spread2;// 扩散
 	float m_Lifespan;	// 生命周期
 	float m_fLifeMid;	// 生命中点
