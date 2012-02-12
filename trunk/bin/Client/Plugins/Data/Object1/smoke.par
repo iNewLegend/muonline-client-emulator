@@ -28,5 +28,5 @@ Cols=1
 IsBillboard=1
 
 [m]
-s0=..\Effect\Fire02.OZJ
-shader=fire
+s0=..\Effect\smoke05.OZT
+shader=smoke

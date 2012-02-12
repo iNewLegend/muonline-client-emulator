@@ -1,7 +1,4 @@
 [p0]
-s0=..\Effect\Fire02.OZJ
-shader=fire
-
-[p1]
-s0=..\Effect\smoke05.OZT
-shader=smoke
+bone=0
+par=fire.par
+pos=0,1.2,0	
