@@ -2,22 +2,22 @@
 ;初速度
 Speed=0.4,0.6
 ;扩散
-Spread=0.0,0.2
+Spread=0.4,0.6
 ;重量
-Gravity=-0.9
+Gravity=0.01
 ;周期
 Lifespan=3
 LifeMiddle=0.4
 ;产生率
-Rate=3
+Rate=12
 ;地区
 Area=0.2,0.2
 ;阻尼
 Dampen=1
 ;颜色
-Color=0,FF000000,0
+Color=0,FFFFFFFF,0
 ;大小
-Size=0,0.6,0.5
+Size=0.8,0.8,0.8
 ;旋转
 Rotation=0
 Order=1
@@ -28,5 +28,5 @@ Cols=1
 IsBillboard=1
 
 [m]
-s0=..\Effect\smoke05.OZT
-shader=smoke
+s0=Data\Effect\smoke01.OZJ
+shader=fire

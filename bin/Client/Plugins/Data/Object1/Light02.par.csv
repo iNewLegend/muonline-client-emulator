@@ -1,2 +1,0 @@
-BoneID,Speed,Variation,Spread,Lat,Gravity,Lifespan,Rate,Areal,Areaw,Deacceleration,TimeBegin,TimeEnd,ColorBegin,ColorMiddle,ColorEnd,SizeBegin,SizeMiddle,SizeEnd,LifeMiddle,Slowdown,Rotation,PosX,PosY,PosZ,Order,Type,Rows,Cols,IsBillboard
-0,0.4,1,0.5,0.1,0.01,3,12,0.2,0.2,1,0,1,FFFFFFFF,FFFFFFFF,0,0.8,0.8,0.8,0.4,0,0,0,0.2,0,1,2,1,1,TRUE
