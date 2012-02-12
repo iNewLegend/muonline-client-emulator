@@ -488,14 +488,9 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 
 		std::string strMyPath ="Plugins\\Data\\"+strParentDirName+"\\";
 		std::string strMatFilename = strMyPath+GetFilename(ChangeExtension(szFilename,".mat"));
-		std::string strParFilename = strMyPath+GetFilename(ChangeExtension(szFilename,".par.csv"));
 		if (!IOReadBase::Exists(strMatFilename))
 		{
 			strMatFilename=strMyPath+strParentDirName+".mat";
-		}
-		if (!IOReadBase::Exists(strParFilename))
-		{
-			strParFilename=strMyPath+strParentDirName+".par.csv";
 		}
 		// set material
 		{
@@ -508,32 +503,69 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 					{
 						continue;
 					}
-					if (itSection->m_strName[0]!='m')
+
+					switch (itSection->m_strName[0])
 					{
-						continue;
-					}
-					int matID = atoi(&itSection->m_strName[1]);
-					if (matID<0||matID>=pMesh->getMaterials().size())
-					{
-						continue;
-					}
-					auto& mats = pMesh->getMaterials()[matID];
-					if (mats.size()<=0)
-					{
-						mats.resize(1);
-					}
-					auto& mat = mats[0];
-					for (auto iteEntry=itSection->m_ieEntry.begin(); iteEntry!=itSection->m_ieEntry.end(); ++iteEntry)
-					{
-						if (iteEntry->m_strName=="shader") mat.strShader=iteEntry->m_strValue;
-						else if (iteEntry->m_strName=="s0") mat.strTexture[0]=iteEntry->m_strValue;
-						else if (iteEntry->m_strName=="s1") mat.strTexture[1]=iteEntry->m_strValue;
-						else if (iteEntry->m_strName=="s2") mat.strTexture[2]=iteEntry->m_strValue;
-						else if (iteEntry->m_strName=="s3") mat.strTexture[3]=iteEntry->m_strValue;
-						else if (iteEntry->m_strName=="s4") mat.strTexture[4]=iteEntry->m_strValue;
-						else if (iteEntry->m_strName=="s5") mat.strTexture[5]=iteEntry->m_strValue;
-						else if (iteEntry->m_strName=="s6") mat.strTexture[6]=iteEntry->m_strValue;
-						else if (iteEntry->m_strName=="s7") mat.strTexture[7]=iteEntry->m_strValue;
+					case 'm':
+						{
+							int matID = atoi(&itSection->m_strName[1]);
+							if (matID<0||matID>=pMesh->getMaterials().size())
+							{
+								continue;
+							}
+							auto& mats = pMesh->getMaterials()[matID];
+							if (mats.size()<=0)
+							{
+								mats.resize(1);
+							}
+							auto& mat = mats[0];
+							for (auto iteEntry=itSection->m_ieEntry.begin(); iteEntry!=itSection->m_ieEntry.end(); ++iteEntry)
+							{
+								if (iteEntry->m_strName=="shader") mat.strShader=iteEntry->m_strValue;
+								else if (iteEntry->m_strName=="s0") mat.strTexture[0]=iteEntry->m_strValue;
+								else if (iteEntry->m_strName=="s1") mat.strTexture[1]=iteEntry->m_strValue;
+								else if (iteEntry->m_strName=="s2") mat.strTexture[2]=iteEntry->m_strValue;
+								else if (iteEntry->m_strName=="s3") mat.strTexture[3]=iteEntry->m_strValue;
+								else if (iteEntry->m_strName=="s4") mat.strTexture[4]=iteEntry->m_strValue;
+								else if (iteEntry->m_strName=="s5") mat.strTexture[5]=iteEntry->m_strValue;
+								else if (iteEntry->m_strName=="s6") mat.strTexture[6]=iteEntry->m_strValue;
+								else if (iteEntry->m_strName=="s7") mat.strTexture[7]=iteEntry->m_strValue;
+							}
+						}
+						break;
+
+					case 'p':
+						{
+							iRenderNode* pParticleRenderNode = (iRenderNode*)m_pRenderNodeMgr->createRenderNode("particle");
+							if (pParticleRenderNode)
+							{
+								int nBone;
+								for (auto iteEntry=itSection->m_ieEntry.begin(); iteEntry!=itSection->m_ieEntry.end(); ++iteEntry)
+								{
+									if (iteEntry->m_strName=="bone")
+									{
+										pParticleRenderNode->setBindingBoneID(atoi(iteEntry->m_strValue.c_str()));
+									}
+									else if (iteEntry->m_strName=="pos")
+									{
+										Vec3D vPos;
+										sscanf(iteEntry->m_strValue.c_str(), "%f,%f,%f", &vPos.x, &vPos.y, &vPos.z);
+										pParticleRenderNode->setPos(vPos);
+									}
+									else if (iteEntry->m_strName=="par")
+									{
+										std::string strParFilanem = iteEntry->m_strValue;
+										if (!IOReadBase::Exists(strParFilanem))
+										{
+											strParFilanem=strMyPath+strParFilanem;
+										}
+										pParticleRenderNode->setFilename(strParFilanem.c_str());
+									}
+								}
+								pRenderNode->addChild(pParticleRenderNode);
+							}
+						}
+						break;
 					}
 				}
 			}
