@@ -3,6 +3,9 @@
 #include "Graphics.h"
 #include "Animated.h"
 #include "SkeletonNode.h"
+#include "RenderNodeMgr.h"
+
+
 #define MAX_PARTICLES 10000
 
 float	frand();
@@ -63,14 +66,62 @@ void CalcSpreadMatrix(float Spread1,float Spread2, float w, float l)
 	SpreadMat*=Temp;
 }
 
-bool CParticleEmitter::init(void* pData)
+bool CParticleEmitter::setup()
 {
-	m_pData = (ParticleData*)pData;
+	if (m_pData==(void*)-1)
+	{
+		return false;
+	}
+	if (m_pParticleData==m_pData)
+	{
+		if (m_pData==NULL)
+		{
+			CRenderNodeMgr::getInstance().PushMTLoading(this);
+		}
+		return false;
+	}
+	// ----
+	m_pParticleData = (ParticleData*)m_pData;
+	// ----
+	if(!m_pParticleData)
+	{
+		return false;
+	}
+
+	auto& R = CRenderSystem::getSingleton();
+
+	m_Material = m_pParticleData->m_Material;
+
+	// Texture
+	for (size_t i=0;i<8;++i)
+	{
+		if (m_Material.strTexture[i].length()>0)
+		{
+			m_Material.uTexture[i]=R.GetTextureMgr().RegisterTexture(m_Material.strTexture[i].c_str());
+		}
+		else
+		{
+			m_Material.uTexture[i]=0;
+		}
+	}
+	// Shader
+	CShader* pShader = R.getShader(m_Material.strShader.c_str());
+	if (pShader)
+	{
+		//m_nRenderType = pShader->getRenderType();
+	}
 	return true;
 }
 
 void CParticleEmitter::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
+	setup();
+	// ----
+	if (m_pParticleData==NULL)
+	{
+		return;
+	}
+	// ----
 	Matrix mNewWorld = mWorld*m_mWorldMatrix;
 	// ----
 	if (m_pParent&&m_pParent->getType()==NODE_SKELETON)
@@ -81,7 +132,7 @@ void CParticleEmitter::frameMove(const Matrix& mWorld, double fTime, float fElap
 		mNewWorld = matBone*mNewWorld;
 	}
 	// ----
-	update(mNewWorld,*m_pData,fElapsedTime);
+	update(mNewWorld,*m_pParticleData,fElapsedTime);
 	// ----
 	CRenderNode::frameMove(mWorld,fTime,fElapsedTime);
 }
@@ -90,7 +141,7 @@ void CParticleEmitter::update(const Matrix& mWorld, ParticleData& particleData, 
 {
 	// spawn new particles
 
-	float fRate = particleData.m_Rate.getValue(m_nTime);
+	float fRate = particleData.m_Rate;//particleData.m_Rate.getValue(m_nTime);
 	float fToSpawn;
 	{
 		float fLife = 1.0f;
@@ -198,119 +249,140 @@ void CParticleEmitter::update(const Matrix& mWorld, ParticleData& particleData, 
 
 void CParticleEmitter::render(const Matrix& mWorld, int nRenderType)const
 {
-	if(!m_pData)
+	if(!m_pParticleData)
 	{
 		return;
 	}
-	CRenderSystem& R = CRenderSystem::getSingleton();
+	// ----
+	auto& R = CRenderSystem::getSingleton();
 	// ----
 	R.setWorldMatrix(Matrix::UNIT);
 	// ----
-	//CMaterial& material = R.getMaterialMgr().getItem(m_pData->m_strMaterialName.c_str());
+	//CMaterial& material = R.getMaterialMgr().getItem(m_pParticleData->m_strMaterialName.c_str());
 	//if (!(m_Material.getRenderType()&nRenderType))
 	{
 	//	return;
 	}
 	// ----
-	if (R.prepareMaterial(m_Material))
+	CShader* pShader = R.getShader(m_Material.strShader.c_str());
+	if (!pShader)
 	{
-		Vec3D bv0,bv1,bv2,bv3;
-		{
-			Matrix mbb=Matrix::UNIT;
-			if (m_pData->m_bBillboard)
-			{
-				// 获取公告板矩阵
-				Matrix mTrans;
-				CRenderSystem::getSingleton().getViewMatrix(mTrans);
-				mTrans.Invert();
+		return;
+	}
+	int renderType = pShader->getRenderType();
+	// No Render Type
+	if ((renderType&nRenderType)==0)
+	{
+		return;
+	}
 
-				if (m_pData->flags == 569) // 圆柱形 Faith shoulders, do cylindrical billboarding
-				{
-					mbb._11 = 1;
-					mbb._31 = 0;
-					mbb._13 = 0;
-					mbb._33 = 1;
-				}
-				else
-				{
-					mbb=mTrans;
-					mbb._14=0;
-					mbb._24=0;
-					mbb._34=0;
-				}
+	R.SetShader(pShader);
+	for (size_t j=0;j<8;++j)
+	{
+		if (m_Material.uTexture[j]==0)
+		{
+			break;
+		}
+		// ----
+		R.SetTexture(j, m_Material.uTexture[j]);
+	}
+
+	Vec3D bv0,bv1,bv2,bv3;
+	{
+		Matrix mbb=Matrix::UNIT;
+		if (m_pParticleData->m_bBillboard)
+		{
+			// 获取公告板矩阵
+			Matrix mTrans;
+			CRenderSystem::getSingleton().getViewMatrix(mTrans);
+			mTrans.Invert();
+
+			if (m_pParticleData->flags == 569) // 圆柱形 Faith shoulders, do cylindrical billboarding
+			{
+				mbb._11 = 1;
+				mbb._31 = 0;
+				mbb._13 = 0;
+				mbb._33 = 1;
+			}
+			else
+			{
 				mbb=mTrans;
 				mbb._14=0;
 				mbb._24=0;
 				mbb._34=0;
 			}
+			mbb=mTrans;
+			mbb._14=0;
+			mbb._24=0;
+			mbb._34=0;
+		}
 
-			if (m_pData->type==0 || m_pData->type==2)			// 正常的粒子
+		if (m_pParticleData->type==0 || m_pParticleData->type==2)			// 正常的粒子
+		{
+			float f = 0.5;//0.707106781f; // sqrt(2)/2
+			if (m_pParticleData->m_bBillboard)
 			{
-				float f = 0.5;//0.707106781f; // sqrt(2)/2
-				if (m_pData->m_bBillboard)
-				{
-					bv0 = mbb * Vec3D(+f,-f,0);
-					bv1 = mbb * Vec3D(+f,+f,0);
-					bv2 = mbb * Vec3D(-f,+f,0);
-					bv3 = mbb * Vec3D(-f,-f,0);
-				}
-				else // 平板
-				{
-					bv0 = Vec3D(-f,0,+f);
-					bv1 = Vec3D(+f,0,+f);
-					bv2 = Vec3D(+f,0,-f);
-					bv3 = Vec3D(-f,0,-f);
-				}
-				// TODO: per-particle rotation in a non-expensive way?? :|
-
-				CGraphics& bg = GetGraphics();
-				bg.begin(VROT_TRIANGLE_LIST, m_Particles.size()*4);
-				for (auto it = m_Particles.begin(); it != m_Particles.end(); ++it)
-				{
-					bg.c(it->color);
-
-					bg.t(m_pData->m_Tiles[it->nTile].tc[0]);
-					bg.v(it->vPos + bv0 * it->fSize);
-
-					bg.t(m_pData->m_Tiles[it->nTile].tc[1]);
-					bg.v(it->vPos + bv1 * it->fSize);
-
-					bg.t(m_pData->m_Tiles[it->nTile].tc[2]);
-					bg.v(it->vPos + bv2 * it->fSize);
-
-					bg.t(m_pData->m_Tiles[it->nTile].tc[3]);
-					bg.v(it->vPos + bv3 * it->fSize);
-				}
-				bg.end();
+				bv0 = mbb * Vec3D(+f,-f,0);
+				bv1 = mbb * Vec3D(+f,+f,0);
+				bv2 = mbb * Vec3D(-f,+f,0);
+				bv3 = mbb * Vec3D(-f,-f,0);
 			}
-			else if (m_pData->type==1) // 粒子射线发射器 particles from origin to position
+			else // 平板
 			{
-				bv0 = mbb * Vec3D(-1.0f,0,0);
-				bv1 = mbb * Vec3D(+1.0f,0,0);
-
-				CGraphics& bg = GetGraphics();
-				bg.begin(VROT_TRIANGLE_LIST, m_Particles.size()*4);
-				for (auto it = m_Particles.begin(); it != m_Particles.end(); ++it)
-				{
-					Vec3D P,O;
-					P=it->vPos;
-					O=it->vOrigin;
-					bg.c(it->color);
-
-					bg.t(m_pData->m_Tiles[it->nTile].tc[0]);
-					bg.v(it->vPos + bv0 * it->fSize);
-
-					bg.t(m_pData->m_Tiles[it->nTile].tc[1]);
-					bg.v(it->vPos + bv1 * it->fSize);
-
-					bg.t(m_pData->m_Tiles[it->nTile].tc[2]);
-					bg.v(it->vOrigin + bv1 * it->fSize);
-
-					bg.t(m_pData->m_Tiles[it->nTile].tc[3]);
-					bg.v(it->vOrigin + bv0 * it->fSize);
-				}
-				bg.end();
+				bv0 = Vec3D(-f,0,+f);
+				bv1 = Vec3D(+f,0,+f);
+				bv2 = Vec3D(+f,0,-f);
+				bv3 = Vec3D(-f,0,-f);
 			}
+			// TODO: per-particle rotation in a non-expensive way?? :|
+
+			CGraphics& bg = GetGraphics();
+			bg.begin(VROT_TRIANGLE_LIST, m_Particles.size()*4);
+			for (auto it = m_Particles.begin(); it != m_Particles.end(); ++it)
+			{
+				bg.c(it->color);
+
+				bg.t(m_pParticleData->m_Tiles[it->nTile].tc[0]);
+				bg.v(it->vPos + bv0 * it->fSize);
+
+				bg.t(m_pParticleData->m_Tiles[it->nTile].tc[1]);
+				bg.v(it->vPos + bv1 * it->fSize);
+
+				bg.t(m_pParticleData->m_Tiles[it->nTile].tc[2]);
+				bg.v(it->vPos + bv2 * it->fSize);
+
+				bg.t(m_pParticleData->m_Tiles[it->nTile].tc[3]);
+				bg.v(it->vPos + bv3 * it->fSize);
+			}
+			bg.end();
+		}
+		else if (m_pParticleData->type==1) // 粒子射线发射器 particles from origin to position
+		{
+			bv0 = mbb * Vec3D(-1.0f,0,0);
+			bv1 = mbb * Vec3D(+1.0f,0,0);
+
+			CGraphics& bg = GetGraphics();
+			bg.begin(VROT_TRIANGLE_LIST, m_Particles.size()*4);
+			for (auto it = m_Particles.begin(); it != m_Particles.end(); ++it)
+			{
+				Vec3D P,O;
+				P=it->vPos;
+				O=it->vOrigin;
+				bg.c(it->color);
+
+				bg.t(m_pParticleData->m_Tiles[it->nTile].tc[0]);
+				bg.v(it->vPos + bv0 * it->fSize);
+
+				bg.t(m_pParticleData->m_Tiles[it->nTile].tc[1]);
+				bg.v(it->vPos + bv1 * it->fSize);
+
+				bg.t(m_pParticleData->m_Tiles[it->nTile].tc[2]);
+				bg.v(it->vOrigin + bv1 * it->fSize);
+
+				bg.t(m_pParticleData->m_Tiles[it->nTile].tc[3]);
+				bg.v(it->vOrigin + bv0 * it->fSize);
+			}
+			bg.end();
 		}
 	}
 }

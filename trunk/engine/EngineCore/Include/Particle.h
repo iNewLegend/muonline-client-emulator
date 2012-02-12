@@ -17,19 +17,19 @@ class CParticleEmitter:public CRenderNode
 {
 public:
 	CParticleEmitter()
-		:m_pData(NULL)
+		:m_Particles(NULL)
 		,m_nTime(0)
 		,m_fRem(0)
 	{
 	}
 	virtual int		getType		() {return NODE_PARTICLE;}
-	virtual bool	init		(void* pData);
+	bool setup();
 	virtual void	frameMove	(const Matrix& mWorld, double fTime, float fElapsedTime);
 	virtual void	render		(const Matrix& mWorld, int nRenderType)const;
 	void			update		(const Matrix& mWorld, ParticleData& particleData, float fElapsedTime);
 public:
 	CMaterial			m_Material;
-	ParticleData*		m_pData;		// 粒子发射器指针
+	ParticleData*		m_pParticleData;		// 粒子发射器指针
 	std::list<Particle>	m_Particles;	// 粒子堆
 	int					m_nTime;		// 时间
 	float				m_fRem;			// 人体伦琴单位当量 辐射量

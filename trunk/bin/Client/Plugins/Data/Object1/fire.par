@@ -1,6 +1,6 @@
 [p]
 ;初速度
-Speed=1,1.2
+Speed=1.0,1.2
 ;扩散
 Spread=0.3,0.1
 ;重量
@@ -28,5 +28,5 @@ Cols=1
 IsBillboard=1
 
 [m]
-s0=..\Effect\Fire02.OZJ
-shader=fire
+s0=Data\Effect\Fire02.OZJ
+shader=emissive

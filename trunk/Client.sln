@@ -14,8 +14,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client", "Client\Client\Cli
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EngineCore", "engine\EngineCore\EngineCore.vcxproj", "{9C205B68-B380-418C-8422-50BEE76017CF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CSVMaterialPlugin", "tool\CSVMaterialDataPlugin\CSVMaterialDataPlugin.vcxproj", "{EEB7C1F2-C588-4924-909A-DF7326CC09FF}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MuModelPlugin", "tool\MuModelPlugin\MuModelPlugin.vcxproj", "{40AB2FE3-FD81-47B3-9D55-AC959D2F8B8D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MuMapPlugin", "tool\MuWorldMapImport\MuWorldMapImport.vcxproj", "{257217AD-AAF5-461D-9327-03891BA604A1}"
@@ -23,6 +21,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RenderSystem", "engine\RenderSystem\RenderSystem.vcxproj", "{67E8BE2E-F68E-473E-AECB-1A6DA07E7AB6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RenderSystemDX9", "tool\RenderSystemDX9\RenderSystemDX9.vcxproj", "{6CBDDBA0-9652-41E5-8FB4-79CE71041D1C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParticlePlugin", "tool\ParticlePlugin\ParticlePlugin.vcxproj", "{EEB7C1F2-C588-4924-909A-DF7326CC09FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,10 +38,6 @@ Global
 		{9C205B68-B380-418C-8422-50BEE76017CF}.Debug|Win32.Build.0 = Debug|Win32
 		{9C205B68-B380-418C-8422-50BEE76017CF}.Release|Win32.ActiveCfg = Release|Win32
 		{9C205B68-B380-418C-8422-50BEE76017CF}.Release|Win32.Build.0 = Release|Win32
-		{EEB7C1F2-C588-4924-909A-DF7326CC09FF}.Debug|Win32.ActiveCfg = Debug|Win32
-		{EEB7C1F2-C588-4924-909A-DF7326CC09FF}.Debug|Win32.Build.0 = Debug|Win32
-		{EEB7C1F2-C588-4924-909A-DF7326CC09FF}.Release|Win32.ActiveCfg = Release|Win32
-		{EEB7C1F2-C588-4924-909A-DF7326CC09FF}.Release|Win32.Build.0 = Release|Win32
 		{40AB2FE3-FD81-47B3-9D55-AC959D2F8B8D}.Debug|Win32.ActiveCfg = Debug|Win32
 		{40AB2FE3-FD81-47B3-9D55-AC959D2F8B8D}.Debug|Win32.Build.0 = Debug|Win32
 		{40AB2FE3-FD81-47B3-9D55-AC959D2F8B8D}.Release|Win32.ActiveCfg = Release|Win32
@@ -58,6 +54,10 @@ Global
 		{6CBDDBA0-9652-41E5-8FB4-79CE71041D1C}.Debug|Win32.Build.0 = Debug|Win32
 		{6CBDDBA0-9652-41E5-8FB4-79CE71041D1C}.Release|Win32.ActiveCfg = Release|Win32
 		{6CBDDBA0-9652-41E5-8FB4-79CE71041D1C}.Release|Win32.Build.0 = Release|Win32
+		{EEB7C1F2-C588-4924-909A-DF7326CC09FF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EEB7C1F2-C588-4924-909A-DF7326CC09FF}.Debug|Win32.Build.0 = Debug|Win32
+		{EEB7C1F2-C588-4924-909A-DF7326CC09FF}.Release|Win32.ActiveCfg = Release|Win32
+		{EEB7C1F2-C588-4924-909A-DF7326CC09FF}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -21,6 +21,9 @@ public:
 	virtual void			setWorldMatrix		(const Matrix& mWorldMatrix)=0;
 	virtual void			setParent			(iRenderNode* pParent)=0;
 	virtual void			setData				(void* pData)=0;
+	virtual void			setBindingBoneID	(int nBone)=0;
+	virtual void			setBindingBoneName	(const char* szBoneName)=0;
+	
 	virtual const Vec3D&	getPos				()const=0;
 	virtual const Vec3D&	getRotate			()const=0;
 	virtual const Vec3D&	getScale			()const=0;
