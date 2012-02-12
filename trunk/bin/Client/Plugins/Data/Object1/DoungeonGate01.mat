@@ -1,0 +1,9 @@
+[p0]
+bone=2
+par=fire.par
+pos=1.5,1,-1.5
+
+[p0]
+bone=2
+par=fire.par
+pos=-1.5,1,-1.5
