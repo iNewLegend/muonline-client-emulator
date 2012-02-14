@@ -413,17 +413,17 @@ void CD3D9RenderSystem::setProjectionMatrix(const Matrix& m)
 	D3D9HR( m_pD3D9Device->SetTransform(D3DTS_PROJECTION, (D3DXMATRIX*)&mDx) );
 }
 
-const Matrix& CD3D9RenderSystem::getWorldMatrix(Matrix& m)const
+const Matrix& CD3D9RenderSystem::getWorldMatrix()const
 {
 	return m_mWorld;
 }
 
-const Matrix& CD3D9RenderSystem::getViewMatrix(Matrix& m)const
+const Matrix& CD3D9RenderSystem::getViewMatrix()const
 {
 	return m_mView;
 }
 
-const Matrix& CD3D9RenderSystem::getProjectionMatrix(Matrix& m)const
+const Matrix& CD3D9RenderSystem::getProjectionMatrix()const
 {
 	return m_mProjection;
 }

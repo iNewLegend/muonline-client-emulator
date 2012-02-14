@@ -296,8 +296,7 @@ void CParticleEmitter::render(const Matrix& mWorld, int nRenderType)const
 		if (m_pParticleData->m_bBillboard)
 		{
 			// 获取公告板矩阵
-			Matrix mTrans;
-			CRenderSystem::getSingleton().getViewMatrix(mTrans);
+			Matrix mTrans = CRenderSystem::getSingleton().getViewMatrix();
 			mTrans.Invert();
 
 			if (m_pParticleData->flags == 569) // 圆柱形 Faith shoulders, do cylindrical billboarding
