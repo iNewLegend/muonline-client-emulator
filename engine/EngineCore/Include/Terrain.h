@@ -213,6 +213,4 @@ typedef std::map<EditTarget,EditValue>  MAP_EDIT_RECORD;
 		}
 	}
 }
-
-void CTerrain::drawLightDecal(float x, float y, float fSize, Color32 color)
 */

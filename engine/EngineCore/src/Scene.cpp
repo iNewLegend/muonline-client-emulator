@@ -241,46 +241,6 @@ bool CScene::removeRenderNode(iRenderNode* pNode)
 	return false;
 }
 
-C3DMapEffect* CScene::add3DMapEffect(const Vec3D& vWorldPos, char* pszIndex, bool bDelSelf)
-{
-	if (!pszIndex)
-		return NULL;
-	// ----
-	C3DMapEffect* pEffect = C3DMapEffect::CreateNew( vWorldPos, pszIndex, bDelSelf);
-	// ----
-	if(pEffect)
-	{
-		addChild(pEffect);
-	}
-	return pEffect;
-}
-
-void CScene::del3DMapEffect(const Vec3D& vWorldPos)
-{
-// 	LIST_RENDER_NODE setNode;
-// 	m_Octree.getNodesByPos(vWorldPos,setNode);
-// 	FOR_IN(it,setNode)
-// 	{
-// 		if((*it) && ((*it)->GetObjType() == MAP_3DEFFECT || (*it)->GetObjType() == MAP_3DEFFECTNEW))
-// 		{
-// 			if (m_Octree.delNode(*it))
-// 			{
-// 				C3DMapEffect* pEffect = (C3DMapEffect*)(*it);
-// 				S_DEL(pEffect);
-// 			}
-// 		}
-// 	}
-}
-
-void CScene::del3DMapEffect(C3DMapEffect* pEffect)
-{
-	m_OctreeRoot.eraseNode(pEffect);
-	//if(pEffect->getObjType() == MAP_3DEFFECT || pEffect->getObjType() == MAP_3DEFFECTNEW)
-	{
-		pEffect->Die();
-	}
-}
-
 void CScene::clearNodes()
 {
 
