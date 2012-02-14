@@ -539,7 +539,6 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 							iRenderNode* pParticleRenderNode = (iRenderNode*)m_pRenderNodeMgr->createRenderNode("particle");
 							if (pParticleRenderNode)
 							{
-								int nBone;
 								for (auto iteEntry=itSection->m_ieEntry.begin(); iteEntry!=itSection->m_ieEntry.end(); ++iteEntry)
 								{
 									if (iteEntry->m_strName=="bone")
@@ -563,6 +562,29 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 									}
 								}
 								pRenderNode->addChild(pParticleRenderNode);
+							}
+						}
+						break;
+
+					case 'l':
+						{
+							iRenderNode* pLightRenderNode = (iRenderNode*)m_pRenderNodeMgr->createRenderNode("light");
+							if (pLightRenderNode)
+							{
+								for (auto iteEntry=itSection->m_ieEntry.begin(); iteEntry!=itSection->m_ieEntry.end(); ++iteEntry)
+								{
+									if (iteEntry->m_strName=="bone")
+									{
+										pLightRenderNode->setBindingBoneID(atoi(iteEntry->m_strValue.c_str()));
+									}
+									else if (iteEntry->m_strName=="pos")
+									{
+										Vec3D vPos;
+										sscanf(iteEntry->m_strValue.c_str(), "%f,%f,%f", &vPos.x, &vPos.y, &vPos.z);
+										pLightRenderNode->setPos(vPos);
+									}
+								}
+								pRenderNode->addChild(pLightRenderNode);
 							}
 						}
 						break;

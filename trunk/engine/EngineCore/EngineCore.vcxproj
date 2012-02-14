@@ -120,6 +120,7 @@
     <ClCompile Include="src\BaseCamera.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\FocusNode.cpp" />
+    <ClCompile Include="src\LightNode.cpp" />
     <ClCompile Include="src\LodMesh.cpp" />
     <ClCompile Include="src\Log.cpp" />
     <ClCompile Include="src\MeshCoordinate.cpp" />

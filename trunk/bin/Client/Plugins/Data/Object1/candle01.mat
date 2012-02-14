@@ -1,2 +1,5 @@
 [m1]
 shader=emissive
+
+[l0]
+pos=0,0.5,0

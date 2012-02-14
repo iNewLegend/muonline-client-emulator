@@ -160,8 +160,8 @@ void CSceneEffect::render(iRenderNode* pRenderNode)
 	R.SetRenderTarget(0,m_pLightRT);
 	R.SetTexture(0, m_pPosMRT);
 	R.SetTexture(1, m_pNormalMRT);
-
-	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
+	pRenderNode->render(Matrix::UNIT,MATERIAL_LIGHT);
+	//R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
 
 	R.SetShader("DeferredCombine");
 	R.SetRenderTarget(0,m_pDiffuseRT);
