@@ -474,16 +474,29 @@ void CD3D9RenderSystem::SetStencilFunc(bool bStencil, StencilOP op, CompareFunct
 void CD3D9RenderSystem::setShaderFloat(const char* szName, float val)
 {
 	m_mapShaders.begin()->second->setFloat(szName, val);
+	if (m_pOldShader)
+	{
+		((CD3D9Shader*)m_pOldShader)->getD3DXEffect()->CommitChanges();
+	}
 }
 
 void CD3D9RenderSystem::setShaderFloatArray(const char* szName, const void* pVal, int nCount)
 {
 	m_mapShaders.begin()->second->setFloatArray(szName, (const float*)pVal, nCount);
+	if (m_pOldShader)
+	{
+		((CD3D9Shader*)m_pOldShader)->getD3DXEffect()->CommitChanges();
+	}
+
 }
 
 void CD3D9RenderSystem::setShaderMatrix(const char* szName, const Matrix& mat)
 {
 	m_mapShaders.begin()->second->setMatrix(szName, mat);
+	if (m_pOldShader)
+	{
+		((CD3D9Shader*)m_pOldShader)->getD3DXEffect()->CommitChanges();
+	}
 }
 
 void CD3D9RenderSystem::SetPixelShaderConstantF(unsigned int StartRegister,const float* pConstantData,unsigned int Vector4fCount)

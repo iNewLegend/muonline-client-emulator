@@ -5,6 +5,7 @@
 #include "SkinMesh.h"
 #include "SkeletonData.h"
 #include "LodMesh.h"
+#include "LightNode.h"
 
 typedef struct{
 	CDataPlugBase * pObj;

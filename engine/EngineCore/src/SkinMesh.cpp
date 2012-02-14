@@ -204,7 +204,7 @@ void CSkinMesh::renderMesh(int eModelRenderType, size_t uLodLevel, CHardwareVert
 {
 	if (m_pMesh->SetMeshSource(uLodLevel,pSkinVB))
 	{
-		if (eModelRenderType==(MATERIAL_ALL|MATERIAL_RENDER_NO_MATERIAL))
+		if (eModelRenderType==(MATERIAL_GEOMETRY|MATERIAL_ALPHA|MATERIAL_GLOW|MATERIAL_RENDER_NO_MATERIAL))
 		{
 			m_pMesh->draw(uLodLevel);
 		}

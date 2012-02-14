@@ -23,6 +23,7 @@ DWORD WINAPI LoadingThreads (LPVOID pScene)
 iRenderNode* newSkeletonNode(){return new CSkeletonNode;}
 iRenderNode* newParticleEmitter(){return new CParticleEmitter;}
 iRenderNode* newSkinMesh(){return new CSkinMesh;};
+iRenderNode* newLightNode(){return new CLightNode;};
 
 void* newSkeletonData(){return new CSkeletonData;}
 void* newParticleData(){return new ParticleData;}
@@ -35,6 +36,7 @@ CRenderNodeMgr::CRenderNodeMgr()
 	registerRenderNode("skeleton",	(P_FUNC_NEW_RENDER_NODE)newSkeletonNode/*(P_FUNC_NEW_RENDER_NODE)&[](){return new CSkeletonNode;}*/);
 	registerRenderNode("particle",	(P_FUNC_NEW_RENDER_NODE)newParticleEmitter);
 	registerRenderNode("mesh",		(P_FUNC_NEW_RENDER_NODE)newSkinMesh);
+	registerRenderNode("light",		(P_FUNC_NEW_RENDER_NODE)newLightNode);
 	
 	registerRenderData("skeleton",	(P_FUNC_NEW_RENDER_DATA)newSkeletonData);
 	registerRenderData("particle",	(P_FUNC_NEW_RENDER_DATA)newParticleData);

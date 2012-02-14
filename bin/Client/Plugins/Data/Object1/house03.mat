@@ -1,2 +1,5 @@
 [m4]
 shader=emissiveflash
+
+[l0]
+pos=0,1,0
