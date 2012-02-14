@@ -22,11 +22,7 @@ CRenderSystem& CRenderSystem::getSingleton()
 
 void CRenderSystem::world2Screen(const Vec3D& vWorldPos, Pos2D& posScreen)
 {
-	Matrix mProj;
-	Matrix View;
-	getProjectionMatrix(mProj);
-	getViewMatrix(View);
-	Vec4D vOut = mProj*View*Vec4D(vWorldPos,1);
+	Vec4D vOut = getProjectionMatrix()*getViewMatrix()*Vec4D(vWorldPos,1);
 	float fW = vOut.w;
 	CRect<int> rc;
 	getViewport(rc);
@@ -37,13 +33,9 @@ void CRenderSystem::world2Screen(const Vec3D& vWorldPos, Pos2D& posScreen)
 #include "Intersect.h"
 void CRenderSystem::GetPickRay(Vec3D& vRayPos, Vec3D& vRayDir,int x, int y)
 {
-	Matrix mProj;
-	getProjectionMatrix(mProj);
 	CRect<int> rc;
 	getViewport(rc);
-	Matrix mView;
-	getViewMatrix(mView);
-	::GetPickRay(vRayPos,vRayDir,x,y,mView,mProj,rc.getRECT());
+	::GetPickRay(vRayPos,vRayDir,x,y,getViewMatrix(),getProjectionMatrix(),rc.getRECT());
 }
 
 CShader* CRenderSystem::registerShader(const char* szName, const char* szFilename)

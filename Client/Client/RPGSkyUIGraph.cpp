@@ -68,15 +68,12 @@ void Node3DUIGraph::CalcTextRect(const wchar_t* wcsText, CRect<float> & rcDest)
 
 void Node3DUIGraph::initDrawText()
 {
+	CRenderSystem & R = CRenderSystem::getSingleton();
 	CRect<int>	rcViewport;
-	Matrix		mView;
-	Matrix		mProjection;
-	// ---
-	CRenderSystem & R		= CRenderSystem::getSingleton();
+	Matrix		mView=R.getViewMatrix();
+	Matrix		mProjection=R.getProjectionMatrix();
 	// ----
 	R.getViewport(rcViewport);
-	R.getViewMatrix(mView);
-	R.getProjectionMatrix(mProjection);
 	// ----
 	mView.Invert();
 	// ----
