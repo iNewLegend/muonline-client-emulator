@@ -46,22 +46,6 @@ void CRenderSystem::GetPickRay(Vec3D& vRayPos, Vec3D& vRayDir,int x, int y)
 	::GetPickRay(vRayPos,vRayDir,x,y,mView,mProj,rc.getRECT());
 }
 
-bool CRenderSystem::prepareMaterial(const CMaterial& material)
-{
-	SetShader(material.strShader.c_str());
-	CTextureMgr& TM = GetTextureMgr();
-	for (size_t i=0;i<8;++i)
-	{
-		if (material.uTexture[i]==0)
-		{
-			break;
-		}
-		// ----
-		SetTexture(i, material.uTexture[i]);
-	}
-	return true;
-}
-                                                                     
 CShader* CRenderSystem::registerShader(const char* szName, const char* szFilename)
 {
 	CShader* pShader = getShader(szName);
