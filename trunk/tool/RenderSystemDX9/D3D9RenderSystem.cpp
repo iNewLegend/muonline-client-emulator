@@ -92,9 +92,6 @@ HRESULT CD3D9RenderSystem::OnResetDevice()
 	// ----
 	myMapTransform(m_mapShaders, &CD3D9Shader::OnResetDevice);
 
-	//FillMemory(m_Lights, 8*sizeof(D3DLIGHT9), NULL);
-	//FillMemory(m_LightEnable, 8*sizeof(bool), NULL);
-
 	m_pOldShader = NULL;
 
 //////////////////////////////////////////////////////////////////////////
@@ -158,15 +155,6 @@ HRESULT CD3D9RenderSystem::OnResetDevice()
 	unsigned long zFormat = D3DFMT_D16;//D3DFMT_D24S8;
 	//m_bitDepth = 24;
 
-	{
-// 		D3DCAPS9 devCaps;
-// 		m_pD3D9Device->GetDeviceCaps(&devCaps);
-// 		if( !(devCaps.Caps2 & D3DCAPS2_CANCALIBRATEGAMMA) )   
-// 		{
-// 			MessageBoxW(NULL, L"不支持应用Gamma坡道之前进行校正效果，SetGammaRamp() 不能使用 D3DSGR_CALIBRATE 标志", L"ERROR", MB_OK|MB_SETFOREGROUND|MB_TOPMOST);
-// 		}
-	}
-
 	if(FAILED(CheckResourceFormatSupport(m_pD3D9Device, D3DFMT_X8R8G8B8, D3DRTYPE_TEXTURE, D3DUSAGE_QUERY_SRGBREAD)))
 	{
 		MessageBoxW(NULL, L"Device does not support hardware D3DRTYPE_TEXTURE  D3DUSAGE_QUERY_SRGBREAD!", L"ERROR", MB_OK|MB_SETFOREGROUND|MB_TOPMOST);
@@ -195,7 +183,6 @@ HRESULT CD3D9RenderSystem::OnResetDevice()
 	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_ALPHA|D3DCOLORWRITEENABLE_BLUE|D3DCOLORWRITEENABLE_GREEN|D3DCOLORWRITEENABLE_RED) );
 	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD) );
 	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_FOGENABLE, false) );
-
 
 	SetFillMode(FILL_SOLID);
 
@@ -391,13 +378,9 @@ void CD3D9RenderSystem::SetFillMode(FillMode mode)
 
 void CD3D9RenderSystem::setWorldMatrix(const Matrix& m)
 {
-	Matrix mDx=m;mDx.transpose();
-	Matrix Proj, View;
-	getProjectionMatrix(Proj);
-	getViewMatrix(View);
-	Matrix wvpm = Proj * View * m;
-	Matrix wvm = View * m;
-
+	m_mWorld = m;
+	Matrix wvpm = m_mProjection * m_mView * m_mWorld;
+	Matrix wvm = m_mView * m_mWorld;
 	setShaderMatrix("wvm",wvm);
 	setShaderMatrix("wvpm",wvpm);
 	setShaderMatrix("g_mWorld",m);
@@ -405,55 +388,44 @@ void CD3D9RenderSystem::setWorldMatrix(const Matrix& m)
 	{
 		((CD3D9Shader*)m_pOldShader)->getD3DXEffect()->CommitChanges();
 	}
-
-	D3D9HR( m_pD3D9Device->SetVertexShaderConstantF(0, wvpm, 4) );
+	Matrix mDx=m;mDx.transpose();
 	D3D9HR( m_pD3D9Device->SetTransform(D3DTS_WORLD, (D3DXMATRIX*)&mDx) );
 }
 
 void CD3D9RenderSystem::setViewMatrix(const Matrix& m)
 {
-	Matrix mDx=m;mDx.transpose();
-	Matrix Proj;
-	getProjectionMatrix(Proj);
-	Matrix vpm = Proj * m;
-
+	m_mView = m;
+	Matrix vpm = m_mProjection * m_mView;
 	setShaderMatrix("vpm", vpm);
 	setShaderMatrix("vm", m);
 	if (m_pOldShader)
 	{
 		((CD3D9Shader*)m_pOldShader)->getD3DXEffect()->CommitChanges();
 	}
+	Matrix mDx=m;mDx.transpose();
 	D3D9HR( m_pD3D9Device->SetTransform(D3DTS_VIEW, (D3DXMATRIX*)&mDx) );
 }
 
 void CD3D9RenderSystem::setProjectionMatrix(const Matrix& m)
 {
+	m_mProjection = m;
 	Matrix mDx=m;mDx.transpose();
 	D3D9HR( m_pD3D9Device->SetTransform(D3DTS_PROJECTION, (D3DXMATRIX*)&mDx) );
 }
 
-void CD3D9RenderSystem::getWorldMatrix(Matrix& m)const
+const Matrix& CD3D9RenderSystem::getWorldMatrix(Matrix& m)const
 {
-	D3D9HR( m_pD3D9Device->GetTransform(D3DTS_WORLD, (D3DXMATRIX*)&m) );
-	m.transpose();
+	return m_mWorld;
 }
 
-void CD3D9RenderSystem::getViewMatrix(Matrix& m)const
+const Matrix& CD3D9RenderSystem::getViewMatrix(Matrix& m)const
 {
-	D3D9HR( m_pD3D9Device->GetTransform(D3DTS_VIEW, (D3DXMATRIX*)&m) );
-	m.transpose();
+	return m_mView;
 }
 
-void CD3D9RenderSystem::getProjectionMatrix(Matrix& m)const
+const Matrix& CD3D9RenderSystem::getProjectionMatrix(Matrix& m)const
 {
-	D3D9HR( m_pD3D9Device->GetTransform(D3DTS_PROJECTION, (D3DXMATRIX*)&m) );
-	m.transpose();
-}
-
-void CD3D9RenderSystem::getTextureMatrix(unsigned char uTexChannel, Matrix& m)const
-{
-	D3D9HR( m_pD3D9Device->GetTransform((D3DTRANSFORMSTATETYPE)(D3DTS_TEXTURE0 + uTexChannel), (D3DXMATRIX*)&m) );
-	m.transpose();
+	return m_mProjection;
 }
 
 inline unsigned long CompareFunctionForD3D9(CompareFunction cmpFunc)
@@ -615,11 +587,6 @@ void CD3D9RenderSystem::SetTexture(unsigned long Stage, IDirect3DTexture9* pD3D9
 // 	S_REL(pOldD3D9Texture);
 }
 
-CTexture* CD3D9RenderSystem::GetTexture(unsigned long Stage)
-{
-	return NULL;
-}
-
 CVertexDeclaration* CD3D9RenderSystem::CreateVertexDeclaration()
 {
 	CD3D9VertexDeclaration* pD3D9VertexDeclaration = new CD3D9VertexDeclaration(m_pD3D9Device);
@@ -763,19 +730,6 @@ void CD3D9RenderSystem::StretchRect(CTexture* pSourceTexture,const CRect<int>* p
 //		mD3DPool,
 //		&lpD3DBuffer,
 //		NULL);
-//}
-
-//void CD3D9RenderSystem::SetMaterial(D3DMATERIAL9* Mtl)
-//{
-//	//m_ChangeMaterial = *Mtl;
-//	m_pD3D9Device->SetMaterial(Mtl);
-//
-//	//if (m_ShaderMgr.IsEnable())
-//	//{
-//	//	m_ShaderMgr.SetValue(PT_DIFFUSE, &Mtl->Diffuse);
-//	//	m_ShaderMgr.SetValue(PT_SPECULAR, &Mtl->Specular);
-//	//	m_ShaderMgr.SetValue(PT_POWER, &Mtl->Power);
-//	//}
 //}
 
 //void CD3D9RenderSystem::SetLight(unsigned long Index, const D3DLIGHT9* Light)

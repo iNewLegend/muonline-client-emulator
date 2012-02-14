@@ -46,8 +46,7 @@ void CNode3DTextRender::drawUBB(int x, int y, const CUBB* pUBB)const
 	int nVertexCount = pUBB->m_VB.size();
 	if (nVertexCount)
 	{
-		Matrix mWorld;
-		CRenderSystem::getSingleton().getWorldMatrix(mWorld);
+		Matrix mWorld = CRenderSystem::getSingleton().getWorldMatrix();
 		Matrix mNewWorld = mWorld*Matrix::newTranslation(Vec3D(x, y, 0.0f));
 		// ----
 		CRenderSystem::getSingleton().setWorldMatrix(mNewWorld);

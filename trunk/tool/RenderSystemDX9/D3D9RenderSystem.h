@@ -93,11 +93,9 @@ public:
 	void setViewMatrix(const Matrix& m);
 	void setProjectionMatrix(const Matrix& m);
 	// get matrix
-	void getWorldMatrix(Matrix& m)const;
-	void getViewMatrix(Matrix& m)const;
-	void getProjectionMatrix(Matrix& m)const;
-	void getTextureMatrix(unsigned char uTexChannel, Matrix& m)const;
-
+	const Matrix& getWorldMatrix()const;
+	const Matrix& getViewMatrix()const;
+	const Matrix& getProjectionMatrix()const;
 	// Func
 	void SetStencilFunc(bool bStencil, StencilOP op=STENCILOP_INCR,							// 模板检测
 		CompareFunction stencilFunction = CMPF_LESS_EQUAL);
@@ -117,9 +115,6 @@ public:
 	// 设置纹理
 	void SetTexture(unsigned long Stage, unsigned long TextureID);
 	void SetTexture(unsigned long Stage, const CTexture* pTexture);
-	// Get
-	CTexture* GetTexture(unsigned long Stage);
-
 	CVertexDeclaration* CreateVertexDeclaration();
 	// 创建VB IB
 	CHardwareVertexBuffer* CreateVertexBuffer(size_t numVerts, size_t vertexSize,
@@ -146,13 +141,7 @@ public:
 	void commond(const char* szCommond);
 protected:
 	void SetTexture(unsigned long Stage, IDirect3DTexture9* pD3D9Texture);
-	//
-	//void SetTransform(D3DTRANSFORMSTATETYPE State,const D3DMATRIX* pMatrix);
-	//void GetTransform(D3DTRANSFORMSTATETYPE State, D3DMATRIX* pMatrix);
 protected:
-	// ----
-	// # 非插件数据
-	// ----
 	CTextureMgr					m_TextureMgr;
 	CHardwareBufferMgr			m_D3D9HardwareBufferMgr;
 	// ----
@@ -160,7 +149,10 @@ protected:
 
 	CShader*					m_pOldShader;
 	IDirect3DTexture9*			m_TextureBack[8];
-	//////////////////////////////////////////////////////////////////////////
+	
+	Matrix m_mWorld;
+	Matrix m_mView;
+	Matrix m_mProjection;
 };
 
 CD3D9RenderSystem& GetD3D9RenderSystem();

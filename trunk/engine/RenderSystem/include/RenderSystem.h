@@ -19,13 +19,11 @@
 #pragma comment(lib, "math.lib")
 #endif
 
-
 class CRenderSystem
 {
 public:
 	CRenderSystem();
 	virtual ~CRenderSystem();
-
 	static void setSingleton(CRenderSystem* pRenderSystem);
 	static CRenderSystem& getSingleton();
 public:
@@ -64,10 +62,9 @@ public:
 	// ----
 	// # get matrix
 	// ----
-	virtual void		getWorldMatrix		(Matrix& m)const = 0;
-	virtual void		getViewMatrix		(Matrix& m)const = 0;
-	virtual void		getProjectionMatrix	(Matrix& m)const = 0;
-	virtual void		getTextureMatrix	(unsigned char uTexChannel, Matrix& m)const = 0;
+	virtual const Matrix& getWorldMatrix	()const = 0;
+	virtual const Matrix& getViewMatrix		()const = 0;
+	virtual const Matrix& getProjectionMatrix()const = 0;
 	// ----
 	virtual void		SetStencilFunc(bool bStencil, StencilOP op=STENCILOP_INCR,							// 模板检测
 								CompareFunction stencilFunction = CMPF_LESS_EQUAL) = 0;// ----
@@ -90,10 +87,6 @@ public:
 	virtual void SetTexture(unsigned long Stage, unsigned long TextureID) = 0;
 	virtual void SetTexture(unsigned long Stage, const CTexture* pTexture) = 0;
 	// ----
-	// # Get
-	// ----
-	virtual CTexture* GetTexture(unsigned long Stage) = 0;
-	// ----
 	virtual CVertexDeclaration* CreateVertexDeclaration() = 0;
 	// 设置FVF顶点格式
 	virtual void SetFVF(unsigned long FVF) = 0;
@@ -102,22 +95,16 @@ public:
 	//
 	virtual void SetStreamSource(unsigned long StreamNumber, CHardwareVertexBuffer* pStreamData,unsigned long OffsetInBytes,unsigned long Stride) = 0;
 	virtual void SetIndices(CHardwareIndexBuffer* pIndexData) = 0;
-
 	// 绘制
 	virtual void DrawPrimitive(VertexRenderOperationType PrimitiveType,unsigned long StartVertex,unsigned long PrimitiveCount) = 0;
 	virtual void DrawIndexedPrimitive(VertexRenderOperationType PrimitiveType,int32 BaseVertexIndex,unsigned long MinVertexIndex,unsigned long NumVertices,unsigned long startIndex,unsigned long primCount) = 0;
 	virtual void DrawPrimitiveUP(VertexRenderOperationType PrimitiveType,unsigned long PrimitiveCount,const void* pVertexStreamZeroData,unsigned long VertexStreamZeroStride) = 0;
 	virtual void DrawIndexedPrimitiveUP(VertexRenderOperationType PrimitiveType,unsigned long MinVertexIndex,unsigned long NumVertices,unsigned long PrimitiveCount,const void* pIndexData,const void* pVertexStreamZeroData,unsigned long VertexStreamZeroStride) = 0;
-
 	virtual void drawIndexedSubset(const IndexedSubset& subset) = 0;
-
 	virtual void StretchRect(CTexture* pSource,const CRect<int>* pSourceRect,CTexture* pDest,const CRect<int>* pDestRect,TextureFilterType filter) = 0;
 	//
 	void world2Screen(const Vec3D& vWorldPos, Pos2D& posScreen);
 	void GetPickRay(Vec3D& vRayPos, Vec3D& vRayDir,int x, int y);
-
-	// set material
-	bool prepareMaterial(const CMaterial& material);
 	// Shader
 	CShader* registerShader(const char* szName, const char* szFilename);
 	CShader* getShader(const char* szName);
