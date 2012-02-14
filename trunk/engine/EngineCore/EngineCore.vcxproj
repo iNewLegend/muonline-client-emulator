@@ -86,7 +86,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Include\3DMapEffect.h" />
     <ClInclude Include="include\Animated.h" />
     <ClInclude Include="Include\AnimMgr.h" />
     <ClInclude Include="Include\AStar.h" />
@@ -98,9 +97,9 @@
     <ClInclude Include="Include\iScene.h" />
     <ClInclude Include="Include\iParticle.h" />
     <ClInclude Include="Include\iSkeleton.h" />
+    <ClInclude Include="Include\LightNode.h" />
     <ClInclude Include="include\LodMesh.h" />
     <ClInclude Include="Include\Log.h" />
-    <ClInclude Include="Include\MapSound.h" />
     <ClInclude Include="Include\MeshCoordinate.h" />
     <ClInclude Include="Include\Octree.h" />
     <ClInclude Include="Include\RenderNodeMgr.h" />
@@ -116,7 +115,6 @@
     <ClInclude Include="Include\SceneData.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\3DMapEffect.cpp" />
     <ClCompile Include="src\AnimMgr.cpp" />
     <ClCompile Include="src\AStar.cpp" />
     <ClCompile Include="src\BaseCamera.cpp" />
@@ -124,7 +122,6 @@
     <ClCompile Include="src\FocusNode.cpp" />
     <ClCompile Include="src\LodMesh.cpp" />
     <ClCompile Include="src\Log.cpp" />
-    <ClCompile Include="src\MapSound.cpp" />
     <ClCompile Include="src\MeshCoordinate.cpp" />
     <ClCompile Include="src\Octree.cpp" />
     <ClCompile Include="src\RenderNodeMgr.cpp" />

@@ -1,6 +1,5 @@
 #pragma once
 #include "Terrain.h"
-#include "3DMapEffect.h"
 #include "Octree.h"
 #include "FocusNode.h"
 #include "InterfacePlug.h"
@@ -27,12 +26,6 @@ public:
 	// load
 	virtual bool			setup					();
 	bool					removeRenderNode		(iRenderNode* pNode);
-	// ----
-	// # shit
-	// ----
-	C3DMapEffect*			add3DMapEffect			(const Vec3D& vWorldPos, char* pszIndex, bool bDelself = true);
-	void					del3DMapEffect			(const Vec3D& vWorldPos);
-	void					del3DMapEffect			(C3DMapEffect* pEffect);
 	// ----
 	// # shit
 	// ----
