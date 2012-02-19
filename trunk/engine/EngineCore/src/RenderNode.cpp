@@ -22,7 +22,8 @@ CRenderNode::~CRenderNode()
 
 void CRenderNode::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
-	m_mRealMatrix = mWorld*m_mWorldMatrix;
+	updateWorldMatrix();
+	m_mRealMatrix = mWorld;
 	if (m_pParent&&m_pParent->getType()==NODE_SKELETON)
 	{
 		CSkeletonNode* pModel = (CSkeletonNode*)m_pParent;
@@ -43,6 +44,7 @@ void CRenderNode::frameMove(const Matrix& mWorld, double fTime, float fElapsedTi
 			}
 		}
 	}
+	m_mRealMatrix *= m_mWorldMatrix;
 	BBox bbox;
 	FOR_IN(it,m_mapChildNode)
 	{
@@ -54,7 +56,6 @@ void CRenderNode::frameMove(const Matrix& mWorld, double fTime, float fElapsedTi
 	}
 	m_LocalBBox = bbox;
 	updateWorldBBox();
-	updateWorldMatrix();
 }
 
 void CRenderNode::render(int nRenderType)const
