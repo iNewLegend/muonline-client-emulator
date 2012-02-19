@@ -2,4 +2,5 @@
 shader=emissive
 
 [l0]
-pos=0,2,0
+bone=3
+pos=0,0,0
