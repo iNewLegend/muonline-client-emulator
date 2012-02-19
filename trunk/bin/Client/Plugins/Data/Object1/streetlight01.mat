@@ -4,6 +4,6 @@ shader=emissive
 [l0]
 bone=3
 pos=0,0,0
-color=aa6644
+color=cc8866
 len=4
-rand=0.4
+rand=0.3

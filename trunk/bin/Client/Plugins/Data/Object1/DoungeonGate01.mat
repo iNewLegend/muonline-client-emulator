@@ -8,6 +8,12 @@ pos=-1.5,1,-1.5
 
 [l0]
 pos=1.5,1.5,-1.5
+color=aa6600
+len=4
+rand=0.5
 
 [l0]
 pos=-1.5,1.5,-1.5
+color=aa6600
+len=4
+rand=0.5
