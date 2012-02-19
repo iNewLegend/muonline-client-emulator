@@ -287,14 +287,17 @@ void CWorld::updateRender(const CFrustum& frustum)
 	}
 }
 
-void CWorld::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
+void CWorld::frameMoveRole(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
-	setup();
-	// ----
 	FOR_IN(it,m_mapRole)
 	{
 		it->second->frameMoveRole(mWorld, fTime, fElapsedTime);
 	}
+}
+
+void CWorld::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
+{
+	setup();
 	// ----
 	CScene::frameMove(mWorld, fTime, fElapsedTime);
 	// ----

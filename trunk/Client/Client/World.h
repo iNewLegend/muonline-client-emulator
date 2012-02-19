@@ -45,6 +45,7 @@ public:
 	void			addDamageInfo		(Vec3D vPos, const std::wstring& wcsInfo);
 	// ----
 	virtual void	updateRender		(const CFrustum& frustum);
+	virtual void	frameMoveRole		(const Matrix& mWorld, double fTime, float fElapsedTime);
 	virtual void	frameMove			(const Matrix& mWorld, double fTime, float fElapsedTime);
 	virtual void	render				(int nRenderType)const;
 	// ----

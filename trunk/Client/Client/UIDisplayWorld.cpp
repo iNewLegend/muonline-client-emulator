@@ -25,14 +25,17 @@ void CUIDisplayWorld::OnFrameMove(double fTime, float fElapsedTime)
 {
 	if(IsVisible() == true)
 	{
+		CWorld::getInstance().frameMoveRole(Matrix::UNIT, fTime, fElapsedTime);
+		// ----
 		CRect<int> rcViewport	= getViewport();
 		// ----
 		m_Camera.setProjParams(PI / 3, rcViewport.getWidth(), rcViewport.getHeight(), 0.1f, CWorld::getInstance().getFog().fEnd);
-		m_Camera.FrameMove(fElapsedTime);
 		// ----
 		Vec3D vPos = CPlayerMe::getInstance().getPos();
 		vPos.y+=CPlayerMe::getInstance().getRoleHeight()*0.6f;
 		m_Camera.setTargetPos(vPos);
+		// ----
+		m_Camera.FrameMove(fElapsedTime);
 		// ----
 		CUIDisplay::OnFrameMove(fTime, fElapsedTime);
 		// ----
