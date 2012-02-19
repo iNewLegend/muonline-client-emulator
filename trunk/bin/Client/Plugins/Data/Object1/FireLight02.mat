@@ -1,7 +1,6 @@
 [p0]
-bone=2
 par=fire.par
-pos=0,0,0
+pos=0,0.5,-0.4
 
 [l0]
-pos=0,1,0
+pos=0,1,-0.4

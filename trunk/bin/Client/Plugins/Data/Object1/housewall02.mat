@@ -2,4 +2,4 @@
 shader=emissiveFlash
 
 [l0]
-pos=0,1,0
+pos=0,1.5,0
