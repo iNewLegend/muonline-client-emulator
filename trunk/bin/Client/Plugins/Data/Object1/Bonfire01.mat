@@ -1,3 +1,6 @@
+[m1]
+shader=emissive
+
 [p0]
 par=fire.par
 pos=0,0.2,0
