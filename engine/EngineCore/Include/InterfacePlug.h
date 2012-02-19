@@ -10,7 +10,7 @@ public:
 	enum{NODE_BASE,NODE_PARTICLE,NODE_SKELETON,NODE_MESH,NODE_SKINE};
 	virtual	int				getType				() = 0;
 	virtual void			frameMove			(const Matrix& mWorld, double fTime, float fElapsedTime)=0;
-	virtual void			render				(const Matrix& mWorld, int nRenderType)const=0;
+	virtual void			render				(int nRenderType)const=0;
 	virtual void			setPos				(const Vec3D& vPos)=0;
 	virtual void			setRotate			(const Vec3D& vRotate)=0;
 	virtual void			setScale			(const Vec3D& vScale)=0;

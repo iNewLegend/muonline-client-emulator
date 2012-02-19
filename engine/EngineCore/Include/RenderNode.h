@@ -42,7 +42,7 @@ public:
 	//----
 	virtual	int				getType				(){return NODE_BASE;}
 	virtual void			frameMove			(const Matrix& mWorld, double fTime, float fElapsedTime);
-	virtual void			render				(const Matrix& mWorld, int nRenderType)const;
+	virtual void			render				(int nRenderType)const;
 	iRenderNode*			getChild			(const char* szName);
 	const iRenderNode*		getChild			(const char* szName)const;
 	virtual void			addChild			(iRenderNode* pChild);
@@ -67,6 +67,8 @@ protected:
 	std::string				m_strFilename;
 	std::string				m_strBindingBoneName;
 	int						m_nBindingBoneID;
+	Matrix					m_mRealMatrix;
+	
 protected:
 	Vec3D					m_vPos;
 	Vec3D					m_vRotate;

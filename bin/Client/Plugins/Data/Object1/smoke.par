@@ -15,7 +15,7 @@ Area=0.2,0.2
 ;阻尼
 Dampen=1
 ;颜色
-Color=0,FF000000,0
+Color=00FFFFFF,FFFFFFFF,00FFFFFF
 ;大小
 Size=0,0.6,0.5
 ;旋转
@@ -28,5 +28,5 @@ Cols=1
 IsBillboard=1
 
 [m]
-s0=..\Effect\smoke05.OZT
+s0=Data\Effect\smoke05.OZT
 shader=smoke

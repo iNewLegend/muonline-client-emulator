@@ -3,3 +3,6 @@ shader=emissiveflash
 
 [l0]
 pos=0,1.5,0
+color=aa6600
+len=3
+rand=0.4

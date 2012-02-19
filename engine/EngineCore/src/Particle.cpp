@@ -117,27 +117,14 @@ void CParticleEmitter::frameMove(const Matrix& mWorld, double fTime, float fElap
 {
 	setup();
 	// ----
+	CRenderNode::frameMove(mWorld,fTime,fElapsedTime);
+	// ----
 	if (m_pParticleData==NULL)
 	{
 		return;
-	}
+ 	}
 	// ----
-	Matrix mNewWorld = mWorld*m_mWorldMatrix;
-	// ----
-	if (m_pParent&&m_pParent->getType()==NODE_SKELETON)
-	{
-		if (m_nBindingBoneID!=-1)
-		{
-			CSkeletonNode* pSkeletonNode = (CSkeletonNode*)m_pParent;
-			const Matrix& matBone = pSkeletonNode->getBonesMatrix()[m_nBindingBoneID];
-			// ----
-			mNewWorld = matBone*mNewWorld;
-		}
-	}
-	// ----
-	update(mNewWorld,*m_pParticleData,fElapsedTime);
-	// ----
-	CRenderNode::frameMove(mWorld,fTime,fElapsedTime);
+	update(m_mRealMatrix,*m_pParticleData,fElapsedTime);
 }
 
 void CParticleEmitter::update(const Matrix& mWorld, ParticleData& particleData, float fElapsedTime)
@@ -183,7 +170,7 @@ void CParticleEmitter::update(const Matrix& mWorld, ParticleData& particleData, 
 			CalcSpreadMatrix(particleData.m_Spread1,particleData.m_Spread2,1.0f,1.0f);
 			Matrix mRot = mWorldRot * SpreadMat;
 
-			p.vPos = m_vPos + Vec3D(randfloat(-particleData.m_Areaw,particleData.m_Areaw), 0, randfloat(-particleData.m_Areal,particleData.m_Areal));
+			p.vPos = Vec3D(randfloat(-particleData.m_Areaw,particleData.m_Areaw), 0, randfloat(-particleData.m_Areal,particleData.m_Areal));
 			p.vPos = mWorld * p.vPos;
 
 			Vec3D vDir = mRot * Vec3D(0,1,0);
@@ -250,7 +237,7 @@ void CParticleEmitter::update(const Matrix& mWorld, ParticleData& particleData, 
 	}
 }
 
-void CParticleEmitter::render(const Matrix& mWorld, int nRenderType)const
+void CParticleEmitter::render(int nRenderType)const
 {
 	if(!m_pParticleData)
 	{
