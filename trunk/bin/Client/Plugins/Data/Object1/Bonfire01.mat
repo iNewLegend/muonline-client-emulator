@@ -5,3 +5,6 @@ pos=0,0.2,0
 [l0]
 bone=0
 pos=0,1,0
+color=aa6600
+len=4
+rand=0.6

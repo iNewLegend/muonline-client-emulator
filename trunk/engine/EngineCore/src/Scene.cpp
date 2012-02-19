@@ -91,80 +91,45 @@ Matrix CalcLightMatrix(const BBox& bbox, const Vec3D& vLightDir)
 }
 
 #include "Graphics.h"
-void CScene::render(const Matrix& mWorld, int nRenderType)const
+void CScene::render(int nRenderType)const
 {
 	CRenderSystem& R = CRenderSystem::getSingleton();
 	//R.setFogEnable(true);
 
-// 	if (MATERIAL_SHADOW==nRenderType)
-// 	{
-// 		return;
-// 	}
+	// 	if (MATERIAL_SHADOW==nRenderType)
+	// 	{
+	// 		return;
+	// 	}
 	// 
 	if (m_bShowNodeBBox)
 	{
 		// ----
 		FOR_IN(it,m_RenderNodes)
 		{
-		//	GetGraphics().drawBBox((*it)->getLocalBBox(),0xFFFF4400);
+			//	GetGraphics().drawBBox((*it)->getLocalBBox(),0xFFFF4400);
 		}
 	}
-	//if (m_setFocusNodes.size()>0)
+	// ----
+	R.SetStencilFunc(false);
+	// ----
+	iRenderNode* pFocusNode = NULL;
+	if (m_FocusNode.getChildObj().size()>0)
 	{
-// 		for(size_t i=0;i<m_setFocusNodes.size();++i)
-// 		{
-// 			m_setFocusNodes[i]->renderDebug();
-// 		}
-		// The octree boxs of focus Nodes.
-// 		for(size_t i=0;i<m_setFocusNodes.size();++i)
-// 		{
-// 			Octree* pParentOctree = m_Octree.find(m_setFocusNodes[i]);
-// 			if (pParentOctree)
-// 			{
-// 				GetGraphics().drawBBox(pParentOctree->getBBox(),0xFF00FF44);
-// 			}
-// 		}
+		pFocusNode = *m_FocusNode.getChildObj().begin();
 	}
-	//
-	//R.setFog(m_Fog);
-	//R.setFogEnable(m_Fog.fEnd>0.0f);
- 	{
-		// ----
-		R.SetStencilFunc(false);
-		// ----
-		iRenderNode* pFocusNode = NULL;
-		if (m_FocusNode.getChildObj().size()>0)
-		{
-			pFocusNode = *m_FocusNode.getChildObj().begin();
-		}
-		FOR_IN(it,m_RenderNodes)
-		{
-// 			if (*it==pFocusNode)
-// 			{
-// 				CRenderSystem::getSingleton().SetShader("ObjectFocus");
-// 				float color[4] = {1.0f,0.25f,0.0f,0.5f};
-// 				R.SetPixelShaderConstantF(0,color,1);
-// 				// monster (0xFFFF4040)
-// 				// NPC (0xFF40FF40)
-// 				// Player (0xFF00FFFF)
-// 				((CRenderNode*)*it)->render(Matrix::UNIT, E_MATERIAL_RENDER_TYPE(MATERIAL_GEOMETRY|MATERIAL_RENDER_ALPHA_TEST));
-// 			}
-			(*it)->render(Matrix::UNIT,nRenderType);
-		}
-		//Fog fogForGlow;
-		//fogForGlow = m_Fog;
-		//fogForGlow.fStart = m_Fog.fStart;
-		//fogForGlow.fEnd = m_Fog.fEnd*2.0f;
-		//R.setFog(fogForGlow);
-		//
-// 		FOR_IN(it,m_RenderNodes)
-// 		{
-// 		//	(*it)->render(Matrix::UNIT,MATERIAL_ALPHA);
-// 		}
-// 		FOR_IN(it,m_RenderNodes)
-// 		{
-// 		//	(*it)->render(Matrix::UNIT,MATERIAL_GLOW);
-// 		}
+	FOR_IN(it,m_RenderNodes)
+	{
+		// 			if (*it==pFocusNode)
+		// 			{
+		// 				CRenderSystem::getSingleton().SetShader("ObjectFocus");
+		// 				float color[4] = {1.0f,0.25f,0.0f,0.5f};
+		// 				R.SetPixelShaderConstantF(0,color,1);
+		// 				// monster (0xFFFF4040)
+		// 				// NPC (0xFF40FF40)
+		// 				// Player (0xFF00FFFF)
+		// 				((CRenderNode*)*it)->render(Matrix::UNIT, E_MATERIAL_RENDER_TYPE(MATERIAL_GEOMETRY|MATERIAL_RENDER_ALPHA_TEST));
+		// 			}
+		(*it)->render(nRenderType);
 	}
 }
 

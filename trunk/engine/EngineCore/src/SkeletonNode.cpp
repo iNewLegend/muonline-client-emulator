@@ -19,55 +19,15 @@ CSkeletonNode::~CSkeletonNode()
 void CSkeletonNode::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
 	setup();
-
-	Matrix mNewWorld = mWorld*m_mWorldMatrix;
-	animate(mNewWorld, fTime, fElapsedTime);
-	// ----
-	//Matrix mNewWorld = mWorld*m_mWorldMatrix;
-	// ----
-	if (m_pParent&&m_pParent->getType()==NODE_SKELETON)
-	{
-		CSkeletonNode* pModel = (CSkeletonNode*)m_pParent;
-		if (pModel->getSkeletonData())
-		{
-			// ----
-			if (m_nBindingBoneID==-1)
-			{
-				m_nBindingBoneID = pModel->getSkeletonData()->getBoneIDByName(m_strBindingBoneName.c_str());
-			}
-			// ----
-			if (m_nBindingBoneID!=-1)
-			{
-				Matrix mBoneLocal = pModel->getSkeletonData()->m_Bones[m_nBindingBoneID].m_mInvLocal;
-				mBoneLocal.Invert();
-				Matrix mBone = pModel->m_setBonesMatrix[m_nBindingBoneID]*mBoneLocal;
-				mNewWorld *= mBone;
-			}
-		}
-	}
-	// ----
-	CRenderNode::frameMove(mNewWorld,fTime,fElapsedTime);
+	CRenderNode::frameMove(mWorld,fTime,fElapsedTime);
+	animate(m_mRealMatrix, fTime, fElapsedTime);
 }
 
-void CSkeletonNode::render(const Matrix& mWorld, int nRenderType)const
+void CSkeletonNode::render(int nRenderType)const
 {
-	Matrix mNewWorld = mWorld;
-	if (m_pParent&&m_pParent->getType()==NODE_SKELETON)
-	{
-		CSkeletonNode* pModel = (CSkeletonNode*)m_pParent;
-		if (pModel->getSkeletonData())
-		{
-			if (m_nBindingBoneID!=-1)
-			{
-				Matrix mBoneLocal = pModel->getSkeletonData()->m_Bones[m_nBindingBoneID].m_mInvLocal;
-				mBoneLocal.Invert();
-				Matrix mBone = pModel->m_setBonesMatrix[m_nBindingBoneID]*mBoneLocal;
-				mNewWorld *= mBone;
-			}
-		}
-	}
-	CRenderNode::render(mNewWorld,nRenderType);
+	CRenderNode::render(nRenderType);
 }
+
 bool CSkeletonNode::setup()
 {
 	if (m_pData==(void*)-1)

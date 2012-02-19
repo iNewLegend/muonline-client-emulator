@@ -22,10 +22,31 @@ CRenderNode::~CRenderNode()
 
 void CRenderNode::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
+	m_mRealMatrix = mWorld*m_mWorldMatrix;
+	if (m_pParent&&m_pParent->getType()==NODE_SKELETON)
+	{
+		CSkeletonNode* pModel = (CSkeletonNode*)m_pParent;
+		if (pModel->getSkeletonData())
+		{
+			// ----
+			if (m_nBindingBoneID==-1)
+			{
+				m_nBindingBoneID = pModel->getSkeletonData()->getBoneIDByName(m_strBindingBoneName.c_str());
+			}
+			// ----
+			if (m_nBindingBoneID>=0&&m_nBindingBoneID<pModel->getBonesMatrix().size())
+			{
+				Matrix mBoneLocal = pModel->getSkeletonData()->m_Bones[m_nBindingBoneID].m_mInvLocal;
+				mBoneLocal.Invert();
+				Matrix mBone = pModel->getBonesMatrix()[m_nBindingBoneID]*mBoneLocal;
+				m_mRealMatrix *= mBone;
+			}
+		}
+	}
 	BBox bbox;
 	FOR_IN(it,m_mapChildNode)
 	{
-		(*it)->frameMove(mWorld, fTime, fElapsedTime);
+		(*it)->frameMove(m_mRealMatrix, fTime, fElapsedTime);
 		// ----
 		// # Update BBox
 		// ----
@@ -36,12 +57,11 @@ void CRenderNode::frameMove(const Matrix& mWorld, double fTime, float fElapsedTi
 	updateWorldMatrix();
 }
 
-void CRenderNode::render(const Matrix& mWorld, int nRenderType)const
+void CRenderNode::render(int nRenderType)const
 {
-	Matrix mNewWorld = mWorld*m_mWorldMatrix;
 	FOR_IN(it,m_mapChildNode)
 	{
-		(*it)->render(mNewWorld, nRenderType);
+		(*it)->render(nRenderType);
 	}
 }
 
@@ -239,5 +259,5 @@ Matrix CRenderNode::getShadowMatrix(const Vec3D& vLight,float fHeight)const
 void CRenderNode::renderShadow(const Matrix& mWorld, const Vec3D& vLight,float fHeight)const
 {
 	Matrix mNewWorld = mWorld*getShadowMatrix(vLight,fHeight);//m_mWorld;
-	render(mNewWorld, MATERIAL_GEOMETRY|MATERIAL_RENDER_ALPHA_TEST);
+	render(MATERIAL_GEOMETRY|MATERIAL_RENDER_ALPHA_TEST);
 }

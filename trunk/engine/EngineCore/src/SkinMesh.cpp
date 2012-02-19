@@ -43,21 +43,16 @@ void CSkinMesh::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime
 	updateWorldBBox();
 }
 
-void CSkinMesh::render(const Matrix& mWorld, int nRenderType)const
+void CSkinMesh::render(int nRenderType)const
 {
-	Matrix mNewWorld = mWorld*m_mWorldMatrix;
+	CRenderNode::render(nRenderType);
 	// ----
 	if (m_nRenderType&nRenderType && m_pMesh)
 	{
-		// ----
-		//Matrix mNewWorld = mWorld*m_mWorldMatrix;
-		// ----
-		CRenderSystem::getSingleton().setWorldMatrix(mNewWorld);
+		CRenderSystem::getSingleton().setWorldMatrix(m_mRealMatrix);
 		// ----
 		renderMesh(nRenderType,m_uLodLevel,m_pVB);
 	}
-	// ----
-	CRenderNode::render(mNewWorld, nRenderType);
 }
 
 bool CSkinMesh::intersectSelf(const Vec3D& vRayPos , const Vec3D& vRayDir, float &tmin ,float &tmax)const

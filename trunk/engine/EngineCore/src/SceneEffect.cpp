@@ -123,7 +123,7 @@ void CSceneEffect::render(iRenderNode* pRenderNode)
 	R.SetRenderTarget(1,m_pPosMRT);
 	R.SetRenderTarget(2,m_pNormalMRT);
 	// ----
-	pRenderNode->render(Matrix::UNIT,MATERIAL_GEOMETRY);
+	pRenderNode->render(MATERIAL_GEOMETRY);
 
 	R.SetRenderTarget(1,NULL);
 	R.SetRenderTarget(2,NULL);
@@ -160,7 +160,7 @@ void CSceneEffect::render(iRenderNode* pRenderNode)
 	R.SetRenderTarget(0,m_pLightRT);
 	R.SetTexture(0, m_pPosMRT);
 	R.SetTexture(1, m_pNormalMRT);
-	pRenderNode->render(Matrix::UNIT,MATERIAL_LIGHT);
+	pRenderNode->render(MATERIAL_LIGHT);
 	//R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
 
 	R.SetShader("DeferredCombine");
@@ -171,7 +171,7 @@ void CSceneEffect::render(iRenderNode* pRenderNode)
 
 	// Render Glow
 	// ----
-	pRenderNode->render(Matrix::UNIT,MATERIAL_GLOW);
+	pRenderNode->render(MATERIAL_GLOW);
 
 	// Copy DiffuseRT For Bump
 	// ----
@@ -183,7 +183,7 @@ void CSceneEffect::render(iRenderNode* pRenderNode)
 	// Render Bump
 	R.SetRenderTarget(0,m_pDiffuseRT);
 	R.SetTexture(1, m_pDiffuseCopyRT);
-	pRenderNode->render(Matrix::UNIT,MATERIAL_BUMP);
+	pRenderNode->render(MATERIAL_BUMP);
 
 
 	R.SetFVF(QuadVertex::FVF);

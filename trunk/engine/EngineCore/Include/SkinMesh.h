@@ -36,7 +36,7 @@ public:
 	~CSkinMesh();
 	virtual int		getType			() {return NODE_MESH;}
 	virtual void	frameMove		(const Matrix& mWorld, double fTime, float fElapsedTime);
-	virtual void	render			(const Matrix& mWorld, int nRenderType)const;
+	virtual void	render			(int nRenderType)const;
 	virtual bool	intersectSelf	(const Vec3D& vRayPos , const Vec3D& vRayDir, float &tmin ,float &tmax)const;
 	virtual bool	setup			();
 	bool			prepare			()const;

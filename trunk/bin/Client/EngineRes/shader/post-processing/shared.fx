@@ -17,6 +17,7 @@ shared float3 g_vSpecular;
 shared float2 inv_width_height;
 shared float g_fPower;
 shared float g_fTime;
+shared float4 ld;
 
 float2 PixelCoords[16];
 

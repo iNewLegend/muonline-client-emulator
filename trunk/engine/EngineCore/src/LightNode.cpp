@@ -11,59 +11,28 @@ CLightNode::~CLightNode()
 {
 }
 
-void CLightNode::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
+void CLightNode::render(int nRenderType)const
 {
-	Matrix mNewWorld = mWorld*m_mWorldMatrix;
+	CRenderNode::render(nRenderType);
 	// ----
-	if (m_pParent&&m_pParent->getType()==NODE_SKELETON)
-	{
-		CSkeletonNode* pModel = (CSkeletonNode*)m_pParent;
-		if (pModel->getSkeletonData())
-		{
-			// ----
-			if (m_nBindingBoneID==-1)
-			{
-				m_nBindingBoneID = pModel->getSkeletonData()->getBoneIDByName(m_strBindingBoneName.c_str());
-			}
-			// ----
-			if (m_nBindingBoneID!=-1)
-			{
-				Matrix mBoneLocal = pModel->getSkeletonData()->m_Bones[m_nBindingBoneID].m_mInvLocal;
-				mBoneLocal.Invert();
-				Matrix mBone = pModel->getBonesMatrix()[m_nBindingBoneID]*mBoneLocal;
-				mNewWorld *= mBone;
-			}
-		}
-	}
-	// ----
-	CRenderNode::frameMove(mNewWorld,fTime,fElapsedTime);
-}
-
-void CLightNode::render(const Matrix& mWorld, int nRenderType)const
-{
 	if ((MATERIAL_LIGHT&nRenderType) == 0)
 	{
 		return;
 	}
-	Matrix mNewWorld = mWorld;
-	if (m_pParent&&m_pParent->getType()==NODE_SKELETON)
-	{
-		CSkeletonNode* pModel = (CSkeletonNode*)m_pParent;
-		if (pModel->getSkeletonData())
-		{
-			if (m_nBindingBoneID!=-1)
-			{
-				Matrix mBoneLocal = pModel->getSkeletonData()->m_Bones[m_nBindingBoneID].m_mInvLocal;
-				mBoneLocal.Invert();
-				Matrix mBone = pModel->getBonesMatrix()[m_nBindingBoneID]*mBoneLocal;
-				mNewWorld *= mBone;
-			}
-		}
-	}
+	// ----
 	CRenderSystem& R = CRenderSystem::getSingleton();
 	// ----
-	Vec3D vPos = mNewWorld*m_vPos;
+	Vec3D vPos = m_mRealMatrix*Vec3D(0.0f,0.0f,0.0f);
 	R.setShaderFloatArray("g_vPointLight",	&vPos, 3);
+	int nLightData = (int)m_pData;
+	float lightData[4];
+	float fRand = 1.0f - rand()/(float)RAND_MAX*(float)((nLightData>>24)&0xF)/16.0f;
+	lightData[0] = fRand*((nLightData>>16)&0xFF)/255.0f;
+	lightData[1] = fRand*((nLightData>>8)&0xFF)/255.0f;
+	lightData[2] = fRand*(nLightData&0xFF)/255.0f;
+	lightData[3] = 1.0f/(nLightData>>28);
+	R.setShaderFloatArray("g_vPointLight",	&vPos, 3);
+	R.setShaderFloatArray("ld",	lightData, 4);
 	// ----
 	CRect<int> rcDest;
 	R.getViewport(rcDest);
@@ -77,6 +46,4 @@ void CLightNode::render(const Matrix& mWorld, int nRenderType)const
 	};
 	// ----
 	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, QuadVB, 24);
-	// ----
-	CRenderNode::render(mNewWorld,nRenderType);
 }

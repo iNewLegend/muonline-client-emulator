@@ -571,6 +571,7 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 							iRenderNode* pLightRenderNode = (iRenderNode*)m_pRenderNodeMgr->createRenderNode("light");
 							if (pLightRenderNode)
 							{
+								long lightData=0;
 								for (auto iteEntry=itSection->m_ieEntry.begin(); iteEntry!=itSection->m_ieEntry.end(); ++iteEntry)
 								{
 									if (iteEntry->m_strName=="bone")
@@ -583,7 +584,24 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 										sscanf(iteEntry->m_strValue.c_str(), "%f,%f,%f", &vPos.x, &vPos.y, &vPos.z);
 										pLightRenderNode->setPos(vPos);
 									}
+									else if (iteEntry->m_strName=="color")
+									{
+										sscanf(iteEntry->m_strValue.c_str(), "%x", &lightData);
+									}
+									else if (iteEntry->m_strName=="len")
+									{
+										int nLength;
+										sscanf(iteEntry->m_strValue.c_str(), "%d", &nLength);
+										lightData|=(nLength&0xF)<<28;
+									}
+									else if (iteEntry->m_strName=="rand")
+									{
+										float fRand;
+										sscanf(iteEntry->m_strValue.c_str(), "%f", &fRand);
+										lightData|=(int(fRand*15)&0xF)<<24;
+									}
 								}
+								pLightRenderNode->setData((void*)lightData);
 								pRenderNode->addChild(pLightRenderNode);
 							}
 						}

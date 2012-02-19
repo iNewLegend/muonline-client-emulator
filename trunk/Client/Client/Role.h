@@ -25,7 +25,6 @@ public:
 	CRole();
 	~CRole();
 	// ----
-	void			walk			(unsigned char uDir);
 	void			damage			(int nDamage, unsigned char uDamageType, int nShieldDamage);
 	// ----
 	void			setSkeleton		();
@@ -51,7 +50,7 @@ public:
 	virtual bool	isDynamic		()							{ return true; }
 	virtual void	frameMove		(const Matrix& mWorld, double fTime, float fElapsedTime);
 	virtual void	frameMoveRole	(const Matrix& mWorld, double fTime, float fElapsedTime);
-	virtual void	render			(const Matrix& mWorld, int nRenderType)const;
+	virtual void	render			(int nRenderType)const;
 	virtual void	animate			(const Matrix& mWorld, double fTime, float fElapsedTime);
 	// ----
 	void			setID			(ULONG uID)					{ m_uID = uID; };

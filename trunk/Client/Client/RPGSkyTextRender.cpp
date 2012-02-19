@@ -55,13 +55,7 @@ void CNode3DTextRender::drawUBB(int x, int y, const CUBB* pUBB)const
 		// ----
 		R.SetTexture(0, m_pTextTexture);
 		// ----
-		CVertexDeclaration* VertexDeclaration = R.CreateVertexDeclaration();
-		VertexDeclaration->AddElement(0, 0, VET_FLOAT3, VES_POSITION);
-		VertexDeclaration->AddElement(0, 12, VET_COLOUR, VES_DIFFUSE);
-		VertexDeclaration->AddElement(0, 16, VET_FLOAT2, VES_TEXTURE_COORDINATES);
-		VertexDeclaration->EndElement();
-		// ----
-		R.SetVertexDeclaration(VertexDeclaration);
+		R.SetFVF(FVF_XYZ|FVF_DIFFUSE|FVF_TEX1);
 		// ----
 		if (m_nShadowBorder>0)
 		{
