@@ -41,7 +41,7 @@ public:
 	// ----
 	virtual void	updateAction	();
 	virtual void	setSafeState	(unsigned char uState)		{ m_uSafeState=uState; updateAction();}
-	virtual void	setActionState	(unsigned char uState)		{ m_uActionState=uState; updateAction();}
+	virtual void	setActionState	(unsigned char uState);
 	virtual void	setWeaponState	(unsigned char uState)		{ m_uWeaponState=uState; updateAction();}
 	UCHAR			getActionState	()const						{ return m_uActionState; };
 	UCHAR			getWeaponState	()const						{ return m_uWeaponState; };
