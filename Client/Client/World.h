@@ -28,7 +28,7 @@ protected:
 	// ----
 	UINT							m_CurMap;
 	// ----
-	CNode3DTextRender				m_DamageTextRender;	
+	CNode3DTextRender				m_DamageTextRender;
 public:
 	CWorld();
 	~CWorld();
@@ -36,6 +36,7 @@ public:
 	CRole*			getFocusRole		();
 	CRole*			getRole				(ULONG uID);
 	CRole*			pickRole			(const Vec3D & vRayPos , const Vec3D & vRayDir);
+	iRenderNode*	pickProps			(const Vec3D & vRayPos , const Vec3D & vRayDir);
 	// ----
 	bool			addRole				(CRole* pRole);
 	bool			delRole				(ULONG uID);

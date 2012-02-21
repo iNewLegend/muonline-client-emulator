@@ -23,6 +23,7 @@ protected:
 	POINT				m_ptLastMousePosition;
 	CCamera				m_Camera;
 	CSceneEffect		m_SceneEffect;
+	iRenderNode*		m_pRenderNodeProps;
 public:
 	CUIDisplayWorld();
 	~CUIDisplayWorld();
