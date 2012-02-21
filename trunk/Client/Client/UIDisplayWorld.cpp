@@ -272,6 +272,11 @@ void CUIDisplayWorld::OnMouseMove(POINT point)
 	if (pRole)
 	{
 		CWorld::getInstance().getFocusNodes().addChild(pRole);
+		m_pRenderNodeProps = NULL;
+	}
+	else
+	{
+		m_pRenderNodeProps = CWorld::getInstance().pickProps(vRayPos, vRayDir);
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -297,7 +302,22 @@ void CUIDisplayWorld::OnLButtonDown(POINT point)
 	{
 		CRole* pRole = CWorld::getInstance().getFocusRole();
 		// ----
-		if(pRole == NULL)
+		if(pRole)
+		{
+			if(GetKeyState(VK_CONTROL) < 0)
+			{
+				// ----
+			}
+			else
+			{
+				CPlayerMe::getInstance().setAttackTarget(pRole->getID());
+			}
+		}
+		else if (m_pRenderNodeProps)
+		{
+			CPlayerMe::getInstance().setNextActionState(SIT);
+		}
+		else
 		{
 			Vec3D vRayPos;
 			Vec3D vRayDir;
@@ -308,17 +328,6 @@ void CUIDisplayWorld::OnLButtonDown(POINT point)
 			CWorld::getInstance().pick(vRayPos, vRayDir, & vTargetPos);
 			// ---
 			CPlayerMe::getInstance().walk(vTargetPos.x, vTargetPos.z);
-		}
-		else
-		{
-			if(GetKeyState(VK_CONTROL) < 0)
-			{
-				// ----
-			}
-			else
-			{
-				CPlayerMe::getInstance().setAttackTarget(pRole->getID());
-			}
 		}
 		// ----
 		/* # Warning ! */ return;

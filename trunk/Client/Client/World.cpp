@@ -113,6 +113,34 @@ CRole* CWorld::pickRole(const Vec3D & vRayPos , const Vec3D & vRayDir)
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+iRenderNode* CWorld::pickProps(const Vec3D & vRayPos , const Vec3D & vRayDir)
+{
+	iRenderNode * pRole	= NULL;
+	// ----
+	float fFocusMin = FLT_MAX;
+	float fMin		= 0.00;
+	float fMax		= 0.00;
+	// ----
+	FOR_IN(it,m_RenderNodes)
+	{
+		if(strstr(it->second->getFilename(),"PoseBox01.bmd"))
+		{
+			// ----
+			if(it->second->intersect(vRayPos , vRayDir, fMin, fMax) != NULL)
+			{
+				if(fFocusMin > fMin)
+				{
+					pRole		= it->second;
+					// ----
+					fFocusMin	= fMax;
+				}
+			}
+		}
+	}
+	// ----
+	return pRole;
+}
+
 bool CWorld::addRole(CRole * pRole)
 {
 	if (!pRole)

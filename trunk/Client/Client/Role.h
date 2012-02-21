@@ -42,6 +42,7 @@ public:
 	virtual void	updateAction	();
 	virtual void	setSafeState	(unsigned char uState)		{ m_uSafeState=uState; updateAction();}
 	virtual void	setActionState	(unsigned char uState);
+	virtual void	setNextActionState(unsigned char uState)	{ m_uNextActionState = uState;}
 	virtual void	setWeaponState	(unsigned char uState)		{ m_uWeaponState=uState; updateAction();}
 	UCHAR			getActionState	()const						{ return m_uActionState; };
 	UCHAR			getWeaponState	()const						{ return m_uWeaponState; };
@@ -82,6 +83,8 @@ public:
 		HIT2,
 		HIT3,
 		HIT4,
+		SIT,
+		RELY,
 		SKILL,
 		SPELL,
 		DIE,
@@ -116,6 +119,7 @@ protected:
 	unsigned char	m_uActionState;
 	unsigned char	m_uWeaponState;
 	unsigned char	m_uSafeState;
+	unsigned char	m_uNextActionState;
 	// ----
 	float			m_fWalkSpeed;
 	float			m_fAttackSpeed;
