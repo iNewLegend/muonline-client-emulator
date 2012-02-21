@@ -5,9 +5,10 @@
 #include "RenderNodeMgr.h"
 
 CSkeletonNode::CSkeletonNode()
-	:m_nAnimTime(0)
-	,m_pSkeletonData(NULL)
-	,m_fAnimRate(1.0f)
+:m_nAnimTime(0)
+,m_pSkeletonData(NULL)
+,m_fAnimRate(1.0f)
+,m_fAnimSpeed(1.0f)
 {
 	m_strAnimName="0";
 }
@@ -139,7 +140,7 @@ void CSkeletonNode::drawSkeleton(const Matrix& mWorld, CTextRender* pTextRender)
 
 void CSkeletonNode::animate(const Matrix& mWorld, double fTime, float fElapsedTime)
 {
-	m_AnimMgr.Tick(int(fElapsedTime*1000));
+	m_AnimMgr.Tick(int(fElapsedTime*1000*m_fAnimSpeed));
 
 	m_fAnimRate += fElapsedTime*1.5f;
 	if (!m_pSkeletonData)
