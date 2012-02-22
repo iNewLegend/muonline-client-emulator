@@ -19,6 +19,19 @@
 
 
 
+struct RoleCommond 
+{
+	enum /* WeaponStateType */
+	{
+		MOVE,
+		DIR,
+		ATTACT,
+		ACTION,
+	};
+	int nType;
+	int nParam1;
+	int nParam2;
+};
 class CRole : public CSkeletonNode
 {
 public:
@@ -115,6 +128,9 @@ protected:
 	float			m_fCurrentHeadRotate;
 	// ----
 	std::deque<char>m_Path;
+	std::deque<RoleCommond>m_Commonds;
+	RoleCommond		m_CurrentCommond;
+
 	// ----
 	unsigned char	m_uActionState;
 	unsigned char	m_uWeaponState;

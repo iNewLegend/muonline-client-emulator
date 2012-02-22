@@ -315,6 +315,8 @@ void CUIDisplayWorld::OnLButtonDown(POINT point)
 		}
 		else if (m_pRenderNodeProps)
 		{
+			Vec3D& vPos = m_pRenderNodeProps->getPos();
+			CPlayerMe::getInstance().walk(vPos.x, vPos.z);
 			CPlayerMe::getInstance().setNextActionState(SIT);
 		}
 		else
