@@ -123,7 +123,10 @@ iRenderNode* CWorld::pickProps(const Vec3D& vRayPos , const Vec3D& vRayDir)
 	// ----
 	FOR_IN(it,m_RenderNodes)
 	{
-		if(strstr((*it)->getFilename(),"PoseBox01.bmd"))
+		if(strstr((*it)->getFilename(),"PoseBox01.bmd")||
+			strstr((*it)->getFilename(),"Furniture06.bmd")||
+			strstr((*it)->getFilename(),"Furniture07.bmd")||
+			strstr((*it)->getFilename(),"Tree07.bmd"))
 		{
 			// ----
 			if((*it)->intersect(vRayPos , vRayDir, fMin, fMax) != NULL)

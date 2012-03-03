@@ -26,7 +26,7 @@ struct RoleCmd
 		STAND,
 		MOVE,
 		DIR,
-		SIT,
+		POSE,
 		ATTACT,
 		ACTION,
 		DEAD,
@@ -50,8 +50,8 @@ public:
 	void			setEquipSkin	(int nType, int nSkinID);
 	// ----
 	void			setCellPos		(int x, int y);
-	int				getCellPosX		(){return m_posCell.x;}
-	int				getCellPosY		(){return m_posCell.y;}
+	int				getCellPosX		(){return m_vPos.x;}
+	int				getCellPosY		(){return m_vPos.z;}
 	// ----
 	void			drawName		() const;
 	// ----
@@ -86,7 +86,8 @@ public:
 	void			nextRoleCmd();
 	void			clearRoleCmd(){m_RoleCmds.clear();}
 	void			addRoleCmd(const RoleCmd& cmd){m_RoleCmds.push_back(cmd);}
-
+	const RoleCmd&	getCurRoleCmd()const{return m_CurRoleCmd;}
+	
 	CHARACTER_DATA&	getCharacterData(){return m_CharacterData;}
 	CHARACTER_DATA*	getCharacterDataForLua(){return &m_CharacterData;}
 	void			setCharacterData(const CHARACTER_DATA& data);
@@ -98,16 +99,13 @@ public:
 		STAND,
 		WALK,
 		RUN,
-		HIT1,
-		HIT2,
-		HIT3,
-		HIT4,
+		HIT,
 		SIT,
 		RELY,
+		DIE,
+		DEATH,
 		SKILL,
 		SPELL,
-		DIE,
-		DEATH
 	};
 	enum /* WeaponStateType */
 	{
@@ -135,7 +133,7 @@ protected:
 	// ----
 	std::deque<char>m_Path;
 	std::deque<RoleCmd>m_RoleCmds;
-	RoleCmd		m_CurRoleCmd;
+	RoleCmd			m_CurRoleCmd;
 
 	// ----
 	unsigned char	m_uActionState;
@@ -152,8 +150,6 @@ protected:
 	float			m_fRoleHeight;
 	// ----
 	CHARACTER_DATA	m_CharacterData;
-	// ----
-	Pos2D			m_posCell;
 };
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

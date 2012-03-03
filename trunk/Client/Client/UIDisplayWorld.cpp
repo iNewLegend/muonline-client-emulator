@@ -318,6 +318,7 @@ void CUIDisplayWorld::OnLButtonDown(POINT point)
 		else if (m_pRenderNodeProps)
 		{
 			const Vec3D& vPos = m_pRenderNodeProps->getPos();
+			const Vec3D& vRotate = m_pRenderNodeProps->getRotate();
 			// ---
 			RoleCmd cmd;
 			cmd.nType	= RoleCmd::MOVE;
@@ -327,10 +328,18 @@ void CUIDisplayWorld::OnLButtonDown(POINT point)
 			CPlayerMe::getInstance().addRoleCmd(cmd);
 			// ---
 			cmd.nType	= RoleCmd::DIR;
-			cmd.nParam1	= 1;
+			cmd.nParam1	= vRotate.y*4.0f/PI;
 			CPlayerMe::getInstance().addRoleCmd(cmd);
 			// ---
-			cmd.nType	= RoleCmd::SIT;
+			cmd.nType	= RoleCmd::POSE;
+			if (strstr(m_pRenderNodeProps->getFilename(),"PoseBox01.bmd"))
+			{
+				cmd.nParam1	= CRole::RELY;
+			}
+			else
+			{
+				cmd.nParam1	= CRole::SIT;
+			}
 			CPlayerMe::getInstance().addRoleCmd(cmd);
 		}
 		else
@@ -350,6 +359,11 @@ void CUIDisplayWorld::OnLButtonDown(POINT point)
 			cmd.nParam1	= vTargetPos.x;
 			cmd.nParam2	= vTargetPos.z;
 			CPlayerMe::getInstance().addRoleCmd(cmd);
+			// ---
+			if (CPlayerMe::getInstance().getCurRoleCmd().nType==RoleCmd::MOVE)
+			{
+				CPlayerMe::getInstance().nextRoleCmd();
+			}
 		}
 		// ----
 		/* # Warning ! */ return;
