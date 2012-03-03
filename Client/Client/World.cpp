@@ -113,9 +113,9 @@ CRole* CWorld::pickRole(const Vec3D & vRayPos , const Vec3D & vRayDir)
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-iRenderNode* CWorld::pickProps(const Vec3D & vRayPos , const Vec3D & vRayDir)
+iRenderNode* CWorld::pickProps(const Vec3D& vRayPos , const Vec3D& vRayDir)
 {
-	iRenderNode * pRole	= NULL;
+	iRenderNode * pProp	= NULL;
 	// ----
 	float fFocusMin = FLT_MAX;
 	float fMin		= 0.00;
@@ -123,14 +123,14 @@ iRenderNode* CWorld::pickProps(const Vec3D & vRayPos , const Vec3D & vRayDir)
 	// ----
 	FOR_IN(it,m_RenderNodes)
 	{
-		if(strstr(it->second->getFilename(),"PoseBox01.bmd"))
+		if(strstr((*it)->getFilename(),"PoseBox01.bmd"))
 		{
 			// ----
-			if(it->second->intersect(vRayPos , vRayDir, fMin, fMax) != NULL)
+			if((*it)->intersect(vRayPos , vRayDir, fMin, fMax) != NULL)
 			{
 				if(fFocusMin > fMin)
 				{
-					pRole		= it->second;
+					pProp		= *it;
 					// ----
 					fFocusMin	= fMax;
 				}
@@ -138,7 +138,7 @@ iRenderNode* CWorld::pickProps(const Vec3D & vRayPos , const Vec3D & vRayDir)
 		}
 	}
 	// ----
-	return pRole;
+	return pProp;
 }
 
 bool CWorld::addRole(CRole * pRole)
@@ -340,21 +340,6 @@ void CWorld::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 			// ----
 			break;
 		}
-	}
-	// ----
-	// # Create the light objects
-	// ----
-	m_setLightObj.clear();
-	// ----
-	FOR_IN(it,m_RenderNodes)
-	{
-		//if(((C3DMapObj*)(*it))->m_setParticleGroup.size() > 0)
-		//{
-		//	if(rand() % 2)
-		//	{
-		//		m_setLightObj.push_back(*it);
-		//	}
-		//}
 	}
 	// ----
 	m_DamageTextRender.OnFrameMove();

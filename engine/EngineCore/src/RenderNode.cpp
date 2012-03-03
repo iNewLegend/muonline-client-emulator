@@ -141,7 +141,7 @@ void CRenderNode::removeChildren()
 	m_mapChildNode.clear();
 }
 
-CRenderNode* CRenderNode::intersect(const Vec3D& vRayPos , const Vec3D& vRayDir, float &tmin ,float &tmax)
+iRenderNode* CRenderNode::intersect(const Vec3D& vRayPos , const Vec3D& vRayDir, float &tmin ,float &tmax)
 {
 	Vec3D vNewRayPos = vRayPos;
 	Vec3D vNewRayDir = vRayDir;
@@ -152,7 +152,7 @@ CRenderNode* CRenderNode::intersect(const Vec3D& vRayPos , const Vec3D& vRayDir,
 	}
 	FOR_IN(it,m_mapChildNode)
  	{
-		CRenderNode* pRenderNode = ((CRenderNode*)(*it))->intersect(vNewRayPos,vNewRayDir,tmin,tmax);
+		iRenderNode* pRenderNode = (*it)->intersect(vNewRayPos,vNewRayDir,tmin,tmax);
 		if(pRenderNode)
 		{
 			return pRenderNode;

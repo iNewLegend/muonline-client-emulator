@@ -39,6 +39,7 @@ public:
 	virtual bool			load				(const char* szFilename)=0;
 	virtual void			updateWorldBBox		()=0;
 	virtual void			updateWorldMatrix	()=0;
+	virtual iRenderNode*	intersect			(const Vec3D& vRayPos , const Vec3D& vRayDir, float &tmin ,float &tmax)=0;
 };
 
 class iRenderNodeMgr
