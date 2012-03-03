@@ -14,7 +14,6 @@ public:
 	CPlayerMe();
 	~CPlayerMe();
 	// ----
-	void			walk			(int x, int y);
 	void			playWalkSound	();
 	// ----
 	virtual void	frameMoveRole	(const Matrix& mWorld, double fTime, float fElapsedTime);

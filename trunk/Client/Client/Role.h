@@ -19,18 +19,22 @@
 
 
 
-struct RoleCommond 
+struct RoleCmd 
 {
 	enum /* WeaponStateType */
 	{
+		STAND,
 		MOVE,
 		DIR,
+		SIT,
 		ATTACT,
 		ACTION,
+		DEAD,
 	};
 	int nType;
 	int nParam1;
 	int nParam2;
+	int nParam3;
 };
 class CRole : public CSkeletonNode
 {
@@ -48,14 +52,12 @@ public:
 	void			setCellPos		(int x, int y);
 	int				getCellPosX		(){return m_posCell.x;}
 	int				getCellPosY		(){return m_posCell.y;}
-	void			setTargetCellPos(int x, int y);
 	// ----
 	void			drawName		() const;
 	// ----
 	virtual void	updateAction	();
 	virtual void	setSafeState	(unsigned char uState)		{ m_uSafeState=uState; updateAction();}
 	virtual void	setActionState	(unsigned char uState);
-	virtual void	setNextActionState(unsigned char uState)	{ m_uNextActionState = uState;}
 	virtual void	setWeaponState	(unsigned char uState)		{ m_uWeaponState=uState; updateAction();}
 	UCHAR			getActionState	()const						{ return m_uActionState; };
 	UCHAR			getWeaponState	()const						{ return m_uWeaponState; };
@@ -72,7 +74,6 @@ public:
 	void			setClass		(int nID)					{ m_nClass=nID; };
 	void			setRoleName		(const wchar_t* wcsName)	{ m_wstrName = wcsName; };
 	void			setDir			(UCHAR uDir)				{ m_uDir = uDir; };
-	void			setTargetDir	(UCHAR uDir)				{ m_uTargetDir = uDir; };
 	// ----
 	ULONG			getID			()							{ return m_uID; };
 	const wchar_t*	getName			()							{ return m_wstrName.c_str(); };
@@ -80,11 +81,16 @@ public:
 	std::deque<char>& getPath		()							{ return m_Path; };
 	// ----
 	void			moveStep();
+	void			startRoleCmd(const RoleCmd& cmd);
+	void			doRoleCmd(const RoleCmd& cmd, double fTime, float fElapsedTime);
+	void			nextRoleCmd();
+	void			clearRoleCmd(){m_RoleCmds.clear();}
+	void			addRoleCmd(const RoleCmd& cmd){m_RoleCmds.push_back(cmd);}
 
 	CHARACTER_DATA&	getCharacterData(){return m_CharacterData;}
 	CHARACTER_DATA*	getCharacterDataForLua(){return &m_CharacterData;}
 	void			setCharacterData(const CHARACTER_DATA& data);
-	virtual void			release		()						{delete this;}
+	virtual void	release		()						{delete this;}
 	GSET_VAR(float,m_f,RoleHeight);
 
 	enum /* ActionStateType */
@@ -128,14 +134,13 @@ protected:
 	float			m_fCurrentHeadRotate;
 	// ----
 	std::deque<char>m_Path;
-	std::deque<RoleCommond>m_Commonds;
-	RoleCommond		m_CurrentCommond;
+	std::deque<RoleCmd>m_RoleCmds;
+	RoleCmd		m_CurRoleCmd;
 
 	// ----
 	unsigned char	m_uActionState;
 	unsigned char	m_uWeaponState;
 	unsigned char	m_uSafeState;
-	unsigned char	m_uNextActionState;
 	// ----
 	float			m_fWalkSpeed;
 	float			m_fAttackSpeed;

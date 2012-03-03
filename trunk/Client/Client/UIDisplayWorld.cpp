@@ -300,6 +300,8 @@ void CUIDisplayWorld::OnLButtonDown(POINT point)
 {
 	if(ContainsPoint(point) == true)
 	{
+		CPlayerMe::getInstance().setAttackTarget(0);
+		// ----
 		CRole* pRole = CWorld::getInstance().getFocusRole();
 		// ----
 		if(pRole)
@@ -315,9 +317,21 @@ void CUIDisplayWorld::OnLButtonDown(POINT point)
 		}
 		else if (m_pRenderNodeProps)
 		{
-			Vec3D& vPos = m_pRenderNodeProps->getPos();
-			CPlayerMe::getInstance().walk(vPos.x, vPos.z);
-			CPlayerMe::getInstance().setNextActionState(SIT);
+			const Vec3D& vPos = m_pRenderNodeProps->getPos();
+			// ---
+			RoleCmd cmd;
+			cmd.nType	= RoleCmd::MOVE;
+			cmd.nParam1	= vPos.x;
+			cmd.nParam2	= vPos.z;
+			// ---
+			CPlayerMe::getInstance().addRoleCmd(cmd);
+			// ---
+			cmd.nType	= RoleCmd::DIR;
+			cmd.nParam1	= 1;
+			CPlayerMe::getInstance().addRoleCmd(cmd);
+			// ---
+			cmd.nType	= RoleCmd::SIT;
+			CPlayerMe::getInstance().addRoleCmd(cmd);
 		}
 		else
 		{
@@ -329,7 +343,13 @@ void CUIDisplayWorld::OnLButtonDown(POINT point)
 			// ---
 			CWorld::getInstance().pick(vRayPos, vRayDir, & vTargetPos);
 			// ---
-			CPlayerMe::getInstance().walk(vTargetPos.x, vTargetPos.z);
+			CPlayerMe::getInstance().clearRoleCmd();
+			// ---
+			RoleCmd cmd;
+			cmd.nType	= RoleCmd::MOVE;
+			cmd.nParam1	= vTargetPos.x;
+			cmd.nParam2	= vTargetPos.z;
+			CPlayerMe::getInstance().addRoleCmd(cmd);
 		}
 		// ----
 		/* # Warning ! */ return;

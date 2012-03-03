@@ -572,11 +572,16 @@ void SCPlayerViewportCreate(const unsigned char * msg)
 		// ---- 
 		// # Warning! not sure, just let him dont still dead.
 		// ---- 
-		//pPlayer->setDir(S2CDIR(pPlayerViewport->DirAndPkLevel >> 4));
-		// ----
 		// Move to Target
-		pPlayer->setTargetCellPos(pPlayerViewport->TX, pPlayerViewport->TY);
-		pPlayer->setTargetDir(S2CDIR(pPlayerViewport->DirAndPkLevel >> 4));
+		RoleCmd cmd;
+		cmd.nType	= RoleCmd::MOVE;
+		cmd.nParam1	= pPlayerViewport->TX;
+		cmd.nParam2	= pPlayerViewport->TY;
+		pPlayer->addRoleCmd(cmd);
+		// ----
+		cmd.nType	= RoleCmd::DIR;
+		cmd.nParam1	= S2CDIR(pPlayerViewport->DirAndPkLevel >> 4);
+		pPlayer->addRoleCmd(cmd);
 		// ----0%
 		for(j = 0 ; j < pPlayerViewport->btViewSkillCount ; ++j)
 		{
@@ -626,10 +631,16 @@ void SCMonsterViewportCreate(const unsigned char * msg)
 		// ----
 		// Move to Target
 		pMonster->setCellPos(pMonsterViewport->X, pMonsterViewport->Y);
-		pMonster->setTargetCellPos(pMonsterViewport->TX, pMonsterViewport->TY);
-		//pMonster->setDir(S2CDIR(pMonsterViewport->Path >> 4));
-		pMonster->setTargetDir(S2CDIR(pMonsterViewport->Path >> 4));
-
+		// ----
+		RoleCmd cmd;
+		cmd.nType	= RoleCmd::MOVE;
+		cmd.nParam1	= pMonsterViewport->TX;
+		cmd.nParam2	= pMonsterViewport->TY;
+		pMonster->addRoleCmd(cmd);
+		// ----
+		cmd.nType	= RoleCmd::DIR;
+		cmd.nParam1	= S2CDIR(pMonsterViewport->Path >> 4);
+		pMonster->addRoleCmd(cmd);
 		// ----0%
 		for(j = 0 ; j < pMonsterViewport->btViewSkillCount ; j++)
 		{
@@ -701,8 +712,16 @@ void SCMove(PMSG_RECVMOVE & msg)
 	// ----
 	if(pRole)
 	{
-		pRole->setTargetCellPos(msg.X, msg.Y);
-		pRole->setTargetDir(S2CDIR(msg.Path >> 4));
+		// ---
+		RoleCmd cmd;
+		cmd.nType	= RoleCmd::MOVE;
+		cmd.nParam1	= msg.X;
+		cmd.nParam2	= msg.Y;
+		pRole->addRoleCmd(cmd);
+		// ---
+		cmd.nType	= RoleCmd::DIR;
+		cmd.nParam1	= S2CDIR(msg.Path >> 4);
+		pRole->addRoleCmd(cmd);
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

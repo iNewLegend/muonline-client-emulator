@@ -246,7 +246,7 @@ CRenderNode* CScene::pickNode(const Vec3D& vRayPos, const Vec3D& vRayDir)
 	FOR_IN(it,m_RenderNodes)
 	{
 		float fMin, fMax;
-		if (((CRenderNode*)(*it))->intersect(vRayPos , vRayDir, fMin, fMax))
+		if ((*it)->intersect(vRayPos , vRayDir, fMin, fMax))
 		{
 			if (fFocusMin>fMin)
 			{
