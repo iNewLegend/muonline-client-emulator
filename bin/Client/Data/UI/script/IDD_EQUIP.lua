@@ -56,7 +56,7 @@ function ChangeEquip(id)
 	itemData.level = nLevel;
 	m_ListIcon[id+1]:setItemData(itemData)
 end
-
+m_animID = 0;
 -- Event Func
 function IDD_EQUIP_OnIcon()
 	local id = 0;
@@ -69,7 +69,7 @@ function IDD_EQUIP_OnIcon()
 	ChangeEquip(id)
 	
 	if id==0 then
-	  local nLevel = math.random(20,50)
-	  m_PlayerView:setAnim(nLevel)
+	  m_animID=m_animID+1;
+	  m_PlayerView:setAnim(m_animID)
 	end
 end

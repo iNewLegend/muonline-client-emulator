@@ -790,25 +790,25 @@ void SCAction(PMSG_ACTIONRESULT & msg)
 		{
 			case 0x7A:
 			{
-				pRole->setActionState(CRole::HIT1);
+				pRole->setActionState(CRole::HIT);
 			}
 			break;
 
 			case 0x78:
 			{
 			
-				pRole->setActionState(CRole::HIT1);
+				pRole->setActionState(CRole::HIT);
 			}
 			break;
 
 			default:
 			{
-				pRole->setActionState(CRole::HIT1);
+				pRole->setActionState(CRole::HIT);
 			}
 			break;
 		}
 		// ----
-		pRole->setActionState(CRole::HIT1);
+		pRole->setActionState(CRole::HIT);
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

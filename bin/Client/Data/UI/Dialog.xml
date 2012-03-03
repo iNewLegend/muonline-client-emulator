@@ -87,6 +87,12 @@
 	</dialog>
 	<dialog id="IDD_ROLE_CHOOSE" scale="0,0,100,100" style="null">
 		<element type="button" id="IDC_DISPLAY_BACKGROUND" scale="0,0,100,100" style="null"></element>
+		<element type="button" id="IDC_BTN_ROLE0" scale="100,50,100,50" offset="-120,-140,-20,-100"></element>
+		<element type="button" id="IDC_BTN_ROLE1" scale="100,50,100,50" offset="-120,-90,-20,-50"></element>
+		<element type="button" id="IDC_BTN_ROLE2" scale="100,50,100,50" offset="-120,-40,-20,0"></element>
+		<element type="button" id="IDC_BTN_ROLE3" scale="100,50,100,50" offset="-120,10,-20,50"></element>
+		<element type="button" id="IDC_BTN_ROLE4" scale="100,50,100,50" offset="-120,60,-20,100"></element>
+		
 		<element type="button" id="IDC_BTN_CREATE_ROLE" scale="0,100,0,100" offset="10,-43,92,-10">创建角色</element>
 		<element type="button" id="IDC_BTN_DELETE_CHAR" scale="0,100,0,100" offset="100,-43,182,-10">删除角色</element>
 		
