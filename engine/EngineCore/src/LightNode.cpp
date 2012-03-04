@@ -15,7 +15,7 @@ void CLightNode::render(int nRenderType)const
 {
 	CRenderNode::render(nRenderType);
 	// ----
-	if ((MATERIAL_LIGHT&nRenderType) == 0)
+	if ((RF_LIGHT&nRenderType) == 0)
 	{
 		return;
 	}
@@ -23,7 +23,7 @@ void CLightNode::render(int nRenderType)const
 	CRenderSystem& R = CRenderSystem::getSingleton();
 	// ----
 	Vec3D vPos = m_mRealMatrix*Vec3D(0.0f,0.0f,0.0f);
-	R.setShaderFloatArray("g_vPointLight",	&vPos, 3);
+	R.setShaderFloatArray("gColor",	&vPos, 3);
 	int nLightData = (int)m_pData;
 	float lightData[4];
 	float fRand = 1.0f - rand()/(float)RAND_MAX*(float)((nLightData>>24)&0xF)/16.0f;

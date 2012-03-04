@@ -302,15 +302,15 @@ struct IndexedSubset
 	unsigned short icount;	// num indices
 };
 
-enum E_RENDER_TYPE
+enum E_RENDER_FLAG
 {
-	MATERIAL_NONE				= 0,
-	MATERIAL_GEOMETRY			= 1<<0,
-	MATERIAL_ALPHA				= 1<<1,
-	MATERIAL_GLOW				= 1<<2,
-	MATERIAL_BUMP				= 1<<3,
-	MATERIAL_RENDER_ALPHA_TEST	= 1<<4,
-	MATERIAL_RENDER_NO_MATERIAL	= 1<<5,
-	MATERIAL_LIGHT				= 1<<6,
-	MATERIAL_SHADOW				= 1<<7,
+	RF_NONE			= 0,
+	RF_GEOMETRY		= 1<<0,
+	RF_ALPHA		= 1<<1,
+	RF_GLOW			= 1<<2,
+	RF_BUMP			= 1<<3,
+	RF_NO_TEXTURE	= 1<<4,
+	RF_NO_SHADER	= 1<<5,
+	RF_LIGHT		= 1<<6,
+	RF_SHADOW		= 1<<7,
 };

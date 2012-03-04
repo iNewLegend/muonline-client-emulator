@@ -1651,11 +1651,15 @@
     <element type="listbox" id="IDC_LIST_ROOMINFO" rect="29,16,124,45">""</element>
   </dialog>
   
-  <dialog id="IDD_CHAT_MESSAGE" scale="0,100,0,100" offset="10,-263,300,-93">
+  <dialog id="IDD_CHAT_MESSAGE" scale="0,100,0,100" offset="10,-243,300,-93">
 	<texture filename="ui.tga" rect="490,515,512,474">
-		<color normal="#2FFF" focus="#2FFF" mouseover="#4FFF" pressed="#4FFF"/>
+		<color normal="#0FFF" focus="#0FFF" mouseover="#0FFF" pressed="#0FFF"/>
 	</texture>
-    <element type="listbox" id="IDC_LIST_CHAT_MESSAGE" scale="0,0,100,100" offset="10,10,-10,-10">
+    <element type="listbox" id="IDC_LIST_CHAT_MESSAGE" scale="0,0,100,100" offset="0,0,-0,-0">
+		<texture filename="ui.tga" rect="490,515,512,474">
+			<color normal="#0FFF" focus="#6FFF" mouseover="#8FFF" pressed="#AFFF"/>
+			<blend pressed="0.0" hidden="0.5">0.8</blend>
+		</texture>
 		<element type="scrollbar" id="IDC_SCROLLBAR_LEFT" scale="0,0,0,100" offset="0,0,18,0" tip="scrollbar"></element>
 	</element>
   </dialog>

@@ -199,7 +199,7 @@ void CSkinMesh::renderMesh(int eModelRenderType, size_t uLodLevel, CHardwareVert
 {
 	if (m_pMesh->SetMeshSource(uLodLevel,pSkinVB))
 	{
-		if (eModelRenderType==(MATERIAL_GEOMETRY|MATERIAL_ALPHA|MATERIAL_GLOW|MATERIAL_RENDER_NO_MATERIAL))
+		if (eModelRenderType==(RF_GEOMETRY|RF_ALPHA|RF_GLOW|RF_NO_TEXTURE|RF_NO_SHADER))
 		{
 			m_pMesh->draw(uLodLevel);
 		}
@@ -218,17 +218,14 @@ void CSkinMesh::renderMesh(int eModelRenderType, size_t uLodLevel, CHardwareVert
 			{
 				continue;
 			}
-			//
-			if (eModelRenderType&MATERIAL_RENDER_ALPHA_TEST)
-			{
-			}
-			else if (eModelRenderType&MATERIAL_RENDER_NO_MATERIAL)
-			{
-				m_pMesh->drawSub(i,uLodLevel);
-			}
-			else
+			// ----
+			if (!(eModelRenderType&RF_NO_SHADER))
 			{
 				R.SetShader(pShader);
+			}
+			// ----
+			if (!(eModelRenderType&RF_NO_TEXTURE))
+			{
 				for (size_t j=0;j<8;++j)
 				{
 					if (mat.uTexture[j]==0)
@@ -238,8 +235,8 @@ void CSkinMesh::renderMesh(int eModelRenderType, size_t uLodLevel, CHardwareVert
 					// ----
 					R.SetTexture(j, mat.uTexture[j]);
 				}
-				m_pMesh->drawSub(i,uLodLevel);
 			}
+			m_pMesh->drawSub(i,uLodLevel);
 		}
 	}
 }

@@ -24,6 +24,7 @@ protected:
 	CCamera				m_Camera;
 	CSceneEffect		m_SceneEffect;
 	iRenderNode*		m_pRenderNodeProps;
+	CRole*				m_pMouseRole;
 public:
 	CUIDisplayWorld();
 	~CUIDisplayWorld();

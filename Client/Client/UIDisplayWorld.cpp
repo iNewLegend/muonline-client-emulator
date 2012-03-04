@@ -3,6 +3,8 @@
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CUIDisplayWorld::CUIDisplayWorld()
+	:m_pMouseRole(NULL)
+	,m_pRenderNodeProps(NULL)
 {
 	m_Camera.setRadius(10.0f);
 	m_Camera.setMinRadius(5.0f);
@@ -266,17 +268,22 @@ void CUIDisplayWorld::OnMouseMove(POINT point)
 			m_ptLastMousePosition	=	point;
 		}
 	}
-	CRole* pRole	=	CWorld::getInstance().pickRole(vRayPos, vRayDir);
+	m_pMouseRole = CWorld::getInstance().pickRole(vRayPos, vRayDir);
 	// ----
-	CWorld::getInstance().getFocusNodes().removeChildren();
-	if (pRole)
+	std::for_each(CWorld::getInstance().getRenderNodes().begin(), CWorld::getInstance().getRenderNodes().end(), [](iRenderNode* p) { p->setFocus(0); });
+	// ----
+	if (m_pMouseRole)
 	{
-		CWorld::getInstance().getFocusNodes().addChild(pRole);
+		m_pMouseRole->setFocus(1);
 		m_pRenderNodeProps = NULL;
 	}
 	else
 	{
 		m_pRenderNodeProps = CWorld::getInstance().pickProps(vRayPos, vRayDir);
+		if (m_pRenderNodeProps)
+		{
+			m_pRenderNodeProps->setFocus(2);
+		}
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -302,9 +309,7 @@ void CUIDisplayWorld::OnLButtonDown(POINT point)
 	{
 		CPlayerMe::getInstance().setAttackTarget(0);
 		// ----
-		CRole* pRole = CWorld::getInstance().getFocusRole();
-		// ----
-		if(pRole)
+		if(m_pMouseRole)
 		{
 			if(GetKeyState(VK_CONTROL) < 0)
 			{
@@ -312,7 +317,7 @@ void CUIDisplayWorld::OnLButtonDown(POINT point)
 			}
 			else
 			{
-				CPlayerMe::getInstance().setAttackTarget(pRole->getID());
+				CPlayerMe::getInstance().setAttackTarget(m_pMouseRole->getID());
 			}
 		}
 		else if (m_pRenderNodeProps)

@@ -3,8 +3,7 @@
 #include "RenderNodeMgr.h"
 
 CScene::CScene()
-	:m_bShowNodeBBox(false)
-	,m_Fog(32.0f,48.0f,0.01f,0xFFF23344)
+	:m_Fog(32.0f,48.0f,0.01f,0xFFF23344)
 	,m_pSceneData(NULL)
 	,m_bRefreshViewport(NULL)
 {
@@ -16,33 +15,23 @@ CScene::~CScene()
 	clearChildren();
 }
 
-static Vec3D vEyeForNodeSort;
-//bool sortNode(CRenderNode* p1, CRenderNode* p2)
-//{
-// 	CMapObj* p11 = (CMapObj*)p1;
-// 	CMapObj* p22 = (CMapObj*)p2;
-// 	if (p11->getOrder()!=p22->getOrder())
-// 	{
-// 		return p11->getOrder()>p22->getOrder();
-// 	}
-// 	return p11>p22;
-//	//float fLength = (vEyeForNodeSort-p1->getPos()).lengthSquared()-(vEyeForNodeSort-p2->getPos()).lengthSquared();
-//	//if (fLength!=0)
-//	//{
-//	//	return fLength>0;
-//	//}
-//	return p1->getModelFilename()>p2->getModelFilename();
-//}
-
+bool sortNode(iRenderNode* p1, iRenderNode* p2)
+{
+	Matrix mView = CRenderSystem::getSingleton().getViewMatrix();
+	Vec3D v1 = p1->getWorldBBox().vMin+p1->getPos();
+	Vec3D v2 = p2->getWorldBBox().vMin+p2->getPos();
+ 	return (mView*v1).z > (mView*v2).z;
+	//float fLength = (vEyeForNodeSort-p1->getPos()).lengthSquared()-(vEyeForNodeSort-p2->getPos()).lengthSquared();
+	//if (fLength!=0)
+	//{
+	//	return fLength>0;
+	//}
+	//return p1->getModelFilename()>p2->getModelFilename();
+}
 void CScene::getRenderNodes(const CFrustum& frustum, std::set<iRenderNode*>& setNode)
 {
 	m_OctreeRoot.walkOctree(frustum,setNode);
-	static bool bTest = true;
-	if (bTest)
-	{
-		vEyeForNodeSort= frustum.getEyePoint();
-		//std::sort(NodeList.begin(),NodeList.end(), sortNode);
-	}
+	//std::sort(setNode.begin(),setNode.end(), sortNode);
 }
 
 bool CScene::updateNode(iRenderNode* pNode)
@@ -93,43 +82,54 @@ Matrix CalcLightMatrix(const BBox& bbox, const Vec3D& vLightDir)
 #include "Graphics.h"
 void CScene::render(int nRenderType)const
 {
-	CRenderSystem& R = CRenderSystem::getSingleton();
-	//R.setFogEnable(true);
-
-	// 	if (MATERIAL_SHADOW==nRenderType)
-	// 	{
-	// 		return;
-	// 	}
-	// 
-	if (m_bShowNodeBBox)
-	{
-		// ----
-		FOR_IN(it,m_RenderNodes)
-		{
-			//	GetGraphics().drawBBox((*it)->getLocalBBox(),0xFFFF4400);
-		}
-	}
 	// ----
-	R.SetStencilFunc(false);
+	std::list<iRenderNode*> sortRenderNodes;
 	// ----
-	iRenderNode* pFocusNode = NULL;
-	if (m_FocusNode.getChildObj().size()>0)
-	{
-		pFocusNode = *m_FocusNode.getChildObj().begin();
-	}
 	FOR_IN(it,m_RenderNodes)
 	{
-		// 			if (*it==pFocusNode)
-		// 			{
-		// 				CRenderSystem::getSingleton().SetShader("ObjectFocus");
-		// 				float color[4] = {1.0f,0.25f,0.0f,0.5f};
-		// 				R.SetPixelShaderConstantF(0,color,1);
-		// 				// monster (0xFFFF4040)
-		// 				// NPC (0xFF40FF40)
-		// 				// Player (0xFF00FFFF)
-		// 				((CRenderNode*)*it)->render(Matrix::UNIT, E_MATERIAL_RENDER_TYPE(MATERIAL_GEOMETRY|MATERIAL_RENDER_ALPHA_TEST));
-		// 			}
-		(*it)->render(nRenderType);
+		sortRenderNodes.push_back(*it);
+	}
+	sortRenderNodes.sort(sortNode);
+	// ----
+	if (nRenderType&RF_GEOMETRY)
+	{
+		FOR_IN(it,sortRenderNodes)
+		{
+			if ((*it)->getFocus()>0)
+			{
+				continue;
+			}
+			(*it)->render(nRenderType);
+		}
+		FOR_IN(it,sortRenderNodes)
+		{
+			if ((*it)->getFocus()>0)
+			{
+				CRenderSystem& R = CRenderSystem::getSingleton();
+				R.SetShader("focus");
+				switch ((*it)->getFocus())
+				{
+				case 1:
+					R.setShaderFloatArray("gColor",	&Vec3D(2,0,0), 3);
+					break;
+				case 2:
+					R.setShaderFloatArray("gColor",	&Vec3D(0,2,0), 3);
+					break;
+				case 3:
+					R.setShaderFloatArray("gColor",	&Vec3D(0,0,2), 3);
+					break;
+				}
+				(*it)->render(RF_GEOMETRY|RF_ALPHA|RF_GLOW|RF_NO_SHADER);
+				(*it)->render(nRenderType);
+			}
+		}
+	}
+	else
+	{
+		FOR_IN(it,sortRenderNodes)
+		{
+			(*it)->render(nRenderType);
+		}
 	}
 }
 
