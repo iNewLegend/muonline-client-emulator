@@ -8,7 +8,7 @@ shared float4x4 vpm;
 shared float4x4 vm;
 shared float4x4 g_mWorld;
 
-shared float3 g_vPointLight;
+shared float3 gColor;
 shared float3 g_vEyePot;
 shared float3 g_vViewDir;
 shared float3 g_vLightDir;
@@ -17,6 +17,7 @@ shared float3 g_vSpecular;
 shared float2 inv_width_height;
 shared float g_fPower;
 shared float g_fTime;
+shared float4 ld;
 
 float2 PixelCoords[16];
 

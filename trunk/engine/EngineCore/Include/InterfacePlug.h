@@ -19,6 +19,7 @@ public:
 	virtual void			setLocalBBox		(const BBox& LocalBBox)=0;
 	virtual void			setWorldBBox		(const BBox& WorldBBox)=0;
 	virtual void			setWorldMatrix		(const Matrix& mWorldMatrix)=0;
+	virtual void			setFocus			(const int nFoucs)=0;
 	virtual void			setParent			(iRenderNode* pParent)=0;
 	virtual void			setData				(void* pData)=0;
 	virtual void			setBindingBoneID	(int nBone)=0;
@@ -30,6 +31,7 @@ public:
 	virtual const BBox&		getLocalBBox		()const=0;
 	virtual const BBox&		getWorldBBox		()const=0;
 	virtual const Matrix&	getWorldMatrix		()const=0;
+	virtual const int		getFocus			()const=0;
 	virtual iRenderNode*	getParent			()=0;
 	virtual void*			getData				()=0;
 	virtual const char*		getName				()const=0;

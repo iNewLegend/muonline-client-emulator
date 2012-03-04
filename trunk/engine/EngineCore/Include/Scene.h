@@ -52,7 +52,6 @@ public:
 	// ----
 	void					CalcLightMap			();
 	// ----
-	GSET_VAR				(bool,				m_b,ShowNodeBBox);
 	GSET_VAR				(bool,				m_b,ShowOctreeBox);
 	GSET_VAR				(bool,				m_b,RefreshViewport);
 	GSET_CONST_VAR			(Fog&,				m_,Fog);
@@ -66,7 +65,6 @@ protected:
 	bool					m_bRefreshViewport;
 	CFocusNode				m_FocusNode;        // The node which has focus
 	bool					m_bShowAnimNode;
-	bool					m_bShowNodeBBox;
 	bool					m_bShowOctreeBox;
 
 	Fog						m_Fog;

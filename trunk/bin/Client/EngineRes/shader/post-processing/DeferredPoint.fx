@@ -6,7 +6,7 @@ float4 PS( in float2 uv : TEXCOORD0 ) : COLOR0
 {
 	float3 pos = tex2D(s0, uv);
 	float3 normal = tex2D(s1, uv);
-	float3 lightDir = g_vPointLight - pos;
+	float3 lightDir = gColor - pos;
 	
 	float3 L = normalize(lightDir);
 	float len = length(lightDir);

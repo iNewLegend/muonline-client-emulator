@@ -10,6 +10,7 @@ CRenderNode::CRenderNode()
 ,m_vRotate(0.0f,0.0f,0.0f)
 ,m_vScale(1.0f,1.0f,1.0f)
 ,m_pData(NULL)
+,m_nFocus(0)
 {
 	m_mWorldMatrix.unit();
 }
@@ -260,5 +261,5 @@ Matrix CRenderNode::getShadowMatrix(const Vec3D& vLight,float fHeight)const
 void CRenderNode::renderShadow(const Matrix& mWorld, const Vec3D& vLight,float fHeight)const
 {
 	Matrix mNewWorld = mWorld*getShadowMatrix(vLight,fHeight);//m_mWorld;
-	render(MATERIAL_GEOMETRY|MATERIAL_RENDER_ALPHA_TEST);
+	render(RF_GEOMETRY|RF_NO_TEXTURE);
 }
