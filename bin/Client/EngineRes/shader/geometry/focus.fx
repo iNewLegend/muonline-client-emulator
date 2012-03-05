@@ -11,6 +11,7 @@ struct VS_OBJECT_OUTPUT
 {
     float4  pos     : POSITION;
     float2  uv      : TEXCOORD0;
+    float3  normal  : TEXCOORD1;
 };
 
 VS_OBJECT_OUTPUT VS(VS_OBJECT_INPUT i)
@@ -18,8 +19,8 @@ VS_OBJECT_OUTPUT VS(VS_OBJECT_INPUT i)
 	VS_OBJECT_OUTPUT o;
 	o.pos = mul(i.pos,wvpm);
 	o.uv = i.uv;
-	float3 normal = normalize(mul(i.normal,wvpm));
-	//normal = normalize(mul(normal,g_mView));
+	float3 normal = normalize(mul(i.normal,wvm));
+	o.normal = normal;
 	o.pos.xy+=normal.xy*o.pos.w*0.005;
 	return o;
 }
@@ -29,7 +30,9 @@ float4 PS(VS_OBJECT_OUTPUT i) : COLOR0
 {
 	float4 o;
 	o = tex2D(s0, i.uv);
-	o.xyz = gColor;
+	float shine  = 1 - abs( dot(i.normal,float3(0,0,-1)) );
+	shine = pow(shine, 4);
+	o.xyz = gColor*shine;
 	return o;
 }
 
@@ -37,7 +40,7 @@ technique Render
 {
     pass P0
     {
-		CullMode			= CW;
+		CullMode			= None;
 
 		AlphaTestEnable		= True;
 		AlphaFunc			= GreaterEqual;

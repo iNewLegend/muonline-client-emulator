@@ -28,10 +28,6 @@ bool sortNode(iRenderNode* p1, iRenderNode* p2)
 	//}
 	//return p1->getModelFilename()>p2->getModelFilename();
 }
-void CScene::getRenderNodes(const CFrustum& frustum, std::set<iRenderNode*>& setNode)
-{
-	//std::sort(setNode.begin(),setNode.end(), sortNode);
-}
 
 bool CScene::updateNode(iRenderNode* pNode)
 {
@@ -54,14 +50,13 @@ void CScene::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 
 void CScene::updateRender(const CFrustum& frustum)
 {
-	static CFrustum s_frustum;
-	if (m_bRefreshViewport || s_frustum!=frustum)
+	if (m_bRefreshViewport || m_OldFrustum!=frustum)
 	{
-		s_frustum=frustum;
+		m_OldFrustum=frustum;
 		m_bRefreshViewport = false;
 		m_RenderNodes.clear();
 		// ----
-		std::set<iRenderNode*>& setNode;
+		std::set<iRenderNode*> setNode;
 		m_OctreeRoot.walkOctree(frustum,setNode);
 		// ----
 		FOR_IN(it,setNode)
