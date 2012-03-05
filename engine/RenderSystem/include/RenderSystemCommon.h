@@ -29,45 +29,6 @@ EnumType ConvertStringToEnum(const char* szStr)
 }
 //----------------------------------------------------------------
 
-enum CompareFunction
-{
-	CMPF_ALWAYS_FAIL,
-	CMPF_ALWAYS_PASS,
-	CMPF_LESS,
-	CMPF_LESS_EQUAL,
-	CMPF_EQUAL,
-	CMPF_NOT_EQUAL,
-	CMPF_GREATER_EQUAL,
-	CMPF_GREATER
-};
-//----------------------------------------------------------------
-
-const char* SEnumName<CompareFunction>::List[] =
-{
-	"ALWAYS_FAIL",
-	"ALWAYS_PASS",
-	"LESS",
-	"LESS_EQUAL",
-	"EQUAL",
-	"NOT_EQUAL",
-	"GREATER_EQUAL",
-	"GREATER"
-};
-//----------------------------------------------------------------
-
-enum StencilOP {
-	STENCILOP_KEEP           = 1,
-	STENCILOP_ZERO           = 2,
-	STENCILOP_REPLACE        = 3,
-	STENCILOP_INCRSAT        = 4,
-	STENCILOP_DECRSAT        = 5,
-	STENCILOP_INVERT         = 6,
-	STENCILOP_INCR           = 7,
-	STENCILOP_DECR           = 8,
-	STENCILOP_FORCE_DWORD    = 0x7fffffff, /* force 32-bit size enum */
-};
-//----------------------------------------------------------------
-
 enum VertexRenderOperationType
 {
 	VROT_POINT_LIST,

@@ -7,10 +7,6 @@
 #include "common.h"
 #include "InterfacePlug.h"
 
-class CRenderNode;
-typedef std::list<iRenderNode*>		LIST_RENDER_NODE;
-//----
-
 class CRenderNode:public iRenderNode
 {
 public:
@@ -33,8 +29,8 @@ public:
 	virtual void			updateWorldMatrix	();
 public:
 	//----
-	GET_VARIABLE			(LIST_RENDER_NODE&,ChildObj,m_mapChildNode);
-	CONST_GET_VARIABLE		(LIST_RENDER_NODE&,ChildObj,m_mapChildNode);
+	GET_VARIABLE			(std::list<iRenderNode*>&,ChildObj,m_mapChildNode);
+	CONST_GET_VARIABLE		(std::list<iRenderNode*>&,ChildObj,m_mapChildNode);
 	//----
 	virtual GSET_STRING	(Name);
 	virtual GSET_STRING	(Filename);
@@ -62,7 +58,7 @@ public:
 	virtual void	renderShadow	(const Matrix& mWorld, const Vec3D& vLight,float fHeight)const;
 protected:
 	iRenderNode*			m_pParent;
-	LIST_RENDER_NODE		m_mapChildNode;
+	std::list<iRenderNode*>	m_mapChildNode;
 	//----
 	std::string				m_strName;
 	std::string				m_strFilename;

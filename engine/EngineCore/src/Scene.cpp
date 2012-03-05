@@ -30,7 +30,6 @@ bool sortNode(iRenderNode* p1, iRenderNode* p2)
 }
 void CScene::getRenderNodes(const CFrustum& frustum, std::set<iRenderNode*>& setNode)
 {
-	m_OctreeRoot.walkOctree(frustum,setNode);
 	//std::sort(setNode.begin(),setNode.end(), sortNode);
 }
 
@@ -61,7 +60,16 @@ void CScene::updateRender(const CFrustum& frustum)
 		s_frustum=frustum;
 		m_bRefreshViewport = false;
 		m_RenderNodes.clear();
-		getRenderNodes(frustum, m_RenderNodes);
+		// ----
+		std::set<iRenderNode*>& setNode;
+		m_OctreeRoot.walkOctree(frustum,setNode);
+		// ----
+		FOR_IN(it,setNode)
+		{
+			m_RenderNodes.push_back(*it);
+		}
+		// ----
+		m_RenderNodes.sort(sortNode);
 	}
 }
 
@@ -79,54 +87,45 @@ Matrix CalcLightMatrix(const BBox& bbox, const Vec3D& vLightDir)
 	return mLight;
 }
 
-#include "Graphics.h"
 void CScene::render(int nRenderType)const
 {
-	// ----
-	std::list<iRenderNode*> sortRenderNodes;
-	// ----
-	FOR_IN(it,m_RenderNodes)
-	{
-		sortRenderNodes.push_back(*it);
-	}
-	sortRenderNodes.sort(sortNode);
-	// ----
 	if (nRenderType&RF_GEOMETRY)
 	{
-		FOR_IN(it,sortRenderNodes)
+		std::list<iRenderNode*> focusNodes;
+		// ----
+		FOR_IN(it,m_RenderNodes)
 		{
 			if ((*it)->getFocus()>0)
 			{
+				focusNodes.push_back(*it);
 				continue;
 			}
 			(*it)->render(nRenderType);
 		}
-		FOR_IN(it,sortRenderNodes)
+		// ----
+		FOR_IN(it,focusNodes)
 		{
-			if ((*it)->getFocus()>0)
+			CRenderSystem& R = CRenderSystem::getSingleton();
+			R.SetShader("focus");
+			switch ((*it)->getFocus())
 			{
-				CRenderSystem& R = CRenderSystem::getSingleton();
-				R.SetShader("focus");
-				switch ((*it)->getFocus())
-				{
-				case 1:
-					R.setShaderFloatArray("gColor",	&Vec3D(2,0,0), 3);
-					break;
-				case 2:
-					R.setShaderFloatArray("gColor",	&Vec3D(0,2,0), 3);
-					break;
-				case 3:
-					R.setShaderFloatArray("gColor",	&Vec3D(0,0,2), 3);
-					break;
-				}
-				(*it)->render(RF_GEOMETRY|RF_ALPHA|RF_GLOW|RF_NO_SHADER);
-				(*it)->render(nRenderType);
+			case 1:
+				R.setShaderFloatArray("gColor",	&Vec3D(2,0,0), 3);
+				break;
+			case 2:
+				R.setShaderFloatArray("gColor",	&Vec3D(0,2,0), 3);
+				break;
+			case 3:
+				R.setShaderFloatArray("gColor",	&Vec3D(0,0,2), 3);
+				break;
 			}
+			(*it)->render(RF_GEOMETRY|RF_ALPHA|RF_GLOW|RF_NO_SHADER);
+			(*it)->render(nRenderType);
 		}
 	}
 	else
 	{
-		FOR_IN(it,sortRenderNodes)
+		FOR_IN(it,m_RenderNodes)
 		{
 			(*it)->render(nRenderType);
 		}
@@ -218,7 +217,7 @@ void CScene::getNodes()
 
 bool CScene::delChildByFocus()
 {
-	const LIST_RENDER_NODE& focusChild = m_FocusNode.getChildObj();
+	const std::list<iRenderNode*>& focusChild = m_FocusNode.getChildObj();
 	// ----
 	FOR_IN(it,focusChild)
 	{
@@ -229,7 +228,7 @@ bool CScene::delChildByFocus()
 
 void CScene::updateOctreeByFocus()
 {
-	LIST_RENDER_NODE& focusChild = m_FocusNode.getChildObj();
+	std::list<iRenderNode*>& focusChild = m_FocusNode.getChildObj();
 	FOR_IN(it,focusChild)
 	{
 		updateNode(*it);

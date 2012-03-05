@@ -18,9 +18,7 @@ public:
 	virtual CTexture*		CreateTextureFromFileInMemory(void* pBuf, int nSize, int nLevels=-1);
 	virtual CTexture*		CreateTextureFromMemory(void* pBuf, int nSize, int nWidth, int nHeight, int nLevels=-1);
 	virtual CTexture*		CreateCubeTextureFromFile(const std::string& strFilename);
-
 	virtual CTexture*		CreateRenderTarget(int nWidth, int nHeight);
-	virtual CTexture*		CreateDepthStencil(int nWidth, int nHeight);
 
 	unsigned long			RegisterTexture(const char* szFilename, int nLevels = -1);
 	CTexture*				getLoadedTexture(unsigned long uTexID);

@@ -66,13 +66,9 @@ public:
 	virtual const Matrix& getViewMatrix		()const = 0;
 	virtual const Matrix& getProjectionMatrix()const = 0;
 	// ----
-	virtual void		SetStencilFunc(bool bStencil, StencilOP op=STENCILOP_INCR,							// Ä£°å¼ì²â
-								CompareFunction stencilFunction = CMPF_LESS_EQUAL) = 0;// ----
 	virtual void		setShaderFloat(const char* szName, float val)=0;
 	virtual void		setShaderFloatArray(const char* szName, const void* pVal, int nCount)=0;
 	virtual void		setShaderMatrix(const char* szName, const Matrix& mat)=0;
-
-	virtual void		SetPixelShaderConstantF(unsigned int StartRegister,const float* pConstantData,unsigned int Vector4fCount)=0;
 	// ----
 	virtual void		SetSamplerFilter	(size_t unit, TextureFilterType MagFilter, TextureFilterType MinFilter, TextureFilterType MipFilter) = 0;
 	virtual void		SetSamplerAddressUV	(size_t unit, AddressUV addressU, AddressUV addressV) = 0;

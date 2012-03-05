@@ -60,8 +60,8 @@ void CNode3DTextRender::drawUBB(int x, int y, const CUBB* pUBB)const
 		if (m_nShadowBorder>0)
 		{
 			Vec4D vColor = m_uShadowColor;
-			R.SetPixelShaderConstantF(0,(float*)&vColor,1);
 			R.SetShader("text");
+			R.setShaderFloatArray("gColor",&vColor, 3);
 		}
 		// ----
 		R.DrawIndexedPrimitiveUP(VROT_TRIANGLE_LIST, 0, nVertexCount, nVertexCount / 2, & s_DrawTextIB, &pUBB->m_VB[0], sizeof(VERTEX_TEXT));
