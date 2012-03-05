@@ -131,6 +131,15 @@ iRenderNode* CWorld::pickProps(const Vec3D& vRayPos , const Vec3D& vRayDir)
 			// ----
 			if((*it)->intersect(vRayPos , vRayDir, fMin, fMax) != NULL)
 			{
+				// ----
+				// Props In Balk!!!
+				// ----
+				unsigned char uCellAtt = CWorld::getInstance().getSceneData()->getCellAttribute((*it)->getPos().x,(*it)->getPos().z);
+				if (uCellAtt&TERRAIN_ATT_TYPE_BALK)
+				{
+					continue;
+				}
+				// ----
 				if(fFocusMin > fMin)
 				{
 					pProp		= *it;

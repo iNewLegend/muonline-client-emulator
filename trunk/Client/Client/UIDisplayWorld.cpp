@@ -331,13 +331,21 @@ void CUIDisplayWorld::OnLButtonDown(POINT point)
 			cmd.nParam2	= vPos.z;
 			// ---
 			CPlayerMe::getInstance().addRoleCmd(cmd);
+			// ----
+			// If it is a circular seats, it need to rotate the direction.
+			// ----
+			if (m_pRenderNodeProps->getID()==133||
+				m_pRenderNodeProps->getID()==145)
+			{
+				cmd.nType	= RoleCmd::DIR;
+				cmd.nParam1	= vRotate.y*4.0f/PI;
+				CPlayerMe::getInstance().addRoleCmd(cmd);
+			}
 			// ---
-			cmd.nType	= RoleCmd::DIR;
-			cmd.nParam1	= vRotate.y*4.0f/PI;
-			CPlayerMe::getInstance().addRoleCmd(cmd);
+			// Do the pose.
 			// ---
 			cmd.nType	= RoleCmd::POSE;
-			if (strstr(m_pRenderNodeProps->getFilename(),"PoseBox01.bmd"))
+			if (m_pRenderNodeProps->getID()==133)
 			{
 				cmd.nParam1	= CRole::RELY;
 			}
