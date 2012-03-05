@@ -17,6 +17,10 @@ CScene::~CScene()
 
 bool sortNode(iRenderNode* p1, iRenderNode* p2)
 {
+	if (p1->getID()!=p1->getID())
+	{
+		return p1->getID()>p1->getID();
+	}
 	Matrix mView = CRenderSystem::getSingleton().getViewMatrix();
 	Vec3D v1 = p1->getWorldBBox().vMin+p1->getPos();
 	Vec3D v2 = p2->getWorldBBox().vMin+p2->getPos();

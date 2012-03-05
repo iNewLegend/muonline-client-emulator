@@ -69,13 +69,13 @@ public:
 	virtual void	render			(int nRenderType)const;
 	virtual void	animate			(const Matrix& mWorld, double fTime, float fElapsedTime);
 	// ----
-	void			setID			(ULONG uID)					{ m_uID = uID; };
+	void			setRoleID			(ULONG uID)				{ m_uRoleID = uID; };
 	void			setLevel		(int nLevel)				{ m_nLevel=nLevel; };
 	void			setClass		(int nID)					{ m_nClass=nID; };
 	void			setRoleName		(const wchar_t* wcsName)	{ m_wstrName = wcsName; };
 	void			setDir			(UCHAR uDir)				{ m_uDir = uDir; };
 	// ----
-	ULONG			getID			()							{ return m_uID; };
+	ULONG			getRoleID		()							{ return m_uRoleID; };
 	const wchar_t*	getName			()							{ return m_wstrName.c_str(); };
 
 	std::deque<char>& getPath		()							{ return m_Path; };
@@ -121,7 +121,7 @@ private:
 	char			m_szTemp[CLASS_TEMP_SIZE];
 protected:
 	// ----
-	unsigned long	m_uID;
+	unsigned long	m_uRoleID;
 	// ----
 	std::wstring	m_wstrName;
 	// ----

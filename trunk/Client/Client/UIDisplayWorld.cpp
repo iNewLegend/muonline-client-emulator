@@ -317,7 +317,7 @@ void CUIDisplayWorld::OnLButtonDown(POINT point)
 			}
 			else
 			{
-				CPlayerMe::getInstance().setAttackTarget(m_pMouseRole->getID());
+				CPlayerMe::getInstance().setAttackTarget(m_pMouseRole->getRoleID());
 			}
 		}
 		else if (m_pRenderNodeProps)

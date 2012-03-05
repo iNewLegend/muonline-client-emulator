@@ -23,7 +23,7 @@ end
 
 function IDD_MAIN_DIALOG_OnBtnSetup()
 	monster = CMonster()
-	monster:setID(math.random(0,100));
+	monster:setRoleID(math.random(0,100));
 	monster:setType(math.random(0,100));
 	local x = g_PlayerMe:getCellPosX()+math.random(-5,5);
 	local y = g_PlayerMe:getCellPosY()+math.random(-5,5);

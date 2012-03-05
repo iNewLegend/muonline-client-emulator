@@ -256,7 +256,7 @@ void SCPJoinResult(PMSG_JOINRESULT& msg)
 {
 	ULONG uPlayerID = MAKE_NUMBERW(msg.NumberH, msg.NumberL)+0x8000;
 	// ----
-	CPlayerMe::getInstance().setID(uPlayerID);
+	CPlayerMe::getInstance().setRoleID(uPlayerID);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -397,7 +397,7 @@ void SCCharCreateResult(PMSG_CHARCREATERESULT & msg)
 			{
 				pPlayer = new CRole();
 				// ---
-				pPlayer->setID(msg.pos);
+				pPlayer->setRoleID(msg.pos);
 				pPlayer->setRoleName(s2ws(msg.Name).c_str());
 				pPlayer->setLevel(msg.Level);
 				pPlayer->setPos(Vec3D(msg.pos,0,0));
@@ -550,7 +550,7 @@ void SCPlayerViewportCreate(const unsigned char * msg)
 		{
 			pPlayer = new CRole();
 			// ---
-			pPlayer->setID(uID);
+			pPlayer->setRoleID(uID);
 			//pPlayer->setLevel(pChar->Level);
 			pPlayer->setActionState(CRole::STAND);
 			CWorld::getInstance().addRole(pPlayer);
