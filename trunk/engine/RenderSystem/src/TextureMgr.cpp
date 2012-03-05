@@ -114,20 +114,6 @@ CTexture* CTextureMgr::CreateRenderTarget(int nWidth, int nHeight)
 	return pTex;
 }
 
-CTexture* CTextureMgr::CreateDepthStencil(int nWidth, int nHeight)
-{
-	CTexture* pTex = createTexture();
-	if (pTex)
-	{
-		pTex->m_eTexType = CTexture::TEX_TYPE_DEPTHSTENCIL;
-		pTex->m_nWidth = nWidth;
-		pTex->m_nHeight = nHeight;
-		pTex->m_bPoolManaged = false;
-		pTex->createDepthStencil(nWidth, nHeight);
-	}
-	return pTex;
-}
-
 unsigned long CTextureMgr::RegisterTexture(const char* szFilename, int nLevels)
 {
 	if(!IOReadBase::Exists(szFilename))

@@ -364,9 +364,6 @@ void CTexture::reset()
 	case TEX_TYPE_RENDERTARGET:
 		createRenderTarget(m_nWidth, m_nHeight);
 		break;
-	case TEX_TYPE_DEPTHSTENCIL:
-		createDepthStencil(m_nWidth, m_nHeight);
-		break;
 	default:
 		break;
 	}

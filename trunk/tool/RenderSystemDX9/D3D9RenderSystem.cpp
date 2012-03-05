@@ -95,12 +95,6 @@ HRESULT CD3D9RenderSystem::OnResetDevice()
 	m_pOldShader = NULL;
 
 //////////////////////////////////////////////////////////////////////////
-	SetStencilFunc(false);
-	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_STENCILREF,       0x0) );
-	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_STENCILMASK,      0xffffffff) );
-	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_STENCILWRITEMASK, 0xffffffff) );
-	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_STENCILZFAIL,     D3DSTENCILOP_KEEP) );
-	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_STENCILFAIL,      D3DSTENCILOP_KEEP) );
 
 	// Define DEBUG_VS and/or DEBUG_PS to debug vertex and/or pixel shaders with the 
 	// shader debugger. Debugging vertex shaders requires either REF or software vertex 
@@ -338,8 +332,7 @@ void CD3D9RenderSystem::getViewport(CRect<int>& rect)
 
 void CD3D9RenderSystem::ClearBuffer (bool bZBuffer, bool bTarget, Color32 color)
 {
-	unsigned long dwFlags = D3DCLEAR_STENCIL;
-	SetStencilFunc(false);
+	unsigned long dwFlags = 0;
 	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_STENCILREF,       0x1) );
 	//SetRenderState(D3DRS_STENCILMASK,      0xffffffff);
 	//SetRenderState(D3DRS_STENCILWRITEMASK, 0xffffffff);
@@ -428,49 +421,6 @@ const Matrix& CD3D9RenderSystem::getProjectionMatrix()const
 	return m_mProjection;
 }
 
-inline unsigned long CompareFunctionForD3D9(CompareFunction cmpFunc)
-{
-	switch(cmpFunc)
-	{
-	case CMPF_ALWAYS_FAIL:
-		return D3DCMP_NEVER;
-		break;
-	case CMPF_ALWAYS_PASS:
-		return D3DCMP_ALWAYS;
-		break;
-	case CMPF_LESS:
-		return D3DCMP_LESS;
-		break;
-	case CMPF_LESS_EQUAL:
-		return D3DCMP_LESSEQUAL;
-		break;
-	case CMPF_EQUAL:
-		return D3DCMP_EQUAL;
-		break;
-	case CMPF_NOT_EQUAL:
-		return D3DCMP_NOTEQUAL;
-		break;
-	case CMPF_GREATER_EQUAL:
-		return D3DCMP_GREATEREQUAL;
-		break;
-	case CMPF_GREATER:
-		return D3DCMP_GREATER;
-		break;
-	default:
-		return D3DCMP_LESSEQUAL;
-	}
-}
-
-void CD3D9RenderSystem::SetStencilFunc(bool bStencil, StencilOP op, CompareFunction stencilFunction)
-{
-	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_STENCILENABLE, bStencil) );
-	if (bStencil)
-	{
-		D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_STENCILFUNC, CompareFunctionForD3D9(stencilFunction)) );
-		D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP(op)) );
-	}
-}
-
 void CD3D9RenderSystem::setShaderFloat(const char* szName, float val)
 {
 	m_mapShaders.begin()->second->setFloat(szName, val);
@@ -497,11 +447,6 @@ void CD3D9RenderSystem::setShaderMatrix(const char* szName, const Matrix& mat)
 	{
 		((CD3D9Shader*)m_pOldShader)->getD3DXEffect()->CommitChanges();
 	}
-}
-
-void CD3D9RenderSystem::SetPixelShaderConstantF(unsigned int StartRegister,const float* pConstantData,unsigned int Vector4fCount)
-{
-	D3D9HR( m_pD3D9Device->SetPixelShaderConstantF(StartRegister, pConstantData, Vector4fCount) );
 }
 
 inline D3DTEXTUREFILTERTYPE TextureFilterTypeForD3D9(TextureFilterType filter)

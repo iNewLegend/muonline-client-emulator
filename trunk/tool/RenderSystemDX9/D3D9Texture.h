@@ -31,7 +31,6 @@ private:
 	void createCubeTextureFromFile(const std::string& strFilename);
 	//virtual void CreateTextureFromMemory(void* pBuf, int nSize, int nWidth, int nHeight, int nLevels=-1);
 	void createRenderTarget(int nWidth, int nHeight);
-	void createDepthStencil(int nWidth, int nHeight);
 
 	LPDIRECT3DTEXTURE9	m_pd3dTexture;
 	LPDIRECT3DSURFACE9	m_pD3D9Surface;

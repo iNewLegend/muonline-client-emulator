@@ -96,15 +96,10 @@ public:
 	const Matrix& getWorldMatrix()const;
 	const Matrix& getViewMatrix()const;
 	const Matrix& getProjectionMatrix()const;
-	// Func
-	void SetStencilFunc(bool bStencil, StencilOP op=STENCILOP_INCR,							// Ä£°å¼ì²â
-		CompareFunction stencilFunction = CMPF_LESS_EQUAL);
 	//
 	void setShaderFloat(const char* szName, float val);
 	void setShaderFloatArray(const char* szName, const void* pVal, int nCount);
 	void setShaderMatrix(const char* szName, const Matrix& mat);
-
-	void SetPixelShaderConstantF(unsigned int StartRegister,const float* pConstantData,unsigned int Vector4fCount);
 	//
 	void SetSamplerFilter(size_t unit, TextureFilterType MagFilter, TextureFilterType MinFilter, TextureFilterType MipFilter);
 	void SetSamplerAddressUV(size_t unit, AddressUV addressU, AddressUV addressV);

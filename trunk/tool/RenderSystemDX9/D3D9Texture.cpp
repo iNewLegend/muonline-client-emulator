@@ -155,33 +155,6 @@ void CD3D9Texture::createRenderTarget(int nWidth, int nHeight)
 	}
 }
 
-void CD3D9Texture::createDepthStencil(int nWidth, int nHeight)
-{
-	DXUTGetD3DDevice()->CreateTexture(
-		nWidth,
-		nHeight,
-		1,
-		D3DUSAGE_DEPTHSTENCIL,
-		D3DFMT_D16,
-		D3DPOOL_DEFAULT,
-		&m_pd3dTexture,
-		NULL);
-	if (m_pd3dTexture)
-	{
-		m_pd3dTexture->GetSurfaceLevel(0 , &m_pD3D9Surface);
-	}
-	else
-	{
-		DXUTGetD3DDevice()->CreateDepthStencilSurface(
-			nWidth,nHeight,
-			D3DFMT_D16, 
-			D3DMULTISAMPLE_NONE, 0,
-			TRUE,
-			&m_pD3D9Surface,
-			NULL);
-	}
-}
-
 void CD3D9Texture::FillLevel(void* pBuf, int nSize, int nWidth, int nHeight, int nLevel)
 {
 	D3DSURFACE_DESC textureDesc; 

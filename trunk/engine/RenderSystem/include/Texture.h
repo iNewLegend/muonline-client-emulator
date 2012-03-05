@@ -13,7 +13,6 @@ public:
 		TEX_TYPE_DYNAMIC,
 		TEX_TYPE_CUBETEXTURE,
 		TEX_TYPE_RENDERTARGET,
-		TEX_TYPE_DEPTHSTENCIL,
 	};
 public:
 	CTexture();
@@ -43,7 +42,6 @@ protected:
 	virtual bool createFromBLP(void* pBuf, int nSize, int nLevels);
 
 	virtual void createRenderTarget(int nWidth, int nHeight)=0;
-	virtual void createDepthStencil(int nWidth, int nHeight)=0;
 
 	virtual void releaseBuffer()=0;
 	void	reset();
