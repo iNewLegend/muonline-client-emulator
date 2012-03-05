@@ -27,6 +27,7 @@ CD3D9RenderSystem& GetD3D9RenderSystem()
 CD3D9RenderSystem::CD3D9RenderSystem()
 	:m_TextureMgr(this)
 	,m_pD3D9Device(NULL)
+	,m_pOldIB(NULL)
 {
 }
 
@@ -531,13 +532,6 @@ void CD3D9RenderSystem::SetTexture(unsigned long Stage, IDirect3DTexture9* pD3D9
  		m_TextureBack[Stage]=pD3D9Texture;
  		D3D9HR( m_pD3D9Device->SetTexture(Stage, pD3D9Texture) );
  	}
-// 	IDirect3DTexture9* pOldD3D9Texture = NULL;
-// 	D3D9HR( m_pD3D9Device->GetTexture(Stage,(IDirect3DBaseTexture9**) &pOldD3D9Texture) );
-// 	if (pOldD3D9Texture != pD3D9Texture)
-// 	{
-// 		D3D9HR( m_pD3D9Device->SetTexture(Stage, pD3D9Texture) );
-// 	}	
-// 	S_REL(pOldD3D9Texture);
 }
 
 CVertexDeclaration* CD3D9RenderSystem::CreateVertexDeclaration()
@@ -608,15 +602,12 @@ void CD3D9RenderSystem::SetStreamSource(unsigned long StreamNumber,CHardwareVert
 
 void CD3D9RenderSystem::SetIndices(CHardwareIndexBuffer* pIndexData)
 {
-	IDirect3DIndexBuffer9* m_pChangeIB = ((CD3D9HardwareIndexBuffer*)pIndexData)->getD3DIndexBuffer();
-
-	IDirect3DIndexBuffer9* pOldIB = NULL;
-	D3D9HR( m_pD3D9Device->GetIndices(&pOldIB) );
-	if (pOldIB!=m_pChangeIB)
+	if (m_pOldIB!=pIndexData)
 	{
-		D3D9HR( m_pD3D9Device->SetIndices(m_pChangeIB) );
+		m_pOldIB=pIndexData;
+		IDirect3DIndexBuffer9* pIB = ((CD3D9HardwareIndexBuffer*)pIndexData)->getD3DIndexBuffer();
+		D3D9HR( m_pD3D9Device->SetIndices(pIB) );
 	}
-	S_REL(pOldIB);
 }
 
 inline D3DPRIMITIVETYPE VertexRenderOperationTypeForD3D9(VertexRenderOperationType PrimitiveType)
@@ -672,37 +663,6 @@ void CD3D9RenderSystem::StretchRect(CTexture* pSourceTexture,const CRect<int>* p
 	}
 	D3D9HR( m_pD3D9Device->StretchRect(pD3D9SourceSurface, pSourceRect==NULL?NULL:&pSourceRect->getRECT(), pD3D9DestSurface, pDestRect==NULL?NULL:&pDestRect->getRECT(), TextureFilterTypeForD3D9(filter)) );
 }
-
-//LPDIRECT3DVERTEXBUFFER9 CreateVertexBuffer(size_t vertexSize, size_t numVerts, HardwareBuffer::Usage usage, bool useShadowBuffer = false)
-//{
-//	LPDIRECT3DVERTEXBUFFER9 lpD3DBuffer;
-//	HRESULT hr =  m_pD3D9Device->CreateVertexBuffer(
-//		static_cast<unsigned long>(mSizeInBytes), 
-//		0, 
-//		0, // No FVF here, thankyou
-//		mD3DPool,
-//		&lpD3DBuffer,
-//		NULL);
-//}
-
-//void CD3D9RenderSystem::SetLight(unsigned long Index, const D3DLIGHT9* Light)
-//{
-//	m_pD3D9Device->SetLight(Index, Light);
-//
-//	//if (m_ShaderMgr.IsEnable())
-//	//{
-//	//	D3DXVECTOR3 vLightDir;
-//	//	D3DXVec3Normalize(&vLightDir, (D3DXVECTOR3*)&Light->Direction);
-//	//	m_ShaderMgr.SetValue(PT_LIGHTDIR, &vLightDir);
-//	//	D3DXVECTOR3 vUp(0,1,0);
-//	//	D3DXVECTOR3 vEyePt(0,0,0);
-//	//	D3DXMATRIX mView,mProj;
-//	//	D3DXMatrixLookAtLH(&mView, &vEyePt, &vLightDir, &vUp);
-//	//	D3DXMatrixOrthoLH(&mProj, 8, 8, -512, 512);
-//	//	D3DXMatrixMultiply(&mView, &mView, &mProj);
-//	//	m_ShaderMgr.SetValue(PT_LIGHT_VIEW, &mView);
-//	//}
-//}
 
 void CD3D9RenderSystem::commond(const char* szCommond)
 {

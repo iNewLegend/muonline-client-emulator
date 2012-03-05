@@ -1340,6 +1340,7 @@ bool CMyPlug::importData(iRenderNode* pRenderNode, const char* szFilename)
 			iRenderNode* pObjectRenderNode = (iRenderNode*)m_pRenderNodeMgr->createRenderNode("skeleton");
 			char szTemp[256];
 			pObjectRenderNode->setName(itoa(i,szTemp,10));
+			pObjectRenderNode->setID(pObjInfo->id);
 			pObjectRenderNode->setFilename(m_mapObjectName[pObjInfo->id].c_str());
 			pObjectRenderNode->setPos(vPos);
 			pObjectRenderNode->setRotate(vRotate);

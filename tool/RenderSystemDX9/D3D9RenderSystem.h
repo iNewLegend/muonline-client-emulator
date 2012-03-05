@@ -144,6 +144,7 @@ protected:
 
 	CShader*					m_pOldShader;
 	IDirect3DTexture9*			m_TextureBack[8];
+	CHardwareIndexBuffer*		m_pOldIB;
 	
 	Matrix m_mWorld;
 	Matrix m_mView;

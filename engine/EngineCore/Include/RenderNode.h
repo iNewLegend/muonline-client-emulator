@@ -22,6 +22,7 @@ public:
 	virtual GSET_CONST_VAR	(BBox&,			m_,WorldBBox);
 	virtual GSET_CONST_VAR	(Matrix&,		m_m,WorldMatrix);
 	virtual GSET_CONST_VAR	(int,			m_n,Focus);
+	virtual GSET_CONST_VAR	(int,			m_n,ID);
 	virtual GSET_VAR		(iRenderNode*,	m_p,Parent);
 	virtual GSET_VAR		(void*,			m_p,Data);
 	//----
@@ -74,5 +75,6 @@ protected:
 	BBox					m_WorldBBox;
 	Matrix					m_mWorldMatrix;
 	void*					m_pData;
+	int						m_nID;
 	int						m_nFocus;
 };

@@ -15,6 +15,7 @@ public:
 	virtual void			setRotate			(const Vec3D& vRotate)=0;
 	virtual void			setScale			(const Vec3D& vScale)=0;
 	virtual void			setName				(const char* szName)=0;
+	virtual void			setID				(const int nID)=0;
 	virtual void			setFilename			(const char* szName)=0;
 	virtual void			setLocalBBox		(const BBox& LocalBBox)=0;
 	virtual void			setWorldBBox		(const BBox& WorldBBox)=0;
@@ -35,6 +36,7 @@ public:
 	virtual iRenderNode*	getParent			()=0;
 	virtual void*			getData				()=0;
 	virtual const char*		getName				()const=0;
+	virtual const int		getID				()const=0;
 	virtual const char*		getFilename			()const=0;
 	virtual iRenderNode*	getChild			(const char* szName)=0;
 	virtual void			addChild			(iRenderNode* pChild)=0;

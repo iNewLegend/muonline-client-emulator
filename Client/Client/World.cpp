@@ -123,10 +123,10 @@ iRenderNode* CWorld::pickProps(const Vec3D& vRayPos , const Vec3D& vRayDir)
 	// ----
 	FOR_IN(it,m_RenderNodes)
 	{
-		if(strstr((*it)->getFilename(),"PoseBox01.bmd")||
-			strstr((*it)->getFilename(),"Furniture06.bmd")||
-			strstr((*it)->getFilename(),"Furniture07.bmd")||
-			strstr((*it)->getFilename(),"Tree07.bmd"))
+		if((*it)->getID()==6|| //Tree07
+			(*it)->getID()==133|| //PoseBox01
+			(*it)->getID()==145|| //Furniture06
+			(*it)->getID()==146) //Furniture07
 		{
 			// ----
 			if((*it)->intersect(vRayPos , vRayDir, fMin, fMax) != NULL)
@@ -160,9 +160,9 @@ bool CWorld::addRole(CRole * pRole)
 	pRole->updateWorldBBox();
 	pRole->updateWorldMatrix();
 	// ----
-	if(m_mapRole.find(pRole->getID()) == m_mapRole.end())
+	if(m_mapRole.find(pRole->getRoleID()) == m_mapRole.end())
 	{
-		m_mapRole[pRole->getID()] = pRole;
+		m_mapRole[pRole->getRoleID()] = pRole;
 		return true;
 	}
 	// ----
@@ -174,7 +174,7 @@ bool CWorld::delRole(ULONG uID)
 {
 	bool bReturn = false;
 	// ----
-	if(CPlayerMe::getInstance().getID() != uID)
+	if(CPlayerMe::getInstance().getRoleID() != uID)
 	{
 		auto it = m_mapRole.find(uID);
 		// ----
@@ -289,9 +289,7 @@ void CWorld::updateRender(const CFrustum& frustum)
 				for(auto it = m_RenderNodes.begin(); it!=m_RenderNodes.end();)
 				{
 					auto temp = it++;
-					if (std::string((*temp)->getFilename()).find("HouseWall05.bmd") != std::string::npos||
-						std::string((*temp)->getFilename()).find("HouseWall06.bmd") != std::string::npos)
-						//if (strcmp((*it)->getFilename(),"125")==0 || strcmp((*it)->getName(),"126")==0)
+					if ((*temp)->getID()==125||(*temp)->getID()==126)
 					{
 						m_RenderNodes.erase(temp);
 					}
@@ -334,7 +332,7 @@ void CWorld::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
 		if((it->second->getActionState() == CRole::DEATH) ||
 			((CPlayerMe::getInstance().getPos()-it->second->getPos()).length() > PLAYER_VIEW_RANGE))
 		{
-			CWorld::getInstance().delRole(it->second->getID());
+			CWorld::getInstance().delRole(it->second->getRoleID());
 			// ----
 			break;
 		}
