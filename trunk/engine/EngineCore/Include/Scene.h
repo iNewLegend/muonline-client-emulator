@@ -12,7 +12,6 @@ public:
 	~CScene();
 public:
 	virtual int				getType					(){return NODE_BASE;}
-	virtual void			getRenderNodes			(const CFrustum& frustum, std::set<iRenderNode*>& setNode);
 	virtual void			updateRender			(const CFrustum& frustum);
 	bool					updateNode				(iRenderNode* pNode);
 	// ----
@@ -69,4 +68,5 @@ protected:
 
 	Fog						m_Fog;
 	Vec3D					m_vTargetPos;
+	CFrustum				m_OldFrustum;
 };

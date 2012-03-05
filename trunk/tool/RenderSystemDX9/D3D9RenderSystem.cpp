@@ -333,11 +333,6 @@ void CD3D9RenderSystem::getViewport(CRect<int>& rect)
 void CD3D9RenderSystem::ClearBuffer (bool bZBuffer, bool bTarget, Color32 color)
 {
 	unsigned long dwFlags = 0;
-	D3D9HR( m_pD3D9Device->SetRenderState(D3DRS_STENCILREF,       0x1) );
-	//SetRenderState(D3DRS_STENCILMASK,      0xffffffff);
-	//SetRenderState(D3DRS_STENCILWRITEMASK, 0xffffffff);
-	//SetRenderState(D3DRS_STENCILZFAIL,     D3DSTENCILOP_KEEP);
-	//SetRenderState(D3DRS_STENCILFAIL,      D3DSTENCILOP_KEEP);
 	if (bZBuffer)
 		dwFlags |= D3DCLEAR_ZBUFFER;
 	if (bTarget)

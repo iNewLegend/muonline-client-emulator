@@ -275,14 +275,9 @@ void CWorld::addDamageInfo(Vec3D vPos,const std::wstring & wcsInfo)
 
 void CWorld::updateRender(const CFrustum& frustum)
 {
-	//CScene::updateRender(frustum);
-	static CFrustum s_frustum;
-	if (m_bRefreshViewport || s_frustum!=frustum)
+	if (m_bRefreshViewport || m_OldFrustum!=frustum)
 	{
-		s_frustum=frustum;
-		m_bRefreshViewport = false;
-		m_RenderNodes.clear();
-		getRenderNodes(frustum, m_RenderNodes);
+		CScene::updateRender(frustum);
 		// ----
 		if (CWorld::getInstance().getSceneData())
 		{
@@ -313,7 +308,7 @@ void CWorld::updateRender(const CFrustum& frustum)
 		// ----
 		if(cross_exclude != crossRet)
 		{
-			m_RenderNodes.insert(it->second);
+			m_RenderNodes.push_back(it->second);
 		}
 	}
 }
