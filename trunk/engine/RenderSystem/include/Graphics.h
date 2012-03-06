@@ -26,10 +26,6 @@ public:
 	// æÿ–Œ
 	void DrawRect	(float x0, float y0, float x1, float y1, Color32 color);
 	void DrawRect	(const CRect<float>& rcDest, Color32 color);
-	void FillRect	(float x0, float y0, float x1, float y1, Color32 color);
-	void FillRect	(float x0, float y0, float x1, float y1, Color32 color0, Color32 color1, Color32 color2, Color32 color3);
-	void FillRect	(const CRect<float>& rcDest, Color32 color);
-	void FillRect	(const CRect<float>& rcDest, Color32 color, Color32 color0, Color32 color1, Color32 color2, Color32 color3);
 	// Õ÷‘≤–Œ
 	void DrawCircle	(const CRect<float>& rcDest, Color32 color);
 	void FillCircle	(const CRect<float>& rcDest, Color32 color);

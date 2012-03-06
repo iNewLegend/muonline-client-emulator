@@ -285,63 +285,6 @@ void CGraphics::DrawRect(const CRect<float>& rcDest, Color32 color)
 {
 	DrawRect(rcDest.left, rcDest.top, rcDest.right, rcDest.bottom, color);
 }
-
-void CGraphics::FillRect(float x0, float y0, float x1, float y1, Color32 color)
-{
-	// border adjustment
-	/*if(x0<x1)
-		++x1;
-	else if(x0>x1)
-		++x0;
-	if(y0<y1)
-		++y1;
-	else if(y0>y1)
-		++y0;*/
-	VERTEX_XYZ_DIF v[4]=
-	{
-		Vec3D(x0, y0, 0.0f), color,
-		Vec3D(x1, y0, 0.0f), color,
-		Vec3D(x1, y1, 0.0f), color,
-		Vec3D(x0, y1, 0.0f), color,
-	};
-	CRenderSystem& R = CRenderSystem::getSingleton();
-	R.SetFVF(VERTEX_XYZ_DIF::FVF);
-	R.DrawPrimitiveUP(VROT_TRIANGLE_FAN, 2, v, sizeof(VERTEX_XYZ_DIF));
-}
-
-void CGraphics::FillRect(float x0, float y0, float x1, float y1, Color32 color0, Color32 color1, Color32 color2, Color32 color3)
-{
-	// border adjustment
-	/*if(x0<x1)
-		++x1;
-	else if(x0>x1)
-		++x0;
-	if(y0<y1)
-		++y1;
-	else if(y0>y1)
-		++y0;*/
-	VERTEX_XYZ_DIF v[4]=
-	{
-		Vec3D(x0, y0, 0.0f), color0,
-		Vec3D(x1, y0, 0.0f), color1,
-		Vec3D(x1, y1, 0.0f), color2,
-		Vec3D(x0, y1, 0.0f), color3,
-	};
-	CRenderSystem& R = CRenderSystem::getSingleton();
-	R.SetFVF(VERTEX_XYZ_DIF::FVF);
-	R.DrawPrimitiveUP(VROT_TRIANGLE_FAN, 2, v, sizeof(VERTEX_XYZ_DIF));
-}
-
-void CGraphics::FillRect(const CRect<float>& rcDest, Color32 color)
-{
-	FillRect(rcDest.left, rcDest.top, rcDest.right, rcDest.bottom, color);
-}
-
-void CGraphics::FillRect(const CRect<float>& rcDest, Color32 color, Color32 color0, Color32 color1, Color32 color2, Color32 color3)
-{
-	FillRect(rcDest.left, rcDest.top, rcDest.right, rcDest.bottom, color0, color1, color2, color3);
-}
-
 //////////////////////////////////////////////////////////////////////////
 
 void CGraphics::drawQuad(const RECT& rcDest, const RECT& rcSrc, int nWidth, int nHeight, Color32 color)
