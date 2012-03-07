@@ -5,6 +5,7 @@
 #include "RegData.h"
 #include "MainRoot.h"
 #include "RPGSkyUIGraph.h"
+#include "DlgTarget.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CDlgMain::CDlgMain()
@@ -24,6 +25,8 @@ CDlgMain::~CDlgMain()
 void CDlgMain::OnControlRegister()
 {
 	CUIMainDialog::OnControlRegister();
+	// ----
+	CDlgTarget::getInstance().Create("IDD_TARGET",this);
 	// ----
 	RegisterControl("IDC_DISPLAY_WORLD", m_DisplayWorld);
 }

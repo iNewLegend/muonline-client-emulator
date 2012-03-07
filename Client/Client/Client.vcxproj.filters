@@ -93,6 +93,12 @@
     <ClCompile Include="Res.cpp">
       <Filter>Data</Filter>
     </ClCompile>
+    <ClCompile Include="DlgMinMap.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgTarget.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GlobalFunction.h">
@@ -151,6 +157,12 @@
     </ClInclude>
     <ClInclude Include="Res.h">
       <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgMinMap.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgTarget.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

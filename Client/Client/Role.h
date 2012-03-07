@@ -76,7 +76,7 @@ public:
 	void			setDir			(UCHAR uDir)				{ m_uDir = uDir; };
 	// ----
 	ULONG			getRoleID		()							{ return m_uRoleID; };
-	const wchar_t*	getName			()							{ return m_wstrName.c_str(); };
+	const wchar_t*	getRoleName		()							{ return m_wstrName.c_str(); };
 
 	std::deque<char>& getPath		()							{ return m_Path; };
 	// ----
