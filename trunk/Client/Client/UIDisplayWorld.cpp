@@ -1,4 +1,5 @@
 #include "UIDisplayWorld.h"
+#include "DlgTarget.h"
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -276,6 +277,8 @@ void CUIDisplayWorld::OnMouseMove(POINT point)
 	{
 		m_pMouseRole->setFocus(1);
 		m_pRenderNodeProps = NULL;
+		CDlgTarget::getInstance().SetVisible(true);
+		CDlgTarget::getInstance().setTargetName(m_pMouseRole->getRoleName());
 	}
 	else
 	{
@@ -283,6 +286,12 @@ void CUIDisplayWorld::OnMouseMove(POINT point)
 		if (m_pRenderNodeProps)
 		{
 			m_pRenderNodeProps->setFocus(2);
+			CDlgTarget::getInstance().SetVisible(true);
+			CDlgTarget::getInstance().setTargetName(m_pMouseRole->getRoleName());
+		}
+		else
+		{
+			CDlgTarget::getInstance().SetVisible(false);
 		}
 	}
 }

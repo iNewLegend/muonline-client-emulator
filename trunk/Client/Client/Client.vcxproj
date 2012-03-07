@@ -104,6 +104,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DlgMinMap.cpp" />
+    <ClCompile Include="DlgTarget.cpp" />
     <ClCompile Include="GlobalFunction.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainRoot.cpp" />
@@ -125,6 +127,8 @@
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DlgMinMap.h" />
+    <ClInclude Include="DlgTarget.h" />
     <ClInclude Include="GlobalFunction.h" />
     <ClInclude Include="MainRoot.h" />
     <ClInclude Include="resource.h" />
