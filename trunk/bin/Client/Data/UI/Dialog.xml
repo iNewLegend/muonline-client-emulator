@@ -637,7 +637,7 @@
 	</element>
   </dialog>
   
-  <dialog id="IDD_TARGET" scale="50,0,50,0" offset="-200,10,200,70">
+  <dialog id="IDD_TARGET" scale="50,0,50,0" offset="-200,10,200,70"  style="null">
   	<element type="static" id="IDC_TARGET_NAME" scale="50,0,50,0" offset="-200,00,200,60">Target Name</element>
   </dialog>
   

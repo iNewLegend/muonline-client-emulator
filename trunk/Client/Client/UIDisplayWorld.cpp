@@ -282,12 +282,13 @@ void CUIDisplayWorld::OnMouseMove(POINT point)
 	}
 	else
 	{
+		CDlgTarget::getInstance().SetVisible(false);
 		m_pRenderNodeProps = CWorld::getInstance().pickProps(vRayPos, vRayDir);
 		if (m_pRenderNodeProps)
 		{
 			m_pRenderNodeProps->setFocus(2);
-			CDlgTarget::getInstance().SetVisible(true);
-			CDlgTarget::getInstance().setTargetName(m_pMouseRole->getRoleName());
+			//CDlgTarget::getInstance().SetVisible(true);
+			//CDlgTarget::getInstance().setTargetName(m_pRenderNodeProps->getName());
 		}
 		else
 		{
@@ -338,6 +339,7 @@ void CUIDisplayWorld::OnLButtonDown(POINT point)
 			cmd.nType	= RoleCmd::MOVE;
 			cmd.nParam1	= vPos.x;
 			cmd.nParam2	= vPos.z;
+			cmd.nParam3	= 0;
 			// ---
 			CPlayerMe::getInstance().addRoleCmd(cmd);
 			// ----
@@ -380,6 +382,7 @@ void CUIDisplayWorld::OnLButtonDown(POINT point)
 			cmd.nType	= RoleCmd::MOVE;
 			cmd.nParam1	= vTargetPos.x;
 			cmd.nParam2	= vTargetPos.z;
+			cmd.nParam3	= 0;
 			CPlayerMe::getInstance().addRoleCmd(cmd);
 			// ---
 			if (CPlayerMe::getInstance().getCurRoleCmd().nType==RoleCmd::MOVE)
