@@ -104,12 +104,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DlgMinMap.cpp" />
-    <ClCompile Include="DlgTarget.cpp" />
     <ClCompile Include="GlobalFunction.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainRoot.cpp" />
     <ClCompile Include="DlgMain.cpp" />
+    <ClCompile Include="DlgMinMap.cpp" />
+    <ClCompile Include="DlgTarget.cpp" />
     <ClCompile Include="UIChatList.cpp" />
     <ClCompile Include="UIDisplayModel.cpp" />
     <ClCompile Include="UIDisplayWorld.cpp" />
@@ -127,12 +127,12 @@
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DlgMinMap.h" />
-    <ClInclude Include="DlgTarget.h" />
     <ClInclude Include="GlobalFunction.h" />
     <ClInclude Include="MainRoot.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="DlgMain.h" />
+    <ClInclude Include="DlgMinMap.h" />
+    <ClInclude Include="DlgTarget.h" />
     <ClInclude Include="UIChatList.h" />
     <ClInclude Include="UIDisplayModel.h" />
     <ClInclude Include="UIDisplayWorld.h" />
