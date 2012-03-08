@@ -577,6 +577,7 @@ void SCPlayerViewportCreate(const unsigned char * msg)
 		cmd.nType	= RoleCmd::MOVE;
 		cmd.nParam1	= pPlayerViewport->TX;
 		cmd.nParam2	= pPlayerViewport->TY;
+		cmd.nParam3	= 0;
 		pPlayer->addRoleCmd(cmd);
 		// ----
 		cmd.nType	= RoleCmd::DIR;
@@ -636,6 +637,7 @@ void SCMonsterViewportCreate(const unsigned char * msg)
 		cmd.nType	= RoleCmd::MOVE;
 		cmd.nParam1	= pMonsterViewport->TX;
 		cmd.nParam2	= pMonsterViewport->TY;
+		cmd.nParam3	= 0;
 		pMonster->addRoleCmd(cmd);
 		// ----
 		cmd.nType	= RoleCmd::DIR;
@@ -717,6 +719,7 @@ void SCMove(PMSG_RECVMOVE & msg)
 		cmd.nType	= RoleCmd::MOVE;
 		cmd.nParam1	= msg.X;
 		cmd.nParam2	= msg.Y;
+		cmd.nParam3	= 0;
 		pRole->addRoleCmd(cmd);
 		// ---
 		cmd.nType	= RoleCmd::DIR;

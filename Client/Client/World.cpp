@@ -245,9 +245,9 @@ void CWorld::renderDamageInfo()const
 {
 	Node3DUIGraph::getInstance().initDrawText();
 	// ----
-	for (auto it=m_mapRole.begin();it!=m_mapRole.end();it++)
+	//for (auto it=m_mapRole.begin();it!=m_mapRole.end();it++)
 	{
-		it->second->drawName();
+		//it->second->drawName();
 	}
 	// ----
 	FOR_IN(it,m_dequeDamageInfo)
