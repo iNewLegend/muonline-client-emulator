@@ -11,11 +11,12 @@
 #include "UIIcon.h"
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+bool g_bLocal = false;
 
 void InitLua(lua_State * L)
 {
 	// Local
-	lua_tinker::set(L, "g_bLoacl", &g_bLoacl);
+	lua_tinker::set(L, "g_bLocal", &g_bLocal);
 	// Func
 	lua_tinker::def(L,"ConnectServer",	CSConnectServer);
 	lua_tinker::def(L,"LoginServer",	CSLoginServer);

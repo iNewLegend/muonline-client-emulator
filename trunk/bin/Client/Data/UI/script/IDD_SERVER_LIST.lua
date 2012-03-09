@@ -1,5 +1,3 @@
-g_bLocal = false;
-
 -- Create Control
 listboxServer = CUIListBox()
 
