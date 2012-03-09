@@ -14,6 +14,9 @@
 
 void InitLua(lua_State * L)
 {
+	// Local
+	lua_tinker::set(L, "g_bLoacl", &g_bLoacl);
+	// Func
 	lua_tinker::def(L,"ConnectServer",	CSConnectServer);
 	lua_tinker::def(L,"LoginServer",	CSLoginServer);
 	lua_tinker::def(L,"CharCreate",		CSCharCreate);

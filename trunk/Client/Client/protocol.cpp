@@ -775,7 +775,9 @@ void SCDiePlayer(PMSG_DIEPLAYER & msg)
 	// ----
 	if(pRole)
 	{
-		pRole->setActionState(CRole::DIE);
+		RoleCmd cmd;
+		cmd.nType = RoleCmd::DIE;
+		addRoleCmd(cmd);
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
