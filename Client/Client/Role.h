@@ -141,6 +141,8 @@ protected:
 	unsigned char	m_uSafeState;
 	// ----
 	float			m_fWalkSpeed;
+	float			m_fMoveSpeed;
+	float			m_fPedometer;
 	float			m_fAttackSpeed;
 	Vec3D			m_vNextPos;
 	// ----
