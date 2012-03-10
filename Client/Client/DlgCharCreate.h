@@ -1,14 +1,26 @@
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#pragma once /* DlgTarget.h */
+#pragma once /* DlgCharCreate.h */
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 #include "UIDialog.h"
 #include "TSingleton.h"
+#include "UIDisplayModel.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-class CDlgTarget : public CUIDialog, public TSingleton<CDlgTarget>
+class CDlgCharCreate : public CUIDialog, public TSingleton<CDlgCharCreate>
 {
 public:
-	void setTargetName(const wchar_t* wszName);
+	void OnControlRegister();
+protected:
+	void OnBtnOk();
+	void OnBtnExit();
+	void OnBtnRole1();
+	void OnBtnRole2();
+	void OnBtnRole3();
+protected:
+	CUIDisplayModel	m_DisplayModel;
+	CUIStatic		m_StaProInfo;
+	CUIEditBox		m_EdtName;
+	int				m_nIndex;
 };
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

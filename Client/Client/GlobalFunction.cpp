@@ -13,10 +13,14 @@
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 bool g_bLocal = false;
 
+void SetLocal(bool bLocal) {g_bLocal = bLocal;}
+bool GetLocal() {return g_bLocal;}
+
 void InitLua(lua_State * L)
 {
 	// Local
-	lua_tinker::set(L, "g_bLocal", &g_bLocal);
+	lua_tinker::def(L, "SetLocal", SetLocal);
+	lua_tinker::def(L, "GetLocal", GetLocal);
 	// Func
 	lua_tinker::def(L,"ConnectServer",	CSConnectServer);
 	lua_tinker::def(L,"LoginServer",	CSLoginServer);

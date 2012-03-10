@@ -1,14 +1,11 @@
-#include "DlgTarget.h"
+#include "DlgChatMessage.h"
+#include "UIChatList.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void CDlgTarget::setTargetName(const wchar_t* wszName)
+void CDlgChatMessage::OnControlRegister()
 {
-	CUIControl* pControl = getControl("IDC_TARGET_NAME");
-	if (pControl)
-	{
-		wchar_t wszTargetName[255];
-		swprintf(wszTargetName,L"[align=center]%s[/align]",wszName);
-		pControl->SetText(wszTargetName);
-	}
+	CUIDialog::OnControlRegister();
+	// ----
+	RegisterControl("IDC_LIST_CHAT_MESSAGE", CUIChatList::getInstance());
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

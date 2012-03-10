@@ -34,6 +34,9 @@
     <Filter Include="UI\Chat">
       <UniqueIdentifier>{f72908e2-71e4-428b-8b1b-11a5f68acce3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\Dlg">
+      <UniqueIdentifier>{041a2f79-8fc5-4f69-894a-de86fd91101c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GlobalFunction.cpp">
@@ -66,9 +69,6 @@
     <ClCompile Include="World.cpp">
       <Filter>World</Filter>
     </ClCompile>
-    <ClCompile Include="DlgMain.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="UIDisplayModel.cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -94,10 +94,40 @@
       <Filter>Data</Filter>
     </ClCompile>
     <ClCompile Include="DlgMinMap.cpp">
-      <Filter>UI</Filter>
+      <Filter>UI\Dlg</Filter>
     </ClCompile>
     <ClCompile Include="DlgTarget.cpp">
-      <Filter>UI</Filter>
+      <Filter>UI\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgChatMessage.cpp">
+      <Filter>UI\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgChat.cpp">
+      <Filter>UI\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgMessageBox.cpp">
+      <Filter>UI\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgMap.cpp">
+      <Filter>UI\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgCharCreate.cpp">
+      <Filter>UI\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgCharList.cpp">
+      <Filter>UI\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgLogin.cpp">
+      <Filter>UI\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgServerList.cpp">
+      <Filter>UI\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgShortcuts.cpp">
+      <Filter>UI\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgMain.cpp">
+      <Filter>UI\Dlg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -134,9 +164,6 @@
     <ClInclude Include="UIIcon.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="DlgMain.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="UIDisplayModel.h">
       <Filter>UI</Filter>
     </ClInclude>
@@ -158,11 +185,41 @@
     <ClInclude Include="Res.h">
       <Filter>Data</Filter>
     </ClInclude>
-    <ClInclude Include="DlgMinMap.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="DlgTarget.h">
-      <Filter>UI</Filter>
+      <Filter>UI\Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgMinMap.h">
+      <Filter>UI\Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgChatMessage.h">
+      <Filter>UI\Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgChat.h">
+      <Filter>UI\Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgMessageBox.h">
+      <Filter>UI\Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgMap.h">
+      <Filter>UI\Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgCharCreate.h">
+      <Filter>UI\Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgCharList.h">
+      <Filter>UI\Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgLogin.h">
+      <Filter>UI\Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgServerList.h">
+      <Filter>UI\Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgShortcuts.h">
+      <Filter>UI\Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgMain.h">
+      <Filter>UI\Dlg</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

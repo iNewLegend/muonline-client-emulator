@@ -5,7 +5,11 @@
 #include "RegData.h"
 #include "MainRoot.h"
 #include "RPGSkyUIGraph.h"
-#include "DlgTarget.h"
+#include "DlgMessageBox.h"
+#include "DlgLogin.h"
+#include "DlgServerList.h"
+#include "DlgCharList.h"
+#include "DlgShortcuts.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CDlgMain::CDlgMain()
@@ -26,9 +30,22 @@ void CDlgMain::OnControlRegister()
 {
 	CUIMainDialog::OnControlRegister();
 	// ----
-	CDlgTarget::getInstance().Create("IDD_TARGET",this);
-	// ----
 	RegisterControl("IDC_DISPLAY_WORLD", m_DisplayWorld);
+
+	CDlgMessageBox::getInstance().Create("IDD_MESSAGE_BOX",this);
+	CDlgMessageBox::getInstance().SetVisible(false);
+	
+	CDlgLogin::getInstance().Create("IDD_LOGIN",this);
+	CDlgLogin::getInstance().SetVisible(false);
+	
+	CDlgServerList::getInstance().Create("IDD_SERVER_LIST",this);
+	CDlgServerList::getInstance().SetVisible(true);
+	
+	CDlgCharList::getInstance().Create("IDD_ROLE_CHOOSE",this);
+	CDlgCharList::getInstance().SetVisible(false);
+
+	CDlgShortcuts::getInstance().Create("IDD_MAIN_DIALOG",this);
+	CDlgShortcuts::getInstance().SetVisible(false);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

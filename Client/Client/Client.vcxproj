@@ -104,6 +104,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DlgCharCreate.cpp" />
+    <ClCompile Include="DlgCharList.cpp" />
+    <ClCompile Include="DlgChat.cpp" />
+    <ClCompile Include="DlgChatMessage.cpp" />
+    <ClCompile Include="DlgLogin.cpp" />
+    <ClCompile Include="DlgMap.cpp" />
+    <ClCompile Include="DlgMessageBox.cpp" />
+    <ClCompile Include="DlgServerList.cpp" />
+    <ClCompile Include="DlgShortcuts.cpp" />
     <ClCompile Include="GlobalFunction.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainRoot.cpp" />
@@ -127,6 +136,15 @@
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DlgCharCreate.h" />
+    <ClInclude Include="DlgCharList.h" />
+    <ClInclude Include="DlgChat.h" />
+    <ClInclude Include="DlgChatMessage.h" />
+    <ClInclude Include="DlgLogin.h" />
+    <ClInclude Include="DlgMap.h" />
+    <ClInclude Include="DlgMessageBox.h" />
+    <ClInclude Include="DlgServerList.h" />
+    <ClInclude Include="DlgShortcuts.h" />
     <ClInclude Include="GlobalFunction.h" />
     <ClInclude Include="MainRoot.h" />
     <ClInclude Include="resource.h" />
