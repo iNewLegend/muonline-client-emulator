@@ -57,7 +57,7 @@ void CNode3DTextRender::drawUBB(int x, int y, const CUBB* pUBB)const
 		// ----
 		R.SetFVF(FVF_XYZ|FVF_DIFFUSE|FVF_TEX1);
 		// ----
-		if (m_nShadowBorder>0)
+		//if (m_nShadowBorder>0)
 		{
 			Vec4D vColor = m_uShadowColor;
 			R.SetShader("text");

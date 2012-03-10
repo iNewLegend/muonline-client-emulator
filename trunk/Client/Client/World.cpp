@@ -27,7 +27,8 @@ CWorld::CWorld()
 	//this->SetTerrain(& m_Terrain);
 	// ----
 	m_DamageTextRender.load("Data\\Fonts\\fzl2jw.ttf");
-	m_DamageTextRender.setFontSize(18);
+	m_DamageTextRender.setShadowBorder(1);
+	m_DamageTextRender.setFontSize(20);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -231,9 +232,9 @@ void CWorld::updateDamageInfo(double fTime, float fElapsedTime)
 	for(int i = m_dequeDamageInfo.size() -1 ; i >= 0 ; i--)
 	{
 		DamageInfo& damageInfo	=  m_dequeDamageInfo[i];
-		damageInfo.vPos.y		+= fElapsedTime * 2.0f;
+		damageInfo.fTime		+= fElapsedTime;
 		// ----
-		if(damageInfo.vPos.y > 6.0f)
+		if(damageInfo.fTime > 5.0f)
 		{
 			m_dequeDamageInfo.erase(m_dequeDamageInfo.begin() + i);
 		}
@@ -255,6 +256,8 @@ void CWorld::renderDamageInfo()const
 		Pos2D pos(0,0);
 		// ----
 		CRenderSystem::getSingleton().world2Screen(it->vPos, pos);
+		pos.x-=40;
+		pos.y-=logf(1.0f+it->fTime)*200;
 		// ----
 		//RECT rc = {pos.x - 40, pos.y - 30, pos.x + 40, pos.y}; 
 		// ----
@@ -263,11 +266,6 @@ void CWorld::renderDamageInfo()const
 		//RPGSkyUIGraph::getInstance().drawText(it->wcsInfo.c_str(), it->wcsInfo.length() ,rc, ALIGN_TYPE_CENTER);
 		//m_DamageTextRender.drawText(it->wcsInfo.c_str(),rc, it->wcsInfo.length(), (UINT)ALIGN_TYPE_CENTER);
 	}
-	// ---- text demo for leo :)
- 	for (size_t i = 0; i < 10; ++i)
- 	{
- 		//m_DamageTextRender.drawText(L"UIGraph::getInstance().getTextRende",10,10+i*20,0xFFFF3333+0x1400*i);
- 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -276,6 +274,7 @@ void CWorld::addDamageInfo(Vec3D vPos,const std::wstring & wcsInfo)
 	DamageInfo damageInfo;
 	damageInfo.vPos = vPos;
 	damageInfo.wcsInfo = wcsInfo;
+	damageInfo.fTime = 0.0f;
 	m_DamageTextRender.buildUBB(&damageInfo.ubb,wcsInfo.c_str(),80,wcsInfo.length(),ALIGN_TYPE_CENTER);
 	// ----
 	m_dequeDamageInfo.push_back(damageInfo);
