@@ -129,6 +129,9 @@
     <ClCompile Include="DlgMain.cpp">
       <Filter>UI\Dlg</Filter>
     </ClCompile>
+    <ClCompile Include="DlgWorld.cpp">
+      <Filter>UI\Dlg</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GlobalFunction.h">
@@ -220,6 +223,12 @@
     </ClInclude>
     <ClInclude Include="DlgMain.h">
       <Filter>UI\Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgWorld.h">
+      <Filter>UI\Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCamera.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

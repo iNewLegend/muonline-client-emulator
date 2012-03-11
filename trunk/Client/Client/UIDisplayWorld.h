@@ -11,7 +11,6 @@
 #include "PlayerMe.h"
 #include "World.h"
 #include "UIDisplay.h"
-#include "Camera.h"
 #include "Terrain.h"
 #include "SceneEffect.h""
 #include "Role.h"
@@ -21,7 +20,6 @@ class CUIDisplayWorld: public CUIDisplay
 {
 protected:
 	POINT				m_ptLastMousePosition;
-	CCamera				m_Camera;
 	CSceneEffect		m_SceneEffect;
 	iRenderNode*		m_pRenderNodeProps;
 	CRole*				m_pMouseRole;
@@ -51,8 +49,6 @@ public:
 	virtual void OnFocusOut			();
 	// ----
 	virtual bool CanHaveFocus		() { return (m_bVisible && m_bEnabled); }
-	// ----
-	const CCamera& getCamera		() { return m_Camera ; }
 	// ----
 	virtual void OnSize				(const CRect<int> & rc);
 	// ----

@@ -1,19 +1,19 @@
 #include "UIDisplayWorld.h"
 #include "DlgTarget.h"
-
+#include "GameCamera.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CUIDisplayWorld::CUIDisplayWorld()
 	:m_pMouseRole(NULL)
 	,m_pRenderNodeProps(NULL)
 {
-	m_Camera.setRadius(10.0f);
-	m_Camera.setMinRadius(5.0f);
-	m_Camera.setMaxRadius(15.0f);
-	m_Camera.setYawAngle(PI / 4);
-	m_Camera.setPitchAngle( - PI / 4);
-	m_Camera.setMinPitchAngle(-PI / 3);
-	m_Camera.setMaxPitchAngle(-PI / 16);
+	CGameCamera::getInstance().setRadius(10.0f);
+	CGameCamera::getInstance().setMinRadius(5.0f);
+	CGameCamera::getInstance().setMaxRadius(15.0f);
+	CGameCamera::getInstance().setYawAngle(PI / 4);
+	CGameCamera::getInstance().setPitchAngle( - PI / 4);
+	CGameCamera::getInstance().setMinPitchAngle(-PI / 3);
+	CGameCamera::getInstance().setMaxPitchAngle(-PI / 16);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -32,13 +32,13 @@ void CUIDisplayWorld::OnFrameMove(double fTime, float fElapsedTime)
 		// ----
 		CRect<int> rcViewport	= getViewport();
 		// ----
-		m_Camera.setProjParams(PI / 3, rcViewport.getWidth(), rcViewport.getHeight(), 0.1f, CWorld::getInstance().getFog().fEnd);
+		CGameCamera::getInstance().setProjParams(PI / 3, rcViewport.getWidth(), rcViewport.getHeight(), 0.1f, CWorld::getInstance().getFog().fEnd);
 		// ----
 		Vec3D vPos = CPlayerMe::getInstance().getPos();
 		vPos.y+=CPlayerMe::getInstance().getRoleHeight()*0.6f;
-		m_Camera.setTargetPos(vPos);
+		CGameCamera::getInstance().setTargetPos(vPos);
 		// ----
-		m_Camera.FrameMove(fElapsedTime);
+		CGameCamera::getInstance().FrameMove(fElapsedTime);
 		// ----
 		CUIDisplay::OnFrameMove(fTime, fElapsedTime);
 		// ----
@@ -73,7 +73,7 @@ void CUIDisplayWorld::OnFrameRender(const Matrix& mTransform, double fTime, floa
 		// ----
 		R.setShaderFloat("g_fTime",			fTime);
 		R.setShaderFloatArray("g_vLightDir",	&vLightDir, 3);
-		R.setShaderFloatArray("g_vEyePot",		&m_Camera.getEyePt(), 3);
+		R.setShaderFloatArray("g_vEyePot",		&CGameCamera::getInstance().getEyePt(), 3);
 		R.setShaderFloatArray("g_vPointLight",	&(CPlayerMe::getInstance().getPos()+Vec3D(0.0f,2.0f,0.0f)), 3);
 		
 		// Light Matrix
@@ -90,13 +90,13 @@ void CUIDisplayWorld::OnFrameRender(const Matrix& mTransform, double fTime, floa
 		R.SetSamplerFilter(1, TEXF_LINEAR, TEXF_LINEAR, TEXF_LINEAR);
 		R.SetSamplerFilter(2, TEXF_LINEAR, TEXF_LINEAR, TEXF_LINEAR);
 		// ----
-		R.setProjectionMatrix(m_Camera.getProjMatrix());
-		R.setViewMatrix(m_Camera.getViewMatrix());
+		R.setProjectionMatrix(CGameCamera::getInstance().getProjMatrix());
+		R.setViewMatrix(CGameCamera::getInstance().getViewMatrix());
 		R.setWorldMatrix(Matrix::UNIT);
 		// ----
 		// # Render World
 		// ----
-		CWorld::getInstance().updateRender(m_Camera.getFrustum());
+		CWorld::getInstance().updateRender(CGameCamera::getInstance().getFrustum());
 		m_SceneEffect.render(&CWorld::getInstance());
 		CWorld::getInstance().renderDamageInfo();
 		// ----
@@ -225,17 +225,17 @@ void CUIDisplayWorld::MoveCamera(int x, int y)
 {
 	Matrix mCameraRot;
 	// ----
-	Vec3D vPos = m_Camera.getTargetPos();
+	Vec3D vPos = CGameCamera::getInstance().getTargetPos();
 	// ----
 	// # 基于摄像机的 yaw 创建旋转矩阵 (Warning ! huihui need translate)
 	// ----
-	mCameraRot.rotationYawPitchRoll(m_Camera.getYawAngle(), 0, 0);
+	mCameraRot.rotationYawPitchRoll(CGameCamera::getInstance().getYawAngle(), 0, 0);
 	// ----
-	vPos	+= mCameraRot * Vec3D(x, 0, y) * 0.001f * m_Camera.getRadius();
+	vPos	+= mCameraRot * Vec3D(x, 0, y) * 0.001f * CGameCamera::getInstance().getRadius();
 	// ----
 	vPos.y	= CWorld::getInstance().getHeight(vPos.x, vPos.z);
 	// ----
-	m_Camera.setTargetPos(vPos);
+	CGameCamera::getInstance().setTargetPos(vPos);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // # Warning ! Need optimize here (maybe move varibales to class)
@@ -247,7 +247,7 @@ void CUIDisplayWorld::OnMouseMove(POINT point)
 	Vec3D vRayDir;
 	Vec3D vTargetPos;
 	// ----
-	m_Camera.GetPickRay(vRayPos, vRayDir, point.x, point.y, m_rcBoundingBox.getRECT());
+	CGameCamera::getInstance().GetPickRay(vRayPos, vRayDir, point.x, point.y, m_rcBoundingBox.getRECT());
 	// ----
 	CWorld::getInstance().pick(vRayPos, vRayDir, & vTargetPos);
 	CWorld::getInstance().setTargetPos(vTargetPos);
@@ -257,7 +257,7 @@ void CUIDisplayWorld::OnMouseMove(POINT point)
 	{
 		if(GetKeyState(VK_RBUTTON) < 0)
 		{
-			m_Camera.addMouseDelta(Vec3D(m_ptLastMousePosition.x - point.x, m_ptLastMousePosition.y - point.y, 0));
+			CGameCamera::getInstance().addMouseDelta(Vec3D(m_ptLastMousePosition.x - point.x, m_ptLastMousePosition.y - point.y, 0));
 			// ----
 			m_ptLastMousePosition	=	point;
 		}
@@ -304,7 +304,7 @@ void CUIDisplayWorld::OnMouseWheel(POINT point, short wheelDelta)
 	{
 		if(wheelDelta != 0)
 		{
-			m_Camera.addMouseDelta(Vec3D(0, 0, - wheelDelta / 12.0f * m_Camera.getRadius()));
+			CGameCamera::getInstance().addMouseDelta(Vec3D(0, 0, - wheelDelta / 12.0f * CGameCamera::getInstance().getRadius()));
 		}
 	}
 }
@@ -372,7 +372,7 @@ void CUIDisplayWorld::OnLButtonDown(POINT point)
 			Vec3D vRayDir;
 			Vec3D vTargetPos;
 			// ---
-			m_Camera.GetPickRay(vRayPos, vRayDir, point.x, point.y, m_rcBoundingBox.getRECT());
+			CGameCamera::getInstance().GetPickRay(vRayPos, vRayDir, point.x, point.y, m_rcBoundingBox.getRECT());
 			// ---
 			CWorld::getInstance().pick(vRayPos, vRayDir, & vTargetPos);
 			// ---

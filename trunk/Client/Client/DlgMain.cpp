@@ -9,7 +9,7 @@
 #include "DlgLogin.h"
 #include "DlgServerList.h"
 #include "DlgCharList.h"
-#include "DlgShortcuts.h"
+#include "DlgWorld.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CDlgMain::CDlgMain()
@@ -44,8 +44,8 @@ void CDlgMain::OnControlRegister()
 	CDlgCharList::getInstance().Create("IDD_ROLE_CHOOSE",this);
 	CDlgCharList::getInstance().SetVisible(false);
 
-	CDlgShortcuts::getInstance().Create("IDD_MAIN_DIALOG",this);
-	CDlgShortcuts::getInstance().SetVisible(false);
+	CDlgWorld::getInstance().Create("IDD_WORLD",this);
+	CDlgWorld::getInstance().SetVisible(false);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

@@ -113,6 +113,7 @@
     <ClCompile Include="DlgMessageBox.cpp" />
     <ClCompile Include="DlgServerList.cpp" />
     <ClCompile Include="DlgShortcuts.cpp" />
+    <ClCompile Include="DlgWorld.cpp" />
     <ClCompile Include="GlobalFunction.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainRoot.cpp" />
@@ -145,6 +146,8 @@
     <ClInclude Include="DlgMessageBox.h" />
     <ClInclude Include="DlgServerList.h" />
     <ClInclude Include="DlgShortcuts.h" />
+    <ClInclude Include="DlgWorld.h" />
+    <ClInclude Include="GameCamera.h" />
     <ClInclude Include="GlobalFunction.h" />
     <ClInclude Include="MainRoot.h" />
     <ClInclude Include="resource.h" />
