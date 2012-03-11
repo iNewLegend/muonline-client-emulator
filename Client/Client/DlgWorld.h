@@ -1,17 +1,24 @@
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#pragma once /* DlgMessageBox.h */
+#pragma once /* DlgWorld.h */
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 #include "UIDialog.h"
 #include "TSingleton.h"
+#include "Role.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-class CDlgMessageBox : public CUIDialog, public TSingleton<CDlgMessageBox>
+class CDlgWorld : public CUIDialog, public TSingleton<CDlgWorld>
 {
 public:
 	void OnControlRegister();
-	void setMessage(const wchar_t* wszMessage, int nType=0);
 protected:
-	void OnBtnOK();
+// 	void MoveCamera(int x, int y);
+// 	virtual void OnMouseMove(POINT point);
+// 	virtual void OnMouseWheel(POINT point, short wheelDelta);
+// 	virtual void OnLButtonDown(POINT point);
+// 	virtual void OnRButtonDown(POINT point);
+protected:
+	POINT			m_ptLastMousePosition;
+	iRenderNode*	m_pRenderNodeProps;
+	CRole*			m_pMouseRole;
 };
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

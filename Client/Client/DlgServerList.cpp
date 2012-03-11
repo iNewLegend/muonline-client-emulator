@@ -1,6 +1,9 @@
 #include "DlgServerList.h"
 #include "protocol.h"
 #include "common.h"
+#include "DlgLogin.h"
+#include "DlgMessageBox.h"
+#include "DlgCharList.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void CDlgServerList::OnControlRegister()
@@ -18,14 +21,14 @@ void CDlgServerList::OnControlRegister()
 	{
 		while(true)
 		{
-			char szLine[1024]	="";
-			if (EOF == fscanf(fp, "%s\n", szLine))
+			char szTemp[1024]	="";
+			if (EOF == fscanf(fp, "%s\n", szTemp))
 				break;
-			char* pEnd=strchr( szLine,' ');
-			if( pEnd == NULL)
-				continue;
-			*pEnd = 0;
-			m_ListBoxServer.AddItem(s2ws(szLine).c_str());
+			m_ListBoxServer.AddItem(s2ws(szTemp).c_str());
+			if (EOF == fscanf(fp, "%s\n", szTemp))
+				break;
+			if (EOF == fscanf(fp, "%s\n", szTemp))
+				break;
 		}
 		fclose(fp);
 		m_ListBoxServer.SelectItem(0);
@@ -47,31 +50,37 @@ void CDlgServerList::OnBtnOK()
 			char szName[128]	= "";
 			char szIP[128]		= "";
 			int nPort			= 0;
-			if (EOF == fscanf(fp, "%s %s %d\n", szName, szIP, nPort))
+			if (EOF == fscanf(fp, "%s\n", szName))
+				break;
+			if (EOF == fscanf(fp, "%s\n", szIP))
+				break;
+			if (EOF == fscanf(fp, "%d\n", &nPort))
 				break;
 			if(nIndex == serverIndex)
 			{
+				extern bool g_bLocal;
 				if(strcmp(szName,"local")==0)
 				{
-					//SetLocal(true);
+					g_bLocal = true;
+					SetVisible(false);
+					CDlgCharList::getInstance().SetVisible(true);
 					//OnRoleChoose();
 				}
 				// Connecting
 				else if(CSConnectServer(szIP,nPort))
 				{
-					//SetLocal(false);
+					g_bLocal = false;
 					SetVisible(false);
-					//IDD_LOGIN:SetVisible(true)
+					CDlgLogin::getInstance().SetVisible(true);
 				}
 				else
 				{
-					//MessageBox(L"Server Connection Failed!");
+					CDlgMessageBox::getInstance().setMessage(L"Server Connection Failed!");
 				}
 			}
 			nIndex++;
 		}
 		fclose(fp);
-		m_ListBoxServer.SelectItem(0);
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

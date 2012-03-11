@@ -10,6 +10,7 @@ class CDlgCharList : public CUIDialog, public TSingleton<CDlgCharList>
 {
 public:
 	void OnControlRegister();
+	virtual void SetVisible(bool bVisible);
 protected:
 	void OnBtnOk();
 	void OnBtnBack();

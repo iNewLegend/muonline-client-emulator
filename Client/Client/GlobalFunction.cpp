@@ -18,9 +18,6 @@ bool GetLocal() {return g_bLocal;}
 
 void InitLua(lua_State * L)
 {
-	// Local
-	lua_tinker::def(L, "SetLocal", SetLocal);
-	lua_tinker::def(L, "GetLocal", GetLocal);
 	// Func
 	lua_tinker::def(L,"ConnectServer",	CSConnectServer);
 	lua_tinker::def(L,"LoginServer",	CSLoginServer);
@@ -152,7 +149,7 @@ void InitLua(lua_State * L)
 
 		.def("setMaxPitchAngle",	&CCamera::setMaxPitchAngle)
 		.def("getMaxPitchAngle",	&CCamera::getMaxPitchAngle);
-	lua_tinker::set(L, "g_Camera", &CMainRoot::getInstance().getMainDialog().getDisplay().getCamera());
+	//lua_tinker::set(L, "g_Camera", &CDlgMain::getInstance().getDisplay().getCamera());
 	// ----
 	// World
 	lua_tinker::class_<CWorld>(L, "CWorld")

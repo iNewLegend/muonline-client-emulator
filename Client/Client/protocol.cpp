@@ -283,7 +283,7 @@ void SCLoginResult(PMSG_RESULT & msg)
 
 		case eIDPASSRESULT_SUCCESS:
 		{
-			CMainRoot::getInstance().getMainDialog().postMsg("ROLE_CHOOSE");
+			CDlgMain::getInstance().postMsg("ROLE_CHOOSE");
 			// ---
 			CSGetCharList();
 		}
@@ -472,7 +472,7 @@ void SCEnterWorld(PMSG_CHARMAPJOINRESULT& msg)
 	// ----
 	CPlayerMe::getInstance().setCharacterData(msg.data);
 	// ----
-	CMainRoot::getInstance().getMainDialog().postMsg("ENTER_WORLD");
+	CDlgMain::getInstance().postMsg("ENTER_WORLD");
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

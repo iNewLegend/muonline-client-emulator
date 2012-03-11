@@ -5,9 +5,10 @@
 #include "UIMainDialog.h"
 #include "UIDisplayWorld.h"
 #include "UIIcon.h"
+#include "TSingleton.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-class CDlgMain : public CUIMainDialog
+class CDlgMain : public CUIMainDialog, public TSingleton<CDlgMain>
 {
 public:
 	CDlgMain();

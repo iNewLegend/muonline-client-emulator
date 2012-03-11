@@ -13,48 +13,6 @@ void CDlgShortcuts::OnControlRegister()
 	RegisterControlEvent("IDC_MAIN_BAG",(PEVENT)&CDlgShortcuts::OnBtnBag,"0");
 	RegisterControlEvent("IDC_MAIN_MOVE",(PEVENT)&CDlgShortcuts::OnBtnMove,"0");
 	RegisterControlEvent("IDC_MAIN_SETUP",(PEVENT)&CDlgShortcuts::OnBtnSetup,"0");
-
-	CDlgChatMessage::getInstance().Create("IDD_CHAT_MESSAGE",this);
-	//CDlgChatMessage::getInstance().SetVisible(false);
-
-	CDlgChat::getInstance().Create("IDD_CHAT",this);
-	CDlgChat::getInstance().SetVisible(false);
-// 
-// -- Equip
-// dlgEquip = CUIGeneralDialog()
-// dlgEquip:create("IDD_EQUIP",IDD_MAIN)
-// dlgEquip:SetVisible(false)
-
-	// Move Map List
-	CDlgMap::getInstance().Create("IDD_MOVE",this);
-	CDlgMap::getInstance().SetVisible(false);
-// 
-// -- Bag
-// dlgBag = CUIGeneralDialog()
-// dlgBag:create("IDD_BAG",IDD_MAIN)
-// dlgBag:SetVisible(false)
-// 
-// -- Player Head
-// dlgPlayerHead = CUIDialog()
-// dlgPlayerHead:create("IDD_PLAYERHEAD",IDD_MAIN)
-// dlgPlayerHead:SetVisible(false)
-
-// -- Min Map
-// dlgMinmap = CUIDialog()
-// dlgMinmap:create("IDD_MINMAP",IDD_MAIN)
-// dlgMinmap:SetVisible(false)
-
-// -- Act
-// dlgAct = CUIDialog()
-// dlgAct:create("IDD_ACT",IDD_MAIN)
-// dlgAct:SetVisible(false)
-
-// -- Setup
-// dlgSetup = CUIGeneralDialog()
-// dlgSetup:create("IDD_SETUP",IDD_MAIN)
-// dlgSetup:SetVisible(false)
-
-	CDlgTarget::getInstance().Create("IDD_TARGET",this);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
