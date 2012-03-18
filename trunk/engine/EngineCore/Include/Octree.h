@@ -7,185 +7,155 @@ template <typename T>
 class Octree
 {
 public:
-	Octree()
-	:pChild(NULL)
-	{
-	}
-
-	~Octree()
-	{
-		m_setNode.clear();
-		deleteChild();
-	}
-	
-	void deleteChild()
-	{
-		if (pChild)
-		{
-			delete[] pChild;
-			pChild = NULL;
-		}
-	}
-
 	bool addNode(const BBox& box, T node)
 	{
-		CrossRet crossRet = bbox.checkAABBVisible(box);
-		if (cross_exclude != crossRet)
+		if (m_bbox.checkAABBVisible(box) == cross_exclude)
 		{
-			if (pChild)
+			return false;
+		}
+		BBox bbox = m_bbox;
+		int nLength = 64;
+		int index = 0;
+		while (1)
+		{
+			int nSize = nLength*nLength*nLength;
+			CrossRet crossRet = bbox.checkAABBVisible(box);
+			if (cross_exclude != crossRet)
 			{
-				for (size_t i=0;i<8;++i)
+				if (nLength>1)
 				{
-					pChild[i].addNode(box, node);
+					nLength/=2;
+					bbox.vMax-=(bbox.vMax-bbox.vMin)*0.5f;
+					continue;
+				}
+				else
+				{
+					m_setNode[index].push_back(node);
 				}
 			}
-			else
+			// Inc Index
+			index+=nSize;
+			// Check The Size
+			if (index>=64*64*64)
 			{
-				m_setNode.push_back(node);
+				return true;
 			}
-			return true;
+			// Get Length
+			nLength = 1;
+			for (int i=index; i!=0; i>>=3)
+			{
+				if ((i&0x7)!=0)
+				{
+					break;
+				}
+				nLength*=2;
+			}
+			// Get New Box
+			bbox.vMin = m_BoxMin[index];
+			bbox.vMax = bbox.vMin+m_vLength*nLength;
 		}
-		return false;
+		return true;
 	}
 
 	void create(const BBox& box, size_t depth)
 	{
-		bbox = box;
-		if (depth>0)
+		m_bbox = box;
+		m_vLength = (m_bbox.vMax-m_bbox.vMin)/64.0f;
+		Vec3D vTemp;
+		for (size_t i=0;i<64*64*64;++i)
 		{
-			depth--;
-			if (!pChild)
+			m_BoxMin[i] = m_bbox.vMin;
+			vTemp = m_vLength;
+			for (int n=i; n!=0; n>>=3)
 			{
-				pChild = new Octree[8];
-			}
-			BBox childBoxs[8];
-			for (size_t i=0;i<8;++i)
-			{
-				childBoxs[i] = bbox;
-			}
-			Vec3D vMiddle = (box.vMax+box.vMin)*0.5f;
-			childBoxs[0].vMin.z=vMiddle.z;
-			childBoxs[1].vMin.z=vMiddle.z;
-			childBoxs[2].vMin.z=vMiddle.z;
-			childBoxs[3].vMin.z=vMiddle.z;
-
-			childBoxs[4].vMax.z=vMiddle.z;
-			childBoxs[5].vMax.z=vMiddle.z;
-			childBoxs[6].vMax.z=vMiddle.z;
-			childBoxs[7].vMax.z=vMiddle.z;
-
-			childBoxs[0].vMin.y=vMiddle.y;
-			childBoxs[1].vMin.y=vMiddle.y;
-			childBoxs[4].vMin.y=vMiddle.y;
-			childBoxs[5].vMin.y=vMiddle.y;
-
-			childBoxs[2].vMax.y=vMiddle.y;
-			childBoxs[3].vMax.y=vMiddle.y;
-			childBoxs[6].vMax.y=vMiddle.y;
-			childBoxs[7].vMax.y=vMiddle.y;
-
-
-			childBoxs[0].vMin.x=vMiddle.x;
-			childBoxs[2].vMin.x=vMiddle.x;
-			childBoxs[4].vMin.x=vMiddle.x;
-			childBoxs[6].vMin.x=vMiddle.x;
-
-			childBoxs[1].vMax.x=vMiddle.x;
-			childBoxs[3].vMax.x=vMiddle.x;
-			childBoxs[5].vMax.x=vMiddle.x;
-			childBoxs[7].vMax.x=vMiddle.x;
-
-			for (size_t i=0;i<8;++i)
-			{
-				pChild[i].create(childBoxs[i], depth);
+				if(n&0x1) m_BoxMin[i].x += vTemp.x;
+				if(n&0x2) m_BoxMin[i].y += vTemp.y;
+				if(n&0x4) m_BoxMin[i].z += vTemp.z;
+				vTemp*=2.0f;
 			}
 		}
 	}
 
 	void clearNodes()
 	{
-		m_setNode.clear();
-		if (pChild)
+		for (size_t i=0;i<64*64*64;++i)
 		{
-			for (size_t i=0;i<8;++i)
-			{
-				pChild[i].clearNodes();
-			}
+			m_setNode[i].clear();
 		}
 	}
 
-	bool eraseNode(const T& node)
+	void eraseNode(const T& node)
 	{
-		bool bRet = false;
-		if (pChild)
+		for (size_t i=0;i<64*64*64;++i)
 		{
-			for (size_t i=0;i<8;++i)
+			auto it = std::find( m_setNode[i].begin(), m_setNode[i].end(), node);
+			if(it!=m_setNode[i].end())
 			{
-				if (pChild[i].eraseNode(node))
-				{
-					bRet = true;
-				}
+				m_setNode[i].erase(it);
 			}
 		}
-		else
-		{
-			auto it = std::find( m_setNode.begin( ), m_setNode.end( ), node );
-			if(it!=m_setNode.end())
-			{
-				m_setNode.erase(it);
-				bRet = true;
-			}
-		}
-		return bRet;
 	}
 
 	const BBox& getBBox()const
 	{
-		return bbox;
-	}
-
-	void getNodes(std::set<T>& setNode)const
-	{
-		setNode.insert(m_setNode.begin(), m_setNode.end());
-		if(pChild)
-		{
-			for (size_t i=0;i<8;++i)
-			{
-				pChild[i].getNodes(setNode);
-			}
-		}
+		return m_bbox;
 	}
 
 	void walkOctree(const CFrustum& frustum, std::set<T>& setNode)const
 	{
-		CrossRet crossRet = frustum.CheckAABBVisible(bbox);
-		if (cross_include == crossRet)
+		BBox bbox = m_bbox;
+		int nLength = 64;
+		int index = 0;
+		while (1)
 		{
-			getNodes(setNode);
-		}
-		else if (cross_cross == crossRet)
-		{
-			if (pChild)
+			int nSize = nLength*nLength*nLength;
+			CrossRet crossRet = frustum.CheckAABBVisible(bbox);
+			if (cross_include == crossRet)
 			{
-				for (size_t i=0;i<8;++i)
+				for (int i=index; i<index+nSize; ++i)
 				{
-					pChild[i].walkOctree(frustum, setNode);
+					setNode.insert(m_setNode[i].begin(), m_setNode[i].end());
 				}
 			}
-			else
+			else if (cross_cross == crossRet)
 			{
-				getNodes(setNode);
+				if (nLength>1)
+				{
+					nLength/=2;
+					bbox.vMax-=(bbox.vMax-bbox.vMin)*0.5f;
+					continue;
+				}
+				else
+				{
+					setNode.insert(m_setNode[index].begin(), m_setNode[index].end());
+				}
 			}
+			// Inc Index
+			index+=nSize;
+			// Check The Size
+			if (index>=64*64*64)
+			{
+				return;
+			}
+			// Get Length
+			nLength = 1;
+			for (int i=index; i!=0; i>>=3)
+			{
+				if ((i&0x7)!=0)
+				{
+					break;
+				}
+				nLength*=2;
+			}
+			// Get New Box
+			bbox.vMin = m_BoxMin[index];
+			bbox.vMax = bbox.vMin+m_vLength*nLength;
 		}
 	}
-
-	//Octree*		getNodeByAABB(const BBox& box);
-	//void			setupNodeBBox();
-	//static void	getNodesByBBox(const BBox& box,const std::vector<T*>& setSrcNode, std::vector<T*>& setDestNode);
-	//void			getOctreesByFrustum(const CFrustum& frustum, std::vector<Octree*>& setOctree);
 protected:
-	Octree*			pChild;
-	BBox			bbox;
-	std::list<T>	m_setNode;
+	BBox			m_bbox;
+	Vec3D			m_vLength;
+	Vec3D			m_BoxMin[64*64*64];
+	std::list<T>	m_setNode[64*64*64];
 };
 

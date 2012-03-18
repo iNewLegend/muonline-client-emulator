@@ -7,7 +7,8 @@ CScene::CScene()
 	,m_pSceneData(NULL)
 	,m_bRefreshViewport(NULL)
 {
-	m_OctreeRoot.create(BBox(-512.0f,-512.0f,-512.0f,512.0f,512.0f,512.0f),7);
+	//m_OctreeRoot.create(BBox(-128.0f,-128.0f,-128.0f,384.0f,384.0f,384.0f),7);
+	m_OctreeRoot.create(BBox(-0.0f,-0.0f,-0.0f,256.0f,224.0f,256.0f),7);
 }
 
 CScene::~CScene()
@@ -35,12 +36,9 @@ bool sortNode(iRenderNode* p1, iRenderNode* p2)
 
 bool CScene::updateNode(iRenderNode* pNode)
 {
-	if(m_OctreeRoot.eraseNode(pNode))
-	{
-		m_OctreeRoot.addNode(pNode->getWorldBBox(), pNode);
-		return true;
-	}
-	return false;
+	m_OctreeRoot.eraseNode(pNode);
+	m_OctreeRoot.addNode(pNode->getWorldBBox(), pNode);
+	return true;
 }
 
 void CScene::frameMove(const Matrix& mWorld, double fTime, float fElapsedTime)
