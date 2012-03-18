@@ -60,7 +60,7 @@ bool CUICombo::Create(const char* szID, CUICombo* pParent)
 	assert(szID);
 	SetID(szID);
 	SetParent(pParent);
-	std::string strLua=UIGetDialogRes();
+	/*std::string strLua=UIGetDialogRes();
 	strLua.replace(strLua.find_last_of('\\'),1,"/");
 	const size_t pos = strLua.find_last_of('/');
 	strLua=strLua.substr(0,pos+1);
@@ -99,7 +99,7 @@ bool CUICombo::Create(const char* szID, CUICombo* pParent)
 	lua_settop(m_pLuaState,top); // just in case :P
 
 	//lua_settop(m_pLuaState,top); // just in case :P
-
+	*/
 	return true;
 }
 

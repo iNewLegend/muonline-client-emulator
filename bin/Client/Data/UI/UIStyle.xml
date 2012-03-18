@@ -20,33 +20,33 @@
 		<texture filename="ui.tga" rect="0,514,474,97" center_rect="80,32,320,32"/>
 		<texture filename="ui.tga" offset = "7,32,-7,-7" rect="490,515,512,474"/>
 		<font format="UCENTER|VCENTER" offset="0,0,0,32" scale="0,0,1,0">
-			<color focus="#CFFF" mouseover="#C111" pressed="#FFFF"/>
+			<color mouseover="#C111" pressed="#FFFF"/>
 		</font>
 	</element>
 	<element name="button,radiobutton_btn" sound="sound\iButtonClick.wav">
 		<blend normal="0.60" pressed="0.4" hidden="0.9">0.8</blend>
 		<translation hidden="0,0,0" pressed="0,0,1" mouseover="0,0,2">0,0,0</translation>
 		<texture filename="ui.tga" rect="278,418,82,33">
-			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
+			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="378,418,82,33">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#0FFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#FFFF" pressed="#0FFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="478,418,82,33">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
 	
 	<element name="close" sound="sound\iButtonClick.wav">
 		<blend normal="0.60" pressed="0.4" hidden="0.9">0.8</blend>
 		<texture filename="ui.tga" rect="0,616,20,20">
-			<color normal="#FFFF" focus="#FFFF" mouseover="#0FFF" pressed="#0FFF"/>
+			<color normal="#FFFF" mouseover="#0FFF" pressed="#0FFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="0,640,20,20">
-			<color normal="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#0FFF"/>
+			<color normal="#0FFF" mouseover="#FFFF" pressed="#0FFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="0,664,20,20">
-			<color normal="0FFF" focus="#0FFF" mouseover="#0FFF" pressed="#FFFF"/>
+			<color normal="0FFF" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
 	
@@ -60,7 +60,7 @@
 	<element name="button,radiobutton_btn,radiobutton_btn.checked">
 		<font format="UCENTER|VCENTER">
 			<blend pressed="0.0" hidden="0.5">0.8</blend>
-			<color normal="#FAAA" disabled="#8888" hidden="#0CCC" focus="#FCCC" mouseover="#FE84" pressed="#FEC0"/>
+			<color normal="#FAAA" disabled="#8888" hidden="#0CCC" mouseover="#FE84" pressed="#FEC0"/>
 		</font>
 	</element>
 	
@@ -129,13 +129,13 @@
 				<scale>1,0,1,0</scale>
 		</texture>
 		<texture filename="hover.bmp" rect="0,0,18,17">
-				<color normal="#0FFF" disabled="#0FFF" focus="#0FFF" pressed="#0FFF"/>
+				<color normal="#0FFF" disabled="#0FFF" pressed="#0FFF"/>
 				<blend pressed="0.0" hidden="0.5">0.8</blend>
 				<offset>-18,0,0,17</offset>
 				<scale>1,0,1,0</scale>			
 		</texture>
 		<texture filename="press.bmp" rect="0,0,18,17">
-				<color normal="#0FFF" focus="#0FFF" mouseover="#0FFF"/>
+				<color normal="#0FFF" mouseover="#0FFF"/>
 				<blend pressed="0.0" hidden="0.5">0.8</blend>
 				<offset>-18,0,0,17</offset>
 				<scale>1,0,1,0</scale>
@@ -153,7 +153,7 @@
 		</texture>
 		<font	format="LEFT|VCENTER">
 			<blend pressed="0.0" hidden="0.5">0.8</blend>
-			<color normal="#C999" hidden="#0999" focus="#F999" mouseover="#F999" pressed="#F999"/>
+			<color normal="#C999" hidden="#0999" mouseover="#F999" pressed="#F999"/>
 		</font>
 	</element>
 	<element name="listbox.item2">
@@ -162,7 +162,7 @@
 		</texture>
 		<font	format="LEFT|VCENTER">
 			<blend pressed="0.0" hidden="0.5">0.8</blend>
-			<color normal="#C999" hidden="#0999" focus="#F999" mouseover="#F999" pressed="#F999"/>
+			<color normal="#C999" hidden="#0999" mouseover="#F999" pressed="#F999"/>
 		</font>
 	</element>
 	
@@ -182,18 +182,18 @@
 				<blend pressed="0.0" hidden="0.5">0.8</blend>
 		</texture>
 			<texture filename="Scrollbar.bmp" rect="0,20,6,10">
-				<color normal="#0FFF" focus="#0FFF" mouseover="#0FFF"/>
+				<color normal="#0FFF" mouseover="#0FFF"/>
 				<blend pressed="0.0" hidden="0.5">0.8</blend>
 		</texture>
 	</element>
 	
 		<element name="scrollbar.button.down">
 		<texture filename="Scrollbar.bmp" rect="6,10,6,10">
-				<color normal="#0FFF" focus="#0FFF" pressed="#0FFF"/>
+				<color normal="#0FFF" pressed="#0FFF"/>
 				<blend pressed="0.0" hidden="0.5">0.8</blend>
 		</texture>
 			<texture filename="Scrollbar.bmp" rect="6,20,6,10">
-				<color normal="#0FFF" focus="#0FFF" mouseover="#0FFF"/>
+				<color normal="#0FFF" mouseover="#0FFF"/>
 				<blend pressed="0.0" hidden="0.5">0.8</blend>
 		</texture>
 	</element>
@@ -204,11 +204,11 @@
 				<blend pressed="0.0" hidden="0.5">0.8</blend>
 		</texture>
 		<texture filename="Scrollbar.bmp" rect="24,0,6,40" center_rect="4,3,1,32">
-				<color normal="#0FFF" disabled="#0" focus="#0FFF" pressed="#0FFF"/>
+				<color normal="#0FFF" disabled="#0" pressed="#0FFF"/>
 				<blend pressed="0.0" hidden="0.5">0.8</blend>
 		</texture>
 			<texture filename="Scrollbar.bmp" rect="30,0,6,40" center_rect="4,3,1,32">
-				<color normal="#0FFF" disabled="#0" focus="#0FFF" mouseover="#0FFF"/>
+				<color normal="#0FFF" disabled="#0" mouseover="#0FFF"/>
 				<blend pressed="0.0" hidden="0.5">0.8</blend>
 		</texture>
 	</element>
@@ -220,34 +220,34 @@
 	<element name="slider.button" sound="sound\iButtonClick.wav">
 		<blend normal="0.60" pressed="0.4" hidden="0.9">0.8</blend>
 			<texture filename="ui.tga" rect="0,780,18,17" center_rect="7,7,2,2">
-				<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#FFFF" mouseover="#FFFF" pressed="#FFFF"/>
+				<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 			</texture>
 			<texture filename="ui.tga" rect="20,780,18,17" center_rect="7,7,2,2">
-				<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#0FFF" mouseover="#FFFF" pressed="#0FFF"/>
+				<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#FFFF" pressed="#0FFF"/>
 			</texture>
 			<texture filename="ui.tga" rect="40,780,18,17" center_rect="7,7,2,2">
-				<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#0FFF" mouseover="#0FFF" pressed="#FFFF"/>
+				<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#0FFF" pressed="#FFFF"/>
 			</texture>
 	</element>
 	
 	<element name="editbox.selection">
 		<font	format="LEFT|VCENTER">
 			<blend pressed="0.0" hidden="0.5">0.8</blend>
-			<color normal="#F000" hidden="#0000" focus="#F000" mouseover="#F222" pressed="#F333"/>
+			<color normal="#F000" hidden="#0000" mouseover="#F222" pressed="#F333"/>
 		</font>
 	</element>
 
 	<element name="editbox">
 		<font	format="VCENTER">
 			<blend pressed="0.0" hidden="0.5">0.8</blend>
-			<color normal="#FDDD" hidden="#0CCC" focus="#FDDD" mouseover="#FDDD" pressed="#FDDD"/>
+			<color normal="#FDDD" hidden="#0CCC" mouseover="#FDDD" pressed="#FDDD"/>
 			<offset>2,1,-1,-2</offset>
 		</font>
 	</element>
 
 	<element name="editbox.caret">
 		<texture filename="Button.tga" rect="0,0,32,32">
-			<color normal="#8FFF" focus="#F4FC" mouseover="#FFE8" pressed="#FF40"/>
+			<color normal="#8FFF" mouseover="#FFE8" pressed="#FF40"/>
 			<blend normal="0.6" pressed="0.0" hidden="0.8">0.8</blend>
 		</texture>
 	</element>
@@ -255,7 +255,7 @@
 	<element name="imeeditbox">
 		<font format="LEFT|TOP">
 			<blend pressed="0.0" hidden="0.5">0.8</blend>
-			<color normal="#F888" disabled="#F832" hidden="#F832" focus="#F800" mouseover="#F832" pressed="#F832"/>
+			<color normal="#F888" disabled="#F832" hidden="#F832" mouseover="#F832" pressed="#F832"/>
 		</font>
 	</element>
 
@@ -263,15 +263,15 @@
 		<texture1 filename="Texture/skin.bmp" name="ListBoxMain" rect="0,100,14,14" center_rect="5,5,3,3"/>
 		<texture1 filename="Texture/skin.bmp" name="ListBoxSelection" rect="32,16,48,32">
 			<blend pressed="0.0" hidden="0.5">0.8</blend>
-			<color normal="#42C2" disabled="#42C2" hidden="#02C2" focus="#42C2" mouseover="#42C2" pressed="#42C2"/>
+			<color normal="#42C2" disabled="#42C2" hidden="#02C2" mouseover="#42C2" pressed="#42C2"/>
 		</texture1>
 		<font format="LEFT|TOP">
 			<blend pressed="0.0" hidden="0.5">0.8</blend>
-			<color normal="#F888" disabled="#F832" hidden="#F832" focus="#F800" mouseover="#F832" pressed="#F832"/>
+			<color normal="#F888" disabled="#F832" hidden="#F832" mouseover="#F832" pressed="#F832"/>
 		</font>
 		<font format="LEFT|TOP">
 			<blend pressed="0.0" hidden="0.5">0.8</blend>
-			<color normal="#F888" disabled="#F832" hidden="#F832" focus="#F800" mouseover="#F832" pressed="#F832"/>
+			<color normal="#F888" disabled="#F832" hidden="#F832" mouseover="#F832" pressed="#F832"/>
 		</font>
 	</element>
 </root>

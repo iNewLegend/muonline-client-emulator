@@ -5,24 +5,24 @@
 		</element>
 		<element type="button" id="IDC_BTN_UP" scale="0,0,100,0" offset="0,0,0,17" tip="Up.">
 			<texture filename="ui.tga" rect="0,700,18,17">
-				<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#FFFF" mouseover="#FFFF" pressed="#FFFF"/>
+				<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 			</texture>
 			<texture filename="ui.tga" rect="20,700,18,17">
-				<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#0FFF" mouseover="#FFFF" pressed="#0FFF"/>
+				<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#FFFF" pressed="#0FFF"/>
 			</texture>
 			<texture filename="ui.tga" rect="40,700,18,17">
-				<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#0FFF" mouseover="#0FFF" pressed="#FFFF"/>
+				<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#0FFF" pressed="#FFFF"/>
 			</texture>
 		</element>
 		<element type="button" id="IDC_BTN_DOWN" scale="0,100,100,100" offset="0,-16,0,0" tip="Down.">
 			<texture filename="ui.tga" rect="0,720,18,17">
-				<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#FFFF" mouseover="#FFFF" pressed="#FFFF"/>
+				<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 			</texture>
 			<texture filename="ui.tga" rect="20,720,18,17">
-				<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#0FFF" mouseover="#FFFF" pressed="#0FFF"/>
+				<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#FFFF" pressed="#0FFF"/>
 			</texture>
 			<texture filename="ui.tga" rect="40,720,18,17">
-				<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#0FFF" mouseover="#0FFF" pressed="#FFFF"/>
+				<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#0FFF" pressed="#FFFF"/>
 			</texture>
 		</element>
 	</dialog>
@@ -56,7 +56,7 @@
 
 	<dialog id="IDD_MAIN" scale="0,0,100,100" style="null">
 		<element type="display" id="IDC_DISPLAY_WORLD" scale="0,0,100,100"/>
-		<e2lement type="image" id="IDC_IMAGE_BG" scale="50,50,50,50" offset="-512,-384,511,383" filename="Data/Textures/Title/1.jpg"/>
+		<element type="image" id="IDC_IMAGE_BG" scale="50,50,50,50" offset="-512,-384,511,383" filename="Data/Textures/Title/1.jpg"/>
 	</dialog>
 	<dialog id="IDD_MESSAGE_BOX" scale="50,50,50,50" offset="-200,-70,200,70" exclusive="true">
         <caption height="32">提示</caption>
@@ -116,6 +116,7 @@
 	</dialog>
 	
 	<dialog id="IDD_WORLD" scale="0,0,100,100" style="null">
+		<element type="display" id="IDC_DISPLAY_WORLD" scale="0,0,100,100"/>
 	</dialog>
 	
   <dialog id="IDD_ACT" scale="0,100,0,100" offset="0,-88,190,-63">
@@ -136,112 +137,112 @@
   	<texture filename="ui.tga" rect="2,2,914,63"/>
     <element type="button" id="IDC_MAIN_CHAR" rect="495,21,32,38" tip="角色信息(C)" hotkey="C" sound="sound\iButtonClick.wav">
 		<texture filename="ui.tga" rect="275,210,32,38">
-			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
+			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="311,210,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#0FFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#FFFF" pressed="#0FFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="347,210,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
     <element type="button" id="IDC_MAIN_BAG" rect="527,21,32,38" tip="包裹（B）" hotkey="B" sound="sound\iButtonClick.wav">
 		<texture filename="ui.tga" rect="491,210,32,38">
-			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
+			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="527,210,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#0FFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#FFFF" pressed="#0FFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="563,210,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
     <element type="button" id="IDC_MAIN_MONSTER" rect="559,21,32,38" tip="宠物（P）" hotkey="P" sound="sound\iButtonClick.wav">
 		<texture filename="ui.tga" rect="383,210,32,38">
-			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
+			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="419,210,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#0FFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#FFFF" pressed="#0FFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="455,210,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
     <element type="button" id="IDC_MAIN_MAGIC" rect="591,21,32,38" tip="技能（T）" hotkey="T" sound="sound\iButtonClick.wav">
 		<texture filename="ui.tga" rect="599,210,32,38">
-			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
+			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="635,210,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#0FFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#FFFF" pressed="#0FFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="671,210,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
     <element type="button" id="IDC_MAIN_FACTION" rect="623,21,32,38" tip="公会（A）" hotkey="A" sound="sound\iButtonClick.wav">
 		<texture filename="ui.tga" rect="599,253,32,38">
-			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
+			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="635,253,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#0FFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#FFFF" pressed="#0FFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="671,253,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
     <element type="button" id="IDC_MAIN_TEAM" rect="655,21,32,38" tip="队伍" sound="sound\iButtonClick.wav">
 		<texture filename="ui.tga" rect="257,295,32,38">
-			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
+			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="293,295,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#0FFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#FFFF" pressed="#0FFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="329,295,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
     <element type="button" id="IDC_MAIN_FRIEND" rect="687,21,32,38" tip="师徒/好友/敌人" sound="sound\iButtonClick.wav">
 		<texture filename="ui.tga" rect="383,253,32,38">
-			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
+			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="419,253,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#0FFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#FFFF" pressed="#0FFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="455,253,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
     <element type="button" id="IDC_MAIN_TRADE" rect="719,21,32,38" tip="交易（B）" sound="sound\iButtonClick.wav">
 		<texture filename="ui.tga" rect="707,210,32,38">
-			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
+			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="707,253,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#0FFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#FFFF" pressed="#0FFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="743,253,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
     <element type="button" id="IDC_MAIN_SETUP" rect="751,21,32,38" tip="系统设置" hotkey="esc" sound="sound\iButtonClick.wav">
 		<texture filename="ui.tga" rect="257,336,32,38">
-			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
+			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="293,336,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#0FFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#FFFF" pressed="#0FFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="329,336,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
     <element type="button" id="IDC_MAIN_MOVE" rect="783,21,32,38" tip="移动" hotkey="M" sound="sound\iButtonClick.wav">
 		<texture filename="ui.tga" rect="257,336,32,38">
-			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
+			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="293,336,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#FFFF" pressed="#0FFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#FFFF" pressed="#0FFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="329,336,32,38">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#FFFF" mouseover="#0FFF" pressed="#FFFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
   </dialog>
@@ -418,46 +419,46 @@
 	
     <element type="button" id="IDC_BTN_ADD1" rect="260,270,33,33">
 		<texture filename="ui.tga" rect="897,174,33,33">
-			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#FFFF" mouseover="#FFFF" pressed="#FFFF"/>
+			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="935,174,33,33">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#0FFF" mouseover="#FFFF" pressed="#0FFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#FFFF" pressed="#0FFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="973,174,33,33">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#0FFF" mouseover="#0FFF" pressed="#FFFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
     <element type="button" id="IDC_BTN_ADD2" rect="260,305,33,33">
 		<texture filename="ui.tga" rect="897,174,33,33">
-			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#FFFF" mouseover="#FFFF" pressed="#FFFF"/>
+			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="935,174,33,33">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#0FFF" mouseover="#FFFF" pressed="#0FFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#FFFF" pressed="#0FFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="973,174,33,33">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#0FFF" mouseover="#0FFF" pressed="#FFFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
     <element type="button" id="IDC_BTN_ADD3" rect="260,340,33,33">
 		<texture filename="ui.tga" rect="897,174,33,33">
-			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#FFFF" mouseover="#FFFF" pressed="#FFFF"/>
+			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="935,174,33,33">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#0FFF" mouseover="#FFFF" pressed="#0FFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#FFFF" pressed="#0FFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="973,174,33,33">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#0FFF" mouseover="#0FFF" pressed="#FFFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
     <element type="button" id="IDC_BTN_ADD4" rect="260,375,33,33">
 		<texture filename="ui.tga" rect="897,174,33,33">
-			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" focus="#FFFF" mouseover="#FFFF" pressed="#FFFF"/>
+			<color normal="#FFFF" disabled="#FFFF" hidden="#0FFF" mouseover="#FFFF" pressed="#FFFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="935,174,33,33">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#0FFF" mouseover="#FFFF" pressed="#0FFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#FFFF" pressed="#0FFF"/>
 		</texture>
 		<texture filename="ui.tga" rect="973,174,33,33">
-			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" focus="#0FFF" mouseover="#0FFF" pressed="#FFFF"/>
+			<color normal="#0FFF" disabled="#0FFF" hidden="#0000" mouseover="#0FFF" pressed="#FFFF"/>
 		</texture>
 	</element>
 	
@@ -623,11 +624,11 @@
 
   <dialog id="IDD_CHAT_MESSAGE" scale="0,100,0,100" offset="10,-243,300,-93">
 	<texture filename="ui.tga" rect="490,515,512,474">
-		<color normal="#0FFF" focus="#0FFF" mouseover="#0FFF" pressed="#0FFF"/>
+		<color normal="#0FFF" mouseover="#0FFF" pressed="#0FFF"/>
 	</texture>
     <element type="listbox" id="IDC_LIST_CHAT_MESSAGE" scale="0,0,100,100" offset="0,0,-0,-0">
 		<texture filename="ui.tga" rect="490,515,512,474">
-			<color normal="#0FFF" focus="#6FFF" mouseover="#8FFF" pressed="#AFFF"/>
+			<color normal="#0FFF" mouseover="#8FFF" pressed="#AFFF"/>
 			<blend pressed="0.0" hidden="0.5">0.8</blend>
 		</texture>
 		<element type="scrollbar" id="IDC_SCROLLBAR_LEFT" scale="0,0,0,100" offset="0,0,18,0" tip="scrollbar"></element>
@@ -640,8 +641,8 @@
 	</element>
   </dialog>
   
-  <dialog id="IDD_TARGET" scale="50,0,50,0" offset="-200,10,200,70"  style="null">
-  	<element type="static" id="IDC_TARGET_NAME" scale="50,0,50,0" offset="-200,00,200,60">Target Name</element>
+  <dialog id="IDD_TARGET" scale="50,0,50,0" offset="-200,5,200,30"  style="null">
+  	<element type="static" id="IDC_TARGET_NAME" scale="50,0,50,0" offset="-200,0,200,25">Target Name</element>
   </dialog>
   
   <dialog id="IDD_MOVE" scale="0,0,0,0" offset="0,0,300,600">

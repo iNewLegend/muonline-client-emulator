@@ -5,7 +5,7 @@
 
 void CDlgMap::OnControlRegister()
 {
-	CUIDialog::OnControlRegister();
+	CUIGeneralDialog::OnControlRegister();
 	// ----
 	RegisterControl("IDC_LISTBOX_MOVE", m_ListMap);
 	RegisterControlEvent("IDC_LISTBOX_MOVE",(PEVENT)&CDlgMap::OnMapMove,"1793");

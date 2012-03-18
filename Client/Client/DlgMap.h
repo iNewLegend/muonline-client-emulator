@@ -2,11 +2,11 @@
 #pragma once /* DlgMap.h */
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#include "UIDialog.h"
+#include "UIGeneralDialog.h"
 #include "TSingleton.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-class CDlgMap : public CUIDialog, public TSingleton<CDlgMap>
+class CDlgMap : public CUIGeneralDialog, public TSingleton<CDlgMap>
 {
 public:
 	void OnControlRegister();

@@ -29,8 +29,6 @@ CDlgMain::~CDlgMain()
 void CDlgMain::OnControlRegister()
 {
 	CUIMainDialog::OnControlRegister();
-	// ----
-	RegisterControl("IDC_DISPLAY_WORLD", m_DisplayWorld);
 
 	CDlgMessageBox::getInstance().Create("IDD_MESSAGE_BOX",this);
 	CDlgMessageBox::getInstance().SetVisible(false);
@@ -102,7 +100,7 @@ void CDlgMain::OnFrameRender(const Matrix& mTransform, double fTime, float fElap
 		}
 		// ----
 		wchar_t wszFps[256];
-		RECT rc 	={250, 5 , 450, 25};
+		RECT rc 	={150, 5 , 450, 25};
 		swprintf(wszFps,L"FPS=%.2f~%.2f",s_fMinFPS,s_fFPS);
 		CUIControl::updateUIMatrix(mTransform, fTime, fElapsedTime);
 		Node3DUIGraph::getInstance().drawText(wszFps, lstrlenW(wszFps), rc, ALIGN_TYPE_CENTER);
@@ -142,18 +140,12 @@ bool CDlgMain::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				{
 					static int s_nFlag = 0;
 					s_nFlag++;
-					m_DisplayWorld.getSceneEffect().setDebug(s_nFlag%8);
+					//m_DisplayWorld.getSceneEffect().setDebug(s_nFlag%8);
 				}
 				break;
 
 			case VK_RETURN:
 				{
-					CUIDialog * pDialog = getChildDialog("IDD_CHAT");
-					// ----
-					if(pDialog != NULL)
-					{
-						pDialog->SetVisible( ! pDialog->IsVisible());
-					}
 				}
 				break;
 			}
