@@ -92,7 +92,7 @@ bool CDlgWorld::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				{
 					static int s_nFlag = 0;
 					s_nFlag++;
-					//m_DisplayWorld.getSceneEffect().setDebug(s_nFlag%8);
+					m_DisplayWorld.getSceneEffect().setDebug(s_nFlag%8);
 				}
 				break;
 
