@@ -5,6 +5,8 @@
 #include "protocol.h"
 #include "MainRoot.h"
 #include "Monster.h"
+#include "PlayerMe.h"
+#include "World.h"
 #include "UIGeneralDialog.h"
 #include "UIDisplayModel.h"
 #include "UIChatList.h"
@@ -18,6 +20,7 @@ bool GetLocal() {return g_bLocal;}
 
 void InitLua(lua_State * L)
 {
+	return;
 	// Func
 	lua_tinker::def(L,"ConnectServer",	CSConnectServer);
 	lua_tinker::def(L,"LoginServer",	CSLoginServer);
@@ -97,19 +100,19 @@ void InitLua(lua_State * L)
 	lua_tinker::class_<CRole>(L, "CRole")
 		.inh<CRenderNode>()
 		.con(lua_tinker::constructor<void>())
-		.def("setRoleID",		& CPlayerMe::setRoleID)
-		.def("setCellPos",		& CPlayerMe::setCellPos)
-		.def("getCellPosX",		& CPlayerMe::getCellPosX)
-		.def("getCellPosY",		& CPlayerMe::getCellPosY)
+		.def("setRoleID",		& CRole::setRoleID)
+		.def("setCellPos",		& CRole::setCellPos)
+		.def("getCellPosX",		& CRole::getCellPosX)
+		.def("getCellPosY",		& CRole::getCellPosY)
 		.def("getCharacterData",& CRole::getCharacterDataForLua)
-		.def("setRoleName",		& CPlayerMe::setRoleName)
-		.def("setDir",			& CPlayerMe::setDir)
-		.def("setActionState",	& CPlayerMe::setActionState)
-		.def("setAnim",			& CPlayerMe::setAnim)
-		.def("setClass",		& CPlayerMe::setClass)
-		.def("setSkeleton",		& CPlayerMe::setSkeleton)
-		.def("setEquip",		& CPlayerMe::setEquip)
-		.def("setEquipSkin",	& CPlayerMe::setEquipSkin);
+		.def("setRoleName",		& CRole::setRoleName)
+		.def("setDir",			& CRole::setDir)
+		.def("setActionState",	& CRole::setActionState)
+		.def("setAnim",			& CRole::setAnim)
+		.def("setClass",		& CRole::setClass)
+		.def("setSkeleton",		& CRole::setSkeleton)
+		.def("setEquip",		& CRole::setEquip)
+		.def("setEquipSkin",	& CRole::setEquipSkin);
 	// ----
 	// Monster
 	lua_tinker::class_<CMonster>(L, "CMonster")

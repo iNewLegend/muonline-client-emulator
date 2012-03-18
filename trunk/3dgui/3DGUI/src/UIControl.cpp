@@ -562,9 +562,5 @@ CONTROL_STATE CUIControl::GetState()
 	{
 		iState = CONTROL_STATE_MOUSEOVER;
 	}
-	else if(IsFocus())
-	{
-		iState = CONTROL_STATE_FOCUS;
-	}
 	return iState;
 }
