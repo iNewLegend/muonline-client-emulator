@@ -123,8 +123,12 @@ void CSceneEffect::render(iRenderNode* pRenderNode)
 	R.SetRenderTarget(1,m_pPosMRT);
 	R.SetRenderTarget(2,m_pNormalMRT);
 	// ----
+	R.SetSamplerFilter(0, TEXF_LINEAR, TEXF_LINEAR, TEXF_LINEAR);
+	R.SetSamplerFilter(1, TEXF_LINEAR, TEXF_LINEAR, TEXF_LINEAR);
+	R.SetSamplerFilter(2, TEXF_LINEAR, TEXF_LINEAR, TEXF_LINEAR);
+	// ----
 	pRenderNode->render(RF_GEOMETRY);
-
+	// ----
 	R.SetRenderTarget(1,NULL);
 	R.SetRenderTarget(2,NULL);
 	R.SetRenderTarget(3,NULL);
@@ -132,18 +136,17 @@ void CSceneEffect::render(iRenderNode* pRenderNode)
 	R.SetSamplerFilter(0, TEXF_LINEAR, TEXF_POINT, TEXF_LINEAR);
 	R.SetSamplerFilter(1, TEXF_LINEAR, TEXF_POINT, TEXF_LINEAR);
 	R.SetSamplerFilter(2, TEXF_LINEAR, TEXF_POINT, TEXF_LINEAR);
-
-	
-	//CRenderSystem& R = CRenderSystem::getSingleton();
+	// ----
 	R.SetFVF(QuadVertex::FVF);
-
 	// ----
 	Vec2D inv_width_height(1.0f/m_nWidth,1.0f/m_nHeight);
 	Vec2D inv_width_height2x(2.0f/m_nWidth,2.0f/m_nHeight);
 	Vec2D inv_width_height4x(4.0f/m_nWidth,4.0f/m_nHeight);
 	Vec2D inv_width_height8x(16.0f/m_nWidth,16.0f/m_nHeight);
 
+	// ----
 	// DeferredLighting
+	// ----
 	R.SetShader("DeferredLighting");
 	R.SetRenderTarget(0,m_pLightRT);
 	R.SetTexture(0, m_pPosMRT);
@@ -169,10 +172,12 @@ void CSceneEffect::render(iRenderNode* pRenderNode)
 	R.SetTexture(1, m_pDiffuseRT);
 	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
 
+	// ----
 	// Render Glow
 	// ----
 	pRenderNode->render(RF_GLOW);
 
+	// ----
 	// Copy DiffuseRT For Bump
 	// ----
 	R.SetFVF(QuadVertex::FVF);
@@ -185,7 +190,7 @@ void CSceneEffect::render(iRenderNode* pRenderNode)
 	R.SetTexture(1, m_pDiffuseCopyRT);
 	pRenderNode->render(RF_BUMP);
 
-
+	  
 	R.SetFVF(QuadVertex::FVF);
 	// ----
 	R.setShaderFloatArray("inv_width_height",	&inv_width_height, 2);

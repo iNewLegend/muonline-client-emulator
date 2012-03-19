@@ -18,7 +18,7 @@ protected:
 	void OnBtnRole2();
 	void OnBtnRole3();
 protected:
-	CUIDisplayModel	m_DisplayModel;
+	CUIDisplayRenderNode	m_DisplayModel;
 	CUIStatic		m_StaProInfo;
 	CUIEditBox		m_EdtName;
 	int				m_nIndex;

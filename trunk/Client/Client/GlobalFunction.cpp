@@ -176,14 +176,14 @@ void InitLua(lua_State * L)
 		.def("setItemData",	& CUIIcon::setItemData);
 	// ----
 	// Display Model
-	lua_tinker::class_<CUIDisplayModel>(L, "CDisplayModel")
+	lua_tinker::class_<CUIDisplayRenderNode>(L, "CDisplayModel")
 		.inh<CUIControl>()
 		.con(lua_tinker::constructor<void>())
-		.def("LoadModel",	& CUIDisplayModel::LoadModel)
-		.def("setRenderNode",	& CUIDisplayModel::setRenderNode)
-		.def("getRenderNode",	& CUIDisplayModel::getRenderNode)
-		.mem("m_vEye",		& CUIDisplayModel::m_vEye)
-		.mem("m_vLookAt",	& CUIDisplayModel::m_vLookAt);
+		.def("LoadModel",	& CUIDisplayRenderNode::LoadModel)
+		.def("setRenderNode",	& CUIDisplayRenderNode::setRenderNode)
+		.def("getRenderNode",	& CUIDisplayRenderNode::getRenderNode)
+		.mem("m_vEye",		& CUIDisplayRenderNode::m_vEye)
+		.mem("m_vLookAt",	& CUIDisplayRenderNode::m_vLookAt);
 	// ----
 	// Chat List
 	lua_tinker::class_<CUIChatList>(L, "CUIChatList")
