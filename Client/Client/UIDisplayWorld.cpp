@@ -14,6 +14,7 @@ CUIDisplayWorld::CUIDisplayWorld()
 	CGameCamera::getInstance().setPitchAngle( - PI / 4);
 	CGameCamera::getInstance().setMinPitchAngle(-PI / 3);
 	CGameCamera::getInstance().setMaxPitchAngle(-PI / 16);
+	m_pRenderNode = &CWorld::getInstance();
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -21,7 +22,6 @@ CUIDisplayWorld::~CUIDisplayWorld()
 {
 	// ----
 }
-
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void CUIDisplayWorld::OnFrameMove(double fTime, float fElapsedTime)
@@ -30,19 +30,19 @@ void CUIDisplayWorld::OnFrameMove(double fTime, float fElapsedTime)
 	{
 		CWorld::getInstance().frameMoveRole(Matrix::UNIT, fTime, fElapsedTime);
 		// ----
+		CWorld::getInstance().frameMove(Matrix::UNIT, fTime, fElapsedTime);
+		// ----
 		CRect<int> rcViewport	= getViewport();
 		// ----
 		CGameCamera::getInstance().setProjParams(PI / 3, rcViewport.getWidth(), rcViewport.getHeight(), 0.1f, CWorld::getInstance().getFog().fEnd);
 		// ----
-		Vec3D vPos = CPlayerMe::getInstance().getPos();
-		vPos.y+=CPlayerMe::getInstance().getRoleHeight()*0.6f;
-		CGameCamera::getInstance().setTargetPos(vPos);
+// 		Vec3D vPos = CPlayerMe::getInstance().getPos();
+// 		vPos.y+=CPlayerMe::getInstance().getRoleHeight()*0.6f;
+// 		CGameCamera::getInstance().setTargetPos(vPos);
 		// ----
 		CGameCamera::getInstance().FrameMove(fElapsedTime);
 		// ----
 		CUIDisplay::OnFrameMove(fTime, fElapsedTime);
-		// ----
-		CWorld::getInstance().frameMove(Matrix::UNIT, fTime, fElapsedTime);
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -60,50 +60,22 @@ Matrix calcLightMatrix(const BBox& bbox, const Vec3D& vLightDir)
 	Matrix mLight = mProj*mView;
 	return mLight;
 }
-
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void CUIDisplayWorld::OnFrameRender(const Matrix& mTransform, double fTime, float fElapsedTime)
 {
-	if(IsVisible() == true)
-	{
-		Vec3D vLightDir(-0.274226f,-0.68f,0.68f);
-		// ----
-		CRect<int> rcViewport	= getViewport();
-		CRenderSystem & R		= CRenderSystem::getSingleton();
-		// ----
-		R.setShaderFloat("g_fTime",			fTime);
-		R.setShaderFloatArray("g_vLightDir",	&vLightDir, 3);
-		R.setShaderFloatArray("g_vEyePot",		&CGameCamera::getInstance().getEyePt(), 3);
-		R.setShaderFloatArray("g_vPointLight",	&(CPlayerMe::getInstance().getPos()+Vec3D(0.0f,2.0f,0.0f)), 3);
-		
-		// Light Matrix
-		const Vec3D& vEyePoint = CPlayerMe::getInstance().getPos();
-		BBox lightBox(vEyePoint.x-10,vEyePoint.y-10,vEyePoint.z-10,
-			vEyePoint.x+10,vEyePoint.y+10,vEyePoint.z+10);
-		Matrix mLight = calcLightMatrix(lightBox, vLightDir);
-		R.setShaderMatrix("lvm", mLight);
-
-		// ----
-		R.setWorldMatrix(Matrix::UNIT);
-		// ----
-		R.SetSamplerFilter(0, TEXF_LINEAR, TEXF_LINEAR, TEXF_LINEAR);
-		R.SetSamplerFilter(1, TEXF_LINEAR, TEXF_LINEAR, TEXF_LINEAR);
-		R.SetSamplerFilter(2, TEXF_LINEAR, TEXF_LINEAR, TEXF_LINEAR);
-		// ----
-		R.setProjectionMatrix(CGameCamera::getInstance().getProjMatrix());
-		R.setViewMatrix(CGameCamera::getInstance().getViewMatrix());
-		R.setWorldMatrix(Matrix::UNIT);
-		// ----
-		// # Render World
-		// ----
-		CWorld::getInstance().updateRender(CGameCamera::getInstance().getFrustum());
-		m_SceneEffect.render(&CWorld::getInstance());
-		CWorld::getInstance().renderDamageInfo();
-		// ----
-		R.setViewport(GetParentDialog()->GetBoundingBox());
-		// ----
-		CUIDisplay::OnFrameRender(mTransform,fTime,fElapsedTime);
-	}
+	// ----
+	Vec3D vPos = CPlayerMe::getInstance().getPos();
+	vPos.y+=CPlayerMe::getInstance().getRoleHeight()*0.6f;
+	CGameCamera::getInstance().setTargetPos(vPos);
+	// ----
+	CGameCamera::getInstance().FrameMove(fElapsedTime);
+	m_mProj = CGameCamera::getInstance().getProjMatrix();
+	m_mView = CGameCamera::getInstance().getViewMatrix();
+	CWorld::getInstance().updateRender(CGameCamera::getInstance().getFrustum());
+	CUIDisplayRenderNode::OnFrameRender(mTransform,fTime,fElapsedTime);
+	CWorld::getInstance().renderDamageInfo();
+	// ----
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

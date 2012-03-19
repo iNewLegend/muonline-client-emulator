@@ -387,6 +387,8 @@ void CD3D9RenderSystem::setViewMatrix(const Matrix& m)
 	Matrix vpm = m_mProjection * m_mView;
 	setShaderMatrix("vpm", vpm);
 	setShaderMatrix("vm", m);
+	Vec3D vEye(m._41,m._42,m._43);
+	setShaderFloatArray("g_vEyePot", &vEye, 3);
 	if (m_pOldShader)
 	{
 		((CD3D9Shader*)m_pOldShader)->getD3DXEffect()->CommitChanges();

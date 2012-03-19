@@ -10,17 +10,16 @@
 #include "TextRender.h"
 #include "PlayerMe.h"
 #include "World.h"
-#include "UIDisplay.h"
+#include "UIDisplayModel.h"
 #include "Terrain.h"
-#include "SceneEffect.h""
+#include "SceneEffect.h"
 #include "Role.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-class CUIDisplayWorld: public CUIDisplay
+class CUIDisplayWorld: public CUIDisplayRenderNode
 {
 protected:
 	POINT				m_ptLastMousePosition;
-	CSceneEffect		m_SceneEffect;
 	iRenderNode*		m_pRenderNodeProps;
 	CRole*				m_pMouseRole;
 public:
