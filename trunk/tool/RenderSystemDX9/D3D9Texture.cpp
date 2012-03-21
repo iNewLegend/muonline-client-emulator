@@ -139,6 +139,8 @@ void CD3D9Texture::createCubeTextureFromFile(const std::string& strFilename)
 
 void CD3D9Texture::createRenderTarget(int nWidth, int nHeight)
 {
+	m_nWidth = nWidth;
+	m_nHeight = nHeight;
 	DXUTGetD3DDevice()->CreateTexture(
 		nWidth,
 		nHeight,

@@ -34,6 +34,10 @@ void CSceneEffect::clearTextures()
 	S_DEL(m_pNormalMRT);
 	S_DEL(m_pDiffuseRT);
 	S_DEL(m_pDiffuseCopyRT);
+	for (int i=0; i<LUM_RT_SIZE; ++i)
+	{
+		S_DEL(m_pLuminanceRT[i]);
+	}
 }
 
 void CSceneEffect::Reset(const CRect<int>& rc)
@@ -63,6 +67,15 @@ void CSceneEffect::Reset(const CRect<int>& rc)
 	m_pSceneRT2x	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.5f,nHeight*0.5f);
 	m_pSceneRT4x1	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.25f,nHeight*0.25f);
 	m_pSceneRT4x2	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.25f,nHeight*0.25f);
+	
+	// Create Luminance Render Target
+	int nLuminanceSize = 1;
+	for (int i=0; i<LUM_RT_SIZE; ++i)
+	{
+		m_pLuminanceRT[i] = R.GetTextureMgr().CreateRenderTarget(nLuminanceSize,nLuminanceSize);
+		nLuminanceSize*=3;
+	}
+
 	//m_pSceneRT8x1	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.0625f,nHeight*0.0625f);
 	//m_pSceneRT8x2	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.0625f,nHeight*0.0625f);
 
@@ -459,16 +472,16 @@ void CSceneEffect::renderGammaCorrection()
 	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
 }
 
-void CSceneEffect::renderTargetBloom()
-{
-}
-
 void CSceneEffect::renderTargetEnd()
 {
 	CRenderSystem& R = CRenderSystem::getSingleton();
 	// Restore
 	R.SetRenderTarget(0,m_pSystemRT);
 	S_DEL(m_pSystemRT);
+}
+
+void CSceneEffect::renderQuad(int x, int y, int n)
+{
 }
 
 void CSceneEffect::compose(const CRect<int>& rcDest)
