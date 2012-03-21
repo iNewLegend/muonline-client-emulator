@@ -48,7 +48,6 @@ protected:
 	CTexture*	m_pSceneRT4x2;
 	CTexture*	m_pLuminanceRT[LUM_RT_SIZE];
 
-	
 	//CTexture*	m_pSceneRT8x1;
 	//CTexture*	m_pSceneRT8x2;
 
@@ -59,10 +58,6 @@ protected:
 	bool m_bHDR;
 	// 模糊度
 	float m_fBloomVal;
-	QuadVertex m_Quad[4];
-	QuadVertex m_Quad2x[4];
-	QuadVertex m_Quad4x[4];
-	QuadVertex m_Quad8x[4];
 	// 适应的光
 	float m_fAdaptedLum;
 	// 适应的光

@@ -14,73 +14,13 @@ void CDlgCharList::OnControlRegister()
 {
 	CUIDialog::OnControlRegister();
 	// ----
-	CDlgCharCreate::getInstance().Create("IDD_CHAR_CREATE",this);
-	CDlgCharCreate::getInstance().SetVisible(false);
+	//CDlgCharCreate::getInstance().Create("IDD_CHAR_CREATE",this);
+	//CDlgCharCreate::getInstance().SetVisible(false);
 	// ----
 	RegisterControlEvent("IDC_BTN_OK", (PEVENT)&CDlgCharList::OnBtnOk,"0");
 	RegisterControlEvent("IDC_BTN_BACK", (PEVENT)&CDlgCharList::OnBtnBack,"0");
 	RegisterControlEvent("IDC_BTN_CREATE_ROLE", (PEVENT)&CDlgCharList::OnBtnCharCreate,"0");
 	RegisterControlEvent("IDC_BTN_DELETE_CHAR", (PEVENT)&CDlgCharList::OnBtnCharDelete,"0");
-}
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-void CDlgCharList::OnFrameMove(double fTime, float fElapsedTime)
-{
-	CUIDialog::OnFrameMove(fTime, fElapsedTime);
-	return;
-	if(IsVisible() == true)
-	{
-		CWorld::getInstance().frameMoveRole(Matrix::UNIT, fTime, fElapsedTime);
-		CWorld::getInstance().frameMove(Matrix::UNIT, fTime, fElapsedTime);
-	}
-	// ----
-	CUIDialog::OnFrameMove(fTime, fElapsedTime);
-}
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-void CDlgCharList::OnFrameRender(const Matrix& mTransform, double fTime, float fElapsedTime)
-{
-	CUIDialog::OnFrameRender(mTransform,fTime,fElapsedTime);
-	return;
-	if(IsVisible() == true)
-	{
-		Matrix mView;
-		Matrix mProj;
-		// ----
-		Vec3D vEye(0,1,-7);
-		Vec3D vLookAt(0,1,0);
-		Vec3D vUp(0,1,0);
-		Vec3D vLightDir(-0.274226f,-0.68f,0.68f);
-		// ----
-		mProj.MatrixPerspectiveFovLH(PI / 4, (float)m_rcBoundingBox.getWidth()/(float)m_rcBoundingBox.getHeight(), 0.01f, 128.0f);
-		mView.MatrixLookAtLH(vEye, vLookAt, vUp);
-		// ----
-		// ----
-		CRenderSystem & R = CRenderSystem::getSingleton();
-		// ----
-		R.setShaderFloat("g_fTime",				fTime);
-		R.setShaderFloatArray("g_vLightDir",	&vLightDir, 3);
-		// ----
-		// Light Matrix
-// 		const Vec3D& vEyePoint = CPlayerMe::getInstance().getPos();
-// 		BBox lightBox(vEyePoint.x-10,vEyePoint.y-10,vEyePoint.z-10,
-// 			vEyePoint.x+10,vEyePoint.y+10,vEyePoint.z+10);
-// 		Matrix mLight = calcLightMatrix(lightBox, vLightDir);
-// 		R.setShaderMatrix("lvm", mLight);
-		// ----
-		R.setProjectionMatrix(mProj);
-		R.setViewMatrix(mView);
-		R.setWorldMatrix(Matrix::UNIT);
-		// ----
-		// # Render World
-		// ----
-		CWorld::getInstance().updateRender(CGameCamera::getInstance().getFrustum());
-		m_SceneEffect.render(&CWorld::getInstance());
-		// ----
-		R.setViewport(GetParentDialog()->GetBoundingBox());
-		// ----
-		CUIDialog::OnFrameRender(mTransform,fTime,fElapsedTime);
-	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -160,38 +100,5 @@ void CDlgCharList::OnBtnCharCreate()
 void CDlgCharList::OnBtnCharDelete()
 {
 	//CharDelete(g_UIDisplayCharList:GetSelectIndex(),"111111")
-}
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-bool CDlgCharList::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-	switch(uMsg)
-	{
-	case WM_KEYDOWN:
-	case WM_SYSKEYDOWN:
-		{
-			switch(wParam)
-			{
-			case VK_F11:// ÇÐ»»RT
-				{
-					static int s_nFlag = 0;
-					s_nFlag++;
-					m_SceneEffect.setDebug(s_nFlag%8);
-				}
-				break;
-			}
-
-			break;
-		}
-	}
-	// ----
-	return CUIDialog::MsgProc(hWnd, uMsg, wParam, lParam);
-}
-
-void CDlgCharList::OnSize(const CRect<int>& rc)
-{
-	CUIDialog::OnSize(rc);
-	// ----
-	m_SceneEffect.Reset(GetBoundingBox());
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

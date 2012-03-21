@@ -287,6 +287,20 @@ void CGraphics::DrawRect(const CRect<float>& rcDest, Color32 color)
 }
 //////////////////////////////////////////////////////////////////////////
 
+void CGraphics::renderQuad(int x1, int y1, int x2, int y2)
+{
+	CRenderSystem& R = CRenderSystem::getSingleton();
+	float QuadVB[24] =
+	{
+		x1-0.5f, y2-0.5f, 0.0f, 1.0f, 0.0f, 1.0f,
+		x1-0.5f, y1-0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
+		x2-0.5f, y2-0.5f, 0.0f, 1.0f, 1.0f, 1.0f,
+		x2-0.5f, y1-0.5f, 0.0f, 1.0f, 1.0f, 0.0f
+	};
+	R.SetFVF(FVF_XYZRHW | FVF_TEX1);
+	CRenderSystem::getSingleton().DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, QuadVB, sizeof(float)*6);
+}
+
 void CGraphics::drawQuad(const RECT& rcDest, const RECT& rcSrc, int nWidth, int nHeight, Color32 color)
 {
 	CRenderSystem& R = CRenderSystem::getSingleton();
