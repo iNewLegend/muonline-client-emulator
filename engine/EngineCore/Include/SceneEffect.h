@@ -13,6 +13,7 @@ struct QuadVertex
 	Vec2D t;
 };
 
+#define LUM_RT_SIZE 6
 class CSceneEffect
 {
 public:
@@ -26,7 +27,6 @@ public:
 	void renderTargetBegin();
 	void renderTargetGlow();
 	void renderGammaCorrection();
-	void renderTargetBloom();
 	void renderTargetEnd();
 	void compose(const CRect<int>& rcDest);
 	void setDebug(int flag){m_nFlag = flag;}
@@ -46,6 +46,9 @@ protected:
 	CTexture*	m_pSceneRT2x;
 	CTexture*	m_pSceneRT4x1;
 	CTexture*	m_pSceneRT4x2;
+	CTexture*	m_pLuminanceRT[LUM_RT_SIZE];
+
+	
 	//CTexture*	m_pSceneRT8x1;
 	//CTexture*	m_pSceneRT8x2;
 
