@@ -2,6 +2,7 @@
 #include "RenderSystem.h"
 #include "Vec3D.h"
 #include "Color.h"
+#include "Graphics.h"
 
 CSceneEffect::CSceneEffect():
 m_fBloomVal(0.2f)
@@ -75,53 +76,8 @@ void CSceneEffect::Reset(const CRect<int>& rc)
 		m_pLuminanceRT[i] = R.GetTextureMgr().CreateRenderTarget(nLuminanceSize,nLuminanceSize);
 		nLuminanceSize*=3;
 	}
-
 	//m_pSceneRT8x1	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.0625f,nHeight*0.0625f);
 	//m_pSceneRT8x2	= R.GetTextureMgr().CreateRenderTarget(nWidth*0.0625f,nHeight*0.0625f);
-
-	m_Quad[0].t = Vec2D(0.0f, 1.0f);
-	m_Quad[1].t = Vec2D(0.0f, 0.0f);
-	m_Quad[2].t = Vec2D(1.0f, 1.0f);
-	m_Quad[3].t = Vec2D(1.0f, 0.0f);
-
-	m_Quad[0].p = Vec4D(-0.5f,				(float)nHeight-0.5f,	0.0f, 1.0f);
-	m_Quad[1].p = Vec4D(-0.5f,				-0.5f,					0.0f, 1.0f);
-	m_Quad[2].p = Vec4D((float)nWidth-0.5f,	(float)nHeight-0.5f,	0.0f, 1.0f);
-	m_Quad[3].p = Vec4D((float)nWidth-0.5f,	-0.5f,					0.0f, 1.0f);
-
-	
-	m_Quad2x[0].t = Vec2D(0.0f, 1.0f);
-	m_Quad2x[1].t = Vec2D(0.0f, 0.0f);
-	m_Quad2x[2].t = Vec2D(1.0f, 1.0f);
-	m_Quad2x[3].t = Vec2D(1.0f, 0.0f);
-
-	m_Quad2x[0].p = Vec4D(-0.5f,					(float)nHeight*0.5f-0.5f,	0.0f, 1.0f);
-	m_Quad2x[1].p = Vec4D(-0.5f,					-0.5f,						0.0f, 1.0f);
-	m_Quad2x[2].p = Vec4D((float)nWidth*0.5f-0.5f,	(float)nHeight*0.5f-0.5f,	0.0f, 1.0f);
-	m_Quad2x[3].p = Vec4D((float)nWidth*0.5f-0.5f,	-0.5f,						0.0f, 1.0f);
-
-	m_Quad4x[0].t = Vec2D(0.0f, 1.0f);
-	m_Quad4x[1].t = Vec2D(0.0f, 0.0f);
-	m_Quad4x[2].t = Vec2D(1.0f, 1.0f);
-	m_Quad4x[3].t = Vec2D(1.0f, 0.0f);
-
-	m_Quad4x[0].p = Vec4D(-0.5f,					(float)nHeight*0.25f-0.5f,	0.0f, 1.0f);
-	m_Quad4x[1].p = Vec4D(-0.5f,					-0.5f,						0.0f, 1.0f);
-	m_Quad4x[2].p = Vec4D((float)nWidth*0.25f-0.5f,	(float)nHeight*0.25f-0.5f,	0.0f, 1.0f);
-	m_Quad4x[3].p = Vec4D((float)nWidth*0.25f-0.5f,	-0.5f,						0.0f, 1.0f);
-
-	
-
-	m_Quad8x[0].t = Vec2D(0.0f, 1.0f);
-	m_Quad8x[1].t = Vec2D(0.0f, 0.0f);
-	m_Quad8x[2].t = Vec2D(1.0f, 1.0f);
-	m_Quad8x[3].t = Vec2D(1.0f, 0.0f);
-
-	m_Quad8x[0].p = Vec4D(-0.5f,						(float)nHeight*0.0625f-0.5f,	0.0f, 1.0f);
-	m_Quad8x[1].p = Vec4D(-0.5f,						-0.5f,							0.0f, 1.0f);
-	m_Quad8x[2].p = Vec4D((float)nWidth*0.0625f-0.5f,	(float)nHeight*0.0625f-0.5f,	0.0f, 1.0f);
-	m_Quad8x[3].p = Vec4D((float)nWidth*0.0625f-0.5f,	-0.5f,							0.0f, 1.0f);
-
 	m_bInitialized = true;
 }
 
@@ -156,7 +112,6 @@ void CSceneEffect::render(iRenderNode* pRenderNode)
 	Vec2D inv_width_height2x(2.0f/m_nWidth,2.0f/m_nHeight);
 	Vec2D inv_width_height4x(4.0f/m_nWidth,4.0f/m_nHeight);
 	Vec2D inv_width_height8x(16.0f/m_nWidth,16.0f/m_nHeight);
-
 	// ----
 	// DeferredLighting
 	// ----
@@ -170,7 +125,7 @@ void CSceneEffect::render(iRenderNode* pRenderNode)
 		nLightMap = R.GetTextureMgr().RegisterTexture("Data\\World1\\TerrainLight.OZJ");
 	}
 	R.SetTexture(2, nLightMap);
-	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
+	CGraphics::renderQuad(0,0,m_pLightRT->GetWidth(),m_pLightRT->GetHeight());
 
 	R.SetShader("DeferredPoint");
 	R.SetRenderTarget(0,m_pLightRT);
@@ -183,7 +138,7 @@ void CSceneEffect::render(iRenderNode* pRenderNode)
 	R.SetRenderTarget(0,m_pDiffuseRT);
 	R.SetTexture(0, m_pLightRT);
 	R.SetTexture(1, m_pDiffuseRT);
-	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
+	CGraphics::renderQuad(0,0,m_pDiffuseRT->GetWidth(),m_pDiffuseRT->GetHeight());
 
 	// ----
 	// Render Glow
@@ -197,7 +152,7 @@ void CSceneEffect::render(iRenderNode* pRenderNode)
 	R.SetShader("Combine");
 	R.SetRenderTarget(0,m_pDiffuseCopyRT);
 	R.SetTexture(0, m_pDiffuseRT);
-	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
+	CGraphics::renderQuad(0,0,m_pDiffuseCopyRT->GetWidth(),m_pDiffuseCopyRT->GetHeight());
 	// Render Bump
 	R.SetRenderTarget(0,m_pDiffuseRT);
 	R.SetTexture(1, m_pDiffuseCopyRT);
@@ -219,7 +174,7 @@ void CSceneEffect::render(iRenderNode* pRenderNode)
 	R.SetShader("Bright");
 	R.SetRenderTarget(0,m_pSceneRT2x);
 	R.SetTexture(0, m_pDiffuseRT);
-	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad2x, sizeof(QuadVertex));
+	CGraphics::renderQuad(0,0,m_pSceneRT2x->GetWidth(),m_pSceneRT2x->GetHeight());
 
 	// ----
 	R.setShaderFloatArray("inv_width_height",	&inv_width_height2x, 2);
@@ -257,32 +212,32 @@ void CSceneEffect::render(iRenderNode* pRenderNode)
 	R.SetShader("Filter");
 	R.SetRenderTarget(0,m_pSceneRT4x1);
 	R.SetTexture(0, m_pSceneRT2x);
-	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
+	CGraphics::renderQuad(0,0,m_pSceneRT4x1->GetWidth(),m_pSceneRT4x1->GetHeight());
 
 	R.setShaderFloatArray("inv_width_height",	&inv_width_height4x, 2);
 	// Bloom Horizontal
 	R.SetShader("BloomH");
 	R.SetRenderTarget(0,m_pSceneRT4x2);
 	R.SetTexture(0, m_pSceneRT4x1);
-	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
+	CGraphics::renderQuad(0,0,m_pSceneRT4x2->GetWidth(),m_pSceneRT4x2->GetHeight());
 
 	// Bloom Vertical
 	R.SetShader("BloomV");
 	R.SetRenderTarget(0,m_pSceneRT4x1);
 	R.SetTexture(0, m_pSceneRT4x2);
-	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
+	CGraphics::renderQuad(0,0,m_pSceneRT4x1->GetWidth(),m_pSceneRT4x1->GetHeight());
 
 	// Bloom Horizontal
 	R.SetShader("BloomH");
 	R.SetRenderTarget(0,m_pSceneRT4x2);
 	R.SetTexture(0, m_pSceneRT4x1);
-	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
+	CGraphics::renderQuad(0,0,m_pSceneRT4x2->GetWidth(),m_pSceneRT4x2->GetHeight());
 
 	// Bloom Vertical
 	R.SetShader("BloomV");
 	R.SetRenderTarget(0,m_pSceneRT4x1);
 	R.SetTexture(0, m_pSceneRT4x2);
-	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad4x, sizeof(QuadVertex));
+	CGraphics::renderQuad(0,0,m_pSceneRT4x1->GetWidth(),m_pSceneRT4x1->GetHeight());
 
 	//// Down Filter 4x
 	//R.SetShader("Filter4");
@@ -439,7 +394,7 @@ void CSceneEffect::renderTargetGlow()// not good
 
 		// Increase the contrast
 		//R.SetTextureColorOP(0,TBOP_DOTPRODUCT3,TBS_TEXTURE,TBS_DIFFUSE);
-		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
+		//R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
 
 		{
 			int nInvExposure= (int)(m_fAdaptedLum * m_fAdaptedLum * 255.0f);
@@ -448,7 +403,7 @@ void CSceneEffect::renderTargetGlow()// not good
 		}
 
 		// To reduce the brightness
-		R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
+		//R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
 
 
 		//R.SetBlendFunc(true,BLENDOP_ADD,SBF_ONE,SBF_ONE);
@@ -469,7 +424,7 @@ void CSceneEffect::renderGammaCorrection()
 	R.SetTexture(0, m_pDiffuseRT);
 	//R.SetTexture(0,g_samScene) ;
 	R.SetFVF(QuadVertex::FVF);
-	R.DrawPrimitiveUP(VROT_TRIANGLE_STRIP, 2, m_Quad, sizeof(QuadVertex));
+	CGraphics::renderQuad(0,0,m_pDiffuseRT->GetWidth(),m_pDiffuseRT->GetHeight());
 }
 
 void CSceneEffect::renderTargetEnd()
@@ -478,10 +433,6 @@ void CSceneEffect::renderTargetEnd()
 	// Restore
 	R.SetRenderTarget(0,m_pSystemRT);
 	S_DEL(m_pSystemRT);
-}
-
-void CSceneEffect::renderQuad(int x, int y, int n)
-{
 }
 
 void CSceneEffect::compose(const CRect<int>& rcDest)

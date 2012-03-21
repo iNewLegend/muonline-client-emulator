@@ -86,7 +86,6 @@
 		<element type="static" id="IDC_STATIC_INFO"  scale="50,0,50,0" offset="-90,-20,90,0"></element>
 	</dialog>
 	<dialog id="IDD_ROLE_CHOOSE" scale="0,0,100,100" style="null">
-		<element type="button" id="IDC_DISPLAY_BACKGROUND" scale="0,0,100,100" style="null"></element>
 		<element type="button" id="IDC_BTN_ROLE0" scale="100,50,100,50" offset="-120,-140,-20,-100"></element>
 		<element type="button" id="IDC_BTN_ROLE1" scale="100,50,100,50" offset="-120,-90,-20,-50"></element>
 		<element type="button" id="IDC_BTN_ROLE2" scale="100,50,100,50" offset="-120,-40,-20,0"></element>
