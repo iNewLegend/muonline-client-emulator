@@ -1,8 +1,3 @@
 MuOnline Client Emulator
 
-client huhui pan
-
-
-
-
-server leo123
+client huhui pan & leo123
